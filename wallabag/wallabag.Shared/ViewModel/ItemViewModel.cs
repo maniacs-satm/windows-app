@@ -6,6 +6,9 @@ using Windows.UI;
 
 namespace wallabag.ViewModel
 {
+    /// <summary>
+    /// The ItemViewModel contains several methods and properties that are required for the view, e.g. the CSS styles.
+    /// </summary>
     public class ItemViewModel : viewModelBase
     {
         public Models.Item Model { get; set; }
