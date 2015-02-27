@@ -32,14 +32,17 @@ namespace wallabag.Views
             this.shareOperation = e.ShareOperation;
 
             var shareProperties = this.shareOperation.Data.Properties;
-            this.DefaultViewModel["Title"] = shareProperties.Title;
-            this.DefaultViewModel["Description"] = shareProperties.Description;
+            this.DefaultViewModel["Title"] = shareProperties.Title; // Gets the title from the sender app.
+            this.DefaultViewModel["Description"] = shareProperties.Description; // Gets the description from the sender app.
             this.DefaultViewModel["Sharing"] = false;
-            this.DefaultViewModel["Url"] = await shareOperation.Data.GetWebLinkAsync();
+            this.DefaultViewModel["Url"] = await shareOperation.Data.GetWebLinkAsync(); // Because wallabag is saving links, the web link is the most important thing in this code block.
             Window.Current.Content = this;
             Window.Current.Activate();
         }
 
+        /// <summary>
+        /// Encodes the Url for the WebView to save the link in wallabag.
+        /// </summary>
         private string finalUrl()
         {
             string wallabagUrl = AppSettings["wallabagUrl", string.Empty];
