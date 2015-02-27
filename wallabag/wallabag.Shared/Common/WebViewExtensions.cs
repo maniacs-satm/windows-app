@@ -3,6 +3,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace wallabag.Common
 {
+    /// <summary>
+    /// This class allows us to enable binding to a string property which contains HTML.
+    /// </summary>
     class WebViewExtensions
     {
         public static string GetHTML(DependencyObject obj)
