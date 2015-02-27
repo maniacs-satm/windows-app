@@ -5,6 +5,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Common
 {
+    /// <summary>
+    /// To avoid duplicate code across all the pages, this class is a base class for all pages.
+    /// </summary>
     public class basicPage : Page
     {
         public NavigationHelper navigationHelper;
@@ -27,13 +30,23 @@ namespace wallabag.Common
             ChangedSize(e.Size.Width, e.Size.Height);
         }
 
+        /// <summary>
+        /// Could be easily overrided, but is not required.
+        /// </summary>
         protected virtual void ChangedSize(double width, double height) { }
 
+        /// <summary>
+        /// When navigating away from the page, save the regarding ViewModel.
+        /// </summary>
         void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
             e.PageState.Add(ViewModelPageKey, this.DataContext);
             SaveState(e);
         }
+
+        /// <summary>
+        /// When navigating away from the page, load the regarding ViewModel.
+        /// </summary>
         void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
             if (e.PageState != null && e.PageState.ContainsKey(ViewModelPageKey))
