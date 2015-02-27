@@ -64,10 +64,11 @@ namespace wallabag.ViewModel
 
                 Items.Clear();
 
+                // The SyndicationClient is the class that will be used for accessing RSS feeds.
                 Windows.Web.Syndication.SyndicationClient client = new SyndicationClient();
                 string[] parameters = new string[] { "home", "fav", "archive" };
 
-                foreach (string param in parameters)
+                foreach (string param in parameters) // perform the following step for each of the parameters (home, fav, archive)
                 {
                     Uri feedUri = new Uri(buildUrl(param));
                     try
@@ -93,13 +94,17 @@ namespace wallabag.ViewModel
                                 }
                                 switch (param)
                                 {
+                                    // If we are in the 'fav' loop, set the IsFavourite property to 'true'.
                                     case "fav":
                                         tmpItem.IsFavourite = true;
                                         break;
+
+                                    // If we are in the 'archive' loop, set the IsRead property to 'true'.
                                     case "archive":
                                         tmpItem.IsRead = true;
                                         break;
                                 }
+                                // to avoid duplicate items...
                                 if (!Items.Contains(new ItemViewModel(tmpItem)))
                                 {
                                     Items.Add(new ItemViewModel(tmpItem));
@@ -107,6 +112,8 @@ namespace wallabag.ViewModel
                             }
                         }
                         IsActive = false;
+
+                        // Inform the view that the item collections had changed.
                         RaisePropertyChanged(() => unreadItems);
                         RaisePropertyChanged(() => favouriteItems);
                         RaisePropertyChanged(() => archivedItems);

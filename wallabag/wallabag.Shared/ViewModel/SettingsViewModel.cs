@@ -8,6 +8,7 @@ namespace wallabag.ViewModel
 {
     public class SettingsViewModel : viewModelBase
     {
+        // The properties below are containing all the settings that are required for this app.
         public string wallabagUrl
         {
             get { return AppSettings["wallabagUrl", string.Empty]; }
@@ -109,10 +110,14 @@ namespace wallabag.ViewModel
             }
         }
         
+        /// <summary>
+        /// Represents a command to reset all settings.
+        /// </summary>
         public RelayCommand resetCommand { get; private set; }
 
         public SettingsViewModel()
         {
+            // Initialize the resetCommand.
             resetCommand = new RelayCommand(() => {
                 AppSettings.Settings.Clear();
                 Windows.Storage.ApplicationData.Current.RoamingSettings.Values.Clear();

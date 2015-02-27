@@ -2,6 +2,9 @@
 
 namespace wallabag.Models
 {
+    /// <summary>
+    /// The basic class representing an item.
+    /// </summary>
     public class Item
     {
         public string Title { get; set; }

@@ -11,11 +11,14 @@ namespace wallabag
         public MainPage()
         {
             this.InitializeComponent();
+            
+            // To make the wallabag settings available from the charms bar, it is required to handle this event.
             SettingsPane.GetForCurrentView().CommandsRequested += MainPage_CommandsRequested;
         }
 
         protected override void SaveState(SaveStateEventArgs e)
         {
+            // These PageState settings are saving the selected menu item.
             e.PageState.Add("unreadItemsActive", unreadItemsMenuButton.IsChecked);
             e.PageState.Add("favouriteItemsActive", favouriteItemsMenuButton.IsChecked);
             e.PageState.Add("archivedItemsActive", archivedItemsMenuButton.IsChecked);
@@ -24,8 +27,10 @@ namespace wallabag
 
         protected override void LoadState(LoadStateEventArgs e)
         {
+            // if PageState is not nothing, then...
             if (e.PageState != null)
             {
+                // ..load the Checked property of each button.
                 if (e.PageState.ContainsKey("unreadItemsActive"))
                     unreadItemsMenuButton.IsChecked = (bool)e.PageState["unreadItemsActive"];
                 if (e.PageState.ContainsKey("favouriteItemsActive"))
@@ -38,6 +43,7 @@ namespace wallabag
 
         protected override void ChangedSize(double width, double height)
         {
+            // If the app width is 500px or greater (portrait and landscape)
             if (width >= 500)
             {
                 unreadItemsText.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -90,18 +96,21 @@ namespace wallabag
 
         void MainPage_CommandsRequested(Windows.UI.ApplicationSettings.SettingsPane sender, Windows.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {
+            // The following command adds an "General" button to the Settings pane.
             SettingsCommand generalSettings = new SettingsCommand("generalSettings", Helpers.LocalizedString("generalSettingsText"), (handler) =>
             {
                 generalSettingsFlyout settingsFlyout = new generalSettingsFlyout();
                 settingsFlyout.Show();
             });
 
+            // And this command adds an "Reading" button to the Settings pane.
             SettingsCommand readingSettings = new SettingsCommand("readingSettings", Helpers.LocalizedString("readingSettingsText"), (handler) =>
             {
                 readingSettingsFlyout readingFlyout = new readingSettingsFlyout();
                 readingFlyout.Show();
             });
 
+            // To avoid duplicate items, it is required to perform this step.
             if (args.Request.ApplicationCommands.Count == 0)
             {
                 args.Request.ApplicationCommands.Add(generalSettings);
@@ -111,6 +120,7 @@ namespace wallabag
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
+            // If the user is pressing a button, then navigate to the ItemPage with the pressed item as parameter.
             this.Frame.Navigate(typeof(ItemPage), e.ClickedItem);
         }
     }
