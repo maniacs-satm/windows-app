@@ -130,7 +130,7 @@ namespace wallabag.ViewModel
         {
             refreshCommand = new RelayCommand(async () => await RefreshItems());
 
-            if (AppSettings["refreshOnStartup", false] || !everythingFine)
+            if (AppSettings["refreshOnStartup", false])
                 refreshCommand.Execute(0);
         }
     }
