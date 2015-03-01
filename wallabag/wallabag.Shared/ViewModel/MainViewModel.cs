@@ -12,20 +12,20 @@ namespace wallabag.ViewModel
 {
     public class MainViewModel : viewModelBase
     {
-        private ObservableCollection<ItemViewModel> _Items = new ObservableCollection<ItemViewModel>();
-        public ObservableCollection<ItemViewModel> Items { get { return _Items; } }
+        private ObservableCollection<Item> _Items = new ObservableCollection<Item>();
+        public ObservableCollection<Item> Items { get { return _Items; } }
 
-        public ObservableCollection<ItemViewModel> unreadItems
+        public ObservableCollection<Item> unreadItems
         {
-            get { return new ObservableCollection<ItemViewModel>(Items.Where(i => i.IsRead == false && i.IsFavourite == false)); }
+            get { return new ObservableCollection<Item>(Items.Where(i => i.IsRead == false && i.IsFavourite == false)); }
         }
-        public ObservableCollection<ItemViewModel> favouriteItems
+        public ObservableCollection<Item> favouriteItems
         {
-            get { return new ObservableCollection<ItemViewModel>(Items.Where(i => i.IsRead == false && i.IsFavourite == true)); }
+            get { return new ObservableCollection<Item>(Items.Where(i => i.IsRead == false && i.IsFavourite == true)); }
         }
-        public ObservableCollection<ItemViewModel> archivedItems
+        public ObservableCollection<Item> archivedItems
         {
-            get { return new ObservableCollection<ItemViewModel>(Items.Where(i => i.IsRead == true)); }
+            get { return new ObservableCollection<Item>(Items.Where(i => i.IsRead == true)); }
         }
 
         public RelayCommand refreshCommand { get; private set; }
@@ -35,6 +35,8 @@ namespace wallabag.ViewModel
             IsActive = true;
 
             var items = await wallabagDataSource.GetItemsAsync();
+            foreach (Item i in items)
+                Items.Add(i);
 
             IsActive = false;
         }
