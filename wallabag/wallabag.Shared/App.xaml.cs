@@ -38,8 +38,7 @@ namespace wallabag
                 rootFrame.CacheSize = 1;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated 
-                    || e.PreviousExecutionState == ApplicationExecutionState.Suspended
-                    || e.PreviousExecutionState  == ApplicationExecutionState.ClosedByUser)
+                    || e.PreviousExecutionState == ApplicationExecutionState.Suspended)
                 {
                     await wallabag.Common.SuspensionManager.RestoreAsync();
                 }
