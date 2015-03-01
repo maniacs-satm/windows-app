@@ -1,5 +1,6 @@
 ﻿using System;
 using wallabag.Common;
+using wallabag.DataModel;
 using wallabag.ViewModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
@@ -34,11 +35,11 @@ namespace wallabag.Views
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             // When navigated to the page, we set the DataContext of this page to a new type called ItemPageViewModel with the parameter.
             if (e.Parameter != null)
-                this.DataContext = new ItemPageViewModel(e.Parameter as ItemViewModel);
+                this.DataContext = new ItemPageViewModel() { Item = await wallabagDataSource.GetItemAsync(e.Parameter as string) };
 
             base.OnNavigatedTo(e);
         }
@@ -46,7 +47,7 @@ namespace wallabag.Views
         void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
-            ItemViewModel item = (this.DataContext as ItemPageViewModel).Item as ItemViewModel;
+            Item item = (this.DataContext as ItemPageViewModel).Item as Item;
             request.Data.Properties.Title = item.Title; // The title of the shared information.
             request.Data.SetWebLink(item.Url); // Setting the Web link to the URL of the saved article.
             request.Data.SetHtmlFormat(item.Content); // If the target app supports it, it is also possible to send the content.
