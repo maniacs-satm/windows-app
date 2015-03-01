@@ -237,4 +237,7 @@
   <data name="unreadItemsMenuButtonText.Text" xml:space="preserve">
     <value>Unread</value>
   </data>
+  <data name="LoadingIndicator.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
 </root>

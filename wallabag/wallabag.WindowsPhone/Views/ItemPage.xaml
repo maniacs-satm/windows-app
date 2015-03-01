@@ -10,7 +10,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     DataContext="{Binding Source={StaticResource Locator}, Path=Item}">
-    
+
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal">
             <!--<AppBarButton Icon="Back" Label="previous" />-->
@@ -18,12 +18,16 @@
             <!--<AppBarButton Icon="Forward" Label="next" />-->
         </CommandBar>
     </Page.BottomAppBar>
-    
+
     <Page.Resources>
         <vm:SettingsViewModel x:Key="SettingsViewModel"/>
     </Page.Resources>
 
     <Grid x:Name="LayoutRoot" Background="{Binding Background, Mode=OneWay, Source={StaticResource SettingsViewModel}}">
-        <WebView x:Name="webView" Margin="19,0" NavigationStarting="webView_NavigationStarting" common:WebViewExtensions.HTML="{Binding Item.ContentWithTitle}"/>
+        <WebView x:Name="webView" Margin="19,0" NavigationStarting="webView_NavigationStarting" common:WebViewExtensions.HTML="{Binding Item.ContentWithTitle}" NavigationCompleted="webView_NavigationCompleted"/>
+        <StackPanel x:Name="LoadingIndicator" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ProgressRing IsActive="True" Background="{x:Null}" Foreground="{ThemeResource PhoneAccentBrush}" />
+            <TextBlock x:Uid="LoadingIndicator" Text="Loading..." Style="{StaticResource SubheaderTextBlockStyle}" Margin="0,15,0,0" />
+        </StackPanel>
     </Grid>
 </common:basicPage>
