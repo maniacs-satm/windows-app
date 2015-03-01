@@ -35,9 +35,14 @@ namespace wallabag.ViewModel
             StatusText = Helpers.LocalizedString("UpdatingText");
             IsActive = true;
 
+            Items.Clear();
             var items = await wallabagDataSource.GetItemsAsync();
             foreach (KeyValuePair<string, object> k in items)
                 Items.Add((Item)k.Value);
+
+            RaisePropertyChanged(() => unreadItems);
+            RaisePropertyChanged(() => favouriteItems);
+            RaisePropertyChanged(() => archivedItems);
 
             IsActive = false;
         }

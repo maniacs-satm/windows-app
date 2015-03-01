@@ -115,7 +115,7 @@ namespace wallabag.DataModel
         }
         public static async Task<Item> GetItemAsync(string uniqueId)
         {
-            await _wallabagDataSource.GetDataAsync();
+            //await _wallabagDataSource.GetDataAsync();
             if (_wallabagDataSource.Items.ContainsKey(uniqueId))
             {
                 return (Item)_wallabagDataSource.Items[uniqueId];
@@ -152,6 +152,7 @@ namespace wallabag.DataModel
         {
             if (!everythingFine)
                 return;
+            Items.Clear();
 
             Windows.Web.Syndication.SyndicationClient client = new SyndicationClient();
             string[] parameters = new string[] { "home", "fav", "archive" };
@@ -192,9 +193,7 @@ namespace wallabag.DataModel
                                     tmpItem.IsRead = true;
                                     break;
                             }
-                            // to avoid duplicate items...
-                            if (!Items.ContainsKey(tmpItem.UniqueId))
-                                Items.Add(tmpItem.UniqueId, tmpItem);
+                            Items.Add(tmpItem.UniqueId, tmpItem);
                         }
                     }
                 }
