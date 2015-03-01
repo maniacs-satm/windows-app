@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using wallabag.Common;
 using Windows.Data.Json;
@@ -33,7 +34,17 @@ namespace wallabag.DataModel
         }
 
         public string UniqueId { get; set; }
-        public string Title { get; set; } // TODO: Implement the Regex.
+        private string _title;
+        public string Title
+        {
+            get
+            {
+                // Regular expression to remove multiple whitespaces (including newline etc.) in title.
+                Regex r = new Regex("\\s+");
+                return r.Replace(_title, " ");
+            }
+            set { _title = value; }
+        }
         public string Content { get; set; }
         public string ContentWithTitle
         {
