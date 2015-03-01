@@ -1,6 +1,7 @@
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using wallabag.Common;
@@ -35,8 +36,8 @@ namespace wallabag.ViewModel
             IsActive = true;
 
             var items = await wallabagDataSource.GetItemsAsync();
-            foreach (Item i in items)
-                Items.Add(i);
+            foreach (KeyValuePair<string, object> k in items)
+                Items.Add((Item)k.Value);
 
             IsActive = false;
         }

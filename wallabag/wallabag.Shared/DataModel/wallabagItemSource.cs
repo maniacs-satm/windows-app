@@ -94,10 +94,10 @@ namespace wallabag.DataModel
         private static wallabagDataSource _wallabagDataSource = new wallabagDataSource();
         public ApplicationSettings AppSettings { get { return ApplicationSettings.Instance; } }
 
-        private ObservableCollection<Item> _items = new ObservableCollection<Item>();
-        public ObservableCollection<Item> Items { get { return this._items; } }
+        private ObservableDictionary _items = new ObservableDictionary();
+        public ObservableDictionary Items { get { return this._items; } }
 
-        public static async Task<IEnumerable<Item>> GetItemsAsync()
+        public static async Task<ObservableDictionary> GetItemsAsync()
         {
             await _wallabagDataSource.GetDataAsync();
             return _wallabagDataSource._items;
@@ -105,8 +105,10 @@ namespace wallabag.DataModel
         public static async Task<Item> GetItemAsync(string uniqueId)
         {
             await _wallabagDataSource.GetDataAsync();
-            var matches = _wallabagDataSource.Items.Where((item) => item.UniqueId.Equals(uniqueId));
-            if (matches.Count() == 1) return matches.First();
+            if (_wallabagDataSource.Items.ContainsKey(uniqueId))
+            {
+                return (Item)_wallabagDataSource.Items[uniqueId];
+            }
             return null;
         }
 
@@ -180,8 +182,8 @@ namespace wallabag.DataModel
                                     break;
                             }
                             // to avoid duplicate items...
-                            if (!Items.Contains(tmpItem))
-                                Items.Add(tmpItem);
+                            if (!Items.ContainsKey(tmpItem.UniqueId))
+                                Items.Add(tmpItem.UniqueId, tmpItem);
                         }
                     }
                 }
