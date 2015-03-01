@@ -20,7 +20,7 @@ namespace wallabag.DataModel
 
         public Item()
         {
-            UniqueId = new Guid("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz").ToString();
+            UniqueId = Guid.NewGuid().ToString();
         }
         public Item(String uniqueId, String title, String content, Uri url, bool isRead, bool isFavourite)
         {
@@ -94,7 +94,7 @@ namespace wallabag.DataModel
         private static wallabagDataSource _wallabagDataSource = new wallabagDataSource();
         public ApplicationSettings AppSettings { get { return ApplicationSettings.Instance; } }
 
-        private ObservableCollection<Item> _items;
+        private ObservableCollection<Item> _items = new ObservableCollection<Item>();
         public ObservableCollection<Item> Items { get { return this._items; } }
 
         public static async Task<IEnumerable<Item>> GetItemsAsync()
@@ -137,7 +137,7 @@ namespace wallabag.DataModel
         }
         private async Task GetDataAsync()
         {
-            if (this._items.Count != 0 || !everythingFine)
+            if (!everythingFine)
                 return;
 
             Windows.Web.Syndication.SyndicationClient client = new SyndicationClient();
