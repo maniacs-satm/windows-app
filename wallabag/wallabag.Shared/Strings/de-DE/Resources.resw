@@ -238,6 +238,6 @@
     <value>Ungelesen</value>
   </data>
   <data name="LoadingIndicator.Text" xml:space="preserve">
-    <value>Lade...</value>
+    <value>Lade…</value>
   </data>
 </root>

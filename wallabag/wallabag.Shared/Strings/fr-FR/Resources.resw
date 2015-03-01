@@ -238,6 +238,6 @@
     <value>Non lus</value>
   </data>
   <data name="LoadingIndicator.Text" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Chargement…</value>
   </data>
 </root>

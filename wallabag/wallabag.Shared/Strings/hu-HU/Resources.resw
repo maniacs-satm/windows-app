@@ -238,6 +238,6 @@
     <value>Olvasatlan</value>
   </data>
   <data name="LoadingIndicator.Text" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Loading…</value>
   </data>
 </root>
