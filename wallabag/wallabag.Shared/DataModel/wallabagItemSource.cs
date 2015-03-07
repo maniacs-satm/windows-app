@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using wallabag.Common;
+using wallabag.ViewModel;
 using Windows.Data.Json;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
@@ -80,11 +81,13 @@ namespace wallabag.DataModel
             double fontSize = AppSettings["fontSize", 18];
             double lineHeight = AppSettings["lineHeight", 1.5];
 
+            SettingsViewModel tmpSettingsVM = new SettingsViewModel();
+
             string css = "body {" +
                 CSSproperty("font-size", fontSize + "px") +
                 CSSproperty("line-height", lineHeight.ToString().Replace(",", ".")) +
-                //CSSproperty("color", tmpSettingsVM.textColor.Color) + // TODO
-                //CSSproperty("background", tmpSettingsVM.Background.Color) +
+                CSSproperty("color", tmpSettingsVM.textColor.Color) +
+                CSSproperty("background", tmpSettingsVM.Background.Color) +
 #if WINDOWS_APP
                 CSSproperty("max-width", "960px") +
                 CSSproperty("margin", "0 auto") +
