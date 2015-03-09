@@ -32,6 +32,12 @@ namespace wallabag.Views
             var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             await statusBar.HideAsync();
         }
+        protected override async void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            await statusBar.ShowAsync();
+            base.OnNavigatedFrom(e);
+        }
 
         void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
