@@ -129,9 +129,6 @@
   <data name="refreshButton.Label" xml:space="preserve">
     <value>frissítés</value>
   </data>
-  <data name="refreshOnStartupSwitch.Header" xml:space="preserve">
-    <value>frissítés induláskor</value>
-  </data>
   <data name="saveLinkDialog.PrimaryButtonText" xml:space="preserve">
     <value>mentés</value>
   </data>
@@ -200,12 +197,6 @@
   </data>
   <data name="UpdatingText" xml:space="preserve">
     <value>Betöltés...</value>
-  </data>
-  <data name="AppStartSettingsDescription.Text" xml:space="preserve">
-    <value>Az alábbi beállítások módosítják az indulási működést.</value>
-  </data>
-  <data name="AppStartSettingsHeader.Text" xml:space="preserve">
-    <value>Alkalmázás indítási beállítások</value>
   </data>
   <data name="archivedItemsMenuButtonText.Text" xml:space="preserve">
     <value>Archiválás</value>

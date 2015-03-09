@@ -129,9 +129,6 @@
   <data name="refreshButton.Label" xml:space="preserve">
     <value>neu laden</value>
   </data>
-  <data name="refreshOnStartupSwitch.Header" xml:space="preserve">
-    <value>Beim App-Start aktualisieren</value>
-  </data>
   <data name="saveLinkDialog.PrimaryButtonText" xml:space="preserve">
     <value>speichern</value>
   </data>
@@ -200,12 +197,6 @@
   </data>
   <data name="UpdatingText" xml:space="preserve">
     <value>Aktualisieren...</value>
-  </data>
-  <data name="AppStartSettingsDescription.Text" xml:space="preserve">
-    <value>Die Einstellungen beeinflussen das Verhalten der App beim Start.</value>
-  </data>
-  <data name="AppStartSettingsHeader.Text" xml:space="preserve">
-    <value>App-Start-Einstellungen</value>
   </data>
   <data name="archivedItemsMenuButtonText.Text" xml:space="preserve">
     <value>Archiv</value>
