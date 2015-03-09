@@ -24,6 +24,6 @@
     </Page.Resources>
 
     <Grid x:Name="LayoutRoot" Background="{Binding Background, Mode=OneWay, Source={StaticResource SettingsViewModel}}">
-        <WebView x:Name="webView" Margin="19,0" NavigationStarting="webView_NavigationStarting" common:WebViewExtensions.HTML="{Binding Item.ContentWithTitle}" NavigationCompleted="webView_NavigationCompleted"/>
+        <WebView x:Name="webView" Margin="19,0" NavigationStarting="webView_NavigationStarting" common:WebViewExtensions.HTML="{Binding Item.ContentWithTitle}"/>
     </Grid>
 </common:basicPage>

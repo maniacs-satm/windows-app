@@ -51,10 +51,5 @@ namespace wallabag.Views
                 await Launcher.LaunchUriAsync(new Uri(args.Uri.AbsoluteUri));
             }
         }
-
-        private void webView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
-        {
-            this.LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-        }
     }
 }
