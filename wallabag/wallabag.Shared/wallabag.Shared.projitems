@@ -26,8 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\WebViewExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\BooleanNegationConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\BooleanToVisibilityConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ItemViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModel\wallabagItemSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ItemPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\SettingsViewModel.cs" />

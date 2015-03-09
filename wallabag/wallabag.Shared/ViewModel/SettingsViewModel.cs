@@ -38,15 +38,6 @@ namespace wallabag.ViewModel
                 RaisePropertyChanged(() => Token);
             }
         }
-        public bool refreshOnStartup
-        {
-            get { return AppSettings["refreshOnStartup", false]; }
-            set
-            {
-                AppSettings["refreshOnStartup"] = value;
-                RaisePropertyChanged(() => refreshOnStartup);
-            }
-        }
         public bool enableAddLink
         {
             get { return AppSettings["enableAddLink", false]; }

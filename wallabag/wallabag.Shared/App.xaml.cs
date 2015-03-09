@@ -37,9 +37,8 @@ namespace wallabag
 
                 rootFrame.CacheSize = 1;
 
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated 
-                    || e.PreviousExecutionState == ApplicationExecutionState.Suspended
-                    || e.PreviousExecutionState  == ApplicationExecutionState.ClosedByUser)
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated
+                    || e.PreviousExecutionState == ApplicationExecutionState.Suspended)
                 {
                     await wallabag.Common.SuspensionManager.RestoreAsync();
                 }
@@ -93,7 +92,7 @@ namespace wallabag
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            await wallabag.Common.SuspensionManager.SaveAsync();            
+            await wallabag.Common.SuspensionManager.SaveAsync();
             deferral.Complete();
         }
 

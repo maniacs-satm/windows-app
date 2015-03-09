@@ -129,9 +129,6 @@
   <data name="refreshButton.Label" xml:space="preserve">
     <value>rafraichir</value>
   </data>
-  <data name="refreshOnStartupSwitch.Header" xml:space="preserve">
-    <value>rafraichir au lancement</value>
-  </data>
   <data name="saveLinkDialog.PrimaryButtonText" xml:space="preserve">
     <value>sauver</value>
   </data>
@@ -200,12 +197,6 @@
   </data>
   <data name="UpdatingText" xml:space="preserve">
     <value>Chargement...</value>
-  </data>
-  <data name="AppStartSettingsDescription.Text" xml:space="preserve">
-    <value>Les paramètres ci-dessous modifient le comportement au démarrage.</value>
-  </data>
-  <data name="AppStartSettingsHeader.Text" xml:space="preserve">
-    <value>Paramètres de démarrage</value>
   </data>
   <data name="archivedItemsMenuButtonText.Text" xml:space="preserve">
     <value>Archive</value>
