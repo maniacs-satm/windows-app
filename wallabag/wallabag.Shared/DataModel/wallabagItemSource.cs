@@ -116,7 +116,7 @@ namespace wallabag.DataModel
         }
         public static async Task<Item> GetItemAsync(string uniqueId)
         {
-            await _wallabagDataSource.GetDataAsync();
+            await _wallabagDataSource.GetDataAsync(true);
             if (_wallabagDataSource.Items.ContainsKey(uniqueId))
             {
                 return (Item)_wallabagDataSource.Items[uniqueId];
@@ -149,9 +149,9 @@ namespace wallabag.DataModel
 
             return string.Empty;
         }
-        private async Task GetDataAsync()
+        private async Task GetDataAsync(bool singleItem = false)
         {
-            if (!everythingFine)
+            if (!everythingFine || singleItem)
             {
                 await RestoreItemsAsync();
                 return;
