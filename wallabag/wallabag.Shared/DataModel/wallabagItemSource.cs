@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using wallabag.Common;
 using wallabag.ViewModel;
-using Windows.Data.Json;
 using Windows.Networking.Connectivity;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Syndication;
 
 namespace wallabag.DataModel
@@ -118,7 +116,7 @@ namespace wallabag.DataModel
         }
         public static async Task<Item> GetItemAsync(string uniqueId)
         {
-            //await _wallabagDataSource.GetDataAsync();
+            await _wallabagDataSource.GetDataAsync();
             if (_wallabagDataSource.Items.ContainsKey(uniqueId))
             {
                 return (Item)_wallabagDataSource.Items[uniqueId];
@@ -154,7 +152,10 @@ namespace wallabag.DataModel
         private async Task GetDataAsync()
         {
             if (!everythingFine)
+            {
+                await RestoreItemsAsync();
                 return;
+            }
             Items.Clear();
 
             Windows.Web.Syndication.SyndicationClient client = new SyndicationClient();
@@ -199,12 +200,40 @@ namespace wallabag.DataModel
                             Items.Add(tmpItem.UniqueId, tmpItem);
                         }
                     }
+                    await SaveItemsAsync();
                 }
                 catch
                 {
                     return;
                 }
             }
+        }
+
+        private async Task SaveItemsAsync()
+        {
+            MemoryStream sessionData = new MemoryStream();
+            DataContractSerializer serializer = new DataContractSerializer(typeof(ObservableDictionary), new List<Type>() { typeof(Item) });
+            serializer.WriteObject(sessionData, Items);
+
+            StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("items.xml", CreationCollisionOption.ReplaceExisting);
+            using (Stream fileStream = await file.OpenStreamForWriteAsync())
+            {
+                sessionData.Seek(0, SeekOrigin.Begin);
+                await sessionData.CopyToAsync(fileStream);
+            }
+        }
+        private async Task RestoreItemsAsync()
+        {
+            var _temp = new Dictionary<string, object>();
+
+            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
+            using (IInputStream inStream = await file.OpenSequentialReadAsync())
+            {
+                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), new List<Type>() { typeof(Item) });
+                _temp = (Dictionary<string, object>)serializer.ReadObject(inStream.AsStreamForRead());
+            }
+            foreach (var i in _temp)
+                Items.Add(i.Key, i.Value);
         }
     }
 }
