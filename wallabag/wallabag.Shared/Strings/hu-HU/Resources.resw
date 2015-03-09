@@ -228,7 +228,4 @@
   <data name="unreadItemsMenuButtonText.Text" xml:space="preserve">
     <value>Olvasatlan</value>
   </data>
-  <data name="LoadingIndicator.Text" xml:space="preserve">
-    <value>Loading…</value>
-  </data>
 </root>

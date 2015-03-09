@@ -43,13 +43,11 @@ namespace wallabag.Views
         }
 
         private async void webView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
-        {
-            this.LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Visible;
+        {       
             // Opens links in the Internet Explorer and not in the webView.
             if (args.Uri != null && args.Uri.AbsoluteUri.StartsWith("http"))
             {
                 args.Cancel = true;
-                this.LoadingIndicator.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 await Launcher.LaunchUriAsync(new Uri(args.Uri.AbsoluteUri));
             }
         }
