@@ -1,5 +1,6 @@
 ﻿using System;
 using wallabag.Common;
+using wallabag.DataModel;
 using wallabag.Views;
 using Windows.UI.Xaml.Controls;
 
@@ -43,7 +44,7 @@ namespace wallabag
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             // If the user is pressing a button, then navigate to the ItemPage with the pressed item as parameter.
-            this.Frame.Navigate(typeof(ItemPage), e.ClickedItem);
+            this.Frame.Navigate(typeof(ItemPage), ((Item)e.ClickedItem).UniqueId);
         }
 
     }

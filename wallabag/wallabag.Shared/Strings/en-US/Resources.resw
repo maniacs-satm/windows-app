@@ -129,9 +129,6 @@
   <data name="refreshButton.Label" xml:space="preserve">
     <value>refresh</value>
   </data>
-  <data name="refreshOnStartupSwitch.Header" xml:space="preserve">
-    <value>refresh on startup</value>
-  </data>
   <data name="saveLinkDialog.PrimaryButtonText" xml:space="preserve">
     <value>save</value>
   </data>
@@ -200,12 +197,6 @@
   </data>
   <data name="UpdatingText" xml:space="preserve">
     <value>Loading...</value>
-  </data>
-  <data name="AppStartSettingsDescription.Text" xml:space="preserve">
-    <value>The settings below are modifying the startup behaviour.</value>
-  </data>
-  <data name="AppStartSettingsHeader.Text" xml:space="preserve">
-    <value>App start settings</value>
   </data>
   <data name="archivedItemsMenuButtonText.Text" xml:space="preserve">
     <value>Archive</value>
