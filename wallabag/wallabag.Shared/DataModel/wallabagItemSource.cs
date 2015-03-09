@@ -232,6 +232,7 @@ namespace wallabag.DataModel
                 DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), new List<Type>() { typeof(Item) });
                 _temp = (Dictionary<string, object>)serializer.ReadObject(inStream.AsStreamForRead());
             }
+            Items.Clear();
             foreach (var i in _temp)
                 Items.Add(i.Key, i.Value);
         }
