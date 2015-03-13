@@ -62,5 +62,18 @@ namespace wallabag.Views
                 await Launcher.LaunchUriAsync(new Uri(args.Uri.AbsoluteUri));
             }
         }
+
+        protected override void SaveState(SaveStateEventArgs e)
+        {
+            e.PageState.Add("ItemId", ((ItemPageViewModel)this.DataContext).Item.UniqueId);
+        }
+        protected override async void LoadState(LoadStateEventArgs e)
+        {
+            if (e.PageState != null)
+            {
+                if (e.PageState.ContainsKey("ItemId"))
+                    this.DataContext = new ItemPageViewModel() { Item = await wallabagDataSource.GetItemAsync(e.PageState["ItemId"] as string) };
+            }
+        }
     }
 }
