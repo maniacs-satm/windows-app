@@ -35,24 +35,12 @@ namespace wallabag.Common
         /// </summary>
         protected virtual void ChangedSize(double width, double height) { }
 
-        /// <summary>
-        /// When navigating away from the page, save the regarding ViewModel.
-        /// </summary>
         void navigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
-            e.PageState.Add(ViewModelPageKey, this.DataContext);
             SaveState(e);
         }
-
-        /// <summary>
-        /// When navigating away from the page, load the regarding ViewModel.
-        /// </summary>
         void navigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            if (e.PageState != null && e.PageState.ContainsKey(ViewModelPageKey))
-            {
-                this.DataContext = e.PageState[ViewModelPageKey];
-            }
             LoadState(e);
         }
 
