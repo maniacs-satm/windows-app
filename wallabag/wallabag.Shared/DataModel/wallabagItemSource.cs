@@ -87,7 +87,7 @@ namespace wallabag.DataModel
                 CSSproperty("color", tmpSettingsVM.textColor.Color) +
                 CSSproperty("background", tmpSettingsVM.Background.Color) +
 #if WINDOWS_APP
-                CSSproperty("max-width", "960px") +
+ CSSproperty("max-width", "960px") +
                 CSSproperty("margin", "0 auto") +
                 CSSproperty("padding", "0 20px") +
 #endif
@@ -226,15 +226,22 @@ namespace wallabag.DataModel
         {
             var _temp = new Dictionary<string, object>();
 
-            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
-            using (IInputStream inStream = await file.OpenSequentialReadAsync())
+            try
             {
-                DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), new List<Type>() { typeof(Item) });
-                _temp = (Dictionary<string, object>)serializer.ReadObject(inStream.AsStreamForRead());
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
+                using (IInputStream inStream = await file.OpenSequentialReadAsync())
+                {
+                    DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), new List<Type>() { typeof(Item) });
+                    _temp = (Dictionary<string, object>)serializer.ReadObject(inStream.AsStreamForRead());
+                }
+                Items.Clear();
+                foreach (var i in _temp)
+                    Items.Add(i.Key, i.Value);
             }
-            Items.Clear();
-            foreach (var i in _temp)
-                Items.Add(i.Key, i.Value);
+            catch (FileNotFoundException)
+            {
+                return;
+            }
         }
     }
 }
