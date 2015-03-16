@@ -226,9 +226,9 @@ namespace wallabag.DataModel
         {
             var _temp = new Dictionary<string, object>();
 
-            try
+            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
+            if (file != null)
             {
-                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
                 using (IInputStream inStream = await file.OpenSequentialReadAsync())
                 {
                     DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), new List<Type>() { typeof(Item) });
@@ -238,10 +238,7 @@ namespace wallabag.DataModel
                 foreach (var i in _temp)
                     Items.Add(i.Key, i.Value);
             }
-            catch (FileNotFoundException)
-            {
-                return;
-            }
+
         }
     }
 }
