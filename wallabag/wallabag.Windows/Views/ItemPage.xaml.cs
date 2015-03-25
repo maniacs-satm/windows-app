@@ -13,12 +13,13 @@ namespace wallabag.Views
 {
     public sealed partial class ItemPage : basicPage
     {
+        private DataTransferManager dataTransferManager;
         public ItemPage()
         {
             this.InitializeComponent();
 
             // To handle the share events (Share charm), we load the DataTransferManager.
-            var dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += dataTransferManager_DataRequested;
         }
 
@@ -42,6 +43,12 @@ namespace wallabag.Views
                 this.DataContext = new ItemPageViewModel() { Item = await wallabagDataSource.GetItemAsync(e.Parameter as string) };
 
             base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            dataTransferManager.DataRequested -= dataTransferManager_DataRequested;
+            base.OnNavigatedFrom(e);
         }
 
         void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
