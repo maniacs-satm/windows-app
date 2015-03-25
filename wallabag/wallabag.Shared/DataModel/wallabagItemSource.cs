@@ -224,11 +224,11 @@ namespace wallabag.DataModel
         }
         private async Task RestoreItemsAsync()
         {
-            var _temp = new Dictionary<string, object>();
-
-            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
-            if (file != null)
+            try
             {
+                var _temp = new Dictionary<string, object>();
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
+
                 using (IInputStream inStream = await file.OpenSequentialReadAsync())
                 {
                     DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), new List<Type>() { typeof(Item) });
@@ -238,7 +238,14 @@ namespace wallabag.DataModel
                 foreach (var i in _temp)
                     Items.Add(i.Key, i.Value);
             }
-
+            catch (FileNotFoundException)
+            {
+                System.Diagnostics.Debug.WriteLine("File not found.");
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+            }
         }
     }
 }
