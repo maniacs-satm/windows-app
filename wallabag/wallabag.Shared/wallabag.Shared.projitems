@@ -38,13 +38,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Assets\test.html" />
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\de-DE\Resources.resw">
-      <SubType>Designer</SubType>
-    </PRIResource>
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\fr-FR\Resources.resw" />
-    <PRIResource Include="$(MSBuildThisFileDirectory)Strings\hu-HU\Resources.resw" />
   </ItemGroup>
 </Project>
