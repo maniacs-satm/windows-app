@@ -32,19 +32,7 @@ namespace wallabag.ViewModel
         public RelayCommand refreshCommand { get; private set; }
         private async Task RefreshItems()
         {
-            StatusText = Helpers.LocalizedString("UpdatingText");
-            IsActive = true;
-
-            Items.Clear();
             var items = await wallabagDataSource.GetItemsAsync();
-            foreach (KeyValuePair<string, object> k in items)
-                Items.Add((Item)k.Value);
-
-            RaisePropertyChanged(() => unreadItems);
-            RaisePropertyChanged(() => favouriteItems);
-            RaisePropertyChanged(() => archivedItems);
-
-            IsActive = false;
         }
 
         public MainViewModel()
