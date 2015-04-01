@@ -15,7 +15,7 @@ namespace wallabag.DataModel
         private static string Username = "wallabag";
         private static string Password = "wallabag";
 
-        private static async Task hashPassword(string cleanPassword)
+        public static async Task hashPassword(string cleanPassword)
         {
             string salt = string.Empty;
             using (HttpClient http = new HttpClient())
@@ -31,16 +31,16 @@ namespace wallabag.DataModel
             Password = hash;
         }
 
-        private static string GetTimestamp()
+        public static string GetTimestamp()
         {
             return DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
         }
-        private static string GenerateNonce()
+        public static string GenerateNonce()
         {
             IBuffer buff = CryptographicBuffer.GenerateRandom(32);
             return CryptographicBuffer.EncodeToBase64String(buff);
         }
-        private static string GenerateDigest()
+        public static string GenerateDigest()
         {
             string combined = string.Format("{0}{1}{2}", GenerateNonce(), GetTimestamp(), Password);
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
@@ -48,7 +48,7 @@ namespace wallabag.DataModel
             return digest;
         }
 
-        public static async Task<string> GetHeader()
+        public static async Task<string> GetHeader(string username, string digest, string nonce, string timestamp)
         {
             await hashPassword("wallabag");
             StringBuilder header = new StringBuilder();
@@ -71,7 +71,7 @@ namespace wallabag.DataModel
         /// <param name="s">The string.</param>
         /// <param name="Base64Encoded">A property if the string should be base64 encoded.</param>
         /// <returns>A hash of string s in the specific algorithm.</returns>
-        private static string GetHash(string algorithm, string s, bool Base64Encoded = false)
+        public static string GetHash(string algorithm, string s, bool Base64Encoded = false)
         {
             HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm(algorithm);
             IBuffer buff = CryptographicBuffer.ConvertStringToBinary(s, BinaryStringEncoding.Utf8);
