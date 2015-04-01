@@ -16,23 +16,24 @@ namespace wallabag.DataModel
         public static string Password = "wallabag";
         public static string hashedPassword { get; set; }
 
-        private static async Task hashPassword()
+        public static async Task hashPassword()
         {
-            if (hashedPassword == Password)
+            string salt = string.Empty;
+            using (HttpClient http = new HttpClient())
             {
-                string salt = string.Empty;
-                using (HttpClient http = new HttpClient())
-                {
-                    string response = await http.GetStringAsync(string.Format("http://v2.wallabag.org/api/salts/{0}.json", Username));
-                    JArray result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<dynamic>(response));
-                    salt = result[0].ToString();
-                }
-
-                string combined = string.Format("{0}{1}{2}", Password, Username, salt);
-                string hash = GetHash(HashAlgorithmNames.Sha1, combined);
-
-                hashedPassword = hash;
+                string response = await http.GetStringAsync(string.Format("http://v2.wallabag.org/api/salts/{0}.json", Username));
+                JArray result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<dynamic>(response));
+                salt = result[0].ToString();
             }
+
+            hashPassword(Password, Username, salt);
+        }
+        public static void hashPassword(string password, string username, string salt)
+        {
+            string combined = string.Format("{0}{1}{2}", password, username, salt);
+            string hash = GetHash(HashAlgorithmNames.Sha1, combined);
+
+            hashedPassword = hash;
         }
 
         public static string GetTimestamp()

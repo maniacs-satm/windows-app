@@ -35,5 +35,17 @@ namespace wallabag.Tests
             System.Diagnostics.Debug.WriteLine("test");
             Assert.AreEqual(expectedHeader, header);
         }
+
+        [TestMethod]
+        public void PasswordHashing()
+        {
+            string user = "wallabag";
+            string password = "wallabag";
+            string salt = "a7bdce59b6077a014d22c6f749e681f7";
+            string expected = "49e5b5e8469bc313f78df0640a61d374dea8e4d8";
+
+            Authentication.hashPassword(password, user, salt);
+            Assert.AreEqual(expected, Authentication.hashedPassword);
+        }
     }
 }
