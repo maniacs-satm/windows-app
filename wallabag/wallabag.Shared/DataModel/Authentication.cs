@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace wallabag.DataModel
 {
@@ -18,11 +15,9 @@ namespace wallabag.DataModel
         private static string Username = "wallabag";
         private static string Password = "wallabag";
 
-        private static async Task hashPassword(string clearPassword)
+        private static async Task hashPassword(string cleanPassword)
         {
-            Password = clearPassword;
             string salt = string.Empty;
-
             using (HttpClient http = new HttpClient())
             {
                 string response = await http.GetStringAsync(string.Format("http://v2.wallabag.org/api/salts/{0}.json", Username));
@@ -30,26 +25,9 @@ namespace wallabag.DataModel
                 salt = result[0].ToString();
             }
 
-            string hash = string.Empty;
-            try
-            {
-                string salted = string.Empty;
-                salted = clearPassword + "{" + salt + "}";
+            string combined = string.Format("{0}{1}{2}", cleanPassword, Username, salt);
+            string hash = GetHash(HashAlgorithmNames.Sha1, combined);
 
-                byte[] sha = GetHash("SHA512", salted);
-                for (int i = 0; i < 5000; i++)
-                {
-                    List<byte> temp = new List<byte>();
-                    temp.AddRange(sha);
-                    temp.AddRange(Encoding.UTF8.GetBytes(salted));
-                    sha = GetHash("SHA512", temp.ToArray());
-                }
-                hash = Convert.ToBase64String(sha);
-            }
-            catch
-            {
-                //TODO: handle exceptions
-            }
             Password = hash;
         }
 
@@ -64,20 +42,9 @@ namespace wallabag.DataModel
         }
         private static string GenerateDigest()
         {
-            string digest = string.Empty;
-            try
-            {
-                StringBuilder s = new StringBuilder();
-                s.Append(GenerateNonce());
-                s.Append(GetTimestamp());
-                s.Append(Password);
-                byte[] sha = GetHash("SHA1", Encoding.UTF8.GetBytes(s.ToString()));
-                digest = Convert.ToBase64String(sha);
-            }
-            catch (Exception)
-            {
-                //TODO: Handle exceptions.
-            }
+            string combined = string.Format("{0}{1}{2}", GenerateNonce(), GetTimestamp(), Password);
+            string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
+
             return digest;
         }
 
@@ -94,9 +61,6 @@ namespace wallabag.DataModel
             header.Append("\", Created=\"");
             header.Append(GetTimestamp());
             header.Append("\"");
-            var data = new DataPackage();
-            data.SetText(header.ToString());
-            Clipboard.SetContent(data);
             return header.ToString();
         }
 
@@ -105,30 +69,17 @@ namespace wallabag.DataModel
         /// </summary>
         /// <param name="algorithm">The hash algorithm that should be used.</param>
         /// <param name="s">The string.</param>
+        /// <param name="Base64Encoded">A property if the string should be base64 encoded.</param>
         /// <returns>A hash of string s in the specific algorithm.</returns>
-        private static byte[] GetHash(string algorithm, string s)
+        private static string GetHash(string algorithm, string s, bool Base64Encoded = false)
         {
             HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm(algorithm);
             IBuffer buff = CryptographicBuffer.ConvertStringToBinary(s, BinaryStringEncoding.Utf8);
             var hashed = alg.HashData(buff);
-            byte[] res;
-            CryptographicBuffer.CopyToByteArray(buff, out res);
-            return res;
-        }
-        /// <summary>
-        /// Computes a hash of a specific byte array.
-        /// </summary>
-        /// <param name="algorithm">The hash algorithm that should be used.</param>
-        /// <param name="b">The byte array.</param>
-        /// <returns>A hash of byte array b in the specific algorithm.</returns>
-        private static byte[] GetHash(string algorithm, byte[] b)
-        {
-            HashAlgorithmProvider alg = HashAlgorithmProvider.OpenAlgorithm(algorithm);
-            IBuffer buff = CryptographicBuffer.ConvertStringToBinary(Encoding.UTF8.GetString(b, 0, b.Length), BinaryStringEncoding.Utf8);
-            var hashed = alg.HashData(buff);
-            byte[] res;
-            CryptographicBuffer.CopyToByteArray(buff, out res);
-            return res;
+            if (Base64Encoded)
+                return CryptographicBuffer.EncodeToBase64String(hashed);
+            else
+                return CryptographicBuffer.EncodeToHexString(hashed);
         }
     }
 }
