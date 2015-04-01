@@ -14,10 +14,11 @@ namespace wallabag.DataModel
     {
         public static string Username = "wallabag";
         public static string Password = "wallabag";
+        public static string hashedPassword { get; set; }
 
-        private static async Task hashPassword(string cleanPassword)
+        private static async Task hashPassword()
         {
-            if (Password == cleanPassword)
+            if (hashedPassword == Password)
             {
                 string salt = string.Empty;
                 using (HttpClient http = new HttpClient())
@@ -27,10 +28,10 @@ namespace wallabag.DataModel
                     salt = result[0].ToString();
                 }
 
-                string combined = string.Format("{0}{1}{2}", cleanPassword, Username, salt);
+                string combined = string.Format("{0}{1}{2}", Password, Username, salt);
                 string hash = GetHash(HashAlgorithmNames.Sha1, combined);
 
-                Password = hash;
+                hashedPassword = hash;
             }
         }
 
@@ -43,10 +44,10 @@ namespace wallabag.DataModel
             IBuffer buff = CryptographicBuffer.GenerateRandom(32);
             return CryptographicBuffer.EncodeToBase64String(buff);
         }
-        public static async Task<string> GenerateDigest(string cleanPassword)
+        public static async Task<string> GenerateDigest()
         {
-            await hashPassword(cleanPassword);
-            string combined = string.Format("{0}{1}{2}", GenerateNonce(), GetTimestamp(), Password);
+            await hashPassword();
+            string combined = string.Format("{0}{1}{2}", GenerateNonce(), GetTimestamp(), hashedPassword);
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
 
             return digest;
@@ -54,11 +55,11 @@ namespace wallabag.DataModel
 
         public static async Task<string> GetHeader()
         {
-            return await GetHeader(Username, await GenerateDigest("todo"), GenerateNonce(), GetTimestamp());
+            return await GetHeader(Username, await GenerateDigest(), GenerateNonce(), GetTimestamp());
         }
         public static async Task<string> GetHeader(string username, string digest, string nonce, string timestamp)
         {
-            await hashPassword("wallabag");
+            await hashPassword();
             StringBuilder header = new StringBuilder();
             header.Append("UsernameToken Username=\"");
             header.Append(username);
