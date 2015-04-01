@@ -44,10 +44,14 @@ namespace wallabag.DataModel
             IBuffer buff = CryptographicBuffer.GenerateRandom(32);
             return CryptographicBuffer.EncodeToBase64String(buff);
         }
-        public static async Task<string> GenerateDigest()
+
+        public static string GenerateDigest()
         {
-            await hashPassword();
-            string combined = string.Format("{0}{1}{2}", GenerateNonce(), GetTimestamp(), hashedPassword);
+            return GenerateDigest(GenerateNonce(), GetTimestamp());
+        }
+        public static string GenerateDigest(string nonce, string timestamp)
+        {
+            string combined = string.Format("{0}{1}{2}", nonce, timestamp, hashedPassword);
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
 
             return digest;
@@ -55,7 +59,7 @@ namespace wallabag.DataModel
 
         public static async Task<string> GetHeader()
         {
-            return await GetHeader(Username, await GenerateDigest(), GenerateNonce(), GetTimestamp());
+            return await GetHeader(Username, GenerateDigest(), GenerateNonce(), GetTimestamp());
         }
         public static async Task<string> GetHeader(string username, string digest, string nonce, string timestamp)
         {
@@ -66,7 +70,7 @@ namespace wallabag.DataModel
             header.Append("\", PasswordDigest=\"");
             header.Append(digest);
             header.Append("\", Nonce=\"");
-            header.Append(nonce);
+            header.Append(Convert.ToBase64String(Encoding.UTF8.GetBytes(nonce)));
             header.Append("\", Created=\"");
             header.Append(timestamp);
             header.Append("\"");
