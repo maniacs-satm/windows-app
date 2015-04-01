@@ -12,23 +12,26 @@ namespace wallabag.DataModel
 {
     public class Authentication
     {
-        private static string Username = "wallabag";
-        private static string Password = "wallabag";
+        public static string Username = "wallabag";
+        public static string Password = "wallabag";
 
-        public static async Task hashPassword(string cleanPassword)
+        private static async Task hashPassword(string cleanPassword)
         {
-            string salt = string.Empty;
-            using (HttpClient http = new HttpClient())
+            if (Password == cleanPassword)
             {
-                string response = await http.GetStringAsync(string.Format("http://v2.wallabag.org/api/salts/{0}.json", Username));
-                JArray result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<dynamic>(response));
-                salt = result[0].ToString();
+                string salt = string.Empty;
+                using (HttpClient http = new HttpClient())
+                {
+                    string response = await http.GetStringAsync(string.Format("http://v2.wallabag.org/api/salts/{0}.json", Username));
+                    JArray result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<dynamic>(response));
+                    salt = result[0].ToString();
+                }
+
+                string combined = string.Format("{0}{1}{2}", cleanPassword, Username, salt);
+                string hash = GetHash(HashAlgorithmNames.Sha1, combined);
+
+                Password = hash;
             }
-
-            string combined = string.Format("{0}{1}{2}", cleanPassword, Username, salt);
-            string hash = GetHash(HashAlgorithmNames.Sha1, combined);
-
-            Password = hash;
         }
 
         public static string GetTimestamp()
@@ -40,26 +43,31 @@ namespace wallabag.DataModel
             IBuffer buff = CryptographicBuffer.GenerateRandom(32);
             return CryptographicBuffer.EncodeToBase64String(buff);
         }
-        public static string GenerateDigest()
+        public static async Task<string> GenerateDigest(string cleanPassword)
         {
+            await hashPassword(cleanPassword);
             string combined = string.Format("{0}{1}{2}", GenerateNonce(), GetTimestamp(), Password);
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
 
             return digest;
         }
 
+        public static async Task<string> GetHeader()
+        {
+            return await GetHeader(Username, await GenerateDigest("todo"), GenerateNonce(), GetTimestamp());
+        }
         public static async Task<string> GetHeader(string username, string digest, string nonce, string timestamp)
         {
             await hashPassword("wallabag");
             StringBuilder header = new StringBuilder();
             header.Append("UsernameToken Username=\"");
-            header.Append(Username);
+            header.Append(username);
             header.Append("\", PasswordDigest=\"");
-            header.Append(GenerateDigest());
+            header.Append(digest);
             header.Append("\", Nonce=\"");
-            header.Append(GenerateNonce());
+            header.Append(nonce);
             header.Append("\", Created=\"");
-            header.Append(GetTimestamp());
+            header.Append(timestamp);
             header.Append("\"");
             return header.ToString();
         }
