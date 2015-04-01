@@ -30,9 +30,6 @@ namespace wallabag.Tests
             Authentication.hashedPassword = "02b92862ab03de17e217ee5fa53fbf52eed039ca"; // 'wallabag' hashed and salted
             string digest = Authentication.GenerateDigest(nonce, timestamp);
             string header = await Authentication.GetHeader("wallabag", digest, nonce, timestamp);
-            System.Diagnostics.Debug.WriteLine("actual:" + header);
-            System.Diagnostics.Debug.WriteLine("expected:" + expectedHeader);
-            System.Diagnostics.Debug.WriteLine("test");
             Assert.AreEqual(expectedHeader, header);
         }
 
