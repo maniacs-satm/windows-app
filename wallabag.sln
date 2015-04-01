@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F42E03
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.Tests", "wallabag.Tests\wallabag.Tests.csproj", "{AAF00A7F-E12E-448D-8AA3-3FA83C734311}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		wallabag\wallabag.Shared\wallabag.Shared.projitems*{7270c2b6-a08f-4c9e-873d-53188da786c3}*SharedItemsImports = 13
@@ -79,6 +81,30 @@ Global
 		{E36B831F-4175-4EA6-B059-09A54FED487C}.Release|x86.ActiveCfg = Release|x86
 		{E36B831F-4175-4EA6-B059-09A54FED487C}.Release|x86.Build.0 = Release|x86
 		{E36B831F-4175-4EA6-B059-09A54FED487C}.Release|x86.Deploy.0 = Release|x86
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|ARM.ActiveCfg = Debug|ARM
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|ARM.Build.0 = Debug|ARM
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|ARM.Deploy.0 = Debug|ARM
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|x64.ActiveCfg = Debug|x64
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|x64.Build.0 = Debug|x64
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|x64.Deploy.0 = Debug|x64
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|x86.ActiveCfg = Debug|x86
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|x86.Build.0 = Debug|x86
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Debug|x86.Deploy.0 = Debug|x86
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|ARM.ActiveCfg = Release|ARM
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|ARM.Build.0 = Release|ARM
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|ARM.Deploy.0 = Release|ARM
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|x64.ActiveCfg = Release|x64
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|x64.Build.0 = Release|x64
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|x64.Deploy.0 = Release|x64
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|x86.ActiveCfg = Release|x86
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|x86.Build.0 = Release|x86
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
