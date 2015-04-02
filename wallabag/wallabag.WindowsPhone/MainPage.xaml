@@ -8,24 +8,14 @@
     xmlns:Converter="using:wallabag.Converter"
     x:Class="wallabag.MainPage"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
-
-    <common:basicPage.Resources>
-        <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <DataTemplate x:Key="ArticleTemplate">
-            <Grid>
-                <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" Style="{StaticResource ListViewItemContentTextBlockStyle}" Margin="0,5" FontSize="20" />
-            </Grid>
-        </DataTemplate>
-    </common:basicPage.Resources>
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <common:basicPage.BottomAppBar>
         <CommandBar>
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="settingsButton" Label="settings" Click="AppBarButton_Click_1"/>
+                <AppBarButton x:Uid="settingsButton" Label="settings" />
             </CommandBar.SecondaryCommands>
-            <AppBarButton x:Uid="addItemButton" Icon="Add" IsCompact="True" Label="add" Visibility="Collapsed" Click="AppBarButton_Click"/>
+            <AppBarButton x:Uid="addItemButton" Icon="Add" IsCompact="True" Label="add" />
             <AppBarButton x:Uid="refreshButton" Icon="Refresh" IsCompact="True" Label="refresh" Command="{Binding refreshCommand}"/>
         </CommandBar>
     </common:basicPage.BottomAppBar>
@@ -40,13 +30,13 @@
 
         <Pivot x:Name="mainPivot" Title="WALLABAG">
             <PivotItem x:Uid="unread" Header="unread">
-                <ListView x:Name="unreadItems" ItemsSource="{Binding unreadItems}" IsItemClickEnabled="True" ItemTemplate="{StaticResource ArticleTemplate}" ItemClick="ListView_ItemClick" />
+                <ListView x:Name="unreadItems" ItemsSource="{Binding unreadItems}" IsItemClickEnabled="True" />
             </PivotItem>
             <PivotItem x:Uid="favourites" Header="favourites">
-                <ListView x:Name="favouriteItems" ItemsSource="{Binding favouriteItems}" IsItemClickEnabled="True" ItemTemplate="{StaticResource ArticleTemplate}" ItemClick="ListView_ItemClick" />
+                <ListView x:Name="favouriteItems" ItemsSource="{Binding favouriteItems}" IsItemClickEnabled="True"/>
             </PivotItem>
             <PivotItem x:Uid="archive" Header="archive">
-                <ListView x:Name="archivedItems"  ItemsSource="{Binding archivedItems}" IsItemClickEnabled="True" ItemTemplate="{StaticResource ArticleTemplate}" ItemClick="ListView_ItemClick" />
+                <ListView x:Name="archivedItems"  ItemsSource="{Binding archivedItems}" IsItemClickEnabled="True" />
             </PivotItem>
         </Pivot>
     </Grid>
