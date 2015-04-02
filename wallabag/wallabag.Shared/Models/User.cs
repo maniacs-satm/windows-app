@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PropertyChanged;
+using System;
+using System.Collections.ObjectModel;
 
 namespace wallabag.Models
 {
@@ -34,6 +33,6 @@ namespace wallabag.Models
         public DateTime UpdatedAt { get; set; }
 
         [JsonProperty("entries")]
-        public object Entries { get; set; }
+        public ObservableCollection<Item> Entries { get; set; }
     }
 }
