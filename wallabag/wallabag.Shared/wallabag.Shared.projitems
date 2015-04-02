@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Authentication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Item.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModel\ItemViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\wallabagItemSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
