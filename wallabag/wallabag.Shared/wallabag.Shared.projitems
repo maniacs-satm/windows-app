@@ -30,9 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Authentication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\wallabagItemSource.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ItemPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MainViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ViewModel\ViewModelLocator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\css\reset.css" />
