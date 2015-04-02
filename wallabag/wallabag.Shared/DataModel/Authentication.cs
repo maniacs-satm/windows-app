@@ -14,7 +14,7 @@ namespace wallabag.DataModel
     {
         private static string Username = string.Empty;
         private static string Password = string.Empty;
-        private static string hashedPassword = string.Empty;
+        public static string hashedPassword = string.Empty;
 
         public static async Task hashPassword()
         {
@@ -36,21 +36,21 @@ namespace wallabag.DataModel
             hashedPassword = hash;
         }
 
-        public static string GetTimestamp()
+        private static string GetTimestamp()
         {
             return DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
         }
-        public static string GenerateNonce()
+        private static string GenerateNonce()
         {
             IBuffer buff = CryptographicBuffer.GenerateRandom(32);
             return CryptographicBuffer.EncodeToBase64String(buff);
         }
 
-        public static async Task<string> GenerateDigest()
+        private static async Task<string> GenerateDigest()
         {
             return await GenerateDigest(GenerateNonce(), GetTimestamp());
         }
-        public static async Task<string> GenerateDigest(string nonce, string timestamp)
+        private static async Task<string> GenerateDigest(string nonce, string timestamp)
         {
             await hashPassword();
             string combined = string.Format("{0}{1}{2}", nonce, timestamp, hashedPassword);
@@ -64,6 +64,12 @@ namespace wallabag.DataModel
             string nonce = GenerateNonce();
             string timestamp = GetTimestamp();
             return GetHeader(Username, await GenerateDigest(nonce, timestamp), nonce, timestamp);
+        }
+        public static async Task<string> GetHeader(User user)
+        {
+            Username = user.Username;
+            Password = user.Password;
+            return await GetHeader();
         }
         public static string GetHeader(string username, string digest, string nonce, string timestamp)
         {
