@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PropertyChanged;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace wallabag.DataModel
 {
@@ -33,7 +33,8 @@ namespace wallabag.DataModel
         public DateTime UpdatedAt { get; set; }
 
         [JsonProperty("entries")]
-        public ObservableCollection<Item> Entries { get; set; }
+        // TODO: Find a better way, e.g. a ObservableCollection, List, Dictionary etc.
+        public object Entries { get; set; }
 
         public override string ToString()
         {

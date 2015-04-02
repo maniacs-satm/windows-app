@@ -1,10 +1,10 @@
-﻿using PropertyChanged;
+﻿using Newtonsoft.Json;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using wallabag.Common;
 using Windows.Web.Http;
-using Newtonsoft.Json;
 
 namespace wallabag.DataModel
 {
@@ -65,5 +65,21 @@ namespace wallabag.DataModel
                 return true;
             return false;
         }
+        public async Task<bool> Fetch()
+        {
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http, Model.User);
+            var response = await http.GetAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}.json", Model.Id)));
+            http.Dispose();
+
+            if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                this.Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                return true;
+            }
+            return false;
+        }
     }
+
 }
