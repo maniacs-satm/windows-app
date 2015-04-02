@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PropertyChanged;
-using Newtonsoft.Json;
+﻿using PropertyChanged;
+using System;
 using System.Threading.Tasks;
 using wallabag.Common;
 using Windows.Web.Http;
-using Windows.Web.Http.Headers;
 
 namespace wallabag.DataModel
 {
@@ -21,15 +17,17 @@ namespace wallabag.DataModel
 
         public async Task GetTags()
         {
-            string response = string.Empty;
-            using (HttpClient http = new HttpClient())
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http, Model.User);
+            System.Diagnostics.Debug.WriteLine(http.DefaultRequestHeaders["X-WSSE"]);
+            var response = await http.GetAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}/tags.json", Model.Id)));
+            http.Dispose();
+
+            if (response.StatusCode != HttpStatusCode.NoContent ||
+                !response.IsSuccessStatusCode)
             {
-                await Helpers.AddHeaders(http, Model.User);
-                response = await http.GetStringAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}/tags.json", Model.Id)));
-            }
-            if (!String.IsNullOrWhiteSpace(response))
-            {
-                // TODO: JSON parsing
+                //TODO: JSON parsing
             }
         }
     }
