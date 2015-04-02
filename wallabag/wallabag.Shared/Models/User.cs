@@ -34,5 +34,10 @@ namespace wallabag.Models
 
         [JsonProperty("entries")]
         public ObservableCollection<Item> Entries { get; set; }
+
+        public override string ToString()
+        {
+            return Username;
+        }
     }
 }
