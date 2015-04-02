@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using wallabag.DataModel;
 using Windows.ApplicationModel.Resources;
+using Windows.Networking.Connectivity;
 using Windows.Web.Http;
 using Windows.Web.Http.Headers;
 
@@ -22,6 +23,11 @@ namespace wallabag.Common
             client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("WSSE", "profile=\"UsernameToken\"");
             client.DefaultRequestHeaders.Add("X-WSSE", await Authentication.GetHeader(user));
             client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));
+        }
+        public static bool IsConnectedToInternet()
+        {
+            ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            return (connectionProfile != null && connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
         }
     }
 }
