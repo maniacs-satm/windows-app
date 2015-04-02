@@ -1,4 +1,8 @@
-﻿using Windows.ApplicationModel.Resources;
+﻿using System.Threading.Tasks;
+using wallabag.DataModel;
+using Windows.ApplicationModel.Resources;
+using Windows.Web.Http;
+using Windows.Web.Http.Headers;
 
 namespace wallabag.Common
 {
@@ -12,6 +16,12 @@ namespace wallabag.Common
         public static string LocalizedString(string resourceName)
         {
             return ResourceLoader.GetForCurrentView().GetString(resourceName);
+        }
+        public static async Task AddHeaders(HttpClient client, User user)
+        {
+            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("WSSE", "profile=\"UsernameToken\"");
+            client.DefaultRequestHeaders.Add("X-WSSE", await Authentication.GetHeader(user));
+            client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));
         }
     }
 }
