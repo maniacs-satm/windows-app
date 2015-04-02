@@ -1,12 +1,12 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.Web.Http;
 
 namespace wallabag.Common
 {
-    /// <summary>
-    /// This class allows us to enable binding to a string property which contains HTML.
-    /// </summary>
-    class WebViewExtensions
+    public static class WebViewExtensions
     {
         public static string GetHTML(DependencyObject obj)
         {
@@ -30,6 +30,23 @@ namespace wallabag.Common
             {
                 wv.NavigateToString((string)e.NewValue);
             }
+        }
+    }
+    public static class HttpClientExtensions
+    {
+        // copied and modified from StackOverflow <http://stackoverflow.com/a/26218765> - thanks to 'ricochete' :)
+        public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, IHttpContent iContent)
+        {
+            var method = new HttpMethod("PATCH");
+            var request = new HttpRequestMessage(method, requestUri)
+            {
+                Content = iContent
+            };
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            response = await client.SendRequestAsync(request);
+
+            return response;
         }
     }
 }
