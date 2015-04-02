@@ -4,13 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Runtime.Serialization;
+using System.Linq;
 using System.Threading.Tasks;
 using wallabag.Common;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.Web.Http;
-using System.Linq;
 
 namespace wallabag.DataModel
 {
@@ -18,7 +16,6 @@ namespace wallabag.DataModel
     public sealed class DataSource
     {
         private static DataSource _wallabagDataSource = new DataSource();
-
         public static ObservableCollection<ItemViewModel> Items { get; set; }
 
         public static async Task<bool> GetItemsAsync(int page = 1, bool IsSingleItem = false)
@@ -54,45 +51,31 @@ namespace wallabag.DataModel
             return null;
         }
 
-
-
-        private static async Task<bool> SaveItemsAsync()
+        public static async Task<bool> SaveItemsAsync()
         {
             try
             {
-                //MemoryStream sessionData = new MemoryStream();
-                //DataContractSerializer serializer = new DataContractSerializer(typeof(ObservableDictionary), new List<Type>() { typeof(Item) });
-                //serializer.WriteObject(sessionData, Items);
+                string json = JsonConvert.SerializeObject(Items);
 
-                //StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("items.xml", CreationCollisionOption.ReplaceExisting);
-                //using (Stream fileStream = await file.OpenStreamForWriteAsync())
-                //{
-                //    sessionData.Seek(0, SeekOrigin.Begin);
-                //    await sessionData.CopyToAsync(fileStream);
-                //}
+                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("items.json", CreationCollisionOption.ReplaceExisting);
+                await Windows.Storage.FileIO.WriteTextAsync(file, json);
+
                 return true;
             }
             catch (Exception)
             {
                 return false;
             }
-
         }
-        private static async Task<bool> RestoreItemsAsync()
+        public static async Task<bool> RestoreItemsAsync()
         {
             try
             {
-                //var _temp = new Dictionary<string, object>();
-                //StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.xml");
+                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.json");
+                string json = await Windows.Storage.FileIO.ReadTextAsync(file);
 
-                //using (IInputStream inStream = await file.OpenSequentialReadAsync())
-                //{
-                //    DataContractSerializer serializer = new DataContractSerializer(typeof(Dictionary<string, object>), new List<Type>() { typeof(Item) });
-                //    _temp = (Dictionary<string, object>)serializer.ReadObject(inStream.AsStreamForRead());
-                //}
-                //Items.Clear();
-                //foreach (var i in _temp)
-                //    Items.Add(i.Key, i.Value);
+                Items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json));
+
                 return true;
             }
             catch (FileNotFoundException)
