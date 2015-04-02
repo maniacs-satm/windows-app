@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
-using GalaSoft.MvvmLight;
 using Windows.ApplicationModel.Resources;
 
 namespace wallabag.Common
 {
-    /// <summary>
-    /// To extend the capabilites of the GalaSoft.MvvmLigt.ViewModelBase we use this class, which provides an
-    /// easy access to the ApplicationSettings and make it very easy to change the text of the StatusBar.
-    /// </summary>
-    public class viewModelBase : ViewModelBase
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public ApplicationSettings AppSettings { get { return ApplicationSettings.Instance; } }
-        
+
         private bool _IsActive;
         private string _StatusText;
-       
+
         public bool IsActive
         {
             get { return _IsActive; }
@@ -46,6 +42,6 @@ namespace wallabag.Common
 #endif
             }
         }
-        
+
     }
 }

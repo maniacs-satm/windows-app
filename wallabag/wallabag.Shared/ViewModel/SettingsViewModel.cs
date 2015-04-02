@@ -1,12 +1,10 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using wallabag.Common;
+﻿using wallabag.Common;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
 
 namespace wallabag.ViewModel
 {
-    public class SettingsViewModel : viewModelBase
+    public class SettingsViewModel : ViewModelBase
     {
         // The properties below are containing all the settings that are required for this app.
         public string wallabagUrl
@@ -77,8 +75,9 @@ namespace wallabag.ViewModel
 
         public SolidColorBrush textColor
         {
-            get {
-                if (isLightMode)            
+            get
+            {
+                if (isLightMode)
                     return new SolidColorBrush(ColorHelper.FromArgb(255, 0, 0, 0)); // #000000
                 else
                     return new SolidColorBrush(ColorHelper.FromArgb(255, 189, 189, 189)); // #bdbdbd
@@ -86,7 +85,8 @@ namespace wallabag.ViewModel
         }
         public SolidColorBrush Background
         {
-            get {
+            get
+            {
 #if WINDOWS_PHONE_APP
                 if (isLightMode)
                     return new SolidColorBrush(ColorHelper.FromArgb(255, 250, 247, 238)); // #faf7ee
@@ -100,7 +100,7 @@ namespace wallabag.ViewModel
 #endif
             }
         }
-        
+
         /// <summary>
         /// Represents a command to reset all settings.
         /// </summary>
@@ -109,7 +109,8 @@ namespace wallabag.ViewModel
         public SettingsViewModel()
         {
             // Initialize the resetCommand.
-            resetCommand = new RelayCommand(() => {
+            resetCommand = new RelayCommand(() =>
+            {
                 AppSettings.Settings.Clear();
                 Windows.Storage.ApplicationData.Current.RoamingSettings.Values.Clear();
             });

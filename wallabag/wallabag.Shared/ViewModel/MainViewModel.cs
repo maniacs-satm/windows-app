@@ -11,7 +11,7 @@ using Windows.Web.Syndication;
 
 namespace wallabag.ViewModel
 {
-    public class MainViewModel : viewModelBase
+    public class MainViewModel : ViewModelBase
     {
         private ObservableCollection<Item> _Items = new ObservableCollection<Item>();
         public ObservableCollection<Item> Items { get { return _Items; } }

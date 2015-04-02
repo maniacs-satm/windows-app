@@ -1,16 +1,13 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Ioc;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Xaml.Media;
-using wallabag.Common;
-using Windows.UI.Xaml;
+﻿using wallabag.Common;
 using wallabag.DataModel;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace wallabag.ViewModel
 {
-    public class ItemPageViewModel : viewModelBase
+    public class ItemPageViewModel : ViewModelBase
     {
         private Item _Item;
         public Item Item

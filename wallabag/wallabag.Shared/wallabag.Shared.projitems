@@ -21,8 +21,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\NavigationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\viewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ViewModelBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\WebViewExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\BooleanNegationConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\BooleanToVisibilityConverter.cs" />
@@ -43,5 +44,8 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
   </ItemGroup>
 </Project>
