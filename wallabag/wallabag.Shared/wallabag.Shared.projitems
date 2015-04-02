@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Authentication.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\wallabagItemSource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Item.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -41,8 +42,5 @@
     <PRIResource Include="$(MSBuildThisFileDirectory)Strings\en-US\Resources.resw">
       <SubType>Designer</SubType>
     </PRIResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
   </ItemGroup>
 </Project>
