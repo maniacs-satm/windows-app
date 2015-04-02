@@ -106,5 +106,17 @@ namespace wallabag.DataModel
             }
             return false;
         }
+        public async Task<bool> DeleteTag(string tag)
+        {
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http, Model.User);
+            var response = await http.DeleteAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}/tags/{1}.json", Model.Id, tag)));
+            http.Dispose();
+
+            if (response.StatusCode == HttpStatusCode.Ok)
+                return true;
+            return false;
+        }
     }
 }
