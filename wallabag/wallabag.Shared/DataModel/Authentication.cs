@@ -13,7 +13,7 @@ namespace wallabag.DataModel
     public class Authentication
     {
         private static string Username = string.Empty;
-        private static string Password  = string.Empty;
+        private static string Password = string.Empty;
         private static string hashedPassword = string.Empty;
 
         public static async Task hashPassword()
