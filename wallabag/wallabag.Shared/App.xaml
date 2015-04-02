@@ -2,8 +2,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <x:String x:Key="AppName">wallabag</x:String>
-            <vm:ViewModelLocator x:Key="Locator" xmlns:vm="using:wallabag.ViewModel" />
-
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">
                     <x:String x:Key="ProgressBarIndeterminateForegroundThemeBrush">LightGray</x:String>

@@ -1,6 +1,6 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using wallabag.Common;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

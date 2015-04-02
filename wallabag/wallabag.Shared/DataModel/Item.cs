@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using wallabag.Common;
-using wallabag.ViewModel;
+using wallabag.ViewModels;
 using Windows.UI;
 
 namespace wallabag.DataModel
@@ -73,13 +73,13 @@ namespace wallabag.DataModel
             double fontSize = AppSettings["fontSize", 18];
             double lineHeight = AppSettings["lineHeight", 1.5];
 
-            SettingsViewModel tmpSettingsVM = new SettingsViewModel();
+            //SettingsViewModel tmpSettingsVM = new SettingsViewModel();
 
             string css = "body {" +
                 CSSproperty("font-size", fontSize + "px") +
                 CSSproperty("line-height", lineHeight.ToString().Replace(",", ".")) +
-                CSSproperty("color", tmpSettingsVM.textColor.Color) +
-                CSSproperty("background", tmpSettingsVM.Background.Color) +
+                //CSSproperty("color", tmpSettingsVM.textColor.Color) +
+                //CSSproperty("background", tmpSettingsVM.Background.Color) +
 #if WINDOWS_APP
  CSSproperty("max-width", "960px") +
                 CSSproperty("margin", "0 auto") +

@@ -7,16 +7,14 @@ using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using wallabag.ViewModel;
+using wallabag.ViewModels;
 
 namespace wallabag.Common
 {
     internal sealed class SuspensionManager
     {
         private static Dictionary<string, object> _sessionState = new Dictionary<string, object>();
-        private static List<Type> _knownTypes = new List<Type>() {typeof(MainViewModel), 
-            typeof(ItemPageViewModel),
-            typeof(SettingsViewModel)};
+        private static List<Type> _knownTypes = new List<Type>() { typeof(MainViewModel) };
         private const string sessionStateFilename = "_sessionState.xml";
 
         public static Dictionary<string, object> SessionState
