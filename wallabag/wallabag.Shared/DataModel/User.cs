@@ -3,7 +3,7 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 
-namespace wallabag.Models
+namespace wallabag.DataModel
 {
     [ImplementPropertyChanged]
     public class User
