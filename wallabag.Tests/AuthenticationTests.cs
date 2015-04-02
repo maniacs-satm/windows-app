@@ -28,8 +28,8 @@ namespace wallabag.Tests
         public async Task GenerateWSSEHeader(string nonce, string timestamp, string expectedHeader)
         {
             Authentication.hashedPassword = "02b92862ab03de17e217ee5fa53fbf52eed039ca"; // 'wallabag' hashed and salted
-            string digest = Authentication.GenerateDigest(nonce, timestamp);
-            string header = await Authentication.GetHeader("wallabag", digest, nonce, timestamp);
+            string digest = await Authentication.GenerateDigest(nonce, timestamp);
+            string header = Authentication.GetHeader("wallabag", digest, nonce, timestamp);
             Assert.AreEqual(expectedHeader, header);
         }
 
@@ -44,5 +44,7 @@ namespace wallabag.Tests
             Authentication.hashPassword(password, user, salt);
             Assert.AreEqual(expected, Authentication.hashedPassword);
         }
+
+
     }
 }
