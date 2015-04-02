@@ -9,7 +9,7 @@ namespace wallabag.Common
     /// </summary>
     public class ApplicationSettings : INotifyPropertyChanged
     {
-        // This ugly code block allows it to access on the same Instance even if we use the 'static' parameter.
+        // This ugly code block allows it to access on the same instance even if we use the 'static' parameter.
         private static ApplicationSettings _instance;
         private ApplicationSettings() { }
         public static ApplicationSettings Instance { get { return _instance ?? (_instance = new ApplicationSettings()); } }

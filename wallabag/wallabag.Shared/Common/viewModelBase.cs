@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using Windows.ApplicationModel.Resources;
+﻿using System.ComponentModel;
 
 namespace wallabag.Common
 {
