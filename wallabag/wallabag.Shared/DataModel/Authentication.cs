@@ -12,9 +12,9 @@ namespace wallabag.DataModel
 {
     public class Authentication
     {
-        public static string Username = "wallabag";
-        public static string Password = "wallabag";
-        public static string hashedPassword { get; set; }
+        private static string Username = string.Empty;
+        private static string Password  = string.Empty;
+        private static string hashedPassword = string.Empty;
 
         public static async Task hashPassword()
         {
