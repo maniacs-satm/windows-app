@@ -1,8 +1,10 @@
 ﻿using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using wallabag.Common;
 using Windows.Web.Http;
+using Newtonsoft.Json;
 
 namespace wallabag.DataModel
 {
@@ -36,6 +38,27 @@ namespace wallabag.DataModel
 
             await Helpers.AddHeaders(http, Model.User);
             var response = await http.DeleteAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}.json", Model.Id)));
+            http.Dispose();
+
+            if (response.StatusCode == HttpStatusCode.Ok)
+                return true;
+            return false;
+        }
+        public async Task<bool> Update()
+        {
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http, Model.User);
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("title", Model.Title);
+            //parameters.Add("tags", "tags comma-separated"); TODO
+            parameters.Add("archive", Model.IsArchived);
+            parameters.Add("star", Model.IsStarred);
+            parameters.Add("delete", Model.IsDeleted);
+
+            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters));
+            var response = await http.PatchAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}.json", Model.Id)), content);
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
