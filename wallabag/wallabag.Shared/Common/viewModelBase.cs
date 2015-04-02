@@ -8,6 +8,7 @@ namespace wallabag.Common
 {
     public class ViewModelBase : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         public ApplicationSettings AppSettings { get { return ApplicationSettings.Instance; } }
 
         private bool _IsActive;
@@ -18,7 +19,8 @@ namespace wallabag.Common
             get { return _IsActive; }
             set
             {
-                Set(() => IsActive, ref _IsActive, value);
+                _IsActive = value;
+                RaisePropertyChanged("IsActive");
 
 #if WINDOWS_PHONE_APP    
                 var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
@@ -34,7 +36,8 @@ namespace wallabag.Common
             get { return _StatusText; }
             set
             {
-                Set(() => StatusText, ref _StatusText, value);
+                _StatusText = value;
+                RaisePropertyChanged("StatusText");
 
 #if WINDOWS_PHONE_APP
                 if (!string.IsNullOrWhiteSpace(value))
@@ -43,5 +46,13 @@ namespace wallabag.Common
             }
         }
 
+        public virtual void RaisePropertyChanged(string propertyName)
+        {
+            var propertyChanged = PropertyChanged;
+            if (propertyChanged != null)
+            {
+                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }
