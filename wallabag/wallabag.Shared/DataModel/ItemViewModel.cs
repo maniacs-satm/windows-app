@@ -83,5 +83,28 @@ namespace wallabag.DataModel
                 //TODO: JSON parsing
             }
         }
+        public async Task<bool> AddTags(string tags)
+        {
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http, Model.User);
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("tags", tags);
+
+            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters));
+            var response = await http.PostAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}/tags.json", Model.Id)), content);
+            http.Dispose();
+
+            if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                string[] tagarray = tags.Split(",".ToCharArray());
+
+                foreach (string tag in tagarray)
+                    Tags.Add(tag);
+
+                return true;
+            }
+            return false;
+        }
     }
 }
