@@ -194,13 +194,13 @@
                                LineHeight="27.4"/>
                 </Border>
                 <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Polygon Points="0 40 ,40 40 ,40 0" Fill="Yellow" RenderTransformOrigin="0.5,0.5" >
+                    <Polygon Points="0 40 ,40 40 ,40 0" Fill="#FF469646" RenderTransformOrigin="0.5,0.5" >
                         <Polygon.RenderTransform>
                             <CompositeTransform Rotation="-90"/>
                         </Polygon.RenderTransform>
                     </Polygon>
                     <Viewbox Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,3,3,0">
-                        <SymbolIcon Symbol="Favorite" Foreground="Black"/>
+                        <SymbolIcon Symbol="Favorite" />
                     </Viewbox>
                 </Grid>
             </Grid>
