@@ -25,8 +25,9 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontWeight" Value="SemiLight"/>
-            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="CharacterSpacing" Value="40"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RadioButton">
@@ -82,7 +83,7 @@
                                     <VisualState x:Name="Checked">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverBackgroundThemeBrush}"/>
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="#FF469646"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverForegroundThemeBrush}"/>
@@ -143,7 +144,7 @@
             <ColumnDefinition Width="320"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="navigationGrid" Background="#333">
+        <Grid x:Name="navigationGrid" Background="#FF252525">
             <Grid.RowDefinitions>
                 <RowDefinition Height="180"/>
                 <RowDefinition/>
@@ -160,7 +161,7 @@
                     <RadioButton.Content>
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="View" />
-                            <TextBlock x:Uid="unreadItemsMenuButtonText" x:Name="unreadItemsText" Text="Unread" Margin="10,0,0,0"/>
+                            <TextBlock x:Uid="unreadItemsMenuButtonText" x:Name="unreadItemsText" Text="UNREAD" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </RadioButton.Content>
                 </RadioButton>
@@ -168,7 +169,7 @@
                     <RadioButton.Content>
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Favorite" />
-                            <TextBlock x:Uid="favouriteItemsMenuButtonText" x:Name="favouriteItemsText" Text="Favourites" Margin="10,0,0,0"/>
+                            <TextBlock x:Uid="favouriteItemsMenuButtonText" x:Name="favouriteItemsText" Text="FAVORITES" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </RadioButton.Content>
                 </RadioButton>
@@ -176,7 +177,7 @@
                     <RadioButton.Content>
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Folder" />
-                            <TextBlock x:Uid="archivedItemsMenuButtonText" x:Name="archivedItemsText" Text="Archive" Margin="10,0,0,0"/>
+                            <TextBlock x:Uid="archivedItemsMenuButtonText" x:Name="archivedItemsText" Text="ARCHIVE" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </RadioButton.Content>
                 </RadioButton>
