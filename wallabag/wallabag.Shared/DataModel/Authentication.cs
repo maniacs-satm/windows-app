@@ -50,9 +50,10 @@ namespace wallabag.DataModel
         {
             return await GenerateDigest(GenerateNonce(), GetTimestamp());
         }
-        private static async Task<string> GenerateDigest(string nonce, string timestamp)
+        public static async Task<string> GenerateDigest(string nonce, string timestamp, bool IsTest = false)
         {
-            await hashPassword();
+            if (!IsTest)
+                await hashPassword();
             string combined = string.Format("{0}{1}{2}", nonce, timestamp, hashedPassword);
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
 

@@ -21,18 +21,17 @@ namespace wallabag.Tests
             Assert.AreEqual(expectedResult, actualResult);
         }
 
-        // TODO: Test is not working right now, will fix it later.
-        //[TestMethod]
-        //[DataRow("d6f4d12d3eed0304", "2015-04-01T15:36:12Z", "UsernameToken Username=\"wallabag\", PasswordDigest=\"Op45hP3eWbXDgVSjzEVq0NGJbwE=\", Nonce=\"ZDZmNGQxMmQzZWVkMDMwNA==\", Created=\"2015-04-01T15:36:12Z\"")]
-        //[DataRow("2f5cffd012ce587e", "2015-04-01T15:37:24Z", "UsernameToken Username=\"wallabag\", PasswordDigest=\"EIb58IKdGp+sDHn7aVYsHw9eXng=\", Nonce=\"MmY1Y2ZmZDAxMmNlNTg3ZQ==\", Created=\"2015-04-01T15:37:24Z\"")]
-        //[DataRow("1de4b902055e63e7", "2015-04-01T15:38:19Z", "UsernameToken Username=\"wallabag\", PasswordDigest=\"CZ0oPxhv54elAqrwtriYluYBnyQ=\", Nonce=\"MWRlNGI5MDIwNTVlNjNlNw==\", Created=\"2015-04-01T15:38:19Z\"")]
-        //public async Task GenerateWSSEHeader(string nonce, string timestamp, string expectedHeader)
-        //{
-        //    Authentication.hashedPassword = "02b92862ab03de17e217ee5fa53fbf52eed039ca"; // 'wallabag' hashed and salted
-        //    string digest = await Authentication.GenerateDigest(nonce, timestamp);
-        //    string header = Authentication.GetHeader("wallabag", digest, nonce, timestamp);
-        //    Assert.AreEqual(expectedHeader, header);
-        //}
+        [TestMethod]
+        [DataRow("d6f4d12d3eed0304", "2015-04-01T15:36:12Z", "UsernameToken Username=\"wallabag\", PasswordDigest=\"Op45hP3eWbXDgVSjzEVq0NGJbwE=\", Nonce=\"ZDZmNGQxMmQzZWVkMDMwNA==\", Created=\"2015-04-01T15:36:12Z\"")]
+        [DataRow("2f5cffd012ce587e", "2015-04-01T15:37:24Z", "UsernameToken Username=\"wallabag\", PasswordDigest=\"EIb58IKdGp+sDHn7aVYsHw9eXng=\", Nonce=\"MmY1Y2ZmZDAxMmNlNTg3ZQ==\", Created=\"2015-04-01T15:37:24Z\"")]
+        [DataRow("1de4b902055e63e7", "2015-04-01T15:38:19Z", "UsernameToken Username=\"wallabag\", PasswordDigest=\"CZ0oPxhv54elAqrwtriYluYBnyQ=\", Nonce=\"MWRlNGI5MDIwNTVlNjNlNw==\", Created=\"2015-04-01T15:38:19Z\"")]
+        public async Task GenerateWSSEHeader(string nonce, string timestamp, string expectedHeader)
+        {
+            Authentication.hashedPassword = "02b92862ab03de17e217ee5fa53fbf52eed039ca"; // 'wallabag' hashed and salted
+            string digest = await Authentication.GenerateDigest(nonce, timestamp, true);
+            string header = Authentication.GetHeader("wallabag", digest, nonce, timestamp);
+            Assert.AreEqual(expectedHeader, header);
+        }
 
         [TestMethod]
         public void PasswordHashing()
