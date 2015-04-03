@@ -221,7 +221,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel x:Name="menuStackPanel" Grid.Row="1" Margin="0,15,0,0">
-                <RadioButton x:Uid="unreadItemsMenuButton" x:Name="unreadItemsMenuButton" Style="{StaticResource MenuButton}" IsChecked="True">
+                <RadioButton x:Uid="unreadItemsMenuButton" x:Name="unreadItemsMenuButton" Style="{StaticResource MenuButton}" IsChecked="True" Checked="unreadItemsMenuButton_Checked">
                     <RadioButton.Content>
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="View" />
@@ -229,7 +229,7 @@
                         </StackPanel>
                     </RadioButton.Content>
                 </RadioButton>
-                <RadioButton x:Uid="favouriteItemsMenuButton" x:Name="favouriteItemsMenuButton" Style="{StaticResource MenuButton}">
+                <RadioButton x:Uid="favouriteItemsMenuButton" x:Name="favouriteItemsMenuButton" Style="{StaticResource MenuButton}" Checked="favouriteItemsMenuButton_Checked">
                     <RadioButton.Content>
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Favorite" />
@@ -237,7 +237,7 @@
                         </StackPanel>
                     </RadioButton.Content>
                 </RadioButton>
-                <RadioButton x:Uid="archivedItemsMenuButton" x:Name="archivedItemsMenuButton" Style="{StaticResource MenuButton}">
+                <RadioButton x:Uid="archivedItemsMenuButton" x:Name="archivedItemsMenuButton" Style="{StaticResource MenuButton}" Checked="archivedItemsMenuButton_Checked">
                     <RadioButton.Content>
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="Folder" />
@@ -245,10 +245,10 @@
                         </StackPanel>
                     </RadioButton.Content>
                 </RadioButton>
-                <RadioButton x:Uid="tagsMenuButton" x:Name="tagsMenuButton" Style="{StaticResource MenuButton}">
+                <RadioButton x:Uid="tagsMenuButton" x:Name="tagsMenuButton" Style="{StaticResource MenuButton}" Checked="tagsMenuButton_Checked">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Tag" />
-                        <TextBlock x:Uid="tagsText" x:Name="tagsText" Text="Tags" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="tagsMenuButtonText" x:Name="tagsText" Text="Tags" Margin="10,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </RadioButton>
             </StackPanel>
@@ -278,7 +278,7 @@
                     <SymbolIcon Symbol="Find"/>
                 </Button>
             </StackPanel>
-            <TextBlock HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" Margin="45,0,0,0" FontSize="26.667" TextLineBounds="Tight"/>
+            <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" Margin="45,0,0,0" FontSize="26.667" TextLineBounds="Tight"/>
         </Grid>
     </Grid>
 </common:basicPage>
