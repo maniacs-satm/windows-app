@@ -80,9 +80,7 @@
                                 <VisualStateGroup x:Name="CheckStates">
                                     <VisualState x:Name="Checked">
                                         <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="#FF469646"/>
-                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="checkedBackground"/>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverForegroundThemeBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
@@ -92,6 +90,7 @@
                                     <VisualState x:Name="Indeterminate"/>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
+                            <Rectangle x:Name="checkedBackground" Opacity="0" Fill="#FF469646" />
                             <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="0,3">
                                 <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
