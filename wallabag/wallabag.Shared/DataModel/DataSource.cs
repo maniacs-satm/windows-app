@@ -50,6 +50,24 @@ namespace wallabag.DataModel
                 return Items.Single(x => x.Model.Id == Id); //TODO: Replace by a dictionary for faster search.
             return null;
         }
+        public static async Task<bool> AddItem(string url, string tags)
+        {
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http, new User() { Username = "wallabag", Password = "wallabag" });
+
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add("url", url);
+            parameters.Add("tags", tags);
+
+            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters));
+            var response = await http.PostAsync(new Uri("http://v2.wallabag.org/api/entries.json"), content);
+            http.Dispose();
+
+            if (response.StatusCode == HttpStatusCode.Ok)
+                return true;
+            return false;
+        }
 
         public static async Task<bool> SaveItemsAsync()
         {
