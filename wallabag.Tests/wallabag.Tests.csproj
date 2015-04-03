@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationTests.cs" />
+    <Compile Include="DataSourceTests.cs" />
     <Compile Include="ItemViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
