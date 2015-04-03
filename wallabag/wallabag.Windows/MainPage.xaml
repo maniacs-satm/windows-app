@@ -301,7 +301,7 @@
                 <Button Style="{StaticResource RoundButtonStyle}">
                     <SymbolIcon Symbol="Add"/>
                 </Button>
-                <Button Style="{StaticResource RoundButtonStyle}">
+                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding RefreshCommand}">
                     <SymbolIcon Symbol="Refresh"/>
                 </Button>
                 <Button Style="{StaticResource RoundButtonStyle}" Margin="3,0,20,0">
