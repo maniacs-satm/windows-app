@@ -184,10 +184,10 @@
             <StackPanel VerticalAlignment="Center" Width="200" Margin="0,30">
                 <Border BorderThickness="3" Height="90" Width="90" CornerRadius="45" BorderBrush="#33469646">
                     <Border.Background>
-                        <ImageBrush Stretch="Fill" ImageSource="https://pbs.twimg.com/profile_images/580484830351245313/2xrvjjHx_400x400.png"/>
+                        <ImageBrush Stretch="Fill" ImageSource="https://raw.githubusercontent.com/wallabag/logo/master/_default/icon/png/md/logo-icon-bg-white-md.png"/>
                     </Border.Background>
                 </Border>
-                <TextBlock Text="Julian Oster" HorizontalAlignment="Center" Margin="0,15,0,0" Style="{StaticResource SubheaderTextBlockStyle}" TextWrapping="WrapWholeWords" TextAlignment="Center" LineHeight="35" />
+                <TextBlock Text="wallabag v2" HorizontalAlignment="Center" Margin="0,15,0,0" Style="{StaticResource SubheaderTextBlockStyle}" TextWrapping="WrapWholeWords" TextAlignment="Center" LineHeight="35" />
             </StackPanel>
         </Grid>
     </Grid>
