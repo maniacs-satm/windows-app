@@ -175,6 +175,36 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <DataTemplate x:Key="ArticleTemplate">
+            <Grid Width="360" Height="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Image Source="https://farm8.staticflickr.com/7092/7372724834_47e33c8b43_z_d.jpg" Stretch="UniformToFill"/>
+                <Border BorderBrush="Black" VerticalAlignment="Center" Background="#7F000000">
+                    <TextBlock HorizontalAlignment="Center" 
+                               TextWrapping="Wrap" 
+                               Text="{Binding Title}" 
+                               VerticalAlignment="Center" 
+                               Margin="10" 
+                               MaxLines="2" 
+                               FontSize="20" 
+                               FontWeight="SemiBold" 
+                               TextAlignment="Center" 
+                               LineHeight="27.4"/>
+                </Border>
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Polygon Points="0 40 ,40 40 ,40 0" Fill="Yellow" RenderTransformOrigin="0.5,0.5" >
+                        <Polygon.RenderTransform>
+                            <CompositeTransform Rotation="-90"/>
+                        </Polygon.RenderTransform>
+                    </Polygon>
+                    <Viewbox Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,3,3,0">
+                        <SymbolIcon Symbol="Favorite" Foreground="Black"/>
+                    </Viewbox>
+                </Grid>
+            </Grid>
+        </DataTemplate>
     </common:basicPage.Resources>
 
     <Grid x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -279,6 +309,7 @@
                 </Button>
             </StackPanel>
             <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" Margin="45,0,0,0" FontSize="26.667" TextLineBounds="Tight"/>
+            <GridView Grid.Row="1" ItemTemplate="{StaticResource ArticleTemplate}"/>
         </Grid>
     </Grid>
 </common:basicPage>
