@@ -9,7 +9,7 @@
     xmlns:vm="using:wallabag.ViewModels"
     x:Class="wallabag.MainPage"
     mc:Ignorable="d">
-    
+
     <common:basicPage.DataContext>
         <vm:MainViewModel />
     </common:basicPage.DataContext>
@@ -182,8 +182,5 @@
                 </RadioButton>
             </StackPanel>
         </Grid>
-        <ListView x:Name="unreadItems" Grid.Column="1" ItemsSource="{Binding unreadItems}" ItemClick="ListView_ItemClick" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=unreadItemsMenuButton}" />
-        <ListView x:Name="favouriteItems" Grid.Column="1" ItemsSource="{Binding favouriteItems}" ItemClick="ListView_ItemClick" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=favouriteItemsMenuButton}" />
-        <ListView x:Name="archivedItems" Grid.Column="1" ItemsSource="{Binding archivedItems}" ItemClick="ListView_ItemClick" Visibility="{Binding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=archivedItemsMenuButton}" />
     </Grid>
 </common:basicPage>
