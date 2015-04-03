@@ -12,9 +12,27 @@ namespace wallabag
         {
             this.InitializeComponent();
         }
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
 
+        private void unreadItemsMenuButton_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (SelectedHeaderTextBlock != null)
+                this.SelectedHeaderTextBlock.Text = Helpers.LocalizedString("unreadItemsMenuButtonText.Text");
         }
+        private void favouriteItemsMenuButton_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (SelectedHeaderTextBlock != null)
+                this.SelectedHeaderTextBlock.Text = Helpers.LocalizedString("favouriteItemsMenuButtonText.Text");
+        }
+        private void archivedItemsMenuButton_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (SelectedHeaderTextBlock != null)
+                this.SelectedHeaderTextBlock.Text = Helpers.LocalizedString("archivedItemsMenuButtonText.Text");
+        }
+        private void tagsMenuButton_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (SelectedHeaderTextBlock != null)
+                this.SelectedHeaderTextBlock.Text = Helpers.LocalizedString("tagsMenuButtonText.Text");
+        }
+
     }
 }

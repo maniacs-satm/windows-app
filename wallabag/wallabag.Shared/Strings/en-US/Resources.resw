@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="archivedItemsMenuButtonText.Text" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="favouriteItemsMenuButtonText.Text" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="tagsMenuButtonText.Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="unreadItemsMenuButtonText.Text" xml:space="preserve">
+    <value>Unread</value>
+  </data>
 </root>
