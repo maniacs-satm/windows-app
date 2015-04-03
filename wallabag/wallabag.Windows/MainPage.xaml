@@ -188,5 +188,17 @@
                 <TextBlock Text="wallabag" HorizontalAlignment="Center" Margin="0,15,0,0" Style="{StaticResource SubheaderTextBlockStyle}" TextWrapping="WrapWholeWords" TextAlignment="Center" LineHeight="35" />
             </StackPanel>
         </Grid>
+        <Grid Grid.Column="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button Content="add" />
+                <Button Content="refresh" />
+                <Button Content="search" />
+            </StackPanel>
+            <TextBlock HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" Style="{StaticResource SubheaderTextBlockStyle}" FontWeight="Normal" Margin="45,0,0,0"/>
+        </Grid>
     </Grid>
 </common:basicPage>
