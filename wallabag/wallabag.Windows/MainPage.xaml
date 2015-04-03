@@ -184,7 +184,7 @@
                 <Border BorderBrush="Black" VerticalAlignment="Center" Background="#7F000000">
                     <TextBlock HorizontalAlignment="Center" 
                                TextWrapping="Wrap" 
-                               Text="{Binding Title}" 
+                               Text="{Binding Model.Title}" 
                                VerticalAlignment="Center" 
                                Margin="10" 
                                MaxLines="2" 
@@ -193,7 +193,7 @@
                                TextAlignment="Center" 
                                LineHeight="27.4"/>
                 </Border>
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Polygon Points="0 40 ,40 40 ,40 0" Fill="#FF469646" RenderTransformOrigin="0.5,0.5" >
                         <Polygon.RenderTransform>
                             <CompositeTransform Rotation="-90"/>
@@ -309,7 +309,7 @@
                 </Button>
             </StackPanel>
             <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" Margin="45,0,0,0" FontSize="26.667" TextLineBounds="Tight"/>
-            <GridView Grid.Row="1" ItemTemplate="{StaticResource ArticleTemplate}"/>
+            <GridView Grid.Row="1" ItemTemplate="{StaticResource ArticleTemplate}" ItemsSource="{Binding Items}"/>
         </Grid>
     </Grid>
 </common:basicPage>
