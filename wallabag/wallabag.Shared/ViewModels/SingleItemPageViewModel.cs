@@ -10,7 +10,7 @@ namespace wallabag.ViewModels
     class SingleItemPageViewModel
     {
         public ItemViewModel CurrentItem { get; set; }
-        public SingleItemPageViewModel(int Id)
+        public SingleItemPageViewModel()
         {
 
         }
