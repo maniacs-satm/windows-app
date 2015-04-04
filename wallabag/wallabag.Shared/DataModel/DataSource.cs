@@ -16,7 +16,7 @@ namespace wallabag.DataModel
     public sealed class DataSource
     {
         private static DataSource _wallabagDataSource = new DataSource();
-        public static ObservableCollection<ItemViewModel> Items { get; set; }
+        public static ObservableDictionary Items { get; set; }
 
         public static async Task<bool> GetItemsAsync(int page = 1, bool IsSingleItem = false)
         {
@@ -35,9 +35,9 @@ namespace wallabag.DataModel
                     response.StatusCode == HttpStatusCode.NoContent)
                 {
                     List<Item> items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Item>>(response.Content.ToString()));
-                    Items = new ObservableCollection<ItemViewModel>();
+                    Items = new ObservableDictionary();
                     foreach (Item i in items)
-                        Items.Add(new ItemViewModel(i));
+                        Items.Add(i.Id.ToString(), new ItemViewModel(i));
                     return true;
                 }
             }
@@ -46,8 +46,8 @@ namespace wallabag.DataModel
         public static async Task<ItemViewModel> GetItemAsync(int Id)
         {
             await GetItemsAsync(0, true);
-            if (Items.Count > 0)
-                return Items.Single(x => x.Model.Id == Id); //TODO: Replace by a dictionary for faster search.
+            if (Items.Count > 0 && Items.ContainsKey(Id.ToString()))
+                return (ItemViewModel)Items[Id.ToString()];
             return null;
         }
         public static async Task<bool> AddItem(string url, string tags)
@@ -92,7 +92,7 @@ namespace wallabag.DataModel
                 StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.json");
                 string json = await Windows.Storage.FileIO.ReadTextAsync(file);
 
-                Items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json));
+                Items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<ObservableDictionary>(json));
 
                 return true;
             }
