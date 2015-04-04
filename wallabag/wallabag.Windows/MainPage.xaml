@@ -208,6 +208,11 @@
     </common:basicPage.Resources>
 
     <Grid x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
         <Grid.Resources>
             <Style TargetType="ListView">
                 <Setter Property="ItemTemplate" >
@@ -309,7 +314,7 @@
                 </Button>
             </StackPanel>
             <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" Margin="45,0,0,0" FontSize="26.667" TextLineBounds="Tight"/>
-            <GridView Grid.Row="1" ItemTemplate="{StaticResource ArticleTemplate}" ItemsSource="{Binding Items}"/>
+            <GridView Grid.Row="1" ItemTemplate="{StaticResource ArticleTemplate}" ItemsSource="{Binding Items}" IsItemClickEnabled="True"/>
         </Grid>
     </Grid>
 </common:basicPage>
