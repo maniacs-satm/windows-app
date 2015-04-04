@@ -3,6 +3,7 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using wallabag.Common;
 using Windows.UI;
@@ -11,9 +12,12 @@ using Windows.Web.Http;
 namespace wallabag.DataModel
 {
     [ImplementPropertyChanged]
+    [DataContract]
     public class ItemViewModel : ViewModelBase
     {
+        [DataMember]
         public Item Model { get; set; }
+        [DataMember]
         public ObservableCollection<string> Tags { get; set; }
 
         public string ContentWithTitle

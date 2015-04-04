@@ -2,9 +2,7 @@
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using wallabag.Common;
 using Windows.Storage;
@@ -38,6 +36,7 @@ namespace wallabag.DataModel
                     Items = new ObservableDictionary();
                     foreach (Item i in items)
                         Items.Add(i.Id.ToString(), new ItemViewModel(i));
+                    await SaveItemsAsync();
                     return true;
                 }
             }
@@ -45,7 +44,8 @@ namespace wallabag.DataModel
         }
         public static async Task<ItemViewModel> GetItemAsync(int Id)
         {
-            await GetItemsAsync(0, true);
+            if (Items.Count == 0)
+                await GetItemsAsync(0, true);
             if (Items.Count > 0 && Items.ContainsKey(Id.ToString()))
                 return (ItemViewModel)Items[Id.ToString()];
             return null;
@@ -73,7 +73,7 @@ namespace wallabag.DataModel
         {
             try
             {
-                string json = JsonConvert.SerializeObject(Items);
+                string json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(Items));
 
                 StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("items.json", CreationCollisionOption.ReplaceExisting);
                 await Windows.Storage.FileIO.WriteTextAsync(file, json);
