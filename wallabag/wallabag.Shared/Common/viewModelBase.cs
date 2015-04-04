@@ -5,7 +5,7 @@ namespace wallabag.Common
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public ApplicationSettings AppSettings { get { return ApplicationSettings.Instance; } }
+        public AppSettings AppSettings { get { return AppSettings.Instance; } }
 
         private bool _IsActive;
         private string _StatusText;
