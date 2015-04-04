@@ -1,18 +1,20 @@
 ﻿using Windows.Storage;
 using System;
 using System.ComponentModel;
+using Windows.UI;
 
 namespace wallabag.Common
 {
     /// <summary>
     /// This class provides easy access to the roaming settings (sync over multiple devices).
     /// </summary>
-    public class ApplicationSettings : INotifyPropertyChanged
+    public class AppSettings : INotifyPropertyChanged
     {
+        #region General things
         // This ugly code block allows it to access on the same instance even if we use the 'static' parameter.
-        private static ApplicationSettings _instance;
-        private ApplicationSettings() { }
-        public static ApplicationSettings Instance { get { return _instance ?? (_instance = new ApplicationSettings()); } }
+        private static AppSettings _instance;
+        private AppSettings() { }
+        public static AppSettings Instance { get { return _instance ?? (_instance = new AppSettings()); } }
 
         private ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
 
@@ -72,9 +74,55 @@ namespace wallabag.Common
             {
                 var e = new PropertyChangedEventArgs(propertyName);
                 PropertyChanged(this, e);
-                System.Diagnostics.Debug.WriteLine("Set property: " + propertyName );
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        private const string UsernameKey = "Username";
+        private const string PasswordKey = "Password";
+        private const string WallabagUrlKey = "WallabagUrl";
+        private const string FontSizeKey = "FontSize";
+        private const string LineHeightKey = "LineHeight";
+        private const string TextColorKey = "TextColor";
+        private const string BackgroundColorKey = "BackgroundColor";
+
+        public string Username
+        {
+            get { return this[UsernameKey, string.Empty]; }
+            set { this[UsernameKey] = value; }
+        }
+        public string Password
+        {
+            get { return this[PasswordKey, string.Empty]; }
+            set { this[PasswordKey] = value; }
+        }
+        public string WallabagUrl
+        {
+            get { return this[WallabagUrlKey, string.Empty]; }
+            set { this[WallabagUrlKey] = value; }
+        }
+        public double FontSize
+        {
+            get { return this[FontSizeKey, 18]; }
+            set { this[FontSizeKey] = value; }
+        }
+        public double LineHeight
+        {
+            get { return this[LineHeightKey, 1.5]; }
+            set { this[LineHeightKey] = value; }
+        }
+        public Color TextColor
+        {
+            get { return this[TextColorKey, ColorHelper.FromArgb(255, 189, 189, 189)]; } //#bdbdbd
+            set { this[TextColorKey] = value; }
+        }
+        public Color BackgroundColor
+        {
+            get { 
+                return this[BackgroundColorKey, ColorHelper.FromArgb(255, 29, 29, 29)]; //#1d1d1d
+            }
+            set { this[BackgroundColorKey] = value; }
+        }
     }
 }

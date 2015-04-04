@@ -16,7 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Common\ApplicationSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\AppSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\basicPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\Helpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\NavigationHelper.cs" />
