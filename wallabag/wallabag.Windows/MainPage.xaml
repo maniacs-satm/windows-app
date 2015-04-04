@@ -314,7 +314,7 @@
                 </Button>
             </StackPanel>
             <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" Margin="45,0,0,0" FontSize="26.667" TextLineBounds="Tight"/>
-            <GridView Grid.Row="1" ItemTemplate="{StaticResource ArticleTemplate}" ItemsSource="{Binding Items}" IsItemClickEnabled="True"/>
+            <GridView Grid.Row="1" ItemTemplate="{StaticResource ArticleTemplate}" ItemsSource="{Binding Items}" IsItemClickEnabled="True" ItemClick="GridView_ItemClick"/>
         </Grid>
     </Grid>
 </common:basicPage>

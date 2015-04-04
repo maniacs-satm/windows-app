@@ -34,5 +34,10 @@ namespace wallabag
                 this.SelectedHeaderTextBlock.Text = Helpers.LocalizedString("tagsMenuButtonText.Text");
         }
 
+        private void GridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Frame.Navigate(typeof(Views.SingleItemPage), ((ItemViewModel)e.ClickedItem).Model.Id);
+        }
+
     }
 }
