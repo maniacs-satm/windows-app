@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\User.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\DataSource.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SingleItemPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Assets\css\reset.css" />
