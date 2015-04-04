@@ -16,14 +16,12 @@ namespace wallabag.Tests
         public async Task GetItems()
         {
             Assert.AreEqual(true, await DataSource.GetItemsAsync());
-            CollectionAssert.AllItemsAreUnique(DataSource.Items);
         }
 
         [TestMethod]
         public async Task GetSingleItem()
         {
             Assert.AreEqual(true, await DataSource.GetItemsAsync());
-            CollectionAssert.AllItemsAreUnique(DataSource.Items);
         }
 
         [TestMethod]
@@ -45,7 +43,6 @@ namespace wallabag.Tests
         {
             Assert.AreEqual(true, await DataSource.RestoreItemsAsync());
             Assert.IsNotNull(DataSource.Items);
-            CollectionAssert.AllItemsAreUnique(DataSource.Items);
         }
 
         public async Task RestoreItemsWithoutFile()
