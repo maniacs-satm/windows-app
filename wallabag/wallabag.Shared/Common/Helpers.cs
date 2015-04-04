@@ -18,10 +18,10 @@ namespace wallabag.Common
         {
             return ResourceLoader.GetForCurrentView().GetString(resourceName);
         }
-        public static async Task AddHeaders(HttpClient client, User user)
+        public static async Task AddHeaders(HttpClient client)
         {
             client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("WSSE", "profile=\"UsernameToken\"");
-            client.DefaultRequestHeaders.Add("X-WSSE", await Authentication.GetHeader(user));
+            client.DefaultRequestHeaders.Add("X-WSSE", await Authentication.GetHeader());
             client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));
         }
         public static bool IsConnectedToInternet()

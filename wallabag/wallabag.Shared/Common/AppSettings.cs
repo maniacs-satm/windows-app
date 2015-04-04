@@ -89,12 +89,12 @@ namespace wallabag.Common
 
         public string Username
         {
-            get { return this[UsernameKey, string.Empty]; }
+            get { return this[UsernameKey, "wallabag"]; }
             set { this[UsernameKey] = value; }
         }
         public string Password
         {
-            get { return this[PasswordKey, string.Empty]; }
+            get { return this[PasswordKey, "wallabag"]; }
             set { this[PasswordKey] = value; }
         }
         public string WallabagUrl

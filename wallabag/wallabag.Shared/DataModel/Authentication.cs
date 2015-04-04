@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using wallabag.Common;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
@@ -12,6 +13,7 @@ namespace wallabag.DataModel
 {
     public class Authentication
     {
+        private static AppSettings AppSettings { get { return AppSettings.Instance; } }
         private static string Username = string.Empty;
         private static string Password = string.Empty;
         public static string hashedPassword = string.Empty;
@@ -62,15 +64,11 @@ namespace wallabag.DataModel
 
         public static async Task<string> GetHeader()
         {
+            Username = AppSettings.Username;
+            Password = AppSettings.Password;
             string nonce = GenerateNonce();
             string timestamp = GetTimestamp();
             return GetHeader(Username, await GenerateDigest(nonce, timestamp), nonce, timestamp);
-        }
-        public static async Task<string> GetHeader(User user)
-        {
-            Username = user.Username;
-            Password = user.Password;
-            return await GetHeader();
         }
         public static string GetHeader(string username, string digest, string nonce, string timestamp)
         {

@@ -26,7 +26,7 @@ namespace wallabag.DataModel
             {
                 HttpClient http = new HttpClient();
 
-                await Helpers.AddHeaders(http, new User() { Username = "wallabag", Password = "wallabag" });
+                await Helpers.AddHeaders(http);
                 System.Diagnostics.Debug.WriteLine(http.DefaultRequestHeaders["X-WSSE"]);
                 var response = await http.GetAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries.json?page={0}", page)));
                 http.Dispose();
@@ -54,7 +54,7 @@ namespace wallabag.DataModel
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http, new User() { Username = "wallabag", Password = "wallabag" });
+            await Helpers.AddHeaders(http);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", url);

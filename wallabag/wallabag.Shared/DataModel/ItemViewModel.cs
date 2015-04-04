@@ -36,7 +36,7 @@ namespace wallabag.DataModel
                 CSSproperty("color", AppSettings.TextColor) +
                 CSSproperty("background", AppSettings.BackgroundColor) +
 #if WINDOWS_APP
-                CSSproperty("max-width", "960px") +
+ CSSproperty("max-width", "960px") +
                 CSSproperty("margin", "0 auto") +
                 CSSproperty("padding", "0 20px") +
 #endif
@@ -66,7 +66,7 @@ namespace wallabag.DataModel
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http, Model.User);
+            await Helpers.AddHeaders(http);
             var response = await http.DeleteAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}.json", Model.Id)));
             http.Dispose();
 
@@ -78,7 +78,7 @@ namespace wallabag.DataModel
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http, Model.User);
+            await Helpers.AddHeaders(http);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("title", Model.Title);
@@ -99,7 +99,7 @@ namespace wallabag.DataModel
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http, Model.User);
+            await Helpers.AddHeaders(http);
             var response = await http.GetAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}.json", Model.Id)));
             http.Dispose();
 
@@ -115,7 +115,7 @@ namespace wallabag.DataModel
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http, Model.User);
+            await Helpers.AddHeaders(http);
             var response = await http.GetAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}/tags.json", Model.Id)));
             http.Dispose();
 
@@ -129,7 +129,7 @@ namespace wallabag.DataModel
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http, Model.User);
+            await Helpers.AddHeaders(http);
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("tags", tags);
 
@@ -152,7 +152,7 @@ namespace wallabag.DataModel
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http, Model.User);
+            await Helpers.AddHeaders(http);
             var response = await http.DeleteAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}/tags/{1}.json", Model.Id, tag)));
             http.Dispose();
 
