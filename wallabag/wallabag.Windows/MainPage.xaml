@@ -15,7 +15,7 @@
     </common:basicPage.DataContext>
 
     <common:basicPage.Resources>
-        <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>        
+        <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </common:basicPage.Resources>
 
     <Grid x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -95,19 +95,9 @@
             <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding RefreshCommand}">
                 <SymbolIcon Symbol="Refresh"/>
             </Button>
-            <SearchBox VerticalAlignment="Center" Width="32" PlaceholderText="Search..." />
-            <Border CornerRadius="28" Width="300" BorderBrush="#FF469646" BorderThickness="2">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox InputScope="Search" VerticalAlignment="Center" Margin="15,0,0,0" />
-                    <Button Style="{StaticResource RoundButtonStyle}" Grid.Column="1">
-                        <SymbolIcon Symbol="Find"/>
-                    </Button>
-                </Grid>
-            </Border>
+            <Button Style="{StaticResource RoundButtonStyle}">
+                <SymbolIcon Symbol="Find"/>
+            </Button>
         </StackPanel>
         <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" FontSize="26.667" TextLineBounds="Tight" Grid.Column="1" Margin="45,0,0,0"/>
         <Grid Grid.Column="1" Grid.Row="1">
