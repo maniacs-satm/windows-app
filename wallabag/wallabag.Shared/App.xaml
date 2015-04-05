@@ -1,12 +1,10 @@
 <Application x:Class="wallabag.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:wallabag">
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <x:String x:Key="AppName">wallabag</x:String>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
-                    <x:String x:Key="ProgressBarIndeterminateForegroundThemeBrush">LightGray</x:String>
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
