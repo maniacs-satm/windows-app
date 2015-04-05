@@ -114,14 +114,12 @@ namespace wallabag.Common
         }
         public Color TextColor
         {
-            get { return this[TextColorKey, ColorHelper.FromArgb(255, 189, 189, 189)]; } //#bdbdbd
+            get { return this[TextColorKey, ColorHelper.FromArgb(255, 255, 255, 255)]; } //#ffffff
             set { this[TextColorKey] = value; }
         }
         public Color BackgroundColor
         {
-            get { 
-                return this[BackgroundColorKey, ColorHelper.FromArgb(255, 29, 29, 29)]; //#1d1d1d
-            }
+            get { return this[BackgroundColorKey, ColorHelper.FromArgb(255, 29, 29, 29)]; } //#1d1d1d
             set { this[BackgroundColorKey] = value; }
         }
     }
