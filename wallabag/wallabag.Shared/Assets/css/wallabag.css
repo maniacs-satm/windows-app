@@ -9,6 +9,7 @@ h1, h2, h3, h5, h4, h5, h6 {
     margin: 0 0 0.4em 0;
     line-height: 1.15em;
 }
+
     h1 a, h2 a, h3 a, h5 a, h4 a, h5 a, h6 a {
         text-decoration: underline;
     }
@@ -16,6 +17,7 @@ h1, h2, h3, h5, h4, h5, h6 {
 h1 {
     font-size: 2em;
 }
+
     h1.wallabag-header {
         font-size: 1.25em;
         font-weight: bolder;
@@ -44,7 +46,9 @@ h6 {
 }
 
 a {
+    text-decoration: none;
     color: inherit;
+    border-bottom: 1px dashed rgb(110,230,110);
 }
 
 p, ul, ol, dl {
@@ -66,16 +70,19 @@ blockquote {
     line-height: 1.25;
     padding-left: 75px;
 }
+
     blockquote p {
         margin: 0.8em 0;
         font-style: italic;
     }
+
     blockquote cite {
         font-style: normal;
         letter-spacing: 0.1em;
         text-transform: uppercase;
         font-size: 11pt;
     }
+
         blockquote cite:before {
             content: "—";
             margin-right: 1px;
@@ -85,7 +92,9 @@ small {
     font-size: 12pt;
 }
 
-dl {  margin: 1.6em 0; }
+dl {
+    margin: 1.6em 0;
+}
 
     dl dt {
         float: left;
@@ -98,6 +107,7 @@ dl {  margin: 1.6em 0; }
         font-weight: bold;
         margin-bottom: 1em;
     }
+
     dl dd {
         margin-left: 200px;
         margin-bottom: 1em;
@@ -139,4 +149,9 @@ img {
     max-width: 100%;
     height: auto;
     margin: auto;
+}
+
+::selection {
+    background: rgb(70,150,70);
+    color: white;
 }
