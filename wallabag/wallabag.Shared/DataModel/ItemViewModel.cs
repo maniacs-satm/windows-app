@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using PropertyChanged;
 using wallabag.Common;
 using Windows.UI;
 using Windows.Web.Http;
@@ -69,6 +69,18 @@ namespace wallabag.DataModel
                 return string.Format("{0}: {1};", name, tmpColor);
             }
         }
+        private string CreateStringOfTagList()
+        {
+            string result = string.Empty;
+            if (Tags != null && Tags.Count > 0)
+            {
+                foreach (string tag in Tags)
+                    result += tag + ",";
+
+                result = result.Remove(result.Length - 1, 1); // Remove the last comma.
+            }
+            return result;
+        }
 
         public ItemViewModel(Item Model)
         {
@@ -84,7 +96,10 @@ namespace wallabag.DataModel
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                Model.IsDeleted = true;
                 return true;
+            }
             return false;
         }
         public async Task<bool> Update()
@@ -95,17 +110,27 @@ namespace wallabag.DataModel
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("title", Model.Title);
-            //parameters.Add("tags", "tags comma-separated"); TODO
+            parameters.Add("tags", CreateStringOfTagList());
             parameters.Add("archive", Model.IsArchived);
             parameters.Add("star", Model.IsStarred);
             parameters.Add("delete", Model.IsDeleted);
 
-            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters));
+            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
             var response = await http.PatchAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}.json", Model.Id)), content);
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
-                return true;
+            {
+                Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                if (resultItem.Title == Model.Title &&
+                    resultItem.IsArchived == Model.IsArchived &&
+                    resultItem.IsStarred == Model.IsStarred &&
+                    resultItem.IsDeleted == Model.IsDeleted)
+                {
+                    Model.UpdatedAt = resultItem.UpdatedAt;
+                    return true;
+                }
+            }
             return false;
         }
         public async Task<bool> Fetch()
@@ -146,7 +171,7 @@ namespace wallabag.DataModel
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("tags", tags);
 
-            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters));
+            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
             var response = await http.PostAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries/{0}/tags.json", Model.Id)), content);
             http.Dispose();
 
