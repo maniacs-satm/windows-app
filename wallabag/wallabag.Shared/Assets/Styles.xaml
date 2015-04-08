@@ -4,7 +4,10 @@
     xmlns:local="using:wallabag.Assets"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
+
+    <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <Color x:Key="AccentColor">#FF469646</Color>
     <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}" />
@@ -294,16 +297,31 @@
         </Setter>
     </Style>
     <DataTemplate x:Key="ArticleTemplate">
-        <Grid Height="100" d:DesignWidth="320">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+        <Grid d:DesignHeight="100" d:DesignWidth="320" Background="#07FFFFFF">
+            <StackPanel Grid.Column="1" Margin="20" VerticalAlignment="Center">
                 <TextBlock TextWrapping="Wrap" Text="{Binding Model.Title}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" Style="{StaticResource TitleTextBlockStyle}" MaxLines="2"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding UrlHostname}" VerticalAlignment="Top" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="#7FFFFFFF" Margin="0,5,0,0"/>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding UrlHostname}" VerticalAlignment="Top" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="#7FFFFFFF"/>
             </StackPanel>
-            <Border CornerRadius="50" Background="{ThemeResource AccentBrush}" Margin="10"/>
+            <Viewbox Visibility="{Binding Model.IsStarred,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Width="20">
+                <SymbolIcon Symbol="Favorite" Foreground="#7FFFFFFF"/>
+            </Viewbox>
         </Grid>
     </DataTemplate>
+    <Style x:Key="ArticleContainerStyle" TargetType="ListViewItem">
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="IsHoldingEnabled" Value="True"/>
+        <Setter Property="Margin" Value="0,0,18,2"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <ListViewItemPresenter CheckHintBrush="{ThemeResource ListViewItemCheckHintThemeBrush}" CheckBrush="{ThemeResource ListViewItemCheckThemeBrush}" ContentMargin="4" ContentTransitions="{TemplateBinding ContentTransitions}" CheckSelectingBrush="{ThemeResource ListViewItemCheckSelectingThemeBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource ListViewItemFocusBorderThemeBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" PointerOverBackgroundMargin="1" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource ListViewItemPointerOverBackgroundThemeBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectedPointerOverBorderBrush="{ThemeResource ListViewItemSelectedPointerOverBorderThemeBrush}" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource ListViewItemSelectedForegroundThemeBrush}" SelectedPointerOverBackground="{ThemeResource ListViewItemSelectedPointerOverBackgroundThemeBrush}" SelectedBorderThickness="{ThemeResource ListViewItemCompactSelectedBorderThemeThickness}" SelectedBackground="{ThemeResource ListViewItemSelectedBackgroundThemeBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
