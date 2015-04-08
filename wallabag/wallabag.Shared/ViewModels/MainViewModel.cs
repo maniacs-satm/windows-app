@@ -12,6 +12,7 @@ namespace wallabag.ViewModels
     public class MainViewModel
     {
         public ObservableCollection<ItemViewModel> Items { get; set; }
+        public ItemViewModel CurrentItem { get; set; }
 
         public RelayCommand RefreshCommand { get; set; }
         private async Task Refresh()
@@ -22,10 +23,19 @@ namespace wallabag.ViewModels
                     Items.Add((ItemViewModel)item.Value);
         }
 
+        public RelayCommand DeleteCommand { get; set; }
+        private async Task Delete()
+        {
+            bool success = await CurrentItem.Delete();
+            if (success)
+                Items.Remove(CurrentItem);
+        }
+
         public MainViewModel()
         {
             Items = new ObservableCollection<ItemViewModel>();
             RefreshCommand = new RelayCommand(async () => await Refresh());
+            DeleteCommand = new RelayCommand(async () => await Delete());
         }
     }
 }

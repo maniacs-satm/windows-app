@@ -56,13 +56,13 @@
         </StackPanel>
         <Rectangle Fill="#26858585" Grid.Column="1"/>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Margin="0,0,20,0">
-            <Button Style="{StaticResource RoundButtonStyle}">
+            <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchReadStatusCommand}" Background="#FF009600">
                 <SymbolIcon Symbol="Accept"/>
             </Button>
-            <Button Style="{StaticResource RoundButtonStyle}">
+            <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" Background="#FFCFD800">
                 <SymbolIcon Symbol="Favorite"/>
             </Button>
-            <Button Style="{StaticResource RoundButtonStyle}">
+            <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding DeleteCommand}" Background="#FFC30000">
                 <SymbolIcon Symbol="Delete"/>
             </Button>
             <Button Style="{StaticResource RoundButtonStyle}">

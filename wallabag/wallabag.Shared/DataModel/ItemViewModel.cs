@@ -15,6 +15,7 @@ namespace wallabag.DataModel
     [DataContract]
     public class ItemViewModel : ViewModelBase
     {
+        #region Properties
         [DataMember]
         public Item Model { get; set; }
         [DataMember]
@@ -81,12 +82,20 @@ namespace wallabag.DataModel
             }
             return result;
         }
+        #endregion
 
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
+            SwitchReadStatusCommand = new RelayCommand(async () => await SwitchReadStatus());
+            SwitchFavoriteStatusCommand = new RelayCommand(async () => await SwitchFavoriteStatus());
         }
 
+        public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand SwitchReadStatusCommand { get; private set; }
+        public RelayCommand SwitchFavoriteStatusCommand { get; private set; }
+
+        #region Methods
         public async Task<bool> Delete()
         {
             HttpClient http = new HttpClient();
@@ -198,5 +207,23 @@ namespace wallabag.DataModel
                 return true;
             return false;
         }
+
+        public async Task<bool> SwitchReadStatus()
+        {
+            if (Model.IsArchived)
+                Model.IsArchived = false;
+            else
+                Model.IsArchived = true;
+            return await Update();
+        }
+        public async Task<bool> SwitchFavoriteStatus()
+        {
+            if (Model.IsStarred)
+                Model.IsStarred = false;
+            else
+                Model.IsStarred = true;
+            return await Update();
+        }
+        #endregion
     }
 }
