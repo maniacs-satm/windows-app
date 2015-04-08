@@ -1,7 +1,6 @@
 ﻿using wallabag.Common;
 using wallabag.DataModel;
-using Windows.UI.ApplicationSettings;
-using Windows.UI.ViewManagement;
+using wallabag.ViewModels;
 using Windows.UI.Xaml.Controls;
 
 namespace wallabag
@@ -34,9 +33,10 @@ namespace wallabag
                 this.SelectedHeaderTextBlock.Text = Helpers.LocalizedString("tagsMenuButtonText.Text");
         }
 
-        private void GridView_ItemClick(object sender, ItemClickEventArgs e)
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Frame.Navigate(typeof(Views.SingleItemPage), ((ItemViewModel)e.ClickedItem).Model.Id);
+            ((MainViewModel)this.DataContext).CurrentItem = (ItemViewModel)e.ClickedItem;
+            webView.NavigateToString(((ItemViewModel)e.ClickedItem).ContentWithTitle);
         }
 
     }

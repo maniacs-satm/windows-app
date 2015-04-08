@@ -7,7 +7,7 @@
     xmlns:common="using:wallabag.Common"
     xmlns:Converter="using:wallabag.Converter"
     xmlns:vm="using:wallabag.ViewModels"
-    x:Class="wallabag.MainPage"
+    x:Class="wallabag.MainPage"  
     mc:Ignorable="d">
 
     <common:basicPage.DataContext>
@@ -24,39 +24,6 @@
                 <EntranceThemeTransition/>
             </TransitionCollection>
         </Grid.ChildrenTransitions>
-        <Grid.Resources>
-            <Style TargetType="ListView">
-                <Setter Property="ItemTemplate" >
-                    <Setter.Value>
-                        <DataTemplate>
-                            <TextBlock FontSize="20" Text="{Binding Title}"/>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="ItemContainerStyle" >
-                    <Setter.Value>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-                            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="TabNavigation" Value="Local"/>
-                            <Setter Property="IsHoldingEnabled" Value="True"/>
-                            <Setter Property="Margin" Value="18,2"/>
-                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                            <Setter Property="VerticalContentAlignment" Value="Top"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListViewItem">
-                                        <ListViewItemPresenter CheckHintBrush="{ThemeResource ListViewItemCheckHintThemeBrush}" CheckBrush="{ThemeResource ListViewItemCheckThemeBrush}" ContentMargin="4" ContentTransitions="{TemplateBinding ContentTransitions}" CheckSelectingBrush="{ThemeResource ListViewItemCheckSelectingThemeBrush}" DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" FocusBorderBrush="{ThemeResource ListViewItemFocusBorderThemeBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" PointerOverBackgroundMargin="1" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" PointerOverBackground="{ThemeResource ListViewItemPointerOverBackgroundThemeBrush}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" SelectedPointerOverBorderBrush="{ThemeResource ListViewItemSelectedPointerOverBorderThemeBrush}" SelectionCheckMarkVisualEnabled="True" SelectedForeground="{ThemeResource ListViewItemSelectedForegroundThemeBrush}" SelectedPointerOverBackground="{ThemeResource ListViewItemSelectedPointerOverBackgroundThemeBrush}" SelectedBorderThickness="{ThemeResource ListViewItemCompactSelectedBorderThemeThickness}" SelectedBackground="{ThemeResource ListViewItemSelectedBackgroundThemeBrush}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="IsItemClickEnabled" Value="True" />
-            </Style>
-        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition/>
@@ -90,6 +57,25 @@
         <Rectangle Fill="#26858585" Grid.Column="1"/>
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Grid.Column="1" Margin="0,0,20,0">
             <Button Style="{StaticResource RoundButtonStyle}">
+                <SymbolIcon Symbol="Accept"/>
+            </Button>
+            <Button Style="{StaticResource RoundButtonStyle}">
+                <SymbolIcon Symbol="Favorite"/>
+            </Button>
+            <Button Style="{StaticResource RoundButtonStyle}">
+                <SymbolIcon Symbol="Delete"/>
+            </Button>
+            <Button Style="{StaticResource RoundButtonStyle}">
+                <SymbolIcon Symbol="Edit"/>
+            </Button>
+            <Button Style="{StaticResource RoundButtonStyle}">
+                <SymbolIcon Symbol="Tag"/>
+            </Button>
+            <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
+                <SymbolIcon Symbol="FullScreen"/>
+            </Button>
+            <Rectangle Width="2" Fill="{ThemeResource AccentBrush}" Margin="10,0"/>
+            <Button Style="{StaticResource RoundButtonStyle}">
                 <SymbolIcon Symbol="Add"/>
             </Button>
             <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding RefreshCommand}">
@@ -100,16 +86,15 @@
             </Button>
         </StackPanel>
         <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" FontSize="26.667" TextLineBounds="Tight" Grid.Column="1" Margin="45,0,0,0"/>
-        <Grid Grid.Column="1" Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="63*"/>
-                <RowDefinition Height="605*"/>
-            </Grid.RowDefinitions>
+        <Grid Grid.Column="1" Grid.Row="1" d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="380"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="listView" ItemTemplate="{StaticResource ArticleTemplate}" ItemsSource="{Binding Items}" ScrollViewer.VerticalScrollBarVisibility="Hidden" Grid.RowSpan="2"/>
+            <WebView x:Name="webView" Grid.Column="1"/>
+            <ListView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
+                      ItemContainerStyle="{StaticResource ArticleContainerStyle}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      Padding="18,18,0,0" ItemClick="ListView_ItemClick" IsItemClickEnabled="True"/>
         </Grid>
     </Grid>
 </common:basicPage>
