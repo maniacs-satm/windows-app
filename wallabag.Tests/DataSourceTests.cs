@@ -53,7 +53,6 @@ namespace wallabag.Tests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task AddItem()
         {
             await DataSource.AddItem("http://www.neowin.net/news/grand-theft-auto-v-for-the-pc-shown-running-at-60fps", "gaming");

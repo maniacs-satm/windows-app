@@ -34,6 +34,15 @@ namespace wallabag.Tests
         }
 
         [TestMethod]
+        public async Task GenerateRealWSSEHeader()
+        {
+            string header = await Authentication.GetHeader();
+            System.Diagnostics.Debug.WriteLine(header);
+
+            Assert.AreEqual(true, true);
+        }
+
+        [TestMethod]
         public void PasswordHashing()
         {
             string user = "wallabag";

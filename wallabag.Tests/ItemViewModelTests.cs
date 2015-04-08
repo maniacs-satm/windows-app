@@ -18,7 +18,7 @@ namespace wallabag.Tests
         {
             ViewModel = new ItemViewModel(new Item()
             {
-                Id = 13,
+                Id = 38,
                 User = new User() { Username = "wallabag", Password = "wallabag" }
             });
         }
@@ -32,9 +32,9 @@ namespace wallabag.Tests
         [TestMethod]
         public async Task UpdateItem()
         {
-            ViewModel.Model.Title = "Test title change from API";
-            ViewModel.Model.IsArchived = false;
-            ViewModel.Model.IsStarred = true;
+            ViewModel.Model.Title = "Title change from API at " + DateTime.Now;
+            ViewModel.Model.IsArchived = true;
+            ViewModel.Model.IsStarred = false;
             Assert.AreEqual(true, await ViewModel.Update());
         }
 
@@ -42,7 +42,6 @@ namespace wallabag.Tests
         public async Task FetchItem()
         {
             Assert.AreEqual(true, await ViewModel.Fetch());
-            Assert.AreEqual("http://www.glazman.org/weblog/dotclear/index.php?post/2015/01/21/Jean-Claude-Bellamy", ViewModel.Model.Url);
         }
 
         [TestMethod]
