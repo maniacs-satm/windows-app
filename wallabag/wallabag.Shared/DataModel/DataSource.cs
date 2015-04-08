@@ -50,7 +50,7 @@ namespace wallabag.DataModel
                 return (ItemViewModel)Items[Id.ToString()];
             return null;
         }
-        public static async Task<bool> AddItem(string url, string tags)
+        public static async Task<bool> AddItem(string url, string tags = "")
         {
             HttpClient http = new HttpClient();
 
@@ -60,12 +60,17 @@ namespace wallabag.DataModel
             parameters.Add("url", url);
             parameters.Add("tags", tags);
 
-            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters));
+            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
             var response = await http.PostAsync(new Uri("http://v2.wallabag.org/api/entries.json"), content);
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                if (Items != null)
+                    Items.Add(result.Id.ToString(), result);
                 return true;
+            }
             return false;
         }
 
