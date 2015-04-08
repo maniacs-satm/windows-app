@@ -32,6 +32,15 @@ namespace wallabag.DataModel
                 return content;
             }
         }
+        public string UrlHostname
+        {
+            get
+            {
+                try { return new Uri(Model.Url).Host; }
+                catch { return string.Empty; }
+            }
+        }
+
         private string GenerateCSS()
         {
             string css = "body {" +

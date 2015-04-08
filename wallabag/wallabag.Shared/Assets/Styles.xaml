@@ -294,20 +294,16 @@
         </Setter>
     </Style>
     <DataTemplate x:Key="ArticleTemplate">
-        <Grid Height="100" d:DesignWidth="380">
+        <Grid Height="100" d:DesignWidth="320">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1" Margin="10,0" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock TextWrapping="Wrap" Text="{Binding Model.Title}" VerticalAlignment="Center" TextTrimming="WordEllipsis" Style="{StaticResource TitleTextBlockStyle}"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding Model.Author}" VerticalAlignment="Top" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="#7FFFFFFF"/>
-            </Grid>
-            <Border CornerRadius="50" Background="#FF466446" Margin="10"/>
+            <StackPanel Grid.Column="1" Margin="10,0" VerticalAlignment="Center">
+                <TextBlock TextWrapping="Wrap" Text="{Binding Model.Title}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" Style="{StaticResource TitleTextBlockStyle}" MaxLines="2"/>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding UrlHostname}" VerticalAlignment="Top" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="#7FFFFFFF" Margin="0,5,0,0"/>
+            </StackPanel>
+            <Border CornerRadius="50" Background="{ThemeResource AccentBrush}" Margin="10"/>
         </Grid>
     </DataTemplate>
 </ResourceDictionary>
