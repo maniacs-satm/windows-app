@@ -36,7 +36,7 @@ namespace wallabag
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             ((MainViewModel)this.DataContext).CurrentItem = (ItemViewModel)e.ClickedItem;
-            webView.NavigateToString(((ItemViewModel)e.ClickedItem).ContentWithTitle);
+            webView.NavigateToString(((ItemViewModel)e.ClickedItem).ContentWithHeader);
         }
 
     }

@@ -1,6 +1,6 @@
 ﻿<ViewModels:MainViewModel xmlns:ViewModels="using:wallabag.ViewModels" xmlns:DataModel="using:wallabag.DataModel" xmlns:Common="using:wallabag.Common" xmlns:System="using:System">
     <ViewModels:MainViewModel.Items>
-        <DataModel:ItemViewModel ContentWithTitle="Dignissim aliquam" IsActive="False" StatusText="Vel parturient nam sed" UrlHostname="Morbi interdum">
+        <DataModel:ItemViewModel ContentWithHeader="Dignissim aliquam" IsActive="False" StatusText="Vel parturient nam sed" UrlHostname="Morbi interdum">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FF1A0FAE" FontSize="735.72" LineHeight="117.08" Password="Elementum augue sit libero" TextColor="#FFACD46A" Username="Lectus sem" WallabagUrl="Nascetur dolor">
                     <Common:AppSettings.Instance>
@@ -26,7 +26,7 @@
                 <System:String>Congue amet vestibulum vivamus inceptos</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Enim erat sagittis massa mollis" IsActive="False" StatusText="Vestibulum nec morbi nisl neque" UrlHostname="Imperdiet montes malesuada">
+        <DataModel:ItemViewModel ContentWithHeader="Enim erat sagittis massa mollis" IsActive="False" StatusText="Vestibulum nec morbi nisl neque" UrlHostname="Imperdiet montes malesuada">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FFEB1F08" FontSize="619.74" LineHeight="889.31" Password="Nisi suscipit" TextColor="#FF026429" Username="Parturient sociosqu ornare" WallabagUrl="Leo vestibulum mus torquent">
                     <Common:AppSettings.Instance>
@@ -52,7 +52,7 @@
                 <System:String>Himenaeos parturient elit</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Parturient vulputate sapien" IsActive="False" StatusText="Quisque donec" UrlHostname="Accumsan bibendum semper urna">
+        <DataModel:ItemViewModel ContentWithHeader="Parturient vulputate sapien" IsActive="False" StatusText="Quisque donec" UrlHostname="Accumsan bibendum semper urna">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FFB24833" FontSize="259.61" LineHeight="787.44" Password="Vestibulum aliquam hac" TextColor="#FFAB9C4A" Username="Sodales viverra nunc" WallabagUrl="Consequat integer">
                     <Common:AppSettings.Instance>
@@ -78,7 +78,7 @@
                 <System:String>Posuere adipiscing venenatis rutrum</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Mauris parturient sem sit" IsActive="False" StatusText="Dapibus vestibulum porttitor" UrlHostname="Habitant aliquet erat">
+        <DataModel:ItemViewModel ContentWithHeader="Mauris parturient sem sit" IsActive="False" StatusText="Dapibus vestibulum porttitor" UrlHostname="Habitant aliquet erat">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FFF05297" FontSize="519.88" LineHeight="675.51" Password="Penatibus vestibulum felis adipiscing parturient" TextColor="#FFEC6FAA" Username="Fames vestibulum cubilia" WallabagUrl="Vestibulum sed">
                     <Common:AppSettings.Instance>
@@ -104,7 +104,7 @@
                 <System:String>Augue aenean enim sed</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Convallis adipiscing nec lorem dignissim" IsActive="False" StatusText="Natoque hendrerit sem himenaeos" UrlHostname="Elementum lectus">
+        <DataModel:ItemViewModel ContentWithHeader="Convallis adipiscing nec lorem dignissim" IsActive="False" StatusText="Natoque hendrerit sem himenaeos" UrlHostname="Elementum lectus">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FF0A79E7" FontSize="731.12" LineHeight="291.97" Password="Habitasse iaculis amet" TextColor="#FF16C637" Username="Luctus senectus fermentum gravida fringilla" WallabagUrl="Sed lacinia ante laoreet">
                     <Common:AppSettings.Instance>
@@ -130,7 +130,7 @@
                 <System:String>Cras duis phasellus consequat</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Viverra tincidunt vehicula elit parturient" IsActive="False" StatusText="Bibendum blandit vitae class curae" UrlHostname="Aliquam vestibulum volutpat">
+        <DataModel:ItemViewModel ContentWithHeader="Viverra tincidunt vehicula elit parturient" IsActive="False" StatusText="Bibendum blandit vitae class curae" UrlHostname="Aliquam vestibulum volutpat">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FFB9A1D4" FontSize="810.71" LineHeight="927.62" Password="Primis nec vivamus aliquam tristique" TextColor="#FF8625C5" Username="Risus enim velit platea" WallabagUrl="Aliquet rutrum erat non">
                     <Common:AppSettings.Instance>
@@ -156,7 +156,7 @@
                 <System:String>Pretium rhoncus sodales nostra porta</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Tempus faucibus vulputate euismod" IsActive="False" StatusText="Posuere est felis potenti" UrlHostname="Quam habitant tortor feugiat quis">
+        <DataModel:ItemViewModel ContentWithHeader="Tempus faucibus vulputate euismod" IsActive="False" StatusText="Posuere est felis potenti" UrlHostname="Quam habitant tortor feugiat quis">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FF11FCDC" FontSize="193.21" LineHeight="613.03" Password="Nam sed laoreet" TextColor="#FF595160" Username="Dolor phasellus iaculis lacinia urna" WallabagUrl="Interdum dis natoque vestibulum fames">
                     <Common:AppSettings.Instance>
@@ -182,7 +182,7 @@
                 <System:String>Parturient pede egestas</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Lorem viverra vestibulum dignissim arcu" IsActive="False" StatusText="Fermentum sit vivamus morbi ligula" UrlHostname="Cursus dictum non">
+        <DataModel:ItemViewModel ContentWithHeader="Lorem viverra vestibulum dignissim arcu" IsActive="False" StatusText="Fermentum sit vivamus morbi ligula" UrlHostname="Cursus dictum non">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FFC94A02" FontSize="172.69" LineHeight="679.7" Password="Elit senectus" TextColor="#FF61F30F" Username="Massa sem vestibulum integer facilisis" WallabagUrl="Libero metus enim quisque">
                     <Common:AppSettings.Instance>
@@ -208,7 +208,7 @@
                 <System:String>Parturient congue</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Commodo conubia maecenas" IsActive="False" StatusText="Vestibulum pede ornare" UrlHostname="Nunc porttitor praesent vestibulum">
+        <DataModel:ItemViewModel ContentWithHeader="Commodo conubia maecenas" IsActive="False" StatusText="Vestibulum pede ornare" UrlHostname="Nunc porttitor praesent vestibulum">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FF81D5A5" FontSize="493.15" LineHeight="787.83" Password="Vestibulum odio sed dis" TextColor="#FF1E8E10" Username="Adipiscing nam montes parturient" WallabagUrl="Nostra est orci bibendum tristique">
                     <Common:AppSettings.Instance>
@@ -234,7 +234,7 @@
                 <System:String>Blandit malesuada mattis penatibus volutpat</System:String>
             </DataModel:ItemViewModel.Tags>
         </DataModel:ItemViewModel>
-        <DataModel:ItemViewModel ContentWithTitle="Tempor phasellus iaculis lacinia" IsActive="False" StatusText="Arcu velit tortor interdum" UrlHostname="Parturient inceptos">
+        <DataModel:ItemViewModel ContentWithHeader="Tempor phasellus iaculis lacinia" IsActive="False" StatusText="Arcu velit tortor interdum" UrlHostname="Parturient inceptos">
             <DataModel:ItemViewModel.AppSettings>
                 <Common:AppSettings BackgroundColor="#FF469721" FontSize="179.34" LineHeight="618.74" Password="Facilisis posuere" TextColor="#FF2223F9" Username="Purus tempus risus amet natoque" WallabagUrl="Fermentum ante">
                     <Common:AppSettings.Instance>

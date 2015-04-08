@@ -21,13 +21,14 @@ namespace wallabag.DataModel
         [DataMember]
         public ObservableCollection<string> Tags { get; set; }
 
-        public string ContentWithTitle
+        public string ContentWithHeader
         {
             get
             {
                 var content =
                 "<html><head><link rel=\"stylesheet\" href=\"ms-appx-web:///Assets/css/wallabag.css\" type=\"text/css\" media=\"screen\" />" + GenerateCSS() + "</head>" +
                 "<h1 class=\"wallabag-header\">" + Model.Title + "</h1>" +
+                "<h2 class=\"wallabag-subheader\"><a href=\"" + Model.Url + "\">" + new Uri(Model.Url).Host + "</a></h2>" +
                 Model.Content +
                 "</html>";
                 return content;
