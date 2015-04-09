@@ -149,7 +149,7 @@
         <Setter Property="Foreground" Value="{ThemeResource ButtonForegroundThemeBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource AccentBrush}"/>
         <Setter Property="BorderThickness" Value="1,1"/>
-        <Setter Property="Padding" Value="16,6"/>
+        <Setter Property="Padding" Value="14,5"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -387,4 +387,11 @@
             </Viewbox>
         </Grid>
     </DataTemplate>
+    <Style x:Key="DarkFlyoutPresenterStyle" TargetType="FlyoutPresenter">
+        <Setter Property="Background" Value="{ThemeResource DarkGrayBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource LightGrayBrush}"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="RequestedTheme" Value="Dark"/>
+    </Style>
 </ResourceDictionary>
