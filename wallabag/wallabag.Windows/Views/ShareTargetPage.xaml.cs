@@ -1,28 +1,13 @@
-﻿using wallabag.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using System;
+using wallabag.Common;
+using wallabag.DataModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-
-// Die Elementvorlage "Freigabezielvertrag" ist unter http://go.microsoft.com/fwlink/?LinkId=234241 dokumentiert.
 
 namespace wallabag.Views
 {
-    /// <summary>
-    /// Über diese Seite können andere Anwendungen Inhalte durch diese Anwendung freigeben.
-    /// </summary>
     public sealed partial class ShareTargetPage : Page
     {
         /// <summary>
@@ -57,22 +42,11 @@ namespace wallabag.Views
             var thumbnailImage = new BitmapImage();
             this.DefaultViewModel["Title"] = shareProperties.Title;
             this.DefaultViewModel["Description"] = shareProperties.Description;
-            this.DefaultViewModel["Image"] = thumbnailImage;
             this.DefaultViewModel["Sharing"] = false;
-            this.DefaultViewModel["ShowImage"] = false;
-            this.DefaultViewModel["Comment"] = String.Empty;
-            this.DefaultViewModel["Placeholder"] = "Add a comment";
-            this.DefaultViewModel["SupportsComment"] = true;
+            this.DefaultViewModel["Tags"] = string.Empty;
+            this.defaultViewModel["Url"] = await this._shareOperation.Data.GetWebLinkAsync();
             Window.Current.Content = this;
             Window.Current.Activate();
-
-            // Das Miniaturbild des freigegebenen Inhalts im Hintergrund aktualisieren
-            if (shareProperties.Thumbnail != null)
-            {
-                var stream = await shareProperties.Thumbnail.OpenReadAsync();
-                thumbnailImage.SetSource(stream);
-                this.DefaultViewModel["ShowImage"] = true;
-            }
         }
 
         /// <summary>
@@ -80,15 +54,15 @@ namespace wallabag.Views
         /// </summary>
         /// <param name="sender">Instanz der Schaltfläche, die zum Initiieren der Freigabe verwendet wird.</param>
         /// <param name="e">Ereignisdaten, die beschreiben, wie auf die Schaltfläche geklickt wurde.</param>
-        private void ShareButton_Click(object sender, RoutedEventArgs e)
+        private async void ShareButton_Click(object sender, RoutedEventArgs e)
         {
             this.DefaultViewModel["Sharing"] = true;
             this._shareOperation.ReportStarted();
+            this._shareOperation.ReportSubmittedBackgroundTask();
 
-            // TODO: Aufgaben durchführen, die für Ihr Freigabeszenario geeignet sind, hierbei
-            //       this._shareOperation.Data verwenden. Üblicherweise werden hierbei zusätzliche Informationen
-            //       über individuelle Benutzeroberflächenelemente erfasst, die dieser Seite hinzugefügt wurden, z. B. 
-            //       this.DefaultViewModel["Comment"]
+            bool success = await DataSource.AddItem(((Uri)this.defaultViewModel["Url"]).ToString(), this.defaultViewModel["Tags"].ToString());
+            if (!success)
+                this._shareOperation.ReportError("Error during article save.");
 
             this._shareOperation.ReportCompleted();
         }
