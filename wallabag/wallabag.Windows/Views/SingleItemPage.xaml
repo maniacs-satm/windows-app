@@ -9,13 +9,55 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView common:WebViewExtensions.HTML="{Binding CurrentItem.ContentWithTitle}"/>
+        <WebView common:WebViewExtensions.HTML="{Binding CurrentItem.ContentWithHeader}"/>
         <Button x:Name="backButton" Margin="39,59,39,0"
                         Style="{StaticResource NavigationBackButtonNormalStyle}"
                         VerticalAlignment="Top"
                         AutomationProperties.Name="Back"
                         AutomationProperties.AutomationId="BackButton"
                         AutomationProperties.ItemType="Navigation Button" Click="backButton_Click"/>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="960"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="2" Margin="0,200">
+                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchReadStatusCommand}">
+                    <SymbolIcon Symbol="Accept"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}">
+                    <SymbolIcon Symbol="Favorite"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}">
+                    <SymbolIcon Symbol="Font"/>
+                    <Button.Flyout>
+                        <Flyout>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource RoundButtonStyle}" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
+                                    <Button Style="{StaticResource RoundButtonStyle}" Content="&#x1f317;" FontFamily="Segoe UI Symbol"/>
+                                    <Button Style="{StaticResource RoundButtonStyle}" Content="&#x1f311;" FontFamily="Segoe UI Symbol"/>
+                                </StackPanel>
+                            </Grid>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}">
+                    <SymbolIcon Symbol="Edit"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}">
+                    <SymbolIcon Symbol="Tag"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.DeleteCommand}">
+                    <SymbolIcon Symbol="Delete"/>
+                </Button>
+            </StackPanel>
+        </Grid>
 
     </Grid>
 </common:basicPage>
