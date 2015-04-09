@@ -38,6 +38,9 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Name="RefreshStoryboard" RepeatBehavior="Forever">
+            <DoubleAnimation Duration="0:0:0.5" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="symbolIcon" d:IsOptimized="True"/>
+        </Storyboard>
     </common:basicPage.Resources>
 
     <Grid x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -63,13 +66,13 @@
             </Canvas>
         </Viewbox>
         <StackPanel x:Name="menuStackPanel" Margin="0,45,0,0" Grid.Row="1">
-            <RadioButton x:Uid="unreadItemsMenuButton" x:Name="unreadItemsMenuButton" Style="{StaticResource MenuButton}" IsChecked="True" Checked="unreadItemsMenuButton_Checked">
+            <RadioButton x:Uid="unreadItemsMenuButton" x:Name="unreadItemsMenuButton" Style="{StaticResource MenuButton}" IsChecked="True" Checked="unreadItemsMenuButton_Checked" Command="{Binding ShowUnreadItems}">
                 <SymbolIcon Symbol="View" />
             </RadioButton>
-            <RadioButton x:Uid="favouriteItemsMenuButton" x:Name="favouriteItemsMenuButton" Style="{StaticResource MenuButton}" Checked="favouriteItemsMenuButton_Checked">
+            <RadioButton x:Uid="favouriteItemsMenuButton" x:Name="favouriteItemsMenuButton" Style="{StaticResource MenuButton}" Checked="favouriteItemsMenuButton_Checked" Command="{Binding ShowFavoriteItems}">
                 <SymbolIcon Symbol="Favorite" />
             </RadioButton>
-            <RadioButton x:Uid="archivedItemsMenuButton" x:Name="archivedItemsMenuButton" Style="{StaticResource MenuButton}" Checked="archivedItemsMenuButton_Checked">
+            <RadioButton x:Uid="archivedItemsMenuButton" x:Name="archivedItemsMenuButton" Style="{StaticResource MenuButton}" Checked="archivedItemsMenuButton_Checked" Command="{Binding ShowArchivedItems}">
                 <SymbolIcon Symbol="Folder" />
             </RadioButton>
             <RadioButton x:Uid="tagsMenuButton" x:Name="tagsMenuButton" Style="{StaticResource MenuButton}" Checked="tagsMenuButton_Checked">
@@ -109,7 +112,11 @@
                 <SymbolIcon Symbol="Add"/>
             </Button>
             <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding RefreshCommand}">
-                <SymbolIcon Symbol="Refresh"/>
+                <SymbolIcon x:Name="symbolIcon" Symbol="Refresh" RenderTransformOrigin="0.51,0.55">
+                    <SymbolIcon.RenderTransform>
+                        <CompositeTransform/>
+                    </SymbolIcon.RenderTransform>
+                </SymbolIcon>
             </Button>
             <Button Style="{StaticResource RoundButtonStyle}">
                 <SymbolIcon Symbol="Find"/>
@@ -122,7 +129,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <WebView x:Name="webView" Grid.Column="1"/>
-            <ListView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
+            <ListView ItemsSource="{Binding CurrentItems}" ItemTemplate="{StaticResource ArticleTemplate}"
                       ItemContainerStyle="{StaticResource ArticleContainerStyle}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                       Padding="18,18,0,0" ItemClick="ListView_ItemClick" IsItemClickEnabled="True"/>
         </Grid>
