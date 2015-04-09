@@ -7,12 +7,20 @@
     xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
 
+    <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
+    <!-- Colors and Brushes -->
     <Color x:Key="AccentColor">#FF469646</Color>
     <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}"/>
     <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{ThemeResource AccentColor}"/>
 
+    <Color x:Key="DarkGray">#FF2C2C2C</Color>
+    <Color x:Key="LightGray">#4C858585</Color>
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="{ThemeResource DarkGray}"/>
+    <SolidColorBrush x:Key="LightGrayBrush" Color="{ThemeResource LightGray}"/>
+    
+    <!-- Default styles -->
     <Style TargetType="TextBox">
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
         <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
@@ -210,6 +218,7 @@
         </Setter>
     </Style>
 
+    <!-- Custom styles -->
     <Style x:Key="MenuButton" TargetType="RadioButton">
         <Setter Property="Background" Value="{ThemeResource ButtonBackgroundThemeBrush}"/>
         <Setter Property="Foreground" Value="{ThemeResource ButtonForegroundThemeBrush}"/>
@@ -285,7 +294,7 @@
                                 <VisualState x:Name="Indeterminate"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Rectangle x:Name="checkedBackground" Opacity="0" Fill="#FF469646" />
+                        <Rectangle x:Name="checkedBackground" Opacity="0" Fill="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
                         <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="0,3">
                             <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
@@ -318,7 +327,7 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#4C858585"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource LightGrayBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverForegroundThemeBrush}"/>
@@ -328,7 +337,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#FF469646"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
