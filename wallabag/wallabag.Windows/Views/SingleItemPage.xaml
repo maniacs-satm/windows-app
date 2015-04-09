@@ -32,16 +32,7 @@
                 <Button Style="{StaticResource RoundButtonStyle}">
                     <SymbolIcon Symbol="Font"/>
                     <Button.Flyout>
-                        <Flyout Placement="Left">
-                            <Flyout.FlyoutPresenterStyle>
-                                <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="Background" Value="{ThemeResource DarkGrayBrush}"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="BorderBrush" Value="{ThemeResource LightGrayBrush}"/>
-                                    <Setter Property="Padding" Value="10"/>
-                                    <Setter Property="RequestedTheme" Value="Dark"/>
-                                </Style>
-                            </Flyout.FlyoutPresenterStyle>
+                        <Flyout Placement="Left" FlyoutPresenterStyle="{StaticResource DarkFlyoutPresenterStyle}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -69,6 +60,14 @@
                 </Button>
                 <Button Style="{StaticResource RoundButtonStyle}">
                     <SymbolIcon Symbol="Edit"/>
+                    <Button.Flyout>
+                        <Flyout Placement="Left" FlyoutPresenterStyle="{StaticResource DarkFlyoutPresenterStyle}">
+                            <StackPanel Width="250">
+                                <TextBox Header="Title" Text="{Binding CurrentItem.Model.Title, Mode=TwoWay}"/>
+                                <Button Content="Update" HorizontalAlignment="Right" Margin="0,10,0,0" Command="{Binding CurrentItem.UpdateCommand}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
                 </Button>
                 <Button Style="{StaticResource RoundButtonStyle}">
                     <SymbolIcon Symbol="Tag"/>

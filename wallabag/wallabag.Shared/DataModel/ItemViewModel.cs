@@ -88,11 +88,12 @@ namespace wallabag.DataModel
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
+            UpdateCommand = new RelayCommand(async () => await Update());
             SwitchReadStatusCommand = new RelayCommand(async () => await SwitchReadStatus());
             SwitchFavoriteStatusCommand = new RelayCommand(async () => await SwitchFavoriteStatus());
         }
 
-        public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand UpdateCommand { get; private set; }
         public RelayCommand SwitchReadStatusCommand { get; private set; }
         public RelayCommand SwitchFavoriteStatusCommand { get; private set; }
 
