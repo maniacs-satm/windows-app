@@ -150,7 +150,8 @@
             <WebView x:Name="webView" Grid.Column="1"/>
             <ListView ItemsSource="{Binding CurrentItems}" ItemTemplate="{StaticResource ArticleTemplate}"
                       ItemContainerStyle="{StaticResource ArticleContainerStyle}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                      Padding="18,18,0,0" ItemClick="ListView_ItemClick" IsItemClickEnabled="True"/>
+                      Padding="18,18,0,0" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionMode="None"/>
         </Grid>
+        <ProgressBar Grid.Column="1" VerticalAlignment="Top" IsIndeterminate="{Binding IsActive}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}" FontSize="50"/>
     </Grid>
 </common:basicPage>

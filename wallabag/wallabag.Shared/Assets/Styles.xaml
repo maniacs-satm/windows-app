@@ -10,7 +10,8 @@
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <Color x:Key="AccentColor">#FF469646</Color>
-    <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}" />
+    <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}"/>
+    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{ThemeResource AccentColor}"/>
 
     <Style TargetType="TextBox">
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
