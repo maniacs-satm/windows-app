@@ -16,6 +16,28 @@
 
     <common:basicPage.Resources>
         <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Storyboard x:Name="ItemActionExpandStoryboard">
+            <DoubleAnimation Duration="0:0:0.3" To="90" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="ItemCommandsViewButton" d:IsOptimized="True"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ItemCommands">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="ItemCommands">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="248"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="ItemActionExpandStoryboardReverse">
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="ItemCommandsViewButton" d:IsOptimized="True"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ItemCommands">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="ItemCommands">
+                <EasingDoubleKeyFrame KeyTime="0" Value="248"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </common:basicPage.Resources>
 
     <Grid x:Name="layoutRoot" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -62,17 +84,25 @@
             <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}">
                 <SymbolIcon Symbol="Favorite"/>
             </Button>
-            <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding DeleteCommand}">
-                <SymbolIcon Symbol="Delete"/>
-            </Button>
-            <Button Style="{StaticResource RoundButtonStyle}">
-                <SymbolIcon Symbol="Edit"/>
-            </Button>
-            <Button Style="{StaticResource RoundButtonStyle}">
-                <SymbolIcon Symbol="Tag"/>
-            </Button>
-            <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
-                <SymbolIcon Symbol="FullScreen"/>
+            <StackPanel x:Name="ItemCommands" Orientation="Horizontal" Width="0">
+                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding DeleteCommand}">
+                    <SymbolIcon Symbol="Delete"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
+                    <SymbolIcon Symbol="Edit"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
+                    <SymbolIcon Symbol="Tag"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
+                    <SymbolIcon Symbol="FullScreen"/>
+                </Button>
+            </StackPanel>
+            <Button x:Name="ItemCommandsViewButton" Style="{StaticResource RoundButtonStyle}" RenderTransformOrigin="0.5,0.5" Click="ItemCommandsViewButton_Click">
+                <Button.RenderTransform>
+                    <CompositeTransform/>
+                </Button.RenderTransform>
+                <SymbolIcon Symbol="More"/>
             </Button>
             <Rectangle Width="2" Fill="{ThemeResource AccentBrush}" Margin="10,0"/>
             <Button Style="{StaticResource RoundButtonStyle}">

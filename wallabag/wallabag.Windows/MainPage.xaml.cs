@@ -7,6 +7,7 @@ namespace wallabag
 {
     public sealed partial class MainPage : basicPage
     {
+        private bool ItemCommandsAreVisible = false;
         public MainPage()
         {
             this.InitializeComponent();
@@ -37,6 +38,20 @@ namespace wallabag
         {
             ((MainViewModel)this.DataContext).CurrentItem = (ItemViewModel)e.ClickedItem;
             webView.NavigateToString(((ItemViewModel)e.ClickedItem).ContentWithHeader);
+        }
+
+        private void ItemCommandsViewButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (!ItemCommandsAreVisible)
+            {
+                ItemActionExpandStoryboard.Begin();
+                ItemCommandsAreVisible = true;
+            }
+            else
+            {
+                ItemActionExpandStoryboardReverse.Begin();
+                ItemCommandsAreVisible = false;
+            }
         }
 
     }
