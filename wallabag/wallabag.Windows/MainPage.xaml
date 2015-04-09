@@ -114,7 +114,7 @@
                 <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
                     <SymbolIcon Symbol="Tag"/>
                 </Button>
-                <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
+                <Button x:Name="FullScreenButton" Style="{StaticResource RoundButtonStyle}" Click="FullScreenButton_Click">
                     <SymbolIcon Symbol="FullScreen"/>
                 </Button>
             </StackPanel>

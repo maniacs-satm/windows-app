@@ -54,5 +54,10 @@ namespace wallabag
             }
         }
 
+        private void FullScreenButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Views.SingleItemPage),(((MainViewModel)this.DataContext).CurrentItem.Model.Id));
+        }
+
     }
 }
