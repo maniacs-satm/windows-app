@@ -41,6 +41,7 @@ namespace wallabag.ViewModels
         }
 
         public ItemViewModel CurrentItem { get; set; }
+        public bool CurrentItemIsNotNull { get { return CurrentItem != null; } }
 
         public RelayCommand RefreshCommand { get; set; }
         private async Task Refresh()
