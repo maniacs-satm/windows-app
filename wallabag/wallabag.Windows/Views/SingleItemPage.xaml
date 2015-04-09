@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="960"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="2" Margin="0,200">
+            <StackPanel Grid.Column="2" Margin="0,150">
                 <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchReadStatusCommand}">
                     <SymbolIcon Symbol="Accept"/>
                 </Button>
@@ -32,16 +32,36 @@
                 <Button Style="{StaticResource RoundButtonStyle}">
                     <SymbolIcon Symbol="Font"/>
                     <Button.Flyout>
-                        <Flyout>
+                        <Flyout Placement="Left">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Background" Value="{ThemeResource DarkGrayBrush}"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="{ThemeResource LightGrayBrush}"/>
+                                    <Setter Property="Padding" Value="10"/>
+                                    <Setter Property="RequestedTheme" Value="Dark"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition />
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource RoundButtonStyle}" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
-                                    <Button Style="{StaticResource RoundButtonStyle}" Content="&#x1f317;" FontFamily="Segoe UI Symbol"/>
-                                    <Button Style="{StaticResource RoundButtonStyle}" Content="&#x1f311;" FontFamily="Segoe UI Symbol"/>
+                                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                                    <Viewbox Width="45">
+                                        <Button Style="{StaticResource RoundButtonStyle}">
+                                            <SymbolIcon Symbol="Add"/>
+                                        </Button>
+                                    </Viewbox>
+                                    <Viewbox Width="45">
+                                        <Button Style="{StaticResource RoundButtonStyle}">
+                                            <SymbolIcon Symbol="Remove"/>
+                                        </Button>
+                                    </Viewbox>
+                                    <Rectangle Width="2" Fill="{ThemeResource LightGrayBrush}" Margin="10,0"/>
+                                    <Viewbox Width="45">
+                                        <Button Style="{StaticResource RoundButtonStyle}" Content="A" FontSize="25"/>
+                                    </Viewbox>
                                 </StackPanel>
                             </Grid>
                         </Flyout>
