@@ -96,6 +96,18 @@ namespace wallabag
             deferral.Complete();
         }
 
+#if WINDOWS_APP
+/// <summary>
+/// Wird aufgerufen, wenn die Anwendung als Ziel eines Freigabevorgangs aktiviert wird.
+/// </summary>
+/// <param name="e">Details zur Aktivierungsanforderung.</param>
+protected override void OnShareTargetActivated(Windows.ApplicationModel.Activation.ShareTargetActivatedEventArgs e)
+{
+    var shareTargetPage = new wallabag.Views.ShareTargetPage();
+    shareTargetPage.Activate(e);
+}
+#endif
+
         //protected override void OnShareTargetActivated(Windows.ApplicationModel.Activation.ShareTargetActivatedEventArgs e)
         //{
         //    var shareTargetPage = new wallabag.Views.ShareTarget();

@@ -20,13 +20,13 @@
         </m2:DefaultTile>
         <m2:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />
       </m2:VisualElements>
-      <!--<Extensions>
+      <Extensions>
         <Extension Category="windows.shareTarget">
           <ShareTarget>
             <DataFormat>URI</DataFormat>
           </ShareTarget>
         </Extension>
-      </Extensions>-->
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
