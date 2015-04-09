@@ -51,8 +51,14 @@ namespace wallabag.ViewModels
                 foreach (var item in DataSource.Items)
                     Items.Add((ItemViewModel)item.Value);
                 RaisePropertyChanged("Items");
+                RaisePropertyChanged("CurrentItems");
+                RaisePropertyChanged("UnreadItems");
+                RaisePropertyChanged("FavoriteItems");
+                RaisePropertyChanged("ArchivedItems");
             }
             IsActive = false;
+            if (CurrentItems == null)
+                CurrentItems = UnreadItems;
         }
 
         public RelayCommand DeleteCommand { get; set; }
@@ -62,6 +68,10 @@ namespace wallabag.ViewModels
             if (success)
             {
                 Items.Remove(CurrentItem);
+                RaisePropertyChanged("CurrentItems");
+                RaisePropertyChanged("UnreadItems");
+                RaisePropertyChanged("FavoriteItems");
+                RaisePropertyChanged("ArchivedItems");
                 CurrentItem = null;
             }
 
