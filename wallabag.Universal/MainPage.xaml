@@ -36,13 +36,13 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" Margin="20,0,0,0"/>
-            <Grid x:Name="itemGrid" Grid.Row="1">
+            <Grid x:Name="itemGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ListView ItemsSource="{Binding CurrentItems}" ItemTemplate="{StaticResource ArticleTemplate}"
                       ItemContainerStyle="{StaticResource ArticleContainerStyle}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                       IsItemClickEnabled="True" SelectionMode="None" />
             </Grid>
-            <Grid x:Name="tagsGrid" Grid.Row="1" Margin="20" Visibility="Collapsed"/>
-            <Grid x:Name="settingsGrid" Grid.Row="1" Margin="20" Visibility="Collapsed">
+            <Grid x:Name="tagsGrid" Grid.Row="1" Margin="20" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Grid x:Name="settingsGrid" Grid.Row="1" Margin="20" Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="TextBox">
