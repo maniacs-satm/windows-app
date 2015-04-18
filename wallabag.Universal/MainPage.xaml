@@ -13,22 +13,27 @@
     </Page.DataContext>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
-            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-            <AppBarButton Icon="Add" Label="Add"/>
-            <AppBarSeparator/>
-            <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}"/>
-            <AppBarToggleButton Icon="Favorite" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}"/>
-            <AppBarButton Icon="Tag" Label="Tag"/>
-            <AppBarButton Icon="FullScreen" Label="FullScreen"/>
+        <CommandBar>
+            <CommandBar.PrimaryCommands>
+                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarToggleButton Icon="Favorite" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarButton Icon="Tag" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarButton Icon="FullScreen" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarSeparator Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarButton Icon="Add" Label="Add"/>
+                <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Delete" Label="Delete" Command="{Binding DeleteCommand}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid x:Name="contentGrid" Margin="70,0,0,0">
-            
+
         </Grid>
-        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="70" IsPaneOpen="True" Margin="0,-4,0,4">
+        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="70">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
