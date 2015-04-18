@@ -112,10 +112,28 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\AppSettings.cs" />
+    <Compile Include="Common\basicPage.cs" />
+    <Compile Include="Common\Extensions.cs" />
+    <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\NavigationHelper.cs" />
+    <Compile Include="Common\ObservableDictionary.cs" />
+    <Compile Include="Common\RelayCommand.cs" />
+    <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Common\viewModelBase.cs" />
+    <Compile Include="Converter\BooleanNegationConverter.cs" />
+    <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
+    <Compile Include="DataModel\Authentication.cs" />
+    <Compile Include="DataModel\DataSource.cs" />
+    <Compile Include="DataModel\Item.cs" />
+    <Compile Include="DataModel\ItemViewModel.cs" />
+    <Compile Include="DataModel\User.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SingleItemPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -126,6 +144,8 @@
     <None Include="wallabag.Universal_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\css\reset.css" />
+    <Content Include="Assets\css\wallabag.css" />
     <Content Include="FodyWeavers.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\Logo.scale-100.png" />
@@ -139,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Assets\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
