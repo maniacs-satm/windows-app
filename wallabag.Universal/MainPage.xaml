@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="90" IsPaneOpen="True">
+        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="70" IsPaneOpen="True">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -17,10 +17,10 @@
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Viewbox Stretch="Uniform">
+                        <Viewbox Stretch="Uniform" Visibility="{Binding IsPaneOpen, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=splitView}" Width="250">
                             <Canvas Width="200" Height="80">
                                 <Path Fill="White" Data="M38.009 28.183c0.679-0.417 4.338-2.362 10.242 0.075c6.072 2.506 9.839 0.329 10.307 0.033 c-1.468-2.413-3.213-4.513-5.144-5.925c0.128-0.035 0.26-0.071 0.399-0.112c2.559-0.74 3.209-2.907 3.347-4.763 c0.154-2.106 0.262-2.138 0.719-4.032c0.438-1.819-0.051-2.183-0.501-1.816c-0.244 0.197-2.359 0.687-3.614 1.665 c-2.026 1.582-3.275 4.587-3.841 6.25c-0.011 0.025-0.087 0.256-0.113 0.336c-0.264 0.637-0.79 0.635-0.79 0.635v0.001 c-0.254-0.028-0.511-0.043-0.768-0.043c-0.23 0-0.458 0.013-0.687 0.034c-0.005 0.001-0.008 0-0.014 0.001 c-0.671 0.098-1.041-0.722-1.119-0.917c-0.784-2.254-2.896-6.699-7.642-7.896c0 0-0.862-0.66-0.599 0.457 c0.25 1.067 0.767 2.146 0.652 3.714c-0.052 0.725-0.502 4.438 2.911 6.371c0.324 0.183 0.613 0.338 0.872 0.468 C40.906 24.095 39.345 26.01 38.009 28.183z" />
                                 <Path Fill="White" Data="M60.417 62.144c-4.182-2.592-5.589-3.501-5.501-4.493c0 0 0.001-0.161 0.042-0.407 c0.102-0.525 0.422-1.424 1.448-1.936c0.034-0.015 0.062-0.034 0.088-0.055c3.259-1.89 5.639-4.935 6.479-8.735 c-0.846 2.099-7.112 3.73-14.723 3.73c-7.609 0-13.876-1.632-14.722-3.73c0.188 0.854 0.456 1.666 0.792 2.438 c0.283 1.593 0.664 5.339-1.136 8.62c-1.586 2.89-9.414 6.829-21.03 4.567c0 0-0.466-0.325-0.607-0.058 c-0.208 0.396 0.645 0.717 1.523 0.947c8.088 2.142 20.295 1.271 24.128-1.887c1.749-1.44 2.424-3.38 2.596-5.469l0 0.003 c0 0 0.047-0.545 0.731-0.135c0.196 0.118 0.902 0.578 1.015 1.099c0.099 0.74 0.105 1.65-0.277 2.287 c-0.547 0.909-0.553 1.041 0.167 1.557c0.442 0.314 2.247 1.642 4.759 3.15c0.007 0.004 0.009 0.007 0.016 0.012 c0.531 0.32 1.27 1.104 1.27 1.104l0 0c1.131 1.309 3.592 3.941 4.663 3.445c0.505-0.234-0.021-1.288-0.021-1.288 s0.841 1.092 1.293 0.721c0.343-0.284-0.201-1.372-0.201-1.372s0.734 0.636 1.171 0.4c0.535-0.288-0.079-1.961-4.283-4.517 c-4.206-2.558-5.346-2.949-5.446-4.09c0 0-0.001-0.059 0.002-0.155c0.032-0.252 0.176-0.785 0.787-0.729 c0.91 0.147 1.849 0.227 2.809 0.227c1.099 0 2.17-0.102 3.202-0.293l0.001 0.002c0 0 0.053-0.013 0.069-0.014 c0.121-0.016 0.355-0.007 0.356 0.285c-0.038 0.37-0.14 0.744-0.358 1.069c-0.616 0.922-0.413 1.049 0.229 1.641 c0.396 0.366 2.214 1.964 4.704 3.512c0.005 0.004 0.007 0.007 0.013 0.011c0.531 0.319 1.45 1.197 1.45 1.197v-0.002 c1.032 1.049 2.93 2.804 3.964 2.697c0.699-0.071 0.129-1.275 0.129-1.275s0.883 0.852 1.317 0.602 c0.485-0.28-0.201-1.17-0.201-1.17s0.568 0.3 0.97 0.2C64.5 65.757 64.6 64.733 60.417 62.144z" />
@@ -34,12 +34,13 @@
                                 <Path Fill="White" Data="M176.636 36.05c-0.223-0.65-0.577-1.221-1.052-1.696c-0.473-0.473-1.088-0.849-1.826-1.118 c-0.731-0.264-1.607-0.398-2.603-0.398c-1.074 0-2.023 0.19-2.822 0.567c-0.797 0.375-1.472 0.877-2.003 1.494 c-0.532 0.613-0.937 1.333-1.201 2.138c-0.264 0.799-0.396 1.637-0.396 2.491v1.567c0 1.854 0.475 3.341 1.412 4.417 c0.945 1.084 2.301 1.634 4.028 1.634c0.921 0 1.679-0.161 2.253-0.481c0.39-0.217 0.721-0.482 0.987-0.79v0.769 c0 0.588-0.065 1.065-0.196 1.418c-0.129 0.342-0.303 0.614-0.521 0.809c-0.217 0.193-0.477 0.327-0.772 0.397 c-0.317 0.075-0.675 0.112-1.061 0.112c-0.638 0-1.137-0.034-1.481-0.103c-0.381-0.073-0.669-0.109-0.882-0.109 c-0.557 0-0.982 0.139-1.267 0.411c-0.285 0.275-0.431 0.646-0.431 1.1c0 0.616 0.332 1.138 1.028 1.575 c0.249 0.098 0.641 0.18 1.195 0.253c0.542 0.072 1.159 0.108 1.837 0.108c0.799 0 1.574-0.12 2.303-0.356 c0.734-0.237 1.392-0.606 1.955-1.095c0.563-0.49 1.018-1.116 1.349-1.86c0.33-0.744 0.497-1.64 0.497-2.66v-8.522 C176.967 37.388 176.856 36.691 176.636 36.05z M170.014 36.458c0.336-0.167 0.72-0.253 1.142-0.253 c0.737 0 1.311 0.152 1.699 0.455c0.376 0.291 0.559 0.734 0.559 1.351v3.311c-0.032 0.856-0.285 1.462-0.773 1.855 c-0.502 0.402-1.082 0.598-1.776 0.598c-1.698 0-2.524-0.844-2.524-2.576V39.42c0-0.448 0.072-0.873 0.212-1.261 c0.14-0.387 0.335-0.727 0.581-1.015C169.375 36.859 169.672 36.63 170.014 36.458z" />
                             </Canvas>
                         </Viewbox>
-                        <RadioButton x:Name="HamburgerRadioButton" Style="{StaticResource MenuButton}" Tag="" Grid.Column="1" MinWidth="0" HorizontalAlignment="Center" GroupName="Hamburger"/>
+                        <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource HamburgerButtonStyle}" Tag="" Grid.Column="1" HorizontalAlignment="Center" Margin="12.5,0" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"/>
                     </Grid>
                     <StackPanel Grid.Row="1" Margin="0,30,0,0">
-                        <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" IsChecked="True" Tag="" Content="Unread" />
+                        <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" IsChecked="True" Tag="" Content="Unread" />
                         <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" />
                         <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="" Content="Tags" />
+                        <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="" Content="Settings" />
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>
