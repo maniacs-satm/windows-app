@@ -104,7 +104,7 @@ namespace wallabag.Common
         }
         public string WallabagUrl
         {
-            get { return this[WallabagUrlKey, string.Empty]; }
+            get { return this[WallabagUrlKey, "http://v2.wallabag.org"]; }
             set { ChangeProperty(WallabagUrlKey, value); }
         }
         public double FontSize
