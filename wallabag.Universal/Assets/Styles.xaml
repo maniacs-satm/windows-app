@@ -130,8 +130,9 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontSize" Value="18"/>
-        <Setter Property="Padding" Value="10" />
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Height" Value="50"/>
+        <Setter Property="Width" Value="50"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
@@ -182,11 +183,7 @@
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" 
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  Content="" FontSize="27" FontFamily="Segoe MDL2 Assets" RenderTransformOrigin="0.5,0.5">
-                                <ContentPresenter.RenderTransform>
-                                    <CompositeTransform/>
-                                </ContentPresenter.RenderTransform>
-                            </ContentPresenter>
+                                                  Content="" FontSize="22" FontFamily="Segoe MDL2 Assets"/>
                         </Border>
                         <Rectangle x:Name="FocusVisualWhite" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="1.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashArray="1,1"/>
                         <Rectangle x:Name="FocusVisualBlack" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="0.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashArray="1,1"/>
