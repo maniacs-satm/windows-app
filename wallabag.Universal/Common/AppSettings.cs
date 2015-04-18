@@ -58,9 +58,7 @@ namespace wallabag.Common
             }
             set
             {
-                Settings[key] = value;
-                RaisePropertyChanged(key);
-                roamingSettings.Values[key] = value;
+                ChangeProperty(key, value);
             }
         }
 
@@ -77,6 +75,13 @@ namespace wallabag.Common
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void ChangeProperty(string key, object value)
+        {
+            Settings[key] = value;
+            RaisePropertyChanged(key);
+            roamingSettings.Values[key] = value;
+        }
         #endregion
 
         private const string UsernameKey = "Username";
@@ -90,37 +95,37 @@ namespace wallabag.Common
         public string Username
         {
             get { return this[UsernameKey, "wallabag"]; }
-            set { this[UsernameKey] = value; }
+            set { ChangeProperty(UsernameKey, value); }
         }
         public string Password
         {
             get { return this[PasswordKey, "wallabag"]; }
-            set { this[PasswordKey] = value; }
+            set { ChangeProperty(PasswordKey, value); }
         }
         public string WallabagUrl
         {
             get { return this[WallabagUrlKey, string.Empty]; }
-            set { this[WallabagUrlKey] = value; }
+            set { ChangeProperty(WallabagUrlKey, value); }
         }
         public double FontSize
         {
             get { return this[FontSizeKey, 18]; }
-            set { this[FontSizeKey] = value; }
+            set { ChangeProperty(FontSizeKey, value); }
         }
         public double LineHeight
         {
             get { return this[LineHeightKey, 1.5]; }
-            set { this[LineHeightKey] = value; }
+            set { ChangeProperty(LineHeightKey, value); }
         }
         public Color TextColor
         {
             get { return this[TextColorKey, ColorHelper.FromArgb(255, 255, 255, 255)]; } //#ffffff
-            set { this[TextColorKey] = value; }
+            set { ChangeProperty(TextColorKey, value); }
         }
         public Color BackgroundColor
         {
             get { return this[BackgroundColorKey, ColorHelper.FromArgb(255, 29, 29, 29)]; } //#1d1d1d
-            set { this[BackgroundColorKey] = value; }
+            set { ChangeProperty(BackgroundColorKey, value); }
         }
     }
 }
