@@ -13,9 +13,11 @@ namespace wallabag.DataModel
 {
     public class Authentication
     {
-        private static AppSettings AppSettings { get { return AppSettings.Instance; } }
-        private static string Username = string.Empty;
-        private static string Password = string.Empty;
+        private static AppSettings AppSettings { get; } = AppSettings.Instance;
+        private static string Username { get; } = AppSettings.Username;
+        private static string Password { get; } = AppSettings.Password;
+        private static string Url { get; } = AppSettings.WallabagUrl;
+
         public static string hashedPassword = string.Empty;
 
         public static async Task hashPassword()
@@ -23,7 +25,7 @@ namespace wallabag.DataModel
             string salt = string.Empty;
             using (HttpClient http = new HttpClient())
             {
-                string response = await http.GetStringAsync(string.Format("http://v2.wallabag.org/api/salts/{0}.json", Username));
+                string response = await http.GetStringAsync($"{Url}/api/salts/{Username}.json");
                 JArray result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<dynamic>(response));
                 salt = result[0].ToString();
             }
@@ -32,7 +34,7 @@ namespace wallabag.DataModel
         }
         public static void hashPassword(string password, string username, string salt)
         {
-            string combined = string.Format("{0}{1}{2}", password, username, salt);
+            string combined = $"{password}{username}{salt}";
             string hash = GetHash(HashAlgorithmNames.Sha1, combined);
 
             hashedPassword = hash;
@@ -56,7 +58,7 @@ namespace wallabag.DataModel
         {
             if (!IsTest)
                 await hashPassword();
-            string combined = string.Format("{0}{1}{2}", nonce, timestamp, hashedPassword);
+            string combined = $"{nonce}{timestamp}{hashedPassword}";
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
 
             return digest;
@@ -64,8 +66,6 @@ namespace wallabag.DataModel
 
         public static async Task<string> GetHeader()
         {
-            Username = AppSettings.Username;
-            Password = AppSettings.Password;
             string nonce = GenerateNonce();
             string timestamp = GetTimestamp();
             return GetHeader(Username, await GenerateDigest(nonce, timestamp), nonce, timestamp);

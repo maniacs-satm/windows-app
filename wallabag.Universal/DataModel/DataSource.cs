@@ -26,7 +26,7 @@ namespace wallabag.DataModel
 
                 await Helpers.AddHeaders(http);
                 System.Diagnostics.Debug.WriteLine(http.DefaultRequestHeaders["X-WSSE"]);
-                var response = await http.GetAsync(new Uri(string.Format("http://v2.wallabag.org/api/entries.json?page={0}", page)));
+                var response = await http.GetAsync(new Uri($"{AppSettings.Instance.WallabagUrl}/api/entries.json?page={page}"));
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok ||
@@ -62,7 +62,7 @@ namespace wallabag.DataModel
             parameters.Add("title", title);
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-            var response = await http.PostAsync(new Uri("http://v2.wallabag.org/api/entries.json"), content);
+            var response = await http.PostAsync(new Uri($"{AppSettings.Instance.WallabagUrl}/api/entries.json"), content);
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
