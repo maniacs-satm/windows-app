@@ -19,7 +19,7 @@
     <Color x:Key="LightGray">#4C858585</Color>
     <SolidColorBrush x:Key="DarkGrayBrush" Color="{ThemeResource DarkGray}"/>
     <SolidColorBrush x:Key="LightGrayBrush" Color="{ThemeResource LightGray}"/>
-    
+
     <!-- Default styles -->
     <Style TargetType="TextBox">
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
@@ -224,10 +224,8 @@
         <Setter Property="Foreground" Value="{ThemeResource ButtonForegroundThemeBrush}"/>
         <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderThemeBrush}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Padding" Value="24,12"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Template">
@@ -296,7 +294,14 @@
                         </VisualStateManager.VisualStateGroups>
                         <Rectangle x:Name="checkedBackground" Opacity="0" Fill="{ThemeResource ButtonPointerOverBackgroundThemeBrush}" />
                         <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="0,3">
-                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="27" Text="{TemplateBinding Tag}" FontFamily="Segoe MDL2 Assets" Margin="25,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Grid.Column="1"/>
+                            </Grid>
                         </Border>
                         <Rectangle x:Name="FocusVisualWhite" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="1.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashArray="1,1"/>
                         <Rectangle x:Name="FocusVisualBlack" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="0.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashArray="1,1"/>
