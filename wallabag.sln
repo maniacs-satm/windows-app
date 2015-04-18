@@ -14,8 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F42E0356-C518-4207-B668-88D26DC1AB95}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.Tests", "wallabag.Tests\wallabag.Tests.csproj", "{AAF00A7F-E12E-448D-8AA3-3FA83C734311}"
@@ -115,3 +113,4 @@ Global
 		{E36B831F-4175-4EA6-B059-09A54FED487C} = {37C965E6-F229-469C-B4C0-242D6B04C0ED}
 	EndGlobalSection
 EndGlobal
+
