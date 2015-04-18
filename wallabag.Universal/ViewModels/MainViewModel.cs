@@ -1,6 +1,5 @@
 ﻿using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using wallabag.Common;
@@ -18,7 +17,7 @@ namespace wallabag.ViewModels
         {
             get
             {
-                return new ObservableCollection<ItemViewModel>(Items.Where(x => x.Model.IsStarred == false &&
+                return new ObservableCollection<ItemViewModel>(Items?.Where(x => x.Model.IsStarred == false &&
                     x.Model.IsArchived == false &&
                     x.Model.IsDeleted == false));
             }
@@ -27,7 +26,7 @@ namespace wallabag.ViewModels
         {
             get
             {
-                return new ObservableCollection<ItemViewModel>(Items.Where(x => x.Model.IsStarred == true &&
+                return new ObservableCollection<ItemViewModel>(Items?.Where(x => x.Model.IsStarred == true &&
                     x.Model.IsDeleted == false));
             }
         }
@@ -35,7 +34,7 @@ namespace wallabag.ViewModels
         {
             get
             {
-                return new ObservableCollection<ItemViewModel>(Items.Where(x => x.Model.IsArchived == true &&
+                return new ObservableCollection<ItemViewModel>(Items?.Where(x => x.Model.IsArchived == true &&
                     x.Model.IsDeleted == false));
             }
         }

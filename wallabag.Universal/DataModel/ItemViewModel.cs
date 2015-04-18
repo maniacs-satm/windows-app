@@ -154,7 +154,7 @@ namespace wallabag.DataModel
 
             if (response.StatusCode == HttpStatusCode.Ok)
             {
-                this.Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
                 return true;
             }
             return false;

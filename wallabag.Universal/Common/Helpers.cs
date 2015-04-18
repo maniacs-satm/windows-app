@@ -27,7 +27,7 @@ namespace wallabag.Common
         public static bool IsConnectedToInternet()
         {
             ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
-            return (connectionProfile != null && connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
+            return (connectionProfile?.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
         }
     }
 }
