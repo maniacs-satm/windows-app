@@ -7,65 +7,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    
+
     <Page.DataContext>
         <vm:MainViewModel/>
     </Page.DataContext>
 
+    <Page.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal">
+            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            <AppBarButton Icon="Add" Label="Add"/>
+            <AppBarSeparator/>
+            <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}"/>
+            <AppBarToggleButton Icon="Favorite" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}"/>
+            <AppBarButton Icon="Tag" Label="Tag"/>
+            <AppBarButton Icon="FullScreen" Label="FullScreen"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid Margin="70,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Rectangle Fill="#26858585"/>
-            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Margin="0,0,20,0">
-                <StackPanel Orientation="Horizontal" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                    <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchReadStatusCommand}">
-                        <SymbolIcon Symbol="Accept"/>
-                    </Button>
-                    <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}">
-                        <SymbolIcon Symbol="Favorite"/>
-                    </Button>
-                    <StackPanel x:Name="ItemCommands" Orientation="Horizontal" Width="0">
-                        <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding DeleteCommand}">
-                            <SymbolIcon Symbol="Delete"/>
-                        </Button>
-                        <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
-                            <SymbolIcon Symbol="Edit"/>
-                        </Button>
-                        <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
-                            <SymbolIcon Symbol="Tag"/>
-                        </Button>
-                        <Button x:Name="FullScreenButton" Style="{StaticResource RoundButtonStyle}">
-                            <SymbolIcon Symbol="FullScreen"/>
-                        </Button>
-                    </StackPanel>
-                    <Button x:Name="ItemCommandsViewButton" Style="{StaticResource RoundButtonStyle}" RenderTransformOrigin="0.5,0.5">
-                        <Button.RenderTransform>
-                            <CompositeTransform/>
-                        </Button.RenderTransform>
-                        <SymbolIcon Symbol="More"/>
-                    </Button>
-                    <Rectangle Width="2" Fill="{ThemeResource AccentBrush}" Margin="10,0"/>
-                </StackPanel>
-                <Button Style="{StaticResource RoundButtonStyle}">
-                    <SymbolIcon Symbol="Add"/>
-                </Button>
-                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding RefreshCommand}">
-                    <SymbolIcon x:Name="symbolIcon" Symbol="Refresh" RenderTransformOrigin="0.51,0.55">
-                        <SymbolIcon.RenderTransform>
-                            <CompositeTransform/>
-                        </SymbolIcon.RenderTransform>
-                    </SymbolIcon>
-                </Button>
-                <Button Style="{StaticResource RoundButtonStyle}">
-                    <SymbolIcon Symbol="Find"/>
-                </Button>
-            </StackPanel>
-            <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" FontSize="26.667" TextLineBounds="Tight" Grid.Column="1" Margin="45,0,0,0"/>
+        <Grid x:Name="contentGrid" Margin="70,0,0,0">
+            
         </Grid>
-        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="70" IsPaneOpen="True">
+        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="70" IsPaneOpen="True" Margin="0,-4,0,4">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
