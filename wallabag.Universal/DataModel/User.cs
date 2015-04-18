@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 
 namespace wallabag.DataModel
 {

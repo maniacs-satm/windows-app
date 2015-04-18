@@ -1,5 +1,6 @@
-﻿using System.ComponentModel;
-using Windows.Storage;
+﻿using Windows.Storage;
+using System;
+using System.ComponentModel;
 using Windows.UI;
 
 namespace wallabag.Common
@@ -27,7 +28,7 @@ namespace wallabag.Common
             get
             {
                 // For the first access on the settings, we load the data from the current sync state.
-                if (_settings?.Count == 0)
+                if (_settings == null || _settings.Count == 0)
                 {
                     _settings = new ObservableDictionary();
                     foreach (var s in ApplicationData.Current.RoamingSettings.Values)
@@ -69,8 +70,11 @@ namespace wallabag.Common
         /// <param name="propertyName">The name of the property.</param>
         private void RaisePropertyChanged(string propertyName)
         {
-            var e = new PropertyChangedEventArgs(propertyName);
-            PropertyChanged?.Invoke(this, e);
+            if (PropertyChanged != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                PropertyChanged(this, e);
+            }
         }
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion

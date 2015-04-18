@@ -15,11 +15,11 @@ namespace wallabag.Common
 
         public basicPage()
         {
-            Loaded += basicPage_Loaded;
-            Unloaded += basicPage_Unloaded;
-            navigationHelper = new NavigationHelper(this);
-            navigationHelper.LoadState += navigationHelper_LoadState;
-            navigationHelper.SaveState += navigationHelper_SaveState;
+            this.Loaded += basicPage_Loaded;
+            this.Unloaded += basicPage_Unloaded;
+            this.navigationHelper = new NavigationHelper(this);
+            this.navigationHelper.LoadState += navigationHelper_LoadState;
+            this.navigationHelper.SaveState += navigationHelper_SaveState;
         }
 
         void basicPage_Loaded(object sender, RoutedEventArgs e) { Window.Current.SizeChanged += Window_SizeChanged; }

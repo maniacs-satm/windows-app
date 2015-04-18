@@ -1,4 +1,7 @@
-﻿using PropertyChanged;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using PropertyChanged;
 using wallabag.DataModel;
 
 namespace wallabag.ViewModels

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using wallabag.Common;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -56,35 +57,35 @@ namespace wallabag.Common
     public class NavigationHelper : DependencyObject
     {
         private Page Page { get; set; }
-        private Frame Frame { get { return Page.Frame; } }
+        private Frame Frame { get { return this.Page.Frame; } }
 
         public NavigationHelper(Page page)
         {
-            Page = page;
+            this.Page = page;
 
             // Zwei Änderungen vornehmen, wenn diese Seite Teil der visuellen Struktur ist:
             // 1) Den Ansichtszustand der Anwendung dem visuellen Zustand für die Seite zuordnen
             // 2) Behandeln von Hardwarenavigationsanforderungen
-            Page.Loaded += (sender, e) =>
+            this.Page.Loaded += (sender, e) =>
             {
 #if WINDOWS_PHONE_APP
                 Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 #else
                 // Tastatur- und Mausnavigation trifft nur zu, wenn das gesamte Fenster ausgefüllt wird.
-                if (Page.ActualHeight == Window.Current.Bounds.Height &&
-                    Page.ActualWidth == Window.Current.Bounds.Width)
+                if (this.Page.ActualHeight == Window.Current.Bounds.Height &&
+                    this.Page.ActualWidth == Window.Current.Bounds.Width)
                 {
                     // Direkt am Fenster lauschen, sodass kein Fokus erforderlich ist
                     Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated +=
                         CoreDispatcher_AcceleratorKeyActivated;
                     Window.Current.CoreWindow.PointerPressed +=
-                        CoreWindow_PointerPressed;
+                        this.CoreWindow_PointerPressed;
                 }
 #endif
             };
 
             // Dieselben Änderungen rückgängig machen, wenn die Seite nicht mehr sichtbar ist
-            Page.Unloaded += (sender, e) =>
+            this.Page.Unloaded += (sender, e) =>
             {
 #if WINDOWS_PHONE_APP
                 Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
@@ -92,7 +93,7 @@ namespace wallabag.Common
                 Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated -=
                     CoreDispatcher_AcceleratorKeyActivated;
                 Window.Current.CoreWindow.PointerPressed -=
-                    CoreWindow_PointerPressed;
+                    this.CoreWindow_PointerPressed;
 #endif
             };
         }
@@ -109,8 +110,8 @@ namespace wallabag.Common
                 if (_goBackCommand == null)
                 {
                     _goBackCommand = new RelayCommand(
-                        () => GoBack(),
-                        () => CanGoBack());
+                        () => this.GoBack(),
+                        () => this.CanGoBack());
                 }
                 return _goBackCommand;
             }
@@ -126,29 +127,29 @@ namespace wallabag.Common
                 if (_goForwardCommand == null)
                 {
                     _goForwardCommand = new RelayCommand(
-                        () => GoForward(),
-                        () => CanGoForward());
+                        () => this.GoForward(),
+                        () => this.CanGoForward());
                 }
                 return _goForwardCommand;
             }
         }
-
+        
         public virtual bool CanGoBack()
         {
-            return Frame != null && Frame.CanGoBack;
+            return this.Frame != null && this.Frame.CanGoBack;
         }
         public virtual bool CanGoForward()
         {
-            return Frame != null && Frame.CanGoForward;
+            return this.Frame != null && this.Frame.CanGoForward;
         }
 
         public virtual void GoBack()
         {
-            if (Frame != null && Frame.CanGoBack) Frame.GoBack();
+            if (this.Frame != null && this.Frame.CanGoBack) this.Frame.GoBack();
         }
         public virtual void GoForward()
         {
-            if (Frame != null && Frame.CanGoForward) Frame.GoForward();
+            if (this.Frame != null && this.Frame.CanGoForward) this.Frame.GoForward();
         }
 
 #if WINDOWS_PHONE_APP
@@ -193,14 +194,14 @@ namespace wallabag.Common
                 {
                     // Wenn die Taste "Zurück" oder ALT+NACH-LINKS-TASTE gedrückt wird, zurück navigieren
                     e.Handled = true;
-                    GoBackCommand.Execute(null);
+                    this.GoBackCommand.Execute(null);
                 }
                 else if (((int)virtualKey == 167 && noModifiers) ||
                     (virtualKey == VirtualKey.Right && onlyAlt))
                 {
                     // Wenn die Taste "Weiter" oder ALT+NACH-RECHTS-TASTE gedrückt wird, vorwärts navigieren
                     e.Handled = true;
-                    GoForwardCommand.Execute(null);
+                    this.GoForwardCommand.Execute(null);
                 }
             }
         }
@@ -219,8 +220,7 @@ namespace wallabag.Common
 
             // Tastenkombinationen mit der linken, rechten und mittleren Taste ignorieren
             if (properties.IsLeftButtonPressed || properties.IsRightButtonPressed ||
-                properties.IsMiddleButtonPressed)
-                return;
+                properties.IsMiddleButtonPressed) return;
 
             // Wenn "Zurück" oder "Vorwärts" gedrückt wird (jedoch nicht gleichzeitig), entsprechend navigieren
             bool backPressed = properties.IsXButton1Pressed;
@@ -228,8 +228,8 @@ namespace wallabag.Common
             if (backPressed ^ forwardPressed)
             {
                 e.Handled = true;
-                if (backPressed) GoBackCommand.Execute(null);
-                if (forwardPressed) GoForwardCommand.Execute(null);
+                if (backPressed) this.GoBackCommand.Execute(null);
+                if (forwardPressed) this.GoForwardCommand.Execute(null);
             }
         }
 #endif
@@ -244,15 +244,15 @@ namespace wallabag.Common
 
         public void OnNavigatedTo(NavigationEventArgs e)
         {
-            var frameState = SuspensionManager.SessionStateForFrame(Frame);
-            _pageKey = "Page-" + Frame.BackStackDepth;
+            var frameState = SuspensionManager.SessionStateForFrame(this.Frame);
+            this._pageKey = "Page-" + this.Frame.BackStackDepth;
 
             if (e.NavigationMode == NavigationMode.New)
             {
                 // Bestehenden Zustand für die Vorwärtsnavigation löschen, wenn dem Navigationsstapel eine neue
                 // Seite hinzugefügt wird
-                var nextPageKey = _pageKey;
-                int nextPageIndex = Frame.BackStackDepth;
+                var nextPageKey = this._pageKey;
+                int nextPageIndex = this.Frame.BackStackDepth;
                 while (frameState.Remove(nextPageKey))
                 {
                     nextPageIndex++;
@@ -260,25 +260,31 @@ namespace wallabag.Common
                 }
 
                 // Den Navigationsparameter an die neue Seite übergeben
-                LoadState?.Invoke(this, new LoadStateEventArgs(e.Parameter, null));
+                if (this.LoadState != null)
+                {
+                    this.LoadState(this, new LoadStateEventArgs(e.Parameter, null));
+                }
             }
             else
             {
                 // Den Navigationsparameter und den beibehaltenen Seitenzustand an die Seite übergeben,
                 // dabei die gleiche Strategie verwenden wie zum Laden des angehaltenen Zustands und zum erneuten Erstellen von im Cache verworfenen
                 // Seiten
-                if (LoadState != null)
+                if (this.LoadState != null)
                 {
-                    LoadState(this, new LoadStateEventArgs(e.Parameter, (Dictionary<String, Object>)frameState[_pageKey]));
+                    this.LoadState(this, new LoadStateEventArgs(e.Parameter, (Dictionary<String, Object>)frameState[this._pageKey]));
                 }
             }
         }
 
         public void OnNavigatedFrom(NavigationEventArgs e)
         {
-            var frameState = SuspensionManager.SessionStateForFrame(Frame);
+            var frameState = SuspensionManager.SessionStateForFrame(this.Frame);
             var pageState = new Dictionary<String, Object>();
-            SaveState?.Invoke(this, new SaveStateEventArgs(pageState));
+            if (this.SaveState != null)
+            {
+                this.SaveState(this, new SaveStateEventArgs(pageState));
+            }
             frameState[_pageKey] = pageState;
         }
 
@@ -289,7 +295,7 @@ namespace wallabag.Common
     /// Repräsentiert die Methode, mit der das <see cref="NavigationHelper.LoadState"/>-Ereignis behandelt wird
     /// </summary>
     public delegate void LoadStateEventHandler(object sender, LoadStateEventArgs e);
-
+    
     /// <summary>
     /// Repräsentiert die Methode, mit der das <see cref="NavigationHelper.SaveState"/>-Ereignis behandelt wird
     /// </summary>
@@ -306,11 +312,11 @@ namespace wallabag.Common
         public LoadStateEventArgs(Object navigationParameter, Dictionary<string, Object> pageState)
             : base()
         {
-            NavigationParameter = navigationParameter;
-            PageState = pageState;
+            this.NavigationParameter = navigationParameter;
+            this.PageState = pageState;
         }
     }
-
+    
     /// <summary>
     /// Klasse, die zum Speichern der erforderlichen Ereignisdaten verwendet wird, wenn eine Seite versucht, den Zustand zu speichern.
     /// </summary>
@@ -321,7 +327,7 @@ namespace wallabag.Common
         public SaveStateEventArgs(Dictionary<string, Object> pageState)
             : base()
         {
-            PageState = pageState;
+            this.PageState = pageState;
         }
     }
 }

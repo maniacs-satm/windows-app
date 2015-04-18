@@ -15,8 +15,8 @@ namespace wallabag.Common
         {
             public ObservableDictionaryChangedEventArgs(CollectionChange change, string key)
             {
-                CollectionChange = change;
-                Key = key;
+                this.CollectionChange = change;
+                this.Key = key;
             }
 
             public CollectionChange CollectionChange { get; private set; }
@@ -29,25 +29,28 @@ namespace wallabag.Common
         private void InvokeMapChanged(CollectionChange change, string key)
         {
             var eventHandler = MapChanged;
-            eventHandler?.Invoke(this, new ObservableDictionaryChangedEventArgs(change, key));
+            if (eventHandler != null)
+            {
+                eventHandler(this, new ObservableDictionaryChangedEventArgs(change, key));
+            }
         }
 
         public void Add(string key, object value)
         {
-            _dictionary.Add(key, value);
-            InvokeMapChanged(CollectionChange.ItemInserted, key);
+            this._dictionary.Add(key, value);
+            this.InvokeMapChanged(CollectionChange.ItemInserted, key);
         }
 
         public void Add(KeyValuePair<string, object> item)
         {
-            Add(item.Key, item.Value);
+            this.Add(item.Key, item.Value);
         }
 
         public bool Remove(string key)
         {
-            if (_dictionary.Remove(key))
+            if (this._dictionary.Remove(key))
             {
-                InvokeMapChanged(CollectionChange.ItemRemoved, key);
+                this.InvokeMapChanged(CollectionChange.ItemRemoved, key);
                 return true;
             }
             return false;
@@ -56,10 +59,10 @@ namespace wallabag.Common
         public bool Remove(KeyValuePair<string, object> item)
         {
             object currentValue;
-            if (_dictionary.TryGetValue(item.Key, out currentValue) &&
-                Object.Equals(item.Value, currentValue) && _dictionary.Remove(item.Key))
+            if (this._dictionary.TryGetValue(item.Key, out currentValue) &&
+                Object.Equals(item.Value, currentValue) && this._dictionary.Remove(item.Key))
             {
-                InvokeMapChanged(CollectionChange.ItemRemoved, item.Key);
+                this.InvokeMapChanged(CollectionChange.ItemRemoved, item.Key);
                 return true;
             }
             return false;
@@ -69,53 +72,53 @@ namespace wallabag.Common
         {
             get
             {
-                return _dictionary[key];
+                return this._dictionary[key];
             }
             set
             {
-                _dictionary[key] = value;
-                InvokeMapChanged(CollectionChange.ItemChanged, key);
+                this._dictionary[key] = value;
+                this.InvokeMapChanged(CollectionChange.ItemChanged, key);
             }
         }
 
         public void Clear()
         {
-            var priorKeys = _dictionary.Keys.ToArray();
-            _dictionary.Clear();
+            var priorKeys = this._dictionary.Keys.ToArray();
+            this._dictionary.Clear();
             foreach (var key in priorKeys)
             {
-                InvokeMapChanged(CollectionChange.ItemRemoved, key);
+                this.InvokeMapChanged(CollectionChange.ItemRemoved, key);
             }
         }
 
         public ICollection<string> Keys
         {
-            get { return _dictionary.Keys; }
+            get { return this._dictionary.Keys; }
         }
 
         public bool ContainsKey(string key)
         {
-            return _dictionary.ContainsKey(key);
+            return this._dictionary.ContainsKey(key);
         }
 
         public bool TryGetValue(string key, out object value)
         {
-            return _dictionary.TryGetValue(key, out value);
+            return this._dictionary.TryGetValue(key, out value);
         }
 
         public ICollection<object> Values
         {
-            get { return _dictionary.Values; }
+            get { return this._dictionary.Values; }
         }
 
         public bool Contains(KeyValuePair<string, object> item)
         {
-            return _dictionary.Contains(item);
+            return this._dictionary.Contains(item);
         }
 
         public int Count
         {
-            get { return _dictionary.Count; }
+            get { return this._dictionary.Count; }
         }
 
         public bool IsReadOnly
@@ -125,18 +128,18 @@ namespace wallabag.Common
 
         public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
-            return _dictionary.GetEnumerator();
+            return this._dictionary.GetEnumerator();
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return _dictionary.GetEnumerator();
+            return this._dictionary.GetEnumerator();
         }
 
         public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
         {
             int arraySize = array.Length;
-            foreach (var pair in _dictionary)
+            foreach (var pair in this._dictionary)
             {
                 if (arrayIndex >= arraySize) break;
                 array[arrayIndex++] = pair;

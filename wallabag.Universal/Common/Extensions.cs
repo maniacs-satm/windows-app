@@ -24,8 +24,12 @@ namespace wallabag.Common
 
         private static void OnHTMLChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+
             WebView wv = d as WebView;
-            wv?.NavigateToString((string)e.NewValue);
+            if (wv != null)
+            {
+                wv.NavigateToString((string)e.NewValue);
+            }
         }
     }
     public static class HttpClientExtensions
