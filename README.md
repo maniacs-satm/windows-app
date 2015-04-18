@@ -1,7 +1,7 @@
 wallabag for Windows (v2)
 ================
 
-**This app is still in development.**
+**This app will only be released for Windows 10 -- it's still in development.**
 
 ## Planned features
 - [x] Add new articles to wallabag
