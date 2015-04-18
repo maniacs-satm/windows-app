@@ -8,7 +8,59 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="70" IsPaneOpen="True">
+        <Grid Margin="70,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Rectangle Fill="#26858585"/>
+            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Margin="0,0,20,0">
+                <StackPanel Orientation="Horizontal" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                    <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchReadStatusCommand}">
+                        <SymbolIcon Symbol="Accept"/>
+                    </Button>
+                    <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}">
+                        <SymbolIcon Symbol="Favorite"/>
+                    </Button>
+                    <StackPanel x:Name="ItemCommands" Orientation="Horizontal" Width="0">
+                        <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding DeleteCommand}">
+                            <SymbolIcon Symbol="Delete"/>
+                        </Button>
+                        <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
+                            <SymbolIcon Symbol="Edit"/>
+                        </Button>
+                        <Button Style="{StaticResource RoundButtonStyle}" IsEnabled="False">
+                            <SymbolIcon Symbol="Tag"/>
+                        </Button>
+                        <Button x:Name="FullScreenButton" Style="{StaticResource RoundButtonStyle}">
+                            <SymbolIcon Symbol="FullScreen"/>
+                        </Button>
+                    </StackPanel>
+                    <Button x:Name="ItemCommandsViewButton" Style="{StaticResource RoundButtonStyle}" RenderTransformOrigin="0.5,0.5">
+                        <Button.RenderTransform>
+                            <CompositeTransform/>
+                        </Button.RenderTransform>
+                        <SymbolIcon Symbol="More"/>
+                    </Button>
+                    <Rectangle Width="2" Fill="{ThemeResource AccentBrush}" Margin="10,0"/>
+                </StackPanel>
+                <Button Style="{StaticResource RoundButtonStyle}">
+                    <SymbolIcon Symbol="Add"/>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding RefreshCommand}">
+                    <SymbolIcon x:Name="symbolIcon" Symbol="Refresh" RenderTransformOrigin="0.51,0.55">
+                        <SymbolIcon.RenderTransform>
+                            <CompositeTransform/>
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                </Button>
+                <Button Style="{StaticResource RoundButtonStyle}">
+                    <SymbolIcon Symbol="Find"/>
+                </Button>
+            </StackPanel>
+            <TextBlock x:Name="SelectedHeaderTextBlock" HorizontalAlignment="Left" Text="Unread" VerticalAlignment="Center" FontSize="26.667" TextLineBounds="Tight" Grid.Column="1" Margin="45,0,0,0"/>
+        </Grid>
+        <SplitView x:Name="splitView" PaneBackground="{StaticResource AccentBrush}" DisplayMode="CompactOverlay" CompactPaneLength="70">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -34,13 +86,13 @@
                                 <Path Fill="White" Data="M176.636 36.05c-0.223-0.65-0.577-1.221-1.052-1.696c-0.473-0.473-1.088-0.849-1.826-1.118 c-0.731-0.264-1.607-0.398-2.603-0.398c-1.074 0-2.023 0.19-2.822 0.567c-0.797 0.375-1.472 0.877-2.003 1.494 c-0.532 0.613-0.937 1.333-1.201 2.138c-0.264 0.799-0.396 1.637-0.396 2.491v1.567c0 1.854 0.475 3.341 1.412 4.417 c0.945 1.084 2.301 1.634 4.028 1.634c0.921 0 1.679-0.161 2.253-0.481c0.39-0.217 0.721-0.482 0.987-0.79v0.769 c0 0.588-0.065 1.065-0.196 1.418c-0.129 0.342-0.303 0.614-0.521 0.809c-0.217 0.193-0.477 0.327-0.772 0.397 c-0.317 0.075-0.675 0.112-1.061 0.112c-0.638 0-1.137-0.034-1.481-0.103c-0.381-0.073-0.669-0.109-0.882-0.109 c-0.557 0-0.982 0.139-1.267 0.411c-0.285 0.275-0.431 0.646-0.431 1.1c0 0.616 0.332 1.138 1.028 1.575 c0.249 0.098 0.641 0.18 1.195 0.253c0.542 0.072 1.159 0.108 1.837 0.108c0.799 0 1.574-0.12 2.303-0.356 c0.734-0.237 1.392-0.606 1.955-1.095c0.563-0.49 1.018-1.116 1.349-1.86c0.33-0.744 0.497-1.64 0.497-2.66v-8.522 C176.967 37.388 176.856 36.691 176.636 36.05z M170.014 36.458c0.336-0.167 0.72-0.253 1.142-0.253 c0.737 0 1.311 0.152 1.699 0.455c0.376 0.291 0.559 0.734 0.559 1.351v3.311c-0.032 0.856-0.285 1.462-0.773 1.855 c-0.502 0.402-1.082 0.598-1.776 0.598c-1.698 0-2.524-0.844-2.524-2.576V39.42c0-0.448 0.072-0.873 0.212-1.261 c0.14-0.387 0.335-0.727 0.581-1.015C169.375 36.859 169.672 36.63 170.014 36.458z" />
                             </Canvas>
                         </Viewbox>
-                        <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource HamburgerButtonStyle}" Tag="" Grid.Column="1" HorizontalAlignment="Center" Margin="12.5" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"/>
+                        <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource HamburgerButtonStyle}" Grid.Column="1" HorizontalAlignment="Center" Margin="12.5" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"/>
                     </Grid>
                     <StackPanel Grid.Row="1" Margin="0,30,0,0">
-                        <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" IsChecked="True" Tag="" Content="Unread" />
-                        <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" />
-                        <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="" Content="Tags" />
-                        <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="" Content="Settings" />
+                        <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" IsChecked="True" Tag="&#xE10F;" Content="Unread" />
+                        <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="&#xE006;" Content="Favorites" />
+                        <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
+                        <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE15E;" Content="Settings" />
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>
