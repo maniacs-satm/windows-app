@@ -26,5 +26,23 @@ namespace wallabag.Universal
         {
             this.InitializeComponent();
         }
+
+        private void ItemsMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            HeaderTextBlock.Text = "Items";
+            BottomAppBar.Visibility = Visibility.Visible;
+        }
+
+        private void TagsMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            HeaderTextBlock.Text = "Tags";
+            BottomAppBar.Visibility = Visibility.Visible;
+        }
+
+        private void SettingsMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            HeaderTextBlock.Text = "Settings";
+            BottomAppBar.Visibility = Visibility.Collapsed;
+        }
     }
 }

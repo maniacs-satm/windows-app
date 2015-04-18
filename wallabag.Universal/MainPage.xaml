@@ -35,14 +35,14 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Text="Unread" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" Margin="20,0,0,0"/>
+            <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" Margin="20,0,0,0"/>
             <Grid x:Name="itemGrid" Grid.Row="1">
                 <ListView ItemsSource="{Binding CurrentItems}" ItemTemplate="{StaticResource ArticleTemplate}"
                       ItemContainerStyle="{StaticResource ArticleContainerStyle}" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                       IsItemClickEnabled="True" SelectionMode="None" />
             </Grid>
-            <Grid x:Name="tagsGrid" Grid.Row="1" Margin="20"/>
-            <Grid x:Name="settingsGrid" Grid.Row="1" Margin="20">
+            <Grid x:Name="tagsGrid" Grid.Row="1" Margin="20" Visibility="Collapsed"/>
+            <Grid x:Name="settingsGrid" Grid.Row="1" Margin="20" Visibility="Collapsed">
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="TextBox">
@@ -79,11 +79,11 @@
         <SplitView x:Name="splitView" DisplayMode="CompactOverlay" CompactPaneLength="50">
             <SplitView.Pane>
                 <StackPanel>
-                    <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource HamburgerButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" Width="50"/>
-                    <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" IsChecked="True" Tag="&#xE10F;" Content="Unread" />
-                    <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="&#xE006;" Content="Favorites" />
-                    <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
-                    <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
+                    <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource HamburgerButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"/>
+                    <RadioButton x:Name="UnreadItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" IsChecked="True" Tag="&#xE10F;" Content="Unread" />
+                    <RadioButton x:Name="FavoriteItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="&#xE006;" Content="Favorites" />
+                    <RadioButton x:Name="TagsMenuButton" Click="TagsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
+                    <RadioButton x:Name="SettingsMenuButton" Click="SettingsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>
