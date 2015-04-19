@@ -2,6 +2,8 @@
 using wallabag.DataModel;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -13,7 +15,7 @@ namespace wallabag.Views
         private DataTransferManager dataTransferManager;
         public SingleItemPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += dataTransferManager_DataRequested;
         }
@@ -21,17 +23,20 @@ namespace wallabag.Views
         void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequest request = args.Request;
-            Item item = (this.DataContext as SingleItemPageViewModel).CurrentItem.Model as Item;
+            Item item = (DataContext as SingleItemPageViewModel).CurrentItem.Model as Item;
             request.Data.Properties.Title = item.Title; // The title of the shared information.
             request.Data.SetWebLink(new Uri(item.Url)); // Setting the Web link to the URL of the saved article.
-            var htmlFormat = Windows.ApplicationModel.DataTransfer.HtmlFormatHelper.CreateHtmlFormat(item.Content);
+            var htmlFormat = HtmlFormatHelper.CreateHtmlFormat(item.Content);
             request.Data.SetHtmlFormat(htmlFormat);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter != null)
-                DataContext = new ViewModels.SingleItemPageViewModel() { CurrentItem = await wallabag.DataModel.DataSource.GetItemAsync((int)e.Parameter) };
+            if (e?.Parameter.GetType() == typeof(int))
+            {
+                DataContext = new SingleItemPageViewModel() { CurrentItem = await wallabag.DataModel.DataSource.GetItemAsync((int)e.Parameter) };
+                ApplicationView.GetForCurrentView().Title = (DataContext as SingleItemPageViewModel).CurrentItem.Model.Title;
+            }
             base.OnNavigatedTo(e);
         }
 
