@@ -8,31 +8,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView common:WebViewExtensions.HTML="{Binding CurrentItem.ContentWithHeader}"/>
-        <Button x:Name="backButton" Margin="39,59,39,0"
-                        Style="{StaticResource NavigationBackButtonNormalStyle}"
-                        VerticalAlignment="Top"
-                        AutomationProperties.Name="Back"
-                        AutomationProperties.AutomationId="BackButton"
-                        AutomationProperties.ItemType="Navigation Button" Click="backButton_Click"/>
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="960"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="2" Margin="0,150">
-                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchReadStatusCommand}">
-                    <SymbolIcon Symbol="Accept"/>
-                </Button>
-                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}">
-                    <SymbolIcon Symbol="Favorite"/>
-                </Button>
-                <Button Style="{StaticResource RoundButtonStyle}">
-                    <SymbolIcon Symbol="Font"/>
-                    <Button.Flyout>
-                        <Flyout Placement="Left" FlyoutPresenterStyle="{StaticResource DarkFlyoutPresenterStyle}">
+    <common:basicPage.BottomAppBar>
+        <CommandBar ClosedDisplayMode="Minimal">
+            <CommandBar.PrimaryCommands>
+                <AppBarToggleButton Icon="Accept" Label="Mark as read"/>
+                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite"/>
+                <AppBarButton Icon="Tag" Label="Manage tags"/>
+                <AppBarSeparator/>
+                <AppBarButton Icon="Font" Label="Font settings">
+                    <AppBarButton.Flyout>
+                        <Flyout Placement="Top">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -56,27 +41,37 @@
                                 </StackPanel>
                             </Grid>
                         </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <Button Style="{StaticResource RoundButtonStyle}">
-                    <SymbolIcon Symbol="Edit"/>
-                    <Button.Flyout>
-                        <Flyout Placement="Left" FlyoutPresenterStyle="{StaticResource DarkFlyoutPresenterStyle}">
-                            <StackPanel Width="250">
-                                <TextBox Header="Title" Text="{Binding CurrentItem.Model.Title, Mode=TwoWay}"/>
-                                <Button Content="Update" HorizontalAlignment="Right" Margin="0,10,0,0" Command="{Binding CurrentItem.UpdateCommand}"/>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Label="Share">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Content"/>
+                            <MenuFlyoutItem Text="Link"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Delete article">
+                    <AppBarButton.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <TextBlock Text="The article will be permantely deleted from wallabag."/>
+                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Foreground="White"/>
                             </StackPanel>
                         </Flyout>
-                    </Button.Flyout>
-                </Button>
-                <Button Style="{StaticResource RoundButtonStyle}">
-                    <SymbolIcon Symbol="Tag"/>
-                </Button>
-                <Button Style="{StaticResource RoundButtonStyle}" Command="{Binding CurrentItem.DeleteCommand}">
-                    <SymbolIcon Symbol="Delete"/>
-                </Button>
-            </StackPanel>
-        </Grid>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </common:basicPage.BottomAppBar>
 
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <WebView />
+        <Button Style="{StaticResource BackButtonStyle}" Click="backButton_Click"/>
     </Grid>
 </common:basicPage>
