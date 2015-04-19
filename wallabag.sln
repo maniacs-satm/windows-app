@@ -10,9 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F42E03
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.Tests", "wallabag.Tests\wallabag.Tests.csproj", "{AAF00A7F-E12E-448D-8AA3-3FA83C734311}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.Tests", "src\wallabag.Tests\wallabag.Tests.csproj", "{AAF00A7F-E12E-448D-8AA3-3FA83C734311}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.Universal", "wallabag.Universal\wallabag.Universal.csproj", "{F2A38669-47E3-4677-BDF2-6257EB48A182}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.Universal", "src\wallabag.Universal\wallabag.Universal.csproj", "{F2A38669-47E3-4677-BDF2-6257EB48A182}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +79,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{AAF00A7F-E12E-448D-8AA3-3FA83C734311} = {37C965E6-F229-469C-B4C0-242D6B04C0ED}
 		{F2A38669-47E3-4677-BDF2-6257EB48A182} = {37C965E6-F229-469C-B4C0-242D6B04C0ED}
 	EndGlobalSection
 EndGlobal

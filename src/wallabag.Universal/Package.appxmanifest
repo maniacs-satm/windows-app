@@ -9,12 +9,12 @@
   <Identity
     Name="92bb16fa-d83e-4cf4-ba03-4672888e3ca5"
     Publisher="CN=Julian"
-    Version="1.0.0.0" />
+    Version="2.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="92bb16fa-d83e-4cf4-ba03-4672888e3ca5" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>wallabag.Universal</DisplayName>
+    <DisplayName>wallabag</DisplayName>
     <PublisherDisplayName>Julian</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
