@@ -5,25 +5,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
-    
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default">
-            <Color x:Key="AccentColor">#FF469646</Color>
-            <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}"/>
-            <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{ThemeResource AccentColor}"/>
 
-            <Color x:Key="DarkGray">#FF2C2C2C</Color>
-            <Color x:Key="LightGray">#4C858585</Color>
-            <SolidColorBrush x:Key="DarkGrayBrush" Color="{ThemeResource DarkGray}"/>
-            <SolidColorBrush x:Key="LightGrayBrush" Color="{ThemeResource LightGray}"/>
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Light">
+    <Color x:Key="AccentColor">#FF469646</Color>
+    <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}"/>
+    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{ThemeResource AccentColor}"/>
 
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Dark">
-
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
+    <Color x:Key="DarkGray">#FF2C2C2C</Color>
+    <Color x:Key="LightGray">#4C858585</Color>
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="{ThemeResource DarkGray}"/>
+    <SolidColorBrush x:Key="LightGrayBrush" Color="{ThemeResource LightGray}"/>
 
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -75,9 +65,6 @@
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBorderThemeBrush}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
