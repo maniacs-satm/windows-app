@@ -15,7 +15,7 @@
 
   <Properties>
     <DisplayName>wallabag</DisplayName>
-    <PublisherDisplayName>Julian</PublisherDisplayName>
+    <PublisherDisplayName>Julian Oster</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -32,7 +32,7 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="wallabag.Universal.App">
       <uap:VisualElements
-        DisplayName="wallabag.Universal"
+        DisplayName="wallabag"
         Square150x150Logo="Assets\Logo.png"
         Square44x44Logo="Assets\SmallLogo.png"
         Description="wallabag.Universal"
