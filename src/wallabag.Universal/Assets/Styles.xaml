@@ -6,14 +6,9 @@
     xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
 
-    <Color x:Key="AccentColor">#FF469646</Color>
+    <Color x:Key="AccentColor">#469646</Color>
     <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}"/>
-
-    <Color x:Key="DarkGray">#FF2C2C2C</Color>
-    <Color x:Key="LightGray">#4C858585</Color>
-    <SolidColorBrush x:Key="DarkGrayBrush" Color="{ThemeResource DarkGray}"/>
-    <SolidColorBrush x:Key="LightGrayBrush" Color="{ThemeResource LightGray}"/>
-
+    
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
@@ -250,95 +245,28 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="RoundButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{ThemeResource ButtonBackgroundThemeBrush}"/>
-        <Setter Property="Foreground" Value="{ThemeResource ButtonForegroundThemeBrush}"/>
-        <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderThemeBrush}"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Margin" Value="3,0"/>
-        <Setter Property="Padding" Value="12,4,12,4"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal"/>
-                                <VisualState x:Name="PointerOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource LightGrayBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonPointerOverForegroundThemeBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="Border">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledBackgroundThemeBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonDisabledForegroundThemeBrush}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                            <VisualStateGroup x:Name="FocusStates">
-                                <VisualState x:Name="Focused">
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualWhite"/>
-                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualBlack"/>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Unfocused"/>
-                                <VisualState x:Name="PointerFocused"/>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="3" Width="50" Height="50" CornerRadius="25">
-                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <Rectangle x:Name="FocusVisualWhite" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="1.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashArray="1,1"/>
-                        <Rectangle x:Name="FocusVisualBlack" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="0.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashArray="1,1"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     <DataTemplate x:Key="ArticleTemplate">
-        <Grid Height="80">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Border Margin="10" BorderBrush="{ThemeResource AccentBrush}" BorderThickness="5" CornerRadius="100">
+            <Border Margin="7.5" BorderBrush="{ThemeResource AccentBrush}" BorderThickness="5" CornerRadius="40" Height="64" Width="64">
                 <Border.Background>
                     <ImageBrush ImageSource="https://jlnostr.de/content/images/2015/02/books.jpg" Stretch="UniformToFill"/>
                 </Border.Background>
             </Border>
+            <Border Margin="7.5" BorderBrush="{ThemeResource AccentBrush}" BorderThickness="5" CornerRadius="40" Height="64" Width="64" Visibility="{Binding Model.IsStarred,Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Viewbox Stretch="UniformToFill">
+                    <Canvas Width="64" Height="64">
+                        <Path Fill="{ThemeResource ItemFavoriteOverBrush}" Data="m 32 0 a 32 32 0 0 0 -32 32 32 32 0 0 0 32 32 32 32 0 0 0 32 -32 32 32 0 0 0 -32 -32 z m 0 16.2795 4.11511 11.84126 12.54055 0 -9.98688 7.79106 3.85475 11.80868 -10.52353 -7.01046 -10.458614 7.01046 3.78984 -11.80868 -9.987116 -7.79106 12.55695 0 4.09894 -11.84126 z"/>
+                    </Canvas>
+                </Viewbox>
+            </Border>
             <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
                 <TextBlock TextWrapping="Wrap" Text="{Binding Model.Title}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" MaxLines="2"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding UrlHostname}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlockStyle}" Foreground="DarkGray"/>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding UrlHostname}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlockStyle}" Foreground="{ThemeResource ItemHostnameBrush}" Margin="0,5"/>
             </StackPanel>
-            <Viewbox Visibility="{Binding Model.IsStarred,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Width="20">
-                <SymbolIcon Symbol="Favorite" Foreground="DarkGray"/>
-            </Viewbox>
         </Grid>
     </DataTemplate>
     <Style x:Key="ArticleContainerStyle" TargetType="ListViewItem">
@@ -358,4 +286,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="ItemFavoriteOverBrush" Color="Black" Opacity="0.75"/>
+            <SolidColorBrush x:Key="ItemHostnameBrush" Color="White" Opacity="0.4"/>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="ItemFavoriteOverBrush" Color="White" Opacity="0.75"/>
+            <SolidColorBrush x:Key="ItemHostnameBrush" Color="Black" Opacity="0.5"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>    
 </ResourceDictionary>
