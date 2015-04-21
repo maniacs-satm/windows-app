@@ -8,7 +8,6 @@
 
     <Color x:Key="AccentColor">#FF469646</Color>
     <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}"/>
-    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="{ThemeResource AccentColor}"/>
 
     <Color x:Key="DarkGray">#FF2C2C2C</Color>
     <Color x:Key="LightGray">#4C858585</Color>
@@ -323,13 +322,22 @@
         </Setter>
     </Style>
     <DataTemplate x:Key="ArticleTemplate">
-        <Grid d:DesignHeight="100" d:DesignWidth="320" Background="#07FFFFFF">
-            <StackPanel Grid.Column="1" Margin="20" VerticalAlignment="Center">
+        <Grid Height="80">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Margin="10" BorderBrush="{ThemeResource AccentBrush}" BorderThickness="5" CornerRadius="100">
+                <Border.Background>
+                    <ImageBrush ImageSource="https://jlnostr.de/content/images/2015/02/books.jpg" Stretch="UniformToFill"/>
+                </Border.Background>
+            </Border>
+            <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
                 <TextBlock TextWrapping="Wrap" Text="{Binding Model.Title}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" MaxLines="2"/>
                 <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding UrlHostname}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlockStyle}" Foreground="DarkGray"/>
             </StackPanel>
             <Viewbox Visibility="{Binding Model.IsStarred,Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Width="20">
-                <SymbolIcon Symbol="Favorite" Foreground="#7FFFFFFF"/>
+                <SymbolIcon Symbol="Favorite" Foreground="DarkGray"/>
             </Viewbox>
         </Grid>
     </DataTemplate>
