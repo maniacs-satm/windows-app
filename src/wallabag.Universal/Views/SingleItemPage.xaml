@@ -56,6 +56,15 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Download as…">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="PDF"  Command="{Binding DownloadItemAsPDFCommand}"/>
+                            <MenuFlyoutItem Text="EPUB" Command="{Binding DownloadItemAsEpubCommand}"/>
+                            <MenuFlyoutItem Text="MOBI" Command="{Binding DownloadItemAsMobiCommand}"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                 <AppBarButton Label="Delete article">
                     <AppBarButton.Flyout>
                         <Flyout>
