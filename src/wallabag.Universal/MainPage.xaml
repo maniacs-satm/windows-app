@@ -35,11 +35,19 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Center" Margin="20,0,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="20,0" VerticalAlignment="Center">
+                <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <ProgressRing Margin="10,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </StackPanel>
             <Grid x:Name="itemGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <ListView ItemsSource="{Binding CurrentItems}" ItemTemplate="{StaticResource ArticleTemplate}"
                       ItemContainerStyle="{StaticResource ArticleContainerStyle}"
                       IsItemClickEnabled="True" SelectionMode="None" />
+                <WebView x:Name="WebView" Grid.Column="1"/>
             </Grid>
             <Grid x:Name="tagsGrid" Grid.Row="1" Margin="20" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Grid x:Name="settingsGrid" Grid.Row="1" Margin="20" Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -81,7 +89,7 @@
                 <StackPanel>
                     <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource HamburgerButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"/>
                     <RadioButton x:Name="UnreadItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Unread" IsChecked="True"/>
-                    <RadioButton x:Name="FavoriteItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="&#xE006;" Content="Favorites" />
+                    <RadioButton x:Name="FavoriteItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" Background="#00000000" />
                     <RadioButton x:Name="TagsMenuButton" Click="TagsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
                     <RadioButton x:Name="SettingsMenuButton" Click="SettingsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
                 </StackPanel>
