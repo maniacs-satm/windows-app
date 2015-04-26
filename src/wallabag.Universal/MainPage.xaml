@@ -46,7 +46,7 @@
                     <ColumnDefinition Width="350"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <ListView ItemsSource="{Binding CurrentItems}" ItemTemplate="{StaticResource ArticleTemplate}"
+                <ListView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
                       ItemContainerStyle="{StaticResource ArticleContainerStyle}"
                       IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick"/>
                 <WebView x:Name="WebView" Grid.Column="1"/>
