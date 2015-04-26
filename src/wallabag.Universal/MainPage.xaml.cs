@@ -49,5 +49,10 @@ namespace wallabag.Universal
             //Show the content of the clicked item in the WebView.
             WebView.NavigateToString(dataContext.CurrentItem.ContentWithHeader);
         }
+
+        private void ShowInFullscreenButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(Views.SingleItemPage), ((MainViewModel)DataContext).CurrentItem.Model.Id);
+        }
     }
 }
