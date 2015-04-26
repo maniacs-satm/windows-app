@@ -14,18 +14,8 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <CommandBar.PrimaryCommands>
-                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                <AppBarToggleButton Icon="Favorite" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                <AppBarButton Icon="Tag" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                <AppBarButton Icon="FullScreen" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                <AppBarSeparator Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                <AppBarButton Icon="Add" Label="Add"/>
-                <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-            </CommandBar.PrimaryCommands>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Delete" Label="Delete" Command="{Binding DeleteCommand}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-            </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="Add" Label="Add"/>
+            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -35,10 +25,22 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="20,0" VerticalAlignment="Center">
-                <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}"/>
-                <ProgressRing Margin="10,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="350"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="20,0" VerticalAlignment="Center">
+                    <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <ProgressRing Margin="10,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                    <AppBarToggleButton Icon="Accept" IsCompact="True" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    <AppBarToggleButton Icon="Favorite" IsCompact="True" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    <AppBarButton Icon="Tag" IsCompact="True" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    <AppBarButton Icon="FullScreen" IsCompact="True" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                </StackPanel>
+            </Grid>
             <Grid x:Name="itemGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="350"/>
@@ -46,7 +48,7 @@
                 </Grid.ColumnDefinitions>
                 <ListView ItemsSource="{Binding CurrentItems}" ItemTemplate="{StaticResource ArticleTemplate}"
                       ItemContainerStyle="{StaticResource ArticleContainerStyle}"
-                      IsItemClickEnabled="True" SelectionMode="None" />
+                      IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick"/>
                 <WebView x:Name="WebView" Grid.Column="1"/>
             </Grid>
             <Grid x:Name="tagsGrid" Grid.Row="1" Margin="20" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
