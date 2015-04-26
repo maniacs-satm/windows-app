@@ -25,66 +25,58 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" Margin="20,0" VerticalAlignment="Center">
-                    <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    <ProgressRing Margin="10,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                    <AppBarToggleButton Icon="Accept" IsCompact="True" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarToggleButton Icon="Favorite" IsCompact="True" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarButton Icon="Tag" IsCompact="True" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarButton Icon="FullScreen" IsCompact="True" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                </StackPanel>
-            </Grid>
-            <Grid x:Name="itemGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="350"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <ListView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
-                      ItemContainerStyle="{StaticResource ArticleContainerStyle}"
-                      IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick"/>
-                <WebView x:Name="WebView" Grid.Column="1"/>
-            </Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="20,0" VerticalAlignment="Center">
+                <TextBlock x:Name="HeaderTextBlock" Text="Items" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <ProgressRing Margin="10,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                <AppBarToggleButton Icon="Accept" IsCompact="True" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarToggleButton Icon="Favorite" IsCompact="True" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarButton Icon="Tag" IsCompact="True" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                <AppBarButton Icon="FullScreen" IsCompact="True" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+            </StackPanel>
+
+            <ListView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}" Background="Red"
+                          ItemContainerStyle="{StaticResource ArticleContainerStyle}"
+                          IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick" Grid.Row="1"
+                          Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <WebView x:Name="WebView" Grid.Column="1" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Grid x:Name="tagsGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,0"/>
-            <Grid x:Name="settingsGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,0">
-                <StackPanel>
-                    <StackPanel.Resources>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="300" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                        <Style TargetType="PasswordBox">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="300" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                        <Style TargetType="ToggleSwitch">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="300" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                        <Style TargetType="Slider">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="400" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                    </StackPanel.Resources>
-                    <TextBlock Text="Account" Margin="0,0,0,10" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    <TextBox Header="Username" Text="{Binding AppSettings.Username, Mode=TwoWay}"/>
-                    <PasswordBox Header="Password" Password="{Binding AppSettings.Password, Mode=TwoWay}"/>
-                    <TextBox Header="wallabag URL" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.WallabagUrl, Mode=TwoWay}"/>
-                    <TextBlock Text="Reading view" Margin="0,10" Style="{ThemeResource TitleTextBlockStyle}"/>
-                    <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
-                    <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
-                </StackPanel>
-            </Grid>
+            <StackPanel Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1" Grid.ColumnSpan="2" Margin="20">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Margin" Value="0,5" />
+                        <Setter Property="Width" Value="300" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                    </Style>
+                    <Style TargetType="PasswordBox">
+                        <Setter Property="Margin" Value="0,5" />
+                        <Setter Property="Width" Value="300" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                    </Style>
+                    <Style TargetType="ToggleSwitch">
+                        <Setter Property="Margin" Value="0,5" />
+                        <Setter Property="Width" Value="300" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                    </Style>
+                    <Style TargetType="Slider">
+                        <Setter Property="Margin" Value="0,5" />
+                        <Setter Property="Width" Value="400" />
+                        <Setter Property="HorizontalAlignment" Value="Left" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="Account" Margin="0,0,0,10" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <TextBox Header="Username" Text="{Binding AppSettings.Username, Mode=TwoWay}"/>
+                <PasswordBox Header="Password" Password="{Binding AppSettings.Password, Mode=TwoWay}"/>
+                <TextBox Header="wallabag URL" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.WallabagUrl, Mode=TwoWay}"/>
+                <TextBlock Text="Reading view" Margin="0,10" Style="{ThemeResource TitleTextBlockStyle}"/>
+                <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
+                <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
+            </StackPanel>
         </Grid>
         <SplitView x:Name="splitView" DisplayMode="CompactOverlay" CompactPaneLength="50">
             <SplitView.Pane>
