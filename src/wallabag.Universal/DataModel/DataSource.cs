@@ -20,7 +20,7 @@ namespace wallabag.DataModel
 
         public static async Task<bool> GetItemsAsync(int page = 1, bool IsSingleItem = false)
         {
-            if (Helpers.IsConnectedToInternet() || IsSingleItem)
+            if (!Helpers.IsConnectedToInternet() || IsSingleItem)
               return await RestoreItemsAsync();
             else
             {
