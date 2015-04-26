@@ -18,36 +18,33 @@ namespace wallabag.DataModel
         private static DataSource _wallabagDataSource = new DataSource();
         public static ObservableCollection<ItemViewModel> Items { get; set; }
 
-        public static async Task<bool> GetItemsAsync(int page = 1, bool IsSingleItem = false)
+        public static async Task<bool> GetItemsAsync(int page = 1)
         {
-            if (!Helpers.IsConnectedToInternet() || IsSingleItem)
-              return await RestoreItemsAsync();
-            else
+            await RestoreItemsAsync();
+
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http);
+            System.Diagnostics.Debug.WriteLine(http.DefaultRequestHeaders["X-WSSE"]);
+            var response = await http.GetAsync(new Uri($"{AppSettings.Instance.WallabagUrl}/api/entries.json?page={page}"));
+            http.Dispose();
+
+            if (response.StatusCode == HttpStatusCode.Ok ||
+                response.StatusCode == HttpStatusCode.NoContent)
             {
-                HttpClient http = new HttpClient();
-
-                await Helpers.AddHeaders(http);
-                System.Diagnostics.Debug.WriteLine(http.DefaultRequestHeaders["X-WSSE"]);
-                var response = await http.GetAsync(new Uri($"{AppSettings.Instance.WallabagUrl}/api/entries.json?page={page}"));
-                http.Dispose();
-
-                if (response.StatusCode == HttpStatusCode.Ok ||
-                    response.StatusCode == HttpStatusCode.NoContent)
-                {
-                    List<Item> items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Item>>(response.Content.ToString()));
-                    Items = new ObservableCollection<ItemViewModel>();
-                    foreach (Item i in items)
-                        Items.Add(new ItemViewModel(i));
-                    await SaveItemsAsync();
-                    return true;
-                }
+                List<Item> items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Item>>(response.Content.ToString()));
+                Items = new ObservableCollection<ItemViewModel>();
+                foreach (Item i in items)
+                    Items.Add(new ItemViewModel(i));
+                await SaveItemsAsync();
+                return true;
             }
             return false;
         }
         public static async Task<ItemViewModel> GetItemAsync(int Id)
         {
             if (Items.Count == 0)
-                await GetItemsAsync(0, true);
+                await GetItemsAsync();
             if (Items.Count > 0)
                 return Items.Where(i => i.Model.Id == Id).First();
             return null;

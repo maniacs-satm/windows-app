@@ -20,7 +20,6 @@ namespace wallabag.Universal
         private void ItemsMenuButton_Click(object sender, RoutedEventArgs e)
         {
             HeaderTextBlock.Text = "Items";
-            itemGrid.Visibility = Visibility.Visible; // ensure that the itemGrid is visible, even if the FavoriteMenuButton is clicked
             BottomAppBar.Visibility = Visibility.Visible;
         }
 
