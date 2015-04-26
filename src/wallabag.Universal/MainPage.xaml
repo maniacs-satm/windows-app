@@ -41,7 +41,7 @@
                     <AppBarButton Icon="FullScreen" IsCompact="True" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
-            <Grid x:Name="itemGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid x:Name="itemGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,0,50">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="350"/>
                     <ColumnDefinition />
@@ -51,8 +51,8 @@
                       IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick"/>
                 <WebView x:Name="WebView" Grid.Column="1"/>
             </Grid>
-            <Grid x:Name="tagsGrid" Grid.Row="1" Margin="20" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <Grid x:Name="settingsGrid" Grid.Row="1" Margin="20" Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid x:Name="tagsGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,0,50"/>
+            <Grid x:Name="settingsGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,0,0,50">
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="TextBox">
