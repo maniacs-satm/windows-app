@@ -42,8 +42,8 @@ namespace wallabag.ViewModels
 
         public ItemViewModel CurrentItem { get; set; }
         public bool CurrentItemIsNotNull { get { return CurrentItem != null; } }
-
-        public RelayCommand RefreshCommand { get; set; }
+        
+        public RelayCommand RefreshCommand { get; private set; }
         private async Task Refresh()
         {
             IsActive = true;
@@ -62,7 +62,7 @@ namespace wallabag.ViewModels
                 CurrentItems = UnreadItems;
         }
 
-        public RelayCommand DeleteCommand { get; set; }
+        public RelayCommand DeleteCommand { get; private set; }
         private async Task Delete()
         {
             bool success = await CurrentItem.Delete();
@@ -78,9 +78,9 @@ namespace wallabag.ViewModels
 
         }
 
-        public RelayCommand ShowUnreadItems { get; set; }
-        public RelayCommand ShowFavoriteItems { get; set; }
-        public RelayCommand ShowArchivedItems { get; set; }
+        public RelayCommand ShowUnreadItems { get; private set; }
+        public RelayCommand ShowFavoriteItems { get; private set; }
+        public RelayCommand ShowArchivedItems { get; private set; }
 
         public MainViewModel()
         {
