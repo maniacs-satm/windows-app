@@ -12,22 +12,9 @@ namespace wallabag.Views
 {
     public sealed partial class SingleItemPage : Common.basicPage
     {
-        private DataTransferManager dataTransferManager;
         public SingleItemPage()
         {
             InitializeComponent();
-            dataTransferManager = DataTransferManager.GetForCurrentView();
-            dataTransferManager.DataRequested += dataTransferManager_DataRequested;
-        }
-
-        void dataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
-        {
-            DataRequest request = args.Request;
-            Item item = (DataContext as SingleItemPageViewModel).CurrentItem.Model as Item;
-            request.Data.Properties.Title = item.Title; // The title of the shared information.
-            request.Data.SetWebLink(new Uri(item.Url)); // Setting the Web link to the URL of the saved article.
-            var htmlFormat = HtmlFormatHelper.CreateHtmlFormat(item.Content);
-            request.Data.SetHtmlFormat(htmlFormat);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -45,7 +32,6 @@ namespace wallabag.Views
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            dataTransferManager.DataRequested -= dataTransferManager_DataRequested;
             ApplicationView.GetForCurrentView().Title = string.Empty;
             ApplicationView.GetForCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             base.OnNavigatedFrom(e);
