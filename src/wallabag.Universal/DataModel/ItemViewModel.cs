@@ -51,12 +51,10 @@ namespace wallabag.DataModel
                 CSSproperty("line-height", AppSettings.LineHeight.ToString().Replace(",", ".")) +
                 CSSproperty("color", AppSettings.TextColor) +
                 CSSproperty("background", AppSettings.BackgroundColor) +
-#if WINDOWS_APP
- CSSproperty("max-width", "960px") +
+                CSSproperty("max-width", "960px") +
                 CSSproperty("margin", "0 auto") +
                 CSSproperty("padding", "0 20px") +
-#endif
- "}";
+                "}";
             return "<style>" + css + "</style>";
         }
         private string CSSproperty(string name, object value)
