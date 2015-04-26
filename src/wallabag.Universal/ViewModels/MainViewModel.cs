@@ -1,7 +1,7 @@
 ﻿using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using wallabag.Common;
 using wallabag.DataModel;
@@ -11,17 +11,19 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class MainViewModel : ViewModelBase
     {
-        public ObservableCollection<ItemViewModel> Items { get { return DataSource.Items; } }
+        public ObservableCollection<ItemViewModel> _Items { get { return DataSource.Items; } }
+        public ObservableCollection<ItemViewModel> Items { get; set; }
 
         public ItemViewModel CurrentItem { get; set; }
         public bool CurrentItemIsNotNull { get { return CurrentItem != null; } }
-        
+
         public RelayCommand RefreshCommand { get; private set; }
         private async Task Refresh()
         {
             IsActive = true;
             await DataSource.GetItemsAsync();
             RaisePropertyChanged(nameof(Items));
+            ShowUnreadItems.Execute(0);
             IsActive = false;
         }
 
@@ -31,7 +33,7 @@ namespace wallabag.ViewModels
             bool success = await CurrentItem.Delete();
             if (success)
             {
-                Items.Remove(CurrentItem);
+                _Items.Remove(CurrentItem);
                 CurrentItem = null;
             }
 
@@ -45,6 +47,10 @@ namespace wallabag.ViewModels
         {
             RefreshCommand = new RelayCommand(async () => await Refresh());
             DeleteCommand = new RelayCommand(async () => await Delete());
+
+            ShowUnreadItems = new RelayCommand(() => { Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsArchived == false && i.Model.IsDeleted == false && i.Model.IsStarred == false)); });
+            ShowFavoriteItems = new RelayCommand(() => { Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsStarred == true && i.Model.IsDeleted == false)); });
+            ShowArchivedItems = new RelayCommand(() => { Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsArchived == true && i.Model.IsDeleted == false)); });
         }
     }
 }
