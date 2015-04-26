@@ -20,6 +20,7 @@ namespace wallabag.DataModel
         public Item Model { get; set; }
         [DataMember]
         public ObservableCollection<string> Tags { get; set; }
+        public bool IsSelected { get; set; }
 
         public string ContentWithHeader
         {
