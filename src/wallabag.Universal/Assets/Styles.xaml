@@ -187,9 +187,9 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="Padding" Value="20,10,10,10"/>
-        <Setter Property="Height" Value="50"/>
-        <Setter Property="Width" Value="50"/>
+        <Setter Property="Padding" Value="16,4,12,4"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Width" Value="48"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -236,7 +236,7 @@
                                                   ContentTransitions="{TemplateBinding ContentTransitions}"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" 
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  Content="" FontSize="22" FontFamily="Segoe MDL2 Assets"/>
+                                                  Content="" FontSize="22" FontFamily="Segoe MDL2 Assets"/>
                         </Border>
                         <Rectangle x:Name="FocusVisualWhite" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="1.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualWhiteStrokeThemeBrush}" StrokeDashArray="1,1"/>
                         <Rectangle x:Name="FocusVisualBlack" IsHitTestVisible="False" Opacity="0" StrokeDashOffset="0.5" StrokeEndLineCap="Square" Stroke="{ThemeResource FocusVisualBlackStrokeThemeBrush}" StrokeDashArray="1,1"/>

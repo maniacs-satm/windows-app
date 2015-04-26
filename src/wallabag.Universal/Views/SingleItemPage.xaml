@@ -15,34 +15,7 @@
                 <AppBarToggleButton Icon="Favorite" Label="Mark as favorite"/>
                 <AppBarButton Icon="Tag" Label="Manage tags"/>
                 <AppBarSeparator/>
-                <AppBarButton Icon="Font" Label="Font settings">
-                    <AppBarButton.Flyout>
-                        <Flyout Placement="Top">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                                    <Viewbox Width="45">
-                                        <Button Style="{StaticResource RoundButtonStyle}">
-                                            <SymbolIcon Symbol="Add"/>
-                                        </Button>
-                                    </Viewbox>
-                                    <Viewbox Width="45">
-                                        <Button Style="{StaticResource RoundButtonStyle}">
-                                            <SymbolIcon Symbol="Remove"/>
-                                        </Button>
-                                    </Viewbox>
-                                    <Rectangle Width="2" Fill="{ThemeResource LightGrayBrush}" Margin="10,0"/>
-                                    <Viewbox Width="45">
-                                        <Button Style="{StaticResource RoundButtonStyle}" Content="A" FontSize="25"/>
-                                    </Viewbox>
-                                </StackPanel>
-                            </Grid>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
+                <AppBarButton Icon="Font" Label="Font settings"/>
                 <AppBarButton Label="Share">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
@@ -80,7 +53,14 @@
     </common:basicPage.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <WebView x:Name="WebView" Grid.RowSpan="2"/>
         <Button Style="{StaticResource BackButtonStyle}" Click="backButton_Click"/>
+        <Button HorizontalAlignment="Right" Margin="0,0,145,0"
+                Content="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch"
+                Width="48"/>
     </Grid>
 </common:basicPage>

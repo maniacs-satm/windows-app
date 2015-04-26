@@ -34,8 +34,11 @@ namespace wallabag.Views
         {
             if (e?.Parameter.GetType() == typeof(int))
             {
-                DataContext = new SingleItemPageViewModel() { CurrentItem = await wallabag.DataModel.DataSource.GetItemAsync((int)e.Parameter) };
+                DataContext = new SingleItemPageViewModel() { CurrentItem = await DataSource.GetItemAsync((int)e.Parameter) };
                 ApplicationView.GetForCurrentView().Title = (DataContext as SingleItemPageViewModel).CurrentItem.Model.Title;
+                ApplicationView.GetForCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+
+                WebView.NavigateToString((DataContext as SingleItemPageViewModel).CurrentItem.ContentWithHeader);
             }
             base.OnNavigatedTo(e);
         }
@@ -43,6 +46,8 @@ namespace wallabag.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             dataTransferManager.DataRequested -= dataTransferManager_DataRequested;
+            ApplicationView.GetForCurrentView().Title = string.Empty;
+            ApplicationView.GetForCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             base.OnNavigatedFrom(e);
         }
 
