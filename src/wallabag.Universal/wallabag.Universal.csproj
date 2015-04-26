@@ -127,7 +127,6 @@
     <Compile Include="DataModel\DataSource.cs" />
     <Compile Include="DataModel\Item.cs" />
     <Compile Include="DataModel\ItemViewModel.cs" />
-    <Compile Include="DataModel\User.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

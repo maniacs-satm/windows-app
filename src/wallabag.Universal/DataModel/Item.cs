@@ -34,9 +34,6 @@ namespace wallabag.DataModel
         [JsonProperty("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
-        [JsonProperty("user")]
-        public User User { get; set; }
-
         public override string ToString()
         {
             return Title;
