@@ -48,18 +48,8 @@ namespace wallabag.Common
         /// <returns></returns>
         public dynamic this[string key, object defaultValue = default(object)]
         {
-            get
-            {
-                if (Settings.ContainsKey(key))
-                {
-                    return Settings[key];
-                }
-                return defaultValue;
-            }
-            set
-            {
-                ChangeProperty(key, value);
-            }
+            get { return GetProperty(key, defaultValue); }
+            set { SetProperty(key, value); }
         }
 
         /// <summary>
@@ -76,7 +66,15 @@ namespace wallabag.Common
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void ChangeProperty(string key, object value)
+        private T GetProperty<T>(string key, T defaultValue = default(T))
+        {
+            if (Settings.ContainsKey(key))
+            {
+                return (T)Settings[key];
+            }
+            return defaultValue;
+        }
+        private void SetProperty(string key, object value)
         {
             Settings[key] = value;
             RaisePropertyChanged(key);
@@ -94,38 +92,38 @@ namespace wallabag.Common
 
         public string Username
         {
-            get { return this[UsernameKey, "wallabag"]; }
-            set { ChangeProperty(UsernameKey, value); }
+            get { return GetProperty(UsernameKey, "wallabag"); }
+            set { SetProperty(UsernameKey, value); }
         }
         public string Password
         {
-            get { return this[PasswordKey, "wallabag"]; }
-            set { ChangeProperty(PasswordKey, value); }
+            get { return GetProperty(PasswordKey, "wallabag"); }
+            set { SetProperty(PasswordKey, value); }
         }
         public string WallabagUrl
         {
-            get { return this[WallabagUrlKey, "http://v2.wallabag.org"]; }
-            set { ChangeProperty(WallabagUrlKey, value); }
+            get { return GetProperty(WallabagUrlKey, "http://v2.wallabag.org"); }
+            set { SetProperty(WallabagUrlKey, value); }
         }
         public double FontSize
         {
-            get { return this[FontSizeKey, 18]; }
-            set { ChangeProperty(FontSizeKey, value); }
+            get { return GetProperty(FontSizeKey, 18); }
+            set { SetProperty(FontSizeKey, value); }
         }
         public double LineHeight
         {
-            get { return this[LineHeightKey, 1.5]; }
-            set { ChangeProperty(LineHeightKey, value); }
+            get { return GetProperty(LineHeightKey, 1.5); }
+            set { SetProperty(LineHeightKey, value); }
         }
         public Color TextColor
         {
-            get { return this[TextColorKey, ColorHelper.FromArgb(255, 0, 0, 0)]; } //#000000
-            set { ChangeProperty(TextColorKey, value); }
+            get { return GetProperty(TextColorKey, ColorHelper.FromArgb(255, 0, 0, 0)); } //#000000
+            set { SetProperty(TextColorKey, value); }
         }
         public Color BackgroundColor
         {
-            get { return this[BackgroundColorKey, ColorHelper.FromArgb(255, 255, 255, 255)]; } //#ffffff
-            set { ChangeProperty(BackgroundColorKey, value); }
+            get { return GetProperty(BackgroundColorKey, ColorHelper.FromArgb(255, 255, 255, 255)); } //#ffffff
+            set { SetProperty(BackgroundColorKey, value); }
         }
     }
 }
