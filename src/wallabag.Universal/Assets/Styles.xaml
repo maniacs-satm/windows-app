@@ -179,7 +179,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style
+    </Style>
     <Style x:Key="BackButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource ButtonBackgroundThemeBrush}"/>
         <Setter Property="Foreground" Value="{ThemeResource ButtonForegroundThemeBrush}"/>
