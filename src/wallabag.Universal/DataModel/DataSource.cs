@@ -25,7 +25,6 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            System.Diagnostics.Debug.WriteLine(http.DefaultRequestHeaders["X-WSSE"]);
             var response = await http.GetAsync(new Uri($"{AppSettings.Instance.WallabagUrl}/api/entries.json?page={page}"));
             http.Dispose();
 
