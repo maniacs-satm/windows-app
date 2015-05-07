@@ -19,19 +19,19 @@ namespace wallabag.Universal
 
         private void ItemsMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            HeaderTextBlock.Text = "Items";
+            HeaderTextBlock.Text = "ITEMS";
             BottomAppBar.Visibility = Visibility.Visible;
         }
 
         private void TagsMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            HeaderTextBlock.Text = "Tags";
+            HeaderTextBlock.Text = "TAGS";
             BottomAppBar.Visibility = Visibility.Visible;
         }
 
         private void SettingsMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            HeaderTextBlock.Text = "Settings";
+            HeaderTextBlock.Text = "SETTINGS";
             BottomAppBar.Visibility = Visibility.Collapsed;
         }
 

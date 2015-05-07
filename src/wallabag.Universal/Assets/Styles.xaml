@@ -6,8 +6,7 @@
     xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
 
-    <Color x:Key="AccentColor">#469646</Color>
-    <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource AccentColor}"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource SystemAccentColor}"/>
     
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -244,6 +243,14 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    <Style x:Key="PageTitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="CharacterSpacing" Value="75"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="12,14,12,4"/>
     </Style>
     <DataTemplate x:Key="ArticleTemplate">
         <Grid>
