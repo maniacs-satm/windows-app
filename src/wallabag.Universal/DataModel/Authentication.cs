@@ -26,7 +26,7 @@ namespace wallabag.DataModel
             using (HttpClient http = new HttpClient())
             {
                 string response = await http.GetStringAsync($"{Url}/api/salts/{Username}.json");
-                JArray result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<dynamic>(response));
+                JArray result = JsonConvert.DeserializeObject<JArray>(response); //TODO: perform this task async
                 salt = result[0].ToString();
             }
 
@@ -54,10 +54,9 @@ namespace wallabag.DataModel
         {
             return await GenerateDigest(GenerateNonce(), GetTimestamp());
         }
-        public static async Task<string> GenerateDigest(string nonce, string timestamp, bool IsTest = false)
+        public static async Task<string> GenerateDigest(string nonce, string timestamp)
         {
-            if (!IsTest)
-                await hashPassword();
+            await hashPassword();
             string combined = $"{nonce}{timestamp}{hashedPassword}";
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
 
