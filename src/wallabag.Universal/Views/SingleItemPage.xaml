@@ -53,14 +53,7 @@
     </common:basicPage.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <WebView x:Name="WebView" Grid.RowSpan="2" Margin="0,0,0,24"/>
-        <Button Style="{StaticResource BackButtonStyle}" Click="backButton_Click"/>
-        <Button HorizontalAlignment="Right" Margin="0,0,145,0"
-                Content="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Stretch"
-                Width="48"/>
+        <WebView x:Name="WebView" Grid.Row="1"/>
+        <Button Style="{StaticResource NavigationBackButtonStyle}" Click="backButton_Click" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </common:basicPage>
