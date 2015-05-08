@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource SystemAccentColor}"/>
-    
+
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
@@ -255,28 +255,25 @@
         <Setter Property="Margin" Value="12,14,12,4"/>
     </Style>
     <DataTemplate x:Key="ArticleTemplate">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Border Margin="7.5" BorderBrush="{ThemeResource AccentBrush}" BorderThickness="5" CornerRadius="40" Height="64" Width="64">
-                <Border.Background>
-                    <ImageBrush ImageSource="https://jlnostr.de/content/images/2015/02/books.jpg" Stretch="UniformToFill"/>
-                </Border.Background>
-            </Border>
-            <Border Margin="7.5" BorderBrush="{ThemeResource AccentBrush}" BorderThickness="5" CornerRadius="40" Height="64" Width="64" Visibility="{Binding Model.IsStarred,Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Viewbox Stretch="UniformToFill">
-                    <Canvas Width="64" Height="64">
-                        <Path Fill="{ThemeResource ItemFavoriteOverBrush}" Data="m 32 0 a 32 32 0 0 0 -32 32 32 32 0 0 0 32 32 32 32 0 0 0 32 -32 32 32 0 0 0 -32 -32 z m 0 16.2795 4.11511 11.84126 12.54055 0 -9.98688 7.79106 3.85475 11.80868 -10.52353 -7.01046 -10.458614 7.01046 3.78984 -11.80868 -9.987116 -7.79106 12.55695 0 4.09894 -11.84126 z"/>
-                    </Canvas>
-                </Viewbox>
-            </Border>
-            <StackPanel Grid.Column="1" Margin="10" VerticalAlignment="Center">
-                <TextBlock TextWrapping="Wrap" Text="{Binding Model.Title}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" MaxLines="2"/>
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="{Binding UrlHostname}" VerticalAlignment="Top" Style="{StaticResource BaseTextBlockStyle}" Foreground="{ThemeResource ItemHostnameBrush}" Margin="0,5"/>
+        <RelativePanel>
+            <Ellipse x:Name="Image" Width="64" Height="64" Margin="7.5" HorizontalAlignment="Left"
+                         RelativePanel.AlignLeftWithPanel="True"
+                         RelativePanel.AlignVerticalCenterWithPanel="True">
+                <Ellipse.Fill>
+                    <ImageBrush>
+                        <ImageBrush.ImageSource>
+                            <BitmapImage DecodePixelHeight="55" DecodePixelWidth="55" UriSource="https://jlnostr.de/content/images/2015/02/books.jpg" />
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <StackPanel RelativePanel.RightOf="Image" RelativePanel.AlignVerticalCenterWith="Image" Margin="5,0,0,0">
+                <TextBlock TextWrapping="Wrap" Text="{Binding Model.Title}" TextTrimming="CharacterEllipsis" MaxLines="2"/>
+
+                <TextBlock TextWrapping="Wrap" Text="{Binding UrlHostname}" Style="{StaticResource BaseTextBlockStyle}"
+                           Foreground="{ThemeResource ItemHostnameBrush}" Margin="0,5"/>
             </StackPanel>
-        </Grid>
+        </RelativePanel>
     </DataTemplate>
     <Style x:Key="ArticleContainerStyle" TargetType="ListViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -305,5 +302,5 @@
             <SolidColorBrush x:Key="ItemFavoriteOverBrush" Color="White" Opacity="0.75"/>
             <SolidColorBrush x:Key="ItemHostnameBrush" Color="Black" Opacity="0.5"/>
         </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>    
+    </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
