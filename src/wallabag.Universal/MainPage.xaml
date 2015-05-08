@@ -45,11 +45,27 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <StackPanel Orientation="Horizontal" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" ToolTipService.ToolTip="Menu" TabIndex="1"/>
-            <TextBlock x:Name="HeaderTextBlock" Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-            <ProgressRing Margin="5,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        </StackPanel>
+        <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+                <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" ToolTipService.ToolTip="Menu" TabIndex="1"/>
+                <TextBlock x:Name="HeaderTextBlock" Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
+                <ProgressRing Margin="5,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </StackPanel>
+            <CommandBar HorizontalAlignment="Stretch" Grid.Column="1" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+                        Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                <CommandBar.PrimaryCommands>
+                    <AppBarToggleButton Icon="Accept" IsCompact="True" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    <AppBarToggleButton Icon="Favorite" IsCompact="True" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    <AppBarButton Icon="Tag" IsCompact="True" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
+                    <AppBarButton Icon="FullScreen" IsCompact="True" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Click="ShowInFullscreenButton_Click"/>
+                </CommandBar.PrimaryCommands>
+            </CommandBar>
+        </Grid>
+       
         <SplitView x:Name="splitView" Grid.Row="1" DisplayMode="Inline" OpenPaneLength="256">
             <SplitView.Pane>
                 <StackPanel>
@@ -59,17 +75,11 @@
                     <RadioButton x:Name="SettingsMenuButton" Click="SettingsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
                 </StackPanel>
             </SplitView.Pane>
-            <Grid x:Name="contentGrid" Margin="0,0,0,50">
+            <Grid x:Name="contentGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <CommandBar HorizontalAlignment="Stretch">
-                    <AppBarToggleButton Icon="Accept" IsCompact="True" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarToggleButton Icon="Favorite" IsCompact="True" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarButton Icon="Tag" IsCompact="True" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarButton Icon="FullScreen" IsCompact="True" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Click="ShowInFullscreenButton_Click"/>
-                </CommandBar>
                 <ListView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
                           ItemContainerStyle="{StaticResource ArticleContainerStyle}"
                           IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick"
