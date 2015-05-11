@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PropertyChanged;
 using wallabag.Common;
+using wallabag.Common.MVVM;
 using Windows.UI;
 using Windows.Web.Http;
 

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using wallabag.ViewModels;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using wallabag.ViewModels;
 
-namespace wallabag.Common
+namespace wallabag.Common.Navigation
 {
     internal sealed class SuspensionManager
     {

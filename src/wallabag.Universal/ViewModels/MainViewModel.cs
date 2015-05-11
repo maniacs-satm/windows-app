@@ -3,7 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using wallabag.Common;
+using wallabag.Common.MVVM;
 using wallabag.DataModel;
 
 namespace wallabag.ViewModels
@@ -48,9 +48,9 @@ namespace wallabag.ViewModels
             RefreshCommand = new RelayCommand(async () => await Refresh());
             DeleteCommand = new RelayCommand(async () => await Delete());
 
-            ShowUnreadItems = new RelayCommand(() => { Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsArchived == false && i.Model.IsDeleted == false && i.Model.IsStarred == false)); });
-            ShowFavoriteItems = new RelayCommand(() => { Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsStarred == true && i.Model.IsDeleted == false)); });
-            ShowArchivedItems = new RelayCommand(() => { Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsArchived == true && i.Model.IsDeleted == false)); });
+            ShowUnreadItems = new RelayCommand(() => { if (_Items != null) Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsArchived == false && i.Model.IsDeleted == false && i.Model.IsStarred == false)); });
+            ShowFavoriteItems = new RelayCommand(() => { if (_Items != null) Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsStarred == true && i.Model.IsDeleted == false)); });
+            ShowArchivedItems = new RelayCommand(() => { if (_Items != null) Items = new ObservableCollection<ItemViewModel>(_Items.Where(i => i.Model.IsArchived == true && i.Model.IsDeleted == false)); });
         }
     }
 }

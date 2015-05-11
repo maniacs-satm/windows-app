@@ -7,7 +7,7 @@
     <ProjectGuid>{F2A38669-47E3-4677-BDF2-6257EB48A182}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>wallabag.Universal</RootNamespace>
+    <RootNamespace>wallabag</RootNamespace>
     <AssemblyName>wallabag.Universal</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
@@ -98,11 +98,12 @@
     <Compile Include="Common\basicPage.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Helpers.cs" />
-    <Compile Include="Common\NavigationHelper.cs" />
-    <Compile Include="Common\ObservableDictionary.cs" />
-    <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Common\SuspensionManager.cs" />
-    <Compile Include="Common\viewModelBase.cs" />
+    <Compile Include="Common\Navigation\NavigationHelper.cs" />
+    <Compile Include="Common\MVVM\ObservableDictionary.cs" />
+    <Compile Include="Common\MVVM\RelayCommand.cs" />
+    <Compile Include="Common\Navigation\SuspensionManager.cs" />
+    <Compile Include="Common\MVVM\viewModelBase.cs" />
+    <Compile Include="Common\VisualStateTriggers\IsTypePresentStateTrigger.cs" />
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="DataModel\Authentication.cs" />
@@ -164,6 +165,7 @@
       <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

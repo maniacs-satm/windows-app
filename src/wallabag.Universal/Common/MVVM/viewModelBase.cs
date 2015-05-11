@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace wallabag.Common
+namespace wallabag.Common.MVVM
 {
     public class ViewModelBase : INotifyPropertyChanged
     {

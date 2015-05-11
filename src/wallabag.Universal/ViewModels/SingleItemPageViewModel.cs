@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PropertyChanged;
-using wallabag.DataModel;
+﻿using PropertyChanged;
+using System;
 using wallabag.Common;
+using wallabag.Common.MVVM;
+using wallabag.DataModel;
 using Windows.System;
 
 namespace wallabag.ViewModels

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using wallabag.Common;
+using wallabag.Common.MVVM;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace wallabag.Common
+namespace wallabag.Common.Navigation
 {
     /// <summary>
     /// NavigationHelper bietet Unterstützung bei der Navigation zwischen Seiten.  Es werden Befehle zum 

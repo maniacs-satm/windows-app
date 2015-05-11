@@ -1,6 +1,6 @@
-﻿using Windows.Storage;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using wallabag.Common.MVVM;
+using Windows.Storage;
 using Windows.UI;
 
 namespace wallabag.Common

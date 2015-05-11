@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation.Collections;
 
-namespace wallabag.Common
+namespace wallabag.Common.MVVM
 {
     /// <summary>
     /// Implementierung von IObservableMap, die ein erneutes Eintreten zur Verwendung als Standardanzeigemodell
