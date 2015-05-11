@@ -1,4 +1,5 @@
-﻿using wallabag.DataModel;
+﻿using wallabag.Common;
+using wallabag.DataModel;
 using wallabag.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -53,6 +54,13 @@ namespace wallabag.Universal
         private void ShowInFullscreenButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(Views.SingleItemPage), ((MainViewModel)DataContext).CurrentItem.Model.Id);
+        }
+
+        private void SaveCredentialsButton_Click(object sender, RoutedEventArgs e)
+        {
+            AppSettings.Instance.Username = UsernameTextBox.Text;
+            AppSettings.Instance.Password = PasswordTextBox.Password;
+            AppSettings.Instance.wallabagUrl = UrlTextBox.Text;
         }
     }
 }

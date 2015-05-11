@@ -16,7 +16,7 @@ namespace wallabag.DataModel
         private static AppSettings AppSettings { get; } = AppSettings.Instance;
         private static string Username { get; } = AppSettings.Username;
         private static string Password { get; } = AppSettings.Password;
-        private static string Url { get; } = AppSettings.WallabagUrl;
+        private static string Url { get; } = AppSettings.wallabagUrl;
 
         public static string hashedPassword = string.Empty;
 

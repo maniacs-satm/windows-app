@@ -17,9 +17,9 @@ namespace wallabag.ViewModels
         public RelayCommand DownloadItemAsEpubCommand { get; private set; }
         public SingleItemPageViewModel()
         {
-            DownloadItemAsPDFCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.WallabagUrl}/view/{CurrentItem.Model.Id}?pdf&method=id&value={CurrentItem.Model.Id}")); });
-            DownloadItemAsMobiCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.WallabagUrl}/view/{CurrentItem.Model.Id}?mobi&method=id&value={CurrentItem.Model.Id}")); });
-            DownloadItemAsEpubCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.WallabagUrl}/view/{CurrentItem.Model.Id}?epub&method=id&value={CurrentItem.Model.Id}")); });
+            DownloadItemAsPDFCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?pdf&method=id&value={CurrentItem.Model.Id}")); });
+            DownloadItemAsMobiCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?mobi&method=id&value={CurrentItem.Model.Id}")); });
+            DownloadItemAsEpubCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?epub&method=id&value={CurrentItem.Model.Id}")); });
         }
     }
 }

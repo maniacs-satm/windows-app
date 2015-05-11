@@ -103,7 +103,7 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.DeleteAsync(new Uri($"{AppSettings.WallabagUrl}/api/entries/{Model.Id}.json"));
+            var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -127,7 +127,7 @@ namespace wallabag.DataModel
             parameters.Add("delete", Model.IsDeleted);
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-            var response = await http.PatchAsync(new Uri($"{AppSettings.WallabagUrl}/api/entries/{Model.Id}.json"), content);
+            var response = await http.PatchAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"), content);
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -149,7 +149,7 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.GetAsync(new Uri($"{AppSettings.WallabagUrl}/api/entries/{Model.Id}.json"));
+            var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -165,7 +165,7 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.GetAsync(new Uri($"{AppSettings.WallabagUrl}/api/entries/{Model.Id}/tags.json"));
+            var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"));
             http.Dispose();
 
             if (response.StatusCode != HttpStatusCode.NoContent &&
@@ -183,7 +183,7 @@ namespace wallabag.DataModel
             parameters.Add("tags", tags);
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-            var response = await http.PostAsync(new Uri($"{AppSettings.WallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
+            var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -202,7 +202,7 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.DeleteAsync(new Uri($"{AppSettings.WallabagUrl}/api/entries/{Model.Id}/tags/{tag}.json"));
+            var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags/{tag}.json"));
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)

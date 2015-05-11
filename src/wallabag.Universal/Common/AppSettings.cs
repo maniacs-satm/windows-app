@@ -1,5 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using wallabag.Common.MVVM;
+using Windows.Security.Credentials;
 using Windows.Storage;
 using Windows.UI;
 
@@ -82,6 +85,49 @@ namespace wallabag.Common
         }
         #endregion
 
+        #region PasswordVault
+        private void GetFromPasswordVault()
+        {
+            try
+            {
+                //Read a credential from PasswordVault by supplying resource or username
+                PasswordVault vault = new PasswordVault();
+                IReadOnlyList<PasswordCredential> creds = vault.RetrieveAll();
+
+                if (creds != null && creds.Count != 0)
+                {
+                    _Username = creds[0].UserName;
+                    _Password = creds[0].Password;
+                    _wallabagUrl = creds[0].Resource;
+                    //TODO: Multiple accounts?
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private void SaveToPasswordVault()
+        {
+            if (!string.IsNullOrWhiteSpace(_Username) &&
+                !string.IsNullOrWhiteSpace(_Password) &&
+                !string.IsNullOrWhiteSpace(_wallabagUrl))
+            {
+                PasswordVault vault = new PasswordVault();
+                PasswordCredential cred = new PasswordCredential(_wallabagUrl, _Username, _Password);
+                PasswordCredential existingCredential = null;
+
+                try { existingCredential = vault.Retrieve(_wallabagUrl, _Username); }
+                catch { } // There is no value in PasswordVault matching both url and username.
+
+                if (existingCredential == null)
+                    vault.Add(cred);
+                else
+                    existingCredential.Password = _Password;
+            }
+        }
+        #endregion
+
         private const string UsernameKey = "Username";
         private const string PasswordKey = "Password";
         private const string WallabagUrlKey = "WallabagUrl";
@@ -90,29 +136,60 @@ namespace wallabag.Common
         private const string TextColorKey = "TextColor";
         private const string BackgroundColorKey = "BackgroundColor";
 
+        private string _Username;
         public string Username
         {
-            get { return GetProperty(UsernameKey, "wallabag"); }
-            set { SetProperty(UsernameKey, value); }
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_Username)) GetFromPasswordVault();
+                return _Username;
+            }
+            set
+            {
+                _Username = value;
+                RaisePropertyChanged(nameof(Username));
+                SaveToPasswordVault();
+            }
         }
+        private string _Password;
         public string Password
         {
-            get { return GetProperty(PasswordKey, "wallabag"); }
-            set { SetProperty(PasswordKey, value); }
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_Password)) GetFromPasswordVault();
+                return _Password;
+            }
+            set
+            {
+                _Password = value;
+                RaisePropertyChanged(nameof(Password));
+                SaveToPasswordVault();
+            }
         }
-        public string WallabagUrl
+        private string _wallabagUrl;
+        public string wallabagUrl
         {
-            get { return GetProperty(WallabagUrlKey, "http://v2.wallabag.org"); }
-            set { SetProperty(WallabagUrlKey, value); }
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_wallabagUrl)) GetFromPasswordVault();
+                return _wallabagUrl;
+            }
+            set
+            {
+                _wallabagUrl = value;
+                RaisePropertyChanged(nameof(wallabagUrl));
+                SaveToPasswordVault();
+            }
         }
+
         public double FontSize
         {
-            get { return GetProperty(FontSizeKey, 18); }
+            get { return GetProperty<double>(FontSizeKey, 18); }
             set { SetProperty(FontSizeKey, value); }
         }
         public double LineHeight
         {
-            get { return GetProperty(LineHeightKey, 1.5); }
+            get { return GetProperty<double>(LineHeightKey, 1.5); }
             set { SetProperty(LineHeightKey, value); }
         }
         public Color TextColor
