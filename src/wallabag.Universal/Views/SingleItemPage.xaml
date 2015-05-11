@@ -6,6 +6,7 @@
     xmlns:common="using:wallabag.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:wallabag.Common.VisualStateTriggers"
     mc:Ignorable="d">
 
     <common:basicPage.BottomAppBar>
@@ -53,7 +54,39 @@
     </common:basicPage.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView x:Name="WebView" Grid.Row="1"/>
-        <Button Style="{StaticResource NavigationBackButtonStyle}" Click="backButton_Click" Width="90" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="WebView.Margin" Value="0,48,0,0"/>
+                        <Setter Target="BackButton.HorizontalAlignment" Value="Stretch"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="WebView.Margin" Value="0"/>
+                        <Setter Target="BackButton.HorizontalAlignment" Value="Left"/>
+                        <Setter Target="BackButton.Width" Value="90"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1150"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="backButton">
+                    <VisualState.Setters>
+                        <Setter Target="BackButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="WebView.Margin" Value="0"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <triggers:IsTypePresentStateTrigger TypeName="Windows.Phone.UI.Input.HardwareButtons"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <WebView x:Name="WebView"/>
+        <Button x:Name="BackButton" Style="{StaticResource NavigationBackButtonStyle}" Click="backButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </common:basicPage>
