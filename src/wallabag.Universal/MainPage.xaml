@@ -81,12 +81,12 @@
             </SplitView.Pane>
             <Grid x:Name="contentGrid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="MasterColumn" Width="350"/>
+                    <ColumnDefinition x:Name="MasterColumn" Width="500"/>
                     <ColumnDefinition x:Name="DetailColumn" Width="*"/>
                 </Grid.ColumnDefinitions>
                 <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
                           ItemContainerStyle="{StaticResource ArticleContainerStyle}"
-                          IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick"
+                          IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
                           Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <Grid x:Name="tagsGrid" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,0"/>
