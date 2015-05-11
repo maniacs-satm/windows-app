@@ -25,16 +25,20 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
+            <VisualStateGroup x:Name="AdaptiveStates">
+                <VisualState x:Name="NarrowState">
                     <VisualState.Setters>
                         <Setter Target="splitView.DisplayMode" Value="Overlay"/>
+                        <Setter Target="MasterColumn.Width" Value="*" />
+                        <Setter Target="DetailColumn.Width" Value="0" />
+                        <Setter Target="ItemListView.SelectionMode" Value="None" />
+                        <Setter Target="ItemCommandBar.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                 </VisualState>
-                <VisualState>
+                <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
                         <Setter Target="splitView.DisplayMode" Value="CompactInline"/>
                         <Setter Target="splitView.IsPaneOpen" Value="True"/>
@@ -55,7 +59,7 @@
                 <TextBlock x:Name="HeaderTextBlock" Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
                 <ProgressRing Margin="5,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </StackPanel>
-            <CommandBar HorizontalAlignment="Stretch" Grid.Column="1" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
+            <CommandBar x:Name="ItemCommandBar" HorizontalAlignment="Stretch" Grid.Column="1" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
                         Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
                 <CommandBar.PrimaryCommands>
                     <AppBarToggleButton Icon="Accept" IsCompact="True" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
@@ -77,15 +81,15 @@
             </SplitView.Pane>
             <Grid x:Name="contentGrid">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="400"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition x:Name="MasterColumn" Width="350"/>
+                    <ColumnDefinition x:Name="DetailColumn" Width="*"/>
                 </Grid.ColumnDefinitions>
-                <ListView ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
+                <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
                           ItemContainerStyle="{StaticResource ArticleContainerStyle}"
                           IsItemClickEnabled="True" SelectionMode="None" ItemClick="ListView_ItemClick"
                           Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <WebView x:Name="WebView" Grid.Column="1" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <Grid x:Name="tagsGrid" Grid.Row="1" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,0"/>
+                <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <Grid x:Name="tagsGrid" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,0"/>
                 <StackPanel Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="20">
                     <StackPanel.Resources>
                         <Style TargetType="TextBox">
