@@ -10,15 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F42E03
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.Universal", "src\wallabag.Universal\wallabag.Universal.csproj", "{F2A38669-47E3-4677-BDF2-6257EB48A182}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag", "src\wallabag.Universal\wallabag.Universal.csproj", "{F2A38669-47E3-4677-BDF2-6257EB48A182}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wallabag.UnitTests", "src\wallabag.UnitTests\wallabag.UnitTests.csproj", "{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
-		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
@@ -44,11 +44,30 @@ Global
 		{F2A38669-47E3-4677-BDF2-6257EB48A182}.Release|x86.ActiveCfg = Release|x86
 		{F2A38669-47E3-4677-BDF2-6257EB48A182}.Release|x86.Build.0 = Release|x86
 		{F2A38669-47E3-4677-BDF2-6257EB48A182}.Release|x86.Deploy.0 = Release|x86
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|ARM.ActiveCfg = Debug|ARM
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|ARM.Build.0 = Debug|ARM
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|ARM.Deploy.0 = Debug|ARM
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|x64.ActiveCfg = Debug|x64
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|x64.Build.0 = Debug|x64
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|x64.Deploy.0 = Debug|x64
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|x86.ActiveCfg = Debug|x86
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|x86.Build.0 = Debug|x86
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Debug|x86.Deploy.0 = Debug|x86
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|ARM.ActiveCfg = Release|ARM
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|ARM.Build.0 = Release|ARM
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|ARM.Deploy.0 = Release|ARM
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|x64.ActiveCfg = Release|x64
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|x64.Build.0 = Release|x64
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|x64.Deploy.0 = Release|x64
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|x86.ActiveCfg = Release|x86
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|x86.Build.0 = Release|x86
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F2A38669-47E3-4677-BDF2-6257EB48A182} = {37C965E6-F229-469C-B4C0-242D6B04C0ED}
+		{0DF0F8F1-D029-45B1-8D5C-950DE2761BA9} = {37C965E6-F229-469C-B4C0-242D6B04C0ED}
 	EndGlobalSection
 EndGlobal
