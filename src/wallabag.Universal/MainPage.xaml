@@ -73,7 +73,8 @@
         <SplitView x:Name="splitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="256">
             <SplitView.Pane>
                 <StackPanel>
-                    <RadioButton x:Name="UnreadItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Unread" IsChecked="True"/>
+                    <Button Style="{ThemeResource NavigationBackButtonStyle}" Height="40"/>
+                    <RadioButton x:Name="UnreadItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True"/>
                     <RadioButton x:Name="FavoriteItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" Background="#00000000" />
                     <RadioButton x:Name="TagsMenuButton" Click="TagsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
                     <RadioButton x:Name="SettingsMenuButton" Click="SettingsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
