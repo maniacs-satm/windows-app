@@ -7,11 +7,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="50"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    Margin="0,15">
     
     <StackPanel>
         <TextBlock Text="{x:Bind Text}" Style="{ThemeResource PageTitleTextBlockStyle}"
                    CharacterSpacing="0" Margin="0"/>
-        <Rectangle Height="1" Fill="{ThemeResource AccentBrush}" Margin="0,2,0,0"/>
+        <Rectangle Height="1" Fill="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" Margin="0,2,0,0"/>
     </StackPanel>
 </UserControl>
