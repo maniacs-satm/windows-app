@@ -104,6 +104,9 @@
     <Compile Include="Common\Navigation\SuspensionManager.cs" />
     <Compile Include="Common\MVVM\viewModelBase.cs" />
     <Compile Include="Common\VisualStateTriggers\IsTypePresentStateTrigger.cs" />
+    <Compile Include="Controls\SettingsSubHeaderTextBlock.xaml.cs">
+      <DependentUpon>SettingsSubHeaderTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="DataModel\Authentication.cs" />
@@ -144,6 +147,10 @@
     <Page Include="Assets\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SettingsSubHeaderTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>

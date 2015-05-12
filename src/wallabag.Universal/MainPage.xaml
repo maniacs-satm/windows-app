@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
+    xmlns:controls="using:wallabag.Controls"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -114,12 +115,12 @@
                             <Setter Property="HorizontalAlignment" Value="Left" />
                         </Style>
                     </StackPanel.Resources>
-                    <TextBlock Text="Account credentials" Margin="0,0,0,10" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <controls:SettingsSubHeaderTextBlock Text="Account credentials"/>
                     <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=OneWay}"/>
                     <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=OneWay}"/>
                     <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=OneWay}"/>
                     <Button Content="Save credentials" Click="SaveCredentialsButton_Click"/>
-                    <TextBlock Text="Reading view" Margin="0,25,0,10" Style="{ThemeResource TitleTextBlockStyle}"/>
+                    <controls:SettingsSubHeaderTextBlock Text="Reading view" Margin="0,25,0,10"/>
                     <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
                     <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
                 </StackPanel>
