@@ -40,7 +40,7 @@
                 </VisualState>
                 <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="CompactInline"/>
+                        <Setter Target="splitView.DisplayMode" Value="CompactOverlay"/>
                         <Setter Target="splitView.IsPaneOpen" Value="True"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -70,7 +70,7 @@
             </CommandBar>
         </Grid>
        
-        <SplitView x:Name="splitView" Grid.Row="1" DisplayMode="Inline" OpenPaneLength="256">
+        <SplitView x:Name="splitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="256">
             <SplitView.Pane>
                 <StackPanel>
                     <RadioButton x:Name="UnreadItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Unread" IsChecked="True"/>
