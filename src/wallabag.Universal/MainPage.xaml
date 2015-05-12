@@ -115,14 +115,16 @@
                             <Setter Property="HorizontalAlignment" Value="Left" />
                         </Style>
                     </StackPanel.Resources>
-                    <controls:SettingsSubHeaderTextBlock Text="Account credentials"/>
+                    <controls:SettingsSubHeaderTextBlock Text="Account credentials" Margin="0,5,0,15"/>
                     <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=OneWay}"/>
                     <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=OneWay}"/>
                     <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=OneWay}"/>
                     <Button Content="Save credentials" Click="SaveCredentialsButton_Click"/>
-                    <controls:SettingsSubHeaderTextBlock Text="Reading view" Margin="0,25,0,10"/>
+                    <controls:SettingsSubHeaderTextBlock Text="Reading view"/>
                     <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
                     <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
+                    <controls:SettingsSubHeaderTextBlock Text="More settings"/>
+                    <Button Content="Reset settings" IsEnabled="False"/>
                 </StackPanel>
             </Grid>
         </SplitView>
