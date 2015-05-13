@@ -48,7 +48,11 @@
             <CommandBar.Content>
                 <controls:PageHeader>
                     <controls:PageHeader.HeaderContent>
-                        <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
+                        <Grid Width="500">
+                            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
+                            <AppBarButton Icon="Refresh" Label="Refresh" HorizontalAlignment="Right" IsCompact="True" Margin="0,0,1,0"/>
+                            <Rectangle Width="1" Fill="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" HorizontalAlignment="Right"/>
+                        </Grid>
                     </controls:PageHeader.HeaderContent>
                 </controls:PageHeader>
             </CommandBar.Content>
