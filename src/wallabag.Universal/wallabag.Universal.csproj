@@ -113,8 +113,8 @@
     <Compile Include="DataModel\DataSource.cs" />
     <Compile Include="DataModel\Item.cs" />
     <Compile Include="DataModel\ItemViewModel.cs" />
-    <Compile Include="AppFrame.xaml.cs">
-      <DependentUpon>AppFrame.xaml</DependentUpon>
+    <Compile Include="AppShell.xaml.cs">
+      <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -158,7 +158,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AppFrame.xaml">
+    <Page Include="AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
