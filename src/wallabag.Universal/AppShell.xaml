@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="wallabag.Universal.MainPage"
+    x:Class="wallabag.Universal.AppShell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:wallabag.Universal"
@@ -43,10 +43,10 @@
             <SplitView.Pane>
                 <StackPanel>
                     <Button Style="{ThemeResource NavigationBackButtonStyle}" Height="40" IsEnabled="False"/>
-                    <RadioButton x:Name="UnreadItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True"/>
-                    <RadioButton x:Name="FavoriteItemsMenuButton" Click="ItemsMenuButton_Click" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" Background="#00000000" />
-                    <RadioButton x:Name="TagsMenuButton" Click="TagsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
-                    <RadioButton x:Name="SettingsMenuButton" Click="SettingsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
+                    <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True"/>
+                    <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" Background="#00000000" />
+                    <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
+                    <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
                 </StackPanel>
             </SplitView.Pane>
             <Frame x:Name="frame">
