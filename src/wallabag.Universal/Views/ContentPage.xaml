@@ -52,8 +52,11 @@
                     <controls:PageHeader.HeaderContent>
                         <Grid Width="500">
                             <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
-                            <AppBarButton Icon="Refresh" Label="Refresh" HorizontalAlignment="Right" IsCompact="True" Margin="0,0,1,0" Command="{Binding RefreshCommand}"/>
-                            <Rectangle Width="1" Fill="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" HorizontalAlignment="Right"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <AppBarButton Icon="Sort" Label="Sort" IsCompact="True"/>
+                                <AppBarButton Icon="Refresh" Label="Refresh" IsCompact="True" Command="{Binding RefreshCommand}"/>
+                                <Rectangle Width="1" Fill="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"/>
+                            </StackPanel>
                         </Grid>
                     </controls:PageHeader.HeaderContent>
                 </controls:PageHeader>
