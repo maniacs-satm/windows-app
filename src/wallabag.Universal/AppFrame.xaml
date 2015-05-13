@@ -81,52 +81,7 @@
                     <RadioButton x:Name="SettingsMenuButton" Click="SettingsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
                 </StackPanel>
             </SplitView.Pane>
-            <Grid x:Name="contentGrid">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="MasterColumn" Width="500"/>
-                    <ColumnDefinition x:Name="DetailColumn" Width="*"/>
-                </Grid.ColumnDefinitions>
-                <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
-                          ItemContainerStyle="{StaticResource ArticleContainerStyle}"
-                          IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
-                          Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <Grid x:Name="tagsGrid" Visibility="{Binding IsChecked, ElementName=TagsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20,0"/>
-                <StackPanel Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="20">
-                    <StackPanel.Resources>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="300" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                        <Style TargetType="PasswordBox">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="300" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                        <Style TargetType="ToggleSwitch">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="300" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                        <Style TargetType="Slider">
-                            <Setter Property="Margin" Value="0,5" />
-                            <Setter Property="Width" Value="400" />
-                            <Setter Property="HorizontalAlignment" Value="Left" />
-                        </Style>
-                    </StackPanel.Resources>
-                    <controls:SettingsSubHeaderTextBlock Text="Account credentials" Margin="0,5,0,15"/>
-                    <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=OneWay}"/>
-                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=OneWay}"/>
-                    <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=OneWay}"/>
-                    <Button Content="Save credentials" Click="SaveCredentialsButton_Click"/>
-                    <controls:SettingsSubHeaderTextBlock Text="Reading view"/>
-                    <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
-                    <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
-                    <controls:SettingsSubHeaderTextBlock Text="More settings"/>
-                    <Button Content="Reset settings" IsEnabled="False"/>
-                </StackPanel>
-            </Grid>
+            <Frame/>
         </SplitView>
     </Grid>
 </Page>

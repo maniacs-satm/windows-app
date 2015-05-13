@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="wallabag.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:wallabag.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:wallabag.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="20">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="0,5" />
+                    <Setter Property="Width" Value="300" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </Style>
+                <Style TargetType="PasswordBox">
+                    <Setter Property="Margin" Value="0,5" />
+                    <Setter Property="Width" Value="300" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </Style>
+                <Style TargetType="ToggleSwitch">
+                    <Setter Property="Margin" Value="0,5" />
+                    <Setter Property="Width" Value="300" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </Style>
+                <Style TargetType="Slider">
+                    <Setter Property="Margin" Value="0,5" />
+                    <Setter Property="Width" Value="400" />
+                    <Setter Property="HorizontalAlignment" Value="Left" />
+                </Style>
+            </StackPanel.Resources>
+            <controls:SettingsSubHeaderTextBlock Text="Account credentials" Margin="0,5,0,15"/>
+            <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=OneWay}"/>
+            <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=OneWay}"/>
+            <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=OneWay}"/>
+            <Button Content="Save credentials" Click="SaveCredentialsButton_Click"/>
+            <controls:SettingsSubHeaderTextBlock Text="Reading view"/>
+            <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
+            <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
+            <controls:SettingsSubHeaderTextBlock Text="More settings"/>
+            <Button Content="Reset settings" IsEnabled="False"/>
+        </StackPanel>
+    </Grid>
+</Page>
