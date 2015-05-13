@@ -30,7 +30,7 @@
                 </VisualState>
                 <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="CompactOverlay"/>
+                        <Setter Target="splitView.DisplayMode" Value="CompactInline"/>
                         <Setter Target="splitView.IsPaneOpen" Value="True"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
