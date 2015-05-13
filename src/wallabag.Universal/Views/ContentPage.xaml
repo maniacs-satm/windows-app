@@ -5,17 +5,64 @@
     xmlns:local="using:wallabag.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:wallabag.Controls"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="MasterColumn" Width="500"/>
-            <ColumnDefinition x:Name="DetailColumn" Width="*"/>
-        </Grid.ColumnDefinitions>
-        <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <CommandBar x:Name="topbar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+            <AppBarToggleButton Icon="Accept" Label="Mark as read"/>
+            <AppBarToggleButton Icon="Favorite" Label="Favorite"/>
+            <AppBarButton Icon="Tag" Label="Tag"/>
+            <AppBarButton Label="Share">
+                <AppBarButton.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
+                </AppBarButton.Icon>
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Link"/>
+                        <MenuFlyoutItem Text="Content"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Print">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Icon="SaveLocal" Label="Download as…">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="MOBI"/>
+                            <MenuFlyoutItem Text="EPUB"/>
+                            <MenuFlyoutItem Text="PDF"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Icon="Delete" Label="Delete"/>
+            </CommandBar.SecondaryCommands>
+            <CommandBar.Content>
+                <controls:PageHeader>
+                    <controls:PageHeader.HeaderContent>
+                        <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
+                    </controls:PageHeader.HeaderContent>
+                </controls:PageHeader>
+            </CommandBar.Content>
+        </CommandBar>
+        <Grid Grid.Row="1" EntranceNavigationTransitionInfo.IsTargetElement="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="MasterColumn" Width="500"/>
+                <ColumnDefinition x:Name="DetailColumn" Width="*"/>
+            </Grid.ColumnDefinitions>
+            <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
                           ItemContainerStyle="{StaticResource ArticleContainerStyle}"
-                          IsItemClickEnabled="True" ItemClick="ListView_ItemClick"
+                          IsItemClickEnabled="True"
                           Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>       
     </Grid>
 </Page>
