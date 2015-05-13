@@ -50,7 +50,7 @@
                     <controls:PageHeader.HeaderContent>
                         <Grid Width="500">
                             <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
-                            <AppBarButton Icon="Refresh" Label="Refresh" HorizontalAlignment="Right" IsCompact="True" Margin="0,0,1,0"/>
+                            <AppBarButton Icon="Refresh" Label="Refresh" HorizontalAlignment="Right" IsCompact="True" Margin="0,0,1,0" Command="{Binding RefreshCommand}"/>
                             <Rectangle Width="1" Fill="{ThemeResource SystemControlBackgroundAltMediumLowBrush}" HorizontalAlignment="Right"/>
                         </Grid>
                     </controls:PageHeader.HeaderContent>
@@ -64,9 +64,10 @@
             </Grid.ColumnDefinitions>
             <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
                           ItemContainerStyle="{StaticResource ArticleContainerStyle}"
-                          IsItemClickEnabled="True"
+                          IsItemClickEnabled="True" ItemClick="ItemListView_ItemClick"
                           Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <ProgressRing Height="100" Width="100" IsActive="True" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-        </Grid>       
+        </Grid>
     </Grid>
 </Page>

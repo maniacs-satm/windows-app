@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using wallabag.DataModel;
+using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -12,6 +13,11 @@ namespace wallabag.Views
         public ContentPage()
         {
             this.InitializeComponent();
+        }
+
+        private void ItemListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            WebView.NavigateToString((e.ClickedItem as ItemViewModel).ContentWithHeader);
         }
     }
 }
