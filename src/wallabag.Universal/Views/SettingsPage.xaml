@@ -8,8 +8,15 @@
     xmlns:controls="using:wallabag.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.ColumnSpan="2" Margin="20">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" EntranceNavigationTransitionInfo.IsTargetElement="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <controls:PageHeader>
+            <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
+        </controls:PageHeader>
+        <StackPanel Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20" Grid.Row="1">
             <StackPanel.Resources>
                 <Style TargetType="TextBox">
                     <Setter Property="Margin" Value="0,5" />
@@ -36,7 +43,7 @@
             <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=OneWay}"/>
             <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=OneWay}"/>
             <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=OneWay}"/>
-            <Button Content="Save credentials" Click="SaveCredentialsButton_Click"/>
+            <Button Content="Save credentials"/>
             <controls:SettingsSubHeaderTextBlock Text="Reading view"/>
             <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
             <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
