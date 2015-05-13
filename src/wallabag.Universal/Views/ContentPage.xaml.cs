@@ -1,4 +1,5 @@
 ﻿using wallabag.DataModel;
+using wallabag.ViewModels;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -18,6 +19,8 @@ namespace wallabag.Views
         private void ItemListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             WebView.NavigateToString((e.ClickedItem as ItemViewModel).ContentWithHeader);
+            var dc = (MainViewModel)this.DataContext;
+            dc.CurrentItem = e.ClickedItem as ItemViewModel;
         }
     }
 }

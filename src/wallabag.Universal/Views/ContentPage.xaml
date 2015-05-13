@@ -14,10 +14,12 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <CommandBar x:Name="topbar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
-            <AppBarToggleButton Icon="Accept" Label="Mark as read"/>
-            <AppBarToggleButton Icon="Favorite" Label="Favorite"/>
-            <AppBarButton Icon="Tag" Label="Tag"/>
-            <AppBarButton Label="Share">
+            <AppBarToggleButton Icon="Accept" Label="Mark as read" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                IsChecked="{Binding CurrentItem.Model.IsArchived}" Command="{Binding SwitchReadStatusCommand}"/>
+            <AppBarToggleButton Icon="Favorite" Label="Favorite" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                IsChecked="{Binding CurrentItem.Model.IsStarred}" Command="{Binding SwitchFavoriteStatusCommand}"/>
+            <AppBarButton Icon="Tag" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <AppBarButton Label="Share" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <AppBarButton.Icon>
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
                 </AppBarButton.Icon>
@@ -29,12 +31,12 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Print">
+                <AppBarButton Label="Print" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Icon="SaveLocal" Label="Download as…">
+                <AppBarButton Icon="SaveLocal" Label="Download as…" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem Text="MOBI"/>
@@ -43,7 +45,7 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Icon="Delete" Label="Delete"/>
+                <AppBarButton Icon="Delete" Label="Delete" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </CommandBar.SecondaryCommands>
             <CommandBar.Content>
                 <controls:PageHeader>
