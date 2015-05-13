@@ -13,13 +13,6 @@
         <vm:MainViewModel/>
     </Page.DataContext>
 
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="Add" Label="Add"/>
-            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-        </CommandBar>
-    </Page.BottomAppBar>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
@@ -49,29 +42,8 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <Grid Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-                <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" ToolTipService.ToolTip="Menu" TabIndex="1"/>
-                <TextBlock x:Name="HeaderTextBlock" Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-                <ProgressRing Margin="5,0" IsActive="{Binding IsActive}" Foreground="{StaticResource AccentBrush}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            </StackPanel>
-            <CommandBar x:Name="ItemCommandBar" HorizontalAlignment="Stretch" Grid.Column="1" Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}"
-                        Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-                <CommandBar.PrimaryCommands>
-                    <AppBarToggleButton Icon="Accept" IsCompact="True" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsArchived}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarToggleButton Icon="Favorite" IsCompact="True" Label="Favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarButton Icon="Tag" IsCompact="True" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"/>
-                    <AppBarButton Icon="FullScreen" IsCompact="True" Label="FullScreen" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" Click="ShowInFullscreenButton_Click"/>
-                </CommandBar.PrimaryCommands>
-            </CommandBar>
-        </Grid>
-       
-        <SplitView x:Name="splitView" Grid.Row="1" DisplayMode="CompactOverlay" OpenPaneLength="256">
+        </VisualStateManager.VisualStateGroups>       
+        <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="256">
             <SplitView.Pane>
                 <StackPanel>
                     <Button Style="{ThemeResource NavigationBackButtonStyle}" Height="40" IsEnabled="False"/>
@@ -81,7 +53,18 @@
                     <RadioButton x:Name="SettingsMenuButton" Click="SettingsMenuButton_Click" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
                 </StackPanel>
             </SplitView.Pane>
-            <Frame/>
+            <Frame x:Name="frame">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition>
+                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                <EntranceNavigationTransitionInfo/>
+                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        </NavigationThemeTransition>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
         </SplitView>
+        <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" ToolTipService.ToolTip="Menu" TabIndex="1"/>
     </Grid>
 </Page>
