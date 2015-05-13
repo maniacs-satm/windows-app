@@ -19,7 +19,6 @@ namespace wallabag.Universal
             this.InitializeComponent();
 
             SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
-            AppFrame.Navigate(typeof(Views.ContentPage));
         }
 
         #region BackRequested Handlers
