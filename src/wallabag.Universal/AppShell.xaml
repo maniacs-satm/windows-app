@@ -41,15 +41,16 @@
         </VisualStateManager.VisualStateGroups>       
         <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="256">
             <SplitView.Pane>
-                <StackPanel>
-                    <Button Style="{ThemeResource NavigationBackButtonStyle}" Height="40" IsEnabled="False"/>
-                    <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True"/>
-                    <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" Background="#00000000" />
+                <StackPanel Margin="0,48,0,0">
+                    <Button x:Name="backButton" Style="{ThemeResource NavigationBackButtonStyle}" Height="40" IsEnabled="{Binding CanGoBack, ElementName=frame}" Click="backButton_Click"/>
+                    <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True" Click="UnreadItemsMenuButton_Click"/>
+                    <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" />
                     <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
-                    <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" />
+                    <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" Click="SettingsMenuButton_Click"/>
                 </StackPanel>
             </SplitView.Pane>
-            <Frame x:Name="frame">
+            <Frame x:Name="frame"
+                   Navigated="OnNavigatedToPage">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition>
