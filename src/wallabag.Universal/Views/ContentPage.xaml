@@ -15,9 +15,9 @@
         </Grid.RowDefinitions>
         <CommandBar x:Name="topbar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
             <AppBarToggleButton Icon="Accept" Label="Mark as read" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                IsChecked="{Binding CurrentItem.Model.IsArchived}" Command="{Binding SwitchReadStatusCommand}"/>
+                                IsChecked="{Binding CurrentItem.Model.IsArchived, Mode=TwoWay}" Command="{Binding SwitchReadStatusCommand}"/>
             <AppBarToggleButton Icon="Favorite" Label="Favorite" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                IsChecked="{Binding CurrentItem.Model.IsStarred}" Command="{Binding SwitchFavoriteStatusCommand}"/>
+                                IsChecked="{Binding CurrentItem.Model.IsStarred, Mode=TwoWay}" Command="{Binding SwitchFavoriteStatusCommand}"/>
             <AppBarButton Icon="Tag" Label="Tag" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <AppBarButton Label="Share" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <AppBarButton.Icon>
