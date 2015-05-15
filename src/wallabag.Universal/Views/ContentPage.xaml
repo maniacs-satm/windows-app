@@ -13,7 +13,22 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <CommandBar x:Name="topbar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MasterColumn" Width="500"/>
+            <ColumnDefinition x:Name="DetailColumn" Width="*"/>
+        </Grid.ColumnDefinitions>
+        <CommandBar x:Name="MainCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+            <AppBarButton Icon="Add" Label="Add"/>
+            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            <CommandBar.Content>
+                <controls:PageHeader>
+                    <controls:PageHeader.HeaderContent>
+                            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
+                    </controls:PageHeader.HeaderContent>
+                </controls:PageHeader>
+            </CommandBar.Content>
+        </CommandBar>
+        <CommandBar x:Name="ItemCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.Column="1">
             <AppBarToggleButton Icon="Accept" Label="Mark as read" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 IsChecked="{Binding CurrentItem.Model.IsArchived, Mode=TwoWay}" Command="{Binding SwitchReadStatusCommand}"/>
             <AppBarToggleButton Icon="Favorite" Label="Favorite" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -47,26 +62,8 @@
                 </AppBarButton>
                 <AppBarButton Icon="Delete" Label="Delete" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </CommandBar.SecondaryCommands>
-            <CommandBar.Content>
-                <controls:PageHeader>
-                    <controls:PageHeader.HeaderContent>
-                        <Grid Width="500">
-                            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <AppBarButton Icon="Sort" Label="Sort" IsCompact="True"/>
-                                <AppBarButton Icon="Refresh" Label="Refresh" IsCompact="True" Command="{Binding RefreshCommand}"/>
-                                <Rectangle Width="1" Fill="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"/>
-                            </StackPanel>
-                        </Grid>
-                    </controls:PageHeader.HeaderContent>
-                </controls:PageHeader>
-            </CommandBar.Content>
         </CommandBar>
         <Grid Grid.Row="1" EntranceNavigationTransitionInfo.IsTargetElement="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="MasterColumn" Width="500"/>
-                <ColumnDefinition x:Name="DetailColumn" Width="*"/>
-            </Grid.ColumnDefinitions>
             <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
                           ItemContainerStyle="{StaticResource ArticleContainerStyle}"
                           IsItemClickEnabled="True" ItemClick="ItemListView_ItemClick"
