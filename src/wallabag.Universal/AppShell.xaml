@@ -18,11 +18,7 @@
             <VisualStateGroup x:Name="AdaptiveStates">
                 <VisualState x:Name="NarrowState">
                     <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="Overlay"/>
-                        <Setter Target="MasterColumn.Width" Value="*" />
-                        <Setter Target="DetailColumn.Width" Value="0" />
-                        <Setter Target="ItemListView.SelectionMode" Value="None" />
-                        <Setter Target="ItemCommandBar.Visibility" Value="Collapsed" />
+                        <Setter Target="splitView.DisplayMode" Value="Overlay"/>                        
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
