@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using wallabag.Universal;
+using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // Die Elementvorlage "Benutzersteuerelement" ist unter http://go.microsoft.com/fwlink/?LinkId=234236 dokumentiert.
@@ -10,6 +12,17 @@ namespace wallabag.Controls
         public PageHeader()
         {
             InitializeComponent();
+
+            this.Loaded += (s, a) =>
+            {
+                AppShell.Current.TogglePaneButtonRectChanged += Current_TogglePaneButtonSizeChanged;
+                this.titleBar.Margin = new Thickness(AppShell.Current.TogglePaneButtonRect.Right, 0, 0, 0);
+            };
+        }
+
+        private void Current_TogglePaneButtonSizeChanged(AppShell sender, Rect e)
+        {
+            this.titleBar.Margin = new Thickness(e.Right, 0, 0, 0);
         }
 
         public UIElement HeaderContent

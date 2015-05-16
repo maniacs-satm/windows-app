@@ -1,4 +1,7 @@
-﻿using Windows.UI.Core;
+﻿using System;
+using Windows.Foundation;
+using Windows.Foundation.Metadata;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -13,10 +16,32 @@ namespace wallabag.Universal
     public sealed partial class AppShell : Page
     {
         public Frame AppFrame { get { return this.frame; } }
-
+        public static AppShell Current = null;
+    
         public AppShell()
         {
             this.InitializeComponent();
+
+            this.Loaded += (sender, args) =>
+            {
+                Current = this;
+
+                this.HamburgerToggleButton.Focus(FocusState.Programmatic);
+            };
+
+            this.splitView.RegisterPropertyChangedCallback(SplitView.DisplayModeProperty, (sender, args) =>
+            {
+                this.CheckTogglePaneButtonSizeChanged();
+            });
+
+            //TODO
+            //SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
+
+            // If on a phone device that has hardware buttons then we hide the app's back button.
+            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+            {
+                this.backButton.Visibility = Visibility.Collapsed;
+            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
         }
@@ -70,6 +95,43 @@ namespace wallabag.Universal
         {
             ((Page)sender).Focus(FocusState.Programmatic);
             ((Page)sender).Loaded -= Page_Loaded;
+        }
+
+        #endregion
+
+        #region Hamburger button
+
+        public Rect TogglePaneButtonRect { get; private set; }
+        public event TypedEventHandler<AppShell, Rect> TogglePaneButtonRectChanged;
+        
+        /// <summary>
+        /// Check for the conditions where the navigation pane does not occupy the space under the floating 
+        /// hamburger button and trigger the event.
+        /// </summary>
+        private void CheckTogglePaneButtonSizeChanged()
+        {
+            if (this.splitView.DisplayMode == SplitViewDisplayMode.Inline ||
+                this.splitView.DisplayMode == SplitViewDisplayMode.Overlay)
+            {
+                var transform = this.HamburgerToggleButton.TransformToVisual(this);
+                var rect = transform.TransformBounds(new Rect(0, 0, this.HamburgerToggleButton.ActualWidth, this.HamburgerToggleButton.ActualHeight));
+                this.TogglePaneButtonRect = rect;
+            }
+            else
+            {
+                this.TogglePaneButtonRect = new Rect();
+            }
+
+            var handler = this.TogglePaneButtonRectChanged;
+            if (handler != null)
+            {
+                handler(this, this.TogglePaneButtonRect);
+            }
+        }
+
+        private void HamburgerToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            this.CheckTogglePaneButtonSizeChanged();
         }
 
         #endregion
