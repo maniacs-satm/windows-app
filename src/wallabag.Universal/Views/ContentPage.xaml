@@ -35,7 +35,7 @@
                         <Setter Target="DetailColumn.Width" Value="*" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
+                        <AdaptiveTrigger MinWindowWidth="1200"/>
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
