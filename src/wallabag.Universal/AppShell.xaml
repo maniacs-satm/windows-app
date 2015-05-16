@@ -58,6 +58,6 @@
                 </Frame.ContentTransitions>
             </Frame>
         </SplitView>
-        <ToggleButton x:Name="HamburgerRadioButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" ToolTipService.ToolTip="Menu" TabIndex="1"/>
+        <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" ToolTipService.ToolTip="Menu" TabIndex="1"/>
     </Grid>
 </Page>
