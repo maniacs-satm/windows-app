@@ -8,7 +8,8 @@
     xmlns:controls="using:wallabag.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          Loaded="Grid_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition />
@@ -18,8 +19,8 @@
             <ColumnDefinition x:Name="DetailColumn" Width="*"/>
         </Grid.ColumnDefinitions>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Narrow">
+            <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
+                <VisualState x:Name="NarrowState">
                     <VisualState.Setters>
                         <Setter Target="MasterColumn.Width" Value="*" />
                         <Setter Target="DetailColumn.Width" Value="0" />
@@ -29,7 +30,7 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                 </VisualState>
-                <VisualState x:Name="Wide">
+                <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
                         <Setter Target="MasterColumn.Width" Value="500" />
                         <Setter Target="DetailColumn.Width" Value="*" />

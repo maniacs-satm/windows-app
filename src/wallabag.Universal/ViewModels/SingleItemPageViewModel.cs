@@ -8,7 +8,7 @@ using Windows.System;
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
-    class SingleItemPageViewModel : ViewModelBase
+    public class SingleItemPageViewModel : ViewModelBase
     {
         public ItemViewModel CurrentItem { get; set; }
 

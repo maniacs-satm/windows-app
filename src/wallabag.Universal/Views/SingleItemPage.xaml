@@ -7,6 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:triggers="using:wallabag.Common.VisualStateTriggers"
+    x:Name="PageRoot"
+    Loaded="PageRoot_Loaded" Unloaded="PageRoot_Unloaded"
     mc:Ignorable="d">
 
     <common:basicPage.BottomAppBar>
@@ -53,7 +55,7 @@
         </CommandBar>
     </common:basicPage.BottomAppBar>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="RootPanel">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -86,7 +88,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <WebView x:Name="WebView"/>
+        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader}"/>
         <Button x:Name="BackButton" Style="{StaticResource NavigationBackButtonStyle}" Click="backButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </common:basicPage>
