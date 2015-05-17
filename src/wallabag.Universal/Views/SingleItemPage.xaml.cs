@@ -79,12 +79,7 @@ namespace wallabag.Views
             e.Handled = true;
             OnBackRequested();
         }
-
-        private void backButton_Click(object sender, RoutedEventArgs e)
-        {
-            OnBackRequested();
-        }
-
+        
         private void PageRoot_Loaded(object sender, RoutedEventArgs e)
         {
             if (ShouldGoToWideState())

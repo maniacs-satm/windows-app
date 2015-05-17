@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.UI.Core;
@@ -33,15 +34,14 @@ namespace wallabag.Universal
             {
                 this.CheckTogglePaneButtonSizeChanged();
             });
-
-            //TODO
-            //SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
-
+            
             // If on a phone device that has hardware buttons then we hide the app's back button.
             if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
             {
                 this.backButton.Visibility = Visibility.Collapsed;
             }
+            Window.Current.SetTitleBar(headerPanel);
+            CoreApplication.MainView.TitleBar.ExtendViewIntoTitleBar = true;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
         }

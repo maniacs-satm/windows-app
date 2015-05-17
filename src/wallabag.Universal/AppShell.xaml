@@ -35,10 +35,24 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>       
-        <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="256">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="backButton" Style="{ThemeResource NavigationBackButtonStyle}" IsEnabled="{Binding CanGoBack, ElementName=frame}" Click="backButton_Click"/>
+            <Grid Grid.Column="1" x:Name="headerPanel">
+                <Rectangle Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+                <TextBlock Text="wallabag" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="12"/>
+            </Grid>
+        </Grid>
+        <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="256" Grid.Row="1">
             <SplitView.Pane>
                 <StackPanel Margin="0,48,0,0">
-                    <Button x:Name="backButton" Style="{ThemeResource NavigationBackButtonStyle}" Height="40" IsEnabled="{Binding CanGoBack, ElementName=frame}" Click="backButton_Click"/>
                     <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True" Click="UnreadItemsMenuButton_Click"/>
                     <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" />
                     <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
@@ -58,6 +72,7 @@
                 </Frame.ContentTransitions>
             </Frame>
         </SplitView>
-        <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" ToolTipService.ToolTip="Menu" TabIndex="1" Checked="HamburgerToggleButton_Checked"/>
+        <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"
+                      ToolTipService.ToolTip="Menu" TabIndex="1" Checked="HamburgerToggleButton_Checked" Grid.Row="1"/>
     </Grid>
 </Page>
