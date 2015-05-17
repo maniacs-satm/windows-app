@@ -28,8 +28,7 @@ namespace wallabag.DataModel
             var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json?page={page}"));
             http.Dispose();
 
-            if (response.StatusCode == HttpStatusCode.Ok ||
-                response.StatusCode == HttpStatusCode.NoContent)
+            if (response.StatusCode == HttpStatusCode.Ok)
             {
                 List<Item> items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Item>>(response.Content.ToString()));
                 Items = new ObservableCollection<ItemViewModel>();
@@ -38,7 +37,10 @@ namespace wallabag.DataModel
                 await SaveItemsAsync();
                 return true;
             }
-            return false;
+            else if (response.StatusCode == HttpStatusCode.NoContent)
+                return true;
+            else
+                return false;
         }
         public static async Task<ItemViewModel> GetItemAsync(int Id)
         {
@@ -77,7 +79,7 @@ namespace wallabag.DataModel
         {
             try
             {
-                string json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(Items, Formatting.Indented));
+                string json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(Items));
 
                 StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("items.json", CreationCollisionOption.ReplaceExisting);
                 await Windows.Storage.FileIO.WriteTextAsync(file, json);
