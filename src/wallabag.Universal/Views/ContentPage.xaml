@@ -53,8 +53,8 @@
             </CommandBar.Content>
         </CommandBar>
         <CommandBar x:Name="ItemCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.Column="1" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <AppBarToggleButton Icon="Accept" Label="Mark as read" IsChecked="{Binding CurrentItem.Model.IsArchived, Mode=TwoWay}" Command="{Binding SwitchReadStatusCommand}"/>
-            <AppBarToggleButton Icon="Favorite" Label="Favorite" IsChecked="{Binding CurrentItem.Model.IsStarred, Mode=TwoWay}" Command="{Binding SwitchFavoriteStatusCommand}"/>
+            <AppBarToggleButton Icon="Accept" Label="Mark as read" IsChecked="{Binding CurrentItem.Model.IsArchived, Mode=TwoWay}" Command="{Binding CurrentItem.SwitchReadStatusCommand}"/>
+            <AppBarToggleButton Icon="Favorite" Label="Favorite" IsChecked="{Binding CurrentItem.Model.IsStarred, Mode=TwoWay}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"/>
             <AppBarButton Icon="Tag" Label="Tag"/>
             <AppBarButton Label="Share">
                 <AppBarButton.Icon>
