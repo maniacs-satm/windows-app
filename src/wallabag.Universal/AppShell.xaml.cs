@@ -18,7 +18,7 @@ namespace wallabag.Universal
     {
         public Frame AppFrame { get { return this.frame; } }
         public static AppShell Current = null;
-    
+
         public AppShell()
         {
             this.InitializeComponent();
@@ -34,7 +34,7 @@ namespace wallabag.Universal
             {
                 this.CheckTogglePaneButtonSizeChanged();
             });
-            
+
             // If on a phone device that has hardware buttons then we hide the app's back button.
             if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
             {
@@ -103,7 +103,7 @@ namespace wallabag.Universal
 
         public Rect TogglePaneButtonRect { get; private set; }
         public event TypedEventHandler<AppShell, Rect> TogglePaneButtonRectChanged;
-        
+
         /// <summary>
         /// Check for the conditions where the navigation pane does not occupy the space under the floating 
         /// hamburger button and trigger the event.
@@ -138,12 +138,14 @@ namespace wallabag.Universal
 
         private void UnreadItemsMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            AppFrame.Navigate(typeof(Views.ContentPage));
+            if (AppFrame.Content.GetType() != typeof(Views.ContentPage))
+                AppFrame.Navigate(typeof(Views.ContentPage));
         }
 
         private void SettingsMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            AppFrame.Navigate(typeof(Views.SettingsPage));
+            if (AppFrame.Content.GetType() != typeof(Views.SettingsPage))
+                AppFrame.Navigate(typeof(Views.SettingsPage));
         }
     }
 }
