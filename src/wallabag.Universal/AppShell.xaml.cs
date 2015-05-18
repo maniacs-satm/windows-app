@@ -41,7 +41,7 @@ namespace wallabag.Universal
                 this.backButton.Visibility = Visibility.Collapsed;
             }
             Window.Current.SetTitleBar(headerPanel);
-            CoreApplication.MainView.TitleBar.ExtendViewIntoTitleBar = true;
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
         }
