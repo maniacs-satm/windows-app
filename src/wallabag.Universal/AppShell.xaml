@@ -27,7 +27,6 @@
                 <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
                         <Setter Target="splitView.DisplayMode" Value="CompactInline"/>
-                        <Setter Target="splitView.IsPaneOpen" Value="True"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720"/>
@@ -50,7 +49,7 @@
                 <TextBlock Text="wallabag" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="12"/>
             </Grid>
         </Grid>
-        <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="256" Grid.Row="1">
+        <SplitView x:Name="splitView" DisplayMode="CompactInline" OpenPaneLength="256" Grid.Row="1">
             <SplitView.Pane>
                 <StackPanel Margin="0,48,0,0">
                     <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True" Click="UnreadItemsMenuButton_Click"/>
