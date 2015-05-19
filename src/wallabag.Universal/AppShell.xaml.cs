@@ -88,6 +88,21 @@ namespace wallabag.Universal
             {
                 var control = (Page)e.Content;
                 control.Loaded += Page_Loaded;
+
+                // If navigating to the SingleItemPage, hide the menu and change the colors of the hamburger button to be still visible.
+                if (e.Content.GetType() == typeof(Views.SingleItemPage))
+                {
+                    HamburgerToggleButton.Background = (Windows.UI.Xaml.Media.SolidColorBrush)App.Current.Resources["SystemControlBackgroundAccentBrush"];
+                    HamburgerToggleButton.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.ColorHelper.FromArgb(255, 255, 255, 255));
+                    splitView.DisplayMode = SplitViewDisplayMode.Overlay;
+                    splitView.IsPaneOpen = false;
+                }
+                else
+                {
+                    HamburgerToggleButton.Background = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.ColorHelper.FromArgb(0, 0, 0, 0)); // as hack for transparent background
+                    HamburgerToggleButton.RequestedTheme = ElementTheme.Default;
+                    splitView.DisplayMode = SplitViewDisplayMode.CompactInline;
+                }
             }
         }
 
