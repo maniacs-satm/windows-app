@@ -81,7 +81,6 @@ namespace wallabag.Universal
 
         #region Navigation
 
-        private SplitViewDisplayMode previousMode;
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
         {
             // After a successful navigation set keyboard focus to the loaded page
