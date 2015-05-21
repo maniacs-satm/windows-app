@@ -21,7 +21,7 @@ namespace wallabag.Views
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
 
-            //_lastSelectedItem = clickedItem;
+            _lastSelectedItem = clickedItem;
             (this.DataContext as MainViewModel).CurrentItem = clickedItem;
 
             if (AdaptiveStates.CurrentState == NarrowState)

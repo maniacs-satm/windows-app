@@ -47,8 +47,6 @@ namespace wallabag.Views
                     );
                 backStack.Add(modifiedEntry);
             }
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += SingleItemPage_BackRequested;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -56,13 +54,8 @@ namespace wallabag.Views
             base.OnNavigatedFrom(e);
 
             ApplicationView.GetForCurrentView().Title = string.Empty;
-            SystemNavigationManager.GetForCurrentView().BackRequested -= SingleItemPage_BackRequested;
         }
 
-        private void OnBackRequested()
-        {
-            Frame.GoBack(new DrillInNavigationTransitionInfo());
-        }
 
         void NavigateBackForWideState(bool useTransition)
         {
@@ -74,11 +67,6 @@ namespace wallabag.Views
 
         private bool ShouldGoToWideState() { return Window.Current.Bounds.Width >= 1200; }
 
-        private void SingleItemPage_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            e.Handled = true;
-            OnBackRequested();
-        }
         
         private void PageRoot_Loaded(object sender, RoutedEventArgs e)
         {
