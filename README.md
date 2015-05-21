@@ -7,10 +7,6 @@ And thanks to [Tobi](https://github.com/ceee) - his app is a great source for in
 
 **You can help me to make this app more awesome just by contributing in any way you want!**
 
-## Planned features
-- [ ] UI improvements
-- [ ] Configuration wizard for first-time use
-
 ## Currently supported languages
 - English
 
