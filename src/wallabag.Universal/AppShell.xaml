@@ -33,23 +33,8 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>       
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Style="{ThemeResource NavigationBackButtonStyle}" IsEnabled="{Binding CanGoBack, ElementName=frame}" Click="backButton_Click"/>
-            <Grid Grid.Column="1" x:Name="headerPanel">
-                <Rectangle Fill="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
-                <TextBlock Text="wallabag" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="12"/>
-            </Grid>
-        </Grid>
-        <SplitView x:Name="splitView" DisplayMode="CompactInline" OpenPaneLength="256" Grid.Row="1">
+        </VisualStateManager.VisualStateGroups>
+        <SplitView x:Name="splitView" DisplayMode="CompactInline" OpenPaneLength="256">
             <SplitView.Pane>
                 <StackPanel Margin="0,48,0,0">
                     <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True" Click="UnreadItemsMenuButton_Click"/>

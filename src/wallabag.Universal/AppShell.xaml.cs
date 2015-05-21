@@ -35,14 +35,6 @@ namespace wallabag.Universal
                 this.CheckTogglePaneButtonSizeChanged();
             });
 
-            // If on a phone device that has hardware buttons then we hide the app's back button.
-            if (ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
-            {
-                this.backButton.Visibility = Visibility.Collapsed;
-            }
-            Window.Current.SetTitleBar(headerPanel);
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-
             SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
         }
 
@@ -58,7 +50,6 @@ namespace wallabag.Universal
         private void BackRequested(ref bool handled)
         {
             // Get a hold of the current frame so that we can inspect the app back stack.
-
             if (this.AppFrame == null)
                 return;
 
@@ -92,6 +83,11 @@ namespace wallabag.Universal
                 // If navigating to the SingleItemPage, hide the menu.
                 if (e.Content.GetType() == typeof(Views.SingleItemPage))
                     splitView.IsPaneOpen = false;
+
+                if (AppFrame != null && AppFrame.CanGoBack)
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                else
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             }
         }
 
