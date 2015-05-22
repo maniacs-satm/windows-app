@@ -14,33 +14,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="MasterColumn" Width="500"/>
-            <ColumnDefinition x:Name="DetailColumn" Width="*"/>
-        </Grid.ColumnDefinitions>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
-                <VisualState x:Name="NarrowState">
-                    <VisualState.Setters>
-                        <Setter Target="MasterColumn.Width" Value="*" />
-                        <Setter Target="DetailColumn.Width" Value="0" />
-                        <Setter Target="ItemListView.SelectionMode" Value="None" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="DefaultState">
-                    <VisualState.Setters>
-                        <Setter Target="MasterColumn.Width" Value="500" />
-                        <Setter Target="DetailColumn.Width" Value="*" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1200"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <CommandBar x:Name="MainCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
             <AppBarButton Icon="Add" Label="Add"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
@@ -52,43 +25,8 @@
                 </controls:PageHeader>
             </CommandBar.Content>
         </CommandBar>
-        <CommandBar x:Name="ItemCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.Column="1" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <AppBarToggleButton Icon="Accept" Label="Mark as read" IsChecked="{Binding CurrentItem.Model.IsArchived, Mode=TwoWay}" Command="{Binding CurrentItem.SwitchReadStatusCommand}"/>
-            <AppBarToggleButton Icon="Favorite" Label="Favorite" IsChecked="{Binding CurrentItem.Model.IsStarred, Mode=TwoWay}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"/>
-            <AppBarButton Icon="Tag" Label="Tag"/>
-            <AppBarButton Label="Share">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
-                </AppBarButton.Icon>
-                <AppBarButton.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Link"/>
-                        <MenuFlyoutItem Text="Content"/>
-                    </MenuFlyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Print">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton Icon="SaveLocal" Label="Download as…">
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem Text="MOBI"/>
-                            <MenuFlyoutItem Text="EPUB"/>
-                            <MenuFlyoutItem Text="PDF"/>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton Icon="Delete" Label="Delete"/>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-        <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
-                          ItemContainerStyle="{StaticResource ArticleContainerStyle}" Grid.Row="1"
+        <GridView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}" Grid.Row="1"
                           IsItemClickEnabled="True" ItemClick="ItemListView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True"/>
         <ProgressRing Height="100" Width="100" IsActive="True" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
-        <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
     </Grid>
 </Page>
