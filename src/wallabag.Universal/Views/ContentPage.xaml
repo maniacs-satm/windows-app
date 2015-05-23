@@ -25,8 +25,14 @@
                 </controls:PageHeader>
             </CommandBar.Content>
         </CommandBar>
-        <GridView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}" Grid.Row="1"
-                          IsItemClickEnabled="True" ItemClick="ItemListView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True"/>
+        <GridView x:Name="ItemListView" ItemsSource="{Binding Items}" Grid.Row="1"
+                          IsItemClickEnabled="True" ItemClick="ItemListView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <controls:ItemControl/>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
         <ProgressRing Height="100" Width="100" IsActive="True" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
     </Grid>
 </Page>
