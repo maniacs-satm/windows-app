@@ -72,7 +72,7 @@
                         <Flyout>
                             <StackPanel>
                                 <TextBlock Text="The article will be permantely deleted from wallabag."/>
-                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Foreground="White"/>
+                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Foreground="White" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
