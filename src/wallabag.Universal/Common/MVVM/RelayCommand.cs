@@ -10,9 +10,9 @@ namespace wallabag.Common.MVVM
     /// <see cref="RaiseCanExecuteChanged"/> muss jedes mal aufgerufen werden, wenn
     /// <see cref="CanExecute"/> muss einen anderen Wert zurückgeben.
     /// </summary>
-    public class RelayCommand : ICommand
+    public class RelayCommand<T> : ICommand where T : class
     {
-        private readonly Action _execute;
+        private readonly Action<object> _execute;
         private readonly Func<bool> _canExecute;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace wallabag.Common.MVVM
         /// Erstellt einen neuen Befehl, der immer ausgeführt werden kann.
         /// </summary>
         /// <param name="execute">Die Ausführungslogik.</param>
-        public RelayCommand(Action execute)
+        public RelayCommand(Action<object> execute)
             : this(execute, null)
         {
         }
@@ -34,7 +34,7 @@ namespace wallabag.Common.MVVM
         /// </summary>
         /// <param name="execute">Die Ausführungslogik.</param>
         /// <param name="canExecute">Die Logik des Ausführungsstatus.</param>
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        public RelayCommand(Action<object> execute, Func<bool> canExecute)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");
@@ -62,7 +62,7 @@ namespace wallabag.Common.MVVM
         /// </param>
         public void Execute(object parameter)
         {
-            _execute();
+            _execute(parameter as T);
         }
 
         /// <summary>
@@ -77,6 +77,25 @@ namespace wallabag.Common.MVVM
             {
                 handler(this, EventArgs.Empty);
             }
+        }
+    }
+    public class RelayCommand : RelayCommand<object>
+    {
+        public RelayCommand(Action<object> execute, Func<bool> canExecute)
+            : base(execute, canExecute)
+        {
+        }
+        public RelayCommand(Action<object> execute)
+            : base(execute)
+        {
+        }
+        public RelayCommand(System.Action execute, Func<bool> canExecute)
+            : base(o => execute(), canExecute)
+        {
+        }
+        public RelayCommand(System.Action execute)
+            : base(o => execute())
+        {
         }
     }
 }
