@@ -87,11 +87,15 @@ namespace wallabag.DataModel
         {
             this.Model = Model;
             UpdateCommand = new RelayCommand(async () => await Update());
+            DeleteCommand = new RelayCommand(async () => await Delete());
+            AddTagsCommand = new RelayCommand<string>(async (t) => await AddTags((string)t));
             SwitchReadStatusCommand = new RelayCommand(async () => await SwitchReadStatus());
             SwitchFavoriteStatusCommand = new RelayCommand(async () => await SwitchFavoriteStatus());
         }
 
         public RelayCommand UpdateCommand { get; private set; }
+        public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand<string> AddTagsCommand { get; private set; }
         public RelayCommand SwitchReadStatusCommand { get; private set; }
         public RelayCommand SwitchFavoriteStatusCommand { get; private set; }
 
@@ -188,8 +192,8 @@ namespace wallabag.DataModel
             {
                 string[] tagarray = tags.Split(",".ToCharArray());
 
-                //foreach (string tag in tagarray)
-                //    Model.Tags.Add(tag);
+                foreach (string tag in tagarray)
+                    Model.Tags.Add(new Tag() { Label = tag });
 
                 return true;
             }
