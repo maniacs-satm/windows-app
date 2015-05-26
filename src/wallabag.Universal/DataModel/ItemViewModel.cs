@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using PropertyChanged;
 using wallabag.Common;
 using wallabag.Common.MVVM;
 using Windows.UI;
@@ -169,7 +169,7 @@ namespace wallabag.DataModel
             if (response.StatusCode != HttpStatusCode.NoContent &&
                 response.StatusCode == HttpStatusCode.Ok)
             {
-                //TODO: JSON parsing
+                Model.Tags = JsonConvert.DeserializeObject<List<Tag>>(await response.Content.ReadAsStringAsync());
             }
         }
         public async Task<bool> AddTags(string tags)
