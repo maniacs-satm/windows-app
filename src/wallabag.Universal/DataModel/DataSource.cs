@@ -18,22 +18,24 @@ namespace wallabag.DataModel
         private static DataSource _wallabagDataSource = new DataSource();
         public static ObservableCollection<ItemViewModel> Items { get; set; }
 
-        public static async Task<bool> GetItemsAsync(int page = 1)
+        public static async Task<bool> GetItemsAsync()
         {
             await RestoreItemsAsync();
 
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json?page={page}"));
+            var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"));
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
             {
-                List<Item> items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Item>>(response.Content.ToString()));
+                var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                 Items = new ObservableCollection<ItemViewModel>();
-                foreach (Item i in items)
-                    Items.Add(new ItemViewModel(i));
+                foreach (var item in json.Embedded.Items)
+                {
+                    Items.Add(new ItemViewModel(item));
+                }
                 await SaveItemsAsync();
                 return true;
             }

@@ -20,7 +20,6 @@ namespace wallabag.DataModel
         [DataMember]
         public Item Model { get; set; }
         [DataMember]
-        public ObservableCollection<string> Tags { get; set; }
         public bool IsSelected { get; set; }
 
         public string ContentWithHeader
@@ -74,13 +73,13 @@ namespace wallabag.DataModel
         private string CreateStringOfTagList()
         {
             string result = string.Empty;
-            if (Tags != null && Tags.Count > 0)
-            {
-                foreach (string tag in Tags)
-                    result += tag + ",";
+            //if (Model.Tags != null && Model.Tags.Count > 0)
+            //{
+            //    foreach (string tag in Model.Tags)
+            //        result += tag + ",";
 
-                result = result.Remove(result.Length - 1, 1); // Remove the last comma.
-            }
+            //    result = result.Remove(result.Length - 1, 1); // Remove the last comma.
+            //}
             return result;
         }
         #endregion
@@ -190,8 +189,8 @@ namespace wallabag.DataModel
             {
                 string[] tagarray = tags.Split(",".ToCharArray());
 
-                foreach (string tag in tagarray)
-                    Tags.Add(tag);
+                //foreach (string tag in tagarray)
+                //    Model.Tags.Add(tag);
 
                 return true;
             }
