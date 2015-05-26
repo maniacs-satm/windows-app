@@ -34,9 +34,9 @@
                                 <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                                 <TextBlock Text="TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" Margin="15" RequestedTheme="Dark"/>
                                 <!--list of current used tags-->
-                                <TextBox PlaceholderText="add tags (comma-separated)" Grid.Row="2" Margin="10,15"/>
+                                <TextBox x:Name="TagsTextBox" PlaceholderText="add tags (comma-separated)" Grid.Row="2" Margin="10,15"/>
                                 <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right" Margin="10,3">
-                                    <Button x:Name="SaveTagsButton" Content="Save" Margin="5" Command="{x:Bind ViewModel.CurrentItem.AddTagsCommand}"/>
+                                    <Button x:Name="SaveTagsButton" Content="Save" Margin="5" Command="{x:Bind ViewModel.CurrentItem.AddTagsCommand}" CommandParameter="{Binding Text, ElementName=TagsTextBox}"/>
                                     <Button x:Name="CloseFlyoutButton" Content="Cancel" Margin="5" Click="CloseFlyoutButton_Click"/>
                                 </StackPanel>
                             </Grid>
