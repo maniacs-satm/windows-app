@@ -2,7 +2,6 @@
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using wallabag.Common;
@@ -73,13 +72,13 @@ namespace wallabag.DataModel
         private string CreateStringOfTagList()
         {
             string result = string.Empty;
-            //if (Model.Tags != null && Model.Tags.Count > 0)
-            //{
-            //    foreach (string tag in Model.Tags)
-            //        result += tag + ",";
+            if (Model.Tags != null && Model.Tags.Count > 0)
+            {
+                foreach (Tag tag in Model.Tags)
+                    result += tag + ",";
 
-            //    result = result.Remove(result.Length - 1, 1); // Remove the last comma.
-            //}
+                result = result.Remove(result.Length - 1, 1); // Remove the last comma.
+            }
             return result;
         }
         #endregion

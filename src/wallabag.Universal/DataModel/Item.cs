@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using PropertyChanged;
-using System;
 
 namespace wallabag.DataModel
 {
@@ -60,7 +61,7 @@ namespace wallabag.DataModel
         public DateTime UpdatedAt { get; set; }
 
         [JsonProperty("tags")]
-        public string[] Tags { get; set; }
+        public List<Tag> Tags { get; set; }
 
         public override string ToString()
         {
