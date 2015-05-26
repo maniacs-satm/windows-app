@@ -16,7 +16,33 @@
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{x:Bind ViewModel.CurrentItem.SwitchReadStatusCommand}"/>
                 <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
-                <AppBarButton Icon="Tag" Label="Manage tags"/>
+                <AppBarButton Icon="Tag" Label="Manage tags">
+                    <AppBarButton.Flyout>
+                        <Flyout Placement="Top" x:Name="TagFlyout">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="3"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="350">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+                                <TextBlock Text="TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" Margin="15" RequestedTheme="Dark"/>
+                                <!--list of current used tags-->
+                                <TextBox PlaceholderText="add tags (comma-separated)" Grid.Row="2" Margin="10,15"/>
+                                <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right" Margin="10,3">
+                                    <Button x:Name="SaveTagsButton" Content="Save" Margin="5" Command="{x:Bind ViewModel.CurrentItem.AddTagsCommand}"/>
+                                    <Button x:Name="CloseFlyoutButton" Content="Cancel" Margin="5" Click="CloseFlyoutButton_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                 <AppBarSeparator/>
                 <AppBarButton Icon="Font" Label="Font settings"/>
                 <AppBarButton Label="Share">

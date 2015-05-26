@@ -128,5 +128,7 @@ namespace wallabag.Views
             DataTransferManager.ShowShareUI();
         }
         #endregion
+
+        private void CloseFlyoutButton_Click(object sender, RoutedEventArgs e) { TagFlyout.Hide(); }
     }
 }
