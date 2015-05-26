@@ -14,8 +14,8 @@
     <common:basicPage.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal">
             <CommandBar.PrimaryCommands>
-                <AppBarToggleButton Icon="Accept" Label="Mark as read"/>
-                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite"/>
+                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{x:Bind ViewModel.CurrentItem.SwitchReadStatusCommand}"/>
+                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
                 <AppBarButton Icon="Tag" Label="Manage tags"/>
                 <AppBarSeparator/>
                 <AppBarButton Icon="Font" Label="Font settings"/>
@@ -25,8 +25,8 @@
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="Content"/>
-                            <MenuFlyoutItem Text="Link"/>
+                            <MenuFlyoutItem x:Name="ShareContentFlyoutItem" Text="Content" Click="ShareContentFlyoutItem_Click"/>
+                            <MenuFlyoutItem x:Name="ShareLinkFlyoutItem" Text="Link" Click="ShareLinkFlyoutItem_Click"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -35,9 +35,9 @@
                 <AppBarButton Label="Download as…">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="PDF"  Command="{Binding DownloadItemAsPDFCommand}"/>
-                            <MenuFlyoutItem Text="EPUB" Command="{Binding DownloadItemAsEpubCommand}"/>
-                            <MenuFlyoutItem Text="MOBI" Command="{Binding DownloadItemAsMobiCommand}"/>
+                            <MenuFlyoutItem Text="PDF"  Command="{x:Bind ViewModel.DownloadItemAsPDFCommand}"/>
+                            <MenuFlyoutItem Text="EPUB" Command="{x:Bind ViewModel.DownloadItemAsEpubCommand}"/>
+                            <MenuFlyoutItem Text="MOBI" Command="{x:Bind ViewModel.DownloadItemAsMobiCommand}"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

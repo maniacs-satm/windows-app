@@ -7,17 +7,22 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using PropertyChanged;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace wallabag.Views
 {
     [ImplementPropertyChanged]
     public sealed partial class SingleItemPage : Common.basicPage
     {
+        private DataTransferManager dataTransferManager;
         public SingleItemPageViewModel ViewModel { get; set; }
 
         public SingleItemPage()
         {
             InitializeComponent();
+
+            dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += SingleItemPage_DataRequested;
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -56,7 +61,6 @@ namespace wallabag.Views
             ApplicationView.GetForCurrentView().Title = string.Empty;
         }
 
-
         void NavigateBackForWideState(bool useTransition)
         {
             if (useTransition)
@@ -67,7 +71,6 @@ namespace wallabag.Views
 
         private bool ShouldGoToWideState() { return Window.Current.Bounds.Width >= 1200; }
 
-        
         private void PageRoot_Loaded(object sender, RoutedEventArgs e)
         {
             if (ShouldGoToWideState())
@@ -101,5 +104,29 @@ namespace wallabag.Views
         {
             Window.Current.SizeChanged -= Window_SizeChanged;
         }
+
+        #region Data transfer
+        private bool shareContent = false;
+        private void SingleItemPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            var data = args.Request.Data;
+            if (shareContent)
+                data.SetHtmlFormat(ViewModel.CurrentItem.ContentWithHeader);
+            else
+                data.SetWebLink(new System.Uri(ViewModel.CurrentItem.Model.Url));
+            data.Properties.Title = ViewModel.CurrentItem.Model.Title;
+        }
+
+        private void ShareLinkFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            shareContent = false;
+            DataTransferManager.ShowShareUI();
+        }
+        private void ShareContentFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            shareContent = true;
+            DataTransferManager.ShowShareUI();
+        }
+        #endregion
     }
 }
