@@ -19,11 +19,6 @@
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
-                            <Flyout.FlyoutPresenterStyle>
-                                <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="3"/>
-                                </Style>
-                            </Flyout.FlyoutPresenterStyle>
                             <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="350">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
