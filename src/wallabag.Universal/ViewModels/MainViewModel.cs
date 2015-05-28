@@ -21,9 +21,11 @@ namespace wallabag.ViewModels
         private async Task Refresh()
         {
             IsActive = true;
-            await DataSource.GetItemsAsync();
-            RaisePropertyChanged(nameof(Items));
-            ShowUnreadItems.Execute(0);
+            if (await DataSource.GetItemsAsync())
+            {
+                RaisePropertyChanged(nameof(Items));
+                ShowUnreadItems.Execute(0);
+            }
             IsActive = false;
         }
 
