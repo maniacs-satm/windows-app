@@ -390,6 +390,10 @@
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
     </Style>
+    <Style x:Key="CustomFlyoutPickerTitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource FlyoutPickerTitleTextBlockStyle}">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="CharacterSpacing" Value="10" />
+    </Style>
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
