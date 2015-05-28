@@ -39,7 +39,31 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarSeparator/>
-                <AppBarButton Icon="Font" Label="Font settings"/>
+                <AppBarButton Icon="Font" Label="Font settings">
+                    <AppBarButton.Flyout>
+                        <Flyout Placement="Top">
+                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="425">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+                                <TextBlock Text="FONT SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}" Margin="15" RequestedTheme="Dark"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <!-- TODO: selection of the color scheme and the switch between serif and sans-serif -->
+                                    <StackPanel Grid.Column="1">
+                                        <Slider Header="Font size" Margin="10"/>
+                                        <Slider Header="Line height" Margin="10"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
                 <AppBarButton Label="Share">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
