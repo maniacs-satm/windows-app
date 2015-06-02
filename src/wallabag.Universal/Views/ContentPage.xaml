@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
+    xmlns:data="using:wallabag.DataModel"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -14,33 +15,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="MasterColumn" Width="500"/>
-            <ColumnDefinition x:Name="DetailColumn" Width="*"/>
-        </Grid.ColumnDefinitions>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
-                <VisualState x:Name="NarrowState">
-                    <VisualState.Setters>
-                        <Setter Target="MasterColumn.Width" Value="*" />
-                        <Setter Target="DetailColumn.Width" Value="0" />
-                        <Setter Target="ItemListView.SelectionMode" Value="None" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="DefaultState">
-                    <VisualState.Setters>
-                        <Setter Target="MasterColumn.Width" Value="500" />
-                        <Setter Target="DetailColumn.Width" Value="*" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1200"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <CommandBar x:Name="MainCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
             <AppBarButton Icon="Add" Label="Add"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
@@ -52,43 +26,31 @@
                 </controls:PageHeader>
             </CommandBar.Content>
         </CommandBar>
-        <CommandBar x:Name="ItemCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.Column="1" Visibility="{Binding CurrentItemIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <AppBarToggleButton Icon="Accept" Label="Mark as read" IsChecked="{Binding CurrentItem.Model.IsArchived, Mode=TwoWay}" Command="{Binding CurrentItem.SwitchReadStatusCommand}"/>
-            <AppBarToggleButton Icon="Favorite" Label="Favorite" IsChecked="{Binding CurrentItem.Model.IsStarred, Mode=TwoWay}" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"/>
-            <AppBarButton Icon="Tag" Label="Tag"/>
-            <AppBarButton Label="Share">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
-                </AppBarButton.Icon>
-                <AppBarButton.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Link"/>
-                        <MenuFlyoutItem Text="Content"/>
-                    </MenuFlyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Print">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph=""/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton Icon="SaveLocal" Label="Download as…">
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem Text="MOBI"/>
-                            <MenuFlyoutItem Text="EPUB"/>
-                            <MenuFlyoutItem Text="PDF"/>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton Icon="Delete" Label="Delete"/>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-        <ListView x:Name="ItemListView" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource ArticleTemplate}"
-                          ItemContainerStyle="{StaticResource ArticleContainerStyle}" Grid.Row="1"
-                          IsItemClickEnabled="True" ItemClick="ItemListView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True"/>
+        <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1"
+                          IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="data:ItemViewModel">
+                    <Grid Width="300" Background="#333">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               Source="http://www.zeit.de/zeit-magazin/essen-trinken/2015-05/sonntagsessen-kochmaedchen-pizza-header/bitblt-940x530-779215db610162e5b71126a2597564e6d144a85b/sonntagsessen-kochmaedchen-pizza-header-zon-article-large.jpg" Stretch="UniformToFill" Grid.RowSpan="2"/>
+                        <Border RequestedTheme="Dark" Grid.Row="1">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#7F000000" Offset="1"/>
+                                    <GradientStop Color="#0C000000"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis" MaxLines="2" TextAlignment="Center"
+                                 Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Bottom" Margin="10"/>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
         <ProgressRing Height="100" Width="100" IsActive="True" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
-        <WebView x:Name="WebView" Grid.Column="1" Visibility="{Binding IsChecked, ElementName=UnreadItemsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
     </Grid>
 </Page>

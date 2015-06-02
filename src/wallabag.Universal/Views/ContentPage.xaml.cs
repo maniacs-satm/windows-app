@@ -16,17 +16,15 @@ namespace wallabag.Views
             InitializeComponent();
         }
 
-        private void ItemListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
 
             _lastSelectedItem = clickedItem;
             (this.DataContext as MainViewModel).CurrentItem = clickedItem;
 
-            if (AdaptiveStates.CurrentState == NarrowState)
+           
                 Frame.Navigate(typeof(SingleItemPage), clickedItem.Model.Id, new DrillInNavigationTransitionInfo());
-            else
-                WebView.NavigateToString(clickedItem.ContentWithHeader);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -42,38 +40,19 @@ namespace wallabag.Views
             var dc = (MainViewModel)this.DataContext;
             if (dc.CurrentItemIsNotNull)
             {
-                WebView.NavigateToString(dc.CurrentItem.ContentWithHeader);
-                ItemListView.SelectedItem = dc.CurrentItem;
+                ItemGridView.SelectedItem = dc.CurrentItem;
             }
 
-            UpdateForVisualState(AdaptiveStates.CurrentState);
         }
-
-        private void UpdateForVisualState(VisualState newState, VisualState oldState = null)
-        {
-            var isNarrow = newState == NarrowState;
-
-            if (isNarrow && oldState == DefaultState && _lastSelectedItem != null)
-            {
-                // Resize down to the detail item. Don't play a transition.
-                Frame.Navigate(typeof(SingleItemPage), _lastSelectedItem.Model.Id, new SuppressNavigationTransitionInfo());
-            }
-
-            EntranceNavigationTransitionInfo.SetIsTargetElement(ItemListView, isNarrow);
-            if (WebView != null)
-            {
-                EntranceNavigationTransitionInfo.SetIsTargetElement(WebView, !isNarrow);
-            }
-        }
+        
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            ItemListView.SelectedItem = _lastSelectedItem;
+            ItemGridView.SelectedItem = _lastSelectedItem;
         }
 
         private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-            UpdateForVisualState(e.NewState, e.OldState);
         }
     }
 }
