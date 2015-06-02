@@ -26,24 +26,28 @@
                 </controls:PageHeader>
             </CommandBar.Content>
         </CommandBar>
-        <GridView x:Name="ItemListView" ItemsSource="{Binding Items}" Grid.Row="1"
-                          IsItemClickEnabled="True" ItemClick="ItemListView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
+        <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1"
+                          IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="data:ItemViewModel">
-                    <RelativePanel Width="300" Background="#333">
+                    <Grid Width="300" Background="#333">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                         RelativePanel.AlignHorizontalCenterWithPanel="True"
-                         RelativePanel.AlignVerticalCenterWithPanel="True" Source="https://jlnostr.de/content/images/2015/02/books.jpg" Stretch="UniformToFill"/>
-                        <Border RelativePanel.AlignVerticalCenterWith="Image" RelativePanel.AlignHorizontalCenterWith="Image" Margin="10">
-                            <StackPanel RequestedTheme="Dark" Margin="50">
-                                <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis" MaxLines="2" TextAlignment="Center"
-                                 Style="{ThemeResource SubtitleTextBlockStyle}"/>
-
-                                <TextBlock TextWrapping="Wrap" Text="{x:Bind UrlHostname}" Style="{StaticResource BaseTextBlockStyle}"
-                           Foreground="{ThemeResource ItemHostnameBrush}" Margin="0,5" TextAlignment="Center"/>
-                            </StackPanel>
+                               Source="http://www.zeit.de/zeit-magazin/essen-trinken/2015-05/sonntagsessen-kochmaedchen-pizza-header/bitblt-940x530-779215db610162e5b71126a2597564e6d144a85b/sonntagsessen-kochmaedchen-pizza-header-zon-article-large.jpg" Stretch="UniformToFill" Grid.RowSpan="2"/>
+                        <Border RequestedTheme="Dark" Grid.Row="1">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#7F000000" Offset="1"/>
+                                    <GradientStop Color="#0C000000"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis" MaxLines="2" TextAlignment="Center"
+                                 Style="{ThemeResource SubtitleTextBlockStyle}" VerticalAlignment="Bottom" Margin="10"/>
                         </Border>
-                    </RelativePanel>
+                    </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

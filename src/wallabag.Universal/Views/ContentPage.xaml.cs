@@ -16,7 +16,7 @@ namespace wallabag.Views
             InitializeComponent();
         }
 
-        private void ItemListView_ItemClick(object sender, ItemClickEventArgs e)
+        private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
 
@@ -40,7 +40,7 @@ namespace wallabag.Views
             var dc = (MainViewModel)this.DataContext;
             if (dc.CurrentItemIsNotNull)
             {
-                ItemListView.SelectedItem = dc.CurrentItem;
+                ItemGridView.SelectedItem = dc.CurrentItem;
             }
 
         }
@@ -48,7 +48,7 @@ namespace wallabag.Views
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            ItemListView.SelectedItem = _lastSelectedItem;
+            ItemGridView.SelectedItem = _lastSelectedItem;
         }
 
         private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
