@@ -25,24 +25,28 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"));
-            http.Dispose();
-
-            if (response.StatusCode == HttpStatusCode.Ok)
+            try
             {
-                var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
-                Items = new ObservableCollection<ItemViewModel>();
-                foreach (var item in json.Embedded.Items)
+                var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"));
+                http.Dispose();
+
+                if (response.StatusCode == HttpStatusCode.Ok)
                 {
-                    Items.Add(new ItemViewModel(item));
+                    var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                    Items = new ObservableCollection<ItemViewModel>();
+                    foreach (var item in json.Embedded.Items)
+                    {
+                        Items.Add(new ItemViewModel(item));
+                    }
+                    await SaveItemsAsync();
+                    return true;
                 }
-                await SaveItemsAsync();
-                return true;
+                else if (response.StatusCode == HttpStatusCode.NoContent)
+                    return true;
+                else
+                    return false;
             }
-            else if (response.StatusCode == HttpStatusCode.NoContent)
-                return true;
-            else
-                return false;
+            catch { return false; }
         }
         public static async Task<ItemViewModel> GetItemAsync(int Id)
         {
@@ -64,17 +68,21 @@ namespace wallabag.DataModel
             parameters.Add("title", title);
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-            var response = await http.PostAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"), content);
-            http.Dispose();
 
-            if (response.StatusCode == HttpStatusCode.Ok)
-            {
-                Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                if (Items != null)
-                    Items.Add(new ItemViewModel(result));
-                return true;
+            try {
+                var response = await http.PostAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"), content);
+                http.Dispose();
+
+                if (response.StatusCode == HttpStatusCode.Ok)
+                {
+                    Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                    if (Items != null)
+                        Items.Add(new ItemViewModel(result));
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch { return false; }
         }
 
         public static async Task<bool> SaveItemsAsync()

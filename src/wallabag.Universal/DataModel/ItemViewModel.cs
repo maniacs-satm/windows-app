@@ -129,21 +129,25 @@ namespace wallabag.DataModel
             parameters.Add("delete", Model.IsDeleted);
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-            var response = await http.PatchAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"), content);
-            http.Dispose();
-
-            if (response.StatusCode == HttpStatusCode.Ok)
+            try
             {
-                Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                if (resultItem.Title == Model.Title &&
-                    resultItem.IsArchived == Model.IsArchived &&
-                    resultItem.IsStarred == Model.IsStarred &&
-                    resultItem.IsDeleted == Model.IsDeleted)
+                var response = await http.PatchAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"), content);
+                http.Dispose();
+
+                if (response.StatusCode == HttpStatusCode.Ok)
                 {
-                    Model.UpdatedAt = resultItem.UpdatedAt;
-                    return true;
+                    Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                    if (resultItem.Title == Model.Title &&
+                        resultItem.IsArchived == Model.IsArchived &&
+                        resultItem.IsStarred == Model.IsStarred &&
+                        resultItem.IsDeleted == Model.IsDeleted)
+                    {
+                        Model.UpdatedAt = resultItem.UpdatedAt;
+                        return true;
+                    }
                 }
             }
+            catch { return false; }
             return false;
         }
         public async Task<bool> Fetch()
@@ -151,14 +155,18 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
-            http.Dispose();
-
-            if (response.StatusCode == HttpStatusCode.Ok)
+            try
             {
-                this.Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                return true;
+                var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
+                http.Dispose();
+
+                if (response.StatusCode == HttpStatusCode.Ok)
+                {
+                    this.Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                    return true;
+                }
             }
+            catch { return false; }
             return false;
         }
 
@@ -167,14 +175,18 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"));
-            http.Dispose();
-
-            if (response.StatusCode != HttpStatusCode.NoContent &&
-                response.StatusCode == HttpStatusCode.Ok)
+            try
             {
-                Model.Tags = JsonConvert.DeserializeObject<List<Tag>>(await response.Content.ReadAsStringAsync());
+                var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"));
+                http.Dispose();
+
+                if (response.StatusCode != HttpStatusCode.NoContent &&
+                    response.StatusCode == HttpStatusCode.Ok)
+                {
+                    Model.Tags = JsonConvert.DeserializeObject<List<Tag>>(await response.Content.ReadAsStringAsync());
+                }
             }
+            catch { }
         }
         public async Task<bool> AddTags(string tags)
         {
@@ -185,18 +197,22 @@ namespace wallabag.DataModel
             parameters.Add("tags", tags);
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-            var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
-            http.Dispose();
-
-            if (response.StatusCode == HttpStatusCode.Ok)
+            try
             {
-                string[] tagarray = tags.Split(",".ToCharArray());
+                var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
+                http.Dispose();
 
-                foreach (string tag in tagarray)
-                    Model.Tags.Add(new Tag() { Label = tag });
+                if (response.StatusCode == HttpStatusCode.Ok)
+                {
+                    string[] tagarray = tags.Split(",".ToCharArray());
 
-                return true;
+                    foreach (string tag in tagarray)
+                        Model.Tags.Add(new Tag() { Label = tag });
+
+                    return true;
+                }
             }
+            catch { return false; }
             return false;
         }
         public async Task<bool> DeleteTag(string tag)
@@ -204,11 +220,15 @@ namespace wallabag.DataModel
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags/{tag}.json"));
-            http.Dispose();
+            try
+            {
+                var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags/{tag}.json"));
+                http.Dispose();
 
-            if (response.StatusCode == HttpStatusCode.Ok)
-                return true;
+                if (response.StatusCode == HttpStatusCode.Ok)
+                    return true;
+            }
+            catch { return false; }
             return false;
         }
 

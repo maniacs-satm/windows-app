@@ -25,9 +25,13 @@ namespace wallabag.DataModel
             string salt = string.Empty;
             using (HttpClient http = new HttpClient())
             {
-                string response = await http.GetStringAsync($"{Url}/api/salts/{Username}.json");
-                JArray result = JsonConvert.DeserializeObject<JArray>(response); //TODO: perform this task async
-                salt = result[0].ToString();
+                try
+                {
+                    string response = await http.GetStringAsync($"{Url}/api/salts/{Username}.json");
+                    JArray result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<JArray>(response));
+                    salt = result[0].ToString();
+                }
+                catch { }
             }
 
             hashPassword(Password, Username, salt);
