@@ -391,8 +391,10 @@
         <Setter Property="BorderThickness" Value="2"/>
     </Style>
     <Style x:Key="CustomFlyoutPickerTitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource FlyoutPickerTitleTextBlockStyle}">
+        <Setter Property="Padding" Value="15"/>
         <Setter Property="FontSize" Value="15"/>
-        <Setter Property="CharacterSpacing" Value="10" />
+        <Setter Property="CharacterSpacing" Value="10"/>
+        <Setter Property="RequestedTheme" Value="Dark"/>
     </Style>
 
     <ResourceDictionary.ThemeDictionaries>
