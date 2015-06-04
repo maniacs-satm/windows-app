@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using wallabag.Common;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;

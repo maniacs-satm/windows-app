@@ -102,7 +102,7 @@
     <Compile Include="Common\MVVM\ObservableDictionary.cs" />
     <Compile Include="Common\MVVM\RelayCommand.cs" />
     <Compile Include="Common\Navigation\SuspensionManager.cs" />
-    <Compile Include="Common\MVVM\viewModelBase.cs" />
+    <Compile Include="Common\MVVM\ViewModelBase.cs" />
     <Compile Include="Common\VisualStateTriggers\IsTypePresentStateTrigger.cs" />
     <Compile Include="Controls\ItemControl.xaml.cs">
       <DependentUpon>ItemControl.xaml</DependentUpon>
