@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
-using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using PropertyChanged;
 using wallabag.Common;
 using Windows.Storage;
 using Windows.Web.Http;
@@ -92,7 +92,7 @@ namespace wallabag.DataModel
                 string json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(Items));
 
                 StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("items.json", CreationCollisionOption.ReplaceExisting);
-                await Windows.Storage.FileIO.WriteTextAsync(file, json);
+                await FileIO.WriteTextAsync(file, json);
 
                 return true;
             }
@@ -106,7 +106,7 @@ namespace wallabag.DataModel
             try
             {
                 StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.json");
-                string json = await Windows.Storage.FileIO.ReadTextAsync(file);
+                string json = await FileIO.ReadTextAsync(file);
 
                 Items = new ObservableCollection<ItemViewModel>();
                 Items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json));

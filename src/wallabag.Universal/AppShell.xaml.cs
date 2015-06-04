@@ -13,23 +13,23 @@ namespace wallabag.Universal
     /// </summary>
     public sealed partial class AppShell : Page
     {
-        public Frame AppFrame { get { return this.frame; } }
+        public Frame AppFrame { get { return frame; } }
         public static AppShell Current = null;
 
         public AppShell()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.Loaded += (sender, args) =>
+            Loaded += (sender, args) =>
             {
                 Current = this;
 
-                this.HamburgerToggleButton.Focus(FocusState.Programmatic);
+                HamburgerToggleButton.Focus(FocusState.Programmatic);
             };
 
-            this.splitView.RegisterPropertyChangedCallback(SplitView.DisplayModeProperty, (sender, args) =>
+            splitView.RegisterPropertyChangedCallback(SplitView.DisplayModeProperty, (sender, args) =>
             {
-                this.CheckTogglePaneButtonSizeChanged();
+                CheckTogglePaneButtonSizeChanged();
             });
 
             SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
@@ -40,29 +40,29 @@ namespace wallabag.Universal
         private void AppShell_BackRequested(object sender, BackRequestedEventArgs e)
         {
             bool handled = e.Handled;
-            this.BackRequested(ref handled);
+            BackRequested(ref handled);
             e.Handled = handled;
         }
 
         private void BackRequested(ref bool handled)
         {
             // Get a hold of the current frame so that we can inspect the app back stack.
-            if (this.AppFrame == null)
+            if (AppFrame == null)
                 return;
 
             // Check to see if this is the top-most page on the app back stack.
-            if (this.AppFrame.CanGoBack && !handled)
+            if (AppFrame.CanGoBack && !handled)
             {
                 // If not, set the event to handled and go back to the previous page in the app.
                 handled = true;
-                this.AppFrame.GoBack();
+                AppFrame.GoBack();
             }
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             bool ignored = false;
-            this.BackRequested(ref ignored);
+            BackRequested(ref ignored);
         }
 
         #endregion
@@ -107,28 +107,28 @@ namespace wallabag.Universal
         /// </summary>
         private void CheckTogglePaneButtonSizeChanged()
         {
-            if (this.splitView.DisplayMode == SplitViewDisplayMode.Inline ||
-                this.splitView.DisplayMode == SplitViewDisplayMode.Overlay)
+            if (splitView.DisplayMode == SplitViewDisplayMode.Inline ||
+                splitView.DisplayMode == SplitViewDisplayMode.Overlay)
             {
-                var transform = this.HamburgerToggleButton.TransformToVisual(this);
-                var rect = transform.TransformBounds(new Rect(0, 0, this.HamburgerToggleButton.ActualWidth, this.HamburgerToggleButton.ActualHeight));
-                this.TogglePaneButtonRect = rect;
+                var transform = HamburgerToggleButton.TransformToVisual(this);
+                var rect = transform.TransformBounds(new Rect(0, 0, HamburgerToggleButton.ActualWidth, HamburgerToggleButton.ActualHeight));
+                TogglePaneButtonRect = rect;
             }
             else
             {
-                this.TogglePaneButtonRect = new Rect();
+                TogglePaneButtonRect = new Rect();
             }
 
-            var handler = this.TogglePaneButtonRectChanged;
+            var handler = TogglePaneButtonRectChanged;
             if (handler != null)
             {
-                handler(this, this.TogglePaneButtonRect);
+                handler(this, TogglePaneButtonRect);
             }
         }
 
         private void HamburgerToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            this.CheckTogglePaneButtonSizeChanged();
+            CheckTogglePaneButtonSizeChanged();
         }
 
         #endregion

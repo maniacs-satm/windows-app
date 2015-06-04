@@ -20,7 +20,7 @@ namespace wallabag.Controls
 
         public SettingsSubHeaderTextBlock()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

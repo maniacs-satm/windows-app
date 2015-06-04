@@ -11,7 +11,7 @@ namespace wallabag.Views
     {
         public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -13,16 +13,16 @@ namespace wallabag.Controls
         {
             InitializeComponent();
 
-            this.Loaded += (s, a) =>
+            Loaded += (s, a) =>
             {
                 AppShell.Current.TogglePaneButtonRectChanged += Current_TogglePaneButtonSizeChanged;
-                this.titleBar.Margin = new Thickness(AppShell.Current.TogglePaneButtonRect.Right, 0, 0, 0);
+                titleBar.Margin = new Thickness(AppShell.Current.TogglePaneButtonRect.Right, 0, 0, 0);
             };
         }
 
         private void Current_TogglePaneButtonSizeChanged(AppShell sender, Rect e)
         {
-            this.titleBar.Margin = new Thickness(e.Right, 0, 0, 0);
+            titleBar.Margin = new Thickness(e.Right, 0, 0, 0);
         }
 
         public UIElement HeaderContent
