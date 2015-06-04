@@ -38,14 +38,12 @@ namespace wallabag.UnitTests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task GetTags()
         {
             await ViewModel.GetTags();
         }
 
         [TestMethod]
-        [Ignore]
         public async Task AddTags()
         {
             Assert.AreEqual(true, await ViewModel.AddTags("tag1,tag2,tag3"));
@@ -53,7 +51,6 @@ namespace wallabag.UnitTests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task DeleteOneTag()
         {
             Assert.AreEqual(true, await ViewModel.DeleteTag("tag2"));
