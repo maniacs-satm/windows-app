@@ -9,6 +9,7 @@ namespace wallabag.Views
 {
     public sealed partial class ContentPage : Page
     {
+        public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
         private ItemViewModel _lastSelectedItem;
 
         public ContentPage()
@@ -21,10 +22,9 @@ namespace wallabag.Views
             var clickedItem = (ItemViewModel)e.ClickedItem;
 
             _lastSelectedItem = clickedItem;
-            (this.DataContext as MainViewModel).CurrentItem = clickedItem;
+            ViewModel.CurrentItem = clickedItem;
 
-           
-                Frame.Navigate(typeof(SingleItemPage), clickedItem.Model.Id, new DrillInNavigationTransitionInfo());
+            Frame.Navigate(typeof(SingleItemPage), clickedItem.Model.Id, new DrillInNavigationTransitionInfo());
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -37,14 +37,13 @@ namespace wallabag.Views
                 _lastSelectedItem = await DataSource.GetItemAsync(id);
             }
 
-            var dc = (MainViewModel)this.DataContext;
-            if (dc.CurrentItemIsNotNull)
+            if (ViewModel.CurrentItemIsNotNull)
             {
-                ItemGridView.SelectedItem = dc.CurrentItem;
+                ItemGridView.SelectedItem = ViewModel.CurrentItem;
             }
 
         }
-        
+
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
