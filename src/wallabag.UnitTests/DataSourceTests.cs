@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using wallabag.DataModel;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace wallabag.UnitTests
@@ -50,9 +50,12 @@ namespace wallabag.UnitTests
         }
 
         [TestMethod]
-        public async Task AddItem()
+        [DataRow("http://www.sueddeutsche.de/politik/g-gipfel-politik-nach-schlossherrenart-1.2508802", "politik")]
+        [DataRow("http://www.sueddeutsche.de/politik/griechenland-nichts-gelernt-1.2507116", "griechenland,politik")]
+        [DataRow("http://www.sueddeutsche.de/politik/wagenknecht-auf-linken-parteitag-in-bielefeld-gegen-die-luegner-aus-der-trueben-bruehe-1.2508967", "politik")]
+        public async Task AddItem(string Url, string Tags)
         {
-            await DataSource.AddItem("http://www.neowin.net/news/grand-theft-auto-v-for-the-pc-shown-running-at-60fps", "gaming");
+            Assert.AreEqual(true, await DataSource.AddItem(Url, Tags));
         }
     }
 }

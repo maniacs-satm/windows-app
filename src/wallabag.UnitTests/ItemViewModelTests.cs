@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using wallabag.DataModel;
-using System.Threading.Tasks;
 
 namespace wallabag.UnitTests
 {
@@ -13,9 +13,9 @@ namespace wallabag.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            ViewModel = new ItemViewModel(new Item() { Id = 38 });
+            ViewModel = new ItemViewModel(new Item() { Id = 1 });
         }
-
+     
         [TestMethod]
         public async Task DeleteItem()
         {
@@ -29,6 +29,8 @@ namespace wallabag.UnitTests
             ViewModel.Model.IsArchived = true;
             ViewModel.Model.IsStarred = false;
             Assert.AreEqual(true, await ViewModel.Update());
+            Assert.AreEqual(true, ViewModel.Model.IsArchived);
+            Assert.AreEqual(false, ViewModel.Model.IsStarred);
         }
 
         [TestMethod]
@@ -40,7 +42,7 @@ namespace wallabag.UnitTests
         [TestMethod]
         public async Task GetTags()
         {
-            await ViewModel.GetTags();
+            Assert.AreEqual(true, await ViewModel.GetTags());
         }
 
         [TestMethod]

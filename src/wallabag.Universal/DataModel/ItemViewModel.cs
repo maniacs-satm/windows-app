@@ -170,7 +170,7 @@ namespace wallabag.DataModel
             return false;
         }
 
-        public async Task GetTags()
+        public async Task<bool> GetTags()
         {
             HttpClient http = new HttpClient();
 
@@ -184,9 +184,11 @@ namespace wallabag.DataModel
                     response.StatusCode == HttpStatusCode.Ok)
                 {
                     Model.Tags = JsonConvert.DeserializeObject<List<Tag>>(await response.Content.ReadAsStringAsync());
+                    return true;
                 }
+                return false;
             }
-            catch { }
+            catch { return false; }
         }
         public async Task<bool> AddTags(string tags)
         {
