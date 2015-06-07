@@ -63,10 +63,11 @@ namespace wallabag.Views
 
         void NavigateBackForWideState(bool useTransition)
         {
-            if (useTransition)
-                Frame.GoBack(new EntranceNavigationTransitionInfo());
-            else
-                Frame.GoBack(new SuppressNavigationTransitionInfo());
+            // Temporary disabled.
+            //if (useTransition)
+            //    Frame.GoBack(new EntranceNavigationTransitionInfo());
+            //else
+            //    Frame.GoBack(new SuppressNavigationTransitionInfo());
         }
 
         private bool ShouldGoToWideState() { return Window.Current.Bounds.Width >= 1200; }
