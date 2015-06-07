@@ -79,7 +79,16 @@ namespace wallabag.Universal
 
                 // If navigating to the SingleItemPage, hide the menu.
                 if (e.Content.GetType() == typeof(Views.SingleItemPage))
+                {
                     splitView.IsPaneOpen = false;
+                    splitView.DisplayMode = SplitViewDisplayMode.Overlay;
+                    HamburgerToggleButton.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    splitView.DisplayMode = SplitViewDisplayMode.CompactInline;
+                    HamburgerToggleButton.Visibility = Visibility.Visible;
+                }
 
                 if (AppFrame != null && AppFrame.CanGoBack)
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
