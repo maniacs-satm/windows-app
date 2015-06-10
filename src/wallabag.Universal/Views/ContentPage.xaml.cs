@@ -1,4 +1,5 @@
-﻿using wallabag.DataModel;
+﻿using System;
+using wallabag.DataModel;
 using wallabag.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -44,7 +45,6 @@ namespace wallabag.Views
 
         }
 
-
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             ItemGridView.SelectedItem = _lastSelectedItem;
@@ -52,6 +52,11 @@ namespace wallabag.Views
 
         private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
+        }
+
+        private async void AddItemAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            await AddItemContentDialog.ShowAsync();
         }
     }
 }

@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
     xmlns:data="using:wallabag.DataModel"
+    xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -16,30 +17,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <CommandBar x:Name="MainCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
-            <AppBarButton Icon="Add" Label="Add">
-                <AppBarButton.Flyout>
-                    <Flyout Placement="Top" x:Name="AddItemFlyout">
-                        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="450">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition />
-                                <RowDefinition />
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-                            <TextBlock Text="ADD LINK" Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"/>
-                            <StackPanel Grid.Row="2" Margin="10,15">
-                                <TextBox x:Name="UrlTextBox" PlaceholderText="http://" Header="URL"/>
-                                <TextBox x:Name="TagsTextBox" PlaceholderText="add tags (comma-separated)" Header="Tags" Margin="0,10,0,0"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right" Margin="10,3">
-                                <Button x:Name="AddItemButton" Content="Add" Margin="5"/>
-                                <Button x:Name="CloseFlyoutButton" Content="Cancel" Margin="5"/>
-                            </StackPanel>
-                        </Grid>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
+            <AppBarButton x:Name="AddItemAppBarButton" Icon="Add" Label="Add" Click="AddItemAppBarButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
             <CommandBar.Content>
                 <controls:PageHeader>
@@ -76,5 +54,16 @@
             </GridView.ItemTemplate>
         </GridView>
         <ProgressRing Height="100" Width="100" IsActive="True" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
+        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" Grid.RowSpan="2"
+                       PrimaryButtonText="add" PrimaryButtonCommand="{Binding AddItemCommand}"
+                       SecondaryButtonText="cancel" SecondaryButtonCommand="{Binding CancelCommand}">
+            <ContentDialog.DataContext>
+                <vm:AddItemContentDialogViewModel/>
+            </ContentDialog.DataContext>
+            <StackPanel Width="450" Margin="0,10,0,0">
+                <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://" Header="URL"/>
+                <TextBox x:Name="TagsTextBox" Text="{Binding Tags, Mode=TwoWay}" PlaceholderText="add tags (comma-separated)" Header="Tags" Margin="0,10,0,0"/>
+            </StackPanel>
+        </ContentDialog>
     </Grid>
 </Page>
