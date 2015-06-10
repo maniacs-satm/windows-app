@@ -15,10 +15,39 @@ namespace wallabag.DataModel
     {
         private const string DATABASE_PATH = "wallabag.db";
 
-        public static async Task<List<Item>> GetItemsAsync()
+        public enum ItemType
         {
-            await RestoreItemsAsync();
+            Unread,
+            Favorites,
+            Archived,
+            Deleted
+        }
 
+        public static async Task<List<Item>> GetItemsAsync(ItemType itemType)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+
+            switch (itemType)
+            {
+                case ItemType.Unread:
+                    return await conn.Table<Item>().Where(i => i.IsArchived == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
+                case ItemType.Favorites:
+                    return await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
+                case ItemType.Archived:
+                    return await conn.Table<Item>().Where(i => i.IsArchived == true && i.IsDeleted == false).ToListAsync();
+                case ItemType.Deleted:
+                    return await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
+            }
+            return new List<Item>();
+        }
+        public static async Task<Item> GetItemAsync(int Id)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            return await conn.GetAsync<Item>(i => i.Id == Id);
+        }
+
+        public static async Task<bool> RefreshItems()
+        {
             HttpClient http = new HttpClient();
             await Helpers.AddHeaders(http);
 
@@ -30,24 +59,16 @@ namespace wallabag.DataModel
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
                     var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
-
                     SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
 
                     await conn.InsertAllAsync(json.Embedded.Items);
-                    await SaveItemsAsync();
-                    return json.Embedded.Items.ToList();
+                    return true;
                 }
                 else
-                    return new List<Item>();
+                    return false;
             }
-            catch { return new List<Item>(); }
+            catch { return false; }
         }
-        public static async Task<Item> GetItemAsync(int Id)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
-            return await conn.GetAsync<Item>(i => i.Id == Id);
-        }
-
         public static async Task<bool> AddItem(string url, string tags = "", string title = "")
         {
             HttpClient http = new HttpClient();
