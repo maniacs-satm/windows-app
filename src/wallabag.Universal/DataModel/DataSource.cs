@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
+using SQLite;
 using wallabag.Common;
-using Windows.Storage;
 using Windows.Web.Http;
 
 namespace wallabag.DataModel
@@ -15,16 +13,15 @@ namespace wallabag.DataModel
     [ImplementPropertyChanged]
     public sealed class DataSource
     {
-        private static DataSource _wallabagDataSource = new DataSource();
-        public static ObservableCollection<ItemViewModel> Items { get; set; }
+        private const string DATABASE_PATH = "wallabag.db";
 
-        public static async Task<bool> GetItemsAsync()
+        public static async Task<List<Item>> GetItemsAsync()
         {
             await RestoreItemsAsync();
 
             HttpClient http = new HttpClient();
-
             await Helpers.AddHeaders(http);
+
             try
             {
                 var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"));
@@ -33,29 +30,24 @@ namespace wallabag.DataModel
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
                     var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
-                    Items = new ObservableCollection<ItemViewModel>();
-                    foreach (var item in json.Embedded.Items)
-                    {
-                        Items.Add(new ItemViewModel(item));
-                    }
+
+                    SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+
+                    await conn.InsertAllAsync(json.Embedded.Items);
                     await SaveItemsAsync();
-                    return true;
+                    return json.Embedded.Items.ToList();
                 }
-                else if (response.StatusCode == HttpStatusCode.NoContent)
-                    return true;
                 else
-                    return false;
+                    return new List<Item>();
             }
-            catch { return false; }
+            catch { return new List<Item>(); }
         }
-        public static async Task<ItemViewModel> GetItemAsync(int Id)
+        public static async Task<Item> GetItemAsync(int Id)
         {
-            if (Items.Count == 0)
-                await GetItemsAsync();
-            if (Items.Count > 0)
-                return Items.Where(i => i.Model.Id == Id).First();
-            return null;
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            return await conn.GetAsync<Item>(i => i.Id == Id);
         }
+
         public static async Task<bool> AddItem(string url, string tags = "", string title = "")
         {
             HttpClient http = new HttpClient();
@@ -69,15 +61,17 @@ namespace wallabag.DataModel
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
 
-            try {
+            try
+            {
                 var response = await http.PostAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"), content);
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
                     Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                    if (Items != null)
-                        Items.Add(new ItemViewModel(result));
+
+                    SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+                    await conn.InsertAsync(result);
                     return true;
                 }
                 return false;
@@ -85,44 +79,11 @@ namespace wallabag.DataModel
             catch { return false; }
         }
 
-        public static async Task<bool> SaveItemsAsync()
+        public static async Task InitializeDatabase()
         {
-            try
-            {
-                string json = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(Items));
-
-                StorageFile file = await ApplicationData.Current.LocalFolder.CreateFileAsync("items.json", CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(file, json);
-
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public static async Task<bool> RestoreItemsAsync()
-        {
-            try
-            {
-                StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("items.json");
-                string json = await FileIO.ReadTextAsync(file);
-
-                Items = new ObservableCollection<ItemViewModel>();
-                Items = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<ObservableCollection<ItemViewModel>>(json));
-
-                return true;
-            }
-            catch (FileNotFoundException)
-            {
-                System.Diagnostics.Debug.WriteLine("File not found.");
-                return false;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e);
-                return false;
-            }
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            await conn.CreateTableAsync<Item>();
+            await conn.CreateTableAsync<Tag>();
         }
     }
 }
