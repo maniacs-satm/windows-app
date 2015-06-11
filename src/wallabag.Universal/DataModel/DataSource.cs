@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -13,7 +13,7 @@ namespace wallabag.DataModel
     [ImplementPropertyChanged]
     public sealed class DataSource
     {
-        private const string DATABASE_PATH = "wallabag.db";
+        private static string DATABASE_PATH { get; } = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
 
         public enum ItemType
         {
@@ -61,7 +61,8 @@ namespace wallabag.DataModel
                     var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                     SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
 
-                    await conn.InsertAllAsync(json.Embedded.Items);
+                    // At the moment this way creates a lot of duplicates. Not optimal. TODO
+                    await conn.InsertAllAsync(json.Embedded.Items); 
                     return true;
                 }
                 else
@@ -102,6 +103,8 @@ namespace wallabag.DataModel
 
         public static async Task InitializeDatabase()
         {
+            // TODO: Currently it's replacing the database every time. In the final release it should stop doing it.
+            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.ReplaceExisting);
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
             await conn.CreateTableAsync<Tag>();
