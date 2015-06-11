@@ -9,7 +9,12 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class MainViewModel : ViewModelBase
     {
-        public ObservableCollection<ItemViewModel> Items { get; set; }
+        private ObservableCollection<ItemViewModel> _Items = new ObservableCollection<ItemViewModel>();
+        public ObservableCollection<ItemViewModel> Items
+        {
+            get { return _Items; }
+            set { _Items = value; }
+        }
 
         public ItemViewModel CurrentItem { get; set; }
         public bool CurrentItemIsNotNull { get { return CurrentItem != null; } }
