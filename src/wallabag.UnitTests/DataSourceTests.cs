@@ -12,13 +12,16 @@ namespace wallabag.UnitTests
         [TestMethod]
         public async Task GetItems()
         {
-            Assert.AreEqual(true, await DataSource.GetItemsAsync());
+            var collection = await DataSource.GetItemsAsync(DataSource.ItemType.Unread);
+            CollectionAssert.AllItemsAreUnique(collection);
+            CollectionAssert.AllItemsAreInstancesOfType(collection, typeof(Item));
         }
 
         [TestMethod]
         public async Task GetSingleItem()
         {
-            Assert.AreEqual(true, await DataSource.GetItemsAsync());
+            Item i = await DataSource.GetItemAsync(1);
+            Assert.AreEqual(1, i.Id);
         }
 
         [TestMethod]
