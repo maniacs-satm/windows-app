@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using PropertyChanged;
+using SQLite;
 
 namespace wallabag.DataModel
 {
@@ -15,7 +16,7 @@ namespace wallabag.DataModel
         public int Pages { get; set; }
 
         [JsonProperty("limit")]
-        public int limit { get; set; }
+        public int Limit { get; set; }
 
         [JsonProperty("total")]
         public int TotalNumberOfItems { get; set; }
@@ -31,9 +32,11 @@ namespace wallabag.DataModel
     #endregion
 
     [ImplementPropertyChanged]
+    [Table("Items")]
     public class Item
     {
         [JsonProperty("id")]
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
         [JsonProperty("title")]
@@ -60,9 +63,7 @@ namespace wallabag.DataModel
         [JsonProperty("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
-        [SQLite.Ignore]
-        [JsonProperty("tags")]
-        public List<Tag> Tags { get; set; }
+        public string TagsString { get; set; }
 
         public override string ToString()
         {

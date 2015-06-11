@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -12,14 +12,11 @@ using Windows.Web.Http;
 namespace wallabag.DataModel
 {
     [ImplementPropertyChanged]
-    [DataContract]
     public class ItemViewModel : ViewModelBase
     {
         #region Properties
-        [DataMember]
         public Item Model { get; set; }
-        [DataMember]
-        public bool IsSelected { get; set; }
+        public ObservableCollection<string> Tags { get; set; }
 
         public string ContentWithHeader
         {
@@ -69,12 +66,12 @@ namespace wallabag.DataModel
                 return $"{name}: {tmpColor};";
             }
         }
-        private string CreateStringOfTagList()
+        private string CreateStringOfTagList(ICollection<string> collection)
         {
             string result = string.Empty;
-            if (Model.Tags != null && Model.Tags.Count > 0)
+            if (string.IsNullOrWhiteSpace(Model.TagsString))
             {
-                foreach (Tag tag in Model.Tags)
+                foreach (string tag in collection)
                     result += tag + ",";
 
                 result = result.Remove(result.Length - 1, 1); // Remove the last comma.
@@ -91,6 +88,8 @@ namespace wallabag.DataModel
             AddTagsCommand = new RelayCommand<string>(async (t) => await AddTags((string)t));
             SwitchReadStatusCommand = new RelayCommand(async () => await SwitchReadStatus());
             SwitchFavoriteStatusCommand = new RelayCommand(async () => await SwitchFavoriteStatus());
+
+            GetTags();
         }
 
         public RelayCommand UpdateCommand { get; private set; }
@@ -123,7 +122,7 @@ namespace wallabag.DataModel
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("title", Model.Title);
-            parameters.Add("tags", CreateStringOfTagList());
+            parameters.Add("tags", Model.TagsString);
             parameters.Add("archive", Model.IsArchived);
             parameters.Add("star", Model.IsStarred);
             parameters.Add("delete", Model.IsDeleted);
@@ -183,7 +182,8 @@ namespace wallabag.DataModel
                 if (response.StatusCode != HttpStatusCode.NoContent &&
                     response.StatusCode == HttpStatusCode.Ok)
                 {
-                    Model.Tags = JsonConvert.DeserializeObject<List<Tag>>(await response.Content.ReadAsStringAsync());
+                    Tags = JsonConvert.DeserializeObject<ObservableCollection<string>>(await response.Content.ReadAsStringAsync());
+                    Model.TagsString = CreateStringOfTagList(Tags);
                     return true;
                 }
                 return false;
@@ -209,7 +209,7 @@ namespace wallabag.DataModel
                     string[] tagarray = tags.Split(",".ToCharArray());
 
                     foreach (string tag in tagarray)
-                        Model.Tags.Add(new Tag() { Label = tag });
+                        Tags.Add(tag);
 
                     return true;
                 }

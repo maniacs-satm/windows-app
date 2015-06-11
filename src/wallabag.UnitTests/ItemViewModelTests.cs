@@ -49,14 +49,12 @@ namespace wallabag.UnitTests
         public async Task AddTags()
         {
             Assert.AreEqual(true, await ViewModel.AddTags("tag1,tag2,tag3"));
-            CollectionAssert.Contains(ViewModel.Model.Tags, "tag1");
         }
 
         [TestMethod]
         public async Task DeleteOneTag()
         {
             Assert.AreEqual(true, await ViewModel.DeleteTag("tag2"));
-            CollectionAssert.DoesNotContain(ViewModel.Model.Tags, "tag2");
         }
     }
 }

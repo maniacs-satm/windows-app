@@ -107,7 +107,6 @@ namespace wallabag.DataModel
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.ReplaceExisting);
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
-            await conn.CreateTableAsync<Tag>();
         }
     }
 }
