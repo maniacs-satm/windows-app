@@ -60,6 +60,7 @@ namespace wallabag.DataModel
         [JsonProperty("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
+        [SQLite.Ignore]
         [JsonProperty("tags")]
         public List<Tag> Tags { get; set; }
 
