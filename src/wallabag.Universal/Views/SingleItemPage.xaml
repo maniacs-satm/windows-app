@@ -111,6 +111,6 @@
     </common:basicPage.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="RootPanel">
-        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader}"/>
+        <WebView x:Name="WebView"/>
     </Grid>
 </common:basicPage>

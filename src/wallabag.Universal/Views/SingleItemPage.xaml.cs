@@ -33,6 +33,7 @@ namespace wallabag.Views
             {
                 ViewModel = new SingleItemPageViewModel() { CurrentItem = new ItemViewModel(await DataSource.GetItemAsync((int)e.Parameter)) };
                 ApplicationView.GetForCurrentView().Title = ViewModel.CurrentItem.Model.Title;
+                WebView.NavigateToString(ViewModel.CurrentItem.ContentWithHeader);
             }
 
             var backStack = Frame.BackStack;
