@@ -904,7 +904,6 @@ namespace SQLite
                     {
                         // It is recommended that applications respond to the errors listed below 
                         //    by explicitly issuing a ROLLBACK command.
-                        // TODO: This rollback failsafe should be localized to all throw sites.
                         switch (sqlExp.Result)
                         {
                             case SQLite3.Result.IOError:
@@ -958,7 +957,6 @@ namespace SQLite
                 {
                     // It is recommended that applications respond to the errors listed below 
                     //    by explicitly issuing a ROLLBACK command.
-                    // TODO: This rollback failsafe should be localized to all throw sites.
                     switch (sqlExp.Result)
                     {
                         case SQLite3.Result.IOError:
@@ -1051,7 +1049,6 @@ namespace SQLite
                 int depth;
                 if (Int32.TryParse(savepoint.Substring(firstLen + 1), out depth))
                 {
-                    // TODO: Mild race here, but inescapable without locking almost everywhere.
                     if (0 <= depth && depth < _transactionDepth)
                     {
 #if NETFX_CORE
