@@ -66,18 +66,6 @@ namespace wallabag.DataModel
                 return $"{name}: {tmpColor};";
             }
         }
-        private string CreateStringOfTagList(ICollection<string> collection)
-        {
-            string result = string.Empty;
-            if (string.IsNullOrWhiteSpace(Model.TagsString))
-            {
-                foreach (string tag in collection)
-                    result += tag + ",";
-
-                result = result.Remove(result.Length - 1, 1); // Remove the last comma.
-            }
-            return result;
-        }
         #endregion
 
         public ItemViewModel(Item Model)
