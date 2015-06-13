@@ -78,7 +78,8 @@ namespace wallabag.DataModel
                             result.CreatedAt = item.CreatedAt;
                             result.UpdatedAt = item.UpdatedAt;
                             result.TagsString = item.TagsString;
-                            await conn.UpdateAsync(item);
+                           
+                            await conn.UpdateAsync(result);
                         }
                     }
                     return true;
