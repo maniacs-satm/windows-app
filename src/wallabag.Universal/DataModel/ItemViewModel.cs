@@ -126,6 +126,7 @@ namespace wallabag.DataModel
                         resultItem.IsDeleted == Model.IsDeleted)
                     {
                         Model.UpdatedAt = resultItem.UpdatedAt;
+                        Model.TagsString = Model.Tags.ToCommaSeparatedString();
                         return true;
                     }
                 }
