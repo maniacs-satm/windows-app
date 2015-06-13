@@ -65,7 +65,7 @@ namespace wallabag.DataModel
 
         [Ignore]
         [JsonProperty("tags")]
-        public List<string> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
 
         public string TagsString { get; set; }
 
