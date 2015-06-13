@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -16,7 +15,6 @@ namespace wallabag.DataModel
     {
         #region Properties
         public Item Model { get; set; }
-        public ObservableCollection<string> Tags { get; set; }
 
         public string ContentWithHeader
         {
@@ -73,16 +71,14 @@ namespace wallabag.DataModel
             this.Model = Model;
             UpdateCommand = new RelayCommand(async () => await Update());
             DeleteCommand = new RelayCommand(async () => await Delete());
-            AddTagsCommand = new RelayCommand<string>(async (t) => await AddTags((string)t));
             SwitchReadStatusCommand = new RelayCommand(async () => await SwitchReadStatus());
             SwitchFavoriteStatusCommand = new RelayCommand(async () => await SwitchFavoriteStatus());
 
-            GetTags();
+            Model.TagsString = Model.Tags.ToCommaSeparatedString();
         }
 
         public RelayCommand UpdateCommand { get; private set; }
         public RelayCommand DeleteCommand { get; private set; }
-        public RelayCommand<string> AddTagsCommand { get; private set; }
         public RelayCommand SwitchReadStatusCommand { get; private set; }
         public RelayCommand SwitchFavoriteStatusCommand { get; private set; }
 
@@ -156,72 +152,7 @@ namespace wallabag.DataModel
             catch { return false; }
             return false;
         }
-
-        public async Task<bool> GetTags()
-        {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHeaders(http);
-            try
-            {
-                var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"));
-                http.Dispose();
-
-                if (response.StatusCode != HttpStatusCode.NoContent &&
-                    response.StatusCode == HttpStatusCode.Ok)
-                {
-                    Tags = JsonConvert.DeserializeObject<ObservableCollection<string>>(await response.Content.ReadAsStringAsync());
-                    Model.TagsString = CreateStringOfTagList(Tags);
-                    return true;
-                }
-                return false;
-            }
-            catch { return false; }
-        }
-        public async Task<bool> AddTags(string tags)
-        {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHeaders(http);
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("tags", tags);
-
-            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-            try
-            {
-                var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
-                http.Dispose();
-
-                if (response.StatusCode == HttpStatusCode.Ok)
-                {
-                    string[] tagarray = tags.Split(",".ToCharArray());
-
-                    foreach (string tag in tagarray)
-                        Tags.Add(tag);
-
-                    return true;
-                }
-            }
-            catch { return false; }
-            return false;
-        }
-        public async Task<bool> DeleteTag(string tag)
-        {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHeaders(http);
-            try
-            {
-                var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags/{tag}.json"));
-                http.Dispose();
-
-                if (response.StatusCode == HttpStatusCode.Ok)
-                    return true;
-            }
-            catch { return false; }
-            return false;
-        }
-
+                
         public async Task<bool> SwitchReadStatus()
         {
             if (Model.IsArchived)
