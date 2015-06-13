@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,6 +49,32 @@ namespace wallabag.Common
             response = await client.SendRequestAsync(request);
 
             return response;
+        }
+    }
+    public static class TagExtensions
+    {
+        public static string ToCommaSeparatedString(this IList<string> list)
+        {
+            string result = string.Empty;
+
+            foreach (var item in list)
+            {
+                result += item.ToString();
+                result += ",";
+            }
+            if (result.EndsWith(","))
+                result = result.Remove(result.Length - 1);
+
+            return result;
+        }
+        public static IList<string> ToList(this string str)
+        {
+            List<string> result = new List<string>();
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                result = str.Split(",".ToCharArray()).ToList();
+            }
+            return result;
         }
     }
 }
