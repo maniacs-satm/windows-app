@@ -39,22 +39,19 @@ namespace wallabag.UnitTests
             Assert.AreEqual(true, await ViewModel.Fetch());
         }
 
-        [TestMethod]
-        public async Task GetTags()
-        {
-            Assert.AreEqual(true, await ViewModel.GetTags());
-        }
+        //[TestMethod]
+        //public async Task GetTags()
+        //{
+        //}
 
-        [TestMethod]
-        public async Task AddTags()
-        {
-            Assert.AreEqual(true, await ViewModel.AddTags("tag1,tag2,tag3"));
-        }
+        //[TestMethod]
+        //public async Task AddTags()
+        //{
+        //}
 
-        [TestMethod]
-        public async Task DeleteOneTag()
-        {
-            Assert.AreEqual(true, await ViewModel.DeleteTag("tag2"));
-        }
+        //[TestMethod]
+        //public async Task DeleteOneTag()
+        //{
+        //}
     }
 }
