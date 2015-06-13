@@ -53,15 +53,23 @@ namespace wallabag.Common
     }
     public static class TagExtensions
     {
-        public static string ToCommaSeparatedString(this IList<string> list)
+        public static string ToCommaSeparatedString<T>(this IList<T> list)
         {
             string result = string.Empty;
             if (list != null && list.Count > 0)
             {
+                List<string> tempList = new List<string>();
                 foreach (var item in list)
+                    tempList.Add(item.ToString());
+
+                // The usage of Distinct avoids duplicates in the list.
+                // If the type isn't string, it won't work.
+                List<string> distinctList = tempList.Distinct().ToList();
+
+                foreach (var item in distinctList)
                 {
-                    result += item.ToString();
-                    result += ",";
+                    if (!string.IsNullOrWhiteSpace(item.ToString()))
+                        result += item.ToString() + ",";
                 }
                 if (result.EndsWith(","))
                     result = result.Remove(result.Length - 1);
