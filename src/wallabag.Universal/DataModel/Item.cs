@@ -35,8 +35,8 @@ namespace wallabag.DataModel
     [Table("Items")]
     public class Item
     {
-        [JsonProperty("id")]
         [PrimaryKey]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
         [JsonProperty("title")]
@@ -62,6 +62,10 @@ namespace wallabag.DataModel
 
         [JsonProperty("updated_at")]
         public DateTime UpdatedAt { get; set; }
+
+        [Ignore]
+        [JsonProperty("tags")]
+        public List<string> Tags { get; set; }
 
         public string TagsString { get; set; }
 
