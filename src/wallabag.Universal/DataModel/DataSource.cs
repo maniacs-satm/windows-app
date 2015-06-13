@@ -61,8 +61,26 @@ namespace wallabag.DataModel
                     var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                     SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
 
-                    // At the moment this way creates a lot of duplicates. Not optimal. TODO
-                    await conn.InsertAllAsync(json.Embedded.Items); 
+                    foreach (var item in json.Embedded.Items)
+                    {
+                        var result = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
+
+                        if (result == null)
+                            await conn.InsertAsync(item);
+                        else
+                        {
+                            result.Title = item.Title;
+                            result.Url = item.Url;
+                            result.IsArchived = item.IsArchived;
+                            result.IsStarred = item.IsStarred;
+                            result.IsDeleted = item.IsDeleted;
+                            result.Content = item.Content;
+                            result.CreatedAt = item.CreatedAt;
+                            result.UpdatedAt = item.UpdatedAt;
+                            result.TagsString = item.TagsString;
+                            await conn.UpdateAsync(item);
+                        }
+                    }
                     return true;
                 }
                 else

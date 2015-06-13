@@ -36,7 +36,7 @@ namespace wallabag.DataModel
     public class Item
     {
         [JsonProperty("id")]
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
 
         [JsonProperty("title")]
