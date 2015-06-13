@@ -56,14 +56,16 @@ namespace wallabag.Common
         public static string ToCommaSeparatedString(this IList<string> list)
         {
             string result = string.Empty;
-
-            foreach (var item in list)
+            if (list != null && list.Count > 0)
             {
-                result += item.ToString();
-                result += ",";
+                foreach (var item in list)
+                {
+                    result += item.ToString();
+                    result += ",";
+                }
+                if (result.EndsWith(","))
+                    result = result.Remove(result.Length - 1);
             }
-            if (result.EndsWith(","))
-                result = result.Remove(result.Length - 1);
 
             return result;
         }
