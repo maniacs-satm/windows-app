@@ -35,7 +35,7 @@ namespace wallabag.Views
             if (e.Parameter != null && e.Parameter.GetType() == typeof(int))
             {
                 var id = (int)e.Parameter;
-                _lastSelectedItem = await DataSource.GetItemAsync(id);
+                _lastSelectedItem = new ItemViewModel(await DataSource.GetItemAsync(id));
             }
 
             if (ViewModel.CurrentItemIsNotNull)

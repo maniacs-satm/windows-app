@@ -17,12 +17,14 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <CommandBar x:Name="MainCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+            <AppBarButton x:Name="FilterItemViewAppBarButton" Icon="Filter" Label="Filter"/>
+            <AppBarSeparator/>
             <AppBarButton x:Name="AddItemAppBarButton" Icon="Add" Label="Add" Click="AddItemAppBarButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
             <CommandBar.Content>
                 <controls:PageHeader>
                     <controls:PageHeader.HeaderContent>
-                        <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" TextWrapping="NoWrap"/>
+                        <TextBlock Text="Items" Style="{ThemeResource TitleTextBlockStyle}" Margin="12,8"/>
                     </controls:PageHeader.HeaderContent>
                 </controls:PageHeader>
             </CommandBar.Content>
