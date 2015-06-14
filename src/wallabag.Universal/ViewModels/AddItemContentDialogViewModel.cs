@@ -14,7 +14,12 @@ namespace wallabag.ViewModels
 
         public AddItemContentDialogViewModel()
         {
-            AddItemCommand = new RelayCommand(async () => await DataModel.DataSource.AddItem(Url, Tags));
+            AddItemCommand = new RelayCommand(async () =>
+            {
+                await DataModel.DataSource.AddItem(Url, Tags);
+                Url = string.Empty;
+                Tags = string.Empty;
+            });
             CancelCommand = new RelayCommand(() =>
             {
                 Url = string.Empty;
