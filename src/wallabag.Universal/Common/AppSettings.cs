@@ -114,16 +114,13 @@ namespace wallabag.Common
             {
                 PasswordVault vault = new PasswordVault();
                 PasswordCredential cred = new PasswordCredential(_wallabagUrl, _Username, _Password);
-                PasswordCredential existingCredential = null;
 
                 if (vault.RetrieveAll().Count == 0)
                     vault.Add(cred);
                 else
                 {
-                    existingCredential = vault.RetrieveAll()[0];
-                    existingCredential.UserName = _Username;
-                    existingCredential.Password = _Password;
-                    existingCredential.Resource = _wallabagUrl;
+                    vault.Remove(vault.RetrieveAll()[0]);
+                    vault.Add(cred);
                 }
             }
         }
