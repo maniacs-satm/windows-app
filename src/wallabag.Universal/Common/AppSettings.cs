@@ -90,16 +90,15 @@ namespace wallabag.Common
         {
             try
             {
-                //Read a credential from PasswordVault by supplying resource or username
                 PasswordVault vault = new PasswordVault();
                 IReadOnlyList<PasswordCredential> creds = vault.RetrieveAll();
 
                 if (creds != null && creds.Count != 0)
                 {
+                    creds[0].RetrievePassword();
                     _Username = creds[0].UserName;
                     _Password = creds[0].Password;
                     _wallabagUrl = creds[0].Resource;
-                    //TODO: Multiple accounts?
                 }
             }
             catch (Exception)
@@ -117,13 +116,15 @@ namespace wallabag.Common
                 PasswordCredential cred = new PasswordCredential(_wallabagUrl, _Username, _Password);
                 PasswordCredential existingCredential = null;
 
-                try { existingCredential = vault.Retrieve(_wallabagUrl, _Username); }
-                catch { } // There is no value in PasswordVault matching both url and username.
-
-                if (existingCredential == null)
+                if (vault.RetrieveAll().Count == 0)
                     vault.Add(cred);
                 else
+                {
+                    existingCredential = vault.RetrieveAll()[0];
+                    existingCredential.UserName = _Username;
                     existingCredential.Password = _Password;
+                    existingCredential.Resource = _wallabagUrl;
+                }
             }
         }
         #endregion
@@ -141,14 +142,16 @@ namespace wallabag.Common
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_Username)) GetFromPasswordVault();
+                if (string.IsNullOrWhiteSpace(_Username))
+                    GetFromPasswordVault();
                 return _Username;
             }
             set
             {
                 _Username = value;
-                RaisePropertyChanged(nameof(Username));
                 SaveToPasswordVault();
+
+                RaisePropertyChanged(nameof(Username));
             }
         }
         private string _Password;
@@ -156,14 +159,15 @@ namespace wallabag.Common
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_Password)) GetFromPasswordVault();
+                if (string.IsNullOrWhiteSpace(_Password))
+                    GetFromPasswordVault();
                 return _Password;
             }
             set
             {
                 _Password = value;
-                RaisePropertyChanged(nameof(Password));
                 SaveToPasswordVault();
+                RaisePropertyChanged(nameof(Password));
             }
         }
         private string _wallabagUrl;
