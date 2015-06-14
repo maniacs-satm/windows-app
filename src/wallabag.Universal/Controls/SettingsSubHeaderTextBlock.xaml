@@ -8,11 +8,11 @@
     mc:Ignorable="d"
     d:DesignHeight="50"
     d:DesignWidth="400"
-    Margin="0,15">
+    Margin="0,0,0,10">
     
-    <StackPanel>
+    <StackPanel Margin="{x:Bind Margin, Mode=OneWay}" Padding="{x:Bind Padding, Mode=OneWay}">
         <TextBlock Text="{x:Bind Text}" Style="{ThemeResource PageTitleTextBlockStyle}"
-                   CharacterSpacing="0" Margin="0"/>
+                   CharacterSpacing="0"/>
         <Rectangle Height="1" Fill="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" Margin="0,2,0,0"/>
     </StackPanel>
 </UserControl>

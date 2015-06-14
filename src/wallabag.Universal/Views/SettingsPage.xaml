@@ -8,52 +8,74 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:c4f="using:Coding4Fun.Toolkit.Controls"
     mc:Ignorable="d">
-    <ScrollViewer ZoomMode="Disabled" VerticalScrollBarVisibility="Hidden">
-        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" EntranceNavigationTransitionInfo.IsTargetElement="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <controls:PageHeader>
-                <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-            </controls:PageHeader>
-            <StackPanel Visibility="{Binding IsChecked, ElementName=SettingsMenuButton, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="20" Grid.Row="1">
-                <StackPanel.Resources>
-                    <Style TargetType="TextBox">
-                        <Setter Property="Margin" Value="0,5" />
-                        <Setter Property="Width" Value="300" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                    </Style>
-                    <Style TargetType="PasswordBox">
-                        <Setter Property="Margin" Value="0,5" />
-                        <Setter Property="Width" Value="300" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                    </Style>
-                    <Style TargetType="ToggleSwitch">
-                        <Setter Property="Margin" Value="0,5" />
-                        <Setter Property="Width" Value="300" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                    </Style>
-                    <Style TargetType="Slider">
-                        <Setter Property="Margin" Value="0,5" />
-                        <Setter Property="Width" Value="400" />
-                        <Setter Property="HorizontalAlignment" Value="Left" />
-                    </Style>
-                </StackPanel.Resources>
-                <controls:SettingsSubHeaderTextBlock Text="General" Margin="0,0,0,15"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.Below)" Value="GeneralSettingsStackPanel"/>
+                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.RightOf)" Value="{x:Null}"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.RightOf)" Value="GeneralSettingsStackPanel"/>
+                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.Below)" Value="{x:Null}"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="740"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <controls:PageHeader>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" Margin="12,8"/>
+                <Button Grid.Column="1" Content="Reset settings" VerticalAlignment="Center" Margin="12,0" IsEnabled="False"/>
+            </Grid>
+        </controls:PageHeader>
+        <RelativePanel Grid.Row="1">
+            <RelativePanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Width" Value="350"/>
+                    <Setter Property="Padding" Value="10"/>
+                </Style>
+                <Style TargetType="controls:SettingsSubHeaderTextBlock">
+                    <Setter Property="Margin" Value="0,0,0,10"/>
+                </Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+                <Style TargetType="ToggleSwitch">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="Margin" Value="0,10"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="0,10"/>
+                </Style>
+            </RelativePanel.Resources>
+            <StackPanel x:Name="GeneralSettingsStackPanel">
+                <controls:SettingsSubHeaderTextBlock Text="GENERAL"/>
                 <ComboBox Header="Language" IsEnabled="False"/>
-                <TextBlock Text="Accent color" Margin="0,10,0,0" FontWeight="Bold"/>
                 <ToggleSwitch x:Name="customAccentColorToggleSwitch" Header="Use custom accent color" IsEnabled="False"/>
-                <controls:SettingsSubHeaderTextBlock Text="Account credentials"/>
+            </StackPanel>
+            <StackPanel x:Name="AccountCredentialsStackPanel" RelativePanel.RightOf="GeneralSettingsStackPanel">
+                <controls:SettingsSubHeaderTextBlock Text="ACCOUNT CREDENTIALS"/>
                 <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=TwoWay}"/>
                 <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=TwoWay}"/>
                 <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=TwoWay}"/>
-                <controls:SettingsSubHeaderTextBlock Text="Reading view"/>
-                <Slider Header="Font size" Maximum="26" Minimum="14" Value="{Binding AppSettings.FontSize, Mode=TwoWay}"/>
-                <Slider Header="Line height" Maximum="2" Minimum="1" StepFrequency="0.1" Value="{Binding AppSettings.LineHeight, Mode=TwoWay}"/>
-                <controls:SettingsSubHeaderTextBlock Text="More"/>
-                <Button Content="Reset settings" IsEnabled="False"/>
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+        </RelativePanel>
+    </Grid>   
 </Page>
