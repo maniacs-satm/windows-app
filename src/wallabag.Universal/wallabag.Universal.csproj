@@ -104,14 +104,14 @@
     <Compile Include="Common\Navigation\SuspensionManager.cs" />
     <Compile Include="Common\MVVM\ViewModelBase.cs" />
     <Compile Include="Common\VisualStateTriggers\IsTypePresentStateTrigger.cs" />
-    <Compile Include="Controls\ItemControl.xaml.cs">
-      <DependentUpon>ItemControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PageHeader.xaml.cs">
       <DependentUpon>PageHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SettingsSubHeaderTextBlock.xaml.cs">
       <DependentUpon>SettingsSubHeaderTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TagControl.xaml.cs">
+      <DependentUpon>TagControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
@@ -164,10 +164,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ItemControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\PageHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -179,6 +175,10 @@
     <Page Include="AppShell.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\TagControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContentPage.xaml">
       <SubType>Designer</SubType>
