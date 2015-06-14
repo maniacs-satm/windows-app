@@ -36,14 +36,16 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <controls:PageHeader>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" Margin="12,8"/>
-                <Button Grid.Column="1" Content="Reset settings" VerticalAlignment="Center" Margin="12,0" IsEnabled="False"/>
-            </Grid>
+            <controls:PageHeader.HeaderContent>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" Margin="12,8"/>
+                    <Button Grid.Column="1" Content="Reset settings" VerticalAlignment="Center" Margin="12,0" IsEnabled="False"/>
+                </Grid>
+            </controls:PageHeader.HeaderContent>
         </controls:PageHeader>
         <RelativePanel Grid.Row="1">
             <RelativePanel.Resources>
@@ -77,5 +79,5 @@
                 <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=TwoWay}"/>
             </StackPanel>
         </RelativePanel>
-    </Grid>   
+    </Grid>
 </Page>
