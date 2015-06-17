@@ -5,11 +5,17 @@
     xmlns:local="using:wallabag.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:dm="using:wallabag.DataModel"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
-    
-    <Grid>
+    d:DesignHeight="100"
+    d:DesignWidth="450">
 
+    <Grid Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="listView" ItemsSource="{x:Bind Tags, Mode=OneWay}" MaxHeight="250" IsItemClickEnabled="True" ItemClick="listView_ItemClick"/>
+        <TextBox x:Name="textBox" TextWrapping="Wrap" PlaceholderText="add tags (comma-separated)" Margin="4" Grid.Row="1" TextChanged="textBox_TextChanged"/>
     </Grid>
 </UserControl>
