@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -15,6 +16,7 @@ namespace wallabag.DataModel
     {
         #region Properties
         public Item Model { get; set; }
+        public ObservableCollection<Tag> Tags { get; set; }
 
         public string ContentWithHeader
         {
@@ -74,7 +76,22 @@ namespace wallabag.DataModel
             SwitchReadStatusCommand = new RelayCommand(async () => await SwitchReadStatus());
             SwitchFavoriteStatusCommand = new RelayCommand(async () => await SwitchFavoriteStatus());
 
-            Model.TagsString = Model.Tags.ToCommaSeparatedString();
+            Tags = Model.TagsString.ToObservableCollection();
+            Tags.CollectionChanged += Tags_CollectionChanged;
+        }
+
+        private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+                foreach (Tag item in e.OldItems)
+                    Tags.Remove(item);
+
+            if (e.NewItems != null)
+                foreach (Tag item in e.NewItems)
+                    Tags.Add(item);
+
+            Model.TagsString = Tags.ToCommaSeparatedString();
+            await Update();
         }
 
         public RelayCommand UpdateCommand { get; private set; }
@@ -153,7 +170,7 @@ namespace wallabag.DataModel
             catch { return false; }
             return false;
         }
-                
+
         public async Task<bool> SwitchReadStatus()
         {
             if (Model.IsArchived)
