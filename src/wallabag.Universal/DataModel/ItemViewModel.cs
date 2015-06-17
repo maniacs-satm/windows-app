@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -84,14 +85,11 @@ namespace wallabag.DataModel
         {
             if (e.OldItems != null)
                 foreach (Tag item in e.OldItems)
-                    Tags.Remove(item);
+                    await DeleteTag(item);
 
             if (e.NewItems != null)
                 foreach (Tag item in e.NewItems)
-                    Tags.Add(item);
-
-            Model.TagsString = Tags.ToCommaSeparatedString();
-            await Update();
+                    await AddTags(item.Label);
         }
 
         public RelayCommand UpdateCommand { get; private set; }
@@ -166,6 +164,51 @@ namespace wallabag.DataModel
                     Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
                     return true;
                 }
+            }
+            catch { return false; }
+            return false;
+        }
+
+        public async Task<bool> AddTags(string tags)
+        {
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http);
+            Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
+
+            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            try
+            {
+                var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
+                http.Dispose();
+
+                if (response.StatusCode == HttpStatusCode.Ok)
+                {
+                    var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                    foreach (Tag tag in Tags)
+                    {
+                        Tags.Remove(Tags.Where(t => t.Label == tag.Label).FirstOrDefault());
+                        Tags.Add(new Tag() { Label = tag.Label, Id = json.Embedded.Items[0].Tags.Where(t => t.Label == tag.Label).FirstOrDefault().Id });
+                    }
+                    System.Diagnostics.Debug.WriteLine(json.Embedded.Items[0].Tags.ToCommaSeparatedString());
+                    return true;
+                }
+            }
+            catch { return false; }
+            return false;
+        }
+        public async Task<bool> DeleteTag(Tag tag)
+        {
+            HttpClient http = new HttpClient();
+
+            await Helpers.AddHeaders(http);
+            try
+            {
+                var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags/{tag.Id}.json"));
+                http.Dispose();
+
+                if (response.StatusCode == HttpStatusCode.Ok)
+                    return true;
             }
             catch { return false; }
             return false;
