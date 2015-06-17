@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using wallabag.DataModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Web.Http;
@@ -77,12 +79,20 @@ namespace wallabag.Common
 
             return result;
         }
-        public static IList<string> ToList(this string str)
+        public static ObservableCollection<Tag> ToObservableCollection(this string str)
         {
-            List<string> result = new List<string>();
+            ObservableCollection<Tag> result = new ObservableCollection<Tag>();
             if (!string.IsNullOrWhiteSpace(str))
             {
-                result = str.Split(",".ToCharArray()).ToList();
+                var temp = str.Split(",".ToCharArray()).ToList();
+                foreach (var item in temp)
+                {
+                    result.Add(new Tag()
+                    {
+                        Id = 1,
+                        Label = item
+                    });
+                }
             }
             return result;
         }
