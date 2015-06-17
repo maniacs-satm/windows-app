@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
-    xmlns:c4f="using:Coding4Fun.Toolkit.Controls"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -42,7 +41,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Settings" Style="{ThemeResource TitleTextBlockStyle}" Margin="12,8"/>
+                    <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}" Margin="12,8"/>
                     <Button Grid.Column="1" Content="Reset settings" VerticalAlignment="Center" Margin="12,0" IsEnabled="False"/>
                 </Grid>
             </controls:PageHeader.HeaderContent>
