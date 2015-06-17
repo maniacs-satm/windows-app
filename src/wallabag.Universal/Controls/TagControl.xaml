@@ -10,12 +10,12 @@
     d:DesignHeight="100"
     d:DesignWidth="450">
 
-    <Grid Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <ListView x:Name="listView" ItemsSource="{x:Bind Tags, Mode=OneWay}" MaxHeight="250" IsItemClickEnabled="True" ItemClick="listView_ItemClick"/>
-        <TextBox x:Name="textBox" TextWrapping="Wrap" PlaceholderText="add tags (comma-separated)" Margin="4" Grid.Row="1" TextChanged="textBox_TextChanged"/>
+        <TextBox x:Name="textBox" TextWrapping="Wrap" PlaceholderText="add tags (comma-separated)" Margin="0,4" Grid.Row="1" TextChanged="textBox_TextChanged"/>
     </Grid>
 </UserControl>
