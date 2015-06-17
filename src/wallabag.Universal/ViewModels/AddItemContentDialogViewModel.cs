@@ -1,5 +1,8 @@
-﻿using PropertyChanged;
+﻿using System.Collections.ObjectModel;
+using PropertyChanged;
 using wallabag.Common.MVVM;
+using wallabag.DataModel;
+using wallabag.Common;
 
 namespace wallabag.ViewModels
 {
@@ -7,23 +10,24 @@ namespace wallabag.ViewModels
     class AddItemContentDialogViewModel
     {
         public string Url { get; set; }
-        public string Tags { get; set; }
+        public ObservableCollection<Tag> Tags { get; set; }
 
         public RelayCommand AddItemCommand { get; private set; }
         public RelayCommand CancelCommand { get; private set; }
 
         public AddItemContentDialogViewModel()
         {
+            Tags = new ObservableCollection<Tag>();
             AddItemCommand = new RelayCommand(async () =>
             {
-                await DataModel.DataSource.AddItem(Url, Tags);
+                await DataSource.AddItem(Url, Tags.ToCommaSeparatedString());
                 Url = string.Empty;
-                Tags = string.Empty;
+                Tags.Clear();
             });
             CancelCommand = new RelayCommand(() =>
             {
                 Url = string.Empty;
-                Tags = string.Empty;
+                Tags.Clear();
             });
         }
     }
