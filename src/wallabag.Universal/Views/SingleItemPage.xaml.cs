@@ -1,13 +1,12 @@
-﻿using wallabag.DataModel;
+﻿using PropertyChanged;
+using wallabag.DataModel;
 using wallabag.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using PropertyChanged;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace wallabag.Views
 {
