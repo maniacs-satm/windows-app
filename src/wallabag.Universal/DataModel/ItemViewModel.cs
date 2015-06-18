@@ -184,13 +184,10 @@ namespace wallabag.DataModel
 
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
-                    var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                    var json = JsonConvert.DeserializeObject<Item>(response.Content.ToString());
                     foreach (Tag tag in Tags)
-                    {
-                        Tags.Remove(Tags.Where(t => t.Label == tag.Label).FirstOrDefault());
-                        Tags.Add(new Tag() { Label = tag.Label, Id = json.Embedded.Items[0].Tags.Where(t => t.Label == tag.Label).FirstOrDefault().Id });
-                    }
-                    System.Diagnostics.Debug.WriteLine(json.Embedded.Items[0].Tags.ToCommaSeparatedString());
+                        tag.Id = json.Tags.Where(t => t.Label == tag.Label).FirstOrDefault().Id;
+
                     return true;
                 }
             }
