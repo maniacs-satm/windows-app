@@ -7,6 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
     xmlns:controls="using:wallabag.Controls"
+    xmlns:common="using:wallabag.Common"
+    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
+    common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemAccentColor}"
+    common:TitleBarExtensions.ForegroundColor="White"
+    common:TitleBarExtensions.ButtonForegroundColor="White"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -36,7 +41,8 @@
         </VisualStateManager.VisualStateGroups>
         <SplitView x:Name="splitView" DisplayMode="CompactInline" OpenPaneLength="256">
             <SplitView.Pane>
-                <StackPanel Margin="0,48,0,0">
+                <StackPanel>
+                    <Rectangle Height="48" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                     <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True" Click="UnreadItemsMenuButton_Click"/>
                     <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" />
                     <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
@@ -56,7 +62,8 @@
                 </Frame.ContentTransitions>
             </Frame>
         </SplitView>
-        <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}" IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"
-                      ToolTipService.ToolTip="Menu" TabIndex="1" Checked="HamburgerToggleButton_Checked" Grid.Row="1"/>
+        <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}"
+                      IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"
+                      TabIndex="1" Checked="HamburgerToggleButton_Checked"/>
     </Grid>
 </Page>

@@ -10,6 +10,8 @@
     HorizontalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
     Height="48"
+    Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+    RequestedTheme="Dark"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
