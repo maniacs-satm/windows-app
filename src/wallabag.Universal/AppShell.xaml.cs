@@ -23,7 +23,6 @@ namespace wallabag.Universal
             Loaded += (sender, args) =>
             {
                 Current = this;
-
                 HamburgerToggleButton.Focus(FocusState.Programmatic);
             };
 
@@ -69,6 +68,7 @@ namespace wallabag.Universal
 
         #region Navigation
 
+        private StateTriggerBase _defaultStateTrigger;
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
         {
             // After a successful navigation set keyboard focus to the loaded page
@@ -83,11 +83,15 @@ namespace wallabag.Universal
                     splitView.IsPaneOpen = false;
                     splitView.DisplayMode = SplitViewDisplayMode.Overlay;
                     HamburgerToggleButton.Visibility = Visibility.Collapsed;
+                    _defaultStateTrigger = DefaultState.StateTriggers[0];
+                    DefaultState.StateTriggers.Clear();
                 }
                 else
                 {
                     splitView.DisplayMode = SplitViewDisplayMode.CompactInline;
                     HamburgerToggleButton.Visibility = Visibility.Visible;
+                    if (DefaultState.StateTriggers.Count == 0)
+                        DefaultState.StateTriggers.Add(_defaultStateTrigger);
                 }
 
                 if (AppFrame != null && AppFrame.CanGoBack)
