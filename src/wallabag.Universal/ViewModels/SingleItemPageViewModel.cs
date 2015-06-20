@@ -1,9 +1,13 @@
-﻿using PropertyChanged;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using PropertyChanged;
 using wallabag.Common;
 using wallabag.Common.MVVM;
 using wallabag.DataModel;
-using Windows.System;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Web.Http;
 
 namespace wallabag.ViewModels
 {
@@ -12,14 +16,39 @@ namespace wallabag.ViewModels
     {
         public ItemViewModel CurrentItem { get; set; }
 
-        public RelayCommand DownloadItemAsPDFCommand { get; private set; }
-        public RelayCommand DownloadItemAsMobiCommand { get; private set; }
-        public RelayCommand DownloadItemAsEpubCommand { get; private set; }
+        public RelayCommand DownloadItemCommand { get; private set; }
         public SingleItemPageViewModel()
         {
-            DownloadItemAsPDFCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?pdf&method=id&value={CurrentItem.Model.Id}")); });
-            DownloadItemAsMobiCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?mobi&method=id&value={CurrentItem.Model.Id}")); });
-            DownloadItemAsEpubCommand = new RelayCommand(async () => { await Launcher.LaunchUriAsync(new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?epub&method=id&value={CurrentItem.Model.Id}")); });
+            DownloadItemCommand = new RelayCommand(async () => { await DownloadItem(); });
+        }
+
+        public async Task DownloadItem()
+        {
+            // Let the user select the download path
+            var picker = new FileSavePicker()
+            {
+                SuggestedFileName = CurrentItem.Model.Title,
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
+                DefaultFileExtension = ".pdf"
+            };
+            picker.FileTypeChoices.Add("PDF document", new List<string>() { ".pdf" });
+            picker.FileTypeChoices.Add("Epub file", new List<string>() { ".epub" });
+            picker.FileTypeChoices.Add("Mobi file", new List<string>() { ".mobi" });
+            StorageFile file = await picker.PickSaveFileAsync();
+
+            // Download the file
+            if (file != null)
+                using (HttpClient http = new HttpClient())
+                {
+                    // TODO: Currently just downloading the login page :/
+                    Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
+
+                    await Helpers.AddHeaders(http);
+
+                    var response = await http.GetAsync(downloadUrl);
+                    if (response.IsSuccessStatusCode)
+                        await FileIO.WriteBufferAsync(file, await response.Content.ReadAsBufferAsync());
+                }
         }
     }
 }
