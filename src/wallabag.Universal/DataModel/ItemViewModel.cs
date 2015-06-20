@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using PropertyChanged;
 using wallabag.Common;
 using wallabag.Common.MVVM;
-using Windows.UI;
+using Windows.Storage;
 using Windows.Web.Http;
 
 namespace wallabag.DataModel
@@ -19,53 +19,28 @@ namespace wallabag.DataModel
         public Item Model { get; set; }
         public ObservableCollection<Tag> Tags { get; set; }
 
-        public string ContentWithHeader
-        {
-            get
-            {
-                var content =
-                $"<html><head><link rel=\"stylesheet\" href=\"ms-appx-web:///Assets/wallabag.css\" type=\"text/css\" media=\"screen\" />{GenerateCSS()}</head>" +
-                $"<h1 class=\"wallabag-header\">{Model.Title}</h1>" +
-                $"<h2 class=\"wallabag-subheader\"><a href=\"{Model.Url}\">{UrlHostname}</a></h2>" +
-                Model.Content +
-                "</html>";
-                return content;
-            }
-        }
+        public string ContentWithHeader { get; set; }
         public string UrlHostname
         {
             get
             {
-                try { return new Uri(Model.Url).Host; }
+                try { return new Uri(Model.Url).Host.Replace("www.", ""); }
                 catch { return string.Empty; }
             }
         }
 
-        private string GenerateCSS()
+        public async Task CreateContentFromTemplate()
         {
-            string css = "body {" +
-                CSSproperty("font-size", AppSettings.FontSize + "px") +
-                CSSproperty("line-height", AppSettings.LineHeight.ToString().Replace(",", ".")) +
-                CSSproperty("color", AppSettings.TextColor) +
-                CSSproperty("background", AppSettings.BackgroundColor) +
-                CSSproperty("max-width", "960px") +
-                CSSproperty("margin", "0 auto") +
-                CSSproperty("padding", "0 20px") +
-                "}";
-            return "<style>" + css + "</style>";
-        }
-        private string CSSproperty(string name, object value)
-        {
-            if (value.GetType() != typeof(Color))
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/article.html"));
+            string _template = await FileIO.ReadTextAsync(file);
+
+            ContentWithHeader = _template.FormatWith(new
             {
-                return $"{name}: {value.ToString()};";
-            }
-            else
-            {
-                var color = (Color)value;
-                var tmpColor = $"rgba({color.R}, {color.G}, {color.B}, {color.A})";
-                return $"{name}: {tmpColor};";
-            }
+                title = Model.Title,
+                content = Model.Content,
+                articleUrl = Model.Url,
+                hostname = UrlHostname
+            });
         }
         #endregion
 

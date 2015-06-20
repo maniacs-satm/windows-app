@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using wallabag.DataModel;
 using Windows.UI;
@@ -191,6 +193,35 @@ namespace wallabag.Common
             var color = (Color)e.NewValue;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = color;
+        }
+    }
+    public static class StringExtensions
+    {
+        public static string FormatWith(this string format, object source)
+        {
+            if (format == null)
+                throw new ArgumentNullException("format");
+
+            Regex r = new Regex(@"(?<start>\{)+(?<property>[\w\.\[\]]+)(?<format>:[^}]+)?(?<end>\})+",
+                    RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+
+            List<object> values = new List<object>();
+
+            string rewrittenFormat = r.Replace(format, delegate(Match m)
+            {
+                Group startGroup = m.Groups["start"];
+                Group propertyGroup = m.Groups["property"];
+                Group formatGroup = m.Groups["format"];
+                Group endGroup = m.Groups["end"];
+
+                values.Add((propertyGroup.Value == "0")
+                         ? source
+                         : source.GetType().GetRuntimeProperty(propertyGroup.Value).GetValue(source));
+
+                return new string('{', startGroup.Captures.Count) + (values.Count - 1) + formatGroup.Value
+                                  + new string('}', endGroup.Captures.Count);
+            });
+            return string.Format(rewrittenFormat, values.ToArray());
         }
     }
 }

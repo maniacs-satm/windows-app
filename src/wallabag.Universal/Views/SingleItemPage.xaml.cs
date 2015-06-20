@@ -31,6 +31,8 @@ namespace wallabag.Views
             if (e.Parameter != null && e.Parameter.GetType() == typeof(int))
             {
                 ViewModel = new SingleItemPageViewModel() { CurrentItem = new ItemViewModel(await DataSource.GetItemAsync((int)e.Parameter)) };
+                await ViewModel.CurrentItem.CreateContentFromTemplate();
+
                 ApplicationView.GetForCurrentView().Title = ViewModel.CurrentItem.Model.Title;
                 WebView.NavigateToString(ViewModel.CurrentItem.ContentWithHeader);
             }
