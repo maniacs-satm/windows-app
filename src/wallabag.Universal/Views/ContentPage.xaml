@@ -9,27 +9,15 @@
     xmlns:data="using:wallabag.DataModel"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          Loaded="Grid_Loaded">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <CommandBar x:Name="MainCommandBar" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-            <AppBarButton x:Name="FilterItemViewAppBarButton" Icon="Filter" Label="Filter"/>
-            <AppBarSeparator/>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="MainCommandBar" HorizontalContentAlignment="Stretch">
             <AppBarButton x:Name="AddItemAppBarButton" Icon="Add" Label="Add" Click="AddItemAppBarButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-            <CommandBar.Content>
-                <controls:PageHeader>
-                    <controls:PageHeader.HeaderContent>
-                        <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-                    </controls:PageHeader.HeaderContent>
-                </controls:PageHeader>
-            </CommandBar.Content>
         </CommandBar>
-        <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1"
+    </Page.BottomAppBar>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          Loaded="Grid_Loaded">
+        <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1" Padding="2,50,2,2"
                           IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="data:ItemViewModel">
@@ -67,5 +55,16 @@
                 <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
             </StackPanel>
         </ContentDialog>
+        <CommandBar VerticalAlignment="Top" Background="#B2FFFFFF">
+            <AppBarButton Icon="Find" Label="Search"/>
+            <AppBarButton Icon="Bullets" Label="Select"/>
+            <CommandBar.Content>
+                <controls:PageHeader>
+                    <controls:PageHeader.HeaderContent>
+                        <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
+                    </controls:PageHeader.HeaderContent>
+                </controls:PageHeader>
+            </CommandBar.Content>
+        </CommandBar>
     </Grid>
 </Page>

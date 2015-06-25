@@ -36,7 +36,7 @@
         </VisualStateManager.VisualStateGroups>
         <controls:PageHeader>
             <controls:PageHeader.HeaderContent>
-                <CommandBar VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+                <CommandBar VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
                     <AppBarButton IsEnabled="False" Icon="Undo" Label="Reset"/>                   
                     <CommandBar.Content>
                         <controls:PageHeader>
@@ -72,6 +72,7 @@
                 <controls:SettingsSubHeaderTextBlock Text="GENERAL"/>
                 <ComboBox Header="Language" IsEnabled="False"/>
                 <ToggleSwitch x:Name="customAccentColorToggleSwitch" Header="Use custom accent color" IsEnabled="False"/>
+                <ToggleSwitch Header="Position of menu button" IsEnabled="False" OnContent="Right" OffContent="Left"/>
             </StackPanel>
             <StackPanel x:Name="AccountCredentialsStackPanel" RelativePanel.RightOf="GeneralSettingsStackPanel">
                 <controls:SettingsSubHeaderTextBlock Text="ACCOUNT CREDENTIALS"/>

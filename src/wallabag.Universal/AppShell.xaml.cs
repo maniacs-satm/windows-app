@@ -24,6 +24,7 @@ namespace wallabag.Universal
             {
                 Current = this;
                 HamburgerToggleButton.Focus(FocusState.Programmatic);
+                CheckTogglePaneButtonSizeChanged();
             };
 
             splitView.RegisterPropertyChangedCallback(SplitView.DisplayModeProperty, (sender, args) =>

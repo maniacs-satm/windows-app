@@ -307,7 +307,7 @@
         <Setter Property="CharacterSpacing" Value="10"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
-        <Setter Property="Margin" Value="12,14,12,4"/>
+        <Setter Property="Margin" Value="16,14,16,4"/>
     </Style>
     <DataTemplate x:Key="ArticleTemplate">
         <RelativePanel>

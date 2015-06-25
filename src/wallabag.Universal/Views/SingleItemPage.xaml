@@ -13,7 +13,7 @@
     mc:Ignorable="d">
 
     <common:basicPage.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
+        <CommandBar ClosedDisplayMode="Minimal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{x:Bind ViewModel.CurrentItem.SwitchReadStatusCommand}"/>
                 <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
@@ -86,7 +86,7 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Download as file" Command="{x:Bind DownloadItemCommand}"/>
+                <AppBarButton Label="Download as file" Command="{x:Bind ViewModel.DownloadItemCommand}"/>
                 <AppBarButton Label="Delete article">
                     <AppBarButton.Flyout>
                         <Flyout>
