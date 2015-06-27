@@ -30,8 +30,12 @@ namespace wallabag.Universal
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-            AppShell shell = Window.Current.Content as AppShell;
+            // Change the accent color to #333333 if enabled in settings
+            if (!Common.AppSettings.Instance.UseSystemAccentColor)
+                Application.Current.Resources["SystemAccentColor"] = Windows.UI.ColorHelper.FromArgb(0xFF, 0x33, 0x33, 0x33);
 
+            AppShell shell = Window.Current.Content as AppShell;
+                       
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (shell == null)

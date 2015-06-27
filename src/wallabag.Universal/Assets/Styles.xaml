@@ -6,8 +6,6 @@
     xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
 
-    <SolidColorBrush x:Key="AccentBrush" Color="{ThemeResource SystemAccentColor}"/>
-
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 

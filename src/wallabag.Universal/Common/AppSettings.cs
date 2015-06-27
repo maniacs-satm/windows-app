@@ -133,6 +133,7 @@ namespace wallabag.Common
         private const string LineHeightKey = "LineHeight";
         private const string TextColorKey = "TextColor";
         private const string BackgroundColorKey = "BackgroundColor";
+        private const string UseSystemAccentColorKey = "UseSystemAccentColor";
 
         private string _Username;
         public string Username
@@ -193,15 +194,22 @@ namespace wallabag.Common
             get { return GetProperty<double>(LineHeightKey, 1.5); }
             set { SetProperty(LineHeightKey, value); }
         }
+        [Obsolete]
         public Color TextColor
         {
             get { return GetProperty(TextColorKey, ColorHelper.FromArgb(255, 0, 0, 0)); } //#000000
             set { SetProperty(TextColorKey, value); }
         }
+        [Obsolete]
         public Color BackgroundColor
         {
             get { return GetProperty(BackgroundColorKey, ColorHelper.FromArgb(255, 255, 255, 255)); } //#ffffff
             set { SetProperty(BackgroundColorKey, value); }
+        }
+        public bool UseSystemAccentColor
+        {
+            get { return GetProperty(UseSystemAccentColorKey, false); }
+            set { SetProperty(UseSystemAccentColorKey, value); }
         }
     }
 }
