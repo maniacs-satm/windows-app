@@ -9,12 +9,7 @@
     xmlns:data="using:wallabag.DataModel"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    <Page.BottomAppBar>
-        <CommandBar x:Name="MainCommandBar" HorizontalContentAlignment="Stretch">
-            <AppBarButton x:Name="AddItemAppBarButton" Icon="Add" Label="Add" Click="AddItemAppBarButton_Click"/>
-            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-        </CommandBar>
-    </Page.BottomAppBar>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           Loaded="Grid_Loaded">
         <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1" Padding="2,50,2,2"
@@ -27,7 +22,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                               Source="https://upload.wikimedia.org/wikipedia/commons/7/78/Odertalsperre06_2005.jpg" Stretch="UniformToFill" Grid.RowSpan="2"/>
+                               Source="https://farm4.staticflickr.com/3955/15123553843_6b4a5c8a3f_z_d.jpg" Stretch="UniformToFill" Grid.RowSpan="2"/>
                         <Border RequestedTheme="Dark" Grid.Row="1">
                             <Border.Background>
                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -55,8 +50,10 @@
                 <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
             </StackPanel>
         </ContentDialog>
-        <CommandBar VerticalAlignment="Top" Background="#B2FFFFFF">
+        <CommandBar VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <AppBarButton Icon="Find" Label="Search"/>
+            <AppBarSeparator/>
+            <AppBarButton Icon="Filter" Label="Filter"/>
             <AppBarButton Icon="Bullets" Label="Select"/>
             <CommandBar.Content>
                 <controls:PageHeader>

@@ -11,7 +11,7 @@
     common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
     common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemAccentColor}"
     common:TitleBarExtensions.ForegroundColor="White"
-    common:TitleBarExtensions.ButtonForegroundColor="White"
+    common:TitleBarExtensions.ButtonForegroundColor="White"    
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -23,7 +23,7 @@
             <VisualStateGroup x:Name="AdaptiveStates">
                 <VisualState x:Name="NarrowState">
                     <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="Overlay"/>                        
+                        <Setter Target="splitView.DisplayMode" Value="Overlay"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -31,7 +31,7 @@
                 </VisualState>
                 <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="CompactInline"/>
+                        <Setter Target="splitView.DisplayMode" Value="Inline"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720"/>
@@ -39,15 +39,103 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SplitView x:Name="splitView" DisplayMode="CompactInline" OpenPaneLength="256">
+        <SplitView x:Name="splitView">
             <SplitView.Pane>
-                <StackPanel>
-                    <Rectangle Height="48" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-                    <RadioButton x:Name="UnreadItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowUnreadItems}" Tag="&#xE10F;" Content="Home" IsChecked="True" Click="UnreadItemsMenuButton_Click"/>
-                    <RadioButton x:Name="FavoriteItemsMenuButton" Style="{StaticResource MenuButton}" Command="{Binding ShowFavoriteItems}" Tag="" Content="Favorites" />
-                    <RadioButton x:Name="TagsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE1CB;" Content="Tags" />
-                    <RadioButton x:Name="SettingsMenuButton" Style="{StaticResource MenuButton}" Tag="&#xE713;" Content="Settings" Click="SettingsMenuButton_Click"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <Rectangle Height="48" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch" Background="#f2f2f2">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Add" Margin="4"/>
+                                    <TextBlock Text="Add item" Margin="12"/>
+                                </StackPanel>
+                            </Button>
+                            <Button Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch" Grid.Column="1" Background="#f2f2f2" Command="{Binding RefreshCommand}">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Refresh" Margin="4"/>
+                                    <TextBlock Text="Refresh" Margin="12"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <controls:SettingsSubHeaderTextBlock Text="TAGS" Margin="0,0,0,4"/>
+                        <ListView>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListViewItem>
+                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="44"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Height="32" Width="32" Fill="#333333"/>
+                                    <TextBlock Grid.Column="1" Text="wallabag" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                </Grid>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="44"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Height="32" Width="32" Fill="#52b043"/>
+                                    <TextBlock Grid.Column="1" Text="gaming" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                </Grid>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="44"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Height="32" Width="32" Fill="#1769ff"/>
+                                    <TextBlock Grid.Column="1" Text="behance" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                </Grid>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="44"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Height="32" Width="32" Fill="#00bcf2"/>
+                                    <TextBlock Grid.Column="1" Text="windows" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                </Grid>
+                            </ListViewItem>
+                            <ListViewItem>
+                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="44"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Height="32" Width="32" Fill="#fd5c63"/>
+                                    <TextBlock Grid.Column="1" Text="linux" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                </Grid>
+                            </ListViewItem>
+                        </ListView>
+                    </StackPanel>
+                    <Grid Grid.Row="1" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Julian" VerticalAlignment="Center" Margin="8,12"/>
+                        <Button Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch" Background="#f2f2f2" Grid.Column="1" Click="SettingsMenuButton_Click">
+                            <SymbolIcon Symbol="Setting" Margin="4"/>
+                        </Button>
+                    </Grid>
+                </Grid>
             </SplitView.Pane>
             <Frame x:Name="frame"
                    Navigated="OnNavigatedToPage">

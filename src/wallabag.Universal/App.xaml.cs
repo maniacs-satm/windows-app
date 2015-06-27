@@ -30,9 +30,9 @@ namespace wallabag.Universal
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-            // Change the accent color to #333333 if enabled in settings
+            // Change the accent color to #666666 if enabled in settings
             if (!Common.AppSettings.Instance.UseSystemAccentColor)
-                Application.Current.Resources["SystemAccentColor"] = Windows.UI.ColorHelper.FromArgb(0xFF, 0x33, 0x33, 0x33);
+                Application.Current.Resources["SystemAccentColor"] = Windows.UI.ColorHelper.FromArgb(0xFF, 0x66, 0x66, 0x66);
 
             AppShell shell = Window.Current.Content as AppShell;
                        
