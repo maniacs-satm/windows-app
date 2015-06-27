@@ -53,18 +53,8 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Button Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch" Background="#f2f2f2">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Add" Margin="4"/>
-                                    <TextBlock Text="Add item" Margin="12"/>
-                                </StackPanel>
-                            </Button>
-                            <Button Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch" Grid.Column="1" Background="#f2f2f2" Command="{Binding RefreshCommand}">
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="Refresh" Margin="4"/>
-                                    <TextBlock Text="Refresh" Margin="12"/>
-                                </StackPanel>
-                            </Button>
+                            <Button Style="{ThemeResource IconButtonStyle}" Click="AddItemButton_Click" Tag="" Content="Add item"/>
+                            <Button Style="{ThemeResource IconButtonStyle}"  Grid.Column="1" Command="{Binding RefreshCommand}" Tag="" Content="Refresh"/>
                         </Grid>
                         <controls:SettingsSubHeaderTextBlock Text="TAGS" Margin="0,0,0,4"/>
                         <ListView>
@@ -153,5 +143,16 @@
         <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}"
                       IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"
                       TabIndex="1" Checked="HamburgerToggleButton_Checked"/>
+        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" Grid.RowSpan="2"
+                       PrimaryButtonText="add" PrimaryButtonCommand="{Binding AddItemCommand}"
+                       SecondaryButtonText="cancel" SecondaryButtonCommand="{Binding CancelCommand}">
+            <ContentDialog.DataContext>
+                <vm:AddItemContentDialogViewModel/>
+            </ContentDialog.DataContext>
+            <StackPanel Width="450" Margin="0,24,0,0">
+                <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://"/>
+                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
+            </StackPanel>
+        </ContentDialog>
     </Grid>
 </Page>

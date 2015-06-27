@@ -1,4 +1,5 @@
-﻿using Windows.Foundation;
+﻿using System;
+using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -157,6 +158,11 @@ namespace wallabag.Universal
         {
             if (AppFrame.Content.GetType() != typeof(Views.SettingsPage))
                 AppFrame.Navigate(typeof(Views.SettingsPage));
+        }
+
+        private async void AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            await AddItemContentDialog.ShowAsync();
         }
     }
 }

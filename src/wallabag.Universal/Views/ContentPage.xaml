@@ -39,17 +39,6 @@
             </GridView.ItemTemplate>
         </GridView>
         <ProgressRing Height="100" Width="100" IsActive="True" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
-        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" Grid.RowSpan="2"
-                       PrimaryButtonText="add" PrimaryButtonCommand="{Binding AddItemCommand}"
-                       SecondaryButtonText="cancel" SecondaryButtonCommand="{Binding CancelCommand}">
-            <ContentDialog.DataContext>
-                <vm:AddItemContentDialogViewModel/>
-            </ContentDialog.DataContext>
-            <StackPanel Width="450" Margin="0,24,0,0">
-                <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://"/>
-                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
-            </StackPanel>
-        </ContentDialog>
         <CommandBar VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <AppBarButton Icon="Find" Label="Search"/>
             <AppBarSeparator/>

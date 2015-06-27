@@ -43,6 +43,7 @@ namespace wallabag.Views
                 ItemGridView.SelectedItem = ViewModel.CurrentItem;
             }
 
+            ViewModel.RefreshCommand.Execute(0);            
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -52,11 +53,6 @@ namespace wallabag.Views
 
         private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
         {
-        }
-
-        private async void AddItemAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            await AddItemContentDialog.ShowAsync();
         }
     }
 }
