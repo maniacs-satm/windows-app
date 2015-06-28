@@ -1,4 +1,5 @@
 ﻿using System;
+using wallabag.Common;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -26,6 +27,12 @@ namespace wallabag.Universal
                 Current = this;
                 HamburgerToggleButton.Focus(FocusState.Programmatic);
                 CheckTogglePaneButtonSizeChanged();
+
+                if (AppSettings.Instance.HamburgerPositionIsRight)
+                {
+                    HamburgerToggleButton.HorizontalAlignment = HorizontalAlignment.Right;
+                    splitView.PanePlacement = SplitViewPanePlacement.Right;
+                }
             };
 
             splitView.RegisterPropertyChangedCallback(SplitView.DisplayModeProperty, (sender, args) =>

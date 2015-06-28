@@ -1,4 +1,5 @@
-﻿using wallabag.Universal;
+﻿using wallabag.Common;
+using wallabag.Universal;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,8 +16,11 @@ namespace wallabag.Controls
 
             Loaded += (s, a) =>
             {
-                AppShell.Current.TogglePaneButtonRectChanged += Current_TogglePaneButtonSizeChanged;
-                titleBar.Margin = new Thickness(AppShell.Current.TogglePaneButtonRect.Right, 0, 0, 0);
+                if (!AppSettings.Instance.HamburgerPositionIsRight)
+                {
+                    AppShell.Current.TogglePaneButtonRectChanged += Current_TogglePaneButtonSizeChanged;
+                    titleBar.Margin = new Thickness(AppShell.Current.TogglePaneButtonRect.Right, 0, 0, 0);
+                }
             };
         }
 

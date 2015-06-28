@@ -134,6 +134,7 @@ namespace wallabag.Common
         private const string TextColorKey = "TextColor";
         private const string BackgroundColorKey = "BackgroundColor";
         private const string UseSystemAccentColorKey = "UseSystemAccentColor";
+        private const string HamburgerPositionIsRightKey = "HamburgerPositionIsRight";
 
         private string _Username;
         public string Username
@@ -210,6 +211,11 @@ namespace wallabag.Common
         {
             get { return GetProperty(UseSystemAccentColorKey, false); }
             set { SetProperty(UseSystemAccentColorKey, value); }
+        }
+        public bool HamburgerPositionIsRight
+        {
+            get { return GetProperty(HamburgerPositionIsRightKey, false); }
+            set { SetProperty(HamburgerPositionIsRightKey, value); }
         }
     }
 }
