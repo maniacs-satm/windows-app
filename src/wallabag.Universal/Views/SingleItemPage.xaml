@@ -1,5 +1,5 @@
-﻿<common:basicPage
-    x:Class="wallabag.Views.SingleItemPage"
+﻿<Page
+        x:Class="wallabag.Views.SingleItemPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:wallabag.Views"
@@ -8,11 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:triggers="using:wallabag.Common.VisualStateTriggers"
     xmlns:controls="using:wallabag.Controls"
-    x:Name="PageRoot"
-    Loaded="PageRoot_Loaded" Unloaded="PageRoot_Unloaded"
     mc:Ignorable="d">
 
-    <common:basicPage.BottomAppBar>
+    <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{x:Bind ViewModel.CurrentItem.SwitchReadStatusCommand}"/>
@@ -99,9 +97,9 @@
                 </AppBarButton>
             </CommandBar.SecondaryCommands>
         </CommandBar>
-    </common:basicPage.BottomAppBar>
+    </Page.BottomAppBar>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="RootPanel">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <WebView x:Name="WebView"/>
     </Grid>
-</common:basicPage>
+</Page>

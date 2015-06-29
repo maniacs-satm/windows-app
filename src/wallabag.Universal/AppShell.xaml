@@ -39,7 +39,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SplitView x:Name="splitView">
+        <SplitView x:Name="splitView" IsPaneOpen="True">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -63,56 +63,18 @@
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                 </Style>
                             </ListView.ItemContainerStyle>
-                            <ListViewItem>
-                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="44"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Height="32" Width="32" Fill="#333333"/>
-                                    <TextBlock Grid.Column="1" Text="wallabag" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
-                                </Grid>
-                            </ListViewItem>
-                            <ListViewItem>
-                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="44"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Height="32" Width="32" Fill="#52b043"/>
-                                    <TextBlock Grid.Column="1" Text="gaming" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
-                                </Grid>
-                            </ListViewItem>
-                            <ListViewItem>
-                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="44"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Height="32" Width="32" Fill="#1769ff"/>
-                                    <TextBlock Grid.Column="1" Text="behance" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
-                                </Grid>
-                            </ListViewItem>
-                            <ListViewItem>
-                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="44"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Height="32" Width="32" Fill="#00bcf2"/>
-                                    <TextBlock Grid.Column="1" Text="windows" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
-                                </Grid>
-                            </ListViewItem>
-                            <ListViewItem>
-                                <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="44"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Height="32" Width="32" Fill="#fd5c63"/>
-                                    <TextBlock Grid.Column="1" Text="linux" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
-                                </Grid>
-                            </ListViewItem>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="44"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Height="32" Width="32" Fill="#666666"/>
+                                        <TextBlock Grid.Column="1" Text="wallabag" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </StackPanel>
                     <Grid Grid.Row="1" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
@@ -121,9 +83,7 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Julian" VerticalAlignment="Center" Margin="8,12"/>
-                        <Button Foreground="{ThemeResource SystemControlBackgroundAccentBrush}" HorizontalAlignment="Stretch" Background="#f2f2f2" Grid.Column="1" Click="SettingsMenuButton_Click">
-                            <SymbolIcon Symbol="Setting" Margin="4"/>
-                        </Button>
+                        <Button Style="{ThemeResource IconButtonStyle}" Grid.Column="1" Click="SettingsMenuButton_Click" Tag="" Padding="16,8,0,8"/>
                     </Grid>
                 </Grid>
             </SplitView.Pane>

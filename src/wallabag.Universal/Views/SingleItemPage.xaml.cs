@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Navigation;
 namespace wallabag.Views
 {
     [ImplementPropertyChanged]
-    public sealed partial class SingleItemPage : Common.basicPage
+    public sealed partial class SingleItemPage : Page
     {
         private DataTransferManager dataTransferManager;
         public SingleItemPageViewModel ViewModel { get; set; }
@@ -61,51 +61,7 @@ namespace wallabag.Views
             base.OnNavigatedFrom(e);
 
             ApplicationView.GetForCurrentView().Title = string.Empty;
-        }
-
-        void NavigateBackForWideState(bool useTransition)
-        {
-            // Temporary disabled.
-            //if (useTransition)
-            //    Frame.GoBack(new EntranceNavigationTransitionInfo());
-            //else
-            //    Frame.GoBack(new SuppressNavigationTransitionInfo());
-        }
-
-        private bool ShouldGoToWideState() { return Window.Current.Bounds.Width >= 1200; }
-
-        private void PageRoot_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (ShouldGoToWideState())
-            {
-                // We shouldn't see this page since we are in "wide master-detail" mode.
-                // Play a transition as we are navigating from a separate page.
-                NavigateBackForWideState(useTransition: true);
-            }
-            else
-            {
-                // Realize the main page content.
-                FindName("RootPanel");
-            }
-
-            Window.Current.SizeChanged += Window_SizeChanged; ;
-        }
-
-        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            if (ShouldGoToWideState())
-            {
-                // Make sure we are no longer listening to window change events.
-                Window.Current.SizeChanged -= Window_SizeChanged;
-
-                // We shouldn't see this page since we are in "wide master-detail" mode.
-                NavigateBackForWideState(useTransition: false);
-            }
-        }
-
-        private void PageRoot_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SizeChanged -= Window_SizeChanged;
+            dataTransferManager.DataRequested -= SingleItemPage_DataRequested;
         }
 
         #region Data transfer
@@ -132,6 +88,9 @@ namespace wallabag.Views
         }
         #endregion
 
-        private void CloseFlyoutButton_Click(object sender, RoutedEventArgs e) { TagFlyout.Hide(); }
+        private void CloseFlyoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            TagFlyout.Hide();
+        }
     }
 }
