@@ -274,37 +274,40 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Padding" Value="16,8"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="MinWidth" Value="48"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="RequestedTheme" Value="Dark"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootPanel" Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                    <Grid x:Name="RootPanel"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Margin="{TemplateBinding Margin}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.BorderBrush" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                        <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
+                                        <Setter Target="Symbol.Foreground"           Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.BorderBrush" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
                                         <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                                     </VisualState.Setters>
-                                    <Storyboard>
+                                    <!--<Storyboard>
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootPanel" />
-                                    </Storyboard>
+                                    </Storyboard>-->
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.BorderBrush" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
                                         <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
                                         <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
@@ -312,19 +315,25 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border Margin="{TemplateBinding Padding}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock x:Name="Symbol" Text="{TemplateBinding Tag}" Margin="4" FontFamily="Segoe MDL2 Assets" FontSize="16" VerticalAlignment="Center"/>
-                                <ContentPresenter x:Name="ContentPresenter"                                
-                                                  Content="{TemplateBinding Content}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  Margin="8,4"
-                                                  AutomationProperties.AccessibilityView="Raw"/>
-                            </StackPanel>
-                        </Border>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="Symbol"
+                                   Text="{TemplateBinding Tag}"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="16"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   ToolTipService.ToolTip="{TemplateBinding Content}"/>
+                        <ContentPresenter x:Name="ContentPresenter"                                
+                                          Grid.Column="1"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Margin="4,8,8,8"
+                                          VerticalAlignment="Center"
+                                          AutomationProperties.AccessibilityView="Raw"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
