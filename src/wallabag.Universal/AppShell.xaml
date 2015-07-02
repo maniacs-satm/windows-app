@@ -23,7 +23,7 @@
             <VisualStateGroup x:Name="AdaptiveStates">
                 <VisualState x:Name="NarrowState">
                     <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="Overlay"/>
+                        <Setter Target="splitView.DisplayMode" Value="CompactOverlay"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -32,9 +32,10 @@
                 <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
                         <Setter Target="splitView.DisplayMode" Value="Inline"/>
+                        <Setter Target="splitView.IsPaneOpen" Value="True"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
+                        <AdaptiveTrigger MinWindowWidth="1200"/>
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
@@ -104,8 +105,8 @@
                       IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"
                       TabIndex="1" Checked="HamburgerToggleButton_Checked"/>
         <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" Grid.RowSpan="2"
-                       PrimaryButtonText="add" PrimaryButtonCommand="{Binding AddItemCommand}"
-                       SecondaryButtonText="cancel" SecondaryButtonCommand="{Binding CancelCommand}">
+                       PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
+                       SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
             <ContentDialog.DataContext>
                 <vm:AddItemContentDialogViewModel/>
             </ContentDialog.DataContext>
