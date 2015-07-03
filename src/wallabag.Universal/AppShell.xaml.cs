@@ -97,7 +97,7 @@ namespace wallabag.Universal
                 }
                 else
                 {
-                    if (Window.Current.Bounds.Width >= 1200)
+                    if (Window.Current.Bounds.Width >= 720)
                     {
                         splitView.DisplayMode = SplitViewDisplayMode.Inline;
                         splitView.IsPaneOpen = true;
