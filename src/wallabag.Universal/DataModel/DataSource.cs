@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -15,30 +16,37 @@ namespace wallabag.DataModel
     {
         private static string DATABASE_PATH { get; } = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
 
-        public enum ItemType
-        {
-            Unread,
-            Favorites,
-            Archived,
-            Deleted
-        }
-
-        public static async Task<List<Item>> GetItemsAsync(ItemType itemType)
+        public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            List<Item> result = new List<Item>();
 
-            switch (itemType)
+            switch (filterProperties.itemType)
             {
-                case ItemType.Unread:
-                    return await conn.Table<Item>().Where(i => i.IsArchived == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
-                case ItemType.Favorites:
-                    return await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
-                case ItemType.Archived:
-                    return await conn.Table<Item>().Where(i => i.IsArchived == true && i.IsDeleted == false).ToListAsync();
-                case ItemType.Deleted:
-                    return await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
+                case FilterProperties.ItemType.Unread:
+                    result = await conn.Table<Item>().Where(i => i.IsArchived == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
+                    break;
+                case FilterProperties.ItemType.Favorites:
+                    result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
+                    break;
+                case FilterProperties.ItemType.Archived:
+                    result = await conn.Table<Item>().Where(i => i.IsArchived == true && i.IsDeleted == false).ToListAsync();
+                    break;
+                case FilterProperties.ItemType.Deleted:
+                    result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
+                    break;
             }
-            return new List<Item>();
+
+            // TODO: Check if it's faster to use the SQLite.Find() method.
+            if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
+                result = new List<Item>(result.Where(t => t.Title.Contains(filterProperties.SearchQuery)));
+
+            if (filterProperties.sortOrder == FilterProperties.SortOrder.Ascending)
+                result = new List<Item>(result.OrderBy(i => i.CreatedAt));
+            else
+                result = new List<Item>(result.OrderByDescending(i => i.CreatedAt));
+
+            return result;
         }
         public static async Task<Item> GetItemAsync(int Id)
         {
@@ -129,6 +137,24 @@ namespace wallabag.DataModel
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.ReplaceExisting);
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
+        }
+    }
+
+    [ImplementPropertyChanged]
+    public class FilterProperties
+    {
+        public ItemType itemType { get; set; }
+        public SortOrder sortOrder { get; set; }
+        public string SearchQuery { get; set; }
+
+        public enum SortOrder { Ascending, Descending }
+        public enum ItemType { All, Unread, Favorites, Archived, Deleted }
+
+        public FilterProperties()
+        {
+            itemType = ItemType.Unread;
+            sortOrder = SortOrder.Descending;
+            SearchQuery = string.Empty;
         }
     }
 }

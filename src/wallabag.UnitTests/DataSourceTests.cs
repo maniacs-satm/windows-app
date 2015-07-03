@@ -12,7 +12,7 @@ namespace wallabag.UnitTests
         [TestMethod]
         public async Task GetItems()
         {
-            var collection = await DataSource.GetItemsAsync(DataSource.ItemType.Unread);
+            var collection = await DataSource.GetItemsAsync(new FilterProperties());
             CollectionAssert.AllItemsAreUnique(collection);
             CollectionAssert.AllItemsAreInstancesOfType(collection, typeof(Item));
         }
