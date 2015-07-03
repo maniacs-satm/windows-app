@@ -31,11 +31,10 @@
                 </VisualState>
                 <VisualState x:Name="DefaultState">
                     <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="Inline"/>
-                        <Setter Target="splitView.IsPaneOpen" Value="True"/>
+                        <Setter Target="splitView.DisplayMode" Value="CompactInline"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1200"/>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
@@ -52,7 +51,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SplitView x:Name="splitView" IsPaneOpen="True">
+        <SplitView x:Name="splitView">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
