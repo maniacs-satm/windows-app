@@ -10,7 +10,11 @@ namespace wallabag.Views
 {
     public sealed partial class ContentPage : Page
     {
-        public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
+        public MainViewModel ViewModel
+        {
+            get { return (MainViewModel)DataContext; }
+            set { this.DataContext = value; }
+        }
 
         public ContentPage()
         {
@@ -28,6 +32,9 @@ namespace wallabag.Views
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            if (ViewModel == null)
+                ViewModel = new MainViewModel();
 
             if (e.Parameter != null && e.Parameter.GetType() == typeof(int))
             {
