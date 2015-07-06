@@ -31,7 +31,7 @@ namespace wallabag.DataModel
 
         public async Task CreateContentFromTemplate()
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/article.html"));
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Article/article.html"));
             string _template = await FileIO.ReadTextAsync(file);
 
             ContentWithHeader = _template.FormatWith(new

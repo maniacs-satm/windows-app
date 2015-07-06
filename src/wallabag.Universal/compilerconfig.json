@@ -1,0 +1,12 @@
+﻿[
+    {
+        "includeInProject": true,
+        "inputFile": "Assets/Article/style.less",
+        "minify": {
+            "enabled": true
+        },
+        "options": { },
+        "outputFile": "Assets/Article/style.css",
+        "sourceMap": false
+    }
+]
