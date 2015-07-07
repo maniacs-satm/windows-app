@@ -1,8 +1,10 @@
-﻿using PropertyChanged;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using PropertyChanged;
 using wallabag.DataModel;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -88,9 +90,47 @@ namespace wallabag.Views
         }
         #endregion
 
-        private void CloseFlyoutButton_Click(object sender, RoutedEventArgs e)
+        private async Task ExecuteJavaScript()
         {
-            TagFlyout.Hide();
+            List<string> parameters = new List<string>();
+            parameters.Add(ViewModel.AppSettings.ColorScheme);
+            parameters.Add(ViewModel.AppSettings.FontFamily);
+            parameters.Add(ViewModel.AppSettings.FontSize.ToString());
+            parameters.Add(ViewModel.AppSettings.LineHeight.ToString());
+
+            await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
+        }
+
+        private async void Slider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
+        {
+            if (ViewModel != null)
+            {
+                if (sender == fontSizeSlider)
+                    ViewModel.AppSettings.FontSize = e.NewValue;
+                else
+                    ViewModel.AppSettings.LineHeight = e.NewValue;
+                await ExecuteJavaScript();
+            }
+        }
+
+        private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == sansFamilyButton)
+                ViewModel.AppSettings.FontFamily = "sans";
+            else
+                ViewModel.AppSettings.FontFamily = "serif";
+            await ExecuteJavaScript();
+        }
+
+        private async void ChangeColorSchemeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender == lightColorSchemeButton)
+                ViewModel.AppSettings.ColorScheme = "light";
+            else if (sender == sepiaColorSchemeButton)
+                ViewModel.AppSettings.ColorScheme = "sepia";
+            else
+                ViewModel.AppSettings.ColorScheme = "dark";
+            await ExecuteJavaScript();
         }
     }
 }

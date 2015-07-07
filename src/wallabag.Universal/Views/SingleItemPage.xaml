@@ -1,5 +1,5 @@
 ﻿<Page
-        x:Class="wallabag.Views.SingleItemPage"
+    x:Class="wallabag.Views.SingleItemPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:wallabag.Views"
@@ -13,24 +13,19 @@
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <CommandBar.PrimaryCommands>
-                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{x:Bind ViewModel.CurrentItem.SwitchReadStatusCommand}"/>
-                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
+                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding CurrentItem.SwitchReadStatusCommand}"/>
+                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"/>
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
-                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="350">
+                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="300" RequestedTheme="Light">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition />
-                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                                 <TextBlock Text="TAGS" Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"/>
                                 <controls:TagControl Tags="{Binding CurrentItem.Tags, Mode=TwoWay}" Grid.Row="1"/>
-                                <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="10,3">
-                                    <Button x:Name="SaveTagsButton" Content="Save" Margin="5" Command="{x:Bind ViewModel.CurrentItem.UpdateCommand}"/>
-                                    <Button x:Name="CloseFlyoutButton" Content="Cancel" Margin="5" Click="CloseFlyoutButton_Click"/>
-                                </StackPanel>
                             </Grid>
                         </Flyout>
                     </AppBarButton.Flyout>
@@ -39,32 +34,41 @@
                 <AppBarButton Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
-                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="425">
+                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="425" RequestedTheme="Light">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
                                 <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                                 <TextBlock Text="FONT SETTINGS" Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"/>
+
                                 <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <!-- TODO: selection of the color scheme and the switch between serif and sans-serif -->
+                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel.Resources>
+                                            <Style BasedOn="{StaticResource RoundButtonStyle}" TargetType="Button">
+                                                <Setter Property="Height" Value="32"/>
+                                                <Setter Property="Width" Value="32"/>
+                                                <Setter Property="Margin" Value="4"/>                                                    
+                                            </Style>
+                                        </StackPanel.Resources>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button x:Name="lightColorSchemeButton" Background="White" Click="ChangeColorSchemeButton_Click"/>
+                                            <Button x:Name="sepiaColorSchemeButton" Background="Wheat" Click="ChangeColorSchemeButton_Click"/>
+                                            <Button x:Name="darkColorSchemeButton" Background="#666" Click="ChangeColorSchemeButton_Click"/>
+                                        </StackPanel>
+                                        <Rectangle Height="1" Fill="#666" Margin="12,4"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button x:Name="sansFamilyButton" Content="A" Click="FontFamilyButton_Click"/>
+                                            <Button x:Name="serifFamilyButton" Content="A" FontFamily="Georgia" Click="FontFamilyButton_Click"/>
+                                        </StackPanel>
+                                    </StackPanel>
                                     <StackPanel Grid.Column="1">
-                                        <TextBlock Text="Font size" Margin="5,5,0,7.5"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Style="{ThemeResource RoundButtonStyle}" Content="" FontFamily="Segoe MDL2 Assets" Width="35" Height="35" Margin="5"/>
-                                            <TextBlock Text="18" VerticalAlignment="Center" Margin="5,0" FontWeight="Bold"/>
-                                            <Button Style="{ThemeResource RoundButtonStyle}" Content="" FontFamily="Segoe MDL2 Assets" Width="35" Height="35" Margin="5"/>
-                                        </StackPanel>
-                                        <TextBlock Text="Line height" Margin="5,15,0,7.5"/>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Style="{ThemeResource RoundButtonStyle}" Content="" FontFamily="Segoe MDL2 Assets" Width="35" Height="35" Margin="5"/>
-                                            <TextBlock Text="1.5" VerticalAlignment="Center" Margin="5,0" FontWeight="Bold"/>
-                                            <Button Style="{ThemeResource RoundButtonStyle}" Content="" FontFamily="Segoe MDL2 Assets" Width="35" Height="35" Margin="5"/>
-                                        </StackPanel>
+                                        <Slider x:Name="fontSizeSlider" Margin="4" Header="Font size" Minimum="12" Maximum="26" ValueChanged="Slider_ValueChanged" Value="{Binding AppSettings.FontSize}"/>
+                                        <Slider x:Name="lineHeightSlider" Margin="4" Header="Line height" Minimum="1" Maximum="2" SmallChange="0.1" StepFrequency="0.1" ValueChanged="Slider_ValueChanged" Value="{Binding AppSettings.LineHeight}"/>
                                     </StackPanel>
                                 </Grid>
                             </Grid>
@@ -88,7 +92,7 @@
                 <AppBarButton Label="Delete article">
                     <AppBarButton.Flyout>
                         <Flyout>
-                            <StackPanel>
+                            <StackPanel Margin="12">
                                 <TextBlock Text="The article will be permantely deleted from wallabag."/>
                                 <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Foreground="White" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
                             </StackPanel>
