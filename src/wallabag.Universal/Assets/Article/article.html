@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
-<html>
+<html data-color="light"
+      data-font="serif">
 <head>
     <title>{title}</title>
     <meta charset="utf-8" />
@@ -13,5 +14,14 @@
         <h2><a href="{articleUrl}">{hostname}</a></h2>
     </header>
     <article>{content}</article>
+    <script>
+        function changeHtmlAttributes(color, font, fontsize, lineheight) {{
+            document.getElementsByTagName('html')[0].setAttribute("data-color", color);
+            document.getElementsByTagName('html')[0].setAttribute("data-font", font);
+
+            document.body.style.fontSize = parseFloat(fontsize) + "px";
+            document.body.style.lineHeight = parseFloat(lineheight);
+        }} // The double braces are required otherwise the String.Format method isn't working properly.
+    </script>
 </body>
 </html>
