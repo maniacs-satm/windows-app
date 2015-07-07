@@ -126,16 +126,6 @@ namespace wallabag.Common
         }
         #endregion
 
-        private const string UsernameKey = "Username";
-        private const string PasswordKey = "Password";
-        private const string WallabagUrlKey = "WallabagUrl";
-        private const string FontSizeKey = "FontSize";
-        private const string LineHeightKey = "LineHeight";
-        private const string TextColorKey = "TextColor";
-        private const string BackgroundColorKey = "BackgroundColor";
-        private const string UseSystemAccentColorKey = "UseSystemAccentColor";
-        private const string HamburgerPositionIsRightKey = "HamburgerPositionIsRight";
-
         private string _Username;
         public string Username
         {
@@ -187,35 +177,34 @@ namespace wallabag.Common
 
         public double FontSize
         {
-            get { return GetProperty<double>(FontSizeKey, 18); }
-            set { SetProperty(FontSizeKey, value); }
+            get { return GetProperty<double>(nameof(FontSize), 16); }
+            set { SetProperty(nameof(FontSize), value); }
         }
         public double LineHeight
         {
-            get { return GetProperty<double>(LineHeightKey, 1.5); }
-            set { SetProperty(LineHeightKey, value); }
+            get { return GetProperty(nameof(LineHeight), 1.7); }
+            set { SetProperty(nameof(LineHeight), value); }
         }
-        [Obsolete]
-        public Color TextColor
+        public string FontFamily
         {
-            get { return GetProperty(TextColorKey, ColorHelper.FromArgb(255, 0, 0, 0)); } //#000000
-            set { SetProperty(TextColorKey, value); }
+            get { return GetProperty(nameof(FontFamily), "serif"); }
+            set { SetProperty(nameof(FontFamily), value); }
         }
-        [Obsolete]
-        public Color BackgroundColor
+        public string ColorScheme
         {
-            get { return GetProperty(BackgroundColorKey, ColorHelper.FromArgb(255, 255, 255, 255)); } //#ffffff
-            set { SetProperty(BackgroundColorKey, value); }
+            get { return GetProperty(nameof(ColorScheme), "light"); }
+            set { SetProperty(nameof(ColorScheme), value); }
         }
+
         public bool UseSystemAccentColor
         {
-            get { return GetProperty(UseSystemAccentColorKey, false); }
-            set { SetProperty(UseSystemAccentColorKey, value); }
+            get { return GetProperty(nameof(UseSystemAccentColor), false); }
+            set { SetProperty(nameof(UseSystemAccentColor), value); }
         }
         public bool HamburgerPositionIsRight
         {
-            get { return GetProperty(HamburgerPositionIsRightKey, false); }
-            set { SetProperty(HamburgerPositionIsRightKey, value); }
+            get { return GetProperty(nameof(HamburgerPositionIsRight), false); }
+            set { SetProperty(nameof(HamburgerPositionIsRight), value); }
         }
     }
 }
