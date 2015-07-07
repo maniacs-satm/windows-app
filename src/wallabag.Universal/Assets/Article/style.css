@@ -185,3 +185,29 @@ mark {
   text-decoration: none;
   color: #666666 !important;
 }
+/*-----------------------------------------------------------------*/
+
+/*----------------------- Customization ---------------------------*/
+
+/*-----------------------------------------------------------------*/
+
+[data-font="serif"] body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+[data-font="sans"] body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+[data-color="light"] body {
+  background: white;
+  color: black;
+}
+[data-color="light"] a {
+  color: #333333;
+}
+[data-color="dark"] body {
+  background: #333333;
+  color: #cccccc;
+}
+[data-color="dark"] a {
+  color: #e6e6e6;
+}
