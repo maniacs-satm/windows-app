@@ -37,6 +37,7 @@ namespace wallabag.Views
 
                 ApplicationView.GetForCurrentView().Title = ViewModel.CurrentItem.Model.Title;
                 WebView.NavigateToString(ViewModel.CurrentItem.ContentWithHeader);
+                WebView.NavigationCompleted += async (sender, args) => { await ExecuteJavaScript(); };
             }
 
             var backStack = Frame.BackStack;
