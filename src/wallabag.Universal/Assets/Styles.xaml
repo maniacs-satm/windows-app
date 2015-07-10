@@ -141,14 +141,12 @@
         </Setter>
     </Style>
     <Style x:Key="IconButtonStyle" TargetType="Button">
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Height" Value="48"/>
         <Setter Property="MinWidth" Value="48"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="RequestedTheme" Value="Dark"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -162,14 +160,14 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
-                                        <Setter Target="Symbol.Foreground"           Value="{ThemeResource SystemControlBackgroundAltHighBrush}"/>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        <Setter Target="Symbol.Foreground"           Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                        <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
+                                        <Setter Target="ContentPresenter.Foreground" Value="White"/>
+                                        <Setter Target="Symbol.Foreground" Value="White"/>
                                         <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                                     </VisualState.Setters>
                                     <!--<Storyboard>
