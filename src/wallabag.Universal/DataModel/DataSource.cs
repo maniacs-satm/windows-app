@@ -69,7 +69,7 @@ namespace wallabag.DataModel
                     var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                     SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
 
-                    foreach (var item in json.Embedded.Items)
+                   foreach (var item in json.Embedded.Items)
                     {
                         var result = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
@@ -133,10 +133,10 @@ namespace wallabag.DataModel
 
         public static async Task InitializeDatabase()
         {
-            // TODO: Currently it's replacing the database every time. In the final release it should stop doing it.
-            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.OpenIfExists);
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
+            await conn.CreateTableAsync<Tag>();
         }
     }
 
