@@ -43,7 +43,7 @@ namespace wallabag.ViewModels
             if (state.ContainsKey(nameof(IsMenuOpen)))
                 IsMenuOpen = (bool)state[nameof(IsMenuOpen)];
             if (state.ContainsKey(nameof(CurrentItem.Model.Id)))
-                CurrentItem = await DataSource.GetItemAsync((int)state[nameof(CurrentItem.Model.Id)]);
+                CurrentItem = new ItemViewModel(await DataSource.GetItemAsync((int)state[nameof(CurrentItem.Model.Id)]));
 
             await LoadItems(new FilterProperties());
         }
