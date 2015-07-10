@@ -7,9 +7,9 @@ namespace wallabag.Services.NavigationService
         public NavigatingEventArgs() { }
         public NavigatingEventArgs(NavigatingCancelEventArgs e)
         {
-            this.NavigationMode = e.NavigationMode;
-            this.PageType = e.SourcePageType;
-            this.Parameter = e.Parameter?.ToString();
+            NavigationMode = e.NavigationMode;
+            PageType = e.SourcePageType;
+            Parameter = e.Parameter?.ToString();
         }
         public bool Cancel { get; set; } = false;
         public bool Suspending { get; set; } = false;

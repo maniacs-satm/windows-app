@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using wallabag.DataModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,7 +11,7 @@ namespace wallabag.Controls
     {
         public TagControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public ICollection<Tag> Tags

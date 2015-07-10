@@ -8,9 +8,9 @@ namespace wallabag.Services.NavigationService
         public NavigatedEventArgs() { }
         public NavigatedEventArgs(NavigationEventArgs e)
         {
-            this.PageType = e.SourcePageType;
-            this.Parameter = e.Parameter?.ToString();
-            this.NavigationMode = e.NavigationMode;
+            PageType = e.SourcePageType;
+            Parameter = e.Parameter?.ToString();
+            NavigationMode = e.NavigationMode;
         }
         public NavigationMode NavigationMode { get; set; }
         public Type PageType { get; set; }

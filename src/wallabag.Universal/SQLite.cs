@@ -77,7 +77,7 @@ namespace SQLite
         {
             if (mapping != null && obj != null)
             {
-                this.Columns = from c in mapping.Columns
+                Columns = from c in mapping.Columns
                                where c.IsNullable == false && c.GetValue(obj) == null
                                select c;
             }
@@ -1356,7 +1356,7 @@ namespace SQLite
             catch (SQLiteException ex)
             {
 
-                if (SQLite3.ExtendedErrCode(this.Handle) == SQLite3.ExtendedResult.ConstraintNotNull)
+                if (SQLite3.ExtendedErrCode(Handle) == SQLite3.ExtendedResult.ConstraintNotNull)
                 {
                     throw NotNullConstraintViolationException.New(ex.Result, ex.Message, map, obj);
                 }
@@ -1440,7 +1440,7 @@ namespace SQLite
             catch (SQLiteException ex)
             {
 
-                if (ex.Result == SQLite3.Result.Constraint && SQLite3.ExtendedErrCode(this.Handle) == SQLite3.ExtendedResult.ConstraintNotNull)
+                if (ex.Result == SQLite3.Result.Constraint && SQLite3.ExtendedErrCode(Handle) == SQLite3.ExtendedResult.ConstraintNotNull)
                 {
                     throw NotNullConstraintViolationException.New(ex, map, obj);
                 }

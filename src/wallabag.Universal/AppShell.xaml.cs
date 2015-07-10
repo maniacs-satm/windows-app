@@ -97,13 +97,6 @@ namespace wallabag.Universal
                 }
                 else
                 {
-                    if (Window.Current.Bounds.Width >= 720)
-                    {
-                        splitView.DisplayMode = SplitViewDisplayMode.Inline;
-                        splitView.IsPaneOpen = true;
-                    }
-                    else
-                        splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
                     HamburgerToggleButton.Visibility = Visibility.Visible;
                     if (DefaultState.StateTriggers.Count == 0)
                         DefaultState.StateTriggers.Add(_defaultStateTrigger);

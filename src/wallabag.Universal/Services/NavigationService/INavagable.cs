@@ -9,7 +9,7 @@ namespace wallabag.Services.NavigationService
     {
         void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state);
         Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending);
-        void OnNavigatingFrom(Services.NavigationService.NavigatingEventArgs args);
+        void OnNavigatingFrom(NavigatingEventArgs args);
         Action<Action> Dispatch { get; set; }
         string ViewModelIdentifier { get; set; }
     }
