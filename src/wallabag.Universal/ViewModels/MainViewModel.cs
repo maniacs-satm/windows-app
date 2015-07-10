@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PropertyChanged;
 using wallabag.Common.Mvvm;
 using wallabag.DataModel;
+using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
 {
@@ -11,6 +13,7 @@ namespace wallabag.ViewModels
     {
         public override string ViewModelIdentifier { get; set; } = "MainViewModel";
 
+        #region Properties
         private ObservableCollection<ItemViewModel> _Items = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<ItemViewModel> Items
         {
@@ -20,7 +23,9 @@ namespace wallabag.ViewModels
 
         public ItemViewModel CurrentItem { get; set; }
         public bool CurrentItemIsNotNull { get { return CurrentItem != null; } }
+        #endregion
 
+        #region Tasks & Commands
         private async Task LoadItems(FilterProperties FilterProperties)
         {
             Items.Clear();
@@ -29,6 +34,14 @@ namespace wallabag.ViewModels
         }
 
         public Command RefreshCommand { get; private set; }
+        public Command NavigateToSettingsPageCommand { get; private set; }
+        #endregion
+
+        public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
+            base.OnNavigatedTo(parameter, mode, state);
+            await LoadItems(new FilterProperties());
+        }
 
         public MainViewModel()
         {
@@ -36,6 +49,11 @@ namespace wallabag.ViewModels
             {
                 await DataSource.RefreshItems();
                 await LoadItems(new FilterProperties());
+            });
+            NavigateToSettingsPageCommand = new Command(() =>
+            {
+                if (NavigationService.CurrentPageType != typeof(Views.SettingsPage))
+                    NavigationService.Navigate(typeof(Views.SettingsPage));
             });
         }
     }
