@@ -1,10 +1,11 @@
 ﻿using System;
-using Windows.UI.Xaml;
 using System.Threading.Tasks;
+using wallabag.Universal;
 using Windows.ApplicationModel;
-using Windows.UI.Xaml.Controls;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace wallabag.Common
 {
@@ -54,7 +55,7 @@ namespace wallabag.Common
 
         #region properties
 
-        public Frame RootFrame { get; set; }
+        public AppShell RootFrame { get; set; }
         public Action<Action> Dispatch { get; private set; }
         public Services.NavigationService.NavigationService NavigationService { get; private set; }
         protected Func<SplashScreen, Page> SplashFactory { get; set; }
@@ -92,9 +93,9 @@ namespace wallabag.Common
             }
 
             // setup frame
-            RootFrame = RootFrame ?? new Frame();
+            RootFrame = RootFrame ?? new AppShell();
             RootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
-            NavigationService = new Services.NavigationService.NavigationService(RootFrame);
+            NavigationService = new Services.NavigationService.NavigationService(RootFrame.AppFrame);
 
             // expire state
             var state = NavigationService.State();
@@ -212,6 +213,6 @@ namespace wallabag.Common
 
         #endregion
 
-        public class HandledEventArgs : EventArgs { public System.Boolean Handled { get; set; } }
+        public class HandledEventArgs : EventArgs { public bool Handled { get; set; } }
     }
 }
