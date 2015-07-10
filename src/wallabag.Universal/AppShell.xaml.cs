@@ -7,13 +7,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace wallabag.Universal
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class AppShell : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
@@ -41,44 +36,10 @@ namespace wallabag.Universal
             {
                 CheckTogglePaneButtonSizeChanged();
             });
-
-            SystemNavigationManager.GetForCurrentView().BackRequested += AppShell_BackRequested;
         }
-
-        #region BackRequested Handlers
-
-        private void AppShell_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            bool handled = e.Handled;
-            BackRequested(ref handled);
-            e.Handled = handled;
-        }
-
-        private void BackRequested(ref bool handled)
-        {
-            // Get a hold of the current frame so that we can inspect the app back stack.
-            if (AppFrame == null)
-                return;
-
-            // Check to see if this is the top-most page on the app back stack.
-            if (AppFrame.CanGoBack && !handled)
-            {
-                // If not, set the event to handled and go back to the previous page in the app.
-                handled = true;
-                AppFrame.GoBack();
-            }
-        }
-
-        #endregion
 
         #region Navigation
-
         private StateTriggerBase _defaultStateTrigger;
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            frame.Navigate(typeof(Views.ContentPage));
-        }
 
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
         {
@@ -90,7 +51,7 @@ namespace wallabag.Universal
 
                 // If navigating to the SingleItemPage, hide the menu.
                 if (e.Content.GetType() == typeof(Views.SingleItemPage))
-                {
+                {                    
                     splitView.IsPaneOpen = false;
                     splitView.DisplayMode = SplitViewDisplayMode.Overlay;
                     HamburgerToggleButton.Visibility = Visibility.Collapsed;

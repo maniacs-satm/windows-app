@@ -18,7 +18,7 @@ namespace wallabag.Universal
             if (!Common.AppSettings.Instance.UseSystemAccentColor)
                 Current.Resources["SystemAccentColor"] = Windows.UI.ColorHelper.FromArgb(0xFF, 0x66, 0x66, 0x66);
 
-            NavigationService.Navigate(typeof(AppShell));
+            NavigationService.Navigate(typeof(Views.ContentPage));
         }
     }
 }
