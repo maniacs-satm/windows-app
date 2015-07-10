@@ -86,7 +86,7 @@
                     </StackPanel>
                     <StackPanel Grid.Row="1" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Julian"/>
-                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Click="SettingsMenuButton_Click"/>
+                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>
