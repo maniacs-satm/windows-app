@@ -4,13 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:wallabag.Universal"
     xmlns:common="using:wallabag.Common">
-    <Application.RequestedTheme>Light</Application.RequestedTheme>
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Assets/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <x:String x:Key="AppName">wallabag</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </common:BootStrapper>

@@ -9,7 +9,7 @@
     xmlns:data="using:wallabag.DataModel"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           Loaded="Grid_Loaded">
         <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1" Padding="2,50,2,2"
@@ -38,7 +38,6 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <ProgressRing Height="100" Width="100" IsActive="True" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1"/>
         <CommandBar VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <AppBarButton Icon="Find" Label="Search"/>
             <AppBarSeparator/>

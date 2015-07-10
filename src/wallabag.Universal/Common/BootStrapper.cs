@@ -64,26 +64,12 @@ namespace wallabag.Common
         #endregion
 
         #region activated
-
-        [Obsolete("Use OnStartAsync()")]
         protected override async void OnActivated(IActivatedEventArgs e) { await InternalActivatedAsync(e); }
-
-        [Obsolete("Use OnStartAsync()")]
         protected override async void OnCachedFileUpdaterActivated(CachedFileUpdaterActivatedEventArgs args) { await InternalActivatedAsync(args); }
-
-        [Obsolete("Use OnStartAsync()")]
         protected override async void OnFileActivated(FileActivatedEventArgs args) { await InternalActivatedAsync(args); }
-
-        [Obsolete("Use OnStartAsync()")]
         protected override async void OnFileOpenPickerActivated(FileOpenPickerActivatedEventArgs args) { await InternalActivatedAsync(args); }
-
-        [Obsolete("Use OnStartAsync()")]
         protected override async void OnFileSavePickerActivated(FileSavePickerActivatedEventArgs args) { await InternalActivatedAsync(args); }
-
-        [Obsolete("Use OnStartAsync()")]
         protected override async void OnSearchActivated(SearchActivatedEventArgs args) { await InternalActivatedAsync(args); }
-
-        [Obsolete("Use OnStartAsync()")]
         protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args) { await InternalActivatedAsync(args); }
 
         private async Task InternalActivatedAsync(IActivatedEventArgs e)
@@ -93,8 +79,7 @@ namespace wallabag.Common
         }
 
         #endregion
-
-        [Obsolete("Use OnStartAsync()")]
+        
         protected override void OnLaunched(LaunchActivatedEventArgs e) { InternalLaunchAsync(e as ILaunchActivatedEventArgs); }
 
         private async void InternalLaunchAsync(ILaunchActivatedEventArgs e)
