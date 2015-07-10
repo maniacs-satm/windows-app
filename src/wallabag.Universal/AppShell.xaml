@@ -51,7 +51,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SplitView x:Name="splitView">
+        <SplitView x:Name="splitView" IsPaneOpen="{x:Bind ViewModel.IsMenuOpen, Mode=TwoWay}">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>

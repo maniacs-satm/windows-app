@@ -23,6 +23,7 @@ namespace wallabag.ViewModels
 
         public ItemViewModel CurrentItem { get; set; }
         public bool CurrentItemIsNotNull { get { return CurrentItem != null; } }
+        public bool IsMenuOpen { get; set; }
         #endregion
 
         #region Tasks & Commands
@@ -39,8 +40,19 @@ namespace wallabag.ViewModels
 
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            base.OnNavigatedTo(parameter, mode, state);
+            if (state.ContainsKey(nameof(IsMenuOpen)))
+                IsMenuOpen = (bool)state[nameof(IsMenuOpen)];
+            if (state.ContainsKey(nameof(CurrentItem.Model.Id)))
+                CurrentItem = await DataSource.GetItemAsync((int)state[nameof(CurrentItem.Model.Id)]);
+
             await LoadItems(new FilterProperties());
+        }
+
+        public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
+        {
+            state[nameof(CurrentItem.Model.Id)] = CurrentItem.Model.Id;
+            state[nameof(IsMenuOpen)] = IsMenuOpen;
+            return base.OnNavigatedFromAsync(state, suspending);
         }
 
         public MainViewModel()
@@ -54,7 +66,7 @@ namespace wallabag.ViewModels
             {
                 if (NavigationService.CurrentPageType != typeof(Views.SettingsPage))
                     NavigationService.Navigate(typeof(Views.SettingsPage));
-            });
+            });            
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using wallabag.Common;
+using wallabag.ViewModels;
 using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -15,6 +16,7 @@ namespace wallabag.Universal
     /// </summary>
     public sealed partial class AppShell : Page
     {
+        public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
         public Frame AppFrame { get { return frame; } }
         public static AppShell Current = null;
 
@@ -65,7 +67,7 @@ namespace wallabag.Universal
                 handled = true;
                 AppFrame.GoBack();
             }
-        }             
+        }
 
         #endregion
 
