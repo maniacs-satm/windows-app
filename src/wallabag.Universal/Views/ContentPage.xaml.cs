@@ -26,26 +26,7 @@ namespace wallabag.Views
             ViewModel.CurrentItem = clickedItem;
 
             Frame.Navigate(typeof(SingleItemPage), clickedItem.Model.Id, new DrillInNavigationTransitionInfo());
-        }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            if (ViewModel == null)
-                ViewModel = new MainViewModel();
-
-            if (e.Parameter != null && e.Parameter.GetType() == typeof(int))
-            {
-                var id = (int)e.Parameter;
-                ViewModel.CurrentItem = new ItemViewModel(await DataSource.GetItemAsync(id));
-            }
-
-            if (ViewModel.CurrentItemIsNotNull)
-                ItemGridView.SelectedItem = ViewModel.CurrentItem;
-
-            ViewModel.RefreshCommand.Execute(0);
-        }
+        }              
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
