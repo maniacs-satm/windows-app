@@ -65,19 +65,19 @@ namespace wallabag.Universal
                 handled = true;
                 AppFrame.GoBack();
             }
-        }
-
-        private void backButton_Click(object sender, RoutedEventArgs e)
-        {
-            bool ignored = false;
-            BackRequested(ref ignored);
-        }
+        }             
 
         #endregion
 
         #region Navigation
 
         private StateTriggerBase _defaultStateTrigger;
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            frame.Navigate(typeof(Views.ContentPage));
+        }
+
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
         {
             // After a successful navigation set keyboard focus to the loaded page
@@ -153,18 +153,6 @@ namespace wallabag.Universal
         }
 
         #endregion
-
-        private void UnreadItemsMenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (AppFrame.Content.GetType() != typeof(Views.ContentPage))
-                AppFrame.Navigate(typeof(Views.ContentPage));
-        }
-
-        private void SettingsMenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (AppFrame.Content.GetType() != typeof(Views.SettingsPage))
-                AppFrame.Navigate(typeof(Views.SettingsPage));
-        }
 
         private async void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
