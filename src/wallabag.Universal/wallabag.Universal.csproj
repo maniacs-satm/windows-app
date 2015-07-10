@@ -98,8 +98,8 @@
     <Compile Include="Common\BootStrapper.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Helpers.cs" />
-    <Compile Include="Common\MVVM\ObservableDictionary.cs" />
-    <Compile Include="Common\MVVM\RelayCommand.cs" />
+    <Compile Include="Common\MVVM\BindableBase.cs" />
+    <Compile Include="Common\MVVM\Command.cs" />
     <Compile Include="Common\MVVM\ViewModelBase.cs" />
     <Compile Include="Common\VisualStateTriggers\IsTypePresentStateTrigger.cs" />
     <Compile Include="Controls\PageHeader.xaml.cs">

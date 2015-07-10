@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PropertyChanged;
 using wallabag.Common;
-using wallabag.Common.MVVM;
+using wallabag.Common.Mvvm;
 using wallabag.DataModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -13,13 +13,15 @@ namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class SingleItemPageViewModel : ViewModelBase
-    {
+     {
+        public override string ViewModelIdentifier { get; set; } = "SingleItemPageViewModel";
+
         public ItemViewModel CurrentItem { get; set; }
 
-        public RelayCommand DownloadItemCommand { get; private set; }
+        public Command DownloadItemCommand { get; private set; }
         public SingleItemPageViewModel()
         {
-            DownloadItemCommand = new RelayCommand(async () => { await DownloadItem(); });
+            DownloadItemCommand = new Command(async () => { await DownloadItem(); });
         }
 
         public async Task DownloadItem()
@@ -41,7 +43,7 @@ namespace wallabag.ViewModels
                 using (HttpClient http = new HttpClient())
                 {
                     // TODO: Currently just downloading the login page :/
-                    Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
+                    Uri downloadUrl =new Uri( $"{AppSettings.Instance.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
                     await Helpers.AddHeaders(http);
 

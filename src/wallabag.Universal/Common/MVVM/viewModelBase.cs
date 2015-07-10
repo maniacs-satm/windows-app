@@ -1,54 +1,27 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using wallabag.Services.NavigationService;
+using Windows.UI.Xaml.Navigation;
 
-namespace wallabag.Common.MVVM
+namespace wallabag.Common.Mvvm
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public abstract class ViewModelBase : BindableBase, INavigable
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public AppSettings AppSettings { get { return AppSettings.Instance; } }
-
-        private bool _IsActive;
-        private string _StatusText;
-
-        public bool IsActive
+        public ViewModelBase()
         {
-            get { return _IsActive; }
-            set
+            if (!Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
-                _IsActive = value;
-                RaisePropertyChanged("IsActive");
-
-#if WINDOWS_PHONE_APP    
-                var statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
-                if (value)
-                    statusBar.ProgressIndicator.ShowAsync();
-                else 
-                    statusBar.ProgressIndicator.HideAsync();
-#endif
+                Dispatch = (Windows.UI.Xaml.Application.Current as BootStrapper).Dispatch;
+                NavigationService = (Windows.UI.Xaml.Application.Current as BootStrapper).NavigationService;
             }
         }
-        public string StatusText
-        {
-            get { return _StatusText; }
-            set
-            {
-                _StatusText = value;
-                RaisePropertyChanged("StatusText");
+        public Action<Action> Dispatch { get; set; }
+        public NavigationService NavigationService { get; private set; }
+        public abstract string ViewModelIdentifier { get; set; }
 
-#if WINDOWS_PHONE_APP
-                if (!string.IsNullOrWhiteSpace(value))
-                    Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.Text = value;
-#endif
-            }
-        }
-
-        public virtual void RaisePropertyChanged(string propertyName)
-        {
-            var propertyChanged = PropertyChanged;
-            if (propertyChanged != null)
-            {
-                propertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        public virtual void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state) { /* nothing by default */ }
+        public virtual Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending) { return Task.FromResult<object>(null); }
+        public virtual void OnNavigatingFrom(NavigatingEventArgs args) { /* nothing by default */ }
     }
 }

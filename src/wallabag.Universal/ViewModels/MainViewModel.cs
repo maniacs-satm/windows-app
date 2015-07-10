@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PropertyChanged;
-using wallabag.Common.MVVM;
+using wallabag.Common.Mvvm;
 using wallabag.DataModel;
 
 namespace wallabag.ViewModels
@@ -9,6 +9,8 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class MainViewModel : ViewModelBase
     {
+        public override string ViewModelIdentifier { get; set; } = "MainViewModel";
+
         private ObservableCollection<ItemViewModel> _Items = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<ItemViewModel> Items
         {
@@ -21,18 +23,16 @@ namespace wallabag.ViewModels
 
         private async Task LoadItems(FilterProperties FilterProperties)
         {
-            IsActive = true;
             Items.Clear();
             foreach (Item i in await DataSource.GetItemsAsync(FilterProperties))
                 Items.Add(new ItemViewModel(i));
-            IsActive = false;
         }
 
-        public RelayCommand RefreshCommand { get; private set; }
+        public Command RefreshCommand { get; private set; }
 
         public MainViewModel()
         {
-            RefreshCommand = new RelayCommand(async () =>
+            RefreshCommand = new Command(async () =>
             {
                 await DataSource.RefreshItems();
                 await LoadItems(new FilterProperties());

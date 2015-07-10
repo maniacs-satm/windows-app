@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
 using wallabag.Common;
-using wallabag.Common.MVVM;
+using wallabag.Common.Mvvm;
 using Windows.Storage;
 using Windows.Web.Http;
 
@@ -15,6 +15,9 @@ namespace wallabag.DataModel
     [ImplementPropertyChanged]
     public class ItemViewModel : ViewModelBase
     {
+        public override string ViewModelIdentifier { get; set; } = "ItemViewModel";
+
+
         #region Properties
         public Item Model { get; set; }
         public ObservableCollection<Tag> Tags { get; set; }
@@ -47,10 +50,10 @@ namespace wallabag.DataModel
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
-            UpdateCommand = new RelayCommand(async () => await Update());
-            DeleteCommand = new RelayCommand(async () => await Delete());
-            SwitchReadStatusCommand = new RelayCommand(async () => await SwitchReadStatus());
-            SwitchFavoriteStatusCommand = new RelayCommand(async () => await SwitchFavoriteStatus());
+            UpdateCommand = new Command(async () => await Update());
+            DeleteCommand = new Command(async () => await Delete());
+            SwitchReadStatusCommand = new Command(async () => await SwitchReadStatus());
+            SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteStatus());
 
             Tags = Model.TagsString.ToObservableCollection();
             Tags.CollectionChanged += Tags_CollectionChanged;
@@ -67,18 +70,18 @@ namespace wallabag.DataModel
                     await AddTags(item.Label);
         }
 
-        public RelayCommand UpdateCommand { get; private set; }
-        public RelayCommand DeleteCommand { get; private set; }
-        public RelayCommand SwitchReadStatusCommand { get; private set; }
-        public RelayCommand SwitchFavoriteStatusCommand { get; private set; }
+        public Command UpdateCommand { get; private set; }
+        public Command DeleteCommand { get; private set; }
+        public Command SwitchReadStatusCommand { get; private set; }
+        public Command SwitchFavoriteStatusCommand { get; private set; }
 
-        #region Methods
+              #region Methods
         public async Task<bool> Delete()
         {
             HttpClient http = new HttpClient();
 
             await Helpers.AddHeaders(http);
-            var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
+            var response = await http.DeleteAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries/{Model.Id}.json"));
             http.Dispose();
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -104,7 +107,7 @@ namespace wallabag.DataModel
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
             try
             {
-                var response = await http.PatchAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"), content);
+                var response = await http.PatchAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries/{Model.Id}.json"), content);
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok)
@@ -131,7 +134,7 @@ namespace wallabag.DataModel
             await Helpers.AddHeaders(http);
             try
             {
-                var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
+                var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries/{Model.Id}.json"));
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok)
@@ -154,7 +157,7 @@ namespace wallabag.DataModel
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
             try
             {
-                var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
+                var response = await http.PostAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries/{Model.Id}/tags.json"), content);
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok)
@@ -176,7 +179,7 @@ namespace wallabag.DataModel
             await Helpers.AddHeaders(http);
             try
             {
-                var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags/{tag.Id}.json"));
+                var response = await http.DeleteAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries/{Model.Id}/tags/{tag.Id}.json"));
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok)

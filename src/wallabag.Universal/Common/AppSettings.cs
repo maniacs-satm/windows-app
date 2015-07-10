@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using wallabag.Common.MVVM;
 using Windows.Security.Credentials;
 using Windows.Storage;
-using Windows.UI;
 
 namespace wallabag.Common
 {
@@ -22,18 +20,18 @@ namespace wallabag.Common
         private ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
 
         /// <summary>
-        /// Why a ObservableDictionary instead of instant access?
+        /// Why a Dictionary instead of instant access?
         /// Because it's faster.
         /// </summary>
-        private ObservableDictionary _settings;
-        public ObservableDictionary Settings
+        private Dictionary<string,object> _settings;
+        public Dictionary<string, object> Settings
         {
             get
             {
                 // For the first access on the settings, we load the data from the current sync state.
                 if (_settings == null || _settings.Count == 0)
                 {
-                    _settings = new ObservableDictionary();
+                    _settings = new Dictionary<string, object>();
                     foreach (var s in ApplicationData.Current.RoamingSettings.Values)
                     {
                         _settings.Add(s.Key, s.Value);
