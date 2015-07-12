@@ -9,9 +9,12 @@
     xmlns:data="using:wallabag.DataModel"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
+    
+    <Page.DataContext>
+        <vm:MainViewModel />
+    </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-          Loaded="Grid_Loaded">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1" Padding="2,50,2,2"
                           IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
