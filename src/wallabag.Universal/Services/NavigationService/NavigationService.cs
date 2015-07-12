@@ -109,25 +109,25 @@ namespace wallabag.Services.NavigationService
                 var dataContext = page.DataContext as INavigable;
                 if (dataContext != null)
                 {
-                    if (dataContext.ViewModelIdentifier != null && (mode == NavigationMode.Forward || mode == NavigationMode.Back))
-                    {
-                        // don't call load if cached && navigating back/forward
-                        return;
-                    }
-                    else
-                    {
-                        // setup dispatcher to correct thread
-                        var dispatch = new Action<Action>(async action =>
+                    //if (dataContext.ViewModelIdentifier != null && (mode == NavigationMode.Forward || mode == NavigationMode.Back))
+                    //{
+                    //    // don't call load if cached && navigating back/forward
+                    //    return;
+                    //}
+                    //else
+                    //{
+                    // setup dispatcher to correct thread
+                    var dispatch = new Action<Action>(async action =>
                         {
                             if (page.Dispatcher.HasThreadAccess) { action(); }
                             else { await page.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => action()); }
                         });
-                        dataContext.Dispatch = dispatch;
+                    dataContext.Dispatch = dispatch;
 
-                        // prepare for state load
-                        var state = State(page.GetType());
-                        dataContext.OnNavigatedTo(parameter, mode, state);
-                    }
+                    // prepare for state load
+                    var state = State(page.GetType());
+                    dataContext.OnNavigatedTo(parameter, mode, state);
+                    //}
                 }
             }
         }
@@ -196,6 +196,8 @@ namespace wallabag.Services.NavigationService
 
         public Type CurrentPageType { get { return _frame.CurrentPageType; } }
         public string CurrentPageParam { get { return _frame.CurrentPageParam; } }
+
+        public static NavigationService ApplicationNavigationService { get { return ((Windows.UI.Xaml.Application.Current as Common.BootStrapper).NavigationService); } }
     }
 }
 

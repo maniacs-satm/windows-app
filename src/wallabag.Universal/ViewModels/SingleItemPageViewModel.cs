@@ -7,23 +7,19 @@ using wallabag.Common.Mvvm;
 using wallabag.DataModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class SingleItemPageViewModel : ViewModelBase
-     {
+    {
         public override string ViewModelIdentifier { get; set; } = "SingleItemPageViewModel";
 
         public ItemViewModel CurrentItem { get; set; }
 
         public Command DownloadItemCommand { get; private set; }
-        public SingleItemPageViewModel()
-        {
-            DownloadItemCommand = new Command(async () => { await DownloadItem(); });
-        }
-
         public async Task DownloadItem()
         {
             // Let the user select the download path
@@ -52,5 +48,29 @@ namespace wallabag.ViewModels
                         await FileIO.WriteBufferAsync(file, await response.Content.ReadAsBufferAsync());
                 }
         }
+
+        public SingleItemPageViewModel()
+        {
+            DownloadItemCommand = new Command(async () => { await DownloadItem(); });
+        }
+
+        public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
+            if (!string.IsNullOrWhiteSpace(parameter))
+            {
+                CurrentItem = new ItemViewModel(await DataSource.GetItemAsync(int.Parse(parameter)));
+                await CurrentItem.CreateContentFromTemplate();
+
+                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;
+            }
+        }
+
+        public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
+        {
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = string.Empty;
+
+            return base.OnNavigatedFromAsync(state, suspending);
+        }
+
     }
 }

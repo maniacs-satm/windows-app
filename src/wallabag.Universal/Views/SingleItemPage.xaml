@@ -8,8 +8,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:triggers="using:wallabag.Common.VisualStateTriggers"
     xmlns:controls="using:wallabag.Controls"
+    xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
 
+    <Page.DataContext>
+        <vm:SingleItemPageViewModel/>
+    </Page.DataContext>
+    
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <CommandBar.PrimaryCommands>
@@ -104,6 +109,6 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView x:Name="WebView"/>
+        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{Binding CurrentItem.ContentWithHeader}"/>
     </Grid>
 </Page>
