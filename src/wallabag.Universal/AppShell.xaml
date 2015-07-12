@@ -104,8 +104,7 @@
             </Frame>
         </SplitView>
         <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}"
-                      IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}"
-                      TabIndex="1" Checked="HamburgerToggleButton_Checked"/>
+                      IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" TabIndex="1"/>
         <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" Grid.RowSpan="2"
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">

@@ -23,7 +23,6 @@ namespace wallabag.Universal
             {
                 Current = this;
                 HamburgerToggleButton.Focus(FocusState.Programmatic);
-                CheckTogglePaneButtonSizeChanged();
 
                 if (AppSettings.Instance.HamburgerPositionIsRight)
                 {
@@ -31,15 +30,13 @@ namespace wallabag.Universal
                     splitView.PanePlacement = SplitViewPanePlacement.Right;
                 }
             };
-
-            splitView.RegisterPropertyChangedCallback(SplitView.DisplayModeProperty, (sender, args) =>
-            {
-                CheckTogglePaneButtonSizeChanged();
-            });
         }
 
         #region Navigation
+
         private StateTriggerBase _defaultStateTrigger;
+        private SplitViewDisplayMode _lastSplitViewDisplayMode = SplitViewDisplayMode.CompactInline;
+        private bool _isPaneOpen = false;
 
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
         {
@@ -51,11 +48,15 @@ namespace wallabag.Universal
 
                 // If navigating to the SingleItemPage, hide the menu.
                 if (e.Content.GetType() == typeof(Views.SingleItemPage))
-                {                    
+                {
+                    // Save the current values in the variables before overriding them
+                    _defaultStateTrigger = DefaultState.StateTriggers[0];
+                    _lastSplitViewDisplayMode = splitView.DisplayMode;
+                    _isPaneOpen = splitView.IsPaneOpen;
+
                     splitView.IsPaneOpen = false;
                     splitView.DisplayMode = SplitViewDisplayMode.Overlay;
                     HamburgerToggleButton.Visibility = Visibility.Collapsed;
-                    _defaultStateTrigger = DefaultState.StateTriggers[0];
                     DefaultState.StateTriggers.Clear();
                 }
                 else
@@ -63,6 +64,9 @@ namespace wallabag.Universal
                     HamburgerToggleButton.Visibility = Visibility.Visible;
                     if (DefaultState.StateTriggers.Count == 0)
                         DefaultState.StateTriggers.Add(_defaultStateTrigger);
+
+                    splitView.DisplayMode = _lastSplitViewDisplayMode;
+                    splitView.IsPaneOpen = _isPaneOpen;
                 }
 
                 if (AppFrame != null && AppFrame.CanGoBack)
@@ -79,44 +83,7 @@ namespace wallabag.Universal
         }
 
         #endregion
-
-        #region Hamburger button
-
-        public Rect TogglePaneButtonRect { get; private set; }
-        public event TypedEventHandler<AppShell, Rect> TogglePaneButtonRectChanged;
-
-        /// <summary>
-        /// Check for the conditions where the navigation pane does not occupy the space under the floating 
-        /// hamburger button and trigger the event.
-        /// </summary>
-        private void CheckTogglePaneButtonSizeChanged()
-        {
-            if (splitView.DisplayMode == SplitViewDisplayMode.Inline ||
-                splitView.DisplayMode == SplitViewDisplayMode.Overlay)
-            {
-                var transform = HamburgerToggleButton.TransformToVisual(this);
-                var rect = transform.TransformBounds(new Rect(0, 0, HamburgerToggleButton.ActualWidth, HamburgerToggleButton.ActualHeight));
-                TogglePaneButtonRect = rect;
-            }
-            else
-            {
-                TogglePaneButtonRect = new Rect();
-            }
-
-            var handler = TogglePaneButtonRectChanged;
-            if (handler != null)
-            {
-                handler(this, TogglePaneButtonRect);
-            }
-        }
-
-        private void HamburgerToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckTogglePaneButtonSizeChanged();
-        }
-
-        #endregion
-
+       
         private async void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
             await AddItemContentDialog.ShowAsync();
