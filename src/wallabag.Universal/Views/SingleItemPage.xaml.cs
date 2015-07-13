@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PropertyChanged;
 using wallabag.Common;
-using wallabag.DataModel;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -25,6 +23,7 @@ namespace wallabag.Views
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += SingleItemPage_DataRequested;
+            WebView.ScriptNotify += WebView_ScriptNotify;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -68,7 +67,14 @@ namespace wallabag.Views
             parameters.Add(AppSettings.Instance.LineHeight.ToString());
 
             if (ViewModel.CurrentItem != null)
-            await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
+                await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
+        }
+
+        private void WebView_ScriptNotify(object sender, NotifyEventArgs e)
+        {
+            float progress;
+            float.TryParse(e.Value, out progress);
+            ViewModel.CurrentItem.Model.ReadingProgress = progress;
         }
 
         private async void Slider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)

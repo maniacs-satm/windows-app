@@ -69,6 +69,8 @@ namespace wallabag.DataModel
 
         public string TagsString { get; set; }
 
+        public float ReadingProgress { get; set; }
+
         public override string ToString()
         {
             return Title;
