@@ -157,6 +157,7 @@
   <ItemGroup>
     <Content Include="Assets\Article\article.html" />
     <Content Include="Assets\Article\reset.css" />
+    <Content Include="Assets\Article\scripts.js" />
     <Content Include="Assets\Article\style.css" />
     <Content Include="Assets\Article\style.min.css">
       <DependentUpon>style.css</DependentUpon>

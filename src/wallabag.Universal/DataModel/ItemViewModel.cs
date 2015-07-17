@@ -17,7 +17,6 @@ namespace wallabag.DataModel
     {
         public override string ViewModelIdentifier { get; set; } = "ItemViewModel";
 
-
         #region Properties
         public Item Model { get; set; }
         public ObservableCollection<Tag> Tags { get; set; }
@@ -42,7 +41,12 @@ namespace wallabag.DataModel
                 title = Model.Title,
                 content = Model.Content,
                 articleUrl = Model.Url,
-                hostname = UrlHostname
+                hostname = UrlHostname,
+                color = AppSettings.Instance.ColorScheme,
+                font = AppSettings.Instance.FontFamily,
+                fontSize = AppSettings.Instance.FontSize,
+                lineHeight = AppSettings.Instance.LineHeight,
+                progress = Model.ReadingProgress
             });
         }
         #endregion
@@ -75,7 +79,7 @@ namespace wallabag.DataModel
         public Command SwitchReadStatusCommand { get; private set; }
         public Command SwitchFavoriteStatusCommand { get; private set; }
 
-              #region Methods
+        #region Methods
         public async Task<bool> Delete()
         {
             HttpClient http = new HttpClient();
