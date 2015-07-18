@@ -21,19 +21,18 @@
 //
 
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
-
-
+using Newtonsoft.Json;
+using wallabag.DataModel;
 using Sqlite3DatabaseHandle = System.IntPtr;
 using Sqlite3Statement = System.IntPtr;
-using Newtonsoft.Json;
-
 
 namespace SQLite
 {
@@ -174,21 +173,14 @@ namespace SQLite
 
             DatabasePath = databasePath;
 
-#if NETFX_CORE
             SQLite3.SetDirectory(/*temp directory type*/2, Windows.Storage.ApplicationData.Current.TemporaryFolder.Path);
-#endif
-
             Sqlite3DatabaseHandle handle;
 
-#if SILVERLIGHT || USE_CSHARP_SQLITE
-            var r = SQLite3.Open (databasePath, out handle, (int)openFlags, IntPtr.Zero);
-#else
             // open using the byte[]
             // in the case where the path may include Unicode
             // force open to using UTF-8 using sqlite3_open_v2
             var databasePathAsBytes = GetNullTerminatedUtf8(DatabasePath);
             var r = SQLite3.Open(databasePathAsBytes, out handle, (int)openFlags, Sqlite3DatabaseHandle.Zero);
-#endif
 
             Handle = handle;
             if (r != SQLite3.Result.OK)
@@ -1041,13 +1033,7 @@ namespace SQLite
                 {
                     if (0 <= depth && depth < _transactionDepth)
                     {
-#if NETFX_CORE
                         Volatile.Write(ref _transactionDepth, depth);
-#elif SILVERLIGHT
-						_transactionDepth = depth;
-#else
-                        Thread.VolatileWrite (ref _transactionDepth, depth);
-#endif
                         Execute(cmd + savepoint);
                         return;
                     }
@@ -1294,7 +1280,6 @@ namespace SQLite
 
             var map = GetMapping(objType);
 
-#if NETFX_CORE
             if (map.PK != null && map.PK.IsAutoGuid)
             {
                 // no GetProperty so search our way up the inheritance chain till we find it
@@ -1315,16 +1300,6 @@ namespace SQLite
                     objType = info.BaseType;
                 }
             }
-#else
-            if (map.PK != null && map.PK.IsAutoGuid) {
-                var prop = objType.GetProperty(map.PK.PropertyName);
-                if (prop != null) {
-                    if (prop.GetValue(obj, null).Equals(Guid.Empty)) {
-                        prop.SetValue(obj, Guid.NewGuid(), null);
-                    }
-                }
-            }
-#endif
 
 
             var replacing = string.Compare(extra, "OR REPLACE", StringComparison.OrdinalIgnoreCase) == 0;
@@ -1580,20 +1555,14 @@ namespace SQLite
         public string DatabasePath { get; private set; }
         public bool StoreDateTimeAsTicks { get; private set; }
 
-#if NETFX_CORE
         static readonly string MetroStyleDataPath = Windows.Storage.ApplicationData.Current.LocalFolder.Path;
-#endif
 
         public SQLiteConnectionString(string databasePath, bool storeDateTimeAsTicks)
         {
             ConnectionString = databasePath;
             StoreDateTimeAsTicks = storeDateTimeAsTicks;
 
-#if NETFX_CORE
-            DatabasePath = System.IO.Path.Combine(MetroStyleDataPath, databasePath);
-#else
-			DatabasePath = databasePath;
-#endif
+            DatabasePath = System.IO.Path.Combine(MetroStyleDataPath, databasePath);	
         }
     }
 
@@ -1709,30 +1678,20 @@ namespace SQLite
         {
             MappedType = type;
 
-#if NETFX_CORE
             var tableAttr = (TableAttribute)System.Reflection.CustomAttributeExtensions
                 .GetCustomAttribute(type.GetTypeInfo(), typeof(TableAttribute), true);
-#else
-			var tableAttr = (TableAttribute)type.GetCustomAttributes (typeof (TableAttribute), true).FirstOrDefault ();
-#endif
 
             TableName = tableAttr != null ? tableAttr.Name : MappedType.Name;
 
-#if !NETFX_CORE
-			var props = MappedType.GetProperties (BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
-#else
-            var props = from p in MappedType.GetRuntimeProperties()
+ var props = from p in MappedType.GetRuntimeProperties()
                         where ((p.GetMethod != null && p.GetMethod.IsPublic) || (p.SetMethod != null && p.SetMethod.IsPublic) || (p.GetMethod != null && p.GetMethod.IsStatic) || (p.SetMethod != null && p.SetMethod.IsStatic))
                         select p;
-#endif
+
             var cols = new List<Column>();
             foreach (var p in props)
             {
-#if !NETFX_CORE
-				var ignore = p.GetCustomAttributes (typeof(IgnoreAttribute), true).Length > 0;
-#else
+
                 var ignore = p.GetCustomAttributes(typeof(IgnoreAttribute), true).Count() > 0;
-#endif
                 if (p.CanWrite && !ignore)
                 {
                     cols.Add(new Column(p, createFlags));
@@ -1999,13 +1958,9 @@ namespace SQLite
             else if (clrType == typeof(DateTimeOffset))
             {
                 return "bigint";
-#if !NETFX_CORE
-			} else if (clrType.IsEnum) {
-#else
             }
             else if (clrType.GetTypeInfo().IsEnum)
             {
-#endif
                 return "integer";
             }
             else if (clrType == typeof(byte[]))
@@ -2030,24 +1985,16 @@ namespace SQLite
         public static bool IsPrimaryKey(MemberInfo p)
         {
             var attrs = p.GetCustomAttributes(typeof(PrimaryKeyAttribute), true);
-#if !NETFX_CORE
-			return attrs.Length > 0;
-#else
             return attrs.Count() > 0;
-#endif
         }
 
         public static string Collation(MemberInfo p)
         {
             var attrs = p.GetCustomAttributes(typeof(CollationAttribute), true);
-#if !NETFX_CORE
-			if (attrs.Length > 0) {
-				return ((CollationAttribute)attrs [0]).Value;
-#else
+
             if (attrs.Count() > 0)
             {
                 return ((CollationAttribute)attrs.First()).Value;
-#endif
             }
             else
             {
@@ -2463,7 +2410,8 @@ namespace SQLite
                 }
                 else
                 {
-                    return SQLite3.ColumnString(statement, index);
+                    // TODO: Find a general way!
+                    return JsonConvert.DeserializeObject<ObservableCollection<Tag>>(SQLite3.ColumnString(statement, index));
                 }
             }
         }
