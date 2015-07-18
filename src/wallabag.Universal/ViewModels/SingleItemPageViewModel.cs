@@ -39,7 +39,7 @@ namespace wallabag.ViewModels
                 using (HttpClient http = new HttpClient())
                 {
                     // TODO: Currently just downloading the login page :/
-                    Uri downloadUrl =new Uri( $"{AppSettings.Instance.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
+                    Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
                     await Helpers.AddHeaders(http);
 

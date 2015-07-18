@@ -15,7 +15,7 @@ namespace wallabag.Universal
             await DataModel.DataSource.InitializeDatabase();
 
             // Change the accent color to #666666 if enabled in settings
-            if (!Common.AppSettings.Instance.UseSystemAccentColor)
+            if (!Common.AppSettings.UseSystemAccentColor)
                 Current.Resources["SystemAccentColor"] = Windows.UI.ColorHelper.FromArgb(0xFF, 0x66, 0x66, 0x66);
 
             NavigationService.Navigate(typeof(Views.ContentPage));

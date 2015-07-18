@@ -61,10 +61,10 @@ namespace wallabag.Views
         private async Task ExecuteJavaScript()
         {
             List<string> parameters = new List<string>();
-            parameters.Add(AppSettings.Instance.ColorScheme);
-            parameters.Add(AppSettings.Instance.FontFamily);
-            parameters.Add(AppSettings.Instance.FontSize.ToString());
-            parameters.Add(AppSettings.Instance.LineHeight.ToString());
+            parameters.Add(AppSettings.ColorScheme);
+            parameters.Add(AppSettings.FontFamily);
+            parameters.Add(AppSettings.FontSize.ToString());
+            parameters.Add(AppSettings.LineHeight.ToString());
 
             if (ViewModel.CurrentItem != null)
                 await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
@@ -82,9 +82,9 @@ namespace wallabag.Views
             if (ViewModel != null)
             {
                 if (sender == fontSizeSlider)
-                    AppSettings.Instance.FontSize = e.NewValue;
+                    AppSettings.FontSize = e.NewValue;
                 else
-                    AppSettings.Instance.LineHeight = e.NewValue;
+                    AppSettings.LineHeight = e.NewValue;
                 await ExecuteJavaScript();
             }
         }
@@ -92,20 +92,20 @@ namespace wallabag.Views
         private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender == sansFamilyButton)
-                AppSettings.Instance.FontFamily = "sans";
+                AppSettings.FontFamily = "sans";
             else
-                AppSettings.Instance.FontFamily = "serif";
+                AppSettings.FontFamily = "serif";
             await ExecuteJavaScript();
         }
 
         private async void ChangeColorSchemeButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender == lightColorSchemeButton)
-                AppSettings.Instance.ColorScheme = "light";
+                AppSettings.ColorScheme = "light";
             else if (sender == sepiaColorSchemeButton)
-                AppSettings.Instance.ColorScheme = "sepia";
+                AppSettings.ColorScheme = "sepia";
             else
-                AppSettings.Instance.ColorScheme = "dark";
+                AppSettings.ColorScheme = "dark";
             await ExecuteJavaScript();
         }
     }

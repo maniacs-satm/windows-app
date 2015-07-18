@@ -13,7 +13,6 @@ namespace wallabag.DataModel
 {
     public class Authentication
     {
-        private static AppSettings AppSettings { get; } = AppSettings.Instance;
         private static string Username { get; } = AppSettings.Username;
         private static string Password { get; } = AppSettings.Password;
         private static string Url { get; } = AppSettings.wallabagUrl;

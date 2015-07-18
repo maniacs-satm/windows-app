@@ -61,7 +61,7 @@ namespace wallabag.DataModel
 
             try
             {
-                var response = await http.GetAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"));
+                var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries.json"));
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok)
@@ -115,7 +115,7 @@ namespace wallabag.DataModel
 
             try
             {
-                var response = await http.PostAsync(new Uri($"{AppSettings.Instance.wallabagUrl}/api/entries.json"), content);
+                var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries.json"), content);
                 http.Dispose();
 
                 if (response.StatusCode == HttpStatusCode.Ok)
