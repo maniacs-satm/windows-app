@@ -1,7 +1,6 @@
 ﻿using System;
 using wallabag.Common;
 using wallabag.ViewModels;
-using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,7 +23,7 @@ namespace wallabag.Universal
                 Current = this;
                 HamburgerToggleButton.Focus(FocusState.Programmatic);
 
-                if (AppSettings.Instance.HamburgerPositionIsRight)
+                if (AppSettings.HamburgerPositionIsRight)
                 {
                     HamburgerToggleButton.HorizontalAlignment = HorizontalAlignment.Right;
                     splitView.PanePlacement = SplitViewPanePlacement.Right;
