@@ -63,7 +63,7 @@ namespace wallabag.Views
         }
         #endregion
 
-        private async Task ExecuteJavaScript()
+        private async Task ChangeHtmlAttributesAsync()
         {
             List<string> parameters = new List<string>();
             parameters.Add(AppSettings.ColorScheme);
@@ -92,7 +92,7 @@ namespace wallabag.Views
                     AppSettings.FontSize = e.NewValue;
                 else
                     AppSettings.LineHeight = e.NewValue;
-                await ExecuteJavaScript();
+                await ChangeHtmlAttributesAsync();
             }
         }
 
@@ -108,7 +108,7 @@ namespace wallabag.Views
                 AppSettings.FontFamily = "serif";
                 changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI");
             }
-            await ExecuteJavaScript();
+            await ChangeHtmlAttributesAsync();
         }
 
         private async void ChangeColorSchemeButton_Click(object sender, RoutedEventArgs e)
@@ -119,7 +119,7 @@ namespace wallabag.Views
                 AppSettings.ColorScheme = "sepia";
             else
                 AppSettings.ColorScheme = "dark";
-            await ExecuteJavaScript();
+            await ChangeHtmlAttributesAsync();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace wallabag.Services
 
         public static string hashedPassword = string.Empty;
 
-        public static async Task hashPassword()
+        public static async Task HashPasswordAsync()
         {
             string salt = string.Empty;
             using (HttpClient http = new HttpClient())
@@ -33,9 +33,9 @@ namespace wallabag.Services
                 catch { }
             }
 
-            hashPassword(Password, Username, salt);
+            HashPassword(Password, Username, salt);
         }
-        public static void hashPassword(string password, string username, string salt)
+        public static void HashPassword(string password, string username, string salt)
         {
             string combined = $"{password}{username}{salt}";
             string hash = GetHash(HashAlgorithmNames.Sha1, combined);
@@ -53,25 +53,25 @@ namespace wallabag.Services
             return CryptographicBuffer.EncodeToBase64String(buff);
         }
 
-        private static async Task<string> GenerateDigest()
+        private static async Task<string> GenerateDigestAsync()
         {
-            return await GenerateDigest(GenerateNonce(), GetTimestamp());
+            return await GenerateDigestAsync(GenerateNonce(), GetTimestamp());
         }
-        public static async Task<string> GenerateDigest(string nonce, string timestamp, bool IsTest = false)
+        public static async Task<string> GenerateDigestAsync(string nonce, string timestamp, bool IsTest = false)
         {
             if (!IsTest)
-                await hashPassword();
+                await HashPasswordAsync();
             string combined = $"{nonce}{timestamp}{hashedPassword}";
             string digest = GetHash(HashAlgorithmNames.Sha1, combined, true);
 
             return digest;
         }
 
-        public static async Task<string> GetHeader()
+        public static async Task<string> GetAuthenticationHeaderAsync()
         {
             string nonce = GenerateNonce();
             string timestamp = GetTimestamp();
-            return GetHeader(Username, await GenerateDigest(nonce, timestamp), nonce, timestamp);
+            return GetHeader(Username, await GenerateDigestAsync(nonce, timestamp), nonce, timestamp);
         }
         public static string GetHeader(string username, string digest, string nonce, string timestamp)
         {

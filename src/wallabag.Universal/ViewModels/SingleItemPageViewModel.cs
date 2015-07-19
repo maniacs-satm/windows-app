@@ -20,7 +20,7 @@ namespace wallabag.ViewModels
         public ItemViewModel CurrentItem { get; set; }
 
         public Command DownloadItemCommand { get; private set; }
-        public async Task DownloadItem()
+        public async Task DownloadItemAsFileAsync()
         {
             // Let the user select the download path
             var picker = new FileSavePicker()
@@ -41,7 +41,7 @@ namespace wallabag.ViewModels
                     // TODO: Currently just downloading the login page :/
                     Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
-                    await Helpers.AddHeaders(http);
+                    await Helpers.AddHttpHeadersAsync(http);
 
                     var response = await http.GetAsync(downloadUrl);
                     if (response.IsSuccessStatusCode)
@@ -51,7 +51,7 @@ namespace wallabag.ViewModels
 
         public SingleItemPageViewModel()
         {
-            DownloadItemCommand = new Command(async () => { await DownloadItem(); });
+            DownloadItemCommand = new Command(async () => { await DownloadItemAsFileAsync(); });
         }
 
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -59,7 +59,7 @@ namespace wallabag.ViewModels
             if (!string.IsNullOrWhiteSpace(parameter))
             {
                 CurrentItem = new ItemViewModel(await DataSource.GetItemAsync(int.Parse(parameter)));
-                await CurrentItem.CreateContentFromTemplate();
+                await CurrentItem.CreateContentFromTemplateAsync();
 
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;
             }

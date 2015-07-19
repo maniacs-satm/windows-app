@@ -25,7 +25,7 @@ namespace wallabag.ViewModels
         #endregion
 
         #region Tasks & Commands
-        private async Task LoadItems(FilterProperties FilterProperties)
+        private async Task LoadItemsAsync(FilterProperties FilterProperties)
         {
             Items.Clear();
             foreach (Item i in await DataSource.GetItemsAsync(FilterProperties))
@@ -38,15 +38,15 @@ namespace wallabag.ViewModels
 
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            await LoadItems(new FilterProperties());
+            await LoadItemsAsync(new FilterProperties());
         }
 
         public MainViewModel()
         {
             RefreshCommand = new Command(async () =>
             {
-                await DataSource.RefreshItems();
-                await LoadItems(new FilterProperties());
+                await DataSource.LoadItemsAsync();
+                await LoadItemsAsync(new FilterProperties());
             });
             NavigateToSettingsPageCommand = new Command(() =>
             {

@@ -24,7 +24,7 @@ namespace wallabag.UnitTests
         public async Task GenerateWSSEHeader(string nonce, string timestamp, string expectedHeader)
         {
             AuthenticationService.hashedPassword = "02b92862ab03de17e217ee5fa53fbf52eed039ca"; // 'wallabag' hashed and salted
-            string digest = await AuthenticationService.GenerateDigest(nonce, timestamp, true);
+            string digest = await AuthenticationService.GenerateDigestAsync(nonce, timestamp, true);
             string header = AuthenticationService.GetHeader("wallabag", digest, nonce, timestamp);
             Assert.AreEqual(expectedHeader, header);
         }
@@ -32,7 +32,7 @@ namespace wallabag.UnitTests
         [TestMethod]
         public async Task GenerateRealWSSEHeader()
         {
-            string header = await AuthenticationService.GetHeader();
+            string header = await AuthenticationService.GetAuthenticationHeaderAsync();
             System.Diagnostics.Debug.WriteLine(header);
         }
 
@@ -44,7 +44,7 @@ namespace wallabag.UnitTests
             string salt = "a7bdce59b6077a014d22c6f749e681f7";
             string expected = "49e5b5e8469bc313f78df0640a61d374dea8e4d8";
 
-            AuthenticationService.hashPassword(password, user, salt);
+            AuthenticationService.HashPassword(password, user, salt);
             Assert.AreEqual(expected, AuthenticationService.hashedPassword);
         }
 

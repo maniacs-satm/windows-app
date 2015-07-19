@@ -19,7 +19,7 @@ namespace wallabag.UnitTests
         [TestMethod]
         public async Task DeleteItem()
         {
-            Assert.AreEqual(true, await ViewModel.Delete());
+            Assert.AreEqual(true, await ViewModel.DeleteItemAsync());
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace wallabag.UnitTests
             ViewModel.Model.Title = "Title change from API at " + DateTime.Now;
             ViewModel.Model.IsArchived = true;
             ViewModel.Model.IsStarred = false;
-            Assert.AreEqual(true, await ViewModel.Update());
+            Assert.AreEqual(true, await ViewModel.UpdateItemAsync());
             Assert.AreEqual(true, ViewModel.Model.IsArchived);
             Assert.AreEqual(false, ViewModel.Model.IsStarred);
         }
@@ -36,7 +36,7 @@ namespace wallabag.UnitTests
         [TestMethod]
         public async Task FetchItem()
         {
-            Assert.AreEqual(true, await ViewModel.Fetch());
+            Assert.AreEqual(true, await ViewModel.FetchInformationForItemAsync());
         }
 
         //[TestMethod]

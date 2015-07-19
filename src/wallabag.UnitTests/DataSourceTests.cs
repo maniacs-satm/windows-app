@@ -29,7 +29,7 @@ namespace wallabag.UnitTests
         [DataRow("http://www.sueddeutsche.de/politik/wagenknecht-auf-linken-parteitag-in-bielefeld-gegen-die-luegner-aus-der-trueben-bruehe-1.2508967", "politik")]
         public async Task AddItem(string Url, string Tags)
         {
-            Assert.AreEqual(true, await DataSource.AddItem(Url, Tags));
+            Assert.AreEqual(true, await DataSource.AddItemAsync(Url, Tags));
         }
     }
 }

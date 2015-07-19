@@ -55,10 +55,10 @@ namespace wallabag.Services
             return await conn.GetAsync<Item>(i => i.Id == Id);
         }
 
-        public static async Task<bool> RefreshItems()
+        public static async Task<bool> LoadItemsAsync()
         {
             HttpClient http = new HttpClient();
-            await Helpers.AddHeaders(http);
+            await Helpers.AddHttpHeadersAsync(http);
 
             try
             {
@@ -99,11 +99,11 @@ namespace wallabag.Services
             }
             catch { return false; }
         }
-        public static async Task<bool> AddItem(string url, string tags = "", string title = "")
+        public static async Task<bool> AddItemAsync(string url, string tags = "", string title = "")
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http);
+            await Helpers.AddHttpHeadersAsync(http);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", url);
@@ -130,7 +130,7 @@ namespace wallabag.Services
             catch { return false; }
         }
 
-        public static async Task InitializeDatabase()
+        public static async Task InitializeDatabaseAsync()
         {
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.OpenIfExists);
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);

@@ -29,8 +29,38 @@ namespace wallabag.ViewModels
                 catch { return string.Empty; }
             }
         }
+        #endregion
 
-        public async Task CreateContentFromTemplate()
+        public ItemViewModel(Item Model)
+        {
+            this.Model = Model;
+            UpdateCommand = new Command(async () => await UpdateItemAsync());
+            DeleteCommand = new Command(async () => await DeleteItemAsync());
+            SwitchReadStatusCommand = new Command(async () => await SwitchReadValueAsync());
+            SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteValueAsync());
+
+            Model.Tags.CollectionChanged += Tags_CollectionChanged;
+        }
+
+        private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+                foreach (Tag item in e.OldItems)
+                    await DeleteTagAsync(item);
+
+            if (e.NewItems != null)
+                foreach (Tag item in e.NewItems)
+                    await AddTagsAsync(item.Label);
+        }
+
+        public Command UpdateCommand { get; private set; }
+        public Command DeleteCommand { get; private set; }
+        public Command SwitchReadStatusCommand { get; private set; }
+        public Command SwitchFavoriteStatusCommand { get; private set; }
+
+        #region Methods
+
+        public async Task CreateContentFromTemplateAsync()
         {
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Article/article.html"));
             string _template = await FileIO.ReadTextAsync(file);
@@ -48,41 +78,12 @@ namespace wallabag.ViewModels
                 progress = Model.ReadingProgress
             });
         }
-        #endregion
 
-        public ItemViewModel(Item Model)
-        {
-            this.Model = Model;
-            UpdateCommand = new Command(async () => await Update());
-            DeleteCommand = new Command(async () => await Delete());
-            SwitchReadStatusCommand = new Command(async () => await SwitchReadStatus());
-            SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteStatus());
-
-            Model.Tags.CollectionChanged += Tags_CollectionChanged;
-        }
-
-        private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-                foreach (Tag item in e.OldItems)
-                    await DeleteTag(item);
-
-            if (e.NewItems != null)
-                foreach (Tag item in e.NewItems)
-                    await AddTags(item.Label);
-        }
-
-        public Command UpdateCommand { get; private set; }
-        public Command DeleteCommand { get; private set; }
-        public Command SwitchReadStatusCommand { get; private set; }
-        public Command SwitchFavoriteStatusCommand { get; private set; }
-
-        #region Methods
-        public async Task<bool> Delete()
+        public async Task<bool> DeleteItemAsync()
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http);
+            await Helpers.AddHttpHeadersAsync(http);
             var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
             http.Dispose();
 
@@ -93,11 +94,11 @@ namespace wallabag.ViewModels
             }
             return false;
         }
-        public async Task<bool> Update()
+        public async Task<bool> UpdateItemAsync()
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http);
+            await Helpers.AddHttpHeadersAsync(http);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("title", Model.Title);
@@ -128,11 +129,11 @@ namespace wallabag.ViewModels
             catch { return false; }
             return false;
         }
-        public async Task<bool> Fetch()
+        public async Task<bool> FetchInformationForItemAsync()
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http);
+            await Helpers.AddHttpHeadersAsync(http);
             try
             {
                 var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
@@ -148,11 +149,11 @@ namespace wallabag.ViewModels
             return false;
         }
 
-        public async Task<bool> AddTags(string tags)
+        public async Task<bool> AddTagsAsync(string tags)
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http);
+            await Helpers.AddHttpHeadersAsync(http);
             Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
@@ -173,11 +174,11 @@ namespace wallabag.ViewModels
             catch { return false; }
             return false;
         }
-        public async Task<bool> DeleteTag(Tag tag)
+        public async Task<bool> DeleteTagAsync(Tag tag)
         {
             HttpClient http = new HttpClient();
 
-            await Helpers.AddHeaders(http);
+            await Helpers.AddHttpHeadersAsync(http);
             try
             {
                 var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}/tags/{tag.Id}.json"));
@@ -190,21 +191,21 @@ namespace wallabag.ViewModels
             return false;
         }
 
-        public async Task<bool> SwitchReadStatus()
+        public async Task<bool> SwitchReadValueAsync()
         {
             if (Model.IsArchived)
                 Model.IsArchived = false;
             else
                 Model.IsArchived = true;
-            return await Update();
+            return await UpdateItemAsync();
         }
-        public async Task<bool> SwitchFavoriteStatus()
+        public async Task<bool> SwitchFavoriteValueAsync()
         {
             if (Model.IsStarred)
                 Model.IsStarred = false;
             else
                 Model.IsStarred = true;
-            return await Update();
+            return await UpdateItemAsync();
         }
         #endregion
     }
