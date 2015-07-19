@@ -3,7 +3,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PropertyChanged;
 using wallabag.Common.Mvvm;
-using wallabag.DataModel;
+using wallabag.Models;
+using wallabag.Services;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
@@ -49,8 +50,7 @@ namespace wallabag.ViewModels
             });
             NavigateToSettingsPageCommand = new Command(() =>
             {
-                if (NavigationService != null && NavigationService.CurrentPageType != typeof(Views.SettingsPage))
-                    NavigationService.Navigate(typeof(Views.SettingsPage));
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SettingsPage));
             });
         }
     }
