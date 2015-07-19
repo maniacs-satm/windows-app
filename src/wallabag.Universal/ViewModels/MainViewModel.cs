@@ -45,7 +45,7 @@ namespace wallabag.ViewModels
         {
             RefreshCommand = new Command(async () =>
             {
-                await DataSource.LoadItemsAsync();
+                await DataSource.DownloadItemsFromServerAsync();
                 await LoadItemsAsync(new FilterProperties());
             });
             NavigateToSettingsPageCommand = new Command(() =>

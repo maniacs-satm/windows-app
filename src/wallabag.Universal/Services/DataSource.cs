@@ -55,7 +55,7 @@ namespace wallabag.Services
             return await conn.GetAsync<Item>(i => i.Id == Id);
         }
 
-        public static async Task<bool> LoadItemsAsync()
+        public static async Task<bool> DownloadItemsFromServerAsync()
         {
             HttpClient http = new HttpClient();
             await Helpers.AddHttpHeadersAsync(http);
