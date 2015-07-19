@@ -55,6 +55,17 @@ namespace wallabag.Services
             return await conn.GetAsync<Item>(i => i.Id == Id);
         }
 
+        public static async Task<List<Tag>> GetTagsAsync()
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            List<Tag> result = new List<Tag>();
+
+            result = await conn.Table<Tag>().ToListAsync();
+            result = new List<Tag>(result.OrderBy(i => i.Label));
+
+            return result;
+        }
+
         public static async Task<bool> DownloadItemsFromServerAsync()
         {
             HttpClient http = new HttpClient();
@@ -70,26 +81,31 @@ namespace wallabag.Services
                     var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                     SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
 
-                   foreach (var item in json.Embedded.Items)
+                    foreach (var item in json.Embedded.Items)
                     {
-                        var result = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
+                        var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
-                        if (result == null)
-                        {
+                        if (existingItem == null)
                             await conn.InsertAsync(item);
-                        }
                         else
                         {
-                            result.Title = item.Title;
-                            result.Url = item.Url;
-                            result.IsArchived = item.IsArchived;
-                            result.IsStarred = item.IsStarred;
-                            result.IsDeleted = item.IsDeleted;
-                            result.Content = item.Content;
-                            result.CreatedAt = item.CreatedAt;
-                            result.UpdatedAt = item.UpdatedAt;
+                            existingItem.Title = item.Title;
+                            existingItem.Url = item.Url;
+                            existingItem.IsArchived = item.IsArchived;
+                            existingItem.IsStarred = item.IsStarred;
+                            existingItem.IsDeleted = item.IsDeleted;
+                            existingItem.Content = item.Content;
+                            existingItem.CreatedAt = item.CreatedAt;
+                            existingItem.UpdatedAt = item.UpdatedAt;
 
-                            await conn.UpdateAsync(result);
+                            await conn.UpdateAsync(existingItem);
+                        }
+
+                        foreach (Tag tag in item.Tags)
+                        {
+                            var existingTag = await (conn.Table<Tag>().Where(i => i.Id == tag.Id)).FirstOrDefaultAsync();
+                            if (existingTag == null)
+                                await conn.InsertAsync(tag);
                         }
                     }
                     return true;
