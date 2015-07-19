@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
+    xmlns:m="using:wallabag.Models"
     xmlns:controls="using:wallabag.Controls"
     xmlns:common="using:wallabag.Common"
     common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
@@ -57,21 +58,21 @@
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Favorites"/>
                         <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags"/>
                         <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0,0,0,4"/>
-                        <ListView>
+                        <ListView ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="m:Tag">
                                     <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="44"/>
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <Ellipse Height="32" Width="32" Fill="#666666"/>
-                                        <TextBlock Grid.Column="1" Text="wallabag" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                        <TextBlock Grid.Column="1" Text="{x:Bind Label}" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -82,7 +83,7 @@
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
                     </StackPanel>
                 </Grid>
-            </SplitView.Pane>           
+            </SplitView.Pane>
         </SplitView>
         <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}"
                       IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" TabIndex="1"/>
