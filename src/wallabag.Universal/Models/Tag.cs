@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace wallabag.DataModel
+namespace wallabag.Models
 {
     public class Tag
     {

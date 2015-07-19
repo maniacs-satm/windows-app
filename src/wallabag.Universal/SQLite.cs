@@ -30,7 +30,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Newtonsoft.Json;
-using wallabag.DataModel;
+using wallabag.Models;
 using Sqlite3DatabaseHandle = System.IntPtr;
 using Sqlite3Statement = System.IntPtr;
 

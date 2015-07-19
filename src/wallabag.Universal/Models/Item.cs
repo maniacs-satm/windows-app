@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using PropertyChanged;
 using SQLite;
 
-namespace wallabag.DataModel
+namespace wallabag.Models
 {
     #region required for parsing
     public class RootObject

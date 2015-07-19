@@ -9,9 +9,9 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
-namespace wallabag.DataModel
+namespace wallabag.Services
 {
-    public class Authentication
+    public class AuthenticationService
     {
         private static string Username { get; } = AppSettings.Username;
         private static string Password { get; } = AppSettings.Password;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using wallabag.DataModel;
+using wallabag.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

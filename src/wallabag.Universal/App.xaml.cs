@@ -12,7 +12,7 @@ namespace wallabag.Universal
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            await DataModel.DataSource.InitializeDatabase();
+            await Services.DataSource.InitializeDatabase();
 
             // Change the accent color to #666666 if enabled in settings
             if (!Common.AppSettings.UseSystemAccentColor)

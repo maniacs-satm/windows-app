@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using wallabag.DataModel;
+using wallabag.ViewModels;
 
 namespace wallabag.UnitTests
 {
@@ -13,7 +13,7 @@ namespace wallabag.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            ViewModel = new ItemViewModel(new Item() { Id = 1 });
+            ViewModel = new ItemViewModel(new Models.Item() { Id = 1 });
         }
      
         [TestMethod]

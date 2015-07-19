@@ -1,5 +1,4 @@
 ﻿using wallabag.Common;
-using wallabag.DataModel;
 using wallabag.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

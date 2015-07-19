@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using wallabag.DataModel;
-using Windows.Storage;
+using wallabag.Models;
+using wallabag.Services;
 
 namespace wallabag.UnitTests
 {

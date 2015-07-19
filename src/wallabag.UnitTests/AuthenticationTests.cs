@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using wallabag.DataModel;
 using System.Threading.Tasks;
+using wallabag.Services;
 
 namespace wallabag.UnitTests
 {
@@ -13,7 +13,7 @@ namespace wallabag.UnitTests
         [DataRow("awesome", "03d67c263c27a453ef65b29e30334727333ccbcd")]
         public void ComputeSHA1Hashes(string s, string expectedResult)
         {
-            string actualResult = Authentication.GetHash("SHA1", s);
+            string actualResult = AuthenticationService.GetHash("SHA1", s);
             Assert.AreEqual(expectedResult, actualResult);
         }
 
@@ -23,16 +23,16 @@ namespace wallabag.UnitTests
         [DataRow("1de4b902055e63e7", "2015-04-01T15:38:19Z", "UsernameToken Username=\"wallabag\", PasswordDigest=\"CZ0oPxhv54elAqrwtriYluYBnyQ=\", Nonce=\"MWRlNGI5MDIwNTVlNjNlNw==\", Created=\"2015-04-01T15:38:19Z\"")]
         public async Task GenerateWSSEHeader(string nonce, string timestamp, string expectedHeader)
         {
-            Authentication.hashedPassword = "02b92862ab03de17e217ee5fa53fbf52eed039ca"; // 'wallabag' hashed and salted
-            string digest = await Authentication.GenerateDigest(nonce, timestamp, true);
-            string header = Authentication.GetHeader("wallabag", digest, nonce, timestamp);
+            AuthenticationService.hashedPassword = "02b92862ab03de17e217ee5fa53fbf52eed039ca"; // 'wallabag' hashed and salted
+            string digest = await AuthenticationService.GenerateDigest(nonce, timestamp, true);
+            string header = AuthenticationService.GetHeader("wallabag", digest, nonce, timestamp);
             Assert.AreEqual(expectedHeader, header);
         }
 
         [TestMethod]
         public async Task GenerateRealWSSEHeader()
         {
-            string header = await Authentication.GetHeader();
+            string header = await AuthenticationService.GetHeader();
             System.Diagnostics.Debug.WriteLine(header);
         }
 
@@ -44,8 +44,8 @@ namespace wallabag.UnitTests
             string salt = "a7bdce59b6077a014d22c6f749e681f7";
             string expected = "49e5b5e8469bc313f78df0640a61d374dea8e4d8";
 
-            Authentication.hashPassword(password, user, salt);
-            Assert.AreEqual(expected, Authentication.hashedPassword);
+            AuthenticationService.hashPassword(password, user, salt);
+            Assert.AreEqual(expected, AuthenticationService.hashedPassword);
         }
 
 

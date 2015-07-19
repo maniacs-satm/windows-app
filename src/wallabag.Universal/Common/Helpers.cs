@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using wallabag.DataModel;
+using wallabag.Services;
 using Windows.ApplicationModel.Resources;
 using Windows.Networking.Connectivity;
 using Windows.Web.Http;
@@ -21,7 +21,7 @@ namespace wallabag.Common
         public static async Task AddHeaders(HttpClient client)
         {
             client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("WSSE", "profile=\"UsernameToken\"");
-            client.DefaultRequestHeaders.Add("X-WSSE", await Authentication.GetHeader());
+            client.DefaultRequestHeaders.Add("X-WSSE", await AuthenticationService.GetHeader());
             client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));
         }
         public static bool IsConnectedToInternet()

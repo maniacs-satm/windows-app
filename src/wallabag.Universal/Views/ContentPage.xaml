@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
-    xmlns:data="using:wallabag.DataModel"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
 
@@ -18,7 +17,7 @@
         <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Padding="4,52,4,4" Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
                   IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
-                <DataTemplate x:DataType="data:ItemViewModel">
+                <DataTemplate x:DataType="vm:ItemViewModel">
                     <Grid Width="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -56,7 +55,7 @@
                 </controls:PageHeader>
             </CommandBar.Content>
         </CommandBar>
-        <CommandBar VerticalAlignment="Bottom">
+        <CommandBar VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <AppBarButton Icon="Add" Label="Add item"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
         </CommandBar>

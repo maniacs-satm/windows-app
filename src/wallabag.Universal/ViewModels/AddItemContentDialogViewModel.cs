@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using PropertyChanged;
 using wallabag.Common.Mvvm;
-using wallabag.DataModel;
 using wallabag.Common;
+using wallabag.Models;
+using wallabag.Services;
 
 namespace wallabag.ViewModels
 {

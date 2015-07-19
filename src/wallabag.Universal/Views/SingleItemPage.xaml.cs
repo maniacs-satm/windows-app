@@ -80,6 +80,8 @@ namespace wallabag.Views
             float progress;
             float.TryParse(e.Value, out progress);
             ViewModel.CurrentItem.Model.ReadingProgress = progress;
+            if (progress == 100)
+                this.BottomAppBar.IsOpen = true;
         }
 
         private async void Slider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)

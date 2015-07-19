@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using PropertyChanged;
 using wallabag.Common;
 using wallabag.Common.Mvvm;
-using wallabag.DataModel;
+using wallabag.Services;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Navigation;

@@ -113,14 +113,14 @@
     </Compile>
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
-    <Compile Include="DataModel\Authentication.cs" />
-    <Compile Include="DataModel\DataSource.cs" />
-    <Compile Include="DataModel\Item.cs" />
-    <Compile Include="DataModel\ItemViewModel.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
+    <Compile Include="Services\DataSource.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataModel\Tag.cs" />
+    <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\KeyboardService\KeyboardEventArgs.cs" />
     <Compile Include="Services\KeyboardService\KeyboardHelper.cs" />

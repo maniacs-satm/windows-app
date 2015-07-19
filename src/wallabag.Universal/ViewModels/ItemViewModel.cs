@@ -6,10 +6,11 @@ using Newtonsoft.Json;
 using PropertyChanged;
 using wallabag.Common;
 using wallabag.Common.Mvvm;
+using wallabag.Models;
 using Windows.Storage;
 using Windows.Web.Http;
 
-namespace wallabag.DataModel
+namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class ItemViewModel : ViewModelBase

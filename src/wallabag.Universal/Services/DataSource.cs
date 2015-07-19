@@ -7,9 +7,10 @@ using Newtonsoft.Json;
 using PropertyChanged;
 using SQLite;
 using wallabag.Common;
+using wallabag.Models;
 using Windows.Web.Http;
 
-namespace wallabag.DataModel
+namespace wallabag.Services
 {
     [ImplementPropertyChanged]
     public sealed class DataSource
