@@ -24,6 +24,11 @@ namespace wallabag.Views
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += SingleItemPage_DataRequested;
             WebView.ScriptNotify += WebView_ScriptNotify;
+
+            if (AppSettings.FontFamily == "sans")
+                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Georgia");
+            else
+                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI");
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -91,10 +96,16 @@ namespace wallabag.Views
 
         private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender == sansFamilyButton)
+            if (AppSettings.FontFamily == "serif")
+            {
                 AppSettings.FontFamily = "sans";
+                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Georgia");
+            }
             else
+            {
                 AppSettings.FontFamily = "serif";
+                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI");
+            }
             await ExecuteJavaScript();
         }
 

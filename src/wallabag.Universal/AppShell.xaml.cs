@@ -34,7 +34,6 @@ namespace wallabag.Universal
         #region Navigation
 
         private StateTriggerBase _defaultStateTrigger;
-        private SplitViewDisplayMode _lastSplitViewDisplayMode = SplitViewDisplayMode.CompactInline;
         private bool _isPaneOpen = false;
 
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
@@ -49,22 +48,18 @@ namespace wallabag.Universal
                 if (e.Content.GetType() == typeof(Views.SingleItemPage))
                 {
                     // Save the current values in the variables before overriding them
-                    _defaultStateTrigger = DefaultState.StateTriggers[0];
-                    _lastSplitViewDisplayMode = splitView.DisplayMode;
                     _isPaneOpen = splitView.IsPaneOpen;
 
                     splitView.IsPaneOpen = false;
                     splitView.DisplayMode = SplitViewDisplayMode.Overlay;
+                    frame.Margin = new Thickness(0);
                     HamburgerToggleButton.Visibility = Visibility.Collapsed;
-                    DefaultState.StateTriggers.Clear();
                 }
                 else
                 {
                     HamburgerToggleButton.Visibility = Visibility.Visible;
-                    if (DefaultState.StateTriggers.Count == 0)
-                        DefaultState.StateTriggers.Add(_defaultStateTrigger);
-
-                    splitView.DisplayMode = _lastSplitViewDisplayMode;
+                    frame.Margin = new Thickness(48, 0, 0, 0);
+                    splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
                     splitView.IsPaneOpen = _isPaneOpen;
                 }
 

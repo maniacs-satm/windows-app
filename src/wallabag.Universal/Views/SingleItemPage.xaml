@@ -14,7 +14,7 @@
     <Page.DataContext>
         <vm:SingleItemPageViewModel/>
     </Page.DataContext>
-    
+
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <CommandBar.PrimaryCommands>
@@ -30,7 +30,7 @@
                                 </Grid.RowDefinitions>
                                 <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                                 <TextBlock Text="TAGS" Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"/>
-                                <controls:TagControl Tags="{Binding CurrentItem.Tags, Mode=TwoWay}" Grid.Row="1"/>
+                                <controls:TagControl Tags="{Binding CurrentItem.Model.Tags, Mode=TwoWay}" Grid.Row="1"/>
                             </Grid>
                         </Flyout>
                     </AppBarButton.Flyout>
@@ -52,28 +52,42 @@
                                         <ColumnDefinition />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <StackPanel.Resources>
+                                    <RelativePanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <RelativePanel.Resources>
                                             <Style BasedOn="{StaticResource RoundButtonStyle}" TargetType="Button">
                                                 <Setter Property="Height" Value="32"/>
                                                 <Setter Property="Width" Value="32"/>
-                                                <Setter Property="Margin" Value="4"/>                                                    
                                             </Style>
-                                        </StackPanel.Resources>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button x:Name="lightColorSchemeButton" Background="White" Click="ChangeColorSchemeButton_Click"/>
-                                            <Button x:Name="sepiaColorSchemeButton" Background="Wheat" Click="ChangeColorSchemeButton_Click"/>
-                                            <Button x:Name="darkColorSchemeButton" Background="#666" Click="ChangeColorSchemeButton_Click"/>
-                                        </StackPanel>
-                                        <Rectangle Height="1" Fill="#666" Margin="12,4"/>
-                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                            <Button x:Name="sansFamilyButton" Content="A" Click="FontFamilyButton_Click"/>
-                                            <Button x:Name="serifFamilyButton" Content="A" FontFamily="Georgia" Click="FontFamilyButton_Click"/>
-                                        </StackPanel>
-                                    </StackPanel>
+                                        </RelativePanel.Resources>
+                                        <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="White"/>
+                                        <Button x:Name="changeFontFamilyButton" Click="FontFamilyButton_Click"
+                                                RelativePanel.Below="lightColorSchemeButton"
+                                                RelativePanel.RightOf="lightColorSchemeButton">A</Button>
+                                        <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="Wheat"
+                                                RelativePanel.Above="changeFontFamilyButton"
+                                                RelativePanel.RightOf="changeFontFamilyButton"/>
+                                        <Button x:Name="grayColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="Gray"
+                                                RelativePanel.Below="changeFontFamilyButton"
+                                                RelativePanel.LeftOf="changeFontFamilyButton"/>
+                                        <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="Black"
+                                                RelativePanel.AlignRightWith="sepiaColorSchemeButton"
+                                                RelativePanel.Below="changeFontFamilyButton"/>
+                                    </RelativePanel>
                                     <StackPanel Grid.Column="1">
-                                        <Slider x:Name="fontSizeSlider" Margin="4" Header="Font size" Minimum="12" Maximum="26" ValueChanged="Slider_ValueChanged" Value="{Binding AppSettings.FontSize}"/>
-                                        <Slider x:Name="lineHeightSlider" Margin="4" Header="Line height" Minimum="1" Maximum="2" SmallChange="0.1" StepFrequency="0.1" ValueChanged="Slider_ValueChanged" Value="{Binding AppSettings.LineHeight}"/>
+                                        <Slider x:Name="fontSizeSlider"
+                                                Margin="4"
+                                                Header="Font size"
+                                                Minimum="12"
+                                                Maximum="26"
+                                                ValueChanged="Slider_ValueChanged"/>
+                                        <Slider x:Name="lineHeightSlider"
+                                                Margin="4"
+                                                Header="Line height"
+                                                Minimum="1"
+                                                Maximum="2"
+                                                SmallChange="0.1"
+                                                StepFrequency="0.1"
+                                                ValueChanged="Slider_ValueChanged"/>
                                     </StackPanel>
                                 </Grid>
                             </Grid>
@@ -110,5 +124,6 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <WebView x:Name="WebView" common:WebViewExtensions.HTML="{Binding CurrentItem.ContentWithHeader}"/>
+        <ProgressBar VerticalAlignment="Top" Value="{Binding CurrentItem.Model.ReadingProgress}"/>
     </Grid>
 </Page>

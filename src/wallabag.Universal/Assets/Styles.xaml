@@ -5,6 +5,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
+    
+    <!-- Colors -->
+    <SolidColorBrush x:Key="AccentColorLightBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7"/>
 
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -14,20 +17,24 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="RootGrid" Background="{TemplateBinding Background}" CornerRadius="100">
+                    <Border x:Name="RootGrid"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="100"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
                                     </VisualState.Setters>
                                     <Storyboard>
@@ -37,15 +44,13 @@
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <ContentPresenter x:Name="ContentPresenter"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
                                 Content="{TemplateBinding Content}"
                                 ContentTransitions="{TemplateBinding ContentTransitions}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -122,6 +127,8 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
+        <Setter Property="RequestedTheme" Value="Light"/>
     </Style>
     <Style x:Key="CustomFlyoutPickerTitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource FlyoutPickerTitleTextBlockStyle}">
         <Setter Property="Padding" Value="15"/>
@@ -168,11 +175,8 @@
                                     <VisualState.Setters>
                                         <Setter Target="ContentPresenter.Foreground" Value="White"/>
                                         <Setter Target="Symbol.Foreground" Value="White"/>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+                                        <Setter Target="RootPanel.Background" Value="{ThemeResource AccentColorLightBrush}"/>
                                     </VisualState.Setters>
-                                    <!--<Storyboard>
-                                        <PointerDownThemeAnimation Storyboard.TargetName="RootPanel" />
-                                    </Storyboard>-->
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>

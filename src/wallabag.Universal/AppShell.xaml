@@ -20,24 +20,6 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates">
-                <VisualState x:Name="NarrowState">
-                    <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="CompactOverlay"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="DefaultState">
-                    <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="CompactInline"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.Setters>
@@ -51,7 +33,19 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <SplitView x:Name="splitView">
+        <Frame x:Name="frame" Margin="48,0,0,0"
+                   Navigated="OnNavigatedToPage">
+            <Frame.ContentTransitions>
+                <TransitionCollection>
+                    <NavigationThemeTransition>
+                        <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                            <EntranceNavigationTransitionInfo/>
+                        </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    </NavigationThemeTransition>
+                </TransitionCollection>
+            </Frame.ContentTransitions>
+        </Frame>
+        <SplitView x:Name="splitView" DisplayMode="CompactOverlay" Margin="0,48,0,0">
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -59,11 +53,10 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <Rectangle Height="48" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Add item" Click="AddItemButton_Click" />
-                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Refresh" Command="{Binding RefreshCommand}"/>
+                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Home"/>
+                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Favorites"/>
                         <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags"/>
-                        <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0,0,0,4" Visibility="Collapsed"/>
+                        <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0,0,0,4"/>
                         <ListView>
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
@@ -89,19 +82,7 @@
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
                     </StackPanel>
                 </Grid>
-            </SplitView.Pane>
-            <Frame x:Name="frame"
-                   Navigated="OnNavigatedToPage">
-                <Frame.ContentTransitions>
-                    <TransitionCollection>
-                        <NavigationThemeTransition>
-                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                                <EntranceNavigationTransitionInfo/>
-                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                        </NavigationThemeTransition>
-                    </TransitionCollection>
-                </Frame.ContentTransitions>
-            </Frame>
+            </SplitView.Pane>           
         </SplitView>
         <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}"
                       IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" TabIndex="1"/>

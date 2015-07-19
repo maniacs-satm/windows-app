@@ -12,28 +12,6 @@
             <RowDefinition Height="48"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.Below)" Value="GeneralSettingsStackPanel"/>
-                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.RightOf)" Value="{x:Null}"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.RightOf)" Value="GeneralSettingsStackPanel"/>
-                        <Setter Target="AccountCredentialsStackPanel.(RelativePanel.Below)" Value="{x:Null}"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="740"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <controls:PageHeader>
             <controls:PageHeader.HeaderContent>
                 <CommandBar VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
@@ -48,39 +26,36 @@
                 </CommandBar>
             </controls:PageHeader.HeaderContent>
         </controls:PageHeader>
-        <RelativePanel Grid.Row="1">
-            <RelativePanel.Resources>
-                <Style TargetType="StackPanel">
-                    <Setter Property="Width" Value="350"/>
-                    <Setter Property="Padding" Value="10"/>
-                </Style>
-                <Style TargetType="controls:SettingsSubHeaderTextBlock">
-                    <Setter Property="Margin" Value="0,0,0,10"/>
-                </Style>
-                <Style TargetType="ComboBox">
-                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                </Style>
+        <Pivot Grid.Row="1">
+            <Pivot.Resources>
                 <Style TargetType="ToggleSwitch">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                    <Setter Property="Margin" Value="0,10"/>
+                    <Setter Property="Margin" Value="0,8"/>
+                </Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Margin" Value="0,12,0,0"/>
                 </Style>
                 <Style TargetType="TextBox">
                     <Setter Property="Margin" Value="0,10"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="Width" Value="350"/>
                 </Style>
-            </RelativePanel.Resources>
-            <StackPanel x:Name="GeneralSettingsStackPanel">
-                <controls:SettingsSubHeaderTextBlock Text="GENERAL"/>
-                <TextBlock Text="To apply the following settings you need to restart the app." TextWrapping="Wrap" Margin="0,0,0,12" FontStyle="Italic"/>
-                <ComboBox Header="Language" IsEnabled="False"/>
-                <ToggleSwitch x:Name="useSystemAccentColorToggleSwitch" Header="Use system accent color" IsOn="{Binding AppSettings.UseSystemAccentColor, Mode=TwoWay}"/>
-                <ToggleSwitch Header="Position of menu button" OnContent="Right" OffContent="Left" IsOn="{Binding AppSettings.HamburgerPositionIsRight, Mode=TwoWay}"/>
-            </StackPanel>
-            <StackPanel x:Name="AccountCredentialsStackPanel" RelativePanel.RightOf="GeneralSettingsStackPanel">
-                <controls:SettingsSubHeaderTextBlock Text="ACCOUNT CREDENTIALS"/>
-                <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=TwoWay}"/>
-                <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=TwoWay}"/>
-                <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=TwoWay}"/>
-            </StackPanel>
-        </RelativePanel>
+            </Pivot.Resources>
+            <PivotItem Header="General">
+                <StackPanel>
+                    <TextBlock Text="To apply the following settings you need to restart the app." TextWrapping="Wrap" Margin="0,0,0,12" FontStyle="Italic"/>
+                    <ComboBox Header="Language" IsEnabled="False" Width="320" Margin="0,8"/>
+                    <ToggleSwitch x:Name="useSystemAccentColorToggleSwitch" Header="Use system accent color" IsOn="{Binding AppSettings.UseSystemAccentColor, Mode=TwoWay}"/>
+                    <ToggleSwitch Header="Position of menu button" OnContent="Right" OffContent="Left" IsOn="{Binding AppSettings.HamburgerPositionIsRight, Mode=TwoWay}"/>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Account credentials">
+                <StackPanel>
+                    <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=TwoWay}"/>
+                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=TwoWay}" Width="350" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=TwoWay}"/>
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
     </Grid>
 </Page>

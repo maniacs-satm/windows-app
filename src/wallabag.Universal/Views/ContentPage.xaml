@@ -9,43 +9,45 @@
     xmlns:data="using:wallabag.DataModel"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    
+
     <Page.DataContext>
         <vm:MainViewModel />
     </Page.DataContext>
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Grid.Row="1" Padding="2,50,2,2"
-                          IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">       
+        <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Padding="4,52,4,4" Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
+                  IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="data:ItemViewModel">
-                    <Grid Width="300" Height="200" Background="#333">
+                    <Grid Width="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                               Source="https://farm4.staticflickr.com/3955/15123553843_6b4a5c8a3f_z_d.jpg" Stretch="UniformToFill" Grid.RowSpan="2"/>
-                        <Border RequestedTheme="Dark" Grid.Row="1">
-                            <Border.Background>
-                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                    <GradientStop Color="#4C000000" Offset="1"/>
-                                    <GradientStop/>
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis"
-                                       MaxLines="2" TextAlignment="Center" VerticalAlignment="Bottom" Margin="10,15"
-                                       Style="{ThemeResource SubtitleTextBlockStyle}"/>
-                        </Border>
+                               Source="https://farm4.staticflickr.com/3955/15123553843_6b4a5c8a3f_z_d.jpg" Stretch="UniformToFill"/>
+                        <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis"
+                                   MaxLines="2" TextAlignment="Left" VerticalAlignment="Bottom" Margin="10,15"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Row="1"/>
+
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
         <CommandBar VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-            <AppBarButton Icon="Find" Label="Search"/>
+            <AppBarButton Icon="Find" Label="Search">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <StackPanel Padding="8">
+                            <AutoSuggestBox QueryIcon="Find" Width="300" PlaceholderText="Search"/>
+                            <CheckBox Content="Search in content" Margin="4"/>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
             <AppBarSeparator/>
             <AppBarButton Icon="Filter" Label="Filter"/>
-            <AppBarButton Icon="Bullets" Label="Select"/>
+            <AppBarToggleButton Icon="Bullets" Label="Select" IsChecked="{Binding ElementName=ItemGridView, Path=IsMultiSelectCheckBoxEnabled, Mode=TwoWay}"/>
             <CommandBar.Content>
                 <controls:PageHeader>
                     <controls:PageHeader.HeaderContent>
@@ -53,6 +55,10 @@
                     </controls:PageHeader.HeaderContent>
                 </controls:PageHeader>
             </CommandBar.Content>
+        </CommandBar>
+        <CommandBar VerticalAlignment="Bottom">
+            <AppBarButton Icon="Add" Label="Add item"/>
+            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
         </CommandBar>
     </Grid>
 </Page>
