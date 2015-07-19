@@ -14,15 +14,8 @@ namespace wallabag.ViewModels
     {
         public override string ViewModelIdentifier { get; set; } = "MainViewModel";
 
-        #region Properties
-        private ObservableCollection<ItemViewModel> _Items = new ObservableCollection<ItemViewModel>();
-        public ObservableCollection<ItemViewModel> Items
-        {
-            get { return _Items; }
-            set { _Items = value; }
-        }
-
-        #endregion
+        public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
+        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
 
         #region Tasks & Commands
         private async Task LoadItemsAsync(FilterProperties FilterProperties)
@@ -39,6 +32,7 @@ namespace wallabag.ViewModels
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             await LoadItemsAsync(new FilterProperties());
+            Tags = new ObservableCollection<Tag>(await DataSource.GetTagsAsync());
         }
 
         public MainViewModel()
