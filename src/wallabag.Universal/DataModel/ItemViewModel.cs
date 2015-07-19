@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -19,7 +18,6 @@ namespace wallabag.DataModel
 
         #region Properties
         public Item Model { get; set; }
-        public ObservableCollection<Tag> Tags { get; set; }
 
         public string ContentWithHeader { get; set; }
         public string UrlHostname
@@ -59,8 +57,7 @@ namespace wallabag.DataModel
             SwitchReadStatusCommand = new Command(async () => await SwitchReadStatus());
             SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteStatus());
 
-            Tags = Model.TagsString.ToObservableCollection();
-            Tags.CollectionChanged += Tags_CollectionChanged;
+            Model.Tags.CollectionChanged += Tags_CollectionChanged;
         }
 
         private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -103,7 +100,7 @@ namespace wallabag.DataModel
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("title", Model.Title);
-            parameters.Add("tags", Model.TagsString);
+            parameters.Add("tags", Model.Tags.ToCommaSeparatedString());
             parameters.Add("archive", Model.IsArchived);
             parameters.Add("star", Model.IsStarred);
             parameters.Add("delete", Model.IsDeleted);
@@ -123,7 +120,6 @@ namespace wallabag.DataModel
                         resultItem.IsDeleted == Model.IsDeleted)
                     {
                         Model.UpdatedAt = resultItem.UpdatedAt;
-                        Model.TagsString = Model.Tags.ToCommaSeparatedString();
                         return true;
                     }
                 }
@@ -167,7 +163,7 @@ namespace wallabag.DataModel
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
                     var json = JsonConvert.DeserializeObject<Item>(response.Content.ToString());
-                    foreach (Tag tag in Tags)
+                    foreach (Tag tag in Model.Tags)
                         tag.Id = json.Tags.Where(t => t.Label == tag.Label).FirstOrDefault().Id;
 
                     return true;

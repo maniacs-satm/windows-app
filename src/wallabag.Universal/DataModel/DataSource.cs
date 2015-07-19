@@ -75,7 +75,6 @@ namespace wallabag.DataModel
 
                         if (result == null)
                         {
-                            item.TagsString = item.Tags.ToCommaSeparatedString();
                             await conn.InsertAsync(item);
                         }
                         else
@@ -88,7 +87,6 @@ namespace wallabag.DataModel
                             result.Content = item.Content;
                             result.CreatedAt = item.CreatedAt;
                             result.UpdatedAt = item.UpdatedAt;
-                            result.TagsString = item.Tags.ToCommaSeparatedString();
 
                             await conn.UpdateAsync(result);
                         }

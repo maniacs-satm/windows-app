@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using PropertyChanged;
 using SQLite;
@@ -63,17 +63,11 @@ namespace wallabag.DataModel
         [JsonProperty("updated_at")]
         public DateTime UpdatedAt { get; set; }
 
-        [Ignore]
         [JsonProperty("tags")]
-        public List<Tag> Tags { get; set; }
-
-        public string TagsString { get; set; }
+        public ObservableCollection<Tag> Tags { get; set; }
 
         public float ReadingProgress { get; set; }
 
-        public override string ToString()
-        {
-            return Title;
-        }
+        public override string ToString() { return Title; }
     }
 }
