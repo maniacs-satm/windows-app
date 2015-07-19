@@ -124,6 +124,5 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <WebView x:Name="WebView" common:WebViewExtensions.HTML="{Binding CurrentItem.ContentWithHeader}"/>
-        <ProgressBar VerticalAlignment="Top" Value="{Binding CurrentItem.Model.ReadingProgress}"/>
     </Grid>
 </Page>
