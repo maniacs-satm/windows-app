@@ -8,11 +8,7 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <vm:MainViewModel />
-    </Page.DataContext>
-    
+   
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">       
         <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Padding="4,52,4,4" Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
                   IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
