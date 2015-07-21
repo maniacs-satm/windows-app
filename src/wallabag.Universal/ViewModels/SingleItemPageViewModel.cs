@@ -20,6 +20,7 @@ namespace wallabag.ViewModels
         public ItemViewModel CurrentItem { get; set; }
 
         public Command DownloadItemCommand { get; private set; }
+        public Command MarkItemAsReadCommand { get; private set; }
         public async Task DownloadItemAsFileAsync()
         {
             // Let the user select the download path
@@ -52,6 +53,12 @@ namespace wallabag.ViewModels
         public SingleItemPageViewModel()
         {
             DownloadItemCommand = new Command(async () => { await DownloadItemAsFileAsync(); });
+            MarkItemAsReadCommand = new Command(async () =>
+            {
+                if (AppSettings.NavigateBackAfterReadingAnArticle)
+                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
+                await CurrentItem.SwitchReadValueAsync();
+            });
         }
 
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)

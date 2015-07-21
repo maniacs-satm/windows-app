@@ -163,5 +163,10 @@ namespace wallabag.Common
             get { return GetProperty(nameof(HamburgerPositionIsRight), false); }
             set { SetProperty(nameof(HamburgerPositionIsRight), value); }
         }
+        public static bool NavigateBackAfterReadingAnArticle
+        {
+            get { return GetProperty(nameof(NavigateBackAfterReadingAnArticle), true); }
+            set { SetProperty(nameof(NavigateBackAfterReadingAnArticle), value); }
+        }
     }
 }
