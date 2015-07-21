@@ -11,6 +11,7 @@
 
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <Converter:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
 
     <!-- Custom styles -->
     <Style x:Key="RoundButtonStyle" TargetType="Button">

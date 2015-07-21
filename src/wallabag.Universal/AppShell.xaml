@@ -24,12 +24,12 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="ShowTagsMenuButton.Visibility" Value="Collapsed"/>
-                        <Setter Target="TagsHeaderTextBlock.Visibility" Value="Visible"/>
-                        <Setter Target="UserNameTextBlock.Visibility" Value="Visible"/>
+                        <Setter Target="ShowTagsMenuButton.Visibility" Value="Visible"/>
+                        <Setter Target="TagsHeaderTextBlock.Visibility" Value="Collapsed"/>
+                        <Setter Target="TagsListView.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{Binding IsPaneOpen, ElementName=splitView}"/>
+                        <StateTrigger IsActive="{Binding IsPaneOpen, ElementName=splitView, Converter={StaticResource BooleanNegationConverter}}"/>
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
@@ -57,10 +57,10 @@
                     <StackPanel>
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Home"/>
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Favorites"/>
-                        <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags"/>
+                        <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags" Visibility="Collapsed" Click="ShowTagsMenuButton_Click"/>
                         <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0"/>
                     </StackPanel>
-                    <ListView ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" Padding="0" Grid.Row="1">
+                    <ListView x:Name="TagsListView" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" Grid.Row="1">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

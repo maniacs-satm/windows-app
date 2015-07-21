@@ -82,5 +82,10 @@ namespace wallabag.Universal
         {
             await AddItemContentDialog.ShowAsync();
         }
+
+        private void ShowTagsMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = true;
+        }
     }
 }
