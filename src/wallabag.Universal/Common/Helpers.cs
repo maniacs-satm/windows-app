@@ -24,10 +24,13 @@ namespace wallabag.Common
             client.DefaultRequestHeaders.Add("X-WSSE", await AuthenticationService.GetAuthenticationHeaderAsync());
             client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));
         }
-        public static bool IsConnectedToInternet()
+        public static bool IsConnectedToTheInternet
         {
-            ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
-            return (connectionProfile != null && connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
+            get
+            {
+                ConnectionProfile connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+                return (connectionProfile != null && connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
+            }
         }
     }
 }
