@@ -60,9 +60,19 @@ namespace wallabag.Services
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             List<Tag> result = new List<Tag>();
 
-            result = await conn.Table<Tag>().ToListAsync();
-            result = new List<Tag>(result.OrderBy(i => i.Label));
+            result = new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
+                        
+            int colorIndex = 0;
+            foreach (Tag tag in result)
+            {
+                colorIndex += 1;
 
+                if (colorIndex / 17 == 1)
+                    colorIndex = 0;
+
+                tag.Color = Tag.PossibleColors[colorIndex];
+            }
+            
             return result;
         }
 
