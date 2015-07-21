@@ -41,6 +41,7 @@ namespace wallabag.ViewModels
             {
                 await DataSource.DownloadItemsFromServerAsync();
                 await LoadItemsAsync(new FilterProperties());
+                Tags = new ObservableCollection<Tag>(await DataSource.GetTagsAsync());
             });
             NavigateToSettingsPageCommand = new Command(() =>
             {
