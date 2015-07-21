@@ -50,35 +50,38 @@
             <SplitView.Pane>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition />
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Home"/>
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Favorites"/>
                         <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags"/>
-                        <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0,0,0,4"/>
-                        <ListView ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="m:Tag">
-                                    <Grid Height="44" HorizontalAlignment="Stretch" Margin="0,4">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="44"/>
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Ellipse Height="32" Width="32" Fill="#666666"/>
-                                        <TextBlock Grid.Column="1" Text="{x:Bind Label}" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0"/>
                     </StackPanel>
-                    <StackPanel Grid.Row="1" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
+                    <ListView ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" Padding="0" Grid.Row="1">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <!--<Setter Property="HorizontalContentAlignment" Value="Stretch"/>-->                               
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="m:Tag">
+                                <Grid Height="48" HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="48"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Height="32" Width="32" Fill="{x:Bind Color}"/>
+                                    <TextBlock Grid.Column="1" Text="{x:Bind Label}" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackPanel Grid.Row="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Julian"/>
                         <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
                     </StackPanel>
