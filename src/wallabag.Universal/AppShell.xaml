@@ -55,8 +55,8 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Home"/>
-                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Favorites"/>
+                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" IsChecked="{Binding IsHome}" Tag="" Content="Home" Command="{Binding LoadUnreadItemsCommand}"/>
+                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" IsChecked="{Binding IsHome, Converter={StaticResource BooleanNegationConverter}}" Tag="" Content="Favorites" Command="{Binding LoadFavoriteItemsCommand}"/>
                         <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags" Visibility="Collapsed" Click="ShowTagsMenuButton_Click"/>
                         <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0"/>
                     </StackPanel>
