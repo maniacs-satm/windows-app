@@ -13,6 +13,7 @@ namespace wallabag.Models
         [JsonProperty("label")]
         public string Label { get; set; }
 
+        [SQLite.Ignore]
         public SolidColorBrush Color { get; set; }
 
         public override string ToString() { return Label; }
