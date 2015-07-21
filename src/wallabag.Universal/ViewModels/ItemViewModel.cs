@@ -103,7 +103,7 @@ namespace wallabag.ViewModels
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("title", Model.Title);
             parameters.Add("tags", Model.Tags.ToCommaSeparatedString());
-            parameters.Add("archive", Model.IsArchived);
+            parameters.Add("archive", Model.IsRead);
             parameters.Add("star", Model.IsStarred);
             parameters.Add("delete", Model.IsDeleted);
 
@@ -117,11 +117,11 @@ namespace wallabag.ViewModels
                 {
                     Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
                     if (resultItem.Title == Model.Title &&
-                        resultItem.IsArchived == Model.IsArchived &&
+                        resultItem.IsRead == Model.IsRead &&
                         resultItem.IsStarred == Model.IsStarred &&
                         resultItem.IsDeleted == Model.IsDeleted)
                     {
-                        Model.UpdatedAt = resultItem.UpdatedAt;
+                        Model.LastUpdated = resultItem.LastUpdated;
                         return true;
                     }
                 }
@@ -193,10 +193,10 @@ namespace wallabag.ViewModels
 
         public async Task<bool> SwitchReadValueAsync()
         {
-            if (Model.IsArchived)
-                Model.IsArchived = false;
+            if (Model.IsRead)
+                Model.IsRead = false;
             else
-                Model.IsArchived = true;
+                Model.IsRead = true;
             return await UpdateItemAsync();
         }
         public async Task<bool> SwitchFavoriteValueAsync()

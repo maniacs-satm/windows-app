@@ -46,7 +46,7 @@ namespace wallabag.Models
         public string Url { get; set; }
 
         [JsonProperty("is_archived")]
-        public bool IsArchived { get; set; }
+        public bool IsRead { get; set; }
 
         [JsonProperty("is_starred")]
         public bool IsStarred { get; set; }
@@ -58,10 +58,10 @@ namespace wallabag.Models
         public string Content { get; set; }
 
         [JsonProperty("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreationDate { get; set; }
 
         [JsonProperty("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime LastUpdated { get; set; }
 
         [JsonProperty("tags")]
         public ObservableCollection<Tag> Tags { get; set; }

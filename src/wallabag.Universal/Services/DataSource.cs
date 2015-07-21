@@ -25,13 +25,13 @@ namespace wallabag.Services
             switch (filterProperties.itemType)
             {
                 case FilterProperties.ItemType.Unread:
-                    result = await conn.Table<Item>().Where(i => i.IsArchived == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
+                    result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
                     break;
                 case FilterProperties.ItemType.Favorites:
                     result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
                     break;
                 case FilterProperties.ItemType.Archived:
-                    result = await conn.Table<Item>().Where(i => i.IsArchived == true && i.IsDeleted == false).ToListAsync();
+                    result = await conn.Table<Item>().Where(i => i.IsRead == true && i.IsDeleted == false).ToListAsync();
                     break;
                 case FilterProperties.ItemType.Deleted:
                     result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
@@ -43,9 +43,9 @@ namespace wallabag.Services
                 result = new List<Item>(result.Where(t => t.Title.Contains(filterProperties.SearchQuery)));
 
             if (filterProperties.sortOrder == FilterProperties.SortOrder.Ascending)
-                result = new List<Item>(result.OrderBy(i => i.CreatedAt));
+                result = new List<Item>(result.OrderBy(i => i.CreationDate));
             else
-                result = new List<Item>(result.OrderByDescending(i => i.CreatedAt));
+                result = new List<Item>(result.OrderByDescending(i => i.CreationDate));
 
             return result;
         }
@@ -101,12 +101,12 @@ namespace wallabag.Services
                         {
                             existingItem.Title = item.Title;
                             existingItem.Url = item.Url;
-                            existingItem.IsArchived = item.IsArchived;
+                            existingItem.IsRead = item.IsRead;
                             existingItem.IsStarred = item.IsStarred;
                             existingItem.IsDeleted = item.IsDeleted;
                             existingItem.Content = item.Content;
-                            existingItem.CreatedAt = item.CreatedAt;
-                            existingItem.UpdatedAt = item.UpdatedAt;
+                            existingItem.CreationDate = item.CreationDate;
+                            existingItem.LastUpdated = item.LastUpdated;
 
                             await conn.UpdateAsync(existingItem);
                         }

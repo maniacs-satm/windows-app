@@ -26,10 +26,10 @@ namespace wallabag.UnitTests
         public async Task UpdateItem()
         {
             ViewModel.Model.Title = "Title change from API at " + DateTime.Now;
-            ViewModel.Model.IsArchived = true;
+            ViewModel.Model.IsRead = true;
             ViewModel.Model.IsStarred = false;
             Assert.AreEqual(true, await ViewModel.UpdateItemAsync());
-            Assert.AreEqual(true, ViewModel.Model.IsArchived);
+            Assert.AreEqual(true, ViewModel.Model.IsRead);
             Assert.AreEqual(false, ViewModel.Model.IsStarred);
         }
 
