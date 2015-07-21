@@ -6,6 +6,10 @@
     xmlns:Converter="using:wallabag.Converter"
     mc:Ignorable="d">
     
+    <!-- Margins & paddings -->
+    <Thickness x:Key="ContentDialogBorderWidth">2</Thickness>
+    <Thickness x:Key="ContentDialogTitleMargin">0</Thickness>
+    
     <!-- Colors -->
     <SolidColorBrush x:Key="AccentColorLightBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7"/>
 
@@ -212,18 +216,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="ItemFavoriteOverBrush" Color="Black" Opacity="0.75"/>
-            <SolidColorBrush x:Key="ItemHostnameBrush" Color="White" Opacity="0.4"/>
-            <Thickness x:Key="ContentDialogBorderWidth">2</Thickness>
-            <Thickness x:Key="ContentDialogTitleMargin">0</Thickness>
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="ItemFavoriteOverBrush" Color="White" Opacity="0.75"/>
-            <SolidColorBrush x:Key="ItemHostnameBrush" Color="Black" Opacity="0.5"/>
-            <Thickness x:Key="ContentDialogBorderWidth">2</Thickness>
-            <Thickness x:Key="ContentDialogTitleMargin">0</Thickness>
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
