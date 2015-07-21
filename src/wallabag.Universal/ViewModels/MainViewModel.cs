@@ -16,6 +16,7 @@ namespace wallabag.ViewModels
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
+        public bool IsHome { get; set; } = true;
 
         #region Tasks & Commands
         private async Task LoadItemsAsync(FilterProperties FilterProperties)
@@ -27,6 +28,8 @@ namespace wallabag.ViewModels
 
         public Command RefreshCommand { get; private set; }
         public Command NavigateToSettingsPageCommand { get; private set; }
+        public Command LoadUnreadItemsCommand { get; private set; }
+        public Command LoadFavoriteItemsCommand { get; private set; }
         #endregion
 
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -47,6 +50,16 @@ namespace wallabag.ViewModels
             {
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SettingsPage));
             });
+            LoadUnreadItemsCommand = new Command(async () =>
+            {
+                await LoadItemsAsync(new FilterProperties());
+                IsHome = true;
+            });
+            LoadFavoriteItemsCommand = new Command(async () =>
+           {
+               await LoadItemsAsync(new FilterProperties() { itemType = FilterProperties.ItemType.Favorites });
+               IsHome = false;
+           });
         }
     }
 }
