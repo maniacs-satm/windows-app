@@ -8,8 +8,8 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-   
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">       
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Padding="4,52,4,4" Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
                   IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
@@ -29,26 +29,21 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <CommandBar VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+        <CommandBar VerticalAlignment="Top">
             <AppBarButton Icon="Find" Label="Search">
                 <AppBarButton.Flyout>
                     <Flyout>
                         <StackPanel Padding="8">
-                            <AutoSuggestBox QueryIcon="Find" Width="300" PlaceholderText="Search"/>
-                            <CheckBox Content="Search in content" Margin="4"/>
+                            <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search" Margin="0,0,0,4"
+                                            TextChanged="SearchBox_TextChanged" SuggestionChosen="SearchBox_SuggestionChosen"
+                                            ItemsSource="{x:Bind SearchBoxSuggestions}"/>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarSeparator/>
-            <AppBarButton Icon="Filter" Label="Filter"/>
             <AppBarToggleButton Icon="Bullets" Label="Select" IsChecked="{Binding ElementName=ItemGridView, Path=IsMultiSelectCheckBoxEnabled, Mode=TwoWay}"/>
             <CommandBar.Content>
-                <controls:PageHeader>
-                    <controls:PageHeader.HeaderContent>
-                        <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-                    </controls:PageHeader.HeaderContent>
-                </controls:PageHeader>
+                <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
             </CommandBar.Content>
         </CommandBar>
         <CommandBar VerticalAlignment="Bottom" HorizontalAlignment="Right">

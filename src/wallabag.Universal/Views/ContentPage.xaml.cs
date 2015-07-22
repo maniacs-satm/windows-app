@@ -1,23 +1,54 @@
-﻿using wallabag.Common;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using wallabag.Services;
 using wallabag.ViewModels;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
 {
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
+        public ObservableCollection<string> SearchBoxSuggestions { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> TitleList { get; set; } = new ObservableCollection<string>();
 
         public ContentPage()
         {
             InitializeComponent();
         }
 
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            List<Models.Item> allItems= await DataSource.GetItemsAsync(new FilterProperties() { itemType = FilterProperties.ItemType.All});
+            foreach (var item in allItems)
+                TitleList.Add(item.Title);
+        }
+
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
             Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id.ToString());
+        }
+
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var possibleResults = new ObservableCollection<string>(TitleList.Where(t=>t.ToLower().Contains(sender.Text.ToLower())));
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                SearchBoxSuggestions.Clear();
+                foreach (var item in possibleResults)
+                    SearchBoxSuggestions.Add(item);
+            }
+        }
+
+        private async void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            sender.Text = args.SelectedItem.ToString();
+            var id = (await DataSource.GetItemAsync(sender.Text)).Id;
+            Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SingleItemPage), id.ToString());
         }
     }
 }
