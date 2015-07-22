@@ -24,6 +24,9 @@ namespace wallabag.Services
 
             switch (filterProperties.itemType)
             {
+                case FilterProperties.ItemType.All:
+                    result = await conn.Table<Item>().ToListAsync();
+                    break;
                 case FilterProperties.ItemType.Unread:
                     result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
                     break;
@@ -36,11 +39,7 @@ namespace wallabag.Services
                 case FilterProperties.ItemType.Deleted:
                     result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
                     break;
-            }
-
-            // TODO: Check if it's faster to use the SQLite.Find() method.
-            if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
-                result = new List<Item>(result.Where(t => t.Title.Contains(filterProperties.SearchQuery)));
+            }           
 
             if (filterProperties.sortOrder == FilterProperties.SortOrder.Ascending)
                 result = new List<Item>(result.OrderBy(i => i.CreationDate));
@@ -53,6 +52,11 @@ namespace wallabag.Services
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             return await conn.GetAsync<Item>(i => i.Id == Id);
+        }
+        public static async Task<Item> GetItemAsync(string Title)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            return await conn.GetAsync<Item>(i => i.Title == Title);
         }
 
         public static async Task<List<Tag>> GetTagsAsync()
@@ -170,7 +174,6 @@ namespace wallabag.Services
     {
         public ItemType itemType { get; set; }
         public SortOrder sortOrder { get; set; }
-        public string SearchQuery { get; set; }
 
         public enum SortOrder { Ascending, Descending }
         public enum ItemType { All, Unread, Favorites, Archived, Deleted }
@@ -179,7 +182,6 @@ namespace wallabag.Services
         {
             itemType = ItemType.Unread;
             sortOrder = SortOrder.Descending;
-            SearchQuery = string.Empty;
         }
     }
 }
