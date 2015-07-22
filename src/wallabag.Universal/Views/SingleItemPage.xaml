@@ -16,7 +16,7 @@
     </Page.DataContext>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+        <CommandBar ClosedDisplayMode="Minimal">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding MarkItemAsReadCommand}"/>
                 <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"/>

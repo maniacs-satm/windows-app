@@ -5,28 +5,17 @@
     xmlns:local="using:wallabag.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:wallabag.Controls"
     mc:Ignorable="d">
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>
-            <RowDefinition />
         </Grid.RowDefinitions>
-        <controls:PageHeader>
-            <controls:PageHeader.HeaderContent>
-                <CommandBar VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-                    <AppBarButton IsEnabled="False" Icon="Undo" Label="Reset"/>                   
-                    <CommandBar.Content>
-                        <controls:PageHeader>
-                            <controls:PageHeader.HeaderContent>
-                                <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-                            </controls:PageHeader.HeaderContent>
-                        </controls:PageHeader>
-                    </CommandBar.Content>
-                </CommandBar>
-            </controls:PageHeader.HeaderContent>
-        </controls:PageHeader>
-        <Pivot Grid.Row="1">
+        <CommandBar VerticalAlignment="Top">
+            <AppBarButton IsEnabled="False" Icon="Undo" Label="Reset"/>
+            <CommandBar.Content>
+                <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
+            </CommandBar.Content>
+        </CommandBar>
+        <Pivot Grid.Row="1" Margin="0,48,0,0">
             <Pivot.Resources>
                 <Style TargetType="ToggleSwitch">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
