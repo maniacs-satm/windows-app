@@ -34,13 +34,22 @@ namespace wallabag.Controls
                 currentText = currentText.Remove(currentText.Length - 1);
                 Tags.Add(new Tag() { Label = currentText });
                 textBox.Text = string.Empty;
-            }
-
+                UpdateRootGridBorderThickness();
+            }               
         }
 
         private void listView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Tags.Remove(e.ClickedItem as Tag);
+            UpdateRootGridBorderThickness();
         }
+
+        private void UpdateRootGridBorderThickness()
+        {
+            if (Tags.Count > 0)
+                RootGrid.BorderThickness = new Thickness(2, 2, 2, 0);
+            else
+                RootGrid.BorderThickness = new Thickness(2, 0, 2, 0);
+        }    
     }
 }
