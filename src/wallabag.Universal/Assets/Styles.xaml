@@ -145,8 +145,13 @@
         <Setter Property="TitleTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-                        <TextBlock Text="{Binding}" Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}" Padding="24,16"/>
+                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}"
+                            BorderThickness="0,0,0,2">
+                        <TextBlock Text="{Binding}"
+                                   Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"
+                                   Margin="24,16,8,16"
+                                   Padding="0"
+                                   Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"/>
                     </Border>
                 </DataTemplate>
             </Setter.Value>
@@ -154,7 +159,7 @@
     </Style>
     <Style TargetType="CommandBar">
         <Setter Property="RequestedTheme" Value="Dark"/>
-        <Setter Property="Background" Value="{ThemeResource AccentColorLightBrush}"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
     </Style>
     <Style x:Key="IconButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
