@@ -77,11 +77,6 @@ namespace wallabag.Universal
         }
 
         #endregion
-       
-        private async void AddItemButton_Click(object sender, RoutedEventArgs e)
-        {
-            await AddItemContentDialog.ShowAsync();
-        }
 
         private void ShowTagsMenuButton_Click(object sender, RoutedEventArgs e)
         {

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using wallabag.Services;
 using wallabag.ViewModels;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -52,6 +54,11 @@ namespace wallabag.Views
                 var id = (await DataSource.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SingleItemPage), id.ToString());
             }
+        }
+
+        private async void AddItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            await AddItemContentDialog.ShowAsync();
         }
     }
 }

@@ -46,8 +46,19 @@
             </CommandBar.Content>
         </CommandBar>
         <CommandBar VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <AppBarButton Icon="Add" Label="Add item"/>
+            <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
         </CommandBar>
+        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK"
+                       PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
+                       SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
+            <ContentDialog.DataContext>
+                <vm:AddItemContentDialogViewModel/>
+            </ContentDialog.DataContext>
+            <StackPanel Width="450" Margin="0,24,0,0">
+                <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://"/>
+                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
+            </StackPanel>
+        </ContentDialog>
     </Grid>
 </Page>
