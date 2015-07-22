@@ -33,11 +33,10 @@
             <AppBarButton Icon="Find" Label="Search">
                 <AppBarButton.Flyout>
                     <Flyout>
-                        <StackPanel Padding="8">
-                            <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search" Margin="0,0,0,4"
-                                            TextChanged="SearchBox_TextChanged" SuggestionChosen="SearchBox_SuggestionChosen"
-                                            ItemsSource="{x:Bind SearchBoxSuggestions}"/>
-                        </StackPanel>
+                        <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
+                                            TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown"
+                                            ItemsSource="{x:Bind SearchBoxSuggestions}">
+                        </AutoSuggestBox>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

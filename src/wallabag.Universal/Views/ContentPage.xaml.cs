@@ -44,11 +44,14 @@ namespace wallabag.Views
             }
         }
 
-        private async void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private async void SearchBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            sender.Text = args.SelectedItem.ToString();
-            var id = (await DataSource.GetItemAsync(sender.Text)).Id;
-            Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SingleItemPage), id.ToString());
+            // TODO: It's not working atm.
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                var id = (await DataSource.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SingleItemPage), id.ToString());
+            }
         }
     }
 }
