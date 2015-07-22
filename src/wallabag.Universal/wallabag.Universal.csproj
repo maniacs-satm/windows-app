@@ -102,9 +102,6 @@
     <Compile Include="Common\MVVM\Command.cs" />
     <Compile Include="Common\MVVM\ViewModelBase.cs" />
     <Compile Include="Common\VisualStateTriggers\IsTypePresentStateTrigger.cs" />
-    <Compile Include="Controls\PageHeader.xaml.cs">
-      <DependentUpon>PageHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SettingsSubHeaderTextBlock.xaml.cs">
       <DependentUpon>SettingsSubHeaderTextBlock.xaml</DependentUpon>
     </Compile>
@@ -179,10 +176,6 @@
     <Page Include="Assets\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\PageHeader.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SettingsSubHeaderTextBlock.xaml">
       <SubType>Designer</SubType>
