@@ -17,6 +17,35 @@ namespace wallabag.Services
     {
         private static string DATABASE_PATH { get; } = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
 
+        public static async Task<bool> SyncWithServerAsync()
+        {
+            if (!Helpers.IsConnectedToTheInternet)
+                return false;
+
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            var tasks = await conn.Table<OfflineAction>().ToListAsync();
+
+            foreach (var task in tasks)
+            {
+                switch (task.Task)
+                {
+                    case OfflineAction.OfflineActionTask.AddItem:
+                        await AddItemAsync(task.Url, task.TagsString);
+                        break;
+                    case OfflineAction.OfflineActionTask.DeleteItem:
+                        throw new NotImplementedException(); 
+                    case OfflineAction.OfflineActionTask.ModifyTags:
+                        throw new NotImplementedException();
+                    case OfflineAction.OfflineActionTask.SwitchFavoriteStatus:
+                        throw new NotImplementedException();
+                    case OfflineAction.OfflineActionTask.SwitchReadStatus:
+                        throw new NotImplementedException();
+                }
+            }
+
+            return true;
+        }
+
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
