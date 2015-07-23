@@ -131,6 +131,7 @@
     <Compile Include="Common\SQLite\SQLiteAsync.cs" />
     <Compile Include="ViewModels\AddItemContentDialogViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SingleItemPageViewModel.cs" />
     <Compile Include="Views\ContentPage.xaml.cs">
       <DependentUpon>ContentPage.xaml</DependentUpon>

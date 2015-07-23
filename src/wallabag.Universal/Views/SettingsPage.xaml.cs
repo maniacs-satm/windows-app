@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using wallabag.ViewModels;
+using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -9,6 +10,8 @@ namespace wallabag.Views
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
+        public SettingsPageViewModel ViewModel { get { return (SettingsPageViewModel)DataContext; } }
+
         public SettingsPage()
         {
             InitializeComponent();

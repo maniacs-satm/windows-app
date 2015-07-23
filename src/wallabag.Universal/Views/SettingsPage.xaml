@@ -5,17 +5,22 @@
     xmlns:local="using:wallabag.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
+    
+    <Page.DataContext>
+        <vm:SettingsPageViewModel />
+    </Page.DataContext>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <CommandBar VerticalAlignment="Top">
-            <AppBarButton IsEnabled="False" Icon="Undo" Label="Reset"/>
-            <CommandBar.Content>
-                <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-            </CommandBar.Content>
-        </CommandBar>
-        <Pivot Grid.Row="1" Margin="0,48,0,0">
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+            <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+        </Grid>
+        <Pivot Grid.Row="1">
             <Pivot.Resources>
                 <Style TargetType="ToggleSwitch">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -34,15 +39,15 @@
                 <StackPanel>
                     <TextBlock Text="To apply the following settings you need to restart the app." TextWrapping="Wrap" Margin="0,0,0,12" FontStyle="Italic"/>
                     <ComboBox Header="Language" IsEnabled="False" Width="320" Margin="0,8"/>
-                    <ToggleSwitch x:Name="useSystemAccentColorToggleSwitch" Header="Use system accent color" IsOn="{Binding AppSettings.UseSystemAccentColor, Mode=TwoWay}"/>
-                    <ToggleSwitch Header="Position of menu button" OnContent="Right" OffContent="Left" IsOn="{Binding AppSettings.HamburgerPositionIsRight, Mode=TwoWay}"/>
+                    <ToggleSwitch x:Name="useSystemAccentColorToggleSwitch" Header="Use system accent color" IsOn="{x:Bind ViewModel.UseSystemAccentColor, Mode=TwoWay}"/>
+                    <ToggleSwitch Header="Position of menu button" OnContent="Right" OffContent="Left" IsOn="{x:Bind ViewModel.HamburgerPositionIsRight, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Account credentials">
                 <StackPanel>
-                    <TextBox x:Name="UsernameTextBox" Header="Username" Text="{Binding AppSettings.Username, Mode=TwoWay}"/>
-                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{Binding AppSettings.Password, Mode=TwoWay}" Width="350" HorizontalAlignment="Left"/>
-                    <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{Binding AppSettings.wallabagUrl, Mode=TwoWay}"/>
+                    <TextBox x:Name="UsernameTextBox" Header="Username" Text="{x:Bind ViewModel.Username, Mode=TwoWay}"/>
+                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{x:Bind ViewModel.Password, Mode=TwoWay}" Width="350" HorizontalAlignment="Left"/>
+                    <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{x:Bind ViewModel.wallabagUrl, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
         </Pivot>
