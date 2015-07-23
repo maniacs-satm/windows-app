@@ -12,12 +12,7 @@ namespace wallabag.Universal
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            await Services.DataSource.InitializeDatabaseAsync();
-
-            // Change the accent color to #666666 if enabled in settings
-            if (!Common.AppSettings.UseSystemAccentColor)
-                Current.Resources["SystemAccentColor"] = Windows.UI.ColorHelper.FromArgb(0xFF, 0x66, 0x66, 0x66);
-
+            await Services.DataSource.InitializeDatabaseAsync();           
             NavigationService.Navigate(typeof(Views.ContentPage));
         }
     }
