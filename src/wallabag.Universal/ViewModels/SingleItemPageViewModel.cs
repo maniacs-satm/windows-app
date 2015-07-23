@@ -19,6 +19,17 @@ namespace wallabag.ViewModels
 
         public ItemViewModel CurrentItem { get; set; }
 
+        public double FontSize
+        {
+            get { return AppSettings.FontSize; }
+            set { AppSettings.FontSize = value; }
+        }
+        public double LineHeight
+        {
+            get { return AppSettings.LineHeight; }
+            set { AppSettings.LineHeight = value; }
+        }
+
         public Command DownloadItemCommand { get; private set; }
         public Command MarkItemAsReadCommand { get; private set; }
         public async Task DownloadItemAsFileAsync()

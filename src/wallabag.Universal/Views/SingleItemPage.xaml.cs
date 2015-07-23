@@ -81,17 +81,13 @@ namespace wallabag.Views
             float.TryParse(e.Value, out progress);
             ViewModel.CurrentItem.Model.ReadingProgress = progress;
             if (progress == 100)
-                this.BottomAppBar.IsOpen = true;
+                BottomAppBar.IsOpen = true;
         }
 
         private async void Slider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
         {
             if (ViewModel != null)
-            {
-                if (sender == fontSizeSlider)
-                    AppSettings.FontSize = e.NewValue;
-                else
-                    AppSettings.LineHeight = e.NewValue;
+            {                
                 await ChangeHtmlAttributesAsync();
             }
         }

@@ -79,6 +79,7 @@
                                                 Header="Font size"
                                                 Minimum="12"
                                                 Maximum="26"
+                                                Value="{Binding FontSize, Mode=TwoWay}"
                                                 ValueChanged="Slider_ValueChanged"/>
                                         <Slider x:Name="lineHeightSlider"
                                                 Margin="4"
@@ -87,6 +88,7 @@
                                                 Maximum="2"
                                                 SmallChange="0.1"
                                                 StepFrequency="0.1"
+                                                Value="{Binding LineHeight, Mode=TwoWay}"
                                                 ValueChanged="Slider_ValueChanged"/>
                                     </StackPanel>
                                 </Grid>
