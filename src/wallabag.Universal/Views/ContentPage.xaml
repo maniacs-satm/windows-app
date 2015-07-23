@@ -29,22 +29,15 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <CommandBar VerticalAlignment="Top">
-            <AppBarButton Icon="Find" Label="Search">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
-                                            TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown"
-                                            ItemsSource="{x:Bind SearchBoxSuggestions}">
-                        </AutoSuggestBox>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarToggleButton Icon="Bullets" Label="Select" IsChecked="{Binding ElementName=ItemGridView, Path=IsMultiSelectCheckBoxEnabled, Mode=TwoWay}"/>
-            <CommandBar.Content>
-                <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-            </CommandBar.Content>
-        </CommandBar>
+        <Grid Height="48" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
+                                TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown" VerticalAlignment="Center"
+                                ItemsSource="{x:Bind SearchBoxSuggestions}"/>
+                <AppBarButton Icon="Find" Label="Search" IsCompact="True" Visibility="Collapsed"/>
+            </StackPanel>            
+            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Center" Margin="16,0"/>
+        </Grid>
         <CommandBar VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
