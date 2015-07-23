@@ -15,6 +15,8 @@ namespace wallabag.Models
 
         public int ItemId { get; set; }
         public string TagsString { get; set; }
+        public string Url { get; set; }
+
         public OfflineActionTask Task { get; set; }
         
         public enum OfflineActionTask
