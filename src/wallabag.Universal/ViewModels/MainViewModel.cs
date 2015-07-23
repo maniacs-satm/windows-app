@@ -57,7 +57,7 @@ namespace wallabag.ViewModels
             });
             LoadFavoriteItemsCommand = new Command(async () =>
            {
-               await LoadItemsAsync(new FilterProperties() { itemType = FilterProperties.ItemType.Favorites });
+               await LoadItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.Favorites });
                IsHome = false;
            });
         }

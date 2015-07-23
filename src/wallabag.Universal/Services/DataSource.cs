@@ -51,21 +51,21 @@ namespace wallabag.Services
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             List<Item> result = new List<Item>();
 
-            switch (filterProperties.itemType)
+            switch (filterProperties.ItemType)
             {
-                case FilterProperties.ItemType.All:
+                case FilterProperties.FilterPropertiesItemType.All:
                     result = await conn.Table<Item>().ToListAsync();
                     break;
-                case FilterProperties.ItemType.Unread:
+                case FilterProperties.FilterPropertiesItemType.Unread:
                     result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
                     break;
-                case FilterProperties.ItemType.Favorites:
+                case FilterProperties.FilterPropertiesItemType.Favorites:
                     result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
                     break;
-                case FilterProperties.ItemType.Archived:
+                case FilterProperties.FilterPropertiesItemType.Archived:
                     result = await conn.Table<Item>().Where(i => i.IsRead == true && i.IsDeleted == false).ToListAsync();
                     break;
-                case FilterProperties.ItemType.Deleted:
+                case FilterProperties.FilterPropertiesItemType.Deleted:
                     result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
                     break;
             }
@@ -73,7 +73,7 @@ namespace wallabag.Services
             if (filterProperties.FilterTag != null)
                 result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
 
-            if (filterProperties.sortOrder == FilterProperties.SortOrder.Ascending)
+            if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
                 result = new List<Item>(result.OrderBy(i => i.CreationDate));
             else
                 result = new List<Item>(result.OrderByDescending(i => i.CreationDate));
@@ -161,16 +161,16 @@ namespace wallabag.Services
             }
             catch { return false; }
         }
-        public static async Task<bool> AddItemAsync(string url, string tags = "", string title = "")
+        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "")
         {
             HttpClient http = new HttpClient();
 
             await Helpers.AddHttpHeadersAsync(http);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("url", url);
-            parameters.Add("tags", tags);
-            parameters.Add("title", title);
+            parameters.Add("url", Url);
+            parameters.Add("tags", TagsString);
+            parameters.Add("title", Title);
 
             var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
 
@@ -205,11 +205,11 @@ namespace wallabag.Services
     [ImplementPropertyChanged]
     public class FilterProperties
     {
-        public ItemType itemType { get; set; } = ItemType.Unread;
-        public SortOrder sortOrder { get; set; } = SortOrder.Descending;
+        public FilterPropertiesItemType ItemType { get; set; } = FilterPropertiesItemType.Unread;
+        public FilterPropertiesSortOrder SortOrder { get; set; } = FilterPropertiesSortOrder.Descending;
         public Tag FilterTag { get; set; }
 
-        public enum SortOrder { Ascending, Descending }
-        public enum ItemType { All, Unread, Favorites, Archived, Deleted }
+        public enum FilterPropertiesSortOrder { Ascending, Descending }
+        public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }
     }
 }

@@ -23,7 +23,7 @@ namespace wallabag.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            List<Models.Item> allItems= await DataSource.GetItemsAsync(new FilterProperties() { itemType = FilterProperties.ItemType.All});
+            List<Models.Item> allItems= await DataSource.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All});
             foreach (var item in allItems)
                 TitleList.Add(item.Title);
         }

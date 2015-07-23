@@ -87,7 +87,7 @@ namespace wallabag.Universal
 
         private async void TagsListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await ViewModel.LoadItemsAsync(new Services.FilterProperties() { itemType = Services.FilterProperties.ItemType.All, FilterTag = (Tag)e.ClickedItem });
+            await ViewModel.LoadItemsAsync(new Services.FilterProperties() { ItemType = Services.FilterProperties.FilterPropertiesItemType.All, FilterTag = (Tag)e.ClickedItem });
             splitView.IsPaneOpen = false;
         }
     }
