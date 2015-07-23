@@ -27,6 +27,7 @@ namespace wallabag.Universal
                 {
                     HamburgerToggleButton.HorizontalAlignment = HorizontalAlignment.Right;
                     splitView.PanePlacement = SplitViewPanePlacement.Right;
+                    frame.Margin = new Thickness(0, 0, 48, 0);
                 }
             };
         }
@@ -56,7 +57,10 @@ namespace wallabag.Universal
                 else
                 {
                     HamburgerToggleButton.Visibility = Visibility.Visible;
-                    frame.Margin = new Thickness(48, 0, 0, 0);
+                    if (AppSettings.HamburgerPositionIsRight)
+                        frame.Margin = new Thickness(0, 0, 48, 0);
+                    else
+                        frame.Margin = new Thickness(48, 0, 0, 0);
                     splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
                     splitView.IsPaneOpen = _isPaneOpen;
                 }
