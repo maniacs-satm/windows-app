@@ -2,8 +2,10 @@
 
 namespace wallabag.ViewModels
 {
-    public class SettingsPageViewModel
+    public class SettingsPageViewModel : Common.Mvvm.ViewModelBase
     {
+        public override string ViewModelIdentifier { get; set; } = "SettingsPageViewModel";
+
         public string Username
         {
             get { return AppSettings.Username; }
