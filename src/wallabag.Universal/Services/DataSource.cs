@@ -169,6 +169,7 @@ namespace wallabag.Services
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
             await conn.CreateTableAsync<Tag>();
+            await conn.CreateTableAsync<OfflineAction>();
         }
     }
 

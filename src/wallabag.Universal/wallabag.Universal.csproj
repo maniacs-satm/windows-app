@@ -110,6 +110,7 @@
     </Compile>
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Models\OfflineAction.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\DataSource.cs" />
     <Compile Include="Models\Item.cs" />
