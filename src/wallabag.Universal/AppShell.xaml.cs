@@ -1,5 +1,5 @@
-﻿using System;
-using wallabag.Common;
+﻿using wallabag.Common;
+using wallabag.Models;
 using wallabag.ViewModels;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -33,9 +33,7 @@ namespace wallabag.Universal
 
         #region Navigation
 
-        private StateTriggerBase _defaultStateTrigger;
         private bool _isPaneOpen = false;
-
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
         {
             // After a successful navigation set keyboard focus to the loaded page
@@ -81,6 +79,12 @@ namespace wallabag.Universal
         private void ShowTagsMenuButton_Click(object sender, RoutedEventArgs e)
         {
             splitView.IsPaneOpen = true;
+        }
+
+        private async void TagsListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await ViewModel.LoadItemsAsync(new Services.FilterProperties() { itemType = Services.FilterProperties.ItemType.All, FilterTag = (Tag)e.ClickedItem });
+            splitView.IsPaneOpen = false;
         }
     }
 }

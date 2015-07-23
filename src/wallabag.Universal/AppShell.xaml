@@ -60,7 +60,7 @@
                         <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags" Visibility="Collapsed" Click="ShowTagsMenuButton_Click"/>
                         <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0"/>
                     </StackPanel>
-                    <ListView x:Name="TagsListView" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" Grid.Row="1">
+                    <ListView x:Name="TagsListView" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" Grid.Row="1" ItemClick="TagsListView_ItemClick" IsItemClickEnabled="True">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

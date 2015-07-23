@@ -19,7 +19,7 @@ namespace wallabag.ViewModels
         public bool IsHome { get; set; } = true;
 
         #region Tasks & Commands
-        private async Task LoadItemsAsync(FilterProperties FilterProperties)
+        public async Task LoadItemsAsync(FilterProperties FilterProperties)
         {
             Items.Clear();
             foreach (Item i in await DataSource.GetItemsAsync(FilterProperties))

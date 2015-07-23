@@ -39,7 +39,10 @@ namespace wallabag.Services
                 case FilterProperties.ItemType.Deleted:
                     result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
                     break;
-            }           
+            }
+
+            if (filterProperties.FilterTag != null)
+                result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
 
             if (filterProperties.sortOrder == FilterProperties.SortOrder.Ascending)
                 result = new List<Item>(result.OrderBy(i => i.CreationDate));
@@ -65,7 +68,7 @@ namespace wallabag.Services
             List<Tag> result = new List<Tag>();
 
             result = new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
-                        
+
             int colorIndex = 0;
             foreach (Tag tag in result)
             {
@@ -76,7 +79,7 @@ namespace wallabag.Services
 
                 tag.Color = Tag.PossibleColors[colorIndex];
             }
-            
+
             return result;
         }
 
@@ -172,16 +175,11 @@ namespace wallabag.Services
     [ImplementPropertyChanged]
     public class FilterProperties
     {
-        public ItemType itemType { get; set; }
-        public SortOrder sortOrder { get; set; }
+        public ItemType itemType { get; set; } = ItemType.Unread;
+        public SortOrder sortOrder { get; set; } = SortOrder.Descending;
+        public Tag FilterTag { get; set; }
 
         public enum SortOrder { Ascending, Descending }
         public enum ItemType { All, Unread, Favorites, Archived, Deleted }
-
-        public FilterProperties()
-        {
-            itemType = ItemType.Unread;
-            sortOrder = SortOrder.Descending;
-        }
     }
 }
