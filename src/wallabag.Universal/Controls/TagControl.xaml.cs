@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using wallabag.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,13 +30,20 @@ namespace wallabag.Controls
             var currentText = textBox.Text.ToLower();
             char comma;
             char.TryParse(",", out comma);
-            if (currentText.Length > 0 && currentText[currentText.Length - 1] == comma)
+
+            if (currentText.Length > 1 && currentText[currentText.Length - 1] == comma)
             {
                 currentText = currentText.Remove(currentText.Length - 1);
-                Tags.Add(new Tag() { Label = currentText });
+
+                var newTag = new Tag() { Label = currentText };
+
+                if (Tags.Where(t => t.Label == currentText).Count() == 0)
+                    Tags.Add(newTag);
+
                 textBox.Text = string.Empty;
                 UpdateRootGridBorderThickness();
-            }               
+                listView.ScrollIntoView(newTag);
+            }
         }
 
         private void listView_ItemClick(object sender, ItemClickEventArgs e)
@@ -50,6 +58,6 @@ namespace wallabag.Controls
                 RootGrid.BorderThickness = new Thickness(2, 2, 2, 0);
             else
                 RootGrid.BorderThickness = new Thickness(2, 0, 2, 0);
-        }    
+        }
     }
 }
