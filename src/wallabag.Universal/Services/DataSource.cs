@@ -60,8 +60,7 @@ namespace wallabag.Services
         }
         public static async Task<bool> DownloadItemsFromServerAsync()
         {
-            try
-            {
+            
                 var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
 
                 if (response.StatusCode == HttpStatusCode.Ok)
@@ -99,8 +98,7 @@ namespace wallabag.Services
                 }
                 else
                     return false;
-            }
-            catch { return false; }
+            
         }
 
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
@@ -187,19 +185,16 @@ namespace wallabag.Services
             parameters.Add("tags", TagsString);
             parameters.Add("title", Title);
 
-            try
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, "/entries", parameters);
+            if (response.StatusCode == HttpStatusCode.Ok)
             {
-                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, "/entries", parameters);
-                if (response.StatusCode == HttpStatusCode.Ok)
-                {
-                    Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
 
-                    await conn.InsertAsync(result);
-                    return true;
-                }
-                return false;
+                await conn.InsertAsync(result);
+                return true;
             }
-            catch { return false; }
+            return false;
+
         }
     }
 

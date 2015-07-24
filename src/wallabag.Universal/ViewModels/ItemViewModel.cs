@@ -101,60 +101,44 @@ namespace wallabag.ViewModels
             parameters.Add("star", Model.IsStarred);
             parameters.Add("delete", Model.IsDeleted);
 
-            try
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Patch, $"/entries/{Model.Id}", parameters);
+            if (response.StatusCode == HttpStatusCode.Ok)
             {
-                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Patch, $"/entries/{Model.Id}", parameters);
-
-                if (response.StatusCode == HttpStatusCode.Ok)
+                Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                if (resultItem.Title == Model.Title &&
+                    resultItem.IsRead == Model.IsRead &&
+                    resultItem.IsStarred == Model.IsStarred &&
+                    resultItem.IsDeleted == Model.IsDeleted)
                 {
-                    Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                    if (resultItem.Title == Model.Title &&
-                        resultItem.IsRead == Model.IsRead &&
-                        resultItem.IsStarred == Model.IsStarred &&
-                        resultItem.IsDeleted == Model.IsDeleted)
-                    {
-                        Model.LastUpdated = resultItem.LastUpdated;
-                        return true;
-                    }
+                    Model.LastUpdated = resultItem.LastUpdated;
+                    return true;
                 }
             }
-            catch { return false; }
             return false;
         }
         public async Task<bool> FetchInformationForItemAsync()
         {
-            try
-            {
-                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, $"/entries/{Model.Id}");
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, $"/entries/{Model.Id}");
 
-                if (response.StatusCode == HttpStatusCode.Ok)
-                {
-                    Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                    return true;
-                }
+            if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                return true;
             }
-            catch { return false; }
             return false;
         }
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
 
-            try
+            if (response.StatusCode == HttpStatusCode.Ok)
             {
-                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
+                var json = JsonConvert.DeserializeObject<Item>(response.Content.ToString());
+                return json.Tags ?? new ObservableCollection<Tag>();
+            }
 
-                if (response.StatusCode == HttpStatusCode.Ok)
-                {
-                    var json = JsonConvert.DeserializeObject<Item>(response.Content.ToString());
-                    return json.Tags ?? new ObservableCollection<Tag>();
-                }
-            }
-            catch
-            {
-                return null;
-            }
             return null;
         }
         public async Task<bool> DeleteTagAsync(Tag Tag)
@@ -163,14 +147,10 @@ namespace wallabag.ViewModels
         }
         public async static Task<bool> DeleteTagAsync(int ItemId, int TagId)
         {
-            try
-            {
-                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete,$"/entries/{ItemId}/tags/{TagId}");
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete,$"/entries/{ItemId}/tags/{TagId}");
 
-                if (response.StatusCode == HttpStatusCode.Ok)
-                    return true;
-            }
-            catch { return false; }
+            if (response.StatusCode == HttpStatusCode.Ok)
+                return true;
             return false;
         }
 

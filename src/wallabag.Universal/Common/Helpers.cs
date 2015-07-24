@@ -56,8 +56,8 @@ namespace wallabag.Common
 
                 var method = new HttpMethod(httpMethodString);
                 var request = new HttpRequestMessage(method, requestUri) { Content = content };
-
-                return await http.SendRequestAsync(request);
+                try { return await http.SendRequestAsync(request); }
+                catch { return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable); }
             }
         }
         public enum HttpRequestMethod { Delete, Get, Patch, Post, Put }
