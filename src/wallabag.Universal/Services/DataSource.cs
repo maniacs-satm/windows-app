@@ -16,6 +16,14 @@ namespace wallabag.Services
     public sealed class DataSource
     {
         private static string DATABASE_PATH { get; } = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
+        public static async Task InitializeDatabaseAsync()
+        {
+            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.OpenIfExists);
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            await conn.CreateTableAsync<Item>();
+            await conn.CreateTableAsync<Tag>();
+            await conn.CreateTableAsync<OfflineAction>();
+        }
 
         public static async Task<bool> SyncWithServerAsync()
         {
@@ -45,73 +53,6 @@ namespace wallabag.Services
 
             return true;
         }
-
-        public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
-            List<Item> result = new List<Item>();
-
-            switch (filterProperties.ItemType)
-            {
-                case FilterProperties.FilterPropertiesItemType.All:
-                    result = await conn.Table<Item>().ToListAsync();
-                    break;
-                case FilterProperties.FilterPropertiesItemType.Unread:
-                    result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
-                    break;
-                case FilterProperties.FilterPropertiesItemType.Favorites:
-                    result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
-                    break;
-                case FilterProperties.FilterPropertiesItemType.Archived:
-                    result = await conn.Table<Item>().Where(i => i.IsRead == true && i.IsDeleted == false).ToListAsync();
-                    break;
-                case FilterProperties.FilterPropertiesItemType.Deleted:
-                    result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
-                    break;
-            }
-
-            if (filterProperties.FilterTag != null)
-                result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
-
-            if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
-                result = new List<Item>(result.OrderBy(i => i.CreationDate));
-            else
-                result = new List<Item>(result.OrderByDescending(i => i.CreationDate));
-
-            return result;
-        }
-        public static async Task<Item> GetItemAsync(int Id)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
-            return await conn.GetAsync<Item>(i => i.Id == Id);
-        }
-        public static async Task<Item> GetItemAsync(string Title)
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
-            return await conn.GetAsync<Item>(i => i.Title == Title);
-        }
-
-        public static async Task<List<Tag>> GetTagsAsync()
-        {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
-            List<Tag> result = new List<Tag>();
-
-            result = new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
-
-            int colorIndex = 0;
-            foreach (Tag tag in result)
-            {
-                colorIndex += 1;
-
-                if (colorIndex / 17 == 1)
-                    colorIndex = 0;
-
-                tag.Color = Tag.PossibleColors[colorIndex];
-            }
-
-            return result;
-        }
-
         public static async Task<bool> DownloadItemsFromServerAsync()
         {
             HttpClient http = new HttpClient();
@@ -161,6 +102,73 @@ namespace wallabag.Services
             }
             catch { return false; }
         }
+
+        public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            List<Item> result = new List<Item>();
+
+            switch (filterProperties.ItemType)
+            {
+                case FilterProperties.FilterPropertiesItemType.All:
+                    result = await conn.Table<Item>().ToListAsync();
+                    break;
+                case FilterProperties.FilterPropertiesItemType.Unread:
+                    result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
+                    break;
+                case FilterProperties.FilterPropertiesItemType.Favorites:
+                    result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
+                    break;
+                case FilterProperties.FilterPropertiesItemType.Archived:
+                    result = await conn.Table<Item>().Where(i => i.IsRead == true && i.IsDeleted == false).ToListAsync();
+                    break;
+                case FilterProperties.FilterPropertiesItemType.Deleted:
+                    result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
+                    break;
+            }
+
+            if (filterProperties.FilterTag != null)
+                result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
+
+            if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
+                result = new List<Item>(result.OrderBy(i => i.CreationDate));
+            else
+                result = new List<Item>(result.OrderByDescending(i => i.CreationDate));
+
+            return result;
+        }
+        public static async Task<List<Tag>> GetTagsAsync()
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            List<Tag> result = new List<Tag>();
+
+            result = new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
+
+            int colorIndex = 0;
+            foreach (Tag tag in result)
+            {
+                colorIndex += 1;
+
+                if (colorIndex / 17 == 1)
+                    colorIndex = 0;
+
+                tag.Color = Tag.PossibleColors[colorIndex];
+            }
+
+            return result;
+        }
+
+        public static async Task<Item> GetItemAsync(int Id)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            return await conn.GetAsync<Item>(i => i.Id == Id);
+        }
+        public static async Task<Item> GetItemAsync(string Title)
+        {
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            return await conn.GetAsync<Item>(i => i.Title == Title);
+        }
+
         public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "")
         {
             HttpClient http = new HttpClient();
@@ -190,15 +198,6 @@ namespace wallabag.Services
                 return false;
             }
             catch { return false; }
-        }
-
-        public static async Task InitializeDatabaseAsync()
-        {
-            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.OpenIfExists);
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
-            await conn.CreateTableAsync<Item>();
-            await conn.CreateTableAsync<Tag>();
-            await conn.CreateTableAsync<OfflineAction>();
         }
     }
 
