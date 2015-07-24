@@ -8,6 +8,7 @@ using PropertyChanged;
 using SQLite;
 using wallabag.Common;
 using wallabag.Models;
+using wallabag.ViewModels;
 using Windows.Web.Http;
 
 namespace wallabag.Services
@@ -16,6 +17,7 @@ namespace wallabag.Services
     public sealed class DataSource
     {
         private static string DATABASE_PATH { get; } = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
+        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
         public static async Task InitializeDatabaseAsync()
         {
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.OpenIfExists);
@@ -30,27 +32,30 @@ namespace wallabag.Services
             if (!Helpers.IsConnectedToTheInternet)
                 return false;
 
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             var tasks = await conn.Table<OfflineAction>().ToListAsync();
 
             foreach (var task in tasks)
             {
+                bool success = false;
                 switch (task.Task)
                 {
                     case OfflineAction.OfflineActionTask.AddItem:
-                        await AddItemAsync(task.Url, task.TagsString);
+                        success = await AddItemAsync(task.Url, task.TagsString);
                         break;
                     case OfflineAction.OfflineActionTask.DeleteItem:
-                        throw new NotImplementedException(); 
-                    case OfflineAction.OfflineActionTask.ModifyTags:
+                        success = await ItemViewModel.DeleteItemAsync(task.ItemId);
+                        break;
+                    case OfflineAction.OfflineActionTask.AddTags:
                         throw new NotImplementedException();
                     case OfflineAction.OfflineActionTask.SwitchFavoriteStatus:
                         throw new NotImplementedException();
                     case OfflineAction.OfflineActionTask.SwitchReadStatus:
                         throw new NotImplementedException();
                 }
+                if (success)
+                    await conn.DeleteAsync(task);
             }
-
+            await DownloadItemsFromServerAsync();
             return true;
         }
         public static async Task<bool> DownloadItemsFromServerAsync()
@@ -66,7 +71,6 @@ namespace wallabag.Services
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
                     var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
-                    SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
 
                     foreach (var item in json.Embedded.Items)
                     {
@@ -171,6 +175,17 @@ namespace wallabag.Services
 
         public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "")
         {
+            if (!Helpers.IsConnectedToTheInternet)
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.AddItem,
+                    Url = Url,
+                    TagsString = TagsString
+                });
+                return false;
+            }
+
             HttpClient http = new HttpClient();
 
             await Helpers.AddHttpHeadersAsync(http);
@@ -191,7 +206,6 @@ namespace wallabag.Services
                 {
                     Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
 
-                    SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
                     await conn.InsertAsync(result);
                     return true;
                 }
