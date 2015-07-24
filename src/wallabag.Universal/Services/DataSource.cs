@@ -60,13 +60,9 @@ namespace wallabag.Services
         }
         public static async Task<bool> DownloadItemsFromServerAsync()
         {
-            HttpClient http = new HttpClient();
-            await Helpers.AddHttpHeadersAsync(http);
-
             try
             {
-                var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries.json"));
-                http.Dispose();
+                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
 
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
@@ -186,22 +182,14 @@ namespace wallabag.Services
                 return false;
             }
 
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHttpHeadersAsync(http);
-
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", Url);
             parameters.Add("tags", TagsString);
             parameters.Add("title", Title);
 
-            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-
             try
             {
-                var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries.json"), content);
-                http.Dispose();
-
+                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, "/entries", parameters);
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
                     Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));

@@ -86,11 +86,7 @@ namespace wallabag.ViewModels
         }
         public static async Task<bool> DeleteItemAsync(int ItemId)
         {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHttpHeadersAsync(http);
-            var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{ItemId}.json"));
-            http.Dispose();
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete, $"/entries/{ItemId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;
@@ -98,10 +94,6 @@ namespace wallabag.ViewModels
         }
         public async Task<bool> UpdateItemAsync()
         {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHttpHeadersAsync(http);
-
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("title", Model.Title);
             parameters.Add("tags", Model.Tags.ToCommaSeparatedString());
@@ -109,11 +101,9 @@ namespace wallabag.ViewModels
             parameters.Add("star", Model.IsStarred);
             parameters.Add("delete", Model.IsDeleted);
 
-            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
             try
             {
-                var response = await http.PatchAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"), content);
-                http.Dispose();
+                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Patch, $"/entries/{Model.Id}", parameters);
 
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
@@ -133,13 +123,9 @@ namespace wallabag.ViewModels
         }
         public async Task<bool> FetchInformationForItemAsync()
         {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHttpHeadersAsync(http);
             try
             {
-                var response = await http.GetAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{Model.Id}.json"));
-                http.Dispose();
+                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, $"/entries/{Model.Id}");
 
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
@@ -153,16 +139,11 @@ namespace wallabag.ViewModels
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags)
         {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHttpHeadersAsync(http);
             Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
 
-            var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
             try
             {
-                var response = await http.PostAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{ItemId}/tags.json"), content);
-                http.Dispose();
+                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
 
                 if (response.StatusCode == HttpStatusCode.Ok)
                 {
@@ -182,13 +163,9 @@ namespace wallabag.ViewModels
         }
         public async static Task<bool> DeleteTagAsync(int ItemId, int TagId)
         {
-            HttpClient http = new HttpClient();
-
-            await Helpers.AddHttpHeadersAsync(http);
             try
             {
-                var response = await http.DeleteAsync(new Uri($"{AppSettings.wallabagUrl}/api/entries/{ItemId}/tags/{TagId}.json"));
-                http.Dispose();
+                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete,$"/entries/{ItemId}/tags/{TagId}");
 
                 if (response.StatusCode == HttpStatusCode.Ok)
                     return true;

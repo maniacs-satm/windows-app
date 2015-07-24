@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using wallabag.Services;
 using Windows.ApplicationModel.Resources;
 using Windows.Networking.Connectivity;
@@ -32,5 +35,31 @@ namespace wallabag.Common
                 return (connectionProfile != null && connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
             }
         }
+
+        public static async Task<HttpResponseMessage> ExecuteHttpRequestAsync(HttpRequestMethod httpRequestMethod, string RelativeUriString, Dictionary<string, object> parameters = default(Dictionary<string, object>))
+        {
+            using (HttpClient http = new HttpClient())
+            {
+                await AddHttpHeadersAsync(http);
+
+                Uri requestUri = new Uri($"{AppSettings.wallabagUrl}/api{RelativeUriString}.json");
+                var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+
+                string httpMethodString = "GET";
+                switch (httpRequestMethod)
+                {
+                    case HttpRequestMethod.Delete: httpMethodString = "DELETE"; break;
+                    case HttpRequestMethod.Patch: httpMethodString = "PATCH"; break;
+                    case HttpRequestMethod.Post: httpMethodString = "POST"; break;
+                    case HttpRequestMethod.Put: httpMethodString = "PUT"; break;
+                }
+
+                var method = new HttpMethod(httpMethodString);
+                var request = new HttpRequestMessage(method, requestUri) { Content = content };
+
+                return await http.SendRequestAsync(request);
+            }
+        }
+        public enum HttpRequestMethod { Delete, Get, Patch, Post, Put }
     }
 }
