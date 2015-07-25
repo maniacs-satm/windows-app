@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -46,6 +45,9 @@ namespace wallabag.Services
                         break;
                     case OfflineAction.OfflineActionTask.AddTags:
                         success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString)) != null;
+                        break;
+                    case OfflineAction.OfflineActionTask.DeleteTag:
+                        success = await ItemViewModel.DeleteTagAsync(task.ItemId, task.TagId);
                         break;
                     case OfflineAction.OfflineActionTask.SwitchFavoriteStatus:
                         throw new NotImplementedException();
