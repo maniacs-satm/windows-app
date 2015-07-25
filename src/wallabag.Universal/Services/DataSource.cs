@@ -16,12 +16,11 @@ namespace wallabag.Services
     [ImplementPropertyChanged]
     public sealed class DataSource
     {
-        private static string DATABASE_PATH { get; } = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
-        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
         public static async Task InitializeDatabaseAsync()
         {
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.OpenIfExists);
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
             await conn.CreateTableAsync<Tag>();
             await conn.CreateTableAsync<OfflineAction>();
@@ -103,7 +102,6 @@ namespace wallabag.Services
 
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             List<Item> result = new List<Item>();
 
             switch (filterProperties.ItemType)
@@ -137,7 +135,6 @@ namespace wallabag.Services
         }
         public static async Task<List<Tag>> GetTagsAsync()
         {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             List<Tag> result = new List<Tag>();
 
             result = new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
@@ -158,12 +155,10 @@ namespace wallabag.Services
 
         public static async Task<Item> GetItemAsync(int Id)
         {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             return await conn.GetAsync<Item>(i => i.Id == Id);
         }
         public static async Task<Item> GetItemAsync(string Title)
         {
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             return await conn.GetAsync<Item>(i => i.Title == Title);
         }
 

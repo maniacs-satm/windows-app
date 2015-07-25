@@ -12,6 +12,8 @@ namespace wallabag.Common
 {
     public static class Helpers
     {
+        public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
+
         /// <summary>
         /// There are several languages. To access them from code-behind this way is required.
         /// </summary>
