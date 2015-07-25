@@ -36,7 +36,6 @@ namespace wallabag.ViewModels
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
-            UpdateCommand = new Command(async () => await UpdateItemAsync());
             DeleteCommand = new Command(async () => await DeleteItemAsync());
             SwitchReadStatusCommand = new Command(async () => await SwitchReadValueAsync());
             SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteValueAsync());
@@ -55,7 +54,6 @@ namespace wallabag.ViewModels
                     await AddTagsAsync(Model.Id, item.Label);
         }
 
-        public Command UpdateCommand { get; private set; }
         public Command DeleteCommand { get; private set; }
         public Command SwitchReadStatusCommand { get; private set; }
         public Command SwitchFavoriteStatusCommand { get; private set; }
