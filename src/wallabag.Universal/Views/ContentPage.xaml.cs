@@ -23,7 +23,7 @@ namespace wallabag.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            List<Models.Item> allItems= await DataSource.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All});
+            List<Models.Item> allItems= await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All});
             foreach (var item in allItems)
                 TitleList.Add(item.Title);
         }
@@ -51,7 +51,7 @@ namespace wallabag.Views
             // TODO: It's not working atm.
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                var id = (await DataSource.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
+                var id = (await DataService.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SingleItemPage), id.ToString());
             }
         }

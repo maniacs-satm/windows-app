@@ -112,7 +112,7 @@
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\OfflineAction.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
-    <Compile Include="Services\DataSource.cs" />
+    <Compile Include="Services\DataService.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="AppShell.xaml.cs">

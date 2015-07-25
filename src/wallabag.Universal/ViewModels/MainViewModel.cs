@@ -22,7 +22,7 @@ namespace wallabag.ViewModels
         public async Task LoadItemsAsync(FilterProperties FilterProperties)
         {
             Items.Clear();
-            foreach (Item i in await DataSource.GetItemsAsync(FilterProperties))
+            foreach (Item i in await DataService.GetItemsAsync(FilterProperties))
                 Items.Add(new ItemViewModel(i));
         }
 
@@ -35,16 +35,16 @@ namespace wallabag.ViewModels
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             await LoadItemsAsync(new FilterProperties());
-            Tags = new ObservableCollection<Tag>(await DataSource.GetTagsAsync());
+            Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
         }
 
         public MainViewModel()
         {
             RefreshCommand = new Command(async () =>
             {
-                await DataSource.DownloadItemsFromServerAsync();
+                await DataService.SyncWithServerAsync();
                 await LoadItemsAsync(new FilterProperties());
-                Tags = new ObservableCollection<Tag>(await DataSource.GetTagsAsync());
+                Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
             });
             NavigateToSettingsPageCommand = new Command(() =>
             {

@@ -14,7 +14,7 @@ using Windows.Web.Http;
 namespace wallabag.Services
 {
     [ImplementPropertyChanged]
-    public sealed class DataSource
+    public sealed class DataService
     {
         private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
         public static async Task InitializeDatabaseAsync()

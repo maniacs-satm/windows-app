@@ -21,7 +21,7 @@ namespace wallabag.ViewModels
             Tags = new ObservableCollection<Tag>();
             AddItemCommand = new Command(async () =>
             {
-                await DataSource.AddItemAsync(Url, Tags.ToCommaSeparatedString());
+                await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
                 Url = string.Empty;
                 Tags.Clear();
             });

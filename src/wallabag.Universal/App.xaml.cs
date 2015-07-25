@@ -12,7 +12,7 @@ namespace wallabag.Universal
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            await Services.DataSource.InitializeDatabaseAsync();           
+            await Services.DataService.InitializeDatabaseAsync();           
             NavigationService.Navigate(typeof(Views.ContentPage));
         }
     }

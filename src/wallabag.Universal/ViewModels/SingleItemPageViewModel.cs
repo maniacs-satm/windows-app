@@ -76,7 +76,7 @@ namespace wallabag.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(parameter))
             {
-                CurrentItem = new ItemViewModel(await DataSource.GetItemAsync(int.Parse(parameter)));
+                CurrentItem = new ItemViewModel(await DataService.GetItemAsync(int.Parse(parameter)));
                 await CurrentItem.CreateContentFromTemplateAsync();
 
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;

@@ -6,12 +6,12 @@ using wallabag.Services;
 namespace wallabag.UnitTests
 {
     [TestClass]
-    public class DataSourceTests
+    public class DataServiceTests
     {
         [TestMethod]
         public async Task GetItems()
         {
-            var collection = await DataSource.GetItemsAsync(new FilterProperties());
+            var collection = await DataService.GetItemsAsync(new FilterProperties());
             CollectionAssert.AllItemsAreUnique(collection);
             CollectionAssert.AllItemsAreInstancesOfType(collection, typeof(Item));
         }
@@ -19,7 +19,7 @@ namespace wallabag.UnitTests
         [TestMethod]
         public async Task GetSingleItem()
         {
-            Item i = await DataSource.GetItemAsync(1);
+            Item i = await DataService.GetItemAsync(1);
             Assert.AreEqual(1, i.Id);
         }
 
@@ -29,7 +29,7 @@ namespace wallabag.UnitTests
         [DataRow("http://www.sueddeutsche.de/politik/wagenknecht-auf-linken-parteitag-in-bielefeld-gegen-die-luegner-aus-der-trueben-bruehe-1.2508967", "politik")]
         public async Task AddItem(string Url, string Tags)
         {
-            Assert.AreEqual(true, await DataSource.AddItemAsync(Url, Tags));
+            Assert.AreEqual(true, await DataService.AddItemAsync(Url, Tags));
         }
     }
 }
