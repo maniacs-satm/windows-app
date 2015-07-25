@@ -45,7 +45,8 @@ namespace wallabag.Services
                         success = await ItemViewModel.DeleteItemAsync(task.ItemId);
                         break;
                     case OfflineAction.OfflineActionTask.AddTags:
-                        throw new NotImplementedException();
+                        success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString)) != null;
+                        break;
                     case OfflineAction.OfflineActionTask.SwitchFavoriteStatus:
                         throw new NotImplementedException();
                     case OfflineAction.OfflineActionTask.SwitchReadStatus:
@@ -59,45 +60,44 @@ namespace wallabag.Services
         }
         public static async Task<bool> DownloadItemsFromServerAsync()
         {
-            
-                var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
 
-                if (response.StatusCode == HttpStatusCode.Ok)
+            if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+
+                foreach (var item in json.Embedded.Items)
                 {
-                    var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                    var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
-                    foreach (var item in json.Embedded.Items)
+                    if (existingItem == null)
+                        await conn.InsertAsync(item);
+                    else
                     {
-                        var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
+                        existingItem.Title = item.Title;
+                        existingItem.Url = item.Url;
+                        existingItem.IsRead = item.IsRead;
+                        existingItem.IsStarred = item.IsStarred;
+                        existingItem.IsDeleted = item.IsDeleted;
+                        existingItem.Content = item.Content;
+                        existingItem.CreationDate = item.CreationDate;
+                        existingItem.LastUpdated = item.LastUpdated;
 
-                        if (existingItem == null)
-                            await conn.InsertAsync(item);
-                        else
-                        {
-                            existingItem.Title = item.Title;
-                            existingItem.Url = item.Url;
-                            existingItem.IsRead = item.IsRead;
-                            existingItem.IsStarred = item.IsStarred;
-                            existingItem.IsDeleted = item.IsDeleted;
-                            existingItem.Content = item.Content;
-                            existingItem.CreationDate = item.CreationDate;
-                            existingItem.LastUpdated = item.LastUpdated;
-
-                            await conn.UpdateAsync(existingItem);
-                        }
-
-                        foreach (Tag tag in item.Tags)
-                        {
-                            var existingTag = await (conn.Table<Tag>().Where(i => i.Id == tag.Id)).FirstOrDefaultAsync();
-                            if (existingTag == null)
-                                await conn.InsertAsync(tag);
-                        }
+                        await conn.UpdateAsync(existingItem);
                     }
-                    return true;
+
+                    foreach (Tag tag in item.Tags)
+                    {
+                        var existingTag = await (conn.Table<Tag>().Where(i => i.Id == tag.Id)).FirstOrDefaultAsync();
+                        if (existingTag == null)
+                            await conn.InsertAsync(tag);
+                    }
                 }
-                else
-                    return false;
-            
+                return true;
+            }
+            else
+                return false;
+
         }
 
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
@@ -144,7 +144,7 @@ namespace wallabag.Services
             {
                 colorIndex += 1;
 
-                if (colorIndex / 17 == 1)
+                if (colorIndex / Tag.PossibleColors.Count == 1)
                     colorIndex = 0;
 
                 tag.Color = Tag.PossibleColors[colorIndex];
@@ -188,8 +188,16 @@ namespace wallabag.Services
                 await conn.InsertAsync(result);
                 return true;
             }
-            return false;
-
+            else
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.AddItem,
+                    Url = Url,
+                    TagsString = TagsString
+                });
+                return false;
+            }
         }
     }
 

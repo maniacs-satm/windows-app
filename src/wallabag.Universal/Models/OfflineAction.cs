@@ -3,7 +3,7 @@
 namespace wallabag.Models
 {
     [Table("Actions")]
-    class OfflineAction
+    public class OfflineAction
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }

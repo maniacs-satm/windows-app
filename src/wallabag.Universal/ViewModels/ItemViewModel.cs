@@ -16,6 +16,7 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class ItemViewModel : ViewModelBase
     {
+        private static SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
         public override string ViewModelIdentifier { get; set; } = "ItemViewModel";
 
         #region Properties
@@ -86,11 +87,29 @@ namespace wallabag.ViewModels
         }
         public static async Task<bool> DeleteItemAsync(int ItemId)
         {
+            if (!Helpers.IsConnectedToTheInternet)
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.DeleteItem,
+                    ItemId = ItemId
+                });
+                return false;
+            }
+
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete, $"/entries/{ItemId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;
-            return false;
+            else
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.DeleteItem,
+                    ItemId = ItemId
+                });
+                return false;
+            }
         }
         public async Task<bool> UpdateItemAsync()
         {
@@ -116,20 +135,20 @@ namespace wallabag.ViewModels
             }
             return false;
         }
-        public async Task<bool> FetchInformationForItemAsync()
-        {
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, $"/entries/{Model.Id}");
-
-            if (response.StatusCode == HttpStatusCode.Ok)
-            {
-                Model = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                return true;
-            }
-            return false;
-        }
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags)
         {
+            if (!Helpers.IsConnectedToTheInternet)
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.AddTags,
+                    ItemId = ItemId,
+                    TagsString = tags
+                });
+                return null;
+            }
+
             Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
 
@@ -138,8 +157,16 @@ namespace wallabag.ViewModels
                 var json = JsonConvert.DeserializeObject<Item>(response.Content.ToString());
                 return json.Tags ?? new ObservableCollection<Tag>();
             }
-
-            return null;
+            else
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.AddTags,
+                    ItemId = ItemId,
+                    TagsString = tags
+                });
+                return null;
+            }
         }
         public async Task<bool> DeleteTagAsync(Tag Tag)
         {
@@ -147,11 +174,33 @@ namespace wallabag.ViewModels
         }
         public async static Task<bool> DeleteTagAsync(int ItemId, int TagId)
         {
+            if (!Helpers.IsConnectedToTheInternet)
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.DeleteTag,
+                    ItemId = ItemId,
+                    TagId = TagId
+                });
+                return false;
+            }
+
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete,$"/entries/{ItemId}/tags/{TagId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
+            {
                 return true;
-            return false;
+            }
+            else
+            {
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.DeleteTag,
+                    ItemId = ItemId,
+                    TagId = TagId
+                });
+                return false;
+            }
         }
 
         public async Task<bool> SwitchReadValueAsync()
