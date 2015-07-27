@@ -133,6 +133,16 @@ namespace wallabag.ViewModels
             }
             return false;
         }
+        public static async Task<bool> UpdateSpecificProperty(int itemId, string propertyName, object propertyValue)
+        {
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add(propertyName, propertyValue);
+
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Patch, $"/entries/{itemId}", parameters);
+            if (response.StatusCode == HttpStatusCode.Ok)
+                return true;
+            return false;
+        }
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags)
         {
@@ -170,7 +180,7 @@ namespace wallabag.ViewModels
         {
             return await DeleteTagAsync(Model.Id, Tag.Id);
         }
-        public async static Task<bool> DeleteTagAsync(int ItemId, int TagId)
+        public static async Task<bool> DeleteTagAsync(int ItemId, int TagId)
         {
             if (!Helpers.IsConnectedToTheInternet)
             {
@@ -207,7 +217,37 @@ namespace wallabag.ViewModels
                 Model.IsRead = false;
             else
                 Model.IsRead = true;
-            return await UpdateItemAsync();
+
+            if (!Helpers.IsConnectedToTheInternet)
+            {
+                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
+
+                if (!Model.IsRead)
+                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
+
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = actionTask,
+                    ItemId = Model.Id
+                });
+                return false;
+            }
+
+            if (await UpdateItemAsync() == false)
+            {
+                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
+
+                if (!Model.IsStarred)
+                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
+
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = actionTask,
+                    ItemId = Model.Id
+                });
+                return false;
+            }
+            else return true;
         }
         public async Task<bool> SwitchFavoriteValueAsync()
         {
@@ -215,7 +255,37 @@ namespace wallabag.ViewModels
                 Model.IsStarred = false;
             else
                 Model.IsStarred = true;
-            return await UpdateItemAsync();
+
+            if (!Helpers.IsConnectedToTheInternet)
+            {
+                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
+
+                if (!Model.IsStarred)
+                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
+
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = actionTask,
+                    ItemId = Model.Id
+                });
+                return false;
+            }
+
+            if (await UpdateItemAsync() == false)
+            {
+                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
+
+                if (!Model.IsStarred)
+                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
+
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = actionTask,
+                    ItemId = Model.Id
+                });
+                return false;
+            }
+            else return true;
         }
         #endregion
     }

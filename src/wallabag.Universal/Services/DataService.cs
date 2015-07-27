@@ -49,10 +49,18 @@ namespace wallabag.Services
                     case OfflineAction.OfflineActionTask.DeleteTag:
                         success = await ItemViewModel.DeleteTagAsync(task.ItemId, task.TagId);
                         break;
-                    case OfflineAction.OfflineActionTask.SwitchFavoriteStatus:
-                        throw new NotImplementedException();
-                    case OfflineAction.OfflineActionTask.SwitchReadStatus:
-                        throw new NotImplementedException();
+                    case OfflineAction.OfflineActionTask.MarkItemAsRead:
+                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", true);
+                        break;
+                    case OfflineAction.OfflineActionTask.UnmarkItemAsRead:
+                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", false);
+                        break;
+                    case OfflineAction.OfflineActionTask.MarkItemAsFavorite:
+                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
+                        break;
+                    case OfflineAction.OfflineActionTask.UnmarkItemAsFavorite:
+                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
+                        break;
                 }
                 if (success)
                     await conn.DeleteAsync(task);

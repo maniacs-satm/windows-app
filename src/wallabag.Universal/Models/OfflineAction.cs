@@ -21,8 +21,10 @@ namespace wallabag.Models
             DeleteItem,
             AddTags,
             DeleteTag,   
-            SwitchReadStatus,
-            SwitchFavoriteStatus
+            MarkItemAsRead,
+            UnmarkItemAsRead,
+            MarkItemAsFavorite,
+            UnmarkItemAsFavorite
         }
     }
 }
