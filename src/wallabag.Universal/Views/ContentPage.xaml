@@ -10,8 +10,18 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView x:Name="ItemGridView" ItemsSource="{Binding Items}" Padding="4,52,4,4" Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
-                  IsItemClickEnabled="True" ItemClick="ItemGridView_ItemClick" EntranceNavigationTransitionInfo.IsTargetElement="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GridView x:Name="ItemGridView"
+                  Grid.Row="1"
+                  Padding="4"
+                  Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
+                  ItemsSource="{Binding Items}"
+                  IsItemClickEnabled="True"
+                  ItemClick="ItemGridView_ItemClick"
+                  EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ItemViewModel">
                     <Grid Width="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -24,12 +34,11 @@
                         <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis"
                                    MaxLines="2" TextAlignment="Left" VerticalAlignment="Bottom" Margin="10,15"
                                    Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Row="1"/>
-
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <Grid Height="48" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
                                 TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown" VerticalAlignment="Center"
@@ -38,11 +47,11 @@
             </StackPanel>            
             <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Center" Margin="16,0"/>
         </Grid>
-        <CommandBar VerticalAlignment="Bottom" HorizontalAlignment="Right">
+        <CommandBar VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1">
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
         </CommandBar>
-        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK"
+        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" Grid.RowSpan="2"
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
             <ContentDialog.DataContext>
