@@ -66,9 +66,9 @@ namespace wallabag.ViewModels
             DownloadItemCommand = new Command(async () => { await DownloadItemAsFileAsync(); });
             MarkItemAsReadCommand = new Command(async () =>
             {
+                await CurrentItem.SwitchReadValueAsync();
                 if (AppSettings.NavigateBackAfterReadingAnArticle)
                     Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
-                await CurrentItem.SwitchReadValueAsync();
             });
         }
 
