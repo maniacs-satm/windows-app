@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -9,6 +9,7 @@ using wallabag.Common;
 using wallabag.Common.Mvvm;
 using wallabag.Models;
 using Windows.Storage;
+using Windows.UI.Xaml;
 using Windows.Web.Http;
 
 namespace wallabag.ViewModels
@@ -65,6 +66,13 @@ namespace wallabag.ViewModels
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Article/article.html"));
             string _template = await FileIO.ReadTextAsync(file);
 
+            string accentColor = Application.Current.Resources["SystemAccentColor"].ToString().Remove(1,2);
+            StringBuilder styleSheetBuilder = new StringBuilder();
+            styleSheetBuilder.Append("<style>");
+            styleSheetBuilder.Append("hr {border-color: " + accentColor + " !important}");
+            styleSheetBuilder.Append("::selection,mark {background: " + accentColor + " !important}");
+            styleSheetBuilder.Append("</style>");
+
             ContentWithHeader = _template.FormatWith(new
             {
                 title = Model.Title,
@@ -75,7 +83,9 @@ namespace wallabag.ViewModels
                 font = AppSettings.FontFamily,
                 fontSize = AppSettings.FontSize,
                 lineHeight = AppSettings.LineHeight,
-                progress = Model.ReadingProgress
+                progress = Model.ReadingProgress,
+                publishDate = string.Format("{0:d}", Model.CreationDate),
+                accentColorStylesheet = styleSheetBuilder.ToString()
             });
         }
 

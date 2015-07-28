@@ -191,6 +191,7 @@ article {
 }
 .wallabag-header h2 {
   border: solid lightgray;
+  color: gray;
   border-width: 1px 0;
   display: block;
   font-size: 0.9em;
@@ -200,8 +201,12 @@ article {
   margin-top: 0.75em;
   padding: 0.2em 0;
 }
+.wallabag-header h2 a,
+.wallabag-header h2 span {
+  margin: 0 0.25em;
+}
 .wallabag-header h2 a {
-  color: #666666 !important;
+  color: gray !important;
   text-decoration: none;
 }
 /*-----------------------------------------------------------------*/
@@ -229,4 +234,11 @@ article {
 }
 [data-color="dark"] a {
   color: #e6e6e6;
+}
+[data-color="sepia"] body {
+  background: beige;
+  color: maroon;
+}
+[data-color="sepia"] a {
+  color: #9a0000;
 }

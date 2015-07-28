@@ -207,6 +207,7 @@ article {
 
     h2 {
         border: solid lightgray;
+        color: hsl(0, 0%, 50%);
         border-width: 1px 0;
         display: block;
         font-size: 0.9em;
@@ -216,8 +217,12 @@ article {
         margin-top: 0.75em;
         padding: 0.2em 0;
 
+        a, span {
+            margin: 0 0.25em;
+        }
+
         a {
-            color: @accent-color !important;
+            color: hsl(0, 0%, 50%) !important;
             text-decoration: none;
         }
     }
@@ -227,16 +232,12 @@ article {
 /*----------------------- Customization ---------------------------*/
 /*-----------------------------------------------------------------*/
 
-[data-font="serif"] {
-    body {
-        font-family: Georgia, 'Times New Roman', Times, serif;
-    }
+[data-font="serif"] body {
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-[data-font="sans"] {
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+[data-font="sans"] body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 [data-color="light"] {
@@ -258,5 +259,16 @@ article {
 
     a {
         color: hsl(0, 0%, 90%);
+    }
+}
+
+[data-color="sepia"] {
+    body {
+        background: beige;
+        color: maroon;
+    }
+
+    a {
+        color: lighten(maroon, 5%);
     }
 }
