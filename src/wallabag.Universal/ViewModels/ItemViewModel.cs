@@ -81,7 +81,9 @@ namespace wallabag.ViewModels
 
         public async Task<bool> DeleteItemAsync()
         {
-            return Model.IsDeleted = await DeleteItemAsync(Model.Id);
+            bool result = Model.IsDeleted = await DeleteItemAsync(Model.Id);
+            await conn.UpdateAsync(Model);
+            return result;
         }
         public static async Task<bool> DeleteItemAsync(int ItemId)
         {
@@ -128,6 +130,7 @@ namespace wallabag.ViewModels
                     resultItem.IsDeleted == Model.IsDeleted)
                 {
                     Model.LastUpdated = resultItem.LastUpdated;
+                    await conn.UpdateAsync(Model);
                     return true;
                 }
             }
@@ -178,7 +181,10 @@ namespace wallabag.ViewModels
         }
         public async Task<bool> DeleteTagAsync(Tag Tag)
         {
-            return await DeleteTagAsync(Model.Id, Tag.Id);
+            bool result =  await DeleteTagAsync(Model.Id, Tag.Id);
+            if (result)
+                await conn.UpdateAsync(Model);
+            return result;
         }
         public static async Task<bool> DeleteTagAsync(int ItemId, int TagId)
         {
@@ -196,9 +202,7 @@ namespace wallabag.ViewModels
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete,$"/entries/{ItemId}/tags/{TagId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
-            {
                 return true;
-            }
             else
             {
                 await conn.InsertAsync(new OfflineAction()
@@ -211,43 +215,25 @@ namespace wallabag.ViewModels
             }
         }
 
-        public async Task<bool> SwitchReadValueAsync()
+        public async Task SwitchReadValueAsync()
         {
             if (Model.IsRead)
                 Model.IsRead = false;
             else
                 Model.IsRead = true;
 
-            if (!Helpers.IsConnectedToTheInternet)
+            await conn.UpdateAsync(Model);
+
+            OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
+
+            if (!Model.IsRead)
+                actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
+
+            await conn.InsertAsync(new OfflineAction()
             {
-                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
-
-                if (!Model.IsRead)
-                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
-
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = actionTask,
-                    ItemId = Model.Id
-                });
-                return false;
-            }
-
-            if (await UpdateItemAsync() == false)
-            {
-                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
-
-                if (!Model.IsStarred)
-                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
-
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = actionTask,
-                    ItemId = Model.Id
-                });
-                return false;
-            }
-            else return true;
+                Task = actionTask,
+                ItemId = Model.Id
+            });
         }
         public async Task<bool> SwitchFavoriteValueAsync()
         {
