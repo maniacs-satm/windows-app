@@ -38,16 +38,16 @@ namespace wallabag.Services
                 switch (task.Task)
                 {
                     case OfflineAction.OfflineActionTask.AddItem:
-                        success = await AddItemAsync(task.Url, task.TagsString);
+                        success = await AddItemAsync(task.Url, task.TagsString, string.Empty, true);
                         break;
                     case OfflineAction.OfflineActionTask.DeleteItem:
-                        success = await ItemViewModel.DeleteItemAsync(task.ItemId);
+                        success = await ItemViewModel.DeleteItemAsync(task.ItemId, true);
                         break;
                     case OfflineAction.OfflineActionTask.AddTags:
-                        success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString)) != null;
+                        success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString, true)) != null;
                         break;
                     case OfflineAction.OfflineActionTask.DeleteTag:
-                        success = await ItemViewModel.DeleteTagAsync(task.ItemId, task.TagId);
+                        success = await ItemViewModel.DeleteTagAsync(task.ItemId, task.TagId, true);
                         break;
                     case OfflineAction.OfflineActionTask.MarkItemAsRead:
                         success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", true);
@@ -172,9 +172,9 @@ namespace wallabag.Services
             return await conn.GetAsync<Item>(i => i.Title == Title);
         }
 
-        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "")
+        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false)
         {
-            if (!Helpers.IsConnectedToTheInternet)
+            if (!Helpers.IsConnectedToTheInternet && !IsOfflineTask)
             {
                 await conn.InsertAsync(new OfflineAction()
                 {
@@ -200,12 +200,13 @@ namespace wallabag.Services
             }
             else
             {
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.AddItem,
-                    Url = Url,
-                    TagsString = TagsString
-                });
+                if (!IsOfflineTask)
+                    await conn.InsertAsync(new OfflineAction()
+                    {
+                        Task = OfflineAction.OfflineActionTask.AddItem,
+                        Url = Url,
+                        TagsString = TagsString
+                    });
                 return false;
             }
         }

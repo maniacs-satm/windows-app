@@ -85,9 +85,9 @@ namespace wallabag.ViewModels
             await conn.UpdateAsync(Model);
             return result;
         }
-        public static async Task<bool> DeleteItemAsync(int ItemId)
+        public static async Task<bool> DeleteItemAsync(int ItemId, bool IsOfflineTask = false)
         {
-            if (!Helpers.IsConnectedToTheInternet)
+            if (!Helpers.IsConnectedToTheInternet && !IsOfflineTask)
             {
                 await conn.InsertAsync(new OfflineAction()
                 {
@@ -103,11 +103,12 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.DeleteItem,
-                    ItemId = ItemId
-                });
+                if (!IsOfflineTask)
+                    await conn.InsertAsync(new OfflineAction()
+                    {
+                        Task = OfflineAction.OfflineActionTask.DeleteItem,
+                        ItemId = ItemId
+                    });
                 return false;
             }
         }
@@ -147,9 +148,9 @@ namespace wallabag.ViewModels
             return false;
         }
 
-        public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags)
+        public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags, bool IsOfflineTask = false)
         {
-            if (!Helpers.IsConnectedToTheInternet)
+            if (!Helpers.IsConnectedToTheInternet && !IsOfflineTask)
             {
                 await conn.InsertAsync(new OfflineAction()
                 {
@@ -170,6 +171,7 @@ namespace wallabag.ViewModels
             }
             else
             {
+                if (!IsOfflineTask)
                 await conn.InsertAsync(new OfflineAction()
                 {
                     Task = OfflineAction.OfflineActionTask.AddTags,
@@ -186,9 +188,9 @@ namespace wallabag.ViewModels
                 await conn.UpdateAsync(Model);
             return result;
         }
-        public static async Task<bool> DeleteTagAsync(int ItemId, int TagId)
+        public static async Task<bool> DeleteTagAsync(int ItemId, int TagId, bool IsOfflineTask = false)
         {
-            if (!Helpers.IsConnectedToTheInternet)
+            if (!Helpers.IsConnectedToTheInternet && !IsOfflineTask)
             {
                 await conn.InsertAsync(new OfflineAction()
                 {
@@ -205,6 +207,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
+                if (!IsOfflineTask)
                 await conn.InsertAsync(new OfflineAction()
                 {
                     Task = OfflineAction.OfflineActionTask.DeleteTag,
