@@ -16,7 +16,6 @@ namespace wallabag.ViewModels
     public class SingleItemPageViewModel : ViewModelBase
     {
         public override string ViewModelIdentifier { get; set; } = "SingleItemPageViewModel";
-
         public ItemViewModel CurrentItem { get; set; }
 
         public double FontSize
@@ -83,11 +82,10 @@ namespace wallabag.ViewModels
             }
         }
 
-        public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
+        public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = string.Empty;
-
-            return base.OnNavigatedFromAsync(state, suspending);
+            await new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH).UpdateAsync(CurrentItem.Model);
         }
 
     }
