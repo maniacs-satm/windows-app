@@ -172,9 +172,9 @@ namespace wallabag.Services
             return await conn.GetAsync<Item>(i => i.Title == Title);
         }
 
-        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false)
+        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineAction = false)
         {
-            if (!Helpers.IsConnectedToTheInternet && !IsOfflineTask)
+            if (!Helpers.IsConnectedToTheInternet && !IsOfflineAction)
             {
                 await conn.InsertAsync(new OfflineAction()
                 {
@@ -200,7 +200,7 @@ namespace wallabag.Services
             }
             else
             {
-                if (!IsOfflineTask)
+                if (!IsOfflineAction)
                     await conn.InsertAsync(new OfflineAction()
                     {
                         Task = OfflineAction.OfflineActionTask.AddItem,
