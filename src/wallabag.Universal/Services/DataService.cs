@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -76,15 +77,21 @@ namespace wallabag.Services
             {
                 var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
 
+                // Regular expression to remove multiple whitespaces (including newline etc.)
+                Regex Regex = new Regex("\\s+");
+
                 foreach (var item in json.Embedded.Items)
                 {
                     var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
                     if (existingItem == null)
+                    {
+                        item.Title = Regex.Replace(item.Title, " ");
                         await conn.InsertAsync(item);
+                    }
                     else
                     {
-                        existingItem.Title = item.Title;
+                        existingItem.Title = Regex.Replace(item.Title, " ");
                         existingItem.Url = item.Url;
                         existingItem.IsRead = item.IsRead;
                         existingItem.IsStarred = item.IsStarred;
