@@ -82,6 +82,8 @@ namespace wallabag.ViewModels
         public async Task<bool> DeleteItemAsync()
         {
             bool result = Model.IsDeleted = await DeleteItemAsync(Model.Id);
+            if (result)
+                NavigationService.GoBack();
             await conn.UpdateAsync(Model);
             return result;
         }
@@ -172,12 +174,12 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.AddTags,
-                    ItemId = ItemId,
-                    TagsString = tags
-                });
+                    await conn.InsertAsync(new OfflineAction()
+                    {
+                        Task = OfflineAction.OfflineActionTask.AddTags,
+                        ItemId = ItemId,
+                        TagsString = tags
+                    });
                 return null;
             }
         }
@@ -208,12 +210,12 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.DeleteTag,
-                    ItemId = ItemId,
-                    TagId = TagId
-                });
+                    await conn.InsertAsync(new OfflineAction()
+                    {
+                        Task = OfflineAction.OfflineActionTask.DeleteTag,
+                        ItemId = ItemId,
+                        TagId = TagId
+                    });
                 return false;
             }
         }
