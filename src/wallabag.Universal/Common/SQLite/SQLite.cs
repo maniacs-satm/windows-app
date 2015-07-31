@@ -193,16 +193,7 @@ namespace SQLite
 
             BusyTimeout = TimeSpan.FromSeconds(0.1);
         }
-
-        static SQLiteConnection()
-        {
-            if (_preserveDuringLinkMagic)
-            {
-                var ti = new ColumnInfo();
-                ti.Name = "magic";
-            }
-        }
-
+        
         public void EnableLoadExtension(int onoff)
         {
             SQLite3.Result r = SQLite3.EnableLoadExtension(Handle, onoff);
@@ -220,12 +211,6 @@ namespace SQLite
             utf8Length = System.Text.Encoding.UTF8.GetBytes(s, 0, s.Length, bytes, 0);
             return bytes;
         }
-
-        /// <summary>
-        /// Used to list some code that we want the MonoTouch linker
-        /// to see, but that we never want to actually execute.
-        /// </summary>
-        static bool _preserveDuringLinkMagic;
 
         /// <summary>
         /// Sets a busy handler to sleep the specified amount of time when a table is locked.
@@ -1562,7 +1547,7 @@ namespace SQLite
             ConnectionString = databasePath;
             StoreDateTimeAsTicks = storeDateTimeAsTicks;
 
-            DatabasePath = System.IO.Path.Combine(MetroStyleDataPath, databasePath);	
+            DatabasePath = System.IO.Path.Combine(MetroStyleDataPath, databasePath);
         }
     }
 
@@ -1683,7 +1668,7 @@ namespace SQLite
 
             TableName = tableAttr != null ? tableAttr.Name : MappedType.Name;
 
- var props = from p in MappedType.GetRuntimeProperties()
+            var props = from p in MappedType.GetRuntimeProperties()
                         where ((p.GetMethod != null && p.GetMethod.IsPublic) || (p.SetMethod != null && p.SetMethod.IsPublic) || (p.GetMethod != null && p.GetMethod.IsStatic) || (p.SetMethod != null && p.SetMethod.IsStatic))
                         select p;
 
