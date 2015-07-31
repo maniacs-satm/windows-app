@@ -50,6 +50,11 @@
                     <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{x:Bind ViewModel.wallabagUrl, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
+            <PivotItem Header="Reading">
+                <StackPanel>
+                    <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>
+                </StackPanel>
+            </PivotItem>
         </Pivot>
     </Grid>
 </Page>
