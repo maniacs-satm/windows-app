@@ -35,6 +35,7 @@ namespace wallabag.Universal
         #region Navigation
 
         private bool _isPaneOpen = false;
+        private StateTriggerBase[] _adaptiveTrigger = new StateTriggerBase[2];
         private void OnNavigatedToPage(object sender, NavigationEventArgs e)
         {
             // After a successful navigation set keyboard focus to the loaded page
@@ -48,6 +49,11 @@ namespace wallabag.Universal
                 {
                     // Save the current values in the variables before overriding them
                     _isPaneOpen = splitView.IsPaneOpen;
+                    _adaptiveTrigger[0] = NarrowState.StateTriggers[0];
+                    _adaptiveTrigger[1] = WideState.StateTriggers[0];
+
+                    NarrowState.StateTriggers.Clear();
+                    WideState.StateTriggers.Clear();
 
                     splitView.IsPaneOpen = false;
                     splitView.DisplayMode = SplitViewDisplayMode.Overlay;
@@ -61,8 +67,29 @@ namespace wallabag.Universal
                         frame.Margin = new Thickness(0, 0, 48, 0);
                     else
                         frame.Margin = new Thickness(48, 0, 0, 0);
-                    splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+
+
                     splitView.IsPaneOpen = _isPaneOpen;
+                    if (Window.Current.Bounds.Width >= 720)
+                    {
+                        splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+
+                        if (AppSettings.HamburgerPositionIsRight)
+                            frame.Margin = new Thickness(0, 0, 48, 0);
+                        else
+                            frame.Margin = new Thickness(48, 0, 0, 0);
+                    }
+                    else
+                    {
+                        splitView.DisplayMode = SplitViewDisplayMode.Overlay;
+                        frame.Margin = new Thickness(0);
+                    }
+
+                    if (_adaptiveTrigger[0] != null)
+                    {
+                        NarrowState.StateTriggers.Add(_adaptiveTrigger[0]);
+                        WideState.StateTriggers.Add(_adaptiveTrigger[1]);
+                    }
                 }
 
                 if (AppFrame != null && AppFrame.CanGoBack)
