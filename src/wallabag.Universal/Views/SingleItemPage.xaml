@@ -23,15 +23,7 @@
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
-                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="300" RequestedTheme="Light">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-                                <TextBlock Text="TAGS" Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"/>
-                                <controls:TagControl Tags="{Binding CurrentItem.Model.Tags, Mode=TwoWay}" Grid.Row="1"/>
-                            </Grid>
+                            <controls:TagControl Tags="{Binding CurrentItem.Model.Tags, Mode=TwoWay}" Width="300"/>
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -39,60 +31,38 @@
                 <AppBarButton Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
-                            <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Width="425" RequestedTheme="Light">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Rectangle Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-                                <TextBlock Text="FONT SETTINGS" Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"/>
-
-                                <Grid Grid.Row="1">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <RelativePanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <RelativePanel.Resources>
-                                            <Style BasedOn="{StaticResource RoundButtonStyle}" TargetType="Button">
-                                                <Setter Property="Height" Value="32"/>
-                                                <Setter Property="Width" Value="32"/>
-                                            </Style>
-                                        </RelativePanel.Resources>
-                                        <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="White"/>
-                                        <Button x:Name="changeFontFamilyButton" Click="FontFamilyButton_Click"
-                                                RelativePanel.Below="lightColorSchemeButton"
-                                                RelativePanel.RightOf="lightColorSchemeButton">A</Button>
-                                        <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="Wheat"
-                                                RelativePanel.Above="changeFontFamilyButton"
-                                                RelativePanel.RightOf="changeFontFamilyButton"/>
-                                        <Button x:Name="grayColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="Gray"
-                                                RelativePanel.Below="changeFontFamilyButton"
-                                                RelativePanel.LeftOf="changeFontFamilyButton"/>
-                                        <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Background="Black"
-                                                RelativePanel.AlignRightWith="sepiaColorSchemeButton"
-                                                RelativePanel.Below="changeFontFamilyButton"/>
-                                    </RelativePanel>
-                                    <StackPanel Grid.Column="1">
-                                        <Slider x:Name="fontSizeSlider"
-                                                Margin="4"
-                                                Header="Font size"
-                                                Minimum="12"
-                                                Maximum="26"
-                                                Value="{Binding FontSize, Mode=TwoWay}"
-                                                ValueChanged="Slider_ValueChanged"/>
-                                        <Slider x:Name="lineHeightSlider"
-                                                Margin="4"
-                                                Header="Line height"
-                                                Minimum="1"
-                                                Maximum="2"
-                                                SmallChange="0.1"
-                                                StepFrequency="0.1"
-                                                Value="{Binding LineHeight, Mode=TwoWay}"
-                                                ValueChanged="Slider_ValueChanged"/>
-                                    </StackPanel>
-                                </Grid>
-                            </Grid>
+                            <StackPanel Margin="8" Orientation="Vertical">
+                                <StackPanel.Resources>
+                                    <Style BasedOn="{StaticResource RoundButtonStyle}" TargetType="Button">
+                                        <Setter Property="Width" Value="40"/>
+                                        <Setter Property="Height" Value="40"/>
+                                        <Setter Property="Margin" Value="2,0"/>
+                                        <Setter Property="FontSize" Value="15"/>
+                                    </Style>
+                                    <Style TargetType="StackPanel">
+                                        <Setter Property="Margin" Value="4"/>
+                                        <Setter Property="Orientation" Value="Horizontal"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <StackPanel>
+                                    <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f311;" FontFamily="Segoe UI Symbol"/>
+                                    <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f312;" FontFamily="Segoe UI Symbol"/>
+                                    <Button x:Name="changeFontFamilyButton" Click="FontFamilyButton_Click">A</Button>
+                                    <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f314;" FontFamily="Segoe UI Symbol"/>
+                                    <Button x:Name="blackColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <Button Content="&#xE011;" FontFamily="Segoe MDL2 Assets"/>
+                                    <TextBlock VerticalAlignment="Center" Margin="12,0" FontWeight="Bold" Text="{Binding FontSize, Mode=TwoWay}"/>
+                                    <Button Content="&#xE010;" FontFamily="Segoe MDL2 Assets"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <Button Content="&#xE011;" FontFamily="Segoe MDL2 Assets"/>
+                                    <TextBlock VerticalAlignment="Center" Margin="12,0" FontWeight="Bold" Text="{Binding LineHeight, Mode=TwoWay}"/>
+                                    <Button Content="&#xE010;" FontFamily="Segoe MDL2 Assets"/>
+                                </StackPanel>
+                            </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

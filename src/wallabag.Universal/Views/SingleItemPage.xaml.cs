@@ -113,8 +113,10 @@ namespace wallabag.Views
                 AppSettings.ColorScheme = "light";
             else if (sender == sepiaColorSchemeButton)
                 AppSettings.ColorScheme = "sepia";
-            else
+            else if (sender == darkColorSchemeButton)
                 AppSettings.ColorScheme = "dark";
+            else
+                AppSettings.ColorScheme = "black";
             await ChangeHtmlAttributesAsync();
         }
     }
