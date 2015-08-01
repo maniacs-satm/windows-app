@@ -133,7 +133,6 @@
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}"/>
-        <Setter Property="RequestedTheme" Value="Light"/>
     </Style>
     <Style x:Key="CustomFlyoutPickerTitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource FlyoutPickerTitleTextBlockStyle}">
         <Setter Property="Padding" Value="15"/>
