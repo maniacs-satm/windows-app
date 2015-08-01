@@ -22,23 +22,30 @@ namespace wallabag.Controls
         public ObservableCollection<string> possibleTags { get; set; }
         public ObservableCollection<string> Suggestions { get; set; } = new ObservableCollection<string>();
 
-        // Using a DependencyProperty as the backing store for Tags.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TagsProperty =
-            DependencyProperty.Register("Tags", typeof(ICollection<Tag>), typeof(TagControl), new PropertyMetadata(DependencyProperty.UnsetValue));
-               
-        private async void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private static async void OnTagsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (possibleTags == null)
+            TagControl control = d as TagControl;
+            control.UpdateNoTagsExistingStackPanelVisibility();
+
+            if (control.possibleTags == null)
             {
-                possibleTags = new ObservableCollection<string>();
+                control.possibleTags = new ObservableCollection<string>();
                 List<Tag> tags = new List<Tag>(); ;
                 SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Common.Helpers.DATABASE_PATH);
                 tags = await conn.Table<Tag>().ToListAsync();
 
                 foreach (var item in tags)
-                    possibleTags.Add(item.Label);
+                    control.possibleTags.Add(item.Label);
             }
+        }
 
+        // Using a DependencyProperty as the backing store for Tags.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TagsProperty =
+            DependencyProperty.Register("Tags", typeof(ICollection<Tag>), typeof(TagControl), new PropertyMetadata(DependencyProperty.UnsetValue, new PropertyChangedCallback(OnTagsChanged)));
+
+        private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // TODO: Fast up this method!
             var possibleResults = new ObservableCollection<string>(possibleTags.Where(t=>t.Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -62,7 +69,7 @@ namespace wallabag.Controls
                     Tags.Add(newTag);
 
                 textBox.Text = string.Empty;
-                UpdateRootGridBorderThickness();
+                UpdateNoTagsExistingStackPanelVisibility();
                 listView.ScrollIntoView(newTag);
             }
         }
@@ -70,15 +77,15 @@ namespace wallabag.Controls
         private void listView_ItemClick(object sender, ItemClickEventArgs e)
         {
             Tags.Remove(e.ClickedItem as Tag);
-            UpdateRootGridBorderThickness();
+            UpdateNoTagsExistingStackPanelVisibility();
         }
 
-        private void UpdateRootGridBorderThickness()
+        public void UpdateNoTagsExistingStackPanelVisibility()
         {
             if (Tags.Count > 0)
-                RootGrid.BorderThickness = new Thickness(2, 2, 2, 0);
+                noTagsExistingStackPanel.Visibility = Visibility.Collapsed;
             else
-                RootGrid.BorderThickness = new Thickness(2, 0, 2, 0);
+                noTagsExistingStackPanel.Visibility = Visibility.Visible;
         }
 
         private void textBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

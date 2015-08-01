@@ -9,13 +9,19 @@
     d:DesignHeight="100"
     d:DesignWidth="450">
 
-    <Grid x:Name="RootGrid" BorderThickness="2,0,2,0" BorderBrush="{ThemeResource AccentColorLightBrush}">
+    <Grid x:Name="RootGrid" BorderThickness="2,2,2,0" BorderBrush="{ThemeResource AccentColorLightBrush}" MinHeight="100">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <ListView x:Name="listView" ItemsSource="{x:Bind Tags, Mode=OneWay}" MaxHeight="250" IsItemClickEnabled="True" ItemClick="listView_ItemClick"/>
-        <AutoSuggestBox x:Name="textBox" PlaceholderText="add tags (comma-separated)" Grid.Row="1" TextChanged="textBox_TextChanged" BorderThickness="0,2"
+        <AutoSuggestBox x:Name="textBox" PlaceholderText="add tags (comma-separated)" Grid.Row="1" TextChanged="textBox_TextChanged"
                         ItemsSource="{x:Bind Suggestions}" KeyDown="textBox_KeyDown"/>
+        <StackPanel x:Name="noTagsExistingStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" Visibility="Visible">
+            <SymbolIcon Symbol="Tag" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+            <TextBlock Text="No tags existing.&#x0a;Add one in the field below :-)"
+                       VerticalAlignment="Center"
+                       Margin="16,0" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
