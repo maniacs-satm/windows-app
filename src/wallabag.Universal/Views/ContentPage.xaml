@@ -10,6 +10,34 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="ItemGridView.Visibility" Value="Collapsed"/>
+                        <Setter Target="ItemListView.Visibility" Value="Visible"/>
+                        <Setter Target="SearchBox.Visibility" Value="Collapsed"/>
+                        <Setter Target="BottomAppBar.HorizontalAlignment" Value="Stretch"/>
+                        <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="ItemGridView.Visibility" Value="Visible"/>
+                        <Setter Target="ItemListView.Visibility" Value="Collapsed"/>
+                        <Setter Target="SearchBox.Visibility" Value="Visible"/>
+                        <Setter Target="BottomAppBar.HorizontalAlignment" Value="Right"/>
+                        <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
             <RowDefinition/>
@@ -24,13 +52,13 @@
                   EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ItemViewModel">
-                    <Grid Width="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid Width="300" Height="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <Grid.RowDefinitions>
                             <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                               Source="https://farm4.staticflickr.com/3955/15123553843_6b4a5c8a3f_z_d.jpg" Stretch="UniformToFill"/>
+                               Source="https://jlnostr.de/content/images/2015/06/header_mesonpress-2-3.jpg" Stretch="UniformToFill"/>
                         <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis"
                                    MaxLines="2" TextAlignment="Left" VerticalAlignment="Bottom" Margin="10,15"
                                    Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Row="1"/>
@@ -38,16 +66,41 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        <ListView x:Name="ItemListView"
+                  Grid.Row="1"
+                  ItemsSource="{Binding Items}"
+                  IsItemClickEnabled="True"
+                  ItemClick="ItemGridView_ItemClick"
+                  EntranceNavigationTransitionInfo.IsTargetElement="True"
+                  Margin="0,0,0,48"
+                  Padding="0,8">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ItemViewModel">
+                    <Grid Height="64">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="64"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                               Source="https://farm4.staticflickr.com/3955/15123553843_6b4a5c8a3f_z_d.jpg" Stretch="UniformToFill"/>
+                        <TextBlock Text="{x:Bind Model.Title}"
+                                   TextTrimming="CharacterEllipsis"
+                                   MaxLines="1" VerticalAlignment="Center" Margin="12,0"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Column="1"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
                                 TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown" VerticalAlignment="Center"
                                 ItemsSource="{x:Bind SearchBoxSuggestions}"/>
                 <AppBarButton Icon="Find" Label="Search" IsCompact="True" Visibility="Collapsed"/>
-            </StackPanel>            
+            </StackPanel>
             <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Center" Margin="16,0"/>
         </Grid>
-        <CommandBar VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1">
+        <CommandBar x:Name="BottomAppBar" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1">
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
         </CommandBar>
@@ -57,9 +110,9 @@
             <ContentDialog.DataContext>
                 <vm:AddItemContentDialogViewModel/>
             </ContentDialog.DataContext>
-            <StackPanel Width="450" Margin="0,24,0,0">
+            <StackPanel x:Name="ContentDialogStackPanel" MinWidth="450" Margin="0,24,0,0">
                 <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://"/>
-                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
+                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0" BorderThickness="2"/>
             </StackPanel>
         </ContentDialog>
     </Grid>
