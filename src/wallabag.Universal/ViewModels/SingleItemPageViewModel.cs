@@ -47,17 +47,21 @@ namespace wallabag.ViewModels
 
             // Download the file
             if (file != null)
-                using (HttpClient http = new HttpClient())
+                try
                 {
-                    // TODO: Currently just downloading the login page :/
-                    Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
+                    using (HttpClient http = new HttpClient())
+                    {
+                        // TODO: Currently just downloading the login page :/
+                        Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
-                    await Helpers.AddHttpHeadersAsync(http);
+                        await Helpers.AddHttpHeadersAsync(http);
 
-                    var response = await http.GetAsync(downloadUrl);
-                    if (response.IsSuccessStatusCode)
-                        await FileIO.WriteBufferAsync(file, await response.Content.ReadAsBufferAsync());
+                        var response = await http.GetAsync(downloadUrl);
+                        if (response.IsSuccessStatusCode)
+                            await FileIO.WriteBufferAsync(file, await response.Content.ReadAsBufferAsync());
+                    }
                 }
+                catch { }
         }
 
         public SingleItemPageViewModel()
