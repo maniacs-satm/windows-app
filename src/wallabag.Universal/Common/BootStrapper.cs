@@ -34,7 +34,7 @@ namespace wallabag.Common
                 try
                 {
                     // date the cache
-                    NavigationService.State().Values[CacheKey] = DateTime.Now;
+                    NavigationService.State().Values[CacheKey] = DateTime.Now.ToString();
                     // call view model suspend (OnNavigatedfrom)
                     await NavigationService.SuspendingAsync();
                     // call system-level suspend
