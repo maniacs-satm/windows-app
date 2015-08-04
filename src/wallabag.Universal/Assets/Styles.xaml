@@ -307,7 +307,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="AutoSuggestBoxTextBoxStyle" TargetType="TextBox">
+    <Style x:Key="CustomAutoSuggestBoxTextBoxStyle" TargetType="TextBox">
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
         <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
@@ -511,6 +511,6 @@
         </Setter>
     </Style>
     <Style x:Key="CustomAutoSuggestBoxStyle" TargetType="AutoSuggestBox">
-        <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}"/>
+        <Setter Property="TextBoxStyle" Value="{StaticResource CustomAutoSuggestBoxTextBoxStyle}"/>
     </Style>
 </ResourceDictionary>
