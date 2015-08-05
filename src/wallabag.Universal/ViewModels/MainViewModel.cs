@@ -13,6 +13,7 @@ namespace wallabag.ViewModels
     public class MainViewModel : ViewModelBase
     {
         public override string ViewModelIdentifier { get; set; } = "MainViewModel";
+        private FilterProperties _lastFilterProperties { get; set; }
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
@@ -30,12 +31,16 @@ namespace wallabag.ViewModels
         public Command NavigateToSettingsPageCommand { get; private set; }
         public Command LoadUnreadItemsCommand { get; private set; }
         public Command LoadFavoriteItemsCommand { get; private set; }
+        public Command LoadArchivedItemsCommand { get; private set; }
         #endregion
 
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             await LoadItemsAsync(new FilterProperties());
             Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
+
+            if (_lastFilterProperties != null)
+                await LoadItemsAsync(_lastFilterProperties);
         }
 
         public MainViewModel()
@@ -52,14 +57,19 @@ namespace wallabag.ViewModels
             });
             LoadUnreadItemsCommand = new Command(async () =>
             {
-                await LoadItemsAsync(new FilterProperties());
-                IsHome = true;
+                _lastFilterProperties = new FilterProperties();
+                await LoadItemsAsync(_lastFilterProperties);
             });
             LoadFavoriteItemsCommand = new Command(async () =>
-           {
-               await LoadItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.Favorites });
-               IsHome = false;
-           });
+            {
+                _lastFilterProperties = new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.Favorites };
+                await LoadItemsAsync(_lastFilterProperties);
+            });
+            LoadArchivedItemsCommand = new Command(async () =>
+            {
+                _lastFilterProperties = new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.Archived };
+                await LoadItemsAsync(_lastFilterProperties);
+            });
         }
     }
 }

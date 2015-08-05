@@ -75,8 +75,9 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" IsChecked="{Binding IsHome}" Tag="" Content="Home" Command="{Binding LoadUnreadItemsCommand}"/>
+                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" IsChecked="{Binding IsHome}" Tag="" Content="Unread" Command="{Binding LoadUnreadItemsCommand}"/>
                         <RadioButton Style="{ThemeResource IconRadioButtonStyle}" IsChecked="{Binding IsHome, Converter={StaticResource BooleanNegationConverter}}" Tag="" Content="Favorites" Command="{Binding LoadFavoriteItemsCommand}"/>
+                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" Tag="" Content="Archive" Command="{Binding LoadArchivedItemsCommand}"/>
                         <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags" Visibility="Collapsed" Click="ShowTagsMenuButton_Click"/>
                         <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0"/>
                     </StackPanel>
@@ -100,10 +101,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <StackPanel Grid.Row="2" BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,1,0,0">
-                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Julian"/>
-                        <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
-                    </StackPanel>
+                    <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Command="{Binding NavigateToSettingsPageCommand}" Grid.Row="2"/>
                 </Grid>
             </SplitView.Pane>
         </SplitView>
