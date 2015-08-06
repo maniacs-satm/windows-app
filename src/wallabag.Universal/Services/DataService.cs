@@ -87,6 +87,10 @@ namespace wallabag.Services
                     if (existingItem == null)
                     {
                         item.Title = Regex.Replace(item.Title, " ");
+
+                        // If the title starts with a space, remove it.
+                        if (item.Title.StartsWith(" "))
+                            item.Title = item.Title.Remove(0, 1);
                         await conn.InsertAsync(item);
                     }
                     else
