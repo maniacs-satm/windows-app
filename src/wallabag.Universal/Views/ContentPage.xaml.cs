@@ -60,5 +60,13 @@ namespace wallabag.Views
         {
             await AddItemContentDialog.ShowAsync();
         }
+
+        private void ChangeSearchButtonEnabledProperty(object sender, RoutedEventArgs e)
+        {
+            if (SearchButton.IsEnabled)
+                SearchButton.IsEnabled = false;
+            else
+                SearchButton.IsEnabled = true;
+        }
     }
 }

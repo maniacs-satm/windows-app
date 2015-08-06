@@ -82,11 +82,31 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
-                                TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown" VerticalAlignment="Center"
-                                ItemsSource="{x:Bind SearchBoxSuggestions}" Visibility="Collapsed"/>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Top">
-            <AppBarButton Icon="Find" Label="Search"/>
+            <AppBarButton x:Name="SearchButton" Icon="Find" Label="Search">
+                <AppBarButton.Flyout>
+                    <Flyout Placement="Left">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="MaxHeight" Value="48"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <AutoSuggestBox x:Name="SearchBox"
+                                QueryIcon="Find"
+                                Width="300"
+                                PlaceholderText="Search..."
+                                VerticalAlignment="Center"
+                                ItemsSource="{x:Bind SearchBoxSuggestions}"
+                                TextChanged="SearchBox_TextChanged"
+                                KeyDown="SearchBox_KeyDown"
+                                GotFocus="ChangeSearchButtonEnabledProperty"
+                                LostFocus="ChangeSearchButtonEnabledProperty"/>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
             <AppBarSeparator/>
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
@@ -102,7 +122,7 @@
             </ContentDialog.DataContext>
             <StackPanel x:Name="ContentDialogStackPanel" MinWidth="450" Margin="0,24,0,0">
                 <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://"/>
-                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0" BorderThickness="2"/>
+                <!--<controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0" BorderThickness="2"/>-->
             </StackPanel>
         </ContentDialog>
     </Grid>
