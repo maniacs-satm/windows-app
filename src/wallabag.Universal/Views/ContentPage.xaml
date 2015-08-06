@@ -82,10 +82,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Top">
-            <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
+        <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
                                 TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown" VerticalAlignment="Center"
                                 ItemsSource="{x:Bind SearchBoxSuggestions}" Visibility="Collapsed"/>
+        <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Top">
             <AppBarButton Icon="Find" Label="Search"/>
             <AppBarSeparator/>
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
