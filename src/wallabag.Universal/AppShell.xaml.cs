@@ -1,6 +1,9 @@
-﻿using wallabag.Common;
+﻿using System;
+using wallabag.Common;
 using wallabag.Models;
+using wallabag.Services;
 using wallabag.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -116,6 +119,21 @@ namespace wallabag.Universal
         {
             await ViewModel.LoadItemsAsync(new Services.FilterProperties() { ItemType = Services.FilterProperties.FilterPropertiesItemType.All, FilterTag = (Tag)e.ClickedItem });
             splitView.IsPaneOpen = false;
+        }
+
+        private async void Grid_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.WebLink))
+            {
+                var item = await e.DataView.GetWebLinkAsync();
+                await DataService.AddItemAsync(item.ToString());
+            }
+        }
+
+        private void Grid_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.WebLink))
+                e.AcceptedOperation = DataPackageOperation.Move;
         }
     }
 }

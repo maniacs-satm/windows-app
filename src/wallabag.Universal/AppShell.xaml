@@ -19,7 +19,10 @@
         <vm:MainViewModel/>
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          AllowDrop="True"
+          Drop="Grid_Drop"
+          DragOver="Grid_DragOver">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates">
                 <VisualState x:Name="NarrowState">
