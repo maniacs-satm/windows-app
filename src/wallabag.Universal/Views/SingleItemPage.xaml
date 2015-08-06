@@ -6,7 +6,6 @@
     xmlns:common="using:wallabag.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:triggers="using:wallabag.Common.VisualStateTriggers"
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
@@ -18,8 +17,8 @@
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal">
             <CommandBar.PrimaryCommands>
-                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding MarkItemAsReadCommand}"/>
-                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"/>
+                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding MarkItemAsReadCommand}" IsChecked="{Binding CurrentItem.Model.IsRead}"/>
+                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}"/>
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
