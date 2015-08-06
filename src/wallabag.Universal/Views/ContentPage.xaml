@@ -16,8 +16,6 @@
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.Visibility" Value="Collapsed"/>
                         <Setter Target="ItemListView.Visibility" Value="Visible"/>
-                        <Setter Target="SearchBox.Visibility" Value="Collapsed"/>
-                        <Setter Target="BottomAppBar.HorizontalAlignment" Value="Stretch"/>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -28,8 +26,6 @@
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.Visibility" Value="Visible"/>
                         <Setter Target="ItemListView.Visibility" Value="Collapsed"/>
-                        <Setter Target="SearchBox.Visibility" Value="Visible"/>
-                        <Setter Target="BottomAppBar.HorizontalAlignment" Value="Right"/>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -38,12 +34,8 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
         <GridView x:Name="ItemGridView"
-                  Grid.Row="1"
+                  Margin="0,48,0,0"
                   Padding="4"
                   Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
                   ItemsSource="{Binding Items}"
@@ -67,12 +59,11 @@
             </GridView.ItemTemplate>
         </GridView>
         <ListView x:Name="ItemListView"
-                  Grid.Row="1"
                   ItemsSource="{Binding Items}"
                   IsItemClickEnabled="True"
                   ItemClick="ItemGridView_ItemClick"
                   EntranceNavigationTransitionInfo.IsTargetElement="True"
-                  Margin="0,0,0,48"
+                  Margin="0,48,0,0"
                   Padding="0,8">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ItemViewModel">
@@ -91,20 +82,19 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
+        <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Top">
+            <AutoSuggestBox x:Name="SearchBox" QueryIcon="Find" Width="300" PlaceholderText="Search..." Margin="4"
                                 TextChanged="SearchBox_TextChanged" KeyDown="SearchBox_KeyDown" VerticalAlignment="Center"
-                                ItemsSource="{x:Bind SearchBoxSuggestions}"/>
-                <AppBarButton Icon="Find" Label="Search" IsCompact="True" Visibility="Collapsed"/>
-            </StackPanel>
-            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Center" Margin="16,0"/>
-        </Grid>
-        <CommandBar x:Name="BottomAppBar" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Row="1">
+                                ItemsSource="{x:Bind SearchBoxSuggestions}" Visibility="Collapsed"/>
+            <AppBarButton Icon="Find" Label="Search"/>
+            <AppBarSeparator/>
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            <CommandBar.Content>
+                <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
+            </CommandBar.Content>
         </CommandBar>
-        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" Grid.RowSpan="2"
+        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" d:IsHidden="True"
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
             <ContentDialog.DataContext>
