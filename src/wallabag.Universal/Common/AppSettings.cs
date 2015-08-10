@@ -134,7 +134,7 @@ namespace wallabag.Common
 
         public static double FontSize
         {
-            get { return GetProperty<double>(nameof(FontSize), 16); }
+            get { return GetProperty<double>(nameof(FontSize), 18); }
             set { SetProperty(nameof(FontSize), value); }
         }
         public static double LineHeight
@@ -155,7 +155,7 @@ namespace wallabag.Common
 
         public static bool UseSystemAccentColor
         {
-            get { return GetProperty(nameof(UseSystemAccentColor), false); }
+            get { return GetProperty(nameof(UseSystemAccentColor), true); }
             set { SetProperty(nameof(UseSystemAccentColor), value); }
         }
         public static bool HamburgerPositionIsRight
