@@ -9,7 +9,7 @@ body {
     background-color: @background-color;
     color: @text-color;
     font-family: Georgia;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.7;
     -moz-text-size-adjust: none;
     -ms-text-size-adjust: none;
@@ -251,6 +251,26 @@ article {
     }
 }
 
+[data-color="sepia"] {
+    body {
+        background: beige;
+        color: maroon;
+    }
+
+    a {
+        color: lighten(maroon, 5%);
+    }
+
+    .wallabag-header h2 {
+        border-color: hsl(0,0%,70%);
+        color: maroon;
+
+        a {
+            color: maroon !important;
+        }
+    }
+}
+
 [data-color="dark"] {
     body {
         background: hsl(0, 0%, 20%);
@@ -260,15 +280,33 @@ article {
     a {
         color: hsl(0, 0%, 90%);
     }
+
+    .wallabag-header h2 {
+        border-color: hsl(0,0%,70%);
+        color: hsl(0, 0%, 50%);
+
+        a {
+            color: hsl(0, 0%, 50%) !important;
+        }
+    }
 }
 
-[data-color="sepia"] {
+[data-color="black"] {
     body {
-        background: beige;
-        color: maroon;
+        background: hsl(0, 0%, 0%);
+        color: hsl(0, 0%, 70%);
     }
 
     a {
-        color: lighten(maroon, 5%);
+        color: hsl(0, 0%, 80%);
+    }
+
+    .wallabag-header h2 {
+        border-color: hsl(0,0%,70%);
+        color: hsl(0, 0%, 50%);
+
+        a {
+            color: hsl(0, 0%, 50%) !important;
+        }
     }
 }

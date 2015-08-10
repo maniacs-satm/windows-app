@@ -1,14 +1,11 @@
 ﻿/*-----------------------------------------------------------------*/
-
 /*-------------------------- General properties -------------------*/
-
 /*-----------------------------------------------------------------*/
-
 body {
-  background-color: white;
-  color: black;
+  background-color: #ffffff;
+  color: #000000;
   font-family: Georgia;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.7;
   -moz-text-size-adjust: none;
   -ms-text-size-adjust: none;
@@ -43,7 +40,7 @@ p {
   text-align: justify;
 }
 a {
-  color: black;
+  color: #000000;
   text-decoration: underline;
 }
 a:active,
@@ -162,7 +159,7 @@ code {
 ::selection,
 mark {
   background: #666666;
-  color: white;
+  color: #ffffff;
 }
 article {
   margin: 0 auto;
@@ -171,11 +168,8 @@ article {
   padding: 0 20px;
 }
 /*-----------------------------------------------------------------*/
-
 /*------------------------------ Header ---------------------------*/
-
 /*-----------------------------------------------------------------*/
-
 .wallabag-header h1,
 .wallabag-header h2 {
   max-width: 960px;
@@ -191,7 +185,7 @@ article {
 }
 .wallabag-header h2 {
   border: solid lightgray;
-  color: gray;
+  color: #808080;
   border-width: 1px 0;
   display: block;
   font-size: 0.9em;
@@ -206,15 +200,12 @@ article {
   margin: 0 0.25em;
 }
 .wallabag-header h2 a {
-  color: gray !important;
+  color: #808080 !important;
   text-decoration: none;
 }
 /*-----------------------------------------------------------------*/
-
 /*----------------------- Customization ---------------------------*/
-
 /*-----------------------------------------------------------------*/
-
 [data-font="serif"] body {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
@@ -222,11 +213,25 @@ article {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 [data-color="light"] body {
-  background: white;
-  color: black;
+  background: #ffffff;
+  color: #000000;
 }
 [data-color="light"] a {
   color: #333333;
+}
+[data-color="sepia"] body {
+  background: beige;
+  color: maroon;
+}
+[data-color="sepia"] a {
+  color: #9a0000;
+}
+[data-color="sepia"] .wallabag-header h2 {
+  border-color: #b3b3b3;
+  color: maroon;
+}
+[data-color="sepia"] .wallabag-header h2 a {
+  color: maroon !important;
 }
 [data-color="dark"] body {
   background: #333333;
@@ -235,10 +240,24 @@ article {
 [data-color="dark"] a {
   color: #e6e6e6;
 }
-[data-color="sepia"] body {
-  background: beige;
-  color: maroon;
+[data-color="dark"] .wallabag-header h2 {
+  border-color: #b3b3b3;
+  color: #808080;
 }
-[data-color="sepia"] a {
-  color: #9a0000;
+[data-color="dark"] .wallabag-header h2 a {
+  color: #808080 !important;
+}
+[data-color="black"] body {
+  background: #000000;
+  color: #b3b3b3;
+}
+[data-color="black"] a {
+  color: #cccccc;
+}
+[data-color="black"] .wallabag-header h2 {
+  border-color: #b3b3b3;
+  color: #808080;
+}
+[data-color="black"] .wallabag-header h2 a {
+  color: #808080 !important;
 }
