@@ -1,0 +1,7 @@
+﻿[
+  {
+    "outputFile": "Assets/Article/style.css",
+    "minify": {      "enabled": true    },
+    "inputFile": "Assets/Article/style.less"
+  }
+]

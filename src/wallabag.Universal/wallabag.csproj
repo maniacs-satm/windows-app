@@ -91,6 +91,7 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Assets\Article\style.less" />
+    <None Include="compilerconfig.json" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +158,9 @@
     <Content Include="Assets\Article\article.html" />
     <Content Include="Assets\Article\reset.css" />
     <Content Include="Assets\Article\scripts.js" />
-    <Content Include="Assets\Article\style.css" />
+    <Content Include="Assets\Article\style.css">
+      <DependentUpon>style.less</DependentUpon>
+    </Content>
     <Content Include="Assets\Article\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
