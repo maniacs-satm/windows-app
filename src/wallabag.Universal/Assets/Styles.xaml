@@ -12,6 +12,7 @@
 
     <!-- Colors -->
     <SolidColorBrush x:Key="AccentColorLightBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7"/>
+    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{ThemeResource SystemListMediumColor}"/>
 
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
