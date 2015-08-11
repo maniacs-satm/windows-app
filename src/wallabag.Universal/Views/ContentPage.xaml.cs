@@ -19,7 +19,7 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
-            ShowSearchBox.Completed += (a, b) => { SearchBox.Focus(FocusState.Programmatic); };
+            ShowSearchBox.Completed += (s, e) => { SearchBox.Focus(FocusState.Programmatic); };
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)

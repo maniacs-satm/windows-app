@@ -12,7 +12,7 @@
         <Storyboard x:Name="ShowSearchBox">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchBox">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchBox">
                 <DiscreteObjectKeyFrame KeyTime="0">
@@ -32,17 +32,17 @@
         <Storyboard x:Name="HideSearchBox">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchBox">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchBox">
-                <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Collapsed</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchButton">
-                <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
                     </DiscreteObjectKeyFrame.Value>
@@ -133,7 +133,7 @@
                 <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
             </CommandBar.Content>
         </CommandBar>
-        <AutoSuggestBox x:Name="SearchBox"
+        <AutoSuggestBox x:Name="SearchBox"               
                 QueryIcon="Find"
                 Width="300"
                 PlaceholderText="Search..."
