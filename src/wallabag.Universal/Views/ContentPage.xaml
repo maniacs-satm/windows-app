@@ -8,6 +8,48 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Storyboard x:Name="ShowSearchBox">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchBox">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchButton">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideSearchBox">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchBox">
+                <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchButton">
+                <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
@@ -83,30 +125,7 @@
             </ListView.ItemTemplate>
         </ListView>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Top">
-            <AppBarButton x:Name="SearchButton" Icon="Find" Label="Search">
-                <AppBarButton.Flyout>
-                    <Flyout Placement="Left">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="MaxHeight" Value="48"/>
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <AutoSuggestBox x:Name="SearchBox"
-                                QueryIcon="Find"
-                                Width="300"
-                                PlaceholderText="Search..."
-                                VerticalAlignment="Center"
-                                ItemsSource="{x:Bind SearchBoxSuggestions}"
-                                TextChanged="SearchBox_TextChanged"
-                                KeyDown="SearchBox_KeyDown"
-                                GotFocus="ChangeSearchButtonEnabledProperty"
-                                LostFocus="ChangeSearchButtonEnabledProperty"/>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
+            <AppBarButton x:Name="SearchButton" Icon="Find" Label="Search" Click="SearchButton_Click"/>
             <AppBarSeparator/>
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
@@ -114,6 +133,19 @@
                 <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
             </CommandBar.Content>
         </CommandBar>
+        <AutoSuggestBox x:Name="SearchBox"
+                QueryIcon="Find"
+                Width="300"
+                PlaceholderText="Search..."
+                VerticalAlignment="Top"
+                Margin="8,8,220,8"
+                HorizontalAlignment="Right"
+                ItemsSource="{x:Bind SearchBoxSuggestions}"
+                TextChanged="SearchBox_TextChanged"
+                KeyDown="SearchBox_KeyDown"
+                LostFocus="SearchBox_LostFocus"
+                Opacity="0"
+                Visibility="Collapsed"/>
         <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" d:IsHidden="True"
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">

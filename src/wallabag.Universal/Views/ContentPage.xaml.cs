@@ -19,6 +19,7 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
+            ShowSearchBox.Completed += (a, b) => { SearchBox.Focus(FocusState.Programmatic); };
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -61,12 +62,14 @@ namespace wallabag.Views
             await AddItemContentDialog.ShowAsync();
         }
 
-        private void ChangeSearchButtonEnabledProperty(object sender, RoutedEventArgs e)
+        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (SearchButton.IsEnabled)
-                SearchButton.IsEnabled = false;
-            else
-                SearchButton.IsEnabled = true;
+            HideSearchBox.Begin();
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowSearchBox.Begin();
         }
     }
 }
