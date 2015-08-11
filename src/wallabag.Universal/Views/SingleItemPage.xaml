@@ -47,19 +47,13 @@
                                 <StackPanel>
                                     <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f311;" FontFamily="Segoe UI Symbol"/>
                                     <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f312;" FontFamily="Segoe UI Symbol"/>
-                                    <Button x:Name="changeFontFamilyButton" Click="FontFamilyButton_Click">A</Button>
                                     <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f314;" FontFamily="Segoe UI Symbol"/>
                                     <Button x:Name="blackColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
                                 </StackPanel>
                                 <StackPanel>
-                                    <Button Content="&#xE011;" FontFamily="Segoe MDL2 Assets"/>
-                                    <TextBlock VerticalAlignment="Center" Margin="12,0" FontWeight="Bold" Text="{Binding FontSize, Mode=TwoWay}"/>
-                                    <Button Content="&#xE010;" FontFamily="Segoe MDL2 Assets"/>
-                                </StackPanel>
-                                <StackPanel>
-                                    <Button Content="&#xE011;" FontFamily="Segoe MDL2 Assets"/>
-                                    <TextBlock VerticalAlignment="Center" Margin="12,0" FontWeight="Bold" Text="{Binding LineHeight, Mode=TwoWay}"/>
-                                    <Button Content="&#xE010;" FontFamily="Segoe MDL2 Assets"/>
+                                    <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Click="IncreaseFontSize"/>
+                                    <Button Content="&#xE738;" FontFamily="Segoe MDL2 Assets" Click="DecreaseFontSize"/>
+                                    <Button Content="&#xE1C8;" FontFamily="Segoe MDL2 Assets" Click="FontFamilyButton_Click" />
                                 </StackPanel>
                             </StackPanel>
                         </Flyout>

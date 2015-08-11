@@ -23,12 +23,7 @@ namespace wallabag.Views
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += SingleItemPage_DataRequested;
-            WebView.ScriptNotify += WebView_ScriptNotify;
-
-            if (AppSettings.FontFamily == "sans")
-                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Georgia");
-            else
-                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI");
+            WebView.ScriptNotify += WebView_ScriptNotify;          
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -84,26 +79,13 @@ namespace wallabag.Views
                 BottomAppBar.IsOpen = true;
         }
 
-        private async void Slider_ValueChanged(object sender, Windows.UI.Xaml.Controls.Primitives.RangeBaseValueChangedEventArgs e)
-        {
-            if (ViewModel != null)
-            {                
-                await ChangeHtmlAttributesAsync();
-            }
-        }
-
         private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (AppSettings.FontFamily == "serif")
-            {
-                AppSettings.FontFamily = "sans";
-                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Georgia");
-            }
-            else
-            {
+            if (AppSettings.FontFamily == "serif")            
+                AppSettings.FontFamily = "sans";            
+            else            
                 AppSettings.FontFamily = "serif";
-                changeFontFamilyButton.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI");
-            }
+            
             await ChangeHtmlAttributesAsync();
         }
 
@@ -119,5 +101,8 @@ namespace wallabag.Views
                 AppSettings.ColorScheme = "black";
             await ChangeHtmlAttributesAsync();
         }
+
+        private async void IncreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize += 1; await ChangeHtmlAttributesAsync(); }
+        private async void DecreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize -= 1; await ChangeHtmlAttributesAsync(); }
     }
 }
