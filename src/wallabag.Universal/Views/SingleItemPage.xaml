@@ -38,13 +38,14 @@
                 <AppBarButton Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
-                            <StackPanel Margin="8" Orientation="Vertical">
+                            <StackPanel Orientation="Vertical">
                                 <StackPanel.Resources>
-                                    <Style BasedOn="{StaticResource RoundButtonStyle}" TargetType="Button">
+                                    <Style TargetType="Button">
                                         <Setter Property="Width" Value="40"/>
                                         <Setter Property="Height" Value="40"/>
                                         <Setter Property="Margin" Value="2,0"/>
                                         <Setter Property="FontSize" Value="15"/>
+                                        <Setter Property="Background" Value="Transparent"/>
                                     </Style>
                                     <Style TargetType="StackPanel">
                                         <Setter Property="Margin" Value="4"/>
@@ -57,6 +58,7 @@
                                     <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f314;" FontFamily="Segoe UI Symbol"/>
                                     <Button x:Name="blackColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
                                 </StackPanel>
+                                <Rectangle Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="1"/>
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Click="IncreaseFontSize"/>
                                     <Button Content="&#xE738;" FontFamily="Segoe MDL2 Assets" Click="DecreaseFontSize"/>
