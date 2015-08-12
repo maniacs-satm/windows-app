@@ -84,6 +84,7 @@ namespace wallabag.ViewModels
                 fontSize = AppSettings.FontSize,
                 lineHeight = AppSettings.LineHeight,
                 progress = Model.ReadingProgress,
+                textAlignment = AppSettings.TextAlignment,
                 publishDate = string.Format("{0:d}", Model.CreationDate),
                 accentColorStylesheet = styleSheetBuilder.ToString()
             });

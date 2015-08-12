@@ -152,6 +152,11 @@ namespace wallabag.Common
             get { return GetProperty(nameof(ColorScheme), "light"); }
             set { SetProperty(nameof(ColorScheme), value); }
         }
+        public static string TextAlignment
+        {
+            get { return GetProperty(nameof(TextAlignment), "left"); }
+            set { SetProperty(nameof(TextAlignment), value); }
+        }
 
         public static bool UseSystemAccentColor
         {
@@ -167,6 +172,6 @@ namespace wallabag.Common
         {
             get { return GetProperty(nameof(NavigateBackAfterReadingAnArticle), true); }
             set { SetProperty(nameof(NavigateBackAfterReadingAnArticle), value); }
-        }
+        }       
     }
 }

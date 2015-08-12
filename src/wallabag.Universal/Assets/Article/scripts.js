@@ -5,12 +5,13 @@
     window.external.notify(scrollPercentage.toString());
 }
 
-function changeHtmlAttributes(color, font, fontsize, lineheight) {
+function changeHtmlAttributes(color, font, fontsize, lineheight, textalign) {
     document.getElementsByTagName("html")[0].setAttribute("data-color", color);
     document.getElementsByTagName("html")[0].setAttribute("data-font", font);
 
     document.body.style.fontSize = parseFloat(fontsize) + "px";
     //document.body.style.lineHeight = parseFloat(lineheight);
+    document.body.style.textAlign = textalign;
 }
 
 function Initialize() {
@@ -18,9 +19,11 @@ function Initialize() {
     var fontSize = root.getAttribute("data-font-size");
     //var lineHeight = root.getAttribute("data-line-height");
     var progress = root.getAttribute("data-progress");
+    var textAlignment = root.getAttribute("data-textalign");
 
     document.body.style.fontSize = parseFloat(fontSize) + "px";
     //document.body.style.lineHeight = parseFloat(lineHeight);
+    document.body.style.textAlign = textAlignment;
 
     var progressCalculated = progress / 100 * (root.scrollHeight - root.clientHeight);
     document.body.scrollTop = progressCalculated;    
