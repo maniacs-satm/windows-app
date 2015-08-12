@@ -15,10 +15,18 @@
     </Page.DataContext>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal">
+        <CommandBar ClosedDisplayMode="Compact">
             <CommandBar.PrimaryCommands>
-                <AppBarToggleButton Icon="Accept" Label="Mark as read" Command="{Binding MarkItemAsReadCommand}" IsChecked="{Binding CurrentItem.Model.IsRead}"/>
-                <AppBarToggleButton Icon="Favorite" Label="Mark as favorite" Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}" IsChecked="{Binding CurrentItem.Model.IsStarred}"/>
+                <AppBarToggleButton x:Name="MarkAsReadButton" 
+                                    Icon="Accept"
+                                    Label="Mark as read"
+                                    Command="{Binding MarkItemAsReadCommand}"
+                                    IsChecked="{Binding CurrentItem.Model.IsRead}"/>
+                <AppBarToggleButton x:Name="MarkAsFavoriteButton"
+                                    Icon="Favorite" 
+                                    Label="Mark as favorite"
+                                    Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"
+                                    IsChecked="{Binding CurrentItem.Model.IsStarred}"/>
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
@@ -40,20 +48,22 @@
                                     </Style>
                                     <Style TargetType="StackPanel">
                                         <Setter Property="Margin" Value="4"/>
-                                        <Setter Property="Orientation" Value="Horizontal"/>
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                     </Style>
                                 </StackPanel.Resources>
-                                <StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f311;" FontFamily="Segoe UI Symbol"/>
                                     <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f312;" FontFamily="Segoe UI Symbol"/>
                                     <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f314;" FontFamily="Segoe UI Symbol"/>
                                     <Button x:Name="blackColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
                                 </StackPanel>
-                                <StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Click="IncreaseFontSize"/>
                                     <Button Content="&#xE738;" FontFamily="Segoe MDL2 Assets" Click="DecreaseFontSize"/>
-                                    <Button Content="&#xE1C8;" FontFamily="Segoe MDL2 Assets" Click="FontFamilyButton_Click" />
+                                    <Button Content="&#xE185;" FontFamily="Segoe MDL2 Assets" Click="FontFamilyButton_Click" />
+                                    <Button x:Name="ChangeTextAlignButton" FontFamily="Segoe MDL2 Assets" Click="ChangeTextAlignButton_Click">
+                                        <PathIcon Data="M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14"/>
+                                    </Button>
                                 </StackPanel>
                             </StackPanel>
                         </Flyout>

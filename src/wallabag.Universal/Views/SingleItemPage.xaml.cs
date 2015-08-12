@@ -23,13 +23,15 @@ namespace wallabag.Views
 
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += SingleItemPage_DataRequested;
-            WebView.ScriptNotify += WebView_ScriptNotify;          
+            WebView.ScriptNotify += WebView_ScriptNotify;
+            //this.Loaded += (s, e) =>
+            //{
+            //    MarkAsReadButton_Click(this, new RoutedEventArgs());
+            //    MarkAsFavoriteButton_Click(this, new RoutedEventArgs());
+            //};
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            dataTransferManager.DataRequested -= SingleItemPage_DataRequested;
-        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e) { dataTransferManager.DataRequested -= SingleItemPage_DataRequested; }
 
         #region Data transfer
         private bool shareContent = false;
@@ -65,6 +67,7 @@ namespace wallabag.Views
             parameters.Add(AppSettings.FontFamily);
             parameters.Add(AppSettings.FontSize.ToString());
             parameters.Add(AppSettings.LineHeight.ToString());
+            parameters.Add(AppSettings.TextAlignment);
 
             if (ViewModel.CurrentItem != null)
                 await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
@@ -75,17 +78,15 @@ namespace wallabag.Views
             float progress;
             float.TryParse(e.Value, out progress);
             ViewModel.CurrentItem.Model.ReadingProgress = progress;
-            if (progress == 100)
-                BottomAppBar.IsOpen = true;
         }
 
         private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (AppSettings.FontFamily == "serif")            
-                AppSettings.FontFamily = "sans";            
-            else            
+            if (AppSettings.FontFamily == "serif")
+                AppSettings.FontFamily = "sans";
+            else
                 AppSettings.FontFamily = "serif";
-            
+
             await ChangeHtmlAttributesAsync();
         }
 
@@ -104,5 +105,40 @@ namespace wallabag.Views
 
         private async void IncreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize += 1; await ChangeHtmlAttributesAsync(); }
         private async void DecreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize -= 1; await ChangeHtmlAttributesAsync(); }
+
+        private void MarkAsReadButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.CurrentItem.Model.IsRead)
+                MarkAsReadButton.Icon = new SymbolIcon(Symbol.Add);
+            else
+                MarkAsReadButton.Icon = new SymbolIcon(Symbol.Accept);
+        }
+
+        private void MarkAsFavoriteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel.CurrentItem.Model.IsStarred)
+                MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
+            else
+                MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
+        }
+
+        private PathIcon TextAlignJustifyPathIcon;
+        private async void ChangeTextAlignButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (TextAlignJustifyPathIcon == null)
+                TextAlignJustifyPathIcon = (sender as Button).Content as PathIcon;
+
+            if (AppSettings.TextAlignment == "left")
+            {
+                AppSettings.TextAlignment = "justify";
+                ChangeTextAlignButton.Content = "";
+            }
+            else
+            {
+                AppSettings.TextAlignment = "left";
+                ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
+            }
+            await ChangeHtmlAttributesAsync();
+        }
     }
 }

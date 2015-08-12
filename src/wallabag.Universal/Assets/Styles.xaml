@@ -18,9 +18,6 @@
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <Converter:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
 
-    <!-- Icons -->
-    <PathIcon x:Name="Mdl2_TextAlignJustify" Data="M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14"/>
-
     <!-- Custom styles -->
     <Style x:Key="RoundButtonStyle" TargetType="Button">
         <Setter Property="Template">
