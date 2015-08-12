@@ -43,7 +43,7 @@ namespace wallabag.Views
                 if (shareContent)
                     data.SetHtmlFormat(ViewModel.CurrentItem.ContentWithHeader);
                 else
-                    data.SetWebLink(new System.Uri(ViewModel.CurrentItem.Model.Url));
+                    data.SetWebLink(new Uri(ViewModel.CurrentItem.Model.Url));
                 data.Properties.Title = ViewModel.CurrentItem.Model.Title;
             }
         }
@@ -108,6 +108,8 @@ namespace wallabag.Views
 
         private void MarkAsReadButton_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.MarkItemAsReadCommand.Execute(null);
+
             if (ViewModel.CurrentItem.Model.IsRead)
                 MarkAsReadButton.Icon = new SymbolIcon(Symbol.Add);
             else
@@ -116,6 +118,8 @@ namespace wallabag.Views
 
         private void MarkAsFavoriteButton_Click(object sender, RoutedEventArgs e)
         {
+            ViewModel.CurrentItem.SwitchFavoriteStatusCommand.Execute(null);
+
             if (ViewModel.CurrentItem.Model.IsStarred)
                 MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
             else

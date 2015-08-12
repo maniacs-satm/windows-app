@@ -20,13 +20,13 @@
                 <AppBarToggleButton x:Name="MarkAsReadButton" 
                                     Icon="Accept"
                                     Label="Mark as read"
-                                    Command="{Binding MarkItemAsReadCommand}"
-                                    IsChecked="{Binding CurrentItem.Model.IsRead}"/>
+                                    IsChecked="{Binding CurrentItem.Model.IsRead}"
+                                    Click="MarkAsReadButton_Click"/>
                 <AppBarToggleButton x:Name="MarkAsFavoriteButton"
                                     Icon="Favorite" 
                                     Label="Mark as favorite"
-                                    Command="{Binding CurrentItem.SwitchFavoriteStatusCommand}"
-                                    IsChecked="{Binding CurrentItem.Model.IsStarred}"/>
+                                    IsChecked="{Binding CurrentItem.Model.IsStarred}"
+                                    Click="MarkAsFavoriteButton_Click"/>
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
