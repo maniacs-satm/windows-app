@@ -24,11 +24,21 @@ namespace wallabag.Views
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += SingleItemPage_DataRequested;
             WebView.ScriptNotify += WebView_ScriptNotify;
+            WebView.NavigationStarting += WebView_NavigationStarting;
             //this.Loaded += (s, e) =>
             //{
             //    MarkAsReadButton_Click(this, new RoutedEventArgs());
             //    MarkAsFavoriteButton_Click(this, new RoutedEventArgs());
             //};
+        }
+
+        private async void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        {
+            if (args.Uri != null)
+            {
+                args.Cancel = true;
+                await Windows.System.Launcher.LaunchUriAsync(args.Uri);
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e) { dataTransferManager.DataRequested -= SingleItemPage_DataRequested; }
