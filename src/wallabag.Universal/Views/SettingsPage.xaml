@@ -13,6 +13,27 @@
     </Page.DataContext>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Phone">
+                    <VisualState.Setters>
+                        <Setter Target="AccountCredentialsStackPanel.HorizontalAlignment" Value="Stretch"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Desktop">
+                    <VisualState.Setters>
+                        <Setter Target="AccountCredentialsStackPanel.HorizontalAlignment" Value="Left"/>
+                        <Setter Target="AccountCredentialsStackPanel.Width" Value="400"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
             <RowDefinition />
@@ -31,8 +52,10 @@
                 </Style>
                 <Style TargetType="TextBox">
                     <Setter Property="Margin" Value="0,10"/>
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                    <Setter Property="Width" Value="350"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+                <Style TargetType="PasswordBox">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 </Style>
             </Pivot.Resources>
             <PivotItem Header="General">
@@ -40,13 +63,12 @@
                     <TextBlock Text="To apply the following settings you need to restart the app." TextWrapping="Wrap" Margin="0,0,0,12" FontStyle="Italic"/>
                     <ComboBox Header="Language" IsEnabled="False" Width="320" Margin="0,8"/>
                     <ToggleSwitch x:Name="useSystemAccentColorToggleSwitch" Header="Use system accent color" IsOn="{x:Bind ViewModel.UseSystemAccentColor, Mode=TwoWay}"/>
-                    <ToggleSwitch Header="Position of menu button" OnContent="Right" OffContent="Left" IsOn="{x:Bind ViewModel.HamburgerPositionIsRight, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Account credentials">
-                <StackPanel>
+                <StackPanel x:Name="AccountCredentialsStackPanel">
                     <TextBox x:Name="UsernameTextBox" Header="Username" Text="{x:Bind ViewModel.Username, Mode=TwoWay}"/>
-                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{x:Bind ViewModel.Password, Mode=TwoWay}" Width="350" HorizontalAlignment="Left"/>
+                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{x:Bind ViewModel.Password, Mode=TwoWay}"/>
                     <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{x:Bind ViewModel.wallabagUrl, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
