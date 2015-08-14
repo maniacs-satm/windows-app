@@ -18,7 +18,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           AllowDrop="True"
           Drop="Grid_Drop"
-          DragOver="Grid_DragOver">
+          DragOver="Grid_DragOver"
+          DragLeave="Grid_DragLeave">
         <Frame x:Name="frame" Navigated="OnNavigatedToPage">
             <Frame.ContentTransitions>
                 <TransitionCollection>
@@ -29,6 +30,9 @@
                     </NavigationThemeTransition>
                 </TransitionCollection>
             </Frame.ContentTransitions>
-        </Frame>       
+        </Frame>
+        <Grid x:Name="dragDropGrid" Visibility="Collapsed" Background="#F2FFFFFF">
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Drop the link here to save it in your wallabag!" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Margin="16"/>
+        </Grid>
     </Grid>
 </Page>
