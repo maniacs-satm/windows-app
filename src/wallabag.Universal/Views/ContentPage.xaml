@@ -8,6 +8,9 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
+    <Page.DataContext>
+        <vm:MainViewModel/>
+    </Page.DataContext>
     <Page.Resources>
         <Storyboard x:Name="ShowSearchBox">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchBox">
@@ -50,6 +53,22 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
+    <Page.BottomAppBar>
+        <CommandBar x:Name="PrimaryCommandBar">
+            <AppBarButton Icon="Filter" Label="Filter">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="filterFlyout" Placement="Full">
+                        <StackPanel/>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
+            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
@@ -57,7 +76,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.Visibility" Value="Collapsed"/>
-                        <Setter Target="ItemListView.Visibility" Value="Visible"/>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -67,7 +85,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.Visibility" Value="Visible"/>
-                        <Setter Target="ItemListView.Visibility" Value="Collapsed"/>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -76,12 +93,20 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+                VerticalAlignment="Top"
+                RequestedTheme="Dark"
+                Height="48">
+            <TextBlock Text="ITEMS" Style="{StaticResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <AppBarButton x:Name="SearchButton" Icon="Find" Label="Search" Click="SearchButton_Click" HorizontalAlignment="Right" IsCompact="True"/>
+            </StackPanel>
+        </Grid>       
         <GridView x:Name="ItemGridView"
-                  Margin="0,48,0,0"
-                  Padding="4"
-                  Background="{ThemeResource SystemControlPageBackgroundListLowBrush}"
                   ItemsSource="{Binding Items}"
                   IsItemClickEnabled="True"
+                  Margin="0,48,0,0"
+                  Padding="4"
                   ItemClick="ItemGridView_ItemClick"
                   EntranceNavigationTransitionInfo.IsTargetElement="True">
             <GridView.ItemTemplate>
@@ -99,47 +124,13 @@
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
-        </GridView>
-        <ListView x:Name="ItemListView"
-                  ItemsSource="{Binding Items}"
-                  IsItemClickEnabled="True"
-                  ItemClick="ItemGridView_ItemClick"
-                  EntranceNavigationTransitionInfo.IsTargetElement="True"
-                  Margin="0,48,0,0"
-                  Padding="0,8">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vm:ItemViewModel">
-                    <Grid Height="64">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="64"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                               Source="https://farm4.staticflickr.com/3955/15123553843_6b4a5c8a3f_z_d.jpg" Stretch="UniformToFill"/>
-                        <TextBlock Text="{x:Bind Model.Title}"
-                                   TextTrimming="CharacterEllipsis"
-                                   MaxLines="1" VerticalAlignment="Center" Margin="12,0"
-                                   Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Column="1"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Top">
-            <AppBarButton x:Name="SearchButton" Icon="Find" Label="Search" Click="SearchButton_Click"/>
-            <AppBarSeparator/>
-            <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
-            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
-            <CommandBar.Content>
-                <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}"/>
-            </CommandBar.Content>
-        </CommandBar>
+        </GridView>        
         <AutoSuggestBox x:Name="SearchBox"               
                 QueryIcon="Find"
-                Width="300"
                 PlaceholderText="Search..."
                 VerticalAlignment="Top"
-                Margin="8,8,220,8"
-                HorizontalAlignment="Right"
+                Margin="8"
+                HorizontalAlignment="Stretch"
                 ItemsSource="{x:Bind SearchBoxSuggestions}"
                 TextChanged="SearchBox_TextChanged"
                 KeyDown="SearchBox_KeyDown"
