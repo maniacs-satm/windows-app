@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using wallabag.Common;
 using wallabag.Services;
 using wallabag.ViewModels;
 using Windows.UI.Xaml;
@@ -53,13 +54,16 @@ namespace wallabag.Views
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 var id = (await DataService.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
-                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SingleItemPage), id.ToString());
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
         }
 
         private async void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            await AddItemContentDialog.ShowAsync();
+            if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(AddLinkPage));
+            else
+                await AddItemContentDialog.ShowAsync();
         }
 
         private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
