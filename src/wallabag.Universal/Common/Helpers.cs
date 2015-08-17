@@ -63,5 +63,16 @@ namespace wallabag.Common
             }
         }
         public enum HttpRequestMethod { Delete, Get, Patch, Post, Put }
+
+        public static bool IsPhone
+        {
+            get
+            {
+                var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+                if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Mobile")
+                    return true;
+                else return false;
+            }
+        }
     }
 }
