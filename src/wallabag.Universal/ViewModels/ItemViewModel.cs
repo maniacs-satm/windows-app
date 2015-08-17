@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 using Newtonsoft.Json;
 using PropertyChanged;
 using wallabag.Common;
@@ -42,6 +44,8 @@ namespace wallabag.ViewModels
             SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteValueAsync());
 
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
+
+            if (string.IsNullOrEmpty(Model.HeaderImageUri)) GetHeaderImage();
         }
 
         private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -88,6 +92,13 @@ namespace wallabag.ViewModels
                 publishDate = string.Format("{0:d}", Model.CreationDate),
                 accentColorStylesheet = styleSheetBuilder.ToString()
             });
+        }
+        public void GetHeaderImage()
+        {
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(Model.Content);
+            if (document.DocumentNode.Descendants("img").Count() > 0)
+                Model.HeaderImageUri = document.DocumentNode.Descendants("img").First().Attributes["src"].Value;
         }
 
         public async Task<bool> DeleteItemAsync()

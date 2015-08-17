@@ -67,6 +67,7 @@ namespace wallabag.Models
         public ObservableCollection<Tag> Tags { get; set; }
 
         public float ReadingProgress { get; set; }
+        public string HeaderImageUri { get; set; }
 
         public override string ToString() { return Title; }
     }
