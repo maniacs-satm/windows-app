@@ -20,9 +20,10 @@ namespace wallabag.Views
     /// <summary>
     /// Eine leere Seite, die eigenständig verwendet werden kann oder auf die innerhalb eines Rahmens navigiert werden kann.
     /// </summary>
-    public sealed partial class AddLinkPage : Page
+    public sealed partial class AddItemPage : Page
     {
-        public AddLinkPage()
+        public ViewModels.AddItemPageViewModel ViewModel { get { return (ViewModels.AddItemPageViewModel)DataContext; } }
+        public AddItemPage()
         {
             this.InitializeComponent();
         }
