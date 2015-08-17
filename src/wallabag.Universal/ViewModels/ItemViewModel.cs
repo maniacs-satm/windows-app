@@ -71,6 +71,10 @@ namespace wallabag.ViewModels
             styleSheetBuilder.Append("<style>");
             styleSheetBuilder.Append("hr {border-color: " + accentColor + " !important}");
             styleSheetBuilder.Append("::selection,mark {background: " + accentColor + " !important}");
+            styleSheetBuilder.Append("body {");
+            styleSheetBuilder.Append($"font-size:{AppSettings.FontSize}px;");
+            //styleSheetBuilder.Append("line-height:" + AppSettings.LineHeight);
+            styleSheetBuilder.Append("text-align: " + AppSettings.TextAlignment + "}");
             styleSheetBuilder.Append("</style>");
 
             ContentWithHeader = _template.FormatWith(new
@@ -81,12 +85,9 @@ namespace wallabag.ViewModels
                 hostname = UrlHostname,
                 color = AppSettings.ColorScheme,
                 font = AppSettings.FontFamily,
-                fontSize = AppSettings.FontSize,
-                lineHeight = AppSettings.LineHeight,
-                progress = Model.ReadingProgress,
-                textAlignment = AppSettings.TextAlignment,
+                progress = Model.ReadingProgress.ToString().Replace(",", "."),
                 publishDate = string.Format("{0:d}", Model.CreationDate),
-                accentColorStylesheet = styleSheetBuilder.ToString()
+                stylesheet = styleSheetBuilder.ToString()
             });
         }
 
