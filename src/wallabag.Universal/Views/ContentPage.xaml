@@ -141,7 +141,7 @@
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
             <ContentDialog.DataContext>
-                <vm:AddItemContentDialogViewModel/>
+                <vm:AddItemPageViewModel/>
             </ContentDialog.DataContext>
             <StackPanel x:Name="ContentDialogStackPanel" MinWidth="450" Margin="0,24,0,0">
                 <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://" InputScope="Url"/>

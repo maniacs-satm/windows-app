@@ -61,7 +61,7 @@ namespace wallabag.Views
         private async void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
             if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
-                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(AddLinkPage));
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(AddItemPage));
             else
                 await AddItemContentDialog.ShowAsync();
         }
