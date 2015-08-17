@@ -130,13 +130,13 @@
     <Compile Include="Services\NavigationService\NavigatedEventArgs.cs" />
     <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
     <Compile Include="Services\NavigationService\NavigationService.cs" />
-    <Compile Include="ViewModels\AddItemContentDialogViewModel.cs" />
+    <Compile Include="ViewModels\AddItemPageViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SingleItemPageViewModel.cs" />
-    <Compile Include="Views\AddLinkPage.xaml.cs">
-      <DependentUpon>AddLinkPage.xaml</DependentUpon>
+    <Compile Include="Views\AddItemPage.xaml.cs">
+      <DependentUpon>AddItemPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ContentPage.xaml.cs">
       <DependentUpon>ContentPage.xaml</DependentUpon>
@@ -230,7 +230,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AddLinkPage.xaml">
+    <Page Include="Views\AddItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

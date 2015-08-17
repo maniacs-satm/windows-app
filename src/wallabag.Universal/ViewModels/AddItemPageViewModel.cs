@@ -1,14 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using PropertyChanged;
-using wallabag.Common.Mvvm;
 using wallabag.Common;
+using wallabag.Common.Mvvm;
 using wallabag.Models;
 using wallabag.Services;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
-    class AddItemContentDialogViewModel
+    public class AddItemPageViewModel
     {
         public string Url { get; set; }
         public ObservableCollection<Tag> Tags { get; set; }
@@ -16,7 +16,7 @@ namespace wallabag.ViewModels
         public Command AddItemCommand { get; private set; }
         public Command CancelCommand { get; private set; }
 
-        public AddItemContentDialogViewModel()
+        public AddItemPageViewModel()
         {
             Tags = new ObservableCollection<Tag>();
             AddItemCommand = new Command(async () =>
@@ -29,6 +29,8 @@ namespace wallabag.ViewModels
             {
                 Url = string.Empty;
                 Tags.Clear();
+                if (Services.NavigationService.NavigationService.ApplicationNavigationService.CanGoBack)
+                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
             });
         }
     }
