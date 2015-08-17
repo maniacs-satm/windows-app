@@ -111,9 +111,6 @@
     <Compile Include="Common\Mvvm\ViewModelBase.cs" />
     <Compile Include="Common\SQLite\SQLite.cs" />
     <Compile Include="Common\SQLite\SQLiteAsync.cs" />
-    <Compile Include="Controls\SettingsSubHeaderTextBlock.xaml.cs">
-      <DependentUpon>SettingsSubHeaderTextBlock.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\TagControl.xaml.cs">
       <DependentUpon>TagControl.xaml</DependentUpon>
     </Compile>
@@ -138,6 +135,9 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SingleItemPageViewModel.cs" />
+    <Compile Include="Views\AddLinkPage.xaml.cs">
+      <DependentUpon>AddLinkPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ContentPage.xaml.cs">
       <DependentUpon>ContentPage.xaml</DependentUpon>
     </Compile>
@@ -226,13 +226,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SettingsSubHeaderTextBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\TagControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddLinkPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContentPage.xaml">
       <Generator>MSBuild:Compile</Generator>
