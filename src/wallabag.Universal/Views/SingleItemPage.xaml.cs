@@ -85,9 +85,7 @@ namespace wallabag.Views
 
         private void WebView_ScriptNotify(object sender, NotifyEventArgs e)
         {
-            float progress;
-            float.TryParse(e.Value, out progress);
-            ViewModel.CurrentItem.Model.ReadingProgress = progress;
+            ViewModel.CurrentItem.Model.ReadingProgress = e.Value;
         }
 
         private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)

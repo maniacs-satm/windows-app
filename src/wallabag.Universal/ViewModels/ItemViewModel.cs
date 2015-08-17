@@ -73,7 +73,6 @@ namespace wallabag.ViewModels
             styleSheetBuilder.Append("::selection,mark {background: " + accentColor + " !important}");
             styleSheetBuilder.Append("body {");
             styleSheetBuilder.Append($"font-size:{AppSettings.FontSize}px;");
-            //styleSheetBuilder.Append("line-height:" + AppSettings.LineHeight);
             styleSheetBuilder.Append("text-align: " + AppSettings.TextAlignment + "}");
             styleSheetBuilder.Append("</style>");
 

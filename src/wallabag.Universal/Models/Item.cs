@@ -66,7 +66,7 @@ namespace wallabag.Models
         [JsonProperty("tags")]
         public ObservableCollection<Tag> Tags { get; set; }
 
-        public float ReadingProgress { get; set; }
+        public string ReadingProgress { get; set; }
 
         public override string ToString() { return Title; }
     }
