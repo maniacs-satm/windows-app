@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Media;
 
 namespace wallabag.Models
 {
+    [SQLite.Table("Tags")]
     public class Tag
     {
         [JsonProperty("id")]
