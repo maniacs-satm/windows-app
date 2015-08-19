@@ -103,6 +103,8 @@ namespace wallabag.Services
                         existingItem.Content = item.Content;
                         existingItem.CreationDate = item.CreationDate;
                         existingItem.LastUpdated = item.LastUpdated;
+                        existingItem.DomainName = item.DomainName;
+                        existingItem.EstimatedReadingTime = item.EstimatedReadingTime;
 
                         await conn.UpdateAsync(existingItem);
                     }

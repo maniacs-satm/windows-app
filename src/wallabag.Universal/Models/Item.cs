@@ -63,6 +63,12 @@ namespace wallabag.Models
         [JsonProperty("updated_at")]
         public DateTime LastUpdated { get; set; }
 
+        [JsonProperty("reading_time")]
+        public int EstimatedReadingTime { get; set; }
+
+        [JsonProperty("domain_name")]
+        public string DomainName { get; set; }
+
         [JsonProperty("tags")]
         public ObservableCollection<Tag> Tags { get; set; }
 
