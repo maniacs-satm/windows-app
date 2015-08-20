@@ -188,3 +188,6 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 src/wallabag.Universal/project.lock.json
+WebEssentials2015-Settings.json
+.vs/config/applicationhost.config
+src/wallabag.Universal/wallabag.nuget.targets
