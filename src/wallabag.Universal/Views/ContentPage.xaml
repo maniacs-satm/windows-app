@@ -62,6 +62,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
+            <!--<AppBarButton x:Name="SearchButton" Icon="Find" Label="Search" Click="SearchButton_Click" HorizontalAlignment="Right" IsCompact="True"/>-->
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
             <CommandBar.SecondaryCommands>
@@ -75,7 +76,6 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="ItemGridView.Visibility" Value="Collapsed"/>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -84,7 +84,6 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="ItemGridView.Visibility" Value="Visible"/>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -93,38 +92,41 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-                VerticalAlignment="Top"
-                RequestedTheme="Dark"
-                Height="48">
-            <TextBlock Text="ITEMS" Style="{StaticResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <AppBarButton x:Name="SearchButton" Icon="Find" Label="Search" Click="SearchButton_Click" HorizontalAlignment="Right" IsCompact="True"/>
-            </StackPanel>
-        </Grid>       
-        <GridView x:Name="ItemGridView"
+        <Pivot>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="4,0"/>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <PivotItem Header="ITEMS">
+                <GridView x:Name="ItemGridView"
                   ItemsSource="{Binding Items}"
                   IsItemClickEnabled="True"
-                  Margin="0,48,0,0"
                   Padding="4"
                   ItemClick="ItemGridView_ItemClick"
                   EntranceNavigationTransitionInfo.IsTargetElement="True">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="vm:ItemViewModel">
-                    <Grid Width="300" Height="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ItemViewModel">
+                            <Grid Width="300" Height="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                Source="https://jlnostr.de/content/images/2015/06/header_mesonpress-2-3.jpg" Stretch="UniformToFill"/>
-                        <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis"
+                                <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis"
                                    MaxLines="2" TextAlignment="Left" VerticalAlignment="Bottom" Margin="10,15"
                                    Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Row="1"/>
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>        
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+            </PivotItem>
+            <PivotItem Header="FAVORITES"/>
+            <PivotItem Header="ARCHIVE"/>
+            <PivotItem Header="TAGS"/>
+        </Pivot>
         <AutoSuggestBox x:Name="SearchBox"               
                 QueryIcon="Find"
                 PlaceholderText="Search..."
