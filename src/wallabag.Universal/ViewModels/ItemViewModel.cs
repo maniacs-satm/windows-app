@@ -26,14 +26,7 @@ namespace wallabag.ViewModels
         public Item Model { get; set; }
 
         public string ContentWithHeader { get; set; }
-        public string UrlHostname
-        {
-            get
-            {
-                try { return new Uri(Model.Url).Host.Replace("www.", ""); }
-                catch { return string.Empty; }
-            }
-        }
+        public string IntroSentence { get; set; }
         #endregion
 
         public ItemViewModel(Item Model)
@@ -46,6 +39,7 @@ namespace wallabag.ViewModels
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
 
             if (string.IsNullOrEmpty(Model.HeaderImageUri)) GetHeaderImage();
+            GetIntroSentence();
         }
 
         private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -85,7 +79,7 @@ namespace wallabag.ViewModels
                 title = Model.Title,
                 content = Model.Content,
                 articleUrl = Model.Url,
-                hostname = UrlHostname,
+                hostname = Model.DomainName,
                 color = AppSettings.ColorScheme,
                 font = AppSettings.FontFamily,
                 progress = Model.ReadingProgress.ToString().Replace(",", "."),
@@ -99,6 +93,21 @@ namespace wallabag.ViewModels
             document.LoadHtml(Model.Content);
             if (document.DocumentNode.Descendants("img").Count() > 0)
                 Model.HeaderImageUri = document.DocumentNode.Descendants("img").First().Attributes["src"].Value;
+        }
+        public void GetIntroSentence()
+        {
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(Model.Content);
+
+            int i = 0;
+            foreach (HtmlNode node in document.DocumentNode.Descendants("p"))
+            {
+                if (i == 2)
+                    return;
+                if (!string.IsNullOrWhiteSpace(node.InnerText))
+                    IntroSentence += node.InnerText;
+                i += 1;
+            }
         }
 
         public async Task<bool> DeleteItemAsync()
