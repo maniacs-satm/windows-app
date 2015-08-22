@@ -213,10 +213,10 @@ article {
 }
 [data-color="light"] body {
   background: #ffffff;
-  color: #000000;
+  color: #444;
 }
 [data-color="light"] a {
-  color: #333333;
+  color: #888;
 }
 [data-color="sepia"] body {
   background: beige;
