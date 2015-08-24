@@ -7,17 +7,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="Black" RequestedTheme="Dark">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Padding="24">
-            <Image x:Name="image" Stretch="None" Source="ms-appx:///Assets/SplashScreen/SplashScreen.png"/>
-            <TextBox x:Name="serverTextBox"
-                     Header="Url to wallabag server" 
-                     PlaceholderText="https://" 
-                     Margin="8"
-                     InputScope="Url"/>
-            <Button x:Name="loginButton" Margin="8" HorizontalAlignment="Right" Content="Login" Click="loginButton_Click"
-                    Background="{ThemeResource AccentColorLightBrush}"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock x:Name="welcomeTextBlock" Text="Welcome to wallabag!" Style="{StaticResource HeaderTextBlockStyle}" 
+                       Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+            <StackPanel HorizontalAlignment="Center" Margin="0,32,0,0">
+                <Button x:Name="framabagUserButton" Content="I'm a framabag user!" Background="{StaticResource AccentColorLightBrush}" Width="200" Margin="4" Foreground="White"/>
+                <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user!" Width="200" Margin="4"/>
+            </StackPanel>
+            <StackPanel Margin="64,32,64,0">
+                <TextBox Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8"/>
+                <TextBox Header="Username" Margin="0,0,0,8"/>
+                <PasswordBox Header="Password" Margin="0,0,0,8"/>
+                <Button HorizontalAlignment="Stretch" Margin="0,8,0,0">Login</Button>
+            </StackPanel>
         </StackPanel>
-
     </Grid>
 </Page>
