@@ -23,11 +23,6 @@ namespace wallabag.ViewModels
             get { return AppSettings.FontSize; }
             set { AppSettings.FontSize = value; }
         }
-        public double LineHeight
-        {
-            get { return AppSettings.LineHeight; }
-            set { AppSettings.LineHeight = value; }
-        }
 
         public Command DownloadItemCommand { get; private set; }
         public Command MarkItemAsReadCommand { get; private set; }
@@ -80,8 +75,14 @@ namespace wallabag.ViewModels
             if (!string.IsNullOrWhiteSpace(parameter))
             {
                 CurrentItem = new ItemViewModel(await DataService.GetItemAsync(int.Parse(parameter)));
-                await CurrentItem.CreateContentFromTemplateAsync();
 
+                if (AppSettings.SyncReadingProgress)
+                    if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey("ReadingProgressContainer"))
+                        CurrentItem.Model.ReadingProgress = (string)ApplicationData.Current.RoamingSettings.
+                            Containers["ReadingProgressContainer"].
+                            Values[CurrentItem.Model.Id.ToString()];
+
+                await CurrentItem.CreateContentFromTemplateAsync();
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;
             }
         }
@@ -90,6 +91,10 @@ namespace wallabag.ViewModels
         {
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = string.Empty;
             await new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH).UpdateAsync(CurrentItem.Model);
+
+            if (AppSettings.SyncReadingProgress)
+                ApplicationData.Current.RoamingSettings.CreateContainer("ReadingProgressContainer",
+                    ApplicationDataCreateDisposition.Always).Values[CurrentItem.Model.Id.ToString()] = CurrentItem.Model.ReadingProgress;
         }
 
     }

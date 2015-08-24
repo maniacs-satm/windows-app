@@ -27,11 +27,6 @@ namespace wallabag.ViewModels
             get { return AppSettings.FontSize; }
             set { AppSettings.FontSize = value; }
         }
-        public double LineHeight
-        {
-            get { return AppSettings.LineHeight; }
-            set { AppSettings.LineHeight = value; }
-        }
         public string FontFamily
         {
             get { return AppSettings.FontFamily; }
@@ -48,15 +43,15 @@ namespace wallabag.ViewModels
             get { return AppSettings.UseSystemAccentColor; }
             set { AppSettings.UseSystemAccentColor = value; }
         }
-        public bool HamburgerPositionIsRight
-        {
-            get { return AppSettings.HamburgerPositionIsRight; }
-            set { AppSettings.HamburgerPositionIsRight = value; }
-        }
         public bool NavigateBackAfterReadingAnArticle
         {
             get { return AppSettings.NavigateBackAfterReadingAnArticle; }
             set { AppSettings.NavigateBackAfterReadingAnArticle = value; }
+        }
+        public bool SyncReadingProgress
+        {
+            get { return AppSettings.SyncReadingProgress; }
+            set { AppSettings.SyncReadingProgress = value; }
         }
     }
 }

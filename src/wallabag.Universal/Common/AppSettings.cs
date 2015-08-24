@@ -170,5 +170,10 @@ namespace wallabag.Common
             get { return GetProperty(nameof(NavigateBackAfterReadingAnArticle), true); }
             set { SetProperty(nameof(NavigateBackAfterReadingAnArticle), value); }
         }
+        public static bool SyncReadingProgress
+        {
+            get { return GetProperty(nameof(SyncReadingProgress), true); }
+            set { SetProperty(nameof(SyncReadingProgress), value); }
+        }
     }
 }

@@ -75,6 +75,7 @@
             <PivotItem Header="Reading">
                 <StackPanel>
                     <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>
+                    <ToggleSwitch Header="Sync the reading progress" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
         </Pivot>
