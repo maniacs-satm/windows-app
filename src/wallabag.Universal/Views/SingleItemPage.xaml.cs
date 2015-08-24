@@ -5,6 +5,7 @@ using PropertyChanged;
 using wallabag.Common;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -76,7 +77,6 @@ namespace wallabag.Views
             parameters.Add(AppSettings.ColorScheme);
             parameters.Add(AppSettings.FontFamily);
             parameters.Add(AppSettings.FontSize.ToString());
-            parameters.Add(AppSettings.LineHeight.ToString());
             parameters.Add(AppSettings.TextAlignment);
 
             if (ViewModel.CurrentItem != null)

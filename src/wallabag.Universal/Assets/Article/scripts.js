@@ -5,12 +5,11 @@
     window.external.notify(scrollPercentage.toString());
 }
 
-function changeHtmlAttributes(color, font, fontsize, lineheight, textalign) {
+function changeHtmlAttributes(color, font, fontsize, textalign) {
     document.getElementsByTagName("html")[0].setAttribute("data-color", color);
     document.getElementsByTagName("html")[0].setAttribute("data-font", font);
 
     document.body.style.fontSize = parseFloat(fontsize) + "px";
-    //document.body.style.lineHeight = parseFloat(lineheight);
     document.body.style.textAlign = textalign;
 }
 
