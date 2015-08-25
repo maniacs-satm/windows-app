@@ -21,7 +21,7 @@ namespace wallabag.ViewModels
 
             AppSettings.Username = Username;
             AppSettings.Password = Password;
-            AppSettings.wallabagUrl = wallabagUrl;             
+            AppSettings.wallabagUrl = wallabagUrl;
 
             Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.ContentPage));
         }
