@@ -32,7 +32,7 @@
             </Frame.ContentTransitions>
         </Frame>
         <Grid x:Name="dragDropGrid" Visibility="Collapsed" Background="#F2FFFFFF">
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Drop the link here to save it in your wallabag!" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Margin="16"/>
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Drop the link here to save it in your wallabag!" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Margin="16" TextAlignment="Center"/>
         </Grid>
     </Grid>
 </Page>

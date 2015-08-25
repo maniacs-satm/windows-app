@@ -82,7 +82,7 @@ namespace wallabag.ViewModels
                 hostname = Model.DomainName,
                 color = AppSettings.ColorScheme,
                 font = AppSettings.FontFamily,
-                progress = Model.ReadingProgress.ToString().Replace(",", "."),
+                progress = Model.ReadingProgress,
                 publishDate = string.Format("{0:d}", Model.CreationDate),
                 stylesheet = styleSheetBuilder.ToString()
             });
