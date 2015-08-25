@@ -7,6 +7,7 @@ using wallabag.Services;
 using wallabag.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
@@ -20,7 +21,6 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
-            ShowSearchBox.Completed += (s, e) => { SearchBox.Focus(FocusState.Programmatic); };
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -64,16 +64,6 @@ namespace wallabag.Views
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(AddItemPage));
             else
                 await AddItemContentDialog.ShowAsync();
-        }
-
-        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            HideSearchBox.Begin();
-        }
-
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowSearchBox.Begin();
         }
     }
 }

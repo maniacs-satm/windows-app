@@ -8,57 +8,28 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
+
     <Page.DataContext>
         <vm:MainViewModel/>
     </Page.DataContext>
-    <Page.Resources>
-        <Storyboard x:Name="ShowSearchBox">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchBox">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchBox">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchButton">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideSearchBox">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchBox">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchBox">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchButton">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-        </Storyboard>
-    </Page.Resources>
+
     <Page.BottomAppBar>
         <CommandBar x:Name="PrimaryCommandBar">
             <AppBarButton Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="filterFlyout" Placement="Full">
-                        <StackPanel/>
+                        <StackPanel Margin="8">
+                            <AutoSuggestBox x:Name="SearchBox"               
+                                 QueryIcon="Find"
+                                 PlaceholderText="Search..."
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Stretch"
+                                 ItemsSource="{x:Bind SearchBoxSuggestions}"
+                                 TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"/>
+                            <ComboBox Header="Domain name" Margin="0,0,0,8"/>
+                            <DatePicker Header="Creation date" Margin="0,0,0,8" IsEnabled="False"/>
+                            <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
+                        </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
@@ -95,50 +66,64 @@
         <Pivot>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="4,0"/>
+                    <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0" FontWeight="SemiBold"/>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
-            <PivotItem Header="ITEMS">
+            <PivotItem Header="UNREAD">
                 <GridView x:Name="ItemGridView"
-                  ItemsSource="{Binding Items}"
-                  IsItemClickEnabled="True"
-                  Padding="4"
-                  ItemClick="ItemGridView_ItemClick"
-                  EntranceNavigationTransitionInfo.IsTargetElement="True">
+                          ItemsSource="{Binding Items}"
+                          IsItemClickEnabled="True"
+                          ItemClick="ItemGridView_ItemClick"
+                          EntranceNavigationTransitionInfo.IsTargetElement="True">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="vm:ItemViewModel">
-                            <Grid Width="300" Height="300" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                            <Grid Width="300" Height="400" Background="#0C000000">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
-                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <Image x:Name="Image" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                               Source="https://jlnostr.de/content/images/2015/06/header_mesonpress-2-3.jpg" Stretch="UniformToFill"/>
-                                <TextBlock TextWrapping="Wrap" Text="{x:Bind Model.Title}" TextTrimming="CharacterEllipsis"
-                                   MaxLines="2" TextAlignment="Left" VerticalAlignment="Bottom" Margin="10,15"
-                                   Style="{ThemeResource SubtitleTextBlockStyle}" Grid.Row="1"/>
+                                <Image x:Name="Image" Source="{Binding Model.HeaderImageUri}" Stretch="UniformToFill"/>
+                                <Grid Grid.Row="1" Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition />
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                          TextWrapping="Wrap"
+                                          TextTrimming="CharacterEllipsis"
+                                          MaxLines="2"
+                                          FontWeight="SemiBold"
+                                          FontSize="20"
+                                          Margin="0,8"
+                                          Text="{x:Bind Model.Title}"
+                                          Style="{ThemeResource TitleTextBlockStyle}"/>
+                                    <TextBlock 
+                TextWrapping="Wrap"
+                TextTrimming="WordEllipsis"
+                VerticalAlignment="Top"
+                MaxLines="3"
+                Margin="0,8"
+                LineHeight="1.3"
+                FontWeight="Normal"
+                Foreground="#666"
+                Style="{ThemeResource BaseTextBlockStyle}"
+                Grid.Row="1"
+                Text="{x:Bind IntroSentence}"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
+                                        <SymbolIcon Symbol="Clock"/>
+                                        <TextBlock Margin="8,0" VerticalAlignment="Bottom" Text="{x:Bind Model.EstimatedReadingTime}"/>
+                                    </StackPanel>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-
             </PivotItem>
             <PivotItem Header="FAVORITES"/>
             <PivotItem Header="ARCHIVE"/>
             <PivotItem Header="TAGS"/>
         </Pivot>
-        <AutoSuggestBox x:Name="SearchBox"               
-                QueryIcon="Find"
-                PlaceholderText="Search..."
-                VerticalAlignment="Top"
-                Margin="8"
-                HorizontalAlignment="Stretch"
-                ItemsSource="{x:Bind SearchBoxSuggestions}"
-                TextChanged="SearchBox_TextChanged"
-                KeyDown="SearchBox_KeyDown"
-                LostFocus="SearchBox_LostFocus"
-                Opacity="0"
-                Visibility="Collapsed"/>
         <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" d:IsHidden="True"
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
