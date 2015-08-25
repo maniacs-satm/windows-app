@@ -5,7 +5,13 @@
     xmlns:local="using:wallabag.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:FirstStartPageViewModel />
+    </Page.DataContext>
+    
     <Page.Resources>
         <Storyboard x:Name="StackPanelChangeStoryboard">
             <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="StackPanel1" d:IsOptimized="True"/>
@@ -51,10 +57,10 @@
             <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
         </StackPanel>
         <StackPanel x:Name="StackPanel2"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Opacity="0" Visibility="Collapsed">
-            <TextBox x:Name="wallabagUrlTextBox" Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8" PlaceholderText="https://"/>
-            <TextBox x:Name="userNameTextBox" Header="Username" Margin="0,0,0,8" PlaceholderText="(e.g. wallabag)"/>
-            <PasswordBox Header="Password" Margin="0,0,0,8"/>
-            <Button x:Name="loginButton" HorizontalAlignment="Stretch" Margin="0,8,0,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="White" Click="loginButton_Click">LOGIN</Button>
+            <TextBox x:Name="wallabagUrlTextBox" Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8" PlaceholderText="https://" Text="{Binding wallabagUrl, Mode=TwoWay}"/>
+            <TextBox x:Name="userNameTextBox" Header="Username" Margin="0,0,0,8" PlaceholderText="(e.g. wallabag)" Text="{Binding Username, Mode=TwoWay}"/>
+            <PasswordBox Header="Password" Margin="0,0,0,8" Password="{Binding Password, Mode=TwoWay}"/>
+            <Button x:Name="loginButton" HorizontalAlignment="Stretch" Margin="0,8,0,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="White" Command="{Binding LoginCommand}">LOGIN</Button>
         </StackPanel>
     </Grid>
 </Page>
