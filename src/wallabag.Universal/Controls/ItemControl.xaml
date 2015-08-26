@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid x:Name="RootGrid" RequestedTheme="Dark" MinHeight="64">
-        <!--<VisualStateManager.VisualStateGroups>
+    <Grid x:Name="RootGrid" MinHeight="64">
+        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.Setters>
@@ -23,16 +23,21 @@
                         <Setter Target="RootGrid.Height" Value="300"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000"/>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>-->
-        
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
         <Image x:Name="HeaderImage" Stretch="UniformToFill"
                Source="{Binding Model.HeaderImageUri, Mode=OneTime}"/>
-        <StackPanel Background="#7F000000" VerticalAlignment="Bottom">
-            <TextBlock Text="{Binding Model.Title}" Margin="16" TextWrapping="Wrap" FontSize="16"/>
+        <StackPanel VerticalAlignment="Bottom" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" Padding="16" Grid.Row="1">
+            <TextBlock Text="{Binding Model.Title, Mode=OneTime}" TextWrapping="Wrap" FontSize="16" MaxLines="3"/>
+            <TextBlock Text="{Binding Model.DomainName}" Style="{StaticResource CaptionTextBlockStyle}" Opacity="0.75"/>
         </StackPanel>
     </Grid>
 </UserControl>
