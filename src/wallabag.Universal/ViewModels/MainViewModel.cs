@@ -17,7 +17,6 @@ namespace wallabag.ViewModels
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
-        public bool IsHome { get; set; } = true;
 
         #region Tasks & Commands
         public async Task LoadItemsAsync(FilterProperties FilterProperties)

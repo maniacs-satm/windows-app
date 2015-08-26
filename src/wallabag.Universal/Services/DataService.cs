@@ -231,6 +231,8 @@ namespace wallabag.Services
         public FilterPropertiesItemType ItemType { get; set; } = FilterPropertiesItemType.Unread;
         public FilterPropertiesSortOrder SortOrder { get; set; } = FilterPropertiesSortOrder.Descending;
         public Tag FilterTag { get; set; }
+        public string DomainName { get; set; }
+        public TimeSpan EstimatedReadingTime { get; set; }
 
         public enum FilterPropertiesSortOrder { Ascending, Descending }
         public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }
