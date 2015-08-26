@@ -27,6 +27,11 @@ namespace wallabag.ViewModels
 
         public string ContentWithHeader { get; set; }
         public string IntroSentence { get; set; }
+
+        public int RowSpan { get; set; } = 1;
+        public int ColumnSpan { get; set; } = 1;
+
+        public bool HeaderImageIsNotNull { get { return !string.IsNullOrEmpty(Model.HeaderImageUri); } }
         #endregion
 
         public ItemViewModel(Item Model)
@@ -40,6 +45,7 @@ namespace wallabag.ViewModels
 
             if (string.IsNullOrEmpty(Model.HeaderImageUri)) GetHeaderImage();
             GetIntroSentence();
+            if (!string.IsNullOrEmpty(Model.HeaderImageUri)) RowSpan = 2;
         }
 
         private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -96,25 +102,23 @@ namespace wallabag.ViewModels
         }
         public void GetIntroSentence()
         {
+            IntroSentence = string.Empty;
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(Model.Content);
 
-            int i = 0;
             foreach (HtmlNode node in document.DocumentNode.Descendants("p"))
             {
-                if (i == 2)
+                if (IntroSentence.Length >= 140)
                     return;
                 if (!string.IsNullOrWhiteSpace(node.InnerText))
                     IntroSentence += node.InnerText;
-                i += 1;
             }
         }
 
         public async Task<bool> DeleteItemAsync()
         {
+            NavigationService.GoBack();
             bool result = Model.IsDeleted = await DeleteItemAsync(Model.Id);
-            if (result)
-                NavigationService.GoBack();
             await conn.UpdateAsync(Model);
             return result;
         }
