@@ -48,15 +48,15 @@ namespace wallabag.Views
                     SearchBoxSuggestions.Add(item);
             }
         }
-
-        private async void SearchBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        
+        private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            // TODO: It's not working atm.
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (args.ChosenSuggestion != null)
             {
                 var id = (await DataService.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
+            // TODO: Implement a search page in case the user didn't chose a suggestion.
         }
 
         private async void AddItemButton_Click(object sender, RoutedEventArgs e)

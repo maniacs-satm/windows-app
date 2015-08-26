@@ -100,7 +100,8 @@
                                  VerticalAlignment="Top"
                                  HorizontalAlignment="Stretch"
                                  ItemsSource="{x:Bind SearchBoxSuggestions}"
-                                 TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"/>
+                                 TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
+                                 QuerySubmitted="SearchBox_QuerySubmitted"/>
                     <ComboBox Header="Domain name" Margin="0,0,0,8"/>
                     <DatePicker Header="Creation date" Margin="0,0,0,8"/>
                     <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
