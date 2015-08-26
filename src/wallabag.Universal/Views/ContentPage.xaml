@@ -14,25 +14,7 @@
 
     <Page.BottomAppBar>
         <CommandBar x:Name="PrimaryCommandBar">
-            <AppBarButton Icon="Filter" Label="Filter">
-                <AppBarButton.Flyout>
-                    <Flyout x:Name="filterFlyout" Placement="Full">
-                        <StackPanel Margin="8">
-                            <AutoSuggestBox x:Name="SearchBox"               
-                                 QueryIcon="Find"
-                                 PlaceholderText="Search..."
-                                 VerticalAlignment="Top"
-                                 HorizontalAlignment="Stretch"
-                                 ItemsSource="{x:Bind SearchBoxSuggestions}"
-                                 TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"/>
-                            <ComboBox Header="Domain name" Margin="0,0,0,8"/>
-                            <DatePicker Header="Creation date" Margin="0,0,0,8" IsEnabled="False"/>
-                            <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
-                        </StackPanel>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <!--<AppBarButton x:Name="SearchButton" Icon="Find" Label="Search" Click="SearchButton_Click" HorizontalAlignment="Right" IsCompact="True"/>-->
+            <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
             <CommandBar.SecondaryCommands>
@@ -62,67 +44,6 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Pivot>
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0"/>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <PivotItem Header="UNREAD">
-                <GridView x:Name="ItemGridView"
-                          ItemsSource="{Binding Items}"
-                          IsItemClickEnabled="True"
-                          ItemClick="ItemGridView_ItemClick"
-                          EntranceNavigationTransitionInfo.IsTargetElement="True">
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ItemViewModel">
-                            <Grid Width="300" Height="400" Background="#0C000000">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Image x:Name="Image" Source="{Binding Model.HeaderImageUri}" Stretch="UniformToFill"/>
-                                <Grid Grid.Row="1" Margin="8">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition />
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        TextWrapping="Wrap"
-                                        TextTrimming="CharacterEllipsis"
-                                        MaxLines="2"
-                                        FontWeight="SemiBold"
-                                        FontSize="20"
-                                        Margin="0,8"
-                                        Text="{x:Bind Model.Title}"
-                                        Style="{ThemeResource TitleTextBlockStyle}"/>
-                                    <TextBlock
-                                        TextWrapping="Wrap"
-                                        TextTrimming="WordEllipsis"
-                                        VerticalAlignment="Top"
-                                        MaxLines="3"
-                                        Margin="0,8"
-                                        LineHeight="1.3"
-                                        FontWeight="Normal"
-                                        Foreground="#666"
-                                        Style="{ThemeResource BaseTextBlockStyle}"
-                                        Grid.Row="1"
-                                        Text="{x:Bind IntroSentence}"/>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="2">
-                                        <SymbolIcon Symbol="Clock"/>
-                                        <TextBlock Margin="8,0" VerticalAlignment="Bottom" Text="{x:Bind Model.EstimatedReadingTime}"/>
-                                    </StackPanel>
-                                </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-            </PivotItem>
-            <PivotItem Header="FAVORITES"/>
-            <PivotItem Header="ARCHIVE"/>
-            <PivotItem Header="TAGS"/>
-        </Pivot>
         <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" d:IsHidden="True"
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
@@ -134,5 +55,42 @@
                 <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0" BorderThickness="2"/>
             </StackPanel>
         </ContentDialog>
+        <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=TwoWay}">
+            <GridView x:Name="ItemGridView"
+        	ItemsSource="{Binding Items}"
+        	IsItemClickEnabled="True"
+            Padding="8"
+            Margin="0,48,0,0"
+        	ItemClick="ItemGridView_ItemClick"
+        	EntranceNavigationTransitionInfo.IsTargetElement="True">
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ItemViewModel">
+                        <controls:ItemControl/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+            <SplitView.Pane>
+                <StackPanel Margin="0,48" Padding="8">
+                    <AutoSuggestBox x:Name="SearchBox"               
+                                 QueryIcon="Find"
+                                 PlaceholderText="Search..."
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Stretch"
+                                 ItemsSource="{x:Bind SearchBoxSuggestions}"
+                                 TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"/>
+                    <ComboBox Header="Domain name" Margin="0,0,0,8"/>
+                    <DatePicker Header="Creation date" Margin="0,0,0,8"/>
+                    <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
+                </StackPanel>
+            </SplitView.Pane>
+        </SplitView>
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
+            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
 </Page>
