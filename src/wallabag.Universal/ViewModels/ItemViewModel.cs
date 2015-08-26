@@ -27,11 +27,6 @@ namespace wallabag.ViewModels
 
         public string ContentWithHeader { get; set; }
         public string IntroSentence { get; set; }
-
-        public int RowSpan { get; set; } = 1;
-        public int ColumnSpan { get; set; } = 1;
-
-        public bool HeaderImageIsNotNull { get { return !string.IsNullOrEmpty(Model.HeaderImageUri); } }
         #endregion
 
         public ItemViewModel(Item Model)
@@ -45,7 +40,6 @@ namespace wallabag.ViewModels
 
             if (string.IsNullOrEmpty(Model.HeaderImageUri)) GetHeaderImage();
             GetIntroSentence();
-            if (!string.IsNullOrEmpty(Model.HeaderImageUri)) RowSpan = 2;
         }
 
         private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
