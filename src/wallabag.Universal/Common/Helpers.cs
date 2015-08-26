@@ -12,7 +12,7 @@ namespace wallabag.Common
 {
     public static class Helpers
     {
-        public static string DATABASE_FILENAME { get; } = $"{new Uri(AppSettings.wallabagUrl).Host}.db";
+        public static string DATABASE_FILENAME { get; } = $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":","")}.db";
         public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, DATABASE_FILENAME);
 
         /// <summary>
