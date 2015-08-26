@@ -102,9 +102,21 @@
                                  ItemsSource="{x:Bind SearchBoxSuggestions}"
                                  TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
                                  QuerySubmitted="SearchBox_QuerySubmitted"/>
-                    <ComboBox Header="Domain name" Margin="0,0,0,8"/>
+                    <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
+                    <ComboBox Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
                     <DatePicker Header="Creation date" Margin="0,0,0,8"/>
                     <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
+                    <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch">
+                        <ComboBoxItem>Ascending</ComboBoxItem>
+                        <ComboBoxItem>Descending</ComboBoxItem>
+                    </ComboBox>
+                    <ComboBox Header="Item type" Margin="0,0,0,8" HorizontalAlignment="Stretch">
+                        <ComboBoxItem>All</ComboBoxItem>
+                        <ComboBoxItem>Unread</ComboBoxItem>
+                        <ComboBoxItem>Favorites</ComboBoxItem>
+                        <ComboBoxItem>Archived</ComboBoxItem>
+                        <ComboBoxItem>Deleted</ComboBoxItem>
+                    </ComboBox>
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>
