@@ -14,9 +14,14 @@
 
     <Page.BottomAppBar>
         <CommandBar x:Name="PrimaryCommandBar">
+            <AppBarToggleButton x:Name="multipleSelectToggleButton" 
+                                Icon="Bullets" 
+                                Label="Select" 
+                                Checked="multipleSelectToggleButton_Checked"
+                                Unchecked="multipleSelectToggleButton_Unchecked"/>
             <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
             <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
-            <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshCommand}"/>
+            <AppBarButton Icon="Sync" Label="Sync" Command="{Binding RefreshCommand}"/>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
             </CommandBar.SecondaryCommands>
@@ -57,12 +62,12 @@
         </ContentDialog>
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=TwoWay}">
             <GridView x:Name="ItemGridView"
-        	ItemsSource="{Binding Items}"
-        	IsItemClickEnabled="True"
-            Padding="8"
-            Margin="0,48,0,0"
-        	ItemClick="ItemGridView_ItemClick"
-        	EntranceNavigationTransitionInfo.IsTargetElement="True">
+        	          ItemsSource="{Binding Items}"
+        	          IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                      Padding="8"
+                      Margin="0,48,0,0"
+        	          ItemClick="ItemGridView_ItemClick"
+        	          EntranceNavigationTransitionInfo.IsTargetElement="True">
                 <GridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

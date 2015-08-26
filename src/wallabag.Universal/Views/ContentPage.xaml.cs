@@ -65,5 +65,8 @@ namespace wallabag.Views
             else
                 await AddItemContentDialog.ShowAsync();
         }
+
+        private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e) { ItemGridView.SelectionMode = ListViewSelectionMode.Multiple; }
+        private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e) { ItemGridView.SelectionMode = ListViewSelectionMode.None; }
     }
 }
