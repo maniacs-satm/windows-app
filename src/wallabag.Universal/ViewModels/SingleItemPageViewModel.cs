@@ -17,6 +17,7 @@ namespace wallabag.ViewModels
     {
         public override string ViewModelIdentifier { get; set; } = "SingleItemPageViewModel";
         public ItemViewModel CurrentItem { get; set; }
+        private string ContainerKey { get { return $"ReadingProgressContainer-{new Uri(AppSettings.wallabagUrl).Host}"; } }
 
         public double FontSize
         {
@@ -77,9 +78,9 @@ namespace wallabag.ViewModels
                 CurrentItem = new ItemViewModel(await DataService.GetItemAsync(int.Parse(parameter)));
 
                 if (AppSettings.SyncReadingProgress)
-                    if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey("ReadingProgressContainer"))
+                    if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey(ContainerKey))
                         CurrentItem.Model.ReadingProgress = (string)ApplicationData.Current.RoamingSettings.
-                            Containers["ReadingProgressContainer"].
+                            Containers[ContainerKey].
                             Values[CurrentItem.Model.Id.ToString()];
 
                 await CurrentItem.CreateContentFromTemplateAsync();
@@ -93,7 +94,7 @@ namespace wallabag.ViewModels
             await new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH).UpdateAsync(CurrentItem.Model);
 
             if (AppSettings.SyncReadingProgress)
-                ApplicationData.Current.RoamingSettings.CreateContainer("ReadingProgressContainer",
+                ApplicationData.Current.RoamingSettings.CreateContainer(ContainerKey,
                     ApplicationDataCreateDisposition.Always).Values[CurrentItem.Model.Id.ToString()] = CurrentItem.Model.ReadingProgress;
         }
 
