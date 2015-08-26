@@ -111,6 +111,9 @@
     <Compile Include="Common\Mvvm\ViewModelBase.cs" />
     <Compile Include="Common\SQLite\SQLite.cs" />
     <Compile Include="Common\SQLite\SQLiteAsync.cs" />
+    <Compile Include="Controls\ItemControl.xaml.cs">
+      <DependentUpon>ItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\TagControl.xaml.cs">
       <DependentUpon>TagControl.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,10 @@
     <Page Include="Assets\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TagControl.xaml">
       <Generator>MSBuild:Compile</Generator>
