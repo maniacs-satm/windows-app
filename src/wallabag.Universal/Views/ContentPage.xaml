@@ -14,15 +14,28 @@
 
     <Page.BottomAppBar>
         <CommandBar x:Name="PrimaryCommandBar">
-            <AppBarToggleButton x:Name="multipleSelectToggleButton" 
+            <!-- commands for multiple selection -->
+            <AppBarButton x:Name="acceptAppBarButton" Icon="Accept" Visibility="Collapsed" Click="acceptAppBarButton_Click"/>
+            <AppBarButton x:Name="favoriteAppBarButton" Icon="Favorite" Visibility="Collapsed" Click="favoriteAppBarButton_Click"/>
+            <AppBarButton x:Name="tagAppBarButton" Icon="Tag" Visibility="Collapsed" IsEnabled="False">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <controls:TagControl />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton x:Name="deleteAppBarButton" Icon="Delete" Visibility="Collapsed" Click="deleteAppBarButton_Click"/>
+            <!-- default commands -->            
+            <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
+            <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
+            <AppBarButton x:Name="syncAppBarButton" Icon="Sync" Label="Sync" Command="{Binding RefreshCommand}"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarToggleButton x:Name="multipleSelectToggleButton" 
                                 Icon="Bullets" 
                                 Label="Select" 
                                 Checked="multipleSelectToggleButton_Checked"
                                 Unchecked="multipleSelectToggleButton_Unchecked"/>
-            <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
-            <AppBarButton Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
-            <AppBarButton Icon="Sync" Label="Sync" Command="{Binding RefreshCommand}"/>
-            <CommandBar.SecondaryCommands>
+                <AppBarSeparator/>
                 <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
@@ -66,7 +79,7 @@
         	          IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
                       Padding="8"
                       Margin="0,48,0,0"
-        	          ItemClick="ItemGridView_ItemClick"
+        	          ItemClick="ItemGridView_ItemClick"                      
         	          EntranceNavigationTransitionInfo.IsTargetElement="True">
                 <GridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
