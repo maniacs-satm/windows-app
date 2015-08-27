@@ -48,7 +48,7 @@ namespace wallabag.Views
                     SearchBoxSuggestions.Add(item);
             }
         }
-        
+
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
@@ -106,6 +106,25 @@ namespace wallabag.Views
         {
             foreach (ItemViewModel item in ItemGridView.SelectedItems)
                 await item.DeleteItemAsync();
+        }
+
+        private void filterButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender == AllItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
+            else if (sender == UnreadItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+            else if (sender == StarredItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+            else if (sender == ArchivedItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
+            else if (sender == DeletedItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
         }
     }
 }

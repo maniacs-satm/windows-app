@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
+    xmlns:m="using:wallabag.Models"
     mc:Ignorable="d">
     <Page.DataContext>
         <vm:MainViewModel/>
@@ -25,7 +26,7 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton x:Name="deleteAppBarButton" Icon="Delete" Visibility="Collapsed" Click="deleteAppBarButton_Click"/>
-            <!-- default commands -->            
+            <!-- default commands -->
             <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
             <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton x:Name="syncAppBarButton" Icon="Sync" Label="Sync" Command="{Binding RefreshCommand}"/>
@@ -102,21 +103,44 @@
                                  ItemsSource="{x:Bind SearchBoxSuggestions}"
                                  TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
                                  QuerySubmitted="SearchBox_QuerySubmitted"/>
-                    <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
-                    <ComboBox Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"/>
-                    <DatePicker Header="Creation date" Margin="0,0,0,8"/>
-                    <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
-                    <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch">
+                    <Border Background="#19000000" Margin="0,0,0,8">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <StackPanel.Resources>
+                                <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
+                                </Style>
+                            </StackPanel.Resources>
+                            <RadioButton x:Name="AllItemsFilterRadioButton" Content="" ToolTipService.ToolTip="All" IsChecked="True" Checked="FilterRadioButton_CheckedChanged"/>
+                            <RadioButton x:Name="UnreadItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Unread" Checked="FilterRadioButton_CheckedChanged"/>
+                            <RadioButton x:Name="StarredItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Favorite" Checked="FilterRadioButton_CheckedChanged"/>
+                            <RadioButton x:Name="ArchivedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Archived" Checked="FilterRadioButton_CheckedChanged"/>
+                            <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged"/>
+                        </StackPanel>
+                    </Border>
+
+                    <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectedIndex="0">
                         <ComboBoxItem>Ascending</ComboBoxItem>
                         <ComboBoxItem>Descending</ComboBoxItem>
                     </ComboBox>
-                    <ComboBox Header="Item type" Margin="0,0,0,8" HorizontalAlignment="Stretch">
-                        <ComboBoxItem>All</ComboBoxItem>
-                        <ComboBoxItem>Unread</ComboBoxItem>
-                        <ComboBoxItem>Favorites</ComboBoxItem>
-                        <ComboBoxItem>Archived</ComboBoxItem>
-                        <ComboBoxItem>Deleted</ComboBoxItem>
+
+                    <Button Style="{StaticResource TextBlockButtonStyle}" Content="Show more"/>
+                    <!-- TODO: Display the following options only after button click-->
+                    <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                              ItemsSource="{Binding DomainNames}" SelectedItem="{Binding FilterProperties.DomainName, Mode=TwoWay}"/>
+                    <ComboBox Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                              ItemsSource="{Binding Tags}" SelectedItem="{Binding FilterProperties.FilterTag, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="m:Tag">
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Fill="{x:Bind Color}" Height="16" Width="16"/>
+                                    <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
+
+                    <DatePicker Header="Creation date"/>
+                    <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
+                    <Button x:Name="filterButton" Click="filterButton_Click">FILTER</Button>
                 </StackPanel>
             </SplitView.Pane>
         </SplitView>
