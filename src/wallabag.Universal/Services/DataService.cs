@@ -187,17 +187,6 @@ namespace wallabag.Services
 
         public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineAction = false)
         {
-            if (!Helpers.IsConnectedToTheInternet && !IsOfflineAction)
-            {
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.AddItem,
-                    Url = Url,
-                    TagsString = TagsString
-                });
-                return false;
-            }
-
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", Url);
             parameters.Add("tags", TagsString);
