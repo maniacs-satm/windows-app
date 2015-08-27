@@ -45,7 +45,6 @@ namespace wallabag.Controls
 
         private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            // TODO: Fast up this method!
             var possibleResults = new ObservableCollection<string>(possibleTags.Where(t=>t.Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -53,24 +52,6 @@ namespace wallabag.Controls
                 Suggestions.Clear();
                 foreach (var item in possibleResults)
                     Suggestions.Add(item);
-            }
-
-            var currentText = textBox.Text.ToLower();
-            char comma;
-            char.TryParse(",", out comma);
-
-            if (currentText.Length > 1 && currentText[currentText.Length - 1] == comma)
-            {
-                currentText = currentText.Remove(currentText.Length - 1);
-
-                var newTag = new Tag() { Label = currentText };
-
-                if (Tags.Where(t => t.Label == currentText).Count() == 0)
-                    Tags.Add(newTag);
-
-                textBox.Text = string.Empty;
-                UpdateNoTagsExistingStackPanelVisibility();
-                listView.ScrollIntoView(newTag);
             }
         }
 
@@ -88,17 +69,16 @@ namespace wallabag.Controls
                 noTagsExistingStackPanel.Visibility = Visibility.Visible;
         }
 
-        private void textBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void textBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                var newTag = new Tag() { Label = (sender as AutoSuggestBox).Text };
+            var newTag = new Tag() { Label = sender.Text };
 
-                if (Tags.Where(t => t.Label == (sender as AutoSuggestBox).Text).Count() == 0)
-                    Tags.Add(newTag);
+            if (Tags.Where(t => t.Label == sender.Text).Count() == 0)
+                Tags.Add(newTag);
 
-                textBox.Text = string.Empty;
-            }
+            textBox.Text = string.Empty;
+            listView.ScrollIntoView(newTag);
+            UpdateNoTagsExistingStackPanelVisibility();
         }
     }
 }

@@ -9,17 +9,18 @@
     d:DesignHeight="100"
     d:DesignWidth="450">
 
-    <Grid x:Name="RootGrid" BorderThickness="{x:Bind BorderThickness}" BorderBrush="{ThemeResource AccentColorLightBrush}" MinHeight="100">
+    <Grid x:Name="RootGrid" BorderThickness="{x:Bind BorderThickness}" BorderBrush="{ThemeResource AccentColorLightBrush}" MinHeight="100" MaxHeight="164">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <ListView x:Name="listView" ItemsSource="{x:Bind Tags, Mode=OneWay}" MaxHeight="250" IsItemClickEnabled="True" ItemClick="listView_ItemClick"/>
-        <AutoSuggestBox x:Name="textBox" PlaceholderText="add tags (comma-separated)" Grid.Row="1" TextChanged="textBox_TextChanged"
-                        ItemsSource="{x:Bind Suggestions}" KeyDown="textBox_KeyDown" Style="{StaticResource CustomAutoSuggestBoxStyle}"/>
-        <StackPanel x:Name="noTagsExistingStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" d:IsHidden="True">
+        <AutoSuggestBox x:Name="textBox" PlaceholderText="enter tag and press enter" Grid.Row="1"
+                        ItemsSource="{x:Bind Suggestions}" Style="{StaticResource CustomAutoSuggestBoxStyle}"
+                        QuerySubmitted="textBox_QuerySubmitted" TextChanged="textBox_TextChanged"/>
+        <StackPanel x:Name="noTagsExistingStackPanel" Orientation="Horizontal" HorizontalAlignment="Center">
             <SymbolIcon Symbol="Tag" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
-            <TextBlock Text="No tags existing.&#x0a;Add one in the field below :-)"
+            <TextBlock Text="No tags existing.&#x0a;So, why aren't you adding one? :-)"
                        VerticalAlignment="Center"
                        Margin="16,0" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
         </StackPanel>
