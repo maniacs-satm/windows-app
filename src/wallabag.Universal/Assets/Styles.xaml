@@ -226,88 +226,104 @@
         </Setter>
     </Style>
     <Style x:Key="IconRadioButtonStyle" TargetType="RadioButton">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Height" Value="48"/>
-        <Setter Property="MinWidth" Value="48"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="4,0"/>
+        <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="MinWidth" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Grid x:Name="RootPanel"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          Margin="{TemplateBinding Margin}">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
-                                        <Setter Target="Symbol.Foreground"           Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
                                     </VisualState.Setters>
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="White"/>
-                                        <Setter Target="Symbol.Foreground" Value="White"/>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource AccentColorLightBrush}"/>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
                                     </VisualState.Setters>
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                        <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Checked">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource AccentColorLightBrush}"/>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlHighlightAltTransparentBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}"/>
-                                        <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}"/>
                                     </VisualState.Setters>
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CheckedPointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlHighlightAccentBrush}"/>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlHighlightAccentBrush}"/>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}"/>
-                                        <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}"/>
                                     </VisualState.Setters>
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CheckedPressed">
                                     <VisualState.Setters>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="Transparent"/>
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CheckedDisabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="Symbol"
-                                   Text="{TemplateBinding Tag}"
-                                   FontFamily="Segoe MDL2 Assets"
-                                   FontSize="16"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"
-                                   ToolTipService.ToolTip="{TemplateBinding Content}"/>
-                        <ContentPresenter x:Name="ContentPresenter"                                
-                                          Grid.Column="1"
-                                          Content="{TemplateBinding Content}"
-                                          ContentTransitions="{TemplateBinding ContentTransitions}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Margin="4,8,8,8"
-                                          VerticalAlignment="Center"
-                                          AutomationProperties.AccessibilityView="Raw"/>
+                        <ContentPresenter                            
+                            x:Name="ContentPresenter"                                                       
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
     <Style x:Key="CustomAutoSuggestBoxTextBoxStyle" TargetType="TextBox">
         <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
         <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
