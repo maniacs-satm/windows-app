@@ -71,14 +71,17 @@ namespace wallabag.Controls
 
         private void textBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var newTag = new Tag() { Label = sender.Text };
+            if (!string.IsNullOrWhiteSpace(sender.Text))
+            {
+                var newTag = new Tag() { Label = sender.Text };
 
-            if (Tags.Where(t => t.Label == sender.Text).Count() == 0)
-                Tags.Add(newTag);
+                if (Tags.Where(t => t.Label == sender.Text).Count() == 0)
+                    Tags.Add(newTag);
 
-            textBox.Text = string.Empty;
-            listView.ScrollIntoView(newTag);
-            UpdateNoTagsExistingStackPanelVisibility();
+                textBox.Text = string.Empty;
+                listView.ScrollIntoView(newTag);
+                UpdateNoTagsExistingStackPanelVisibility();
+            }
         }
     }
 }
