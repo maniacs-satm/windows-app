@@ -13,35 +13,6 @@
         <vm:MainViewModel/>
     </Page.DataContext>
 
-    <Page.BottomAppBar>
-        <CommandBar x:Name="PrimaryCommandBar">
-            <!-- commands for multiple selection -->
-            <AppBarButton x:Name="acceptAppBarButton" Icon="Accept" Visibility="Collapsed" Click="acceptAppBarButton_Click"/>
-            <AppBarButton x:Name="favoriteAppBarButton" Icon="Favorite" Visibility="Collapsed" Click="favoriteAppBarButton_Click"/>
-            <AppBarButton x:Name="tagAppBarButton" Icon="Tag" Visibility="Collapsed" IsEnabled="False">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <controls:TagControl />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton x:Name="deleteAppBarButton" Icon="Delete" Visibility="Collapsed" Click="deleteAppBarButton_Click"/>
-            <!-- default commands -->
-            <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
-            <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
-            <AppBarButton x:Name="syncAppBarButton" Icon="Sync" Label="Sync" Command="{Binding RefreshCommand}"/>
-            <CommandBar.SecondaryCommands>
-                <AppBarToggleButton x:Name="multipleSelectToggleButton" 
-                                Icon="Bullets" 
-                                Label="Select" 
-                                Checked="multipleSelectToggleButton_Checked"
-                                Unchecked="multipleSelectToggleButton_Unchecked"/>
-                <AppBarSeparator/>
-                <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-    </Page.BottomAppBar>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -84,7 +55,7 @@
         	              ItemsSource="{Binding Items}"
         	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
                           Padding="8"
-                          Margin="0,48,0,0"
+                          Margin="0,48"
         	              ItemClick="ItemGridView_ItemClick"                      
         	              EntranceNavigationTransitionInfo.IsTargetElement="True">
                     <GridView.ItemTemplate>
@@ -96,7 +67,7 @@
                 <ListView x:Name="ItemListView"
         	              ItemsSource="{Binding Items}"
         	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
-                          Margin="0,48,0,0"
+                          Margin="0,48"
                           Visibility="Collapsed"
         	              ItemClick="ItemGridView_ItemClick"                      
         	              EntranceNavigationTransitionInfo.IsTargetElement="True">
@@ -114,8 +85,10 @@
                 </ListView>
             </Grid>
             <SplitView.Pane>
-                <StackPanel Margin="0,48" Padding="8">
-                    <AutoSuggestBox x:Name="SearchBox"               
+                <ScrollViewer>
+
+                    <StackPanel Margin="0,48" Padding="8">
+                        <AutoSuggestBox x:Name="SearchBox"               
                                  QueryIcon="Find"
                                  PlaceholderText="Search..."
                                  VerticalAlignment="Top"
@@ -123,49 +96,76 @@
                                  ItemsSource="{x:Bind SearchBoxSuggestions}"
                                  TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
                                  QuerySubmitted="SearchBox_QuerySubmitted"/>
-                    <Border Background="#19000000" Margin="0,0,0,8">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <StackPanel.Resources>
-                                <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
-                                </Style>
-                            </StackPanel.Resources>
-                            <RadioButton x:Name="AllItemsFilterRadioButton" Content="" ToolTipService.ToolTip="All" IsChecked="True" Checked="FilterRadioButton_CheckedChanged"/>
-                            <RadioButton x:Name="UnreadItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Unread" Checked="FilterRadioButton_CheckedChanged"/>
-                            <RadioButton x:Name="StarredItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Favorite" Checked="FilterRadioButton_CheckedChanged"/>
-                            <RadioButton x:Name="ArchivedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Archived" Checked="FilterRadioButton_CheckedChanged"/>
-                            <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged"/>
-                        </StackPanel>
-                    </Border>
+                        <Border Background="#19000000" Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <StackPanel.Resources>
+                                    <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
+                                    </Style>
+                                </StackPanel.Resources>
+                                <RadioButton x:Name="AllItemsFilterRadioButton" Content="" ToolTipService.ToolTip="All" IsChecked="True" Checked="FilterRadioButton_CheckedChanged"/>
+                                <RadioButton x:Name="UnreadItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Unread" Checked="FilterRadioButton_CheckedChanged"/>
+                                <RadioButton x:Name="StarredItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Favorite" Checked="FilterRadioButton_CheckedChanged"/>
+                                <RadioButton x:Name="ArchivedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Archived" Checked="FilterRadioButton_CheckedChanged"/>
+                                <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged"/>
+                            </StackPanel>
+                        </Border>
 
-                    <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectedIndex="0">
-                        <ComboBoxItem>Ascending</ComboBoxItem>
-                        <ComboBoxItem>Descending</ComboBoxItem>
-                    </ComboBox>
+                        <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectedIndex="0">
+                            <ComboBoxItem>Ascending</ComboBoxItem>
+                            <ComboBoxItem>Descending</ComboBoxItem>
+                        </ComboBox>
 
-                    <Button Style="{StaticResource TextBlockButtonStyle}" Content="Show more"/>
-                    <!-- TODO: Display the following options only after button click-->
-                    <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                              ItemsSource="{Binding DomainNames}" SelectedItem="{Binding FilterProperties.DomainName, Mode=TwoWay}"/>
-                    <ComboBox Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                              ItemsSource="{Binding Tags}" SelectedItem="{Binding FilterProperties.FilterTag, Mode=TwoWay}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="m:Tag">
-                                <StackPanel Orientation="Horizontal">
-                                    <Ellipse Fill="{x:Bind Color}" Height="16" Width="16"/>
-                                    <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center" Margin="8,0,4,0"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                        <Button Style="{StaticResource TextBlockButtonStyle}" Content="Show more"/>
+                        <!-- TODO: Display the following options only after button click-->
+                        <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding DomainNames}" SelectedItem="{Binding FilterProperties.DomainName, Mode=TwoWay}"/>
+                        <ComboBox Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding Tags}" SelectedItem="{Binding FilterProperties.FilterTag, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="m:Tag">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Fill="{x:Bind Color}" Height="16" Width="16"/>
+                                        <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
-                    <DatePicker Header="Creation date"/>
-                    <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
-                    <Button x:Name="filterButton" Click="filterButton_Click">FILTER</Button>
-                </StackPanel>
+                        <DatePicker Header="Creation date"/>
+                        <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
+                        <Button x:Name="filterButton" Click="filterButton_Click">FILTER</Button>
+                    </StackPanel>
+                </ScrollViewer>
             </SplitView.Pane>
         </SplitView>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
             <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
+        <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
+            <!-- commands for multiple selection -->
+            <AppBarButton x:Name="acceptAppBarButton" Icon="Accept" Visibility="Collapsed" Click="acceptAppBarButton_Click"/>
+            <AppBarButton x:Name="favoriteAppBarButton" Icon="Favorite" Visibility="Collapsed" Click="favoriteAppBarButton_Click"/>
+            <AppBarButton x:Name="tagAppBarButton" Icon="Tag" Visibility="Collapsed" IsEnabled="False">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <controls:TagControl />
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton x:Name="deleteAppBarButton" Icon="Delete" Visibility="Collapsed" Click="deleteAppBarButton_Click"/>
+            <!-- default commands -->
+            <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
+            <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
+            <AppBarButton x:Name="syncAppBarButton" Icon="Sync" Label="Sync" Command="{Binding RefreshCommand}"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarToggleButton x:Name="multipleSelectToggleButton" 
+                                Icon="Bullets" 
+                                Label="Select" 
+                                Checked="multipleSelectToggleButton_Checked"
+                                Unchecked="multipleSelectToggleButton_Unchecked"/>
+                <AppBarSeparator/>
+                <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
     </Grid>
 </Page>
