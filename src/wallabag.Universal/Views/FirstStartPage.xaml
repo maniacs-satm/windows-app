@@ -43,20 +43,46 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="welcomeTextBlock.FontSize" Value="32"/>
+                        <Setter Target="StackPanel1.HorizontalAlignment" Value="Stretch"/>
+                        <Setter Target="StackPanel1.Margin" Value="32,0"/>
+                        <Setter Target="StackPanel2.HorizontalAlignment" Value="Stretch"/>
+                        <Setter Target="StackPanel2.Margin" Value="32,0"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="welcomeTextBlock.FontSize" Value="48"/>
+                        <Setter Target="StackPanel1.Width" Value="250"/>
+                        <Setter Target="StackPanel2.Width" Value="250"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <TextBlock x:Name="welcomeTextBlock" Text="Welcome to wallabag!" Style="{StaticResource HeaderTextBlockStyle}" 
-                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
             <TextBlock.Projection>
                 <PlaneProjection/>
             </TextBlock.Projection>
         </TextBlock>
-        <StackPanel x:Name="StackPanel1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Opacity="0">
+        <StackPanel x:Name="StackPanel1" VerticalAlignment="Center" Opacity="0">
             <StackPanel.Projection>
                 <PlaneProjection/>
             </StackPanel.Projection>
             <Button x:Name="framabagUserButton" Content="I'm a framabag user!" Background="{StaticResource AccentColorLightBrush}" Margin="4" Foreground="White" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
             <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
         </StackPanel>
-        <StackPanel x:Name="StackPanel2"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Opacity="0" Visibility="Collapsed">
+        <StackPanel x:Name="StackPanel2" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
             <TextBox x:Name="wallabagUrlTextBox" Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8" PlaceholderText="https://" Text="{Binding wallabagUrl, Mode=TwoWay}"/>
             <TextBox x:Name="userNameTextBox" Header="Username" Margin="0,0,0,8" PlaceholderText="(e.g. wallabag)" Text="{Binding Username, Mode=TwoWay}"/>
             <PasswordBox Header="Password" Margin="0,0,0,8" Password="{Binding Password, Mode=TwoWay}"/>
