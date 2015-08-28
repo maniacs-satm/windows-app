@@ -10,10 +10,6 @@
     <Thickness x:Key="ContentDialogBorderWidth">2</Thickness>
     <Thickness x:Key="ContentDialogTitleMargin">0</Thickness>
 
-    <!-- Colors -->
-    <SolidColorBrush x:Key="AccentColorLightBrush" Color="{ThemeResource SystemAccentColor}" Opacity="0.7"/>
-    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{ThemeResource SystemListMediumColor}"/>
-
     <!-- Converters -->
     <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <Converter:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
@@ -123,58 +119,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="SplitViewTogglePaneButtonStyle" TargetType="ToggleButton">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
-        <Setter Property="MinHeight" Value="48" />
-        <Setter Property="MinWidth" Value="48" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="VerticalAlignment" Value="Top" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Content" Value="&#xE700;" />
-        <Setter Property="AutomationProperties.Name" Value="Menu" />
-        <Setter Property="UseSystemFocusVisuals" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ToggleButton">
-                    <Grid Background="{TemplateBinding Background}" x:Name="LayoutRoot">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="Background.Opacity" Value="0.2"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="Background.Opacity" Value="0.4"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <VisualState.Setters>
-                                        <Setter Target="Background.Opacity" Value="0.8"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Rectangle x:Name="Background" Fill="White" Opacity="0"/>
-                        <ContentPresenter x:Name="ContentPresenter"
-                                          Content="{TemplateBinding Content}"
-                                          Margin="{TemplateBinding Padding}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          AutomationProperties.AccessibilityView="Raw" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     <Style x:Key="PageTitleTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="TextWrapping" Value="NoWrap"/>
@@ -214,70 +158,6 @@
     <Style TargetType="CommandBar">
         <Setter Property="RequestedTheme" Value="Dark"/>
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-    </Style>
-    <Style x:Key="IconButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Height" Value="48"/>
-        <Setter Property="MinWidth" Value="48"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid x:Name="RootPanel"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          Margin="{TemplateBinding Margin}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
-                                        <Setter Target="Symbol.Foreground"           Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="White"/>
-                                        <Setter Target="Symbol.Foreground" Value="White"/>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource AccentColorLightBrush}"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="Disabled">
-                                    <VisualState.Setters>
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                        <Setter Target="Symbol.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
-                                        <Setter Target="RootPanel.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48"/>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="Symbol"
-                                   Text="{TemplateBinding Tag}"
-                                   FontFamily="Segoe MDL2 Assets"
-                                   FontSize="16"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"
-                                   ToolTipService.ToolTip="{TemplateBinding Content}"/>
-                        <ContentPresenter x:Name="ContentPresenter"                                
-                                          Grid.Column="1"
-                                          Content="{TemplateBinding Content}"
-                                          ContentTransitions="{TemplateBinding ContentTransitions}"
-                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Margin="4,8,8,8"
-                                          VerticalAlignment="Center"
-                                          AutomationProperties.AccessibilityView="Raw"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
     <Style x:Key="IconRadioButtonStyle" TargetType="RadioButton">
         <Setter Property="Margin" Value="4,0"/>
