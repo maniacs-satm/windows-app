@@ -149,7 +149,7 @@
                             <CalendarDatePicker x:Name="FromCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="from" Margin="2,0" Header="Creation date" DateChanged="CalendarDatePicker_DateChanged"/>
                             <CalendarDatePicker x:Name="ToCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="to" Grid.Column="1" Margin="2,0" Header=" " DataContext="CalendarDatePicker_DateChanged"/>
                         </Grid>
-                        <Button x:Name="filterButton" Click="filterButton_Click">FILTER</Button>
+                        <Button x:Name="filterButton" Click="filterButton_Click" Style="{ThemeResource ActionButtonStyle}">FILTER</Button>
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Pane>
