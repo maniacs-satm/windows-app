@@ -98,7 +98,14 @@ namespace wallabag.ViewModels
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(Model.Content);
             if (document.DocumentNode.Descendants("img").Count() > 0)
-                Model.HeaderImageUri = document.DocumentNode.Descendants("img").First().Attributes["src"].Value;
+            {
+                foreach (var item in document.DocumentNode.Descendants("img"))
+                    if (item.Attributes.Contains("src"))
+                    {
+                        Model.HeaderImageUri = item.Attributes["src"].Value;
+                        return;
+                    }
+            }
         }
 
         public async Task<bool> DeleteItemAsync()
