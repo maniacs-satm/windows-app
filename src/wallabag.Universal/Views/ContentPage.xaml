@@ -38,15 +38,15 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <ContentDialog x:Name="AddItemContentDialog" Title="ADD LINK" d:IsHidden="True"
+        <ContentDialog x:Name="AddItemContentDialog" Title="SAVE A LINK" d:IsHidden="True"
                        PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
                        SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
             <ContentDialog.DataContext>
                 <vm:AddItemPageViewModel/>
             </ContentDialog.DataContext>
             <StackPanel x:Name="ContentDialogStackPanel" MinWidth="450" Margin="0,24,0,0">
-                <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="http://" InputScope="Url"/>
-                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0" BorderThickness="2"/>
+                <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="https://" InputScope="Url"/>
+                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
             </StackPanel>
         </ContentDialog>
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
