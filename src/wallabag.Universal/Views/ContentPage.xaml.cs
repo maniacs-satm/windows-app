@@ -128,5 +128,13 @@ namespace wallabag.Views
             else if (sender == DeletedItemsFilterRadioButton)
                 ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
         }
+
+        private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if (sender == FromCalendarDatePicker)
+                ViewModel.FilterProperties.CreationDateFrom = args.NewDate;
+            else
+                ViewModel.FilterProperties.CreationDateTo = args.NewDate;
+        }
     }
 }

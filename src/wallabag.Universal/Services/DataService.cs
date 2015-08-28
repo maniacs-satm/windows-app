@@ -222,6 +222,8 @@ namespace wallabag.Services
         public Tag FilterTag { get; set; }
         public string DomainName { get; set; }
         public TimeSpan EstimatedReadingTime { get; set; }
+        public DateTimeOffset? CreationDateFrom { get; set; }
+        public DateTimeOffset? CreationDateTo { get; set; }
 
         public enum FilterPropertiesSortOrder { Ascending, Descending }
         public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }
