@@ -9,7 +9,7 @@
     d:DesignHeight="100"
     d:DesignWidth="450">
 
-    <Grid x:Name="RootGrid" BorderThickness="{x:Bind BorderThickness}" BorderBrush="{ThemeResource AccentColorLightBrush}" MinHeight="100" MaxHeight="164">
+    <Grid x:Name="RootGrid" MinHeight="100" MaxHeight="164">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
