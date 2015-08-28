@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using wallabag.Common;
+using wallabag.Models;
 using wallabag.Services;
 using wallabag.ViewModels;
 using Windows.UI.Xaml;
@@ -15,11 +17,11 @@ namespace wallabag.Views
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
         public ObservableCollection<string> SearchBoxSuggestions { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> TitleList { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<Tag> MultipleSelectionTags { get; set; }
 
         public ContentPage()
         {
             InitializeComponent();
-            ShowSearchBox.Completed += (s, e) => { SearchBox.Focus(FocusState.Programmatic); };
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -47,29 +49,92 @@ namespace wallabag.Views
             }
         }
 
-        private async void SearchBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            // TODO: It's not working atm.
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (args.ChosenSuggestion != null)
             {
                 var id = (await DataService.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
-                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SingleItemPage), id.ToString());
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
+            // TODO: Implement a search page in case the user didn't chose a suggestion.
         }
 
         private async void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
-            await AddItemContentDialog.ShowAsync();
+            if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(AddItemPage));
+            else
+                await AddItemContentDialog.ShowAsync();
         }
 
-        private void SearchBox_LostFocus(object sender, RoutedEventArgs e)
+        private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            HideSearchBox.Begin();
+            ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
+            ItemListView.SelectionMode = ListViewSelectionMode.Multiple;
+            acceptAppBarButton.Visibility = Visibility.Visible;
+            favoriteAppBarButton.Visibility = Visibility.Visible;
+            tagAppBarButton.Visibility = Visibility.Visible;
+            deleteAppBarButton.Visibility = Visibility.Visible;
+            filterToggleButton.Visibility = Visibility.Collapsed;
+            addItemAppBarButton.Visibility = Visibility.Collapsed;
+            syncAppBarButton.Visibility = Visibility.Collapsed;
+        }
+        private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ItemGridView.SelectionMode = ListViewSelectionMode.None;
+            ItemListView.SelectionMode = ListViewSelectionMode.None;
+            acceptAppBarButton.Visibility = Visibility.Collapsed;
+            favoriteAppBarButton.Visibility = Visibility.Collapsed;
+            tagAppBarButton.Visibility = Visibility.Collapsed;
+            deleteAppBarButton.Visibility = Visibility.Collapsed;
+            filterToggleButton.Visibility = Visibility.Visible;
+            addItemAppBarButton.Visibility = Visibility.Visible;
+            syncAppBarButton.Visibility = Visibility.Visible;
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        private async void acceptAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowSearchBox.Begin();
+            foreach (ItemViewModel item in ItemGridView.SelectedItems)
+                await item.SwitchReadValueAsync();
+        }
+
+        private async void favoriteAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in ItemGridView.SelectedItems)
+                await item.SwitchFavoriteValueAsync();
+        }
+
+        private async void deleteAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in ItemGridView.SelectedItems)
+                await item.DeleteItemAsync();
+        }
+
+        private void filterButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender == AllItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
+            else if (sender == UnreadItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+            else if (sender == StarredItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+            else if (sender == ArchivedItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
+            else if (sender == DeletedItemsFilterRadioButton)
+                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
+        }
+
+        private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            if (sender == FromCalendarDatePicker)
+                ViewModel.FilterProperties.CreationDateFrom = args.NewDate;
+            else
+                ViewModel.FilterProperties.CreationDateTo = args.NewDate;
         }
     }
 }

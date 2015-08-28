@@ -34,7 +34,6 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarSeparator/>
                 <AppBarButton Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
@@ -71,6 +70,8 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
                 <AppBarButton Label="Share">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
@@ -82,15 +83,14 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-            </CommandBar.PrimaryCommands>
-            <CommandBar.SecondaryCommands>
+
                 <AppBarButton Label="Download as file" Command="{x:Bind ViewModel.DownloadItemCommand}"/>
                 <AppBarButton Label="Delete article">
                     <AppBarButton.Flyout>
                         <Flyout>
-                            <StackPanel Margin="12">
+                            <StackPanel Margin="8">
                                 <TextBlock Text="The article will be permantely deleted from wallabag."/>
-                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Foreground="White" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
+                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Command="{Binding CurrentItem.DeleteCommand}"/>
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>

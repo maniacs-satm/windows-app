@@ -111,8 +111,8 @@
     <Compile Include="Common\Mvvm\ViewModelBase.cs" />
     <Compile Include="Common\SQLite\SQLite.cs" />
     <Compile Include="Common\SQLite\SQLiteAsync.cs" />
-    <Compile Include="Controls\SettingsSubHeaderTextBlock.xaml.cs">
-      <DependentUpon>SettingsSubHeaderTextBlock.xaml</DependentUpon>
+    <Compile Include="Controls\ItemControl.xaml.cs">
+      <DependentUpon>ItemControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\TagControl.xaml.cs">
       <DependentUpon>TagControl.xaml</DependentUpon>
@@ -133,11 +133,15 @@
     <Compile Include="Services\NavigationService\NavigatedEventArgs.cs" />
     <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
     <Compile Include="Services\NavigationService\NavigationService.cs" />
-    <Compile Include="ViewModels\AddItemContentDialogViewModel.cs" />
+    <Compile Include="ViewModels\AddItemPageViewModel.cs" />
+    <Compile Include="ViewModels\FirstStartPageViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SingleItemPageViewModel.cs" />
+    <Compile Include="Views\AddItemPage.xaml.cs">
+      <DependentUpon>AddItemPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ContentPage.xaml.cs">
       <DependentUpon>ContentPage.xaml</DependentUpon>
     </Compile>
@@ -167,6 +171,7 @@
     <Content Include="Assets\Article\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
+    <Content Include="Assets\books.jpg" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-150.png" />
@@ -226,13 +231,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SettingsSubHeaderTextBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Controls\ItemControl.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\TagControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddItemPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContentPage.xaml">
       <Generator>MSBuild:Compile</Generator>

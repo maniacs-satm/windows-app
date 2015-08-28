@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using PropertyChanged;
 using wallabag.Common.Mvvm;
@@ -17,7 +18,8 @@ namespace wallabag.ViewModels
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
-        public bool IsHome { get; set; } = true;
+        public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
+        public FilterProperties FilterProperties { get; set; } = new FilterProperties();
 
         #region Tasks & Commands
         public async Task LoadItemsAsync(FilterProperties FilterProperties)
@@ -38,9 +40,14 @@ namespace wallabag.ViewModels
         {
             await LoadItemsAsync(new FilterProperties());
             Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
+            foreach (var item in Items)
+                if (!DomainNames.Contains(item.Model.DomainName))
+                    DomainNames.Add(item.Model.DomainName);
 
             if (_lastFilterProperties != null)
                 await LoadItemsAsync(_lastFilterProperties);
+
+            DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
         }
 
         public MainViewModel()

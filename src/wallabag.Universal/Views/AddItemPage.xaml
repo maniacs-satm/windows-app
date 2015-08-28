@@ -1,0 +1,32 @@
+﻿<Page
+    x:Class="wallabag.Views.AddItemPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:wallabag.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:wallabag.Controls"
+    xmlns:vm="using:wallabag.ViewModels"
+    mc:Ignorable="d">
+    <Page.DataContext>
+       <vm:AddItemPageViewModel />
+    </Page.DataContext>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+            <TextBlock Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+        </Grid>
+        <StackPanel Grid.Row="1" Margin="16,8,16,48">
+            <TextBox Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind ViewModel.Url, Mode=TwoWay}"/>
+            <controls:TagControl Margin="0,4" Tags="{Binding Tags, Mode=TwoWay}"/>
+        </StackPanel>
+        <CommandBar VerticalAlignment="Bottom" Grid.Row="1">
+            <AppBarButton Icon="Accept" Label="Add" Command="{Binding AddItemCommand}"/>
+            <AppBarButton Icon="Cancel" Label="Cancel" Command="{Binding CancelCommand}"/>
+        </CommandBar>
+    </Grid>   
+</Page>

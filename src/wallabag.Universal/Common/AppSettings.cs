@@ -16,6 +16,7 @@ namespace wallabag.Common
         #region General things
 
         private static ApplicationDataContainer roamingSettings = ApplicationData.Current.RoamingSettings;
+        private static ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         /// <summary>
         /// To inform the View about a changed property, we raise a PropertyChangedEvent.
@@ -31,13 +32,19 @@ namespace wallabag.Common
         }
         public static event PropertyChangedEventHandler PropertyChanged;
 
-        private static T GetProperty<T>(string key, T defaultValue = default(T))
+        private static T GetProperty<T>(string key, T defaultValue = default(T), bool SaveLocal = false)
         {
-            return (T)(roamingSettings.Values[key] ?? defaultValue);
+            if (SaveLocal)
+                return (T)(localSettings.Values[key] ?? defaultValue);
+            else
+                return (T)(roamingSettings.Values[key] ?? defaultValue);
         }
-        private static void SetProperty(string key, object value)
+        private static void SetProperty(string key, object value, bool IsSavedLocal = false)
         {
-            roamingSettings.Values[key] = value;
+            if (IsSavedLocal)
+                localSettings.Values[key] = value;
+            else
+                roamingSettings.Values[key] = value;
             RaisePropertyChanged(key);
         }
         #endregion
@@ -134,13 +141,8 @@ namespace wallabag.Common
 
         public static double FontSize
         {
-            get { return GetProperty<double>(nameof(FontSize), 18); }
-            set { SetProperty(nameof(FontSize), value); }
-        }
-        public static double LineHeight
-        {
-            get { return GetProperty(nameof(LineHeight), 1.7); }
-            set { SetProperty(nameof(LineHeight), value); }
+            get { return GetProperty<double>(nameof(FontSize), 18, true); }
+            set { SetProperty(nameof(FontSize), value, true); }
         }
         public static string FontFamily
         {
@@ -149,8 +151,8 @@ namespace wallabag.Common
         }
         public static string ColorScheme
         {
-            get { return GetProperty(nameof(ColorScheme), "light"); }
-            set { SetProperty(nameof(ColorScheme), value); }
+            get { return GetProperty(nameof(ColorScheme), "light", true); }
+            set { SetProperty(nameof(ColorScheme), value, true); }
         }
         public static string TextAlignment
         {
@@ -163,15 +165,15 @@ namespace wallabag.Common
             get { return GetProperty(nameof(UseSystemAccentColor), true); }
             set { SetProperty(nameof(UseSystemAccentColor), value); }
         }
-        public static bool HamburgerPositionIsRight
-        {
-            get { return GetProperty(nameof(HamburgerPositionIsRight), false); }
-            set { SetProperty(nameof(HamburgerPositionIsRight), value); }
-        }
         public static bool NavigateBackAfterReadingAnArticle
         {
             get { return GetProperty(nameof(NavigateBackAfterReadingAnArticle), true); }
             set { SetProperty(nameof(NavigateBackAfterReadingAnArticle), value); }
-        }       
+        }
+        public static bool SyncReadingProgress
+        {
+            get { return GetProperty(nameof(SyncReadingProgress), true); }
+            set { SetProperty(nameof(SyncReadingProgress), value); }
+        }
     }
 }

@@ -15,50 +15,12 @@
     common:TitleBarExtensions.ButtonForegroundColor="White"    
     mc:Ignorable="d">
 
-    <Page.DataContext>
-        <vm:MainViewModel/>
-    </Page.DataContext>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
           AllowDrop="True"
           Drop="Grid_Drop"
-          DragOver="Grid_DragOver">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates">
-                <VisualState x:Name="NarrowState">
-                    <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="Overlay"/>
-                        <Setter Target="frame.Margin" Value="0"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="WideState">
-                    <VisualState.Setters>
-                        <Setter Target="splitView.DisplayMode" Value="CompactOverlay"/>
-                        <Setter Target="frame.Margin" Value="48,0,0,0"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="ShowTagsMenuButton.Visibility" Value="Visible"/>
-                        <Setter Target="TagsHeaderTextBlock.Visibility" Value="Collapsed"/>
-                        <Setter Target="TagsListView.Visibility" Value="Collapsed"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{Binding IsPaneOpen, ElementName=splitView, Converter={StaticResource BooleanNegationConverter}}"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <Frame x:Name="frame" Margin="48,0,0,0"
-                   Navigated="OnNavigatedToPage">
+          DragOver="Grid_DragOver"
+          DragLeave="Grid_DragLeave">
+        <Frame x:Name="frame" Navigated="OnNavigatedToPage">
             <Frame.ContentTransitions>
                 <TransitionCollection>
                     <NavigationThemeTransition>
@@ -69,46 +31,8 @@
                 </TransitionCollection>
             </Frame.ContentTransitions>
         </Frame>
-        <SplitView x:Name="splitView" DisplayMode="CompactOverlay" Margin="0,48,0,0">
-            <SplitView.Pane>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
-                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" IsChecked="{Binding IsHome}" Tag="" Content="Unread" Command="{Binding LoadUnreadItemsCommand}"/>
-                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" IsChecked="{Binding IsHome, Converter={StaticResource BooleanNegationConverter}}" Tag="" Content="Favorites" Command="{Binding LoadFavoriteItemsCommand}"/>
-                        <RadioButton Style="{ThemeResource IconRadioButtonStyle}" Tag="" Content="Archive" Command="{Binding LoadArchivedItemsCommand}"/>
-                        <Button x:Name="ShowTagsMenuButton" Style="{ThemeResource IconButtonStyle}" Tag="" Content="Tags" Visibility="Collapsed" Click="ShowTagsMenuButton_Click"/>
-                        <controls:SettingsSubHeaderTextBlock x:Name="TagsHeaderTextBlock" Text="TAGS" Margin="0"/>
-                    </StackPanel>
-                    <ListView x:Name="TagsListView" ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" Grid.Row="1" ItemClick="TagsListView_ItemClick" IsItemClickEnabled="True">
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Padding" Value="0"/>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="m:Tag">
-                                <Grid Height="48" HorizontalAlignment="Stretch">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="48"/>
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <Ellipse Height="32" Width="32" Fill="{x:Bind Color}"/>
-                                    <TextBlock Grid.Column="1" Text="{x:Bind Label}" Style="{StaticResource BodyTextBlockStyle}" VerticalAlignment="Center" Margin="8,0"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <Button Style="{ThemeResource IconButtonStyle}" Tag="" Content="Settings" Command="{Binding NavigateToSettingsPageCommand}" Grid.Row="2"/>
-                </Grid>
-            </SplitView.Pane>
-        </SplitView>
-        <ToggleButton x:Name="HamburgerToggleButton" Style="{StaticResource SplitViewTogglePaneButtonStyle}"
-                      IsChecked="{Binding IsPaneOpen, ElementName=splitView, Mode=TwoWay}" TabIndex="1"/>
+        <Grid x:Name="dragDropGrid" Visibility="Collapsed" Background="#F2FFFFFF">
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Drop the link here to save it in your wallabag!" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Margin="16" TextAlignment="Center"/>
+        </Grid>
     </Grid>
 </Page>

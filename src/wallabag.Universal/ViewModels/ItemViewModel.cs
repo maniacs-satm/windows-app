@@ -26,14 +26,7 @@ namespace wallabag.ViewModels
         public Item Model { get; set; }
 
         public string ContentWithHeader { get; set; }
-        public string UrlHostname
-        {
-            get
-            {
-                try { return new Uri(Model.Url).Host.Replace("www.", ""); }
-                catch { return string.Empty; }
-            }
-        }
+        public string IntroSentence { get; set; }
         #endregion
 
         public ItemViewModel(Item Model)
@@ -46,6 +39,7 @@ namespace wallabag.ViewModels
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
 
             if (string.IsNullOrEmpty(Model.HeaderImageUri)) GetHeaderImage();
+            GetIntroSentence();
         }
 
         private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -75,6 +69,9 @@ namespace wallabag.ViewModels
             styleSheetBuilder.Append("<style>");
             styleSheetBuilder.Append("hr {border-color: " + accentColor + " !important}");
             styleSheetBuilder.Append("::selection,mark {background: " + accentColor + " !important}");
+            styleSheetBuilder.Append("body {");
+            styleSheetBuilder.Append($"font-size:{AppSettings.FontSize}px;");
+            styleSheetBuilder.Append("text-align: " + AppSettings.TextAlignment + "}");
             styleSheetBuilder.Append("</style>");
 
             ContentWithHeader = _template.FormatWith(new
@@ -82,15 +79,12 @@ namespace wallabag.ViewModels
                 title = Model.Title,
                 content = Model.Content,
                 articleUrl = Model.Url,
-                hostname = UrlHostname,
+                hostname = Model.DomainName,
                 color = AppSettings.ColorScheme,
                 font = AppSettings.FontFamily,
-                fontSize = AppSettings.FontSize,
-                lineHeight = AppSettings.LineHeight,
                 progress = Model.ReadingProgress,
-                textAlignment = AppSettings.TextAlignment,
                 publishDate = string.Format("{0:d}", Model.CreationDate),
-                accentColorStylesheet = styleSheetBuilder.ToString()
+                stylesheet = styleSheetBuilder.ToString()
             });
         }
         public void GetHeaderImage()
@@ -107,27 +101,30 @@ namespace wallabag.ViewModels
                     }
             }
         }
+        public void GetIntroSentence()
+        {
+            IntroSentence = string.Empty;
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(Model.Content);
+
+            foreach (HtmlNode node in document.DocumentNode.Descendants("p"))
+            {
+                if (IntroSentence.Length >= 140)
+                    return;
+                if (!string.IsNullOrWhiteSpace(node.InnerText))
+                    IntroSentence += node.InnerText;
+            }
+        }
 
         public async Task<bool> DeleteItemAsync()
         {
+            NavigationService.GoBack();
             bool result = Model.IsDeleted = await DeleteItemAsync(Model.Id);
-            if (result)
-                NavigationService.GoBack();
             await conn.UpdateAsync(Model);
             return result;
         }
         public static async Task<bool> DeleteItemAsync(int ItemId, bool IsOfflineAction = false)
         {
-            if (!Helpers.IsConnectedToTheInternet && !IsOfflineAction)
-            {
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.DeleteItem,
-                    ItemId = ItemId
-                });
-                return false;
-            }
-
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete, $"/entries/{ItemId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -181,17 +178,6 @@ namespace wallabag.ViewModels
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags, bool IsOfflineAction = false)
         {
-            if (!Helpers.IsConnectedToTheInternet && !IsOfflineAction)
-            {
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.AddTags,
-                    ItemId = ItemId,
-                    TagsString = tags
-                });
-                return null;
-            }
-
             Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
 
@@ -221,17 +207,6 @@ namespace wallabag.ViewModels
         }
         public static async Task<bool> DeleteTagAsync(int ItemId, int TagId, bool IsOfflineAction = false)
         {
-            if (!Helpers.IsConnectedToTheInternet && !IsOfflineAction)
-            {
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.DeleteTag,
-                    ItemId = ItemId,
-                    TagId = TagId
-                });
-                return false;
-            }
-
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete,$"/entries/{ItemId}/tags/{TagId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -249,39 +224,16 @@ namespace wallabag.ViewModels
             }
         }
 
-        public async Task SwitchReadValueAsync()
+        public async Task<bool> SwitchReadValueAsync()
         {
-            if (Model.IsRead)
-                Model.IsRead = false;
-            else
-                Model.IsRead = true;
+            Model.IsRead = !Model.IsRead;
 
-            await conn.UpdateAsync(Model);
-
-            OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
-
-            if (!Model.IsRead)
-                actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
-
-            await conn.InsertAsync(new OfflineAction()
+            if (await UpdateItemAsync() == false)
             {
-                Task = actionTask,
-                ItemId = Model.Id
-            });
-        }
-        public async Task<bool> SwitchFavoriteValueAsync()
-        {
-            if (Model.IsStarred)
-                Model.IsStarred = false;
-            else
-                Model.IsStarred = true;
+                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
 
-            if (!Helpers.IsConnectedToTheInternet)
-            {
-                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
-
-                if (!Model.IsStarred)
-                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
+                if (!Model.IsRead)
+                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
 
                 await conn.InsertAsync(new OfflineAction()
                 {
@@ -290,6 +242,11 @@ namespace wallabag.ViewModels
                 });
                 return false;
             }
+            else return true;
+        }
+        public async Task<bool> SwitchFavoriteValueAsync()
+        {
+            Model.IsStarred = !Model.IsStarred;
 
             if (await UpdateItemAsync() == false)
             {

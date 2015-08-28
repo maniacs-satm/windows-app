@@ -19,7 +19,7 @@ namespace wallabag.Services
         private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
         public static async Task InitializeDatabaseAsync()
         {
-            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("wallabag.db", Windows.Storage.CreationCollisionOption.OpenIfExists);
+            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
             await conn.CreateTableAsync<Tag>();
@@ -187,17 +187,6 @@ namespace wallabag.Services
 
         public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineAction = false)
         {
-            if (!Helpers.IsConnectedToTheInternet && !IsOfflineAction)
-            {
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = OfflineAction.OfflineActionTask.AddItem,
-                    Url = Url,
-                    TagsString = TagsString
-                });
-                return false;
-            }
-
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", Url);
             parameters.Add("tags", TagsString);
@@ -231,6 +220,10 @@ namespace wallabag.Services
         public FilterPropertiesItemType ItemType { get; set; } = FilterPropertiesItemType.Unread;
         public FilterPropertiesSortOrder SortOrder { get; set; } = FilterPropertiesSortOrder.Descending;
         public Tag FilterTag { get; set; }
+        public string DomainName { get; set; }
+        public TimeSpan EstimatedReadingTime { get; set; }
+        public DateTimeOffset? CreationDateFrom { get; set; }
+        public DateTimeOffset? CreationDateTo { get; set; }
 
         public enum FilterPropertiesSortOrder { Ascending, Descending }
         public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }

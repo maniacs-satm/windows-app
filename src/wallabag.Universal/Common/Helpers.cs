@@ -12,7 +12,8 @@ namespace wallabag.Common
 {
     public static class Helpers
     {
-        public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "wallabag.db");
+        public static string DATABASE_FILENAME { get; } = $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":","")}.db";
+        public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, DATABASE_FILENAME);
 
         /// <summary>
         /// There are several languages. To access them from code-behind this way is required.
@@ -63,5 +64,16 @@ namespace wallabag.Common
             }
         }
         public enum HttpRequestMethod { Delete, Get, Patch, Post, Put }
+
+        public static bool IsPhone
+        {
+            get
+            {
+                var qualifiers = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForCurrentView().QualifierValues;
+                if (qualifiers.ContainsKey("DeviceFamily") && qualifiers["DeviceFamily"] == "Mobile")
+                    return true;
+                else return false;
+            }
+        }
     }
 }

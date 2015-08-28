@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
 
@@ -25,11 +15,28 @@ namespace wallabag.Views
         public FirstStartPage()
         {
             this.InitializeComponent();
+            FirstStartAnimation.Begin();
         }
 
-        private void loginButton_Click(object sender, RoutedEventArgs e)
+        private void framabagUserButton_Click(object sender, RoutedEventArgs e)
         {
-            Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Universal.AppShell));
+            if (sender == framabagUserButton)
+            {
+                wallabagUrlTextBox.Visibility = Visibility.Collapsed;
+                wallabagUrlTextBox.Text = "https://v2.wallabag.org/"; // TODO: Set the framabag url.
+            }
+
+            StackPanelChangeStoryboard.Begin();
+
+            if (sender == notFramabagUserButton)
+                wallabagUrlTextBox.Focus(FocusState.Programmatic);
+            else
+                userNameTextBox.Focus(FocusState.Programmatic);
+        }
+
+        private async void imageCreditButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/"));
         }
     }
 }
