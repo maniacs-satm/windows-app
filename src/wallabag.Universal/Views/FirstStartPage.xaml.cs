@@ -1,4 +1,5 @@
-﻿using wallabag.Common;
+﻿using System;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -31,6 +32,11 @@ namespace wallabag.Views
                 wallabagUrlTextBox.Focus(FocusState.Programmatic);
             else
                 userNameTextBox.Focus(FocusState.Programmatic);
+        }
+
+        private async void imageCreditButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/"));
         }
     }
 }

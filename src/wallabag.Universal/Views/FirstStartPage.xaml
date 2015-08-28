@@ -42,7 +42,10 @@
         </Storyboard>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid RequestedTheme="Dark">
+        <Grid.Background>
+            <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/books.jpg"/>
+        </Grid.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -69,8 +72,9 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+        <Rectangle Fill="#3F000000"/>
         <TextBlock x:Name="welcomeTextBlock" Text="Welcome to wallabag!" Style="{StaticResource HeaderTextBlockStyle}" 
-                   Foreground="{ThemeResource SystemControlForegroundAccentBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                   Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
             <TextBlock.Projection>
                 <PlaneProjection/>
             </TextBlock.Projection>
@@ -79,14 +83,15 @@
             <StackPanel.Projection>
                 <PlaneProjection/>
             </StackPanel.Projection>
-            <Button x:Name="framabagUserButton" Content="I'm a framabag user!" Background="{StaticResource AccentColorLightBrush}" Margin="4" Foreground="White" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
+            <Button x:Name="framabagUserButton" Content="I'm a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
             <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
         </StackPanel>
         <StackPanel x:Name="StackPanel2" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
             <TextBox x:Name="wallabagUrlTextBox" Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8" PlaceholderText="https://" Text="{Binding wallabagUrl, Mode=TwoWay}"/>
             <TextBox x:Name="userNameTextBox" Header="Username" Margin="0,0,0,8" PlaceholderText="(e.g. wallabag)" Text="{Binding Username, Mode=TwoWay}"/>
             <PasswordBox Header="Password" Margin="0,0,0,8" Password="{Binding Password, Mode=TwoWay}"/>
-            <Button x:Name="loginButton" HorizontalAlignment="Stretch" Margin="0,8,0,0" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Foreground="White" Command="{Binding LoginCommand}">LOGIN</Button>
+            <Button x:Name="loginButton" Margin="0,8,0,0" Style="{ThemeResource ActionButtonStyle}" Command="{Binding LoginCommand}">LOGIN</Button>
         </StackPanel>
+        <Button x:Name="imageCreditButton" Content="Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0" Margin="10" VerticalAlignment="Bottom" Style="{ThemeResource TextBlockButtonStyle}" Foreground="White" Click="imageCreditButton_Click"/>
     </Grid>
 </Page>
