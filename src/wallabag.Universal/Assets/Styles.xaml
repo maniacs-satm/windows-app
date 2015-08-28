@@ -69,6 +69,60 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="ActionButtonStyle" TargetType="Button">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}"/>
+        <Setter Property="Margin" Value="0,4"/>
+        <Setter Property="Padding" Value="6"/>
+        <Setter Property="CharacterSpacing" Value="10"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="RootGrid"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"/>
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
+                                    </VisualState.Setters>
+                                    <Storyboard>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}"/>
+                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlDisabledTransparentBrush}"/>
+                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                AutomationProperties.AccessibilityView="Raw"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="SplitViewTogglePaneButtonStyle" TargetType="ToggleButton">
         <Setter Property="FontSize" Value="20" />
         <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
