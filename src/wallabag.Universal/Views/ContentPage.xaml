@@ -49,7 +49,7 @@
                 <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0" BorderThickness="2"/>
             </StackPanel>
         </ContentDialog>
-        <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=TwoWay}">
+        <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
             <Grid>
                 <GridView x:Name="ItemGridView"
         	              ItemsSource="{Binding Items}"
@@ -85,8 +85,7 @@
                 </ListView>
             </Grid>
             <SplitView.Pane>
-                <ScrollViewer>
-
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="0,48" Padding="8">
                         <AutoSuggestBox x:Name="SearchBox"               
                                  QueryIcon="Find"
@@ -96,26 +95,37 @@
                                  ItemsSource="{x:Bind SearchBoxSuggestions}"
                                  TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
                                  QuerySubmitted="SearchBox_QuerySubmitted"/>
-                        <Border Background="#19000000" Margin="0,0,0,8">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <StackPanel.Resources>
-                                    <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
-                                    </Style>
-                                </StackPanel.Resources>
-                                <RadioButton x:Name="AllItemsFilterRadioButton" Content="" ToolTipService.ToolTip="All" IsChecked="True" Checked="FilterRadioButton_CheckedChanged"/>
-                                <RadioButton x:Name="UnreadItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Unread" Checked="FilterRadioButton_CheckedChanged"/>
-                                <RadioButton x:Name="StarredItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Favorite" Checked="FilterRadioButton_CheckedChanged"/>
-                                <RadioButton x:Name="ArchivedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Archived" Checked="FilterRadioButton_CheckedChanged"/>
-                                <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged"/>
-                            </StackPanel>
-                        </Border>
+
+                        <Grid Margin="0,0,0,8">
+                            <Grid.Resources>
+                                <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="AllItemsFilterRadioButton" Content="" ToolTipService.ToolTip="All" IsChecked="True" Checked="FilterRadioButton_CheckedChanged"/>
+                            <RadioButton x:Name="UnreadItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Unread" Checked="FilterRadioButton_CheckedChanged" Grid.Column="1"/>
+                            <RadioButton x:Name="StarredItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Favorite" Checked="FilterRadioButton_CheckedChanged" Grid.Column="2"/>
+                            <RadioButton x:Name="ArchivedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Archived" Checked="FilterRadioButton_CheckedChanged" Grid.Column="3"/>
+                            <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged" Grid.Column="4"/>
+                        </Grid>
 
                         <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectedIndex="0">
                             <ComboBoxItem>Ascending</ComboBoxItem>
                             <ComboBoxItem>Descending</ComboBoxItem>
                         </ComboBox>
 
-                        <Button Style="{StaticResource TextBlockButtonStyle}" Content="Show more"/>
+                        <Button Style="{StaticResource TextBlockButtonStyle}" Content="Show more" Visibility="Collapsed"/>
                         <!-- TODO: Display the following options only after button click-->
                         <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding DomainNames}" SelectedItem="{Binding FilterProperties.DomainName, Mode=TwoWay}"/>
@@ -130,9 +140,8 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-
+                        <!-- estimated reading time -->
                         <DatePicker Header="Creation date"/>
-                        <Slider Header="Estimated reading time (in minutes)" Margin="0,0,0,8"/>
                         <Button x:Name="filterButton" Click="filterButton_Click">FILTER</Button>
                     </StackPanel>
                 </ScrollViewer>
