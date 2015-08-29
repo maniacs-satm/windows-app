@@ -147,7 +147,7 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <CalendarDatePicker x:Name="FromCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="from" Margin="2,0" Header="Creation date" Date="{x:Bind ViewModel.FilterProperties.CreationDateFrom, Mode=TwoWay}" MaxDate="{Binding FilterProperties.CreationDateTo}"/>
-                            <CalendarDatePicker x:Name="ToCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="to" Grid.Column="1" Margin="2,0" Header=" " Date="{x:Bind ViewModel.FilterProperties.CreationDateTo, Mode=TwoWay}"/>
+                            <CalendarDatePicker x:Name="ToCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="to" Grid.Column="1" Margin="2,0" Header=" " Date="{x:Bind ViewModel.FilterProperties.CreationDateTo, Mode=TwoWay}" MaxDate="{x:Bind ViewModel.MaxDate}"/>
                         </Grid>
                         <Grid Margin="0,8,0,0">
                             <Grid.ColumnDefinitions>

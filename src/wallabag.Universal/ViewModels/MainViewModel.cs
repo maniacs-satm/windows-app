@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace wallabag.ViewModels
     public class MainViewModel : ViewModelBase
     {
         public override string ViewModelIdentifier { get; set; } = "MainViewModel";
+        public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
