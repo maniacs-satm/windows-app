@@ -148,6 +148,15 @@ namespace wallabag.Services
 
             if (filterProperties.FilterTag != null)
                 result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
+            if (!string.IsNullOrEmpty(filterProperties.DomainName))
+                result = new List<Item>(result.Where(i => i.DomainName.Equals(filterProperties.DomainName)));
+            // TODO: handle EstimatedReadingTime
+            if (filterProperties.CreationDateFrom != null &&
+                filterProperties.CreationDateTo != null)
+            {
+                result = new List<Item>(result.Where(i => i.CreationDate < filterProperties.CreationDateTo
+                                        && i.CreationDate > filterProperties.CreationDateFrom));
+            }
 
             if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
                 result = new List<Item>(result.OrderBy(i => i.CreationDate));
