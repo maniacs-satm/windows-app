@@ -108,12 +108,7 @@ namespace wallabag.Views
         {
             foreach (ItemViewModel item in ItemGridView.SelectedItems)
                 await item.DeleteItemAsync();
-        }
-
-        private async void filterButton_Click(object sender, RoutedEventArgs e)
-        {
-            await ViewModel.LoadItemsAsync(ViewModel.FilterProperties);
-        }
+        }        
 
         private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
         {
@@ -127,14 +122,6 @@ namespace wallabag.Views
                 ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
             else if (sender == DeletedItemsFilterRadioButton)
                 ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
-        }
-
-        private void CalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
-        {
-            if (sender == FromCalendarDatePicker)
-                ViewModel.FilterProperties.CreationDateFrom = args.NewDate;
-            else
-                ViewModel.FilterProperties.CreationDateTo = args.NewDate;
         }
     }
 }
