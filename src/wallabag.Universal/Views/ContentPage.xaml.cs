@@ -110,9 +110,9 @@ namespace wallabag.Views
                 await item.DeleteItemAsync();
         }
 
-        private void filterButton_Click(object sender, RoutedEventArgs e)
+        private async void filterButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            await ViewModel.LoadItemsAsync(ViewModel.FilterProperties);
         }
 
         private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
