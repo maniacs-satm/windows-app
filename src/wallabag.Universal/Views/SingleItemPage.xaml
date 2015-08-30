@@ -30,6 +30,12 @@
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
                             <controls:TagControl Tags="{Binding CurrentItem.Model.Tags, Mode=TwoWay}" Width="300"/>
                         </Flyout>
                     </AppBarButton.Flyout>
@@ -84,7 +90,7 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
 
-                <AppBarButton Label="Download as file" Command="{x:Bind ViewModel.DownloadItemCommand}"/>
+                <AppBarButton Label="Download as file" Command="{x:Bind ViewModel.DownloadItemCommand}" IsEnabled="False"/>
                 <AppBarButton Label="Delete article">
                     <AppBarButton.Flyout>
                         <Flyout>
