@@ -2,8 +2,8 @@
 /*-------------------------- General properties -------------------*/
 /*-----------------------------------------------------------------*/
 body {
-  background-color: #ffffff;
-  color: #000000;
+  background-color: white;
+  color: #444444;
   font-family: Georgia;
   font-size: 18px;
   line-height: 1.7;
@@ -48,7 +48,7 @@ p {
   margin-bottom: 0.75em;
 }
 a {
-  color: #000000;
+  color: #444444;
   text-decoration: underline;
 }
 a:active,
@@ -107,7 +107,7 @@ hr {
   display: block;
   height: 1px;
   border: solid #666666;
-  border-width: 1px 0 1px 0;
+  border-width: 1px 0 0 0;
   margin: 1.6em 0;
   padding: 0;
 }
@@ -167,7 +167,7 @@ code {
 ::selection,
 mark {
   background: #666666;
-  color: #ffffff;
+  color: white;
 }
 article {
   margin: 0 auto;
@@ -188,20 +188,15 @@ article {
   font-size: 1.6em;
   font-weight: lighter;
   line-height: 1.2;
-  margin-bottom: 0;
-  margin-top: 0.5em;
+  margin: 0.5em;
 }
 .wallabag-header h2 {
-  border: solid lightgray;
   color: #808080;
-  border-width: 1px 0;
   display: block;
   font-size: 0.9em;
   font-weight: 400;
   line-height: 1.3;
   margin-bottom: 1.5em;
-  margin-top: 0.75em;
-  padding: 0.2em 0;
 }
 .wallabag-header h2 a,
 .wallabag-header h2 span {
