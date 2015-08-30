@@ -40,37 +40,37 @@ namespace wallabag.Models
         public int Id { get; set; }
 
         [JsonProperty("title")]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         [JsonProperty("url")]
-        public string Url { get; set; }
+        public string Url { get; set; } = string.Empty;
 
         [JsonProperty("is_archived")]
-        public bool IsRead { get; set; }
+        public bool IsRead { get; set; } = false;
 
         [JsonProperty("is_starred")]
-        public bool IsStarred { get; set; }
+        public bool IsStarred { get; set; } = false;
 
         [JsonProperty("is_deleted")]
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
         [JsonProperty("content")]
-        public string Content { get; set; }
+        public string Content { get; set; } = string.Empty;
 
         [JsonProperty("created_at")]
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.Now;
 
         [JsonProperty("updated_at")]
-        public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         [JsonProperty("reading_time")]
-        public int EstimatedReadingTime { get; set; }
+        public int EstimatedReadingTime { get; set; } = 0;
 
         [JsonProperty("domain_name")]
-        public string DomainName { get; set; }
+        public string DomainName { get; set; } = string.Empty;
 
         [JsonProperty("tags")]
-        public ObservableCollection<Tag> Tags { get; set; }
+        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
 
         public string ReadingProgress { get; set; } = "0";
         public string HeaderImageUri { get; set; } = string.Empty;
