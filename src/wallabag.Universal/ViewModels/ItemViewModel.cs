@@ -22,13 +22,6 @@ namespace wallabag.ViewModels
         private static SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
         public override string ViewModelIdentifier { get; set; } = "ItemViewModel";
 
-        #region Properties
-        public Item Model { get; set; }
-
-        public string ContentWithHeader { get; set; }
-        public string IntroSentence { get; set; }
-        #endregion
-
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
@@ -42,23 +35,15 @@ namespace wallabag.ViewModels
             GetIntroSentence();
         }
 
-        private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-                foreach (Tag item in e.OldItems)
-                    await DeleteTagAsync(item);
-
-            if (e.NewItems != null)
-                foreach (Tag item in e.NewItems)
-                    await AddTagsAsync(Model.Id, item.Label);
-        }
+        public Item Model { get; set; }
+        public string ContentWithHeader { get; set; }
+        public string IntroSentence { get; set; }
 
         public Command DeleteCommand { get; private set; }
         public Command SwitchReadStatusCommand { get; private set; }
         public Command SwitchFavoriteStatusCommand { get; private set; }
 
         #region Methods
-
         public async Task CreateContentFromTemplateAsync()
         {
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Article/article.html"));
@@ -114,6 +99,16 @@ namespace wallabag.ViewModels
                 if (!string.IsNullOrWhiteSpace(node.InnerText))
                     IntroSentence += node.InnerText;
             }
+        }
+        private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+                foreach (Tag item in e.OldItems)
+                    await DeleteTagAsync(item);
+
+            if (e.NewItems != null)
+                foreach (Tag item in e.NewItems)
+                    await AddTagsAsync(Model.Id, item.Label);
         }
 
         public async Task<bool> DeleteItemAsync()
