@@ -196,6 +196,17 @@ namespace wallabag.Services
 
         public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineAction = false)
         {
+            if (!IsOfflineAction)
+            {
+                var newItem = new Item();
+                newItem.Id = (await GetItemsAsync(new FilterProperties())).Count + 1;
+                newItem.Title = Title ?? new Uri(Url).Host;
+                newItem.Tags = TagsString.ToObservableCollection();
+                newItem.Url = Url;
+
+                await conn.InsertAsync(newItem);
+            }
+
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", Url);
             parameters.Add("tags", TagsString);
@@ -205,8 +216,11 @@ namespace wallabag.Services
             if (response.StatusCode == HttpStatusCode.Ok)
             {
                 Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                Item existingItem = (await GetItemsAsync(new FilterProperties())).Where(i => i.Id == result.Id) as Item;
 
-                await conn.InsertAsync(result);
+                existingItem = result;
+
+                await conn.UpdateAsync(existingItem);
                 return true;
             }
             else
