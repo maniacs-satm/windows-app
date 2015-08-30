@@ -9,6 +9,11 @@
     xmlns:vm="using:wallabag.ViewModels"
     xmlns:m="using:wallabag.Models"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Storyboard x:Name="SyncStoryboard" RepeatBehavior="Forever">
+            <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="syncIcon" d:IsOptimized="True"/>
+        </Storyboard>
+    </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
     </Page.DataContext>
@@ -179,7 +184,15 @@
             <!-- default commands -->
             <AppBarToggleButton x:Name="filterToggleButton" Icon="Filter" Label="Filter"/>
             <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
-            <AppBarButton x:Name="syncAppBarButton" Icon="Sync" Label="Sync" Command="{Binding RefreshCommand}"/>
+            <AppBarButton x:Name="syncAppBarButton" Label="Sync" Command="{Binding RefreshCommand}">
+                <AppBarButton.Icon>
+                    <SymbolIcon x:Name="syncIcon" Symbol="Sync" RenderTransformOrigin="0.5,0.5">
+                        <SymbolIcon.RenderTransform>
+                            <CompositeTransform/>
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                </AppBarButton.Icon>
+            </AppBarButton>
             <CommandBar.SecondaryCommands>
                 <AppBarToggleButton x:Name="multipleSelectToggleButton" 
                                 Icon="Bullets" 
