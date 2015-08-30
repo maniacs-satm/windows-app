@@ -22,6 +22,12 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
+            AddItemContentDialog.Closed += AddItemContentDialog_Closed;
+        }
+
+        private async void AddItemContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+        {
+            await ViewModel.LoadItemsAsync(new FilterProperties());
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -108,7 +114,7 @@ namespace wallabag.Views
         {
             foreach (ItemViewModel item in ItemGridView.SelectedItems)
                 await item.DeleteItemAsync();
-        }        
+        }
 
         private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
         {
