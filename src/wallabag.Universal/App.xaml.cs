@@ -13,10 +13,12 @@ namespace wallabag.Universal
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
-            await Services.DataService.InitializeDatabaseAsync();
             if (!string.IsNullOrEmpty(AppSettings.Username) &&
                 !string.IsNullOrEmpty(AppSettings.wallabagUrl))
+            {
+                await Services.DataService.InitializeDatabaseAsync();
                 NavigationService.Navigate(typeof(Views.ContentPage));
+            }
             else
                 NavigationService.Navigate(typeof(Views.FirstStartPage));
         }
