@@ -17,6 +17,7 @@ namespace wallabag.Services
     public sealed class DataService
     {
         private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+        private static int _lastItemId = 0;
         public static async Task InitializeDatabaseAsync()
         {
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
@@ -126,11 +127,14 @@ namespace wallabag.Services
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
             List<Item> result = new List<Item>();
+            var allItems = await conn.Table<Item>().ToListAsync();
+            if (allItems.Count > 0)
+                _lastItemId = allItems.Last().Id;
 
             switch (filterProperties.ItemType)
             {
                 case FilterProperties.FilterPropertiesItemType.All:
-                    result = await conn.Table<Item>().ToListAsync();
+                    result = allItems;
                     break;
                 case FilterProperties.FilterPropertiesItemType.Unread:
                     result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
@@ -199,8 +203,10 @@ namespace wallabag.Services
             if (!IsOfflineAction)
             {
                 var newItem = new Item();
-                newItem.Id = (await GetItemsAsync(new FilterProperties())).Count + 1;
-                newItem.Title = Title ?? new Uri(Url).Host;
+                var hostName = new Uri(Url).Host;
+                newItem.Id = _lastItemId + 1;
+                newItem.Title = hostName;
+                newItem.DomainName = hostName;
                 newItem.Tags = TagsString.ToObservableCollection();
                 newItem.Url = Url;
 
@@ -214,15 +220,7 @@ namespace wallabag.Services
 
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, "/entries", parameters);
             if (response.StatusCode == HttpStatusCode.Ok)
-            {
-                Item result = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                Item existingItem = (await GetItemsAsync(new FilterProperties())).Where(i => i.Id == result.Id) as Item;
-
-                existingItem = result;
-
-                await conn.UpdateAsync(existingItem);
                 return true;
-            }
             else
             {
                 if (!IsOfflineAction)
