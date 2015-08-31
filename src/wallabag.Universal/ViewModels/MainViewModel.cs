@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using PropertyChanged;
+using wallabag.Common;
 using wallabag.Common.Mvvm;
 using wallabag.Models;
 using wallabag.Services;
@@ -39,6 +40,9 @@ namespace wallabag.ViewModels
 
         public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            if (AppSettings.SyncOnStartup)
+                await DataService.SyncWithServerAsync();
+
             await LoadItemsAsync(new FilterProperties());
             Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
             foreach (var item in Items)

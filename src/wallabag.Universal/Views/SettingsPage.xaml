@@ -63,6 +63,7 @@
                     <TextBlock Text="To apply the following settings you need to restart the app." TextWrapping="Wrap" Margin="0,0,0,12" FontStyle="Italic"/>
                     <ComboBox Header="Language" IsEnabled="False" Width="320" Margin="0,8"/>
                     <ToggleSwitch x:Name="useSystemAccentColorToggleSwitch" Header="Use system accent color" IsOn="{x:Bind ViewModel.UseSystemAccentColor, Mode=TwoWay}"/>
+                    <ToggleSwitch Header="Sync with the server on start" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Account credentials">

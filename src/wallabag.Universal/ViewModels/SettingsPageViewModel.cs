@@ -53,5 +53,10 @@ namespace wallabag.ViewModels
             get { return AppSettings.SyncReadingProgress; }
             set { AppSettings.SyncReadingProgress = value; }
         }
+        public bool SyncOnStartup
+        {
+            get { return AppSettings.SyncOnStartup; }
+            set { AppSettings.SyncOnStartup = value; }
+        }
     }
 }

@@ -175,5 +175,10 @@ namespace wallabag.Common
             get { return GetProperty(nameof(SyncReadingProgress), true); }
             set { SetProperty(nameof(SyncReadingProgress), value); }
         }
+        public static bool SyncOnStartup
+        {
+            get { return GetProperty(nameof(SyncOnStartup), true); }
+            set { SetProperty(nameof(SyncOnStartup), value); }
+        }
     }
 }
