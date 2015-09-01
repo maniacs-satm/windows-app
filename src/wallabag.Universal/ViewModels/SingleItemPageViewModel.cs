@@ -85,6 +85,9 @@ namespace wallabag.ViewModels
 
                 await CurrentItem.CreateContentFromTemplateAsync();
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;
+
+                if (Helpers.IsPhone)
+                    await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
             }
         }
 
@@ -96,6 +99,9 @@ namespace wallabag.ViewModels
             if (AppSettings.SyncReadingProgress)
                 ApplicationData.Current.RoamingSettings.CreateContainer(ContainerKey,
                     ApplicationDataCreateDisposition.Always).Values[CurrentItem.Model.Id.ToString()] = CurrentItem.Model.ReadingProgress;
+
+            if (Helpers.IsPhone)
+                await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
         }
 
     }
