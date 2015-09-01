@@ -26,11 +26,18 @@ namespace wallabag.Views
             dataTransferManager.DataRequested += SingleItemPage_DataRequested;
             WebView.ScriptNotify += WebView_ScriptNotify;
             WebView.NavigationStarting += WebView_NavigationStarting;
-            //this.Loaded += (s, e) =>
-            //{
-            //    MarkAsReadButton_Click(this, new RoutedEventArgs());
-            //    MarkAsFavoriteButton_Click(this, new RoutedEventArgs());
-            //};
+            WebView.NavigationCompleted += (s, e) =>
+            {
+                if (ViewModel.CurrentItem.Model.IsRead)
+                    MarkAsReadButton.Icon = new SymbolIcon(Symbol.Add);
+                else
+                    MarkAsReadButton.Icon = new SymbolIcon(Symbol.Accept);
+
+                if (ViewModel.CurrentItem.Model.IsStarred)
+                    MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
+                else
+                    MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
+            };
         }
 
         private async void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
