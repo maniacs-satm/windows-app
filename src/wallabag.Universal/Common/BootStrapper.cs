@@ -74,7 +74,7 @@ namespace wallabag.Common
         protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
         {
             var frame = CreateRootFrame();
-            frame.Navigate(typeof(Views.AddItemPage), args.ShareOperation);
+            frame.Navigate(typeof(Views.ShareTarget), args.ShareOperation);
             Window.Current.Activate();
             //await InternalActivatedAsync(args);
         }
