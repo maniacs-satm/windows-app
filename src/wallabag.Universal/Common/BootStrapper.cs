@@ -71,7 +71,26 @@ namespace wallabag.Common
         protected override async void OnFileOpenPickerActivated(FileOpenPickerActivatedEventArgs args) { await InternalActivatedAsync(args); }
         protected override async void OnFileSavePickerActivated(FileSavePickerActivatedEventArgs args) { await InternalActivatedAsync(args); }
         protected override async void OnSearchActivated(SearchActivatedEventArgs args) { await InternalActivatedAsync(args); }
-        protected override async void OnShareTargetActivated(ShareTargetActivatedEventArgs args) { await InternalActivatedAsync(args); }
+        protected override void OnShareTargetActivated(ShareTargetActivatedEventArgs args)
+        {
+            var frame = CreateRootFrame();
+            frame.Navigate(typeof(Views.AddItemPage), args.ShareOperation);
+            Window.Current.Activate();
+            //await InternalActivatedAsync(args);
+        }
+
+        private Frame CreateRootFrame()
+        {
+            Frame rootFrame = new Frame();
+            rootFrame = new Frame();
+
+            // Set the default language
+            rootFrame.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+
+            // Place the frame in the current Window
+            Window.Current.Content = rootFrame;
+            return rootFrame;
+        }
 
         private async Task InternalActivatedAsync(IActivatedEventArgs e)
         {
@@ -80,7 +99,7 @@ namespace wallabag.Common
         }
 
         #endregion
-        
+
         protected override void OnLaunched(LaunchActivatedEventArgs e) { InternalLaunchAsync(e as ILaunchActivatedEventArgs); }
 
         private async void InternalLaunchAsync(ILaunchActivatedEventArgs e)
