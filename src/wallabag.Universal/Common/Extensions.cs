@@ -28,7 +28,7 @@ namespace wallabag.Common
 
         // Using a DependencyProperty as the backing store for HTML.  This enables animation, styling, binding, etc... 
         public static readonly DependencyProperty HTMLProperty =
-            DependencyProperty.RegisterAttached("HTML", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(0, new PropertyChangedCallback(OnHTMLChanged)));
+            DependencyProperty.RegisterAttached("HTML", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnHTMLChanged)));
 
         private static void OnHTMLChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
