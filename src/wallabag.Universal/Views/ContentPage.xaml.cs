@@ -27,7 +27,7 @@ namespace wallabag.Views
 
         private async void AddItemContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
-            await ViewModel.LoadItemsAsync(new FilterProperties());
+            await ViewModel.LoadItemsAsync();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -119,15 +119,15 @@ namespace wallabag.Views
         private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
         {
             if (sender == AllItemsFilterRadioButton)
-                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
+                ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
             else if (sender == UnreadItemsFilterRadioButton)
-                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+                ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
             else if (sender == StarredItemsFilterRadioButton)
-                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+                ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
             else if (sender == ArchivedItemsFilterRadioButton)
-                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
+                ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
             else if (sender == DeletedItemsFilterRadioButton)
-                ViewModel.FilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
+                ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
         }
     }
 }
