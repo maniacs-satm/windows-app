@@ -59,7 +59,7 @@ namespace wallabag.Common
     }
     public static class TagExtensions
     {
-        public static string ToCommaSeparatedString<T>(this IList<T> list)
+        public static string ToCommaSeparatedString<T>(this ICollection<T> list)
         {
             string result = string.Empty;
             if (list != null && list.Count > 0)
