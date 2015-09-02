@@ -24,6 +24,9 @@ namespace wallabag.ViewModels
                 await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
                 Url = string.Empty;
                 Tags.Clear();
+
+                if (Services.NavigationService.NavigationService.ApplicationNavigationService.CanGoBack)
+                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
             });
             CancelCommand = new Command(() =>
             {
