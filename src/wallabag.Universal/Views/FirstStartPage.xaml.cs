@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,6 +17,15 @@ namespace wallabag.Views
         {
             this.InitializeComponent();
             FirstStartAnimation.Begin();
+            SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
+            {
+                if (StackPanel2.Visibility == Visibility.Visible)
+                {
+                    e.Handled = true;
+                    StackPanel2.Visibility = Visibility.Collapsed;
+                    FirstStartAnimation.Begin();
+                }
+            };
         }
 
         private void framabagUserButton_Click(object sender, RoutedEventArgs e)
