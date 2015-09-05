@@ -22,6 +22,7 @@ namespace wallabag.ViewModels
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
         public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
         public FilterProperties LastUsedFilterProperties { get; set; } = new FilterProperties();
+        public bool IsSyncing { get; set; } = false;
 
         #region Tasks & Commands
         public async Task LoadItemsAsync()
@@ -63,8 +64,10 @@ namespace wallabag.ViewModels
         {
             RefreshCommand = new Command(async () =>
             {
+                IsSyncing = true;
                 await DataService.SyncWithServerAsync();
                 await LoadItemsAsync();
+                IsSyncing = false;
             });
             NavigateToSettingsPageCommand = new Command(() =>
             {

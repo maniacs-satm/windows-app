@@ -9,11 +9,6 @@
     xmlns:vm="using:wallabag.ViewModels"
     xmlns:m="using:wallabag.Models"
     mc:Ignorable="d">
-    <Page.Resources>
-        <Storyboard x:Name="SyncStoryboard" RepeatBehavior="Forever">
-            <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="syncIcon" d:IsOptimized="True"/>
-        </Storyboard>
-    </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
     </Page.DataContext>
@@ -39,6 +34,14 @@
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <Storyboard x:Name="SyncStoryboard" RepeatBehavior="Forever">
+                        <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="syncIcon" d:IsOptimized="True"/>
+                    </Storyboard>
+                    <VisualState.StateTriggers>                        
+                        <StateTrigger IsActive="{Binding IsSyncing}"/>
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
