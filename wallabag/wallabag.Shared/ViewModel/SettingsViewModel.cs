@@ -38,6 +38,15 @@ namespace wallabag.ViewModel
                 RaisePropertyChanged(() => Token);
             }
         }
+        public bool AllowSelfSignedCertificates
+        {
+            get { return AppSettings["AllowSelfSignedCertificates", false]; }
+            set
+            {
+                AppSettings["AllowSelfSignedCertificates"] = value;
+                RaisePropertyChanged(() => AllowSelfSignedCertificates);
+            }
+        }
         public bool enableAddLink
         {
             get { return AppSettings["enableAddLink", false]; }
