@@ -40,21 +40,34 @@
 
         <Image x:Name="HeaderImage" Stretch="UniformToFill"
                Source="{Binding Model.HeaderImageUri, Mode=OneTime}"/>
-        <StackPanel x:Name="StackPanel"
+        <Grid x:Name="StackPanel"
                     VerticalAlignment="Bottom" 
                     Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" 
                     Padding="16" 
                     Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <TextBlock x:Name="TitleTextBlock"
                        Text="{Binding Model.Title, Mode=OneTime}" 
                        TextWrapping="Wrap" 
                        FontSize="16" 
                        MaxLines="3"/>
-            <TextBlock x:Name="DomainNameTextBlock" 
-                       Text="{Binding Model.DomainName}" 
-                       Style="{StaticResource CaptionTextBlockStyle}"
-                       Margin="0,4,0,0"
-                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Row="1"
+                        Margin="0,4,0,0">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource CaptionTextBlockStyle}">
+                        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+                        <Setter Property="Margin" Value="2,0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock x:Name="DomainNameTextBlock" Text="{Binding Model.DomainName}"/>
+                <TextBlock Text="|" Opacity="0.5"/>
+                <TextBlock Text="" FontFamily="Segoe MDL2 Assets"/>
+                <TextBlock Text="{Binding Model.EstimatedReadingTime}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
