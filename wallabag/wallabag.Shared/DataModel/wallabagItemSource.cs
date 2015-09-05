@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using wallabag.Common;
 using wallabag.ViewModel;
+using Windows.Data.Xml.Dom;
 using Windows.Networking.Connectivity;
+using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI;
+using Windows.Web.Http;
+using Windows.Web.Http.Filters;
 using Windows.Web.Syndication;
 
 namespace wallabag.DataModel
@@ -166,25 +171,32 @@ namespace wallabag.DataModel
                 Uri feedUri = new Uri(buildUrl(param));
                 try
                 {
-                    SyndicationFeed feed = await client.RetrieveFeedAsync(feedUri);
+                    var filter = new HttpBaseProtocolFilter();
 
-                    if (feed.Items != null && feed.Items.Count > 0)
+                    if (AppSettings["AllowSelfSignedCertificates"] == true)
                     {
-                        foreach (SyndicationItem item in feed.Items)
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.IncompleteChain);
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Expired);
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Untrusted);
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.InvalidName);
+                    }
+
+                    var httpClient = new HttpClient(filter);
+                    string rssString = await httpClient.GetStringAsync(feedUri);
+
+                    XmlDocument rssDocument = new XmlDocument();
+                    rssDocument.LoadXml(rssString);
+
+                    var items = rssDocument.GetElementsByTagName("item");
+                    if (items.Count > 0)
+                    {
+                        foreach (var item in items)
                         {
-                            Item tmpItem = new Item();
-                            if (item.Title != null && item.Title.Text != null)
-                            {
-                                tmpItem.Title = item.Title.Text;
-                            }
-                            if (item.Summary != null && item.Summary.Text != null)
-                            {
-                                tmpItem.Content = item.Summary.Text;
-                            }
-                            if (item.Links != null && item.Links.Count > 0)
-                            {
-                                tmpItem.Url = item.Links[0].Uri;
-                            }
+                            Item tmpItem =new Item();
+                            tmpItem.Title = item.ChildNodes.Where(c => c.NodeName == "title").First().InnerText;
+                            tmpItem.Url = new Uri(item.ChildNodes.Where(c => c.NodeName == "link").First().InnerText);
+                            tmpItem.Content = item.ChildNodes.Where(c => c.NodeName == "description").First().InnerText;
+
                             switch (param)
                             {
                                 // If we are in the 'fav' loop, set the IsFavourite property to 'true'.

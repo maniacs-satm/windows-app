@@ -228,4 +228,7 @@
   <data name="unreadItemsMenuButtonText.Text" xml:space="preserve">
     <value>Unread</value>
   </data>
+  <data name="AllowSelfSignedCertificatesToggleSwitch.Header" xml:space="preserve">
+    <value>Allow self-signed certificates</value>
+  </data>
 </root>
