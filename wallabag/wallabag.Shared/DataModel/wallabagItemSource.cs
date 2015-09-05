@@ -172,12 +172,14 @@ namespace wallabag.DataModel
                 try
                 {
                     var filter = new HttpBaseProtocolFilter();
-#if DEBUG
-                    filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.IncompleteChain);
-                    filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Expired);
-                    filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Untrusted);
-                    filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.InvalidName);
-#endif
+
+                    if (AppSettings["AllowSelfSignedCertificates"] == true)
+                    {
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.IncompleteChain);
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Expired);
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.Untrusted);
+                        filter.IgnorableServerCertificateErrors.Add(ChainValidationResult.InvalidName);
+                    }
 
                     var httpClient = new HttpClient(filter);
                     string rssString = await httpClient.GetStringAsync(feedUri);
