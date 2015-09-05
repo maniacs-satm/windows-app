@@ -24,6 +24,9 @@ namespace wallabag.ViewModels
             AppSettings.Password = Password;
             AppSettings.wallabagUrl = wallabagUrl;
 
+            if (Helpers.IsPhone)
+                AppSettings.FontSize += 28;
+
             await Services.DataService.InitializeDatabaseAsync();
             Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.ContentPage));
         }
