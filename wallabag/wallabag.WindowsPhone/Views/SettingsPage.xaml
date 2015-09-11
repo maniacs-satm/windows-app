@@ -28,7 +28,7 @@
                         <TextBox x:Uid="wallabagUrlTextBox" Header="Wallabag URL" PlaceholderText="http://..." InputScope="Url" Text="{Binding wallabagUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox x:Uid="userIdTextBox" Header="User ID" PlaceholderText="default 1" InputScope="Number" Text="{Binding userId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox x:Uid="TokenTextBox" Header="Token" PlaceholderText="a crazy-looking string (e.g. j90/Ggdf)" Text="{Binding Token, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <ToggleSwitch x:Uid="AllowSelfSignedCertificatesToggleSwitch"  Header="Allow self-signed certificates" IsOn="{Binding AllowSelfSignedCertificates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}/>
+                        <ToggleSwitch x:Uid="AllowSelfSignedCertificatesToggleSwitch"  Header="Allow self-signed certificates" IsOn="{Binding AllowSelfSignedCertificates, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </Grid>
             </PivotItem>
