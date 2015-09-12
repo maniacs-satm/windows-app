@@ -139,6 +139,8 @@ namespace wallabag.Services.NavigationService
             if (page.FullName.Equals(LastNavigationType)
                 && parameter == LastNavigationParameter)
                 return false;
+            if (LastNavigationType == "wallabag.Views.FirstStartPage")
+                ClearHistory();
             return _frame.Navigate(page, parameter);
         }
 
