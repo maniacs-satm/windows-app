@@ -5,6 +5,7 @@ using wallabag.Common.Mvvm;
 using wallabag.Models;
 using wallabag.Services;
 using Windows.ApplicationModel.DataTransfer.ShareTarget;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -40,6 +41,9 @@ namespace wallabag.Views
         {
             shareOperation = (ShareOperation)e.Parameter;
             Url = (await shareOperation.Data.GetWebLinkAsync()).ToString();
+
+            if (Helpers.IsPhone)
+                Windows.UI.ViewManagement.StatusBar.GetForCurrentView().BackgroundColor = (Color)Windows.UI.Xaml.Application.Current.Resources["SystemAccentColor"];
         }
     }
 }
