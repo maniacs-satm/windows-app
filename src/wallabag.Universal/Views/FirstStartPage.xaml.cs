@@ -23,6 +23,7 @@ namespace wallabag.Views
                 {
                     e.Handled = true;
                     StackPanel2.Visibility = Visibility.Collapsed;
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     FirstStartAnimation.Begin();
                 }
             };
@@ -30,11 +31,18 @@ namespace wallabag.Views
 
         private void framabagUserButton_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: Remove in final release!
+            wallabagUrlTextBox.Text = "https://v2.wallabag.org/";
+            userNameTextBox.Text = "wallabag";
+            passwordBox.Password = "wallabag";
+
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
             if (sender == framabagUserButton)
-            {
-                wallabagUrlTextBox.Visibility = Visibility.Collapsed;
-                wallabagUrlTextBox.Text = "https://v2.wallabag.org/"; // TODO: Set the framabag url.
-            }
+                wallabagUrlTextBox.Visibility = Visibility.Collapsed; 
+                // TODO: Set the framabag url.            
+            else
+                wallabagUrlTextBox.Visibility = Visibility.Visible;
 
             StackPanelChangeStoryboard.Begin();
 
