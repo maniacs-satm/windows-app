@@ -77,6 +77,7 @@ namespace wallabag.Services
             if (response.StatusCode == HttpStatusCode.Ok)
             {
                 var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                System.Diagnostics.Debug.WriteLine(response.Content.ToString());
 
                 // Regular expression to remove multiple whitespaces (including newline etc.)
                 Regex Regex = new Regex("\\s+");
@@ -106,6 +107,7 @@ namespace wallabag.Services
                         existingItem.LastUpdated = item.LastUpdated;
                         existingItem.DomainName = item.DomainName;
                         existingItem.EstimatedReadingTime = item.EstimatedReadingTime;
+                        existingItem.PreviewPictureUri = item.PreviewPictureUri;
 
                         await conn.UpdateAsync(existingItem);
                     }

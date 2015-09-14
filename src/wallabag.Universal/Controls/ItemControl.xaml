@@ -39,7 +39,7 @@
         </Grid.RowDefinitions>
 
         <Image x:Name="HeaderImage" Stretch="UniformToFill"
-               Source="{Binding Model.HeaderImageUri, Mode=OneTime}"/>
+               Source="{Binding Model.PreviewPictureUri, Mode=OneTime}"/>
         <Grid x:Name="StackPanel"
                     VerticalAlignment="Bottom" 
                     Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" 

@@ -30,9 +30,6 @@ namespace wallabag.ViewModels
             SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteValueAsync());
 
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
-
-            if (string.IsNullOrEmpty(Model.HeaderImageUri)) GetHeaderImage();
-            GetIntroSentence();
         }
 
         public Item Model { get; set; }
@@ -81,7 +78,7 @@ namespace wallabag.ViewModels
                 foreach (var item in document.DocumentNode.Descendants("img"))
                     if (item.Attributes.Contains("src"))
                     {
-                        Model.HeaderImageUri = item.Attributes["src"].Value;
+                        Model.PreviewPictureUri = item.Attributes["src"].Value;
                         return;
                     }
             }

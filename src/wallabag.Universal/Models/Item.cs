@@ -72,8 +72,10 @@ namespace wallabag.Models
         [JsonProperty("tags")]
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
 
+        [JsonProperty("preview_picture")]
+        public string PreviewPictureUri { get; set; } = string.Empty;
+
         public string ReadingProgress { get; set; } = "0";
-        public string HeaderImageUri { get; set; } = string.Empty;
 
         public override string ToString() { return Title; }
     }
