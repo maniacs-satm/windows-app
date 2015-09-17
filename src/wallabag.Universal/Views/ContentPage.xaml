@@ -224,7 +224,7 @@
                             <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged" Grid.Column="4"/>
                         </Grid>
 
-                        <Button Style="{ThemeResource TextBlockButtonStyle}">
+                        <Button Style="{ThemeResource TextBlockButtonStyle}" Click="ShowMoreFilterOptionsButton_Click">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Show more"/>
                                 <TextBlock x:Name="textBlock" Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" Margin="8,0,0,2" FontSize="12" RenderTransformOrigin="0.5,0.5">

@@ -129,5 +129,20 @@ namespace wallabag.Views
             else if (sender == DeletedItemsFilterRadioButton)
                 ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
         }
+
+        private bool MoreOptionsAreVisible = false;
+        private void ShowMoreFilterOptionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MoreOptionsAreVisible)
+            {
+                ShowLessFilterOptionsStoryboard.Begin();
+                MoreOptionsAreVisible = false;
+            }
+            else
+            {
+                ShowMoreFilterOptionsStoryboard.Begin();
+                MoreOptionsAreVisible = true;
+            }
+        }
     }
 }
