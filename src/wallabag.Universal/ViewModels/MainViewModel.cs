@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
+using wallabag.Common;
 using wallabag.Common.Mvvm;
 using wallabag.Models;
 using wallabag.Services;
@@ -53,6 +54,9 @@ namespace wallabag.ViewModels
             else LastUsedFilterProperties = new FilterProperties();
 
             await LoadItemsAsync();
+
+            if (AppSettings.SyncOnStartup)
+                RefreshCommand.Execute(null);
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {

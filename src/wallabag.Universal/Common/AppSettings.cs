@@ -107,7 +107,7 @@ namespace wallabag.Common
                 RaisePropertyChanged(nameof(Username));
             }
         }
-        private static  string _Password;
+        private static string _Password;
         public static string Password
         {
             get
@@ -123,7 +123,7 @@ namespace wallabag.Common
                 RaisePropertyChanged(nameof(Password));
             }
         }
-        private static  string _wallabagUrl;
+        private static string _wallabagUrl;
         public static string wallabagUrl
         {
             get
