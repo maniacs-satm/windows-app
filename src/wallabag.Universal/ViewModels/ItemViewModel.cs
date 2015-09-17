@@ -69,20 +69,6 @@ namespace wallabag.ViewModels
                 stylesheet = styleSheetBuilder.ToString()
             });
         }
-        public void GetHeaderImage()
-        {
-            HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(Model.Content);
-            if (document.DocumentNode.Descendants("img").Count() > 0)
-            {
-                foreach (var item in document.DocumentNode.Descendants("img"))
-                    if (item.Attributes.Contains("src"))
-                    {
-                        Model.PreviewPictureUri = item.Attributes["src"].Value;
-                        return;
-                    }
-            }
-        }
         public void GetIntroSentence()
         {
             IntroSentence = string.Empty;
