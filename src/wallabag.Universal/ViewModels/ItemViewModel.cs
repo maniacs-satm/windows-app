@@ -192,7 +192,7 @@ namespace wallabag.ViewModels
         }
         public async Task<bool> DeleteTagAsync(Tag Tag)
         {
-            bool result =  await DeleteTagAsync(Model.Id, Tag.Id);
+            bool result = await DeleteTagAsync(Model.Id, Tag.Id);
             if (result)
                 await conn.UpdateAsync(Model);
             return result;
@@ -220,41 +220,33 @@ namespace wallabag.ViewModels
         {
             Model.IsRead = !Model.IsRead;
 
-            if (await UpdateItemAsync() == false)
+            OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
+
+            if (!Model.IsRead)
+                actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
+
+            await conn.InsertAsync(new OfflineAction()
             {
-                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
-
-                if (!Model.IsRead)
-                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
-
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = actionTask,
-                    ItemId = Model.Id
-                });
-                return false;
-            }
-            else return true;
+                Task = actionTask,
+                ItemId = Model.Id
+            });
+            return true;
         }
         public async Task<bool> SwitchFavoriteValueAsync()
         {
             Model.IsStarred = !Model.IsStarred;
 
-            if (await UpdateItemAsync() == false)
+            OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
+
+            if (!Model.IsStarred)
+                actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
+
+            await conn.InsertAsync(new OfflineAction()
             {
-                OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
-
-                if (!Model.IsStarred)
-                    actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
-
-                await conn.InsertAsync(new OfflineAction()
-                {
-                    Task = actionTask,
-                    ItemId = Model.Id
-                });
-                return false;
-            }
-            else return true;
+                Task = actionTask,
+                ItemId = Model.Id
+            });
+            return true;
         }
         #endregion
     }
