@@ -40,7 +40,7 @@
                     <Storyboard x:Name="SyncStoryboard" RepeatBehavior="Forever">
                         <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="syncIcon" d:IsOptimized="True"/>
                     </Storyboard>
-                    <VisualState.StateTriggers>                        
+                    <VisualState.StateTriggers>
                         <StateTrigger IsActive="{Binding IsSyncing}"/>
                     </VisualState.StateTriggers>
                 </VisualState>
@@ -170,7 +170,15 @@
             </SplitView.Pane>
         </SplitView>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
             <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,16,0" Grid.Column="1">
+                <TextBlock Text="{x:Bind ViewModel.NumberOfOfflineActions, Mode=OneWay}" VerticalAlignment="Center" Margin="8,0" FontWeight="SemiBold"/>
+                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="24"/>
+            </StackPanel>
         </Grid>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <!-- commands for multiple selection -->
