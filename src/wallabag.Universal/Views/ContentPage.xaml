@@ -135,16 +135,14 @@
                             </StackPanel>
                         </Button>
 
-                        <ComboBox Header="Sort order" Margin="0,8,0,8" HorizontalAlignment="Stretch" SelectedIndex="1">
+                        <ComboBox x:Name="sortOrderComboBox" Header="Sort order" Margin="0,8,0,8" HorizontalAlignment="Stretch" SelectedIndex="1">
                             <ComboBoxItem>Ascending</ComboBoxItem>
                             <ComboBoxItem>Descending</ComboBoxItem>
                         </ComboBox>
 
-                        <Button Style="{StaticResource TextBlockButtonStyle}" Content="Show more" Visibility="Collapsed"/>
-                        <!-- TODO: Display the following options only after button click-->
-                        <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                        <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding DomainNames}" SelectedItem="{Binding LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
-                        <ComboBox Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                        <ComboBox x:Name="tagComboBox" Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding Tags}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="m:Tag">
@@ -156,7 +154,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                         <!-- estimated reading time -->
-                        <Grid>
+                        <Grid x:Name="creationDateGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
