@@ -1,6 +1,6 @@
 wallabag for Windows 10
 ================
-**You can help me to make this app more awesome just by contributing in any way you want!**
+[Download the beta version from the Microsoft Store right now!](https://www.microsoft.com/store/apps/9nblggh5x3p6)
 
 ## Currently supported languages
 - English
