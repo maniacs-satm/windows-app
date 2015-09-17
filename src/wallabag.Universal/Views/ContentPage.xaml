@@ -9,6 +9,55 @@
     xmlns:vm="using:wallabag.ViewModels"
     xmlns:m="using:wallabag.Models"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Storyboard x:Name="ShowMoreFilterOptionsStoryboard">
+            <DoubleAnimation Duration="0:0:0.3" To="180" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="textBlock" d:IsOptimized="True"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="sortOrderComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="domainNameComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="tagComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="creationDateGrid">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="sortOrderComboBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="domainNameComboBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tagComboBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="creationDateGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
     </Page.DataContext>
@@ -131,19 +180,23 @@
                         <Button Style="{ThemeResource TextBlockButtonStyle}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Show more"/>
-                                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" Margin="8,0,0,2" FontSize="12"/>
+                                <TextBlock x:Name="textBlock" Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" Margin="8,0,0,2" FontSize="12" RenderTransformOrigin="0.5,0.5">
+                                    <TextBlock.RenderTransform>
+                                        <CompositeTransform/>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
                             </StackPanel>
                         </Button>
 
-                        <ComboBox x:Name="sortOrderComboBox" Header="Sort order" Margin="0,8,0,8" HorizontalAlignment="Stretch" SelectedIndex="1">
+                        <ComboBox x:Name="sortOrderComboBox" Header="Sort order" Margin="0,8,0,8" HorizontalAlignment="Stretch" SelectedIndex="1" Visibility="Collapsed" Opacity="0">
                             <ComboBoxItem>Ascending</ComboBoxItem>
                             <ComboBoxItem>Descending</ComboBoxItem>
                         </ComboBox>
 
                         <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding DomainNames}" SelectedItem="{Binding LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
+                                  ItemsSource="{Binding DomainNames}" SelectedItem="{Binding LastUsedFilterProperties.DomainName, Mode=TwoWay}" Visibility="Collapsed" Opacity="0"/>
                         <ComboBox x:Name="tagComboBox" Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding Tags}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
+                                  ItemsSource="{Binding Tags}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}" Visibility="Collapsed" Opacity="0">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="m:Tag">
                                     <StackPanel Orientation="Horizontal">
@@ -154,7 +207,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                         <!-- estimated reading time -->
-                        <Grid x:Name="creationDateGrid">
+                        <Grid x:Name="creationDateGrid" Visibility="Collapsed" Opacity="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
