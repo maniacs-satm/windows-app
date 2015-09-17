@@ -29,6 +29,7 @@ namespace wallabag.ViewModels
             SwitchReadStatusCommand = new Command(async () => await SwitchReadValueAsync());
             SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteValueAsync());
 
+            GetIntroSentence();
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
         }
 
@@ -103,20 +104,13 @@ namespace wallabag.ViewModels
         }
         public static async Task<bool> DeleteItemAsync(int ItemId, bool IsOfflineAction = false)
         {
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete, $"/entries/{ItemId}");
-
-            if (response.StatusCode == HttpStatusCode.Ok)
-                return true;
-            else
-            {
-                if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineAction()
-                    {
-                        Task = OfflineAction.OfflineActionTask.DeleteItem,
-                        ItemId = ItemId
-                    });
-                return false;
-            }
+            if (!IsOfflineAction)
+                await conn.InsertAsync(new OfflineAction()
+                {
+                    Task = OfflineAction.OfflineActionTask.DeleteItem,
+                    ItemId = ItemId
+                });
+            return true;
         }
         public async Task<bool> UpdateItemAsync()
         {
