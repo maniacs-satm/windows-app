@@ -128,7 +128,14 @@
                             <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged" Grid.Column="4"/>
                         </Grid>
 
-                        <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectedIndex="0">
+                        <Button Style="{ThemeResource TextBlockButtonStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Show more"/>
+                                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" Margin="8,0,0,2" FontSize="12"/>
+                            </StackPanel>
+                        </Button>
+
+                        <ComboBox Header="Sort order" Margin="0,8,0,8" HorizontalAlignment="Stretch" SelectedIndex="1">
                             <ComboBoxItem>Ascending</ComboBoxItem>
                             <ComboBoxItem>Descending</ComboBoxItem>
                         </ComboBox>
