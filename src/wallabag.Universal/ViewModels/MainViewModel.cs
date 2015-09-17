@@ -23,7 +23,9 @@ namespace wallabag.ViewModels
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
         public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
         public FilterProperties LastUsedFilterProperties { get; set; } = new FilterProperties();
+
         public bool IsSyncing { get; set; } = false;
+        public int NumberOfOfflineActions { get; set; }
 
         #region Tasks & Commands
         public async Task LoadItemsAsync()
@@ -55,6 +57,9 @@ namespace wallabag.ViewModels
 
             await LoadItemsAsync();
 
+            SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+            NumberOfOfflineActions = await conn.Table<OfflineAction>().CountAsync();
+
             if (AppSettings.SyncOnStartup)
                 RefreshCommand.Execute(null);
         }
@@ -72,6 +77,9 @@ namespace wallabag.ViewModels
                 await DataService.SyncWithServerAsync();
                 await LoadItemsAsync();
                 IsSyncing = false;
+
+                SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+                NumberOfOfflineActions = await conn.Table<OfflineAction>().CountAsync();
             });
             NavigateToSettingsPageCommand = new Command(() =>
             {
