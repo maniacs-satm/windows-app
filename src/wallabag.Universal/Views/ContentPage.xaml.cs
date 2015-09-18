@@ -75,8 +75,8 @@ namespace wallabag.Views
 
         private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
-            ItemListView.SelectionMode = ListViewSelectionMode.Multiple;
+            //ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
+            //ItemListView.SelectionMode = ListViewSelectionMode.Multiple;
             acceptAppBarButton.Visibility = Visibility.Visible;
             favoriteAppBarButton.Visibility = Visibility.Visible;
             tagAppBarButton.Visibility = Visibility.Visible;
@@ -87,8 +87,8 @@ namespace wallabag.Views
         }
         private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
-            ItemGridView.SelectionMode = ListViewSelectionMode.None;
-            ItemListView.SelectionMode = ListViewSelectionMode.None;
+            //ItemGridView.SelectionMode = ListViewSelectionMode.None;
+            //ItemListView.SelectionMode = ListViewSelectionMode.None;
             acceptAppBarButton.Visibility = Visibility.Collapsed;
             favoriteAppBarButton.Visibility = Visibility.Collapsed;
             tagAppBarButton.Visibility = Visibility.Collapsed;
@@ -100,20 +100,20 @@ namespace wallabag.Views
 
         private async void acceptAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ItemViewModel item in ItemGridView.SelectedItems)
-                await item.SwitchReadValueAsync();
+            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
+            //    await item.SwitchReadValueAsync();
         }
 
         private async void favoriteAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ItemViewModel item in ItemGridView.SelectedItems)
-                await item.SwitchFavoriteValueAsync();
+            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
+            //    await item.SwitchFavoriteValueAsync();
         }
 
         private async void deleteAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ItemViewModel item in ItemGridView.SelectedItems)
-                await item.DeleteItemAsync();
+            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
+            //    await item.DeleteItemAsync();
         }
 
         private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
@@ -142,6 +142,25 @@ namespace wallabag.Views
             {
                 ShowMoreFilterOptionsStoryboard.Begin();
                 MoreOptionsAreVisible = true;
+            }
+        }
+
+        private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            switch ((sender as Pivot).SelectedIndex)
+            {
+                case 0:
+                    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+                    await ViewModel.LoadItemsAsync();
+                    break;
+                case 1:
+                    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+                    await ViewModel.LoadItemsAsync();
+                    break;
+                case 2:
+                    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
+                    await ViewModel.LoadItemsAsync();
+                    break;
             }
         }
     }

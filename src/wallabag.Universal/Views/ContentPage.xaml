@@ -114,6 +114,24 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <DataTemplate x:Name="PivotContentTemplate">
+            <GridView x:Name="ItemGridView"
+        	              ItemsSource="{Binding Items}"
+        	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                          Padding="0,4"
+        	              ItemClick="ItemGridView_ItemClick"                      
+        	              EntranceNavigationTransitionInfo.IsTargetElement="True">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ItemViewModel">
+                        <controls:ItemControl/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </DataTemplate>
+        <Style TargetType="PivotHeaderItem">
+            <Setter Property="RequestedTheme" Value="Dark"/>
+        </Style>
+
     </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
@@ -125,8 +143,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
-                        <Setter Target="ItemListView.Visibility" Value="Visible"/>
-                        <Setter Target="ItemGridView.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -135,8 +151,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
-                        <Setter Target="ItemListView.Visibility" Value="Collapsed"/>
-                        <Setter Target="ItemGridView.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720"/>
@@ -163,41 +177,28 @@
                 <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
             </StackPanel>
         </ContentDialog>
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="0,0,16,0" Grid.Column="1">
+                <TextBlock Text="{x:Bind ViewModel.NumberOfOfflineActions, Mode=OneWay}" VerticalAlignment="Center" Margin="8,0" FontWeight="SemiBold"/>
+                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="24"/>
+            </StackPanel>
+        </Grid>
+
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
-            <Grid>
-                <GridView x:Name="ItemGridView"
-        	              ItemsSource="{Binding Items}"
-        	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
-                          Padding="8"
-                          Margin="0,48"
-        	              ItemClick="ItemGridView_ItemClick"                      
-        	              EntranceNavigationTransitionInfo.IsTargetElement="True">
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ItemViewModel">
-                            <controls:ItemControl/>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-                <ListView x:Name="ItemListView"
-        	              ItemsSource="{Binding Items}"
-        	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
-                          Margin="0,48"
-                          Visibility="Collapsed"
-        	              ItemClick="ItemGridView_ItemClick"                      
-        	              EntranceNavigationTransitionInfo.IsTargetElement="True">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ItemViewModel">
-                            <controls:ItemControl/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Margin" Value="0,2"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </Grid>
+            <Pivot SelectionChanged="Pivot_SelectionChanged">
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0"/>
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
+                <PivotItem Header="HOME" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+            </Pivot>
             <SplitView.Pane>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
@@ -289,17 +290,6 @@
                 </ScrollViewer>
             </SplitView.Pane>
         </SplitView>
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
-            <StackPanel Orientation="Horizontal" Margin="0,0,16,0" Grid.Column="1">
-                <TextBlock Text="{x:Bind ViewModel.NumberOfOfflineActions, Mode=OneWay}" VerticalAlignment="Center" Margin="8,0" FontWeight="SemiBold"/>
-                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="24"/>
-            </StackPanel>
-        </Grid>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <!-- commands for multiple selection -->
             <AppBarButton x:Name="acceptAppBarButton" Icon="Accept" Visibility="Collapsed" Click="acceptAppBarButton_Click"/>
