@@ -200,7 +200,7 @@
                                  TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
                                  QuerySubmitted="SearchBox_QuerySubmitted"/>
 
-                        <Grid Margin="0,0,0,8">
+                        <!--<Grid Margin="0,0,0,8">
                             <Grid.Resources>
                                 <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -222,7 +222,7 @@
                             <RadioButton x:Name="StarredItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Favorite" Checked="FilterRadioButton_CheckedChanged" Grid.Column="2"/>
                             <RadioButton x:Name="ArchivedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Archived" Checked="FilterRadioButton_CheckedChanged" Grid.Column="3"/>
                             <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged" Grid.Column="4"/>
-                        </Grid>
+                        </Grid>-->
 
                         <Button Style="{ThemeResource TextBlockButtonStyle}" Click="ShowMoreFilterOptionsButton_Click">
                             <StackPanel Orientation="Horizontal">
