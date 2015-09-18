@@ -179,7 +179,7 @@
             </StackPanel>
         </ContentDialog>
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
-            <Pivot>
+            <Pivot SelectionChanged="Pivot_SelectionChanged">
                 <PivotItem Header="HOME" ContentTemplate="{StaticResource PivotContentTemplate}"/>
                 <PivotItem Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
                 <PivotItem Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
