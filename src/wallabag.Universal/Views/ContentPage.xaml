@@ -114,7 +114,7 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
-        <DataTemplate x:Name="PivotContentTemplate">            
+        <DataTemplate x:Name="PivotContentTemplate">
             <GridView x:Name="ItemGridView"
         	              ItemsSource="{Binding Items}"
         	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
@@ -128,7 +128,6 @@
                 </GridView.ItemTemplate>
             </GridView>
         </DataTemplate>
-
     </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
@@ -140,7 +139,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
-                        <Setter Target="ItemGridView.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -149,7 +147,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
-                        <Setter Target="ItemGridView.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720"/>
@@ -189,6 +186,11 @@
 
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
             <Pivot SelectionChanged="Pivot_SelectionChanged">
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0"/>
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
                 <PivotItem Header="HOME" ContentTemplate="{StaticResource PivotContentTemplate}"/>
                 <PivotItem Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
                 <PivotItem Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
