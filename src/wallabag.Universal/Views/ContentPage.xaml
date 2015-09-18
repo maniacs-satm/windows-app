@@ -140,7 +140,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
-                        <Setter Target="ItemListView.Visibility" Value="Visible"/>
                         <Setter Target="ItemGridView.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -150,7 +149,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
-                        <Setter Target="ItemListView.Visibility" Value="Collapsed"/>
                         <Setter Target="ItemGridView.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -178,6 +176,17 @@
                 <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
             </StackPanel>
         </ContentDialog>
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Margin="0,0,16,0" Grid.Column="1">
+                <TextBlock Text="{x:Bind ViewModel.NumberOfOfflineActions, Mode=OneWay}" VerticalAlignment="Center" Margin="8,0" FontWeight="SemiBold"/>
+                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="24"/>
+            </StackPanel>
+        </Grid>
+
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
             <Pivot SelectionChanged="Pivot_SelectionChanged">
                 <PivotItem Header="HOME" ContentTemplate="{StaticResource PivotContentTemplate}"/>
@@ -275,17 +284,6 @@
                 </ScrollViewer>
             </SplitView.Pane>
         </SplitView>
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="ITEMS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
-            <StackPanel Orientation="Horizontal" Margin="0,0,16,0" Grid.Column="1">
-                <TextBlock Text="{x:Bind ViewModel.NumberOfOfflineActions, Mode=OneWay}" VerticalAlignment="Center" Margin="8,0" FontWeight="SemiBold"/>
-                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="24"/>
-            </StackPanel>
-        </Grid>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <!-- commands for multiple selection -->
             <AppBarButton x:Name="acceptAppBarButton" Icon="Accept" Visibility="Collapsed" Click="acceptAppBarButton_Click"/>
