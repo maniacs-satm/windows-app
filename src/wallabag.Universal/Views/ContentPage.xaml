@@ -126,6 +126,11 @@
                         <controls:ItemControl/>
                     </DataTemplate>
                 </GridView.ItemTemplate>
+                <GridView.ItemContainerStyle>                    
+                    <Style TargetType="GridViewItem">                        
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>                        
+                    </Style>                    
+                </GridView.ItemContainerStyle>
             </GridView>
         </DataTemplate>
         <Style TargetType="PivotHeaderItem">
@@ -189,7 +194,7 @@
         </Grid>
 
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
-            <Pivot SelectionChanged="Pivot_SelectionChanged">
+            <Pivot SelectionChanged="Pivot_SelectionChanged">               
                 <Pivot.HeaderTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0"/>
