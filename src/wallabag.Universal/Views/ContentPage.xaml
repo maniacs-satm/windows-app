@@ -114,6 +114,21 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        <DataTemplate x:Name="PivotContentTemplate">            
+            <GridView x:Name="ItemGridView"
+        	              ItemsSource="{Binding Items}"
+        	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                          Padding="0,4"
+        	              ItemClick="ItemGridView_ItemClick"                      
+        	              EntranceNavigationTransitionInfo.IsTargetElement="True">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ItemViewModel">
+                        <controls:ItemControl/>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </DataTemplate>
+
     </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
@@ -164,40 +179,11 @@
             </StackPanel>
         </ContentDialog>
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
-            <Grid>
-                <GridView x:Name="ItemGridView"
-        	              ItemsSource="{Binding Items}"
-        	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
-                          Padding="8"
-                          Margin="0,48"
-        	              ItemClick="ItemGridView_ItemClick"                      
-        	              EntranceNavigationTransitionInfo.IsTargetElement="True">
-                    <GridView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ItemViewModel">
-                            <controls:ItemControl/>
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-                <ListView x:Name="ItemListView"
-        	              ItemsSource="{Binding Items}"
-        	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
-                          Margin="0,48"
-                          Visibility="Collapsed"
-        	              ItemClick="ItemGridView_ItemClick"                      
-        	              EntranceNavigationTransitionInfo.IsTargetElement="True">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ItemViewModel">
-                            <controls:ItemControl/>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Margin" Value="0,2"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
-            </Grid>
+            <Pivot>
+                <PivotItem Header="HOME" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+            </Pivot>
             <SplitView.Pane>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
