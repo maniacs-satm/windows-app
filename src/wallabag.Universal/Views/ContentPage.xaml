@@ -9,6 +9,112 @@
     xmlns:vm="using:wallabag.ViewModels"
     xmlns:m="using:wallabag.Models"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Storyboard x:Name="ShowMoreFilterOptionsStoryboard">
+            <DoubleAnimation Duration="0:0:0.3" To="180" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="textBlock" d:IsOptimized="True"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="sortOrderComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="domainNameComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="tagComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="creationDateGrid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.6">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="sortOrderComboBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="domainNameComboBox">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tagComboBox">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="creationDateGrid">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.1" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:1.1" To="285" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="buttonGrid" d:IsOptimized="True">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="ShowLessFilterOptionsStoryboard">
+            <DoubleAnimation Duration="0:0:0.3" From="180" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="textBlock"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="sortOrderComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="domainNameComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.9">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="tagComboBox">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.7">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="creationDateGrid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="sortOrderComboBox">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.1" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="domainNameComboBox">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tagComboBox">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="creationDateGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:1.1" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="buttonGrid" d:IsOptimized="True">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
     </Page.DataContext>
@@ -94,8 +200,9 @@
             </Grid>
             <SplitView.Pane>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="0,48" Padding="8">
-                        <AutoSuggestBox x:Name="SearchBox"               
+                    <Grid>
+                        <StackPanel Margin="0,48" Padding="8">
+                            <AutoSuggestBox x:Name="SearchBox"               
                                  QueryIcon="Find"
                                  PlaceholderText="Search..."
                                  VerticalAlignment="Top"
@@ -104,7 +211,7 @@
                                  TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
                                  QuerySubmitted="SearchBox_QuerySubmitted"/>
 
-                        <Grid Margin="0,0,0,8">
+                            <!--<Grid Margin="0,0,0,8">
                             <Grid.Resources>
                                 <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -126,38 +233,51 @@
                             <RadioButton x:Name="StarredItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Favorite" Checked="FilterRadioButton_CheckedChanged" Grid.Column="2"/>
                             <RadioButton x:Name="ArchivedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Archived" Checked="FilterRadioButton_CheckedChanged" Grid.Column="3"/>
                             <RadioButton x:Name="DeletedItemsFilterRadioButton" Content="" ToolTipService.ToolTip="Deleted" Checked="FilterRadioButton_CheckedChanged" Grid.Column="4"/>
-                        </Grid>
+                        </Grid>-->
 
-                        <ComboBox Header="Sort order" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectedIndex="0">
-                            <ComboBoxItem>Ascending</ComboBoxItem>
-                            <ComboBoxItem>Descending</ComboBoxItem>
-                        </ComboBox>
+                            <Button Style="{ThemeResource TextBlockButtonStyle}" Click="ShowMoreFilterOptionsButton_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Show more"/>
+                                    <TextBlock x:Name="textBlock" Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" Margin="8,0,0,2" FontSize="12" RenderTransformOrigin="0.5,0.5">
+                                        <TextBlock.RenderTransform>
+                                            <CompositeTransform/>
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Button>
 
-                        <Button Style="{StaticResource TextBlockButtonStyle}" Content="Show more" Visibility="Collapsed"/>
-                        <!-- TODO: Display the following options only after button click-->
-                        <ComboBox Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding DomainNames}" SelectedItem="{Binding LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
-                        <ComboBox Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding Tags}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="m:Tag">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Ellipse Fill="{x:Bind Color}" Height="16" Width="16"/>
-                                        <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center" Margin="8,0,4,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <!-- estimated reading time -->
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <CalendarDatePicker x:Name="FromCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="from" Margin="2,0" Header="Creation date" Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateFrom, Mode=TwoWay}" MaxDate="{Binding LastUsedFilterProperties.CreationDateTo}"/>
-                            <CalendarDatePicker x:Name="ToCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="to" Grid.Column="1" Margin="2,0" Header=" " Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}" MaxDate="{x:Bind ViewModel.MaxDate}"/>
-                        </Grid>
-                        <Grid Margin="0,8,0,0">
+                            <ComboBox x:Name="sortOrderComboBox" Header="Sort order" Margin="0,8,0,8" HorizontalAlignment="Stretch" SelectedIndex="1" Visibility="Collapsed" Opacity="0">
+                                <ComboBoxItem>Ascending</ComboBoxItem>
+                                <ComboBoxItem>Descending</ComboBoxItem>
+                            </ComboBox>
+
+                            <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding DomainNames}" SelectedItem="{Binding LastUsedFilterProperties.DomainName, Mode=TwoWay}" Visibility="Collapsed" Opacity="0"/>
+                            <ComboBox x:Name="tagComboBox" Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding Tags}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}" Visibility="Collapsed" Opacity="0">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="m:Tag">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse Fill="{x:Bind Color}" Height="16" Width="16"/>
+                                            <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center" Margin="8,0,4,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <!-- estimated reading time -->
+                            <Grid x:Name="creationDateGrid" Visibility="Collapsed" Opacity="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <CalendarDatePicker x:Name="FromCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="from" Margin="2,0" Header="Creation date" Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateFrom, Mode=TwoWay}" MaxDate="{Binding LastUsedFilterProperties.CreationDateTo}"/>
+                                <CalendarDatePicker x:Name="ToCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="to" Grid.Column="1" Margin="2,0" Header=" " Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}" MaxDate="{x:Bind ViewModel.MaxDate}"/>
+                            </Grid>
+                        </StackPanel>
+                        <Grid x:Name="buttonGrid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" Margin="0,135,0,0">
+                            <Grid.RenderTransform>
+                                <CompositeTransform/>
+                            </Grid.RenderTransform>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
@@ -165,7 +285,7 @@
                             <Button x:Name="resetButton" Command="{Binding ResetCommand}" Content="RESET" HorizontalAlignment="Stretch" Margin="2,0"/>
                             <Button x:Name="filterButton" Command="{Binding FilterCommand}" Style="{ThemeResource ActionButtonStyle}" Content="FILTER" Margin="2,0" Grid.Column="1"/>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
                 </ScrollViewer>
             </SplitView.Pane>
         </SplitView>
