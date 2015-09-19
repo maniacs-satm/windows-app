@@ -26,17 +26,25 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="headerRow" Height="48"/>
             <RowDefinition />
+            <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <TextBlock Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
         <StackPanel x:Name="stackPanel" Grid.Row="1" Margin="8">
-            <TextBox Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind Url, Mode=TwoWay}"/>
-            <controls:TagControl Margin="0,4" Tags="{x:Bind Tags, Mode=TwoWay}"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="CancelButton" Content="Cancel" HorizontalAlignment="Stretch" Command="{x:Bind CancelCommand}" MinWidth="100"/>
-                <Button x:Name="AddButton" Content="Add" Style="{ThemeResource ActionButtonStyle}" Command="{x:Bind AddItemCommand}" MinWidth="100"/>
-            </StackPanel>
+            <TextBox x:Name="urlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind Url, Mode=TwoWay}"/>
+            <controls:TagControl x:Name="tagControl" Margin="0,4" Tags="{x:Bind Tags, Mode=TwoWay}"/>
         </StackPanel>
+        <ProgressRing x:Name="savingIndicator"
+                      IsActive="True"
+                      Height="64"
+                      Width="64"
+                      Grid.Row="1" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Center" 
+                      Visibility="Collapsed"/>
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark" Grid.Row="2">
+            <AppBarButton x:Name="addItemAppBarButton" IsCompact="True" Icon="Accept" HorizontalAlignment="Center" Command="{x:Bind AddItemCommand}"/>
+        </Grid>
     </Grid>
 </Page>

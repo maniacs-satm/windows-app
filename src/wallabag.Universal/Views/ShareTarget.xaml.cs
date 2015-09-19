@@ -31,10 +31,14 @@ namespace wallabag.Views
             InitializeComponent();
             AddItemCommand = new Command(async () =>
             {
+                addItemAppBarButton.IsEnabled = false;
+                urlTextBox.IsEnabled = false;
+                tagControl.IsEnabled = false;
+                savingIndicator.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
                 await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
                 shareOperation.ReportCompleted();
             });
-            CancelCommand = new Command(() => { shareOperation.DismissUI(); });
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
