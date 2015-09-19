@@ -54,22 +54,22 @@ namespace wallabag.Universal
         {
             if (e.DataView.Contains(StandardDataFormats.WebLink))
             {
-                dragDropGrid.Visibility = Visibility.Collapsed;
+                HideDragDropGridStoryboard.Begin();
 
                 var item = await e.DataView.GetWebLinkAsync();
                 await DataService.AddItemAsync(item.ToString());
             }
         }
 
-        private void Grid_DragOver(object sender, DragEventArgs e)
+        private void Grid_DragLeave(object sender, DragEventArgs e) { HideDragDropGridStoryboard.Begin(); }
+
+        private void Grid_DragEnter(object sender, DragEventArgs e)
         {
             if (e.DataView.Contains(StandardDataFormats.WebLink))
             {
-                dragDropGrid.Visibility = Visibility.Visible;
+                ShowDragDropGridStoryboard.Begin();
                 e.AcceptedOperation = DataPackageOperation.Move;
             }
         }
-
-        private void Grid_DragLeave(object sender, DragEventArgs e) { dragDropGrid.Visibility = Visibility.Collapsed; }
     }
 }
