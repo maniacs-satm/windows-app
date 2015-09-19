@@ -218,7 +218,13 @@
                                  HorizontalAlignment="Stretch"
                                  ItemsSource="{x:Bind SearchBoxSuggestions}"
                                  TextChanged="SearchBox_TextChanged" Margin="0,0,0,8"
-                                 QuerySubmitted="SearchBox_QuerySubmitted"/>
+                                 QuerySubmitted="SearchBox_QuerySubmitted">
+                                <AutoSuggestBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Value, Mode=OneTime}"/>
+                                    </DataTemplate>
+                                </AutoSuggestBox.ItemTemplate>
+                            </AutoSuggestBox>                                           
 
                             <!--<Grid Margin="0,0,0,8">
                             <Grid.Resources>

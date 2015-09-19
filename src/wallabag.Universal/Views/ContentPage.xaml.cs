@@ -15,8 +15,10 @@ namespace wallabag.Views
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
-        public ObservableCollection<string> SearchBoxSuggestions { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> TitleList { get; set; } = new ObservableCollection<string>();
+
+        public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
+        public ObservableCollection<KeyValuePair<int, string>> SearchBoxSuggestions { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
+
         public ObservableCollection<Tag> MultipleSelectionTags { get; set; }
 
         public ContentPage()
@@ -32,9 +34,9 @@ namespace wallabag.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            List<Models.Item> allItems= await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All});
+            List<Item> allItems= await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All});
             foreach (var item in allItems)
-                TitleList.Add(item.Title);
+                PossibleSearchBoxResults.Add(new KeyValuePair<int, string>(item.Id, item.Title));
         }
 
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -45,7 +47,7 @@ namespace wallabag.Views
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<string>(TitleList.Where(t=>t.ToLower().Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<KeyValuePair<int,string>>(PossibleSearchBoxResults.Where(t=>t.Value.ToLower().Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -55,11 +57,11 @@ namespace wallabag.Views
             }
         }
 
-        private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
             {
-                var id = (await DataService.GetItemAsync((sender as AutoSuggestBox).Text)).Id;
+                var id = ((KeyValuePair<int,string>)args.ChosenSuggestion).Key;
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
             // TODO: Implement a search page in case the user didn't chose a suggestion.
