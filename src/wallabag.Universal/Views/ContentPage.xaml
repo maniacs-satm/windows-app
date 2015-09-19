@@ -114,13 +114,14 @@
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        
         <DataTemplate x:Name="PivotContentTemplate">
             <GridView x:Name="ItemGridView"
-        	              ItemsSource="{Binding Items}"
-        	              IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
-                          Padding="0,4"
-        	              ItemClick="ItemGridView_ItemClick"                      
-        	              EntranceNavigationTransitionInfo.IsTargetElement="True">
+        	          ItemsSource="{Binding Items}"
+        	          IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                      Padding="4"
+        	          ItemClick="ItemGridView_ItemClick"                      
+        	          EntranceNavigationTransitionInfo.IsTargetElement="True">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:ItemViewModel">
                         <controls:ItemControl/>
@@ -136,7 +137,9 @@
         <Style TargetType="PivotHeaderItem">
             <Setter Property="RequestedTheme" Value="Dark"/>
         </Style>
-
+        <Style TargetType="PivotItem">
+            <Setter Property="Margin" Value="0,0,0,48"/>
+        </Style>
     </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
@@ -194,13 +197,13 @@
         </Grid>
 
         <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
-            <Pivot SelectionChanged="Pivot_SelectionChanged">               
+            <Pivot SelectionChanged="Pivot_SelectionChanged">
                 <Pivot.HeaderTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0"/>
                     </DataTemplate>
                 </Pivot.HeaderTemplate>
-                <PivotItem Header="HOME" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem Header="UNREAD" ContentTemplate="{StaticResource PivotContentTemplate}"/>
                 <PivotItem Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
                 <PivotItem Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
             </Pivot>
