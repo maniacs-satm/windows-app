@@ -210,7 +210,7 @@
             <SplitView.Pane>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
-                        <StackPanel Margin="0,48" Padding="8">
+                        <StackPanel Margin="0,0,0,48" Padding="8">
                             <AutoSuggestBox x:Name="SearchBox"               
                                  QueryIcon="Find"
                                  PlaceholderText="Search..."
@@ -283,7 +283,7 @@
                                 <CalendarDatePicker x:Name="ToCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="to" Grid.Column="1" Margin="2,0" Header=" " Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}" MaxDate="{x:Bind ViewModel.MaxDate}"/>
                             </Grid>
                         </StackPanel>
-                        <Grid x:Name="buttonGrid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" Margin="0,135,0,0">
+                        <Grid x:Name="buttonGrid" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" Margin="0,100,0,0">
                             <Grid.RenderTransform>
                                 <CompositeTransform/>
                             </Grid.RenderTransform>
