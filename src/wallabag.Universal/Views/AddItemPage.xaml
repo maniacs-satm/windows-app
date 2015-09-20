@@ -8,9 +8,6 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    <Page.DataContext>
-       <vm:AddItemPageViewModel />
-    </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
