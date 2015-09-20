@@ -156,9 +156,6 @@
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ShareTarget.xaml.cs">
-      <DependentUpon>ShareTarget.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SingleItemPage.xaml.cs">
       <DependentUpon>SingleItemPage.xaml</DependentUpon>
     </Compile>
@@ -264,10 +261,6 @@
     <Page Include="Views\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ShareTarget.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SingleItemPage.xaml">
       <Generator>MSBuild:Compile</Generator>

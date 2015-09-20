@@ -13,20 +13,38 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="HideHeaderVisualState">
+                    <VisualState.Setters>
+                        <Setter Target="headerRow.Height" Value="0"/>
+                        <Setter Target="stackPanel.Margin" Value="32"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>
+            <RowDefinition x:Name="headerRow" Height="48"/>
             <RowDefinition />
+            <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <TextBlock Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
-        <StackPanel Grid.Row="1" Margin="16,8,16,48">
-            <TextBox Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind ViewModel.Url, Mode=TwoWay}"/>
-            <controls:TagControl Margin="0,4" Tags="{Binding Tags, Mode=TwoWay}"/>
+        <StackPanel x:Name="stackPanel" Grid.Row="1" Margin="8">
+            <TextBox x:Name="urlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind Url, Mode=TwoWay}"/>
+            <controls:TagControl x:Name="tagControl" Margin="0,4" Tags="{x:Bind Tags, Mode=TwoWay}"/>
         </StackPanel>
-        <CommandBar VerticalAlignment="Bottom" Grid.Row="1">
-            <AppBarButton Icon="Accept" Label="Add" Command="{Binding AddItemCommand}"/>
-            <AppBarButton Icon="Cancel" Label="Cancel" Command="{Binding CancelCommand}"/>
-        </CommandBar>
+        <ProgressRing x:Name="savingIndicator"
+                      IsActive="True"
+                      Height="64"
+                      Width="64"
+                      Grid.Row="1" 
+                      VerticalAlignment="Center" 
+                      HorizontalAlignment="Center" 
+                      Visibility="Collapsed"/>     
+        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark" Grid.Row="2">
+            <AppBarButton x:Name="addItemAppBarButton" IsCompact="True" Icon="Accept" HorizontalAlignment="Center" Command="{x:Bind AddItemCommand}"/>
+        </Grid>
     </Grid>   
 </Page>

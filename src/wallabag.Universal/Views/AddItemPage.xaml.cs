@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+using wallabag.Common;
+using wallabag.Common.Mvvm;
+using wallabag.Models;
+using wallabag.Services;
+using Windows.ApplicationModel.DataTransfer.ShareTarget;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
@@ -23,9 +18,39 @@ namespace wallabag.Views
     public sealed partial class AddItemPage : Page
     {
         public ViewModels.AddItemPageViewModel ViewModel { get { return (ViewModels.AddItemPageViewModel)DataContext; } }
+
+        private ShareOperation shareOperation;
+
+        public string Url { get; set; }
+        public ICollection<Tag> Tags { get; set; }
+
+        public Command AddItemCommand { get; private set; }
+        public Command CancelCommand { get; private set; }
+
         public AddItemPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            AddItemCommand = new Command(async () =>
+            {
+                addItemAppBarButton.IsEnabled = false;
+                urlTextBox.IsEnabled = false;
+                tagControl.IsEnabled = false;
+                savingIndicator.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
+                await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
+                shareOperation.ReportCompleted();
+            });
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter != null)
+            {
+                shareOperation = (ShareOperation)e.Parameter;
+                Url = (await shareOperation.Data.GetWebLinkAsync()).ToString();
+
+                HideHeaderVisualState.StateTriggers.Add(new WindowsStateTriggers.DeviceFamilyStateTrigger() { DeviceFamily = WindowsStateTriggers.DeviceFamily.Desktop });
+            }
         }
     }
 }
