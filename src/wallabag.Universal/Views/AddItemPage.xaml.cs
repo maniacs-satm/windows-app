@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using wallabag.Common;
 using wallabag.Common.Mvvm;
 using wallabag.Models;
@@ -30,6 +31,10 @@ namespace wallabag.Views
         public AddItemPage()
         {
             InitializeComponent();
+
+            Url = string.Empty;
+            Tags = new ObservableCollection<Tag>();
+
             AddItemCommand = new Command(async () =>
             {
                 addItemAppBarButton.IsEnabled = false;
@@ -38,7 +43,14 @@ namespace wallabag.Views
                 savingIndicator.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
                 await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
-                shareOperation.ReportCompleted();
+
+                Url = string.Empty;
+                Tags.Clear();
+
+                if (Services.NavigationService.NavigationService.ApplicationNavigationService.CanGoBack)
+                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
+                else
+                    shareOperation.ReportCompleted();
             });
         }
 
