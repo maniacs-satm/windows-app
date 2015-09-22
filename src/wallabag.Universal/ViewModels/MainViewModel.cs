@@ -30,6 +30,21 @@ namespace wallabag.ViewModels
         #region Tasks & Commands
         public async Task LoadItemsAsync()
         {
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                for (int i = 0; i < 32; i++)
+                    Items.Add(new ItemViewModel(new Item()
+                    {
+                        Id = i,
+                        Title = $"Design item {i}",
+                        PreviewPictureUri = "http://lorempixel.com/400/200/"
+                    }));
+
+                Tags = new ObservableCollection<Tag>();
+                DomainNames = new ObservableCollection<string>();
+                return;
+            }
+
             Items.Clear();
             foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
                 Items.Add(new ItemViewModel(i));
