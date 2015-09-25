@@ -159,12 +159,7 @@ namespace wallabag.Common
             get { return GetProperty(nameof(TextAlignment), "left"); }
             set { SetProperty(nameof(TextAlignment), value); }
         }
-
-        public static bool UseSystemAccentColor
-        {
-            get { return GetProperty(nameof(UseSystemAccentColor), true); }
-            set { SetProperty(nameof(UseSystemAccentColor), value); }
-        }
+        
         public static bool NavigateBackAfterReadingAnArticle
         {
             get { return GetProperty(nameof(NavigateBackAfterReadingAnArticle), true); }

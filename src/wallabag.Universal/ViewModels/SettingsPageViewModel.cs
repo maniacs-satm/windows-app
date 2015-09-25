@@ -37,12 +37,7 @@ namespace wallabag.ViewModels
             get { return AppSettings.ColorScheme; }
             set { AppSettings.ColorScheme = value; }
         }
-
-        public bool UseSystemAccentColor
-        {
-            get { return AppSettings.UseSystemAccentColor; }
-            set { AppSettings.UseSystemAccentColor = value; }
-        }
+        
         public bool NavigateBackAfterReadingAnArticle
         {
             get { return AppSettings.NavigateBackAfterReadingAnArticle; }

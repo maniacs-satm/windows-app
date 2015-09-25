@@ -104,10 +104,6 @@ namespace wallabag.Common
 
         private async void InternalLaunchAsync(ILaunchActivatedEventArgs e)
         {
-            // Change the accent color to #666666 if enabled in settings
-            if (!Common.AppSettings.UseSystemAccentColor)
-                Current.Resources["SystemAccentColor"] = Windows.UI.ColorHelper.FromArgb(0xFF, 0x66, 0x66, 0x66);
-
             UIElement splashScreen = default(UIElement);
             if (SplashFactory != null)
             {
