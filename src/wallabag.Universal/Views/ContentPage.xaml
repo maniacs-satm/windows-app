@@ -112,9 +112,9 @@
                             </ComboBox>
 
                             <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding DomainNames}" SelectedItem="{Binding LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
+                                      ItemsSource="{x:Bind ViewModel.DomainNames, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
                             <ComboBox x:Name="tagComboBox" Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                                  ItemsSource="{Binding Tags}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
+                                      ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="m:Tag">
                                         <StackPanel Orientation="Horizontal">
@@ -130,8 +130,24 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <CalendarDatePicker x:Name="FromCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="from" Margin="2,0" Header="Creation date" Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateFrom, Mode=TwoWay}" MaxDate="{Binding LastUsedFilterProperties.CreationDateTo}"/>
-                                <CalendarDatePicker x:Name="ToCalendarDatePicker" HorizontalAlignment="Stretch" PlaceholderText="to" Grid.Column="1" Margin="2,0" Header=" " Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}" MaxDate="{x:Bind ViewModel.MaxDate}"/>
+                                <CalendarDatePicker
+                                    x:Name="FromCalendarDatePicker"
+                                    HorizontalAlignment="Stretch"
+                                    PlaceholderText="from"
+                                    Margin="2,0"
+                                    Header="Creation date"
+                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateFrom, Mode=TwoWay}"
+                                    MaxDate="{Binding LastUsedFilterProperties.CreationDateTo}"/>
+                                <CalendarDatePicker
+                                    x:Name="ToCalendarDatePicker"
+                                    HorizontalAlignment="Stretch"
+                                    PlaceholderText="to"
+                                    Grid.Column="1"
+                                    Margin="2,0"
+                                    Header=" "
+                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}"
+                                    MinDate="{Binding LastUsedFilterProperties.CreationDateFrom, Mode=OneWay}"
+                                    MaxDate="{x:Bind ViewModel.MaxDate}"/>
                             </Grid>
                         </StackPanel>
                     </Grid>
