@@ -22,6 +22,7 @@ namespace wallabag.Views
         #region Context menu
         private bool _IsShiftPressed = false;
         private bool _IsPointerPressed = false;
+        private ItemViewModel _FocusedItem;
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
@@ -38,12 +39,11 @@ namespace wallabag.Views
             {
                 var FocusedUIElement = FocusManager.GetFocusedElement() as UIElement;
 
-                ItemViewModel FocusedItem = null;
                 if (FocusedUIElement is ContentControl)
                 {
-                    FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
+                    _FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
                 }
-                ShowContextMenu(FocusedItem, FocusedUIElement, new Point(0, 0));
+                ShowContextMenu(_FocusedItem, FocusedUIElement, new Point(0, 0));
                 e.Handled = true;
             }
 
@@ -51,12 +51,11 @@ namespace wallabag.Views
             else if (e.Key == Windows.System.VirtualKey.Application)
             {
                 var FocusedUIElement = FocusManager.GetFocusedElement() as UIElement;
-                ItemViewModel FocusedItem = null;
                 if (FocusedUIElement is ContentControl)
                 {
-                    FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
+                    _FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
                 }
-                ShowContextMenu(FocusedItem, FocusedUIElement, new Point(0, 0));
+                ShowContextMenu(_FocusedItem, FocusedUIElement, new Point(0, 0));
                 e.Handled = true;
             }
 
@@ -77,8 +76,8 @@ namespace wallabag.Views
             {
                 var PointerPosition = e.GetPosition(null);
 
-                var MyObject = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
-                ShowContextMenu(MyObject, null, PointerPosition);
+                _FocusedItem = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+                ShowContextMenu(_FocusedItem, null, PointerPosition);
                 e.Handled = true;
 
                 // This, combined with a check in OnRightTapped prevents the firing of RightTapped from
@@ -108,9 +107,9 @@ namespace wallabag.Views
         {
             if (_IsPointerPressed)
             {
-                var FocusedItem = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+                _FocusedItem = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
 
-                ShowContextMenu(FocusedItem, null, e.GetPosition(null));
+                ShowContextMenu(_FocusedItem, null, e.GetPosition(null));
                 e.Handled = true;
             }
 
@@ -118,8 +117,11 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
         {
-            var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
-            MyFlyout.ShowAt(target, offset);
+            if (data != null)
+            {
+                var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
+                MyFlyout.ShowAt(target, offset);
+            }
         }
 
         private void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e) { }
