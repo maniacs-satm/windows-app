@@ -6,6 +6,7 @@ using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
 using wallabag.ViewModels;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -33,6 +34,11 @@ namespace wallabag.Views
         protected override void OnRightTapped(RightTappedRoutedEventArgs e)
         {
             base.OnRightTapped(e);
+        }
+        private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
+        {
+            var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
+            MyFlyout.ShowAt(target, offset);
         }
         #endregion
 
