@@ -19,8 +19,46 @@ namespace wallabag.Views
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
 
         #region Context menu
+        private bool _IsShiftPressed = false;
+        private bool _IsPointerPressed = false;
+
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
+            // Handle Shift+F10
+            // Handle MenuKey
+
+            if (e.Key == Windows.System.VirtualKey.Shift)
+            {
+                _IsShiftPressed = true;
+            }
+
+            // Shift+F10
+            else if (_IsShiftPressed && e.Key == Windows.System.VirtualKey.F10)
+            {
+                var FocusedUIElement = FocusManager.GetFocusedElement() as UIElement;
+
+                ItemViewModel FocusedItem = null;
+                if (FocusedUIElement is ContentControl)
+                {
+                    FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
+                }
+                ShowContextMenu(FocusedItem, FocusedUIElement, new Point(0, 0));
+                e.Handled = true;
+            }
+
+            // The 'Menu' key next to Right Ctrl on most keyboards
+            else if (e.Key == Windows.System.VirtualKey.Application)
+            {
+                var FocusedUIElement = FocusManager.GetFocusedElement() as UIElement;
+                ItemViewModel FocusedItem = null;
+                if (FocusedUIElement is ContentControl)
+                {
+                    FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
+                }
+                ShowContextMenu(FocusedItem, FocusedUIElement, new Point(0, 0));
+                e.Handled = true;
+            }
+
             base.OnKeyDown(e);
         }
         protected override void OnKeyUp(KeyRoutedEventArgs e)
