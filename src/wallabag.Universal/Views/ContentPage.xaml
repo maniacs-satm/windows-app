@@ -114,7 +114,7 @@
                             <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
                                       ItemsSource="{x:Bind ViewModel.DomainNames, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
                             <ComboBox x:Name="tagComboBox" Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
-                                      ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
+                                      ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate x:DataType="m:Tag">
                                         <StackPanel Orientation="Horizontal">
