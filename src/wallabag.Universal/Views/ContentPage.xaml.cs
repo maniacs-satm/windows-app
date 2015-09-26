@@ -63,10 +63,15 @@ namespace wallabag.Views
         }
         protected override void OnKeyUp(KeyRoutedEventArgs e)
         {
-            base.OnKeyUp(e);        
+            if (e.Key == Windows.System.VirtualKey.Shift)
+                _IsShiftPressed = false;
+
+            base.OnKeyUp(e);
         }
         protected override void OnPointerPressed(PointerRoutedEventArgs e)
         {
+            _IsPointerPressed = true;
+
             base.OnPointerPressed(e);
         }
         protected override void OnRightTapped(RightTappedRoutedEventArgs e)
@@ -98,7 +103,7 @@ namespace wallabag.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            List<Item> allItems= await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All});
+            List<Item> allItems = await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
             foreach (var item in allItems)
                 PossibleSearchBoxResults.Add(new KeyValuePair<int, string>(item.Id, item.Title));
         }
@@ -111,7 +116,7 @@ namespace wallabag.Views
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<KeyValuePair<int,string>>(PossibleSearchBoxResults.Where(t=>t.Value.ToLower().Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<KeyValuePair<int, string>>(PossibleSearchBoxResults.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -125,7 +130,7 @@ namespace wallabag.Views
         {
             if (args.ChosenSuggestion != null)
             {
-                var id = ((KeyValuePair<int,string>)args.ChosenSuggestion).Key;
+                var id = ((KeyValuePair<int, string>)args.ChosenSuggestion).Key;
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
             // TODO: Implement a search page in case the user didn't chose a suggestion.
