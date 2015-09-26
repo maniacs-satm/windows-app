@@ -191,3 +191,5 @@ src/wallabag.Universal/project.lock.json
 WebEssentials2015-Settings.json
 .vs/config/applicationhost.config
 src/wallabag.Universal/wallabag.nuget.targets
+src/wallabag.Tasks/project.lock.json
+src/wallabag.Tasks/wallabag.Tasks.nuget.targets
