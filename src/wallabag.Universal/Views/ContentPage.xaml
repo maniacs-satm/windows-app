@@ -35,6 +35,15 @@
         <Style TargetType="PivotItem">
             <Setter Property="Margin" Value="0,0,0,48"/>
         </Style>
+        <MenuFlyout x:Key="ItemContextMenu">
+            <MenuFlyoutItem Text="Mark as read"/>
+            <MenuFlyoutItem Text="Mark as favorite"/>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Share"/>
+            <MenuFlyoutItem Text="Open in browser"/>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Delete"/>
+        </MenuFlyout>
     </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
