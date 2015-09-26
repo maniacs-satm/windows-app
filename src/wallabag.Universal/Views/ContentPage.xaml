@@ -36,13 +36,13 @@
             <Setter Property="Margin" Value="0,0,0,48"/>
         </Style>
         <MenuFlyout x:Key="ItemContextMenu">
-            <MenuFlyoutItem Text="Mark as read"/>
-            <MenuFlyoutItem Text="Mark as favorite"/>
+            <MenuFlyoutItem x:Name="ContextMenuMarkAsRead" Text="Mark as read"/>
+            <MenuFlyoutItem x:Name="ContextMenuMarkAsFavorite" Text="Mark as favorite"/>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem Text="Share"/>
-            <MenuFlyoutItem Text="Open in browser"/>
+            <MenuFlyoutItem x:Name="ContextMenuShareItem" Text="Share"/>
+            <MenuFlyoutItem x:Name="ContextMenuOpenInBrowser" Text="Open in browser"/>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem Text="Delete"/>
+            <MenuFlyoutItem x:Name="ContextMenuDeleteItem" Text="Delete"/>
         </MenuFlyout>
     </Page.Resources>
     <Page.DataContext>
