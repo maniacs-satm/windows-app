@@ -118,35 +118,6 @@ namespace wallabag.Views
             //    await item.DeleteItemAsync();
         }
 
-        private void FilterRadioButton_CheckedChanged(object sender, RoutedEventArgs e)
-        {
-            //if (sender == AllItemsFilterRadioButton)
-            //    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
-            //else if (sender == UnreadItemsFilterRadioButton)
-            //    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
-            //else if (sender == StarredItemsFilterRadioButton)
-            //    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
-            //else if (sender == ArchivedItemsFilterRadioButton)
-            //    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
-            //else if (sender == DeletedItemsFilterRadioButton)
-            //    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
-        }
-
-        private bool MoreOptionsAreVisible = false;
-        private void ShowMoreFilterOptionsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (MoreOptionsAreVisible)
-            {
-                ShowLessFilterOptionsStoryboard.Begin();
-                MoreOptionsAreVisible = false;
-            }
-            else
-            {
-                ShowMoreFilterOptionsStoryboard.Begin();
-                MoreOptionsAreVisible = true;
-            }
-        }
-
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             switch ((sender as Pivot).SelectedIndex)
