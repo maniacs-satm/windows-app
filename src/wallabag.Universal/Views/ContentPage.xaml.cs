@@ -10,6 +10,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
@@ -68,6 +69,36 @@ namespace wallabag.Views
 
             base.OnKeyUp(e);
         }
+        protected override void OnHolding(HoldingRoutedEventArgs e)
+        {
+            // Responding to HoldingState.Started will show a context menu while your finger is still down, while 
+            // HoldingState.Completed will wait until the user has removed their finger. 
+            if (e.HoldingState == Windows.UI.Input.HoldingState.Completed)
+            {
+                var PointerPosition = e.GetPosition(null);
+
+                var MyObject = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+                ShowContextMenu(MyObject, null, PointerPosition);
+                e.Handled = true;
+
+                // This, combined with a check in OnRightTapped prevents the firing of RightTapped from
+                // launching another context menu
+                _IsPointerPressed = false;
+
+                // This prevents any scrollviewers from continuing to pan once the context menu is displayed.  
+                // Ideally, you should find the ListViewItem itself and only CancelDirectMinpulations on that item.  
+
+                // TODO: Need to find a way to parse the current ItemGridView.
+                //var ItemsToCancel = VisualTreeHelper.FindElementsInHostCoordinates(PointerPosition, ItemGridView);
+                //foreach (var Item in ItemsToCancel)
+                //{
+                //    var Result = Item.CancelDirectManipulations();
+                //}
+            }
+
+            base.OnHolding(e);
+        }
+
         protected override void OnPointerPressed(PointerRoutedEventArgs e)
         {
             _IsPointerPressed = true;
