@@ -98,7 +98,6 @@ namespace wallabag.Views
 
             base.OnHolding(e);
         }
-
         protected override void OnPointerPressed(PointerRoutedEventArgs e)
         {
             _IsPointerPressed = true;
@@ -122,6 +121,12 @@ namespace wallabag.Views
             var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
             MyFlyout.ShowAt(target, offset);
         }
+
+        private void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e) { }
+        private void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e) { }
+        private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e) { }
+        private void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e) { }
+        private void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e) { }
         #endregion
 
         public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
