@@ -76,6 +76,14 @@ namespace wallabag.Views
         }
         protected override void OnRightTapped(RightTappedRoutedEventArgs e)
         {
+            if (_IsPointerPressed)
+            {
+                var FocusedItem = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+
+                ShowContextMenu(FocusedItem, null, e.GetPosition(null));
+                e.Handled = true;
+            }
+
             base.OnRightTapped(e);
         }
         private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
