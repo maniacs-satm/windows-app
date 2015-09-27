@@ -80,7 +80,7 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton IsCompact="True">
+                <AppBarButton IsCompact="True" Command="{Binding ShareCommand}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
                     </AppBarButton.Icon>
