@@ -6,7 +6,9 @@ using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
 using wallabag.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -124,11 +126,25 @@ namespace wallabag.Views
             }
         }
 
-        private void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e) { }
-        private void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e) { }
-        private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e) { }
-        private void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e) { }
-        private void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e) { }
+        private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
+            => await _FocusedItem.SwitchReadValueAsync();
+        private async void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e)
+            => await _FocusedItem.SwitchFavoriteValueAsync();
+        private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e)
+        {
+            DataTransferManager.GetForCurrentView().DataRequested += (s, args) =>
+              {
+                  var data = args.Request.Data;
+
+                  data.SetWebLink(new Uri(_FocusedItem.Model.Url));
+                  data.Properties.Title = _FocusedItem.Model.Title;
+              };
+            DataTransferManager.ShowShareUI();
+        }
+        private async void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e)
+            => await Launcher.LaunchUriAsync(new Uri(_FocusedItem.Model.Url));
+        private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
+            => await _FocusedItem.DeleteItemAsync();
         #endregion
 
         public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
