@@ -75,8 +75,12 @@ namespace wallabag.Views
         {
             if (_IsPointerPressed)
             {
-                ShowContextMenu(e.OriginalSource as FrameworkElement);
                 _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+
+                if (AppSettings.UseClassicContextMenuForMouseInput)
+                    ShowContextMenu(_LastFocusedItemViewModel, null, e.GetPosition(null));
+                else
+                    ShowContextMenu(e.OriginalSource as FrameworkElement);
 
                 e.Handled = true;
             }
