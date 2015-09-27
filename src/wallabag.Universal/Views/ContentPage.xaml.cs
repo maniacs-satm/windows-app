@@ -9,6 +9,7 @@ using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -24,40 +25,25 @@ namespace wallabag.Views
         #region Context menu
         private bool _IsShiftPressed = false;
         private bool _IsPointerPressed = false;
-        private ItemViewModel _FocusedItem;
+        private ItemViewModel _LastFocusedItemViewModel;
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
             // Handle Shift+F10
             // Handle MenuKey
 
-            if (e.Key == Windows.System.VirtualKey.Shift)
-            {
+            if (e.Key == VirtualKey.Shift)
                 _IsShiftPressed = true;
-            }
 
-            // Shift+F10
-            else if (_IsShiftPressed && e.Key == Windows.System.VirtualKey.F10)
-            {
-                var FocusedUIElement = FocusManager.GetFocusedElement() as UIElement;
-
-                if (FocusedUIElement is ContentControl)
-                {
-                    _FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
-                }
-                ShowContextMenu(_FocusedItem, FocusedUIElement, new Point(0, 0));
-                e.Handled = true;
-            }
-
-            // The 'Menu' key next to Right Ctrl on most keyboards
-            else if (e.Key == Windows.System.VirtualKey.Application)
+            // Shift+F10 or the 'Menu' key next to Right Ctrl on most keyboards
+            else if (_IsShiftPressed && e.Key == VirtualKey.F10
+                    || e.Key == VirtualKey.Application)
             {
                 var FocusedUIElement = FocusManager.GetFocusedElement() as UIElement;
                 if (FocusedUIElement is ContentControl)
-                {
-                    _FocusedItem = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
-                }
-                ShowContextMenu(_FocusedItem, FocusedUIElement, new Point(0, 0));
+                    _LastFocusedItemViewModel = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
+
+                ShowContextMenu(_LastFocusedItemViewModel, FocusedUIElement, new Point(0, 0));
                 e.Handled = true;
             }
 
@@ -65,37 +51,17 @@ namespace wallabag.Views
         }
         protected override void OnKeyUp(KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Shift)
+            if (e.Key == VirtualKey.Shift)
                 _IsShiftPressed = false;
 
             base.OnKeyUp(e);
         }
         protected override void OnHolding(HoldingRoutedEventArgs e)
         {
-            // Responding to HoldingState.Started will show a context menu while your finger is still down, while 
-            // HoldingState.Completed will wait until the user has removed their finger. 
-            if (e.HoldingState == Windows.UI.Input.HoldingState.Completed)
-            {
-                var PointerPosition = e.GetPosition(null);
-
-                _FocusedItem = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
-                ShowContextMenu(_FocusedItem, null, PointerPosition);
-                e.Handled = true;
-
-                // This, combined with a check in OnRightTapped prevents the firing of RightTapped from
-                // launching another context menu
-                _IsPointerPressed = false;
-
-                // This prevents any scrollviewers from continuing to pan once the context menu is displayed.  
-                // Ideally, you should find the ListViewItem itself and only CancelDirectMinpulations on that item.  
-
-                // TODO: Need to find a way to parse the current ItemGridView.
-                //var ItemsToCancel = VisualTreeHelper.FindElementsInHostCoordinates(PointerPosition, ItemGridView);
-                //foreach (var Item in ItemsToCancel)
-                //{
-                //    var Result = Item.CancelDirectManipulations();
-                //}
-            }
+            ShowContextMenu(e.OriginalSource as FrameworkElement);
+            _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+            
+            e.Handled = true;
 
             base.OnHolding(e);
         }
@@ -109,9 +75,9 @@ namespace wallabag.Views
         {
             if (_IsPointerPressed)
             {
-                _FocusedItem = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+                ShowContextMenu(e.OriginalSource as FrameworkElement);
+                _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
 
-                ShowContextMenu(_FocusedItem, null, e.GetPosition(null));
                 e.Handled = true;
             }
 
@@ -125,26 +91,40 @@ namespace wallabag.Views
                 MyFlyout.ShowAt(target, offset);
             }
         }
+        private void ShowContextMenu(FrameworkElement element)
+        {
+            if (element.GetType() == typeof(Grid))
+            {
+                var _grid = element as Grid;
+                if (_grid.Name == "ContextMenuGrid")
+                {
+                    foreach (var item in _grid.Children)
+                        (item as StackPanel).Visibility = Visibility.Visible;
+
+                    _grid.Background = new SolidColorBrush(Color.FromArgb(0xCC, 0xFF, 0xFF, 0xFF));
+                }
+            }
+        }
 
         private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
-            => await _FocusedItem.SwitchReadValueAsync();
+            => await _LastFocusedItemViewModel.SwitchReadValueAsync();
         private async void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e)
-            => await _FocusedItem.SwitchFavoriteValueAsync();
+            => await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
         private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e)
         {
             DataTransferManager.GetForCurrentView().DataRequested += (s, args) =>
               {
                   var data = args.Request.Data;
 
-                  data.SetWebLink(new Uri(_FocusedItem.Model.Url));
-                  data.Properties.Title = _FocusedItem.Model.Title;
+                  data.SetWebLink(new Uri(_LastFocusedItemViewModel.Model.Url));
+                  data.Properties.Title = _LastFocusedItemViewModel.Model.Title;
               };
             DataTransferManager.ShowShareUI();
         }
         private async void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e)
-            => await Launcher.LaunchUriAsync(new Uri(_FocusedItem.Model.Url));
+            => await Launcher.LaunchUriAsync(new Uri(_LastFocusedItemViewModel.Model.Url));
         private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
-            => await _FocusedItem.DeleteItemAsync();
+            => await _LastFocusedItemViewModel.DeleteItemAsync();
         #endregion
 
         public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
