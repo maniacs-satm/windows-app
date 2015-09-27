@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -12,6 +11,7 @@ using wallabag.Common.Mvvm;
 using wallabag.Models;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
 
@@ -40,6 +40,7 @@ namespace wallabag.ViewModels
                 };
                 DataTransferManager.ShowShareUI();
             });
+            OpenInBrowserCommand = new Command(async () => { await Launcher.LaunchUriAsync(new Uri(Model.Url)); });
 
             GetIntroSentence();
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
@@ -53,6 +54,7 @@ namespace wallabag.ViewModels
         public Command SwitchReadStatusCommand { get; private set; }
         public Command SwitchFavoriteStatusCommand { get; private set; }
         public Command ShareCommand { get; private set; }
+        public Command OpenInBrowserCommand { get; private set; }
 
         #region Methods
         public async Task CreateContentFromTemplateAsync()

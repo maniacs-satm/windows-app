@@ -73,18 +73,12 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="Collapsed">
                 <AppBarButton IsCompact="True" Icon="Accept" Command="{Binding SwitchReadStatusCommand}"/>
                 <AppBarButton IsCompact="True" Icon="Favorite" Command="{Binding SwitchFavoriteStatusCommand}"/>
-                <AppBarButton IsCompact="True" Icon="Tag">
-                    <AppBarButton.Flyout>
-                        <Flyout>
-                            <controls:TagControl/>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
                 <AppBarButton IsCompact="True" Command="{Binding ShareCommand}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
+                <AppBarButton IsCompact="True" Icon="World" Command="{Binding OpenInBrowserCommand}"/>
                 <AppBarButton IsCompact="True" Icon="Delete" Command="{Binding DeleteCommand}"/>
             </StackPanel>
 
