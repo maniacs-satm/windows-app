@@ -60,7 +60,7 @@ namespace wallabag.Views
         {
             ShowContextMenu(e.OriginalSource as FrameworkElement);
             _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
-            
+
             e.Handled = true;
 
             base.OnHolding(e);
@@ -111,16 +111,7 @@ namespace wallabag.Views
         private async void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e)
             => await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
         private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e)
-        {
-            DataTransferManager.GetForCurrentView().DataRequested += (s, args) =>
-              {
-                  var data = args.Request.Data;
-
-                  data.SetWebLink(new Uri(_LastFocusedItemViewModel.Model.Url));
-                  data.Properties.Title = _LastFocusedItemViewModel.Model.Title;
-              };
-            DataTransferManager.ShowShareUI();
-        }
+            => _LastFocusedItemViewModel.ShareCommand.Execute(null);
         private async void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e)
             => await Launcher.LaunchUriAsync(new Uri(_LastFocusedItemViewModel.Model.Url));
         private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
