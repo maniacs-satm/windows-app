@@ -106,8 +106,20 @@ namespace wallabag.Views
                         (item as StackPanel).Visibility = Visibility.Visible;
 
                     _grid.Background = new SolidColorBrush(Color.FromArgb(0xCC, 0xFF, 0xFF, 0xFF));
+                    _grid.PointerExited += _grid_PointerExited;
                 }
             }
+        }
+
+        private void _grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            var grid = (sender as Grid);
+            foreach (var item in grid.Children)
+                (item as StackPanel).Visibility = Visibility.Collapsed;
+
+            grid.Background = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xFF, 0xFF));
+
+            grid.PointerExited -= _grid_PointerExited;
         }
 
         private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
