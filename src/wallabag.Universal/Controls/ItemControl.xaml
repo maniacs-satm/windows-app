@@ -16,7 +16,7 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="HeaderImage.Visibility" Value="Collapsed"/>
-                        <Setter Target="StackPanel.Background" Value="Transparent"/>
+                        <Setter Target="BottomGrid.Background" Value="Transparent"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -40,11 +40,11 @@
 
         <Image x:Name="HeaderImage" Stretch="UniformToFill"
                Source="{Binding Model.PreviewPictureUri, Mode=OneTime}"/>
-        <Grid x:Name="StackPanel"
-                    VerticalAlignment="Bottom" 
-                    Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" 
-                    Padding="16" 
-                    Grid.Row="1">
+        <Grid x:Name="BottomGrid"
+              VerticalAlignment="Bottom" 
+              Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" 
+              Padding="16" 
+              Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition Height="auto"/>
@@ -99,8 +99,8 @@
                 </Storyboard>
             </Grid.Resources>
             <StackPanel x:Name="stackPanel" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Visibility="Collapsed" Opacity="0">
-                <AppBarButton IsCompact="True" Icon="Accept" Command="{Binding SwitchReadStatusCommand}"/>
-                <AppBarButton IsCompact="True" Icon="Favorite" Command="{Binding SwitchFavoriteStatusCommand}"/>
+                <AppBarButton IsCompact="True" Icon="{Binding Model.IsRead, Converter={StaticResource ReadToIconConverter}}" Command="{Binding SwitchReadStatusCommand}"/>
+                <AppBarButton IsCompact="True" Icon="{Binding Model.IsStarred, Converter={StaticResource FavoriteToIconConverter}}" Command="{Binding SwitchFavoriteStatusCommand}"/>
                 <AppBarButton IsCompact="True" Command="{Binding ShareCommand}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
