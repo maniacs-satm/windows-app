@@ -6,14 +6,12 @@ using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
 using wallabag.ViewModels;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
@@ -99,14 +97,11 @@ namespace wallabag.Views
         {
             if (element.GetType() == typeof(Grid))
             {
-                var _grid = element as Grid;
-                if (_grid.Name == "ContextMenuGrid")
+                var grid = element as Grid;
+                if (grid.Name == "ContextMenuGrid")
                 {
-                    foreach (var item in _grid.Children)
-                        (item as StackPanel).Visibility = Visibility.Visible;
-
-                    _grid.Background = new SolidColorBrush(Color.FromArgb(0xCC, 0xFF, 0xFF, 0xFF));
-                    _grid.PointerExited += _grid_PointerExited;
+                    (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
+                    grid.PointerExited += _grid_PointerExited;
                 }
             }
         }
@@ -114,10 +109,8 @@ namespace wallabag.Views
         private void _grid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             var grid = (sender as Grid);
-            foreach (var item in grid.Children)
-                (item as StackPanel).Visibility = Visibility.Collapsed;
 
-            grid.Background = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xFF, 0xFF));
+            (grid.Resources["HideContextMenu"] as Storyboard).Begin();
 
             grid.PointerExited -= _grid_PointerExited;
         }
