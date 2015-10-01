@@ -72,8 +72,8 @@
         <Grid x:Name="ContextMenuGrid" Grid.RowSpan="2" Background="Transparent">
             <Grid.Resources>
                 <Storyboard x:Name="ShowContextMenu">
-                    <ColorAnimation Duration="0:0:0.3" To="#CCFFFFFF" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ContextMenuGrid" d:IsOptimized="True"/>
-                    <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel" d:IsOptimized="True"/>
+                    <ColorAnimation Duration="0:0:0.2" To="#CCFFFFFF" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ContextMenuGrid" d:IsOptimized="True"/>
+                    <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel" d:IsOptimized="True"/>
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="stackPanel">
                         <DiscreteObjectKeyFrame KeyTime="0">
                             <DiscreteObjectKeyFrame.Value>
@@ -84,13 +84,13 @@
                 </Storyboard>
                 <Storyboard x:Name="HideContextMenu">
                     <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ContextMenuGrid">
-                        <SplineColorKeyFrame KeyTime="0:0:0.3" Value="Transparent"/>
+                        <SplineColorKeyFrame KeyTime="0:0:0.2" Value="Transparent"/>
                     </ColorAnimationUsingKeyFrames>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel">
-                        <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                        <SplineDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
                     </DoubleAnimationUsingKeyFrames>
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="stackPanel">
-                        <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                        <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
                             <DiscreteObjectKeyFrame.Value>
                                 <Visibility>Collapsed</Visibility>
                             </DiscreteObjectKeyFrame.Value>
