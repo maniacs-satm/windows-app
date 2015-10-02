@@ -107,7 +107,7 @@ namespace wallabag.Views
                     (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
 
             }
-        }        
+        }
 
         private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
@@ -249,6 +249,15 @@ namespace wallabag.Views
                     await ViewModel.LoadItemsAsync();
                     break;
             }
+        }
+
+        private void ItemGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var ItemGridView = sender as GridView;
+            if (e.NewSize.Width < 720)
+                ItemGridView.ItemsPanel = ListViewTemplate;
+            else
+                ItemGridView.ItemsPanel = GridViewTemplate;
         }
     }
 }
