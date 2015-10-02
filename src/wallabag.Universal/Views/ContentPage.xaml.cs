@@ -24,6 +24,7 @@ namespace wallabag.Views
         private bool _IsShiftPressed = false;
         private bool _IsPointerPressed = false;
         private ItemViewModel _LastFocusedItemViewModel;
+        private FrameworkElement _LastFocusedItem;
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
@@ -95,12 +96,22 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(FrameworkElement element)
         {
+            _LastFocusedItem = element;
             if (element.GetType() == typeof(Grid))
             {
                 var grid = element as Grid;
-                if (grid.Name == "ContextMenuGrid")                
+                if (grid.Name == "ContextMenuGrid")
                     (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
-                
+
+            }
+        }        
+
+        private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
+        {
+            if (_LastFocusedItem != null)
+            {
+                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
+                _LastFocusedItem = null;
             }
         }
 
