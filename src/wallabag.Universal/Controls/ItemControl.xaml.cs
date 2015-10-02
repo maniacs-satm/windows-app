@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using wallabag.Common;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace wallabag.Controls
@@ -8,7 +9,8 @@ namespace wallabag.Controls
         public ItemControl()
         {
             InitializeComponent();
-            ContextMenuGrid.PointerExited += (s, e) => HideTouchMenu();
+            if (!Helpers.IsPhone)
+                ContextMenuGrid.PointerExited += (s, e) => HideTouchMenu();
             ContextMenuGrid.PointerWheelChanged += (s, e) => HideTouchMenu();
 
             foreach (AppBarButton button in stackPanel.Children)
