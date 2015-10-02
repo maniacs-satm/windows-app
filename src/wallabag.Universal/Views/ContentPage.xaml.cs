@@ -98,21 +98,10 @@ namespace wallabag.Views
             if (element.GetType() == typeof(Grid))
             {
                 var grid = element as Grid;
-                if (grid.Name == "ContextMenuGrid")
-                {
+                if (grid.Name == "ContextMenuGrid")                
                     (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
-                    grid.PointerExited += _grid_PointerExited;
-                }
+                
             }
-        }
-
-        private void _grid_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            var grid = (sender as Grid);
-
-            (grid.Resources["HideContextMenu"] as Storyboard).Begin();
-
-            grid.PointerExited -= _grid_PointerExited;
         }
 
         private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
