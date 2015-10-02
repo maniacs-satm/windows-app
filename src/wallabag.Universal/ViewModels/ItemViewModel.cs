@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -10,7 +9,9 @@ using PropertyChanged;
 using wallabag.Common;
 using wallabag.Common.Mvvm;
 using wallabag.Models;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
 
@@ -28,6 +29,18 @@ namespace wallabag.ViewModels
             DeleteCommand = new Command(async () => await DeleteItemAsync());
             SwitchReadStatusCommand = new Command(async () => await SwitchReadValueAsync());
             SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteValueAsync());
+            ShareCommand = new Command(() =>
+            {
+                DataTransferManager.GetForCurrentView().DataRequested += (s, args) =>
+                {
+                    var data = args.Request.Data;
+
+                    data.SetWebLink(new Uri(Model.Url));
+                    data.Properties.Title = Model.Title;
+                };
+                DataTransferManager.ShowShareUI();
+            });
+            OpenInBrowserCommand = new Command(async () => { await Launcher.LaunchUriAsync(new Uri(Model.Url)); });
 
             GetIntroSentence();
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
@@ -40,6 +53,8 @@ namespace wallabag.ViewModels
         public Command DeleteCommand { get; private set; }
         public Command SwitchReadStatusCommand { get; private set; }
         public Command SwitchFavoriteStatusCommand { get; private set; }
+        public Command ShareCommand { get; private set; }
+        public Command OpenInBrowserCommand { get; private set; }
 
         #region Methods
         public async Task CreateContentFromTemplateAsync()
@@ -47,7 +62,7 @@ namespace wallabag.ViewModels
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Article/article.html"));
             string _template = await FileIO.ReadTextAsync(file);
 
-            string accentColor = Application.Current.Resources["SystemAccentColor"].ToString().Remove(1,2);
+            string accentColor = Application.Current.Resources["SystemAccentColor"].ToString().Remove(1, 2);
             StringBuilder styleSheetBuilder = new StringBuilder();
             styleSheetBuilder.Append("<style>");
             styleSheetBuilder.Append("hr {border-color: " + accentColor + " !important}");
@@ -179,7 +194,7 @@ namespace wallabag.ViewModels
         }
         public static async Task<bool> DeleteTagAsync(int ItemId, int TagId, bool IsOfflineAction = false)
         {
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete,$"/entries/{ItemId}/tags/{TagId}");
+            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete, $"/entries/{ItemId}/tags/{TagId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;

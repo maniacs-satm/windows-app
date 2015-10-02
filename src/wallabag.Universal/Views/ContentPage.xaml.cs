@@ -6,8 +6,12 @@ using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
 using wallabag.ViewModels;
+using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
@@ -15,6 +19,116 @@ namespace wallabag.Views
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
+
+        #region Context menu
+        private bool _IsShiftPressed = false;
+        private bool _IsPointerPressed = false;
+        private ItemViewModel _LastFocusedItemViewModel;
+        private FrameworkElement _LastFocusedItem;
+
+        protected override void OnKeyDown(KeyRoutedEventArgs e)
+        {
+            // Handle Shift+F10
+            // Handle MenuKey
+
+            if (e.Key == VirtualKey.Shift)
+                _IsShiftPressed = true;
+
+            // Shift+F10 or the 'Menu' key next to Right Ctrl on most keyboards
+            else if (_IsShiftPressed && e.Key == VirtualKey.F10
+                    || e.Key == VirtualKey.Application)
+            {
+                var FocusedUIElement = FocusManager.GetFocusedElement() as UIElement;
+                if (FocusedUIElement is ContentControl)
+                    _LastFocusedItemViewModel = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
+
+                ShowContextMenu(_LastFocusedItemViewModel, FocusedUIElement, new Point(0, 0));
+                e.Handled = true;
+            }
+
+            base.OnKeyDown(e);
+        }
+        protected override void OnKeyUp(KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Shift)
+                _IsShiftPressed = false;
+
+            base.OnKeyUp(e);
+        }
+        protected override void OnHolding(HoldingRoutedEventArgs e)
+        {
+            ShowContextMenu(e.OriginalSource as FrameworkElement);
+            _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+
+            e.Handled = true;
+
+            base.OnHolding(e);
+        }
+        protected override void OnPointerPressed(PointerRoutedEventArgs e)
+        {
+            _IsPointerPressed = true;
+
+            base.OnPointerPressed(e);
+        }
+        protected override void OnRightTapped(RightTappedRoutedEventArgs e)
+        {
+            if (_IsPointerPressed)
+            {
+                _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+
+                if (AppSettings.UseClassicContextMenuForMouseInput)
+                    ShowContextMenu(_LastFocusedItemViewModel, null, e.GetPosition(null));
+                else
+                    ShowContextMenu(e.OriginalSource as FrameworkElement);
+
+                e.Handled = true;
+            }
+
+            base.OnRightTapped(e);
+        }
+        private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
+        {
+            if (data != null)
+            {
+                var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
+                MyFlyout.ShowAt(target, offset);
+            }
+        }
+        private void ShowContextMenu(FrameworkElement element)
+        {
+            if (_LastFocusedItem != null)
+                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
+
+            _LastFocusedItem = element;
+            if (element.GetType() == typeof(Grid))
+            {
+                var grid = element as Grid;
+                if (grid.Name == "ContextMenuGrid")
+                    (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
+
+            }
+        }        
+
+        private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
+        {
+            if (_LastFocusedItem != null)
+            {
+                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
+                _LastFocusedItem = null;
+            }
+        }
+
+        private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
+            => await _LastFocusedItemViewModel.SwitchReadValueAsync();
+        private async void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e)
+            => await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
+        private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e)
+            => _LastFocusedItemViewModel.ShareCommand.Execute(null);
+        private async void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e)
+            => await Launcher.LaunchUriAsync(new Uri(_LastFocusedItemViewModel.Model.Url));
+        private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
+            => await _LastFocusedItemViewModel.DeleteItemAsync();
+        #endregion
 
         public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
         public ObservableCollection<KeyValuePair<int, string>> SearchBoxSuggestions { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
@@ -34,7 +148,7 @@ namespace wallabag.Views
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            List<Item> allItems= await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All});
+            List<Item> allItems = await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
             foreach (var item in allItems)
                 PossibleSearchBoxResults.Add(new KeyValuePair<int, string>(item.Id, item.Title));
         }
@@ -47,7 +161,7 @@ namespace wallabag.Views
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<KeyValuePair<int,string>>(PossibleSearchBoxResults.Where(t=>t.Value.ToLower().Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<KeyValuePair<int, string>>(PossibleSearchBoxResults.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -61,7 +175,7 @@ namespace wallabag.Views
         {
             if (args.ChosenSuggestion != null)
             {
-                var id = ((KeyValuePair<int,string>)args.ChosenSuggestion).Key;
+                var id = ((KeyValuePair<int, string>)args.ChosenSuggestion).Key;
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
             // TODO: Implement a search page in case the user didn't chose a suggestion.

@@ -37,7 +37,7 @@ namespace wallabag.ViewModels
             get { return AppSettings.ColorScheme; }
             set { AppSettings.ColorScheme = value; }
         }
-        
+
         public bool NavigateBackAfterReadingAnArticle
         {
             get { return AppSettings.NavigateBackAfterReadingAnArticle; }
@@ -52,6 +52,11 @@ namespace wallabag.ViewModels
         {
             get { return AppSettings.SyncOnStartup; }
             set { AppSettings.SyncOnStartup = value; }
+        }
+        public bool UseClassicContextMenuForMouseInput
+        {
+            get { return AppSettings.UseClassicContextMenuForMouseInput; }
+            set { AppSettings.UseClassicContextMenuForMouseInput = value; }
         }
     }
 }

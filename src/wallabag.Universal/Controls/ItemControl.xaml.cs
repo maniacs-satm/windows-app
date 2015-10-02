@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using wallabag.Common;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
+using Windows.UI.Xaml.Media.Animation;
 
 namespace wallabag.Controls
 {
@@ -21,7 +8,17 @@ namespace wallabag.Controls
     {
         public ItemControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            if (!Helpers.IsPhone)
+                ContextMenuGrid.PointerExited += (s, e) => HideTouchMenu();
+            ContextMenuGrid.PointerWheelChanged += (s, e) => HideTouchMenu();
+
+            foreach (AppBarButton button in stackPanel.Children)
+                button.Click += (s, e) => HideTouchMenu();
         }
+
+        private void HideTouchMenu() =>
+            (ContextMenuGrid.Resources["HideContextMenu"] as Storyboard).Begin();
+
     }
 }

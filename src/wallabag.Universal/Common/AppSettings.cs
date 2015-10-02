@@ -175,5 +175,10 @@ namespace wallabag.Common
             get { return GetProperty(nameof(SyncOnStartup), true); }
             set { SetProperty(nameof(SyncOnStartup), value); }
         }
+        public static bool UseClassicContextMenuForMouseInput
+        {
+            get { return GetProperty(nameof(UseClassicContextMenuForMouseInput), true); }
+            set { SetProperty(nameof(UseClassicContextMenuForMouseInput), value); }
+        }
     }
 }

@@ -11,8 +11,10 @@
     <Thickness x:Key="ContentDialogTitleMargin">0</Thickness>
 
     <!-- Converters -->
-    <Converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <Converter:ReadToIconConverter x:Key="BooleanToVisibilityConverter"/>
     <Converter:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
+    <Converter:ReadToIconConverter x:Key="ReadToIconConverter"/>
+    <Converter:FavoriteToIconConverter x:Key="FavoriteToIconConverter"/>
 
     <!-- Custom styles -->
     <Style x:Key="RoundButtonStyle" TargetType="Button">

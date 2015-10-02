@@ -123,6 +123,8 @@
       <DependentUpon>TagControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter\BooleanNegationConverter.cs" />
+    <Compile Include="Converter\FavoriteToIconConverter.cs" />
+    <Compile Include="Converter\ReadToIconConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\OfflineAction.cs" />
