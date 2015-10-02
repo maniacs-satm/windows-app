@@ -96,6 +96,9 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(FrameworkElement element)
         {
+            if (_LastFocusedItem != null)
+                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
+
             _LastFocusedItem = element;
             if (element.GetType() == typeof(Grid))
             {
