@@ -205,23 +205,52 @@ namespace wallabag.Views
             PrimaryCommandBar.Visibility = Visibility.Visible;
         }
 
-        private async void acceptAppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void MarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
-            //    await item.SwitchReadValueAsync();
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsRead = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", true);
+            }
+            multipleSelectToggleButton_Unchecked(sender, e);
+        }
+        private async void UnmarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsRead = false;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", false);
+            }
+            multipleSelectToggleButton_Unchecked(sender, e);
+        }
+        private async void MarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsStarred = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", true);
+            }
+            multipleSelectToggleButton_Unchecked(sender, e);
+        }
+        private async void UnmarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsStarred = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", false);
+            }
+            multipleSelectToggleButton_Unchecked(sender, e);
+        }
+        private async void DeleteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsDeleted = true;
+                await item.DeleteItemAsync();
+            }
+            multipleSelectToggleButton_Unchecked(sender, e);
         }
 
-        private async void favoriteAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
-            //    await item.SwitchFavoriteValueAsync();
-        }
-
-        private async void deleteAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
-            //    await item.DeleteItemAsync();
-        }
 
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

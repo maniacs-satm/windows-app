@@ -225,14 +225,14 @@
             <AppBarButton Icon="Edit" Label="Edit">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Mark as read"/>
-                        <MenuFlyoutItem Text="Unmark as read"/>
+                        <MenuFlyoutItem x:Name="MarkItemsAsReadMenuFlyoutItem" Text="Mark as read" Click="MarkItemsAsReadMenuFlyoutItem_Click"/>
+                        <MenuFlyoutItem x:Name="UnmarkItemsAsReadMenuFlyoutItem" Text="Unmark as read" Click="UnmarkItemsAsReadMenuFlyoutItem_Click"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Mark as favorite"/>
-                        <MenuFlyoutItem Text="Unmark as favorite"/>
+                        <MenuFlyoutItem x:Name="MarkItemsAsFavoriteMenuFlyoutItem"  Text="Mark as favorite" Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"/>
+                        <MenuFlyoutItem x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem" Text="Unmark as favorite" Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Manage tags"/>
-                        <MenuFlyoutItem Text="Delete"/>
+                        <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem" Text="Manage tags"/>
+                        <MenuFlyoutItem x:Name="DeleteMenuFlyoutItem" Text="Delete" Click="DeleteMenuFlyoutItem_Click"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
