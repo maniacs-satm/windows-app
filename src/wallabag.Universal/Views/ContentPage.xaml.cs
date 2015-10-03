@@ -193,25 +193,23 @@ namespace wallabag.Views
 
         private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e)
         {
-            //ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
-            //ItemListView.SelectionMode = ListViewSelectionMode.Multiple;
+            _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
             acceptAppBarButton.Visibility = Visibility.Visible;
             favoriteAppBarButton.Visibility = Visibility.Visible;
             tagAppBarButton.Visibility = Visibility.Visible;
             deleteAppBarButton.Visibility = Visibility.Visible;
-            filterToggleButton.Visibility = Visibility.Collapsed;
+            searchToggleButton.Visibility = Visibility.Collapsed;
             addItemAppBarButton.Visibility = Visibility.Collapsed;
             syncAppBarButton.Visibility = Visibility.Collapsed;
         }
         private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
-            //ItemGridView.SelectionMode = ListViewSelectionMode.None;
-            //ItemListView.SelectionMode = ListViewSelectionMode.None;
+            _ItemGridView.SelectionMode = ListViewSelectionMode.None;
             acceptAppBarButton.Visibility = Visibility.Collapsed;
             favoriteAppBarButton.Visibility = Visibility.Collapsed;
             tagAppBarButton.Visibility = Visibility.Collapsed;
             deleteAppBarButton.Visibility = Visibility.Collapsed;
-            filterToggleButton.Visibility = Visibility.Visible;
+            searchToggleButton.Visibility = Visibility.Visible;
             addItemAppBarButton.Visibility = Visibility.Visible;
             syncAppBarButton.Visibility = Visibility.Visible;
         }
