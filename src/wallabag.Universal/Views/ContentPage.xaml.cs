@@ -19,6 +19,7 @@ namespace wallabag.Views
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
+        private GridView _ItemGridView;
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -140,6 +141,7 @@ namespace wallabag.Views
             InitializeComponent();
             AddItemContentDialog.Closed += AddItemContentDialog_Closed;
         }
+        private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
 
         private async void AddItemContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {

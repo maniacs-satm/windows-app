@@ -23,6 +23,7 @@
                       Padding="4"
         	          ItemClick="ItemGridView_ItemClick"  
                       SizeChanged="ItemGridView_SizeChanged"
+                      Loaded="ItemGridView_Loaded"
         	          EntranceNavigationTransitionInfo.IsTargetElement="True">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:ItemViewModel">
