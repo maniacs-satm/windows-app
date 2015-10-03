@@ -138,13 +138,15 @@ namespace wallabag.Views
         public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
         public ObservableCollection<KeyValuePair<int, string>> SearchBoxSuggestions { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
 
-        public ObservableCollection<Tag> MultipleSelectionTags { get; set; }
+        public ICollection<Tag> MultipleSelectionTags { get; set; }
 
         public ContentPage()
         {
             InitializeComponent();
             AddItemContentDialog.Closed += AddItemContentDialog_Closed;
+            MultipleSelectionTags = new ObservableCollection<Tag>();
         }
+
         private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
 
         private async void AddItemContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
@@ -260,6 +262,21 @@ namespace wallabag.Views
             multipleSelectToggleButton_Unchecked(sender, e);
         }
 
+        private void CancelTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            MultipleSelectionTags.Clear();
+            EditTagsBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private async void SaveTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            EditTagsBorder.Visibility = Visibility.Collapsed;
+
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+                await ItemViewModel.AddTagsAsync(item.Model.Id, MultipleSelectionTags.ToCommaSeparatedString());
+
+            MultipleSelectionTags.Clear();
+        }
 
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -288,11 +305,5 @@ namespace wallabag.Views
             else
                 ItemGridView.ItemsPanel = GridViewTemplate;
         }
-
-        private void CancelTagsAppBarButton_Click(object sender, RoutedEventArgs e)
-        => EditTagsBorder.Visibility = Visibility.Collapsed;
-
-        private void SaveTagsAppBarButton_Click(object sender, RoutedEventArgs e)
-        => EditTagsBorder.Visibility = Visibility.Collapsed;
     }
 }
