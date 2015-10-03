@@ -200,6 +200,11 @@
             <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton"/>
         </StackPanel>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
+            <AppBarToggleButton x:Name="multipleSelectToggleButton" 
+                                Icon="Bullets" 
+                                Label="Select" 
+                                Checked="multipleSelectToggleButton_Checked"
+                                Unchecked="multipleSelectToggleButton_Unchecked"/>
             <AppBarToggleButton x:Name="searchToggleButton" Icon="Find" Label="Search"/>
             <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton x:Name="syncAppBarButton" Label="Sync" Command="{Binding RefreshCommand}">
@@ -212,12 +217,6 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarToggleButton x:Name="multipleSelectToggleButton" 
-                                Icon="Bullets" 
-                                Label="Select" 
-                                Checked="multipleSelectToggleButton_Checked"
-                                Unchecked="multipleSelectToggleButton_Unchecked"/>
-                <AppBarSeparator/>
                 <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
