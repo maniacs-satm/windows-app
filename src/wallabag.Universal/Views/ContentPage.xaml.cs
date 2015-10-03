@@ -276,6 +276,7 @@ namespace wallabag.Views
                 await ItemViewModel.AddTagsAsync(item.Model.Id, MultipleSelectionTags.ToCommaSeparatedString());
 
             MultipleSelectionTags.Clear();
+            multipleSelectToggleButton_Unchecked(sender, e);
         }
 
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
