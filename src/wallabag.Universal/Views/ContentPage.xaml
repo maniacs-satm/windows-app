@@ -247,7 +247,7 @@
                 <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
                     <TextBlock Text="MANAGE TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
                 </Border>
-                <controls:TagControl Grid.Row="1" Margin="4"/>
+                <controls:TagControl Grid.Row="1" Margin="4,8"/>
                 <CommandBar Grid.Row="2">
                     <AppBarButton x:Name="SaveTagsAppBarButton" Icon="Save" Content="Save" Click="SaveTagsAppBarButton_Click"/>
                     <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Content="Cancel" Click="CancelTagsAppBarButton_Click"/>
