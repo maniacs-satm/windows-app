@@ -18,12 +18,12 @@
         </ItemsPanelTemplate>
         <DataTemplate x:Name="PivotContentTemplate">
             <GridView x:Name="ItemGridView"
-        	          ItemsSource="{Binding Items}"
-        	          IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                      ItemsSource="{Binding Items}"
                       Padding="4"
-        	          ItemClick="ItemGridView_ItemClick"  
+                      ItemClick="ItemGridView_ItemClick"  
                       SizeChanged="ItemGridView_SizeChanged"
-        	          EntranceNavigationTransitionInfo.IsTargetElement="True">
+                      Loaded="ItemGridView_Loaded"
+                      EntranceNavigationTransitionInfo.IsTargetElement="True">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:ItemViewModel">
                         <controls:ItemControl/>
@@ -44,7 +44,7 @@
                     </ControlTemplate>
                 </GridView.Template>
             </GridView>
-        </DataTemplate>        
+        </DataTemplate>
         <Style TargetType="PivotHeaderItem">
             <Setter Property="RequestedTheme" Value="Dark"/>
         </Style>
@@ -60,6 +60,145 @@
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem x:Name="ContextMenuDeleteItem" Text="Delete" Click="ContextMenuDeleteItem_Click"/>
         </MenuFlyout>
+        <Style x:Key="MenuFlyoutItemIconTemplate" TargetType="MenuFlyoutItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuFlyoutItem">
+                        <Grid x:Name="LayoutRoot" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="TextBlock" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="Pressed" To="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="TextBlock" />
+                                            </Storyboard>
+                                        </VisualTransition>
+                                        <VisualTransition From="Pressed" To="PointerOver">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="TextBlock" />
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckPlaceholderStates">
+                                    <VisualState x:Name="NoPlaceholder" />
+                                    <VisualState x:Name="CheckPlaceholder">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="PaddingSizeStates">
+                                    <VisualState x:Name="DefaultPadding" />
+                                    <VisualState x:Name="NarrowPadding">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Padding">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemThemePaddingNarrow}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <StackPanel Orientation="Horizontal">
+                                <FontIcon  Margin="0,0,12,0" x:Name="TextBlock" Glyph="{TemplateBinding Tag}" Height="16" Width="16" FontSize="16" />
+                                <TextBlock  Text="{TemplateBinding Text}" TextTrimming="CharacterEllipsis" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Name="ShowEditTagsBorder">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditTagsBorder">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="EditTagsBorder">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideEditTagsBorder">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditTagsBorder">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="EditTagsBorder">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="grid">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="grid">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
     </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
@@ -199,18 +338,7 @@
             <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton"/>
         </StackPanel>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
-            <!-- commands for multiple selection -->
-            <AppBarButton x:Name="acceptAppBarButton" Icon="Accept" Visibility="Collapsed" Click="acceptAppBarButton_Click"/>
-            <AppBarButton x:Name="favoriteAppBarButton" Icon="Favorite" Visibility="Collapsed" Click="favoriteAppBarButton_Click"/>
-            <AppBarButton x:Name="tagAppBarButton" Icon="Tag" Visibility="Collapsed" IsEnabled="False">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <controls:TagControl />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton x:Name="deleteAppBarButton" Icon="Delete" Visibility="Collapsed" Click="deleteAppBarButton_Click"/>
-            <!-- default commands -->
+            <AppBarButton x:Name="multipleSelectToggleButton" Icon="Bullets" Label="Select" Click="multipleSelectToggleButton_Click"/>
             <AppBarToggleButton x:Name="searchToggleButton" Icon="Find" Label="Search"/>
             <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton x:Name="syncAppBarButton" Label="Sync" Command="{Binding RefreshCommand}">
@@ -223,14 +351,51 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarToggleButton x:Name="multipleSelectToggleButton" 
-                                Icon="Bullets" 
-                                Label="Select" 
-                                Checked="multipleSelectToggleButton_Checked"
-                                Unchecked="multipleSelectToggleButton_Unchecked"/>
-                <AppBarSeparator/>
                 <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
+        <CommandBar x:Name="MultipleSelectionCommandBar" VerticalAlignment="Bottom" Visibility="Collapsed">
+            <AppBarButton Icon="Edit" Label="Edit">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Name="MarkItemsAsReadMenuFlyoutItem" Text="Mark as read" Click="MarkItemsAsReadMenuFlyoutItem_Click"
+                                        Tag="&#xE001;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="UnmarkItemsAsReadMenuFlyoutItem" Text="Unmark as read" Click="UnmarkItemsAsReadMenuFlyoutItem_Click"
+                                        Tag="&#xE109;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem x:Name="MarkItemsAsFavoriteMenuFlyoutItem"  Text="Mark as favorite" Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"
+                                        Tag="&#xE0B4;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem" Text="Unmark as favorite" Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"
+                                        Tag="&#xE195;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem" Text="Manage tags" Click="ManageTagsMenuFlyoutItem_Click"
+                                        Tag="&#xE1CB;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="DeleteMenuFlyoutItem" Text="Delete" Click="DeleteMenuFlyoutItem_Click"
+                                        Tag="&#xE107;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Cancel" Label="Cancel" Click="multipleSelectToggleButton_Click"/>
+        </CommandBar>
+        <Border x:Name="EditTagsBorder" Background="{ThemeResource EditTagsBorderBackground}" Visibility="Collapsed" Opacity="0">
+            <Grid x:Name="grid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <CompositeTransform/>
+                </Grid.RenderTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+                    <TextBlock Text="MANAGE TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+                </Border>
+                <controls:TagControl Grid.Row="1" Margin="8" Tags="{x:Bind MultipleSelectionTags, Mode=TwoWay}"/>
+                <CommandBar Grid.Row="2">
+                    <AppBarButton x:Name="SaveTagsAppBarButton" Icon="Save" Content="Save" Click="SaveTagsAppBarButton_Click"/>
+                    <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Content="Cancel" Click="CancelTagsAppBarButton_Click"/>
+                </CommandBar>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

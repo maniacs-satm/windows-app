@@ -19,6 +19,8 @@ namespace wallabag.Views
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
+        private GridView _ItemGridView;
+        public bool IsMultipleSelectionEnabled { get; set; } = false;
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -88,7 +90,7 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
         {
-            if (data != null)
+            if (data != null && !IsMultipleSelectionEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
                 MyFlyout.ShowAt(target, offset);
@@ -96,6 +98,9 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(FrameworkElement element)
         {
+            if (IsMultipleSelectionEnabled)
+                return;
+
             if (_LastFocusedItem != null)
                 ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
 
@@ -133,13 +138,16 @@ namespace wallabag.Views
         public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
         public ObservableCollection<KeyValuePair<int, string>> SearchBoxSuggestions { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
 
-        public ObservableCollection<Tag> MultipleSelectionTags { get; set; }
+        public ICollection<Tag> MultipleSelectionTags { get; set; }
 
         public ContentPage()
         {
             InitializeComponent();
             AddItemContentDialog.Closed += AddItemContentDialog_Closed;
+            MultipleSelectionTags = new ObservableCollection<Tag>();
         }
+
+        private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
 
         private async void AddItemContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
@@ -189,48 +197,95 @@ namespace wallabag.Views
                 await AddItemContentDialog.ShowAsync();
         }
 
-        private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e)
+        #region Multiple selection
+
+        private void multipleSelectToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            //ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
-            //ItemListView.SelectionMode = ListViewSelectionMode.Multiple;
-            acceptAppBarButton.Visibility = Visibility.Visible;
-            favoriteAppBarButton.Visibility = Visibility.Visible;
-            tagAppBarButton.Visibility = Visibility.Visible;
-            deleteAppBarButton.Visibility = Visibility.Visible;
-            filterToggleButton.Visibility = Visibility.Collapsed;
-            addItemAppBarButton.Visibility = Visibility.Collapsed;
-            syncAppBarButton.Visibility = Visibility.Collapsed;
-        }
-        private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            //ItemGridView.SelectionMode = ListViewSelectionMode.None;
-            //ItemListView.SelectionMode = ListViewSelectionMode.None;
-            acceptAppBarButton.Visibility = Visibility.Collapsed;
-            favoriteAppBarButton.Visibility = Visibility.Collapsed;
-            tagAppBarButton.Visibility = Visibility.Collapsed;
-            deleteAppBarButton.Visibility = Visibility.Collapsed;
-            filterToggleButton.Visibility = Visibility.Visible;
-            addItemAppBarButton.Visibility = Visibility.Visible;
-            syncAppBarButton.Visibility = Visibility.Visible;
+            if (IsMultipleSelectionEnabled)
+            {
+                IsMultipleSelectionEnabled = false;
+                _ItemGridView.SelectionMode = ListViewSelectionMode.None;
+                _ItemGridView.IsItemClickEnabled = true;
+                MultipleSelectionCommandBar.Visibility = Visibility.Collapsed;
+                PrimaryCommandBar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                IsMultipleSelectionEnabled = true;
+                _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
+                _ItemGridView.IsItemClickEnabled = false;
+                MultipleSelectionCommandBar.Visibility = Visibility.Visible;
+                PrimaryCommandBar.Visibility = Visibility.Collapsed;
+            }
         }
 
-        private async void acceptAppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void MarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
-            //    await item.SwitchReadValueAsync();
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsRead = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", true);
+            }
+            multipleSelectToggleButton_Click(sender, e);
+        }
+        private async void UnmarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsRead = false;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", false);
+            }
+            multipleSelectToggleButton_Click(sender, e);
+        }
+        private async void MarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsStarred = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", true);
+            }
+            multipleSelectToggleButton_Click(sender, e);
+        }
+        private async void UnmarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsStarred = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", false);
+            }
+            multipleSelectToggleButton_Click(sender, e);
+        }
+        private void ManageTagsMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            (Resources["ShowEditTagsBorder"] as Storyboard).Begin();
+        }
+        private async void DeleteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+            {
+                item.Model.IsDeleted = true;
+                await item.DeleteItemAsync();
+            }
+            multipleSelectToggleButton_Click(sender, e);
         }
 
-        private async void favoriteAppBarButton_Click(object sender, RoutedEventArgs e)
+        private void CancelTagsAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
-            //    await item.SwitchFavoriteValueAsync();
+            MultipleSelectionTags.Clear();
+            (Resources["HideEditTagsBorder"] as Storyboard).Begin();
+        }
+        private async void SaveTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            (Resources["HideEditTagsBorder"] as Storyboard).Begin();
+
+            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+                await ItemViewModel.AddTagsAsync(item.Model.Id, MultipleSelectionTags.ToCommaSeparatedString());
+
+            MultipleSelectionTags.Clear();
+            multipleSelectToggleButton_Click(sender, e);
         }
 
-        private async void deleteAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            //foreach (ItemViewModel item in ItemGridView.SelectedItems)
-            //    await item.DeleteItemAsync();
-        }
+        #endregion
 
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -259,5 +314,6 @@ namespace wallabag.Views
             else
                 ItemGridView.ItemsPanel = GridViewTemplate;
         }
+
     }
 }

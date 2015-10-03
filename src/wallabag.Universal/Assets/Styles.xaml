@@ -466,4 +466,15 @@
     <Style x:Key="CustomAutoSuggestBoxStyle" TargetType="AutoSuggestBox">
         <Setter Property="TextBoxStyle" Value="{StaticResource CustomAutoSuggestBoxTextBoxStyle}"/>
     </Style>
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Name="Dark">
+            <SolidColorBrush x:Key="EditTagsBorderBackground" Color="Black" Opacity="0.8"/>
+            <SolidColorBrush x:Key="EditTagsBorderGridBackground" Color="#424242"/>
+        </ResourceDictionary>
+        <ResourceDictionary x:Name="Light">
+            <SolidColorBrush x:Key="EditTagsBorderBackground" Color="White" Opacity="0.8"/>
+            <SolidColorBrush x:Key="EditTagsBorderGridBackground" Color="#C8C8C8"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>
