@@ -237,8 +237,8 @@
             </AppBarButton>
             <AppBarButton Icon="Cancel" Label="Cancel" Click="multipleSelectToggleButton_Unchecked"/>
         </CommandBar>
-        <Border x:Name="EditTagsBorder" Background="#ccffffff" Visibility="Collapsed">
-            <Grid MaxWidth="500" Background="#FFC8C8C8" VerticalAlignment="Center">
+        <Border x:Name="EditTagsBorder" Background="{ThemeResource EditTagsBorderBackground}" Visibility="Collapsed">
+            <Grid MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48"/>
                     <RowDefinition/>
