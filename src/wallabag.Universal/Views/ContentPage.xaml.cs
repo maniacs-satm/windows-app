@@ -257,7 +257,7 @@ namespace wallabag.Views
         }
         private void ManageTagsMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            EditTagsBorder.Visibility = Visibility.Visible;
+            (Resources["ShowEditTagsBorder"] as Storyboard).Begin();
         }
         private async void DeleteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -272,11 +272,11 @@ namespace wallabag.Views
         private void CancelTagsAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             MultipleSelectionTags.Clear();
-            EditTagsBorder.Visibility = Visibility.Collapsed;
+            (Resources["HideEditTagsBorder"] as Storyboard).Begin();
         }
         private async void SaveTagsAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            EditTagsBorder.Visibility = Visibility.Collapsed;
+            (Resources["HideEditTagsBorder"] as Storyboard).Begin();
 
             foreach (ItemViewModel item in _ItemGridView.SelectedItems)
                 await ItemViewModel.AddTagsAsync(item.Model.Id, MultipleSelectionTags.ToCommaSeparatedString());
