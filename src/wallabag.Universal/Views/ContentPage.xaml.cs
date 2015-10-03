@@ -143,16 +143,12 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
-            AddItemContentDialog.Closed += AddItemContentDialog_Closed;
+            (Resources["HideAddItemBorder"] as Storyboard).Completed += HideAddItemBorder_Completed;
             MultipleSelectionTags = new ObservableCollection<Tag>();
         }
 
+        private async void HideAddItemBorder_Completed(object sender, object e) => await ViewModel.LoadItemsAsync();
         private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
-
-        private async void AddItemContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
-        {
-            await ViewModel.LoadItemsAsync();
-        }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -189,12 +185,12 @@ namespace wallabag.Views
             // TODO: Implement a search page in case the user didn't chose a suggestion.
         }
 
-        private async void AddItemButton_Click(object sender, RoutedEventArgs e)
+        private void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
             if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
                 Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(AddItemPage));
             else
-                await AddItemContentDialog.ShowAsync();
+                (Resources["ShowAddItemBorder"] as Storyboard).Begin();
         }
 
         #region Multiple selection
@@ -314,6 +310,9 @@ namespace wallabag.Views
             else
                 ItemGridView.ItemsPanel = GridViewTemplate;
         }
+
+        private void HideAddItemBorder_Click(object sender, RoutedEventArgs e) =>
+            (Resources["HideAddItemBorder"] as Storyboard).Begin();
 
     }
 }

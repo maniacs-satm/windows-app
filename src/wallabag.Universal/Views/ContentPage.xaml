@@ -198,7 +198,64 @@
                 <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
+        <Storyboard x:Name="ShowAddItemBorder">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddItemBorder">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddItemBorder">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="AddItemBorderGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="AddItemBorderGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideAddItemBorder">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddItemBorder">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddItemBorder">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="AddItemBorderGrid">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="AddItemBorderGrid">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Page.Resources>
     <Page.DataContext>
         <vm:MainViewModel/>
@@ -233,17 +290,6 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <ContentDialog x:Name="AddItemContentDialog" Title="SAVE A LINK" d:IsHidden="True"
-                       PrimaryButtonText="Add" PrimaryButtonCommand="{Binding AddItemCommand}"
-                       SecondaryButtonText="Cancel" SecondaryButtonCommand="{Binding CancelCommand}">
-            <ContentDialog.DataContext>
-                <vm:AddItemPageViewModel/>
-            </ContentDialog.DataContext>
-            <StackPanel x:Name="ContentDialogStackPanel" MinWidth="450" Margin="0,24,0,0">
-                <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="https://" InputScope="Url"/>
-                <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,12,0,0"/>
-            </StackPanel>
-        </ContentDialog>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -394,6 +440,32 @@
                 <CommandBar Grid.Row="2">
                     <AppBarButton x:Name="SaveTagsAppBarButton" Icon="Save" Label="Save" Click="SaveTagsAppBarButton_Click"/>
                     <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Label="Cancel" Click="CancelTagsAppBarButton_Click"/>
+                </CommandBar>
+            </Grid>
+        </Border>
+        <Border x:Name="AddItemBorder" Background="{ThemeResource EditTagsBorderBackground}" Visibility="Collapsed" Opacity="0">
+            <Grid x:Name="AddItemBorderGrid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                <Grid.DataContext>
+                    <vm:AddItemPageViewModel/>
+                </Grid.DataContext>
+                <Grid.RenderTransform>
+                    <CompositeTransform/>
+                </Grid.RenderTransform>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+                    <TextBlock Text="SAVE A LINK" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+                </Border>
+                <StackPanel Grid.Row="1" Margin="8">
+                    <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="https://" InputScope="Url"/>
+                    <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,8,0,0"/>
+                </StackPanel>
+                <CommandBar Grid.Row="2">
+                    <AppBarButton x:Name="AddItemAppBarButton" Icon="Add" Label="Add" Command="{Binding AddItemCommand}" Click="HideAddItemBorder_Click"/>
+                    <AppBarButton x:Name="CancelItemAppBarButton" Icon="Cancel" Label="Cancel" Command="{Binding CancelCommand}" Click="HideAddItemBorder_Click"/>
                 </CommandBar>
             </Grid>
         </Border>
