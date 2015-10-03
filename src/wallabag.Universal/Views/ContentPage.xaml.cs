@@ -287,6 +287,12 @@ namespace wallabag.Views
                 ItemGridView.ItemsPanel = ListViewTemplate;
             else
                 ItemGridView.ItemsPanel = GridViewTemplate;
-        }        
+        }
+
+        private void CancelTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        => EditTagsBorder.Visibility = Visibility.Collapsed;
+
+        private void SaveTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        => EditTagsBorder.Visibility = Visibility.Collapsed;
     }
 }

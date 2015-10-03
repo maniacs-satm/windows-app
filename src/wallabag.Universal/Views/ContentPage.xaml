@@ -249,8 +249,8 @@
                 </Border>
                 <controls:TagControl Grid.Row="1" Margin="4"/>
                 <CommandBar Grid.Row="2">
-                    <AppBarButton Icon="Save"/>
-                    <AppBarButton Icon="Cancel"/>
+                    <AppBarButton x:Name="SaveTagsAppBarButton" Icon="Save" Content="Save" Click="SaveTagsAppBarButton_Click"/>
+                    <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Content="Cancel" Click="CancelTagsAppBarButton_Click"/>
                 </CommandBar>
             </Grid>
         </Border>
