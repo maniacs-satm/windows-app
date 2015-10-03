@@ -20,6 +20,7 @@ namespace wallabag.Views
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
         private GridView _ItemGridView;
+        public bool IsMultipleSelectionEnabled { get; set; } = false;
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -89,7 +90,7 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
         {
-            if (data != null)
+            if (data != null && !IsMultipleSelectionEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
                 MyFlyout.ShowAt(target, offset);
@@ -97,6 +98,9 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(FrameworkElement element)
         {
+            if (IsMultipleSelectionEnabled)
+                return;
+
             if (_LastFocusedItem != null)
                 ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
 
@@ -194,13 +198,14 @@ namespace wallabag.Views
         private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
+            IsMultipleSelectionEnabled = true;
             MultipleSelectionCommandBar.Visibility = Visibility.Visible;
             PrimaryCommandBar.Visibility = Visibility.Collapsed;
         }
         private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _ItemGridView.SelectionMode = ListViewSelectionMode.None;
-
+            IsMultipleSelectionEnabled = false;
             MultipleSelectionCommandBar.Visibility = Visibility.Collapsed;
             PrimaryCommandBar.Visibility = Visibility.Visible;
         }
