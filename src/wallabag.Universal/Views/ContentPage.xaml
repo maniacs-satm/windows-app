@@ -230,12 +230,29 @@
                         <MenuFlyoutItem x:Name="MarkItemsAsFavoriteMenuFlyoutItem"  Text="Mark as favorite" Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"/>
                         <MenuFlyoutItem x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem" Text="Unmark as favorite" Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem" Text="Manage tags"/>
+                        <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem" Text="Manage tags" Click="ManageTagsMenuFlyoutItem_Click"/>
                         <MenuFlyoutItem x:Name="DeleteMenuFlyoutItem" Text="Delete" Click="DeleteMenuFlyoutItem_Click"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton Icon="Cancel" Label="Cancel" Click="multipleSelectToggleButton_Unchecked"/>
         </CommandBar>
+        <Border x:Name="EditTagsBorder" Background="#ccffffff" Visibility="Collapsed">
+            <Grid MaxWidth="500" Background="#FFC8C8C8" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+                    <TextBlock Text="MANAGE TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+                </Border>
+                <controls:TagControl Grid.Row="1" Margin="4"/>
+                <CommandBar Grid.Row="2">
+                    <AppBarButton Icon="Save"/>
+                    <AppBarButton Icon="Cancel"/>
+                </CommandBar>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

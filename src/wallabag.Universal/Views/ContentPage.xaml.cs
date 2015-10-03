@@ -246,6 +246,10 @@ namespace wallabag.Views
             }
             multipleSelectToggleButton_Unchecked(sender, e);
         }
+        private void ManageTagsMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            EditTagsBorder.Visibility = Visibility.Visible;
+        }
         private async void DeleteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             foreach (ItemViewModel item in _ItemGridView.SelectedItems)
@@ -283,6 +287,6 @@ namespace wallabag.Views
                 ItemGridView.ItemsPanel = ListViewTemplate;
             else
                 ItemGridView.ItemsPanel = GridViewTemplate;
-        }
+        }        
     }
 }
