@@ -194,24 +194,15 @@ namespace wallabag.Views
         private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
-            acceptAppBarButton.Visibility = Visibility.Visible;
-            favoriteAppBarButton.Visibility = Visibility.Visible;
-            tagAppBarButton.Visibility = Visibility.Visible;
-            deleteAppBarButton.Visibility = Visibility.Visible;
-            searchToggleButton.Visibility = Visibility.Collapsed;
-            addItemAppBarButton.Visibility = Visibility.Collapsed;
-            syncAppBarButton.Visibility = Visibility.Collapsed;
+            MultipleSelectionCommandBar.Visibility = Visibility.Visible;
+            PrimaryCommandBar.Visibility = Visibility.Collapsed;
         }
         private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _ItemGridView.SelectionMode = ListViewSelectionMode.None;
-            acceptAppBarButton.Visibility = Visibility.Collapsed;
-            favoriteAppBarButton.Visibility = Visibility.Collapsed;
-            tagAppBarButton.Visibility = Visibility.Collapsed;
-            deleteAppBarButton.Visibility = Visibility.Collapsed;
-            searchToggleButton.Visibility = Visibility.Visible;
-            addItemAppBarButton.Visibility = Visibility.Visible;
-            syncAppBarButton.Visibility = Visibility.Visible;
+
+            MultipleSelectionCommandBar.Visibility = Visibility.Collapsed;
+            PrimaryCommandBar.Visibility = Visibility.Visible;
         }
 
         private async void acceptAppBarButton_Click(object sender, RoutedEventArgs e)

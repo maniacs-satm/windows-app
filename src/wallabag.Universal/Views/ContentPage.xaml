@@ -45,7 +45,7 @@
                     </ControlTemplate>
                 </GridView.Template>
             </GridView>
-        </DataTemplate>        
+        </DataTemplate>
         <Style TargetType="PivotHeaderItem">
             <Setter Property="RequestedTheme" Value="Dark"/>
         </Style>
@@ -200,18 +200,6 @@
             <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton"/>
         </StackPanel>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
-            <!-- commands for multiple selection -->
-            <AppBarButton x:Name="acceptAppBarButton" Icon="Accept" Visibility="Collapsed" Click="acceptAppBarButton_Click"/>
-            <AppBarButton x:Name="favoriteAppBarButton" Icon="Favorite" Visibility="Collapsed" Click="favoriteAppBarButton_Click"/>
-            <AppBarButton x:Name="tagAppBarButton" Icon="Tag" Visibility="Collapsed" IsEnabled="False">
-                <AppBarButton.Flyout>
-                    <Flyout>
-                        <controls:TagControl />
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton x:Name="deleteAppBarButton" Icon="Delete" Visibility="Collapsed" Click="deleteAppBarButton_Click"/>
-            <!-- default commands -->
             <AppBarToggleButton x:Name="searchToggleButton" Icon="Find" Label="Search"/>
             <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton x:Name="syncAppBarButton" Label="Sync" Command="{Binding RefreshCommand}">
@@ -232,6 +220,23 @@
                 <AppBarSeparator/>
                 <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
             </CommandBar.SecondaryCommands>
+        </CommandBar>
+        <CommandBar x:Name="MultipleSelectionCommandBar" VerticalAlignment="Bottom" Visibility="Collapsed">
+            <AppBarButton Icon="Edit" Label="Edit">
+                <AppBarButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Mark as read"/>
+                        <MenuFlyoutItem Text="Unmark as read"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Mark as favorite"/>
+                        <MenuFlyoutItem Text="Unmark as favorite"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Manage tags"/>
+                        <MenuFlyoutItem Text="Delete"/>
+                    </MenuFlyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Cancel" Label="Cancel" Click="multipleSelectToggleButton_Unchecked"/>
         </CommandBar>
     </Grid>
 </Page>
