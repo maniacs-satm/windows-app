@@ -197,19 +197,26 @@ namespace wallabag.Views
                 await AddItemContentDialog.ShowAsync();
         }
 
-        private void multipleSelectToggleButton_Checked(object sender, RoutedEventArgs e)
+        #region Multiple selection
+
+        private void multipleSelectToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
-            IsMultipleSelectionEnabled = true;
-            MultipleSelectionCommandBar.Visibility = Visibility.Visible;
-            PrimaryCommandBar.Visibility = Visibility.Collapsed;
-        }
-        private void multipleSelectToggleButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            _ItemGridView.SelectionMode = ListViewSelectionMode.None;
-            IsMultipleSelectionEnabled = false;
-            MultipleSelectionCommandBar.Visibility = Visibility.Collapsed;
-            PrimaryCommandBar.Visibility = Visibility.Visible;
+            if (IsMultipleSelectionEnabled)
+            {
+                IsMultipleSelectionEnabled = false;
+                _ItemGridView.SelectionMode = ListViewSelectionMode.None;
+                _ItemGridView.IsItemClickEnabled = true;
+                MultipleSelectionCommandBar.Visibility = Visibility.Collapsed;
+                PrimaryCommandBar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                IsMultipleSelectionEnabled = true;
+                _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
+                _ItemGridView.IsItemClickEnabled = false;
+                MultipleSelectionCommandBar.Visibility = Visibility.Visible;
+                PrimaryCommandBar.Visibility = Visibility.Collapsed;
+            }
         }
 
         private async void MarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -219,7 +226,7 @@ namespace wallabag.Views
                 item.Model.IsRead = true;
                 await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", true);
             }
-            multipleSelectToggleButton_Unchecked(sender, e);
+            multipleSelectToggleButton_Click(sender, e);
         }
         private async void UnmarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -228,7 +235,7 @@ namespace wallabag.Views
                 item.Model.IsRead = false;
                 await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", false);
             }
-            multipleSelectToggleButton_Unchecked(sender, e);
+            multipleSelectToggleButton_Click(sender, e);
         }
         private async void MarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -237,7 +244,7 @@ namespace wallabag.Views
                 item.Model.IsStarred = true;
                 await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", true);
             }
-            multipleSelectToggleButton_Unchecked(sender, e);
+            multipleSelectToggleButton_Click(sender, e);
         }
         private async void UnmarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -246,7 +253,7 @@ namespace wallabag.Views
                 item.Model.IsStarred = true;
                 await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", false);
             }
-            multipleSelectToggleButton_Unchecked(sender, e);
+            multipleSelectToggleButton_Click(sender, e);
         }
         private void ManageTagsMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -259,7 +266,7 @@ namespace wallabag.Views
                 item.Model.IsDeleted = true;
                 await item.DeleteItemAsync();
             }
-            multipleSelectToggleButton_Unchecked(sender, e);
+            multipleSelectToggleButton_Click(sender, e);
         }
 
         private void CancelTagsAppBarButton_Click(object sender, RoutedEventArgs e)
@@ -267,7 +274,6 @@ namespace wallabag.Views
             MultipleSelectionTags.Clear();
             EditTagsBorder.Visibility = Visibility.Collapsed;
         }
-
         private async void SaveTagsAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             EditTagsBorder.Visibility = Visibility.Collapsed;
@@ -276,8 +282,10 @@ namespace wallabag.Views
                 await ItemViewModel.AddTagsAsync(item.Model.Id, MultipleSelectionTags.ToCommaSeparatedString());
 
             MultipleSelectionTags.Clear();
-            multipleSelectToggleButton_Unchecked(sender, e);
+            multipleSelectToggleButton_Click(sender, e);
         }
+
+        #endregion
 
         private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -306,5 +314,6 @@ namespace wallabag.Views
             else
                 ItemGridView.ItemsPanel = GridViewTemplate;
         }
+
     }
 }

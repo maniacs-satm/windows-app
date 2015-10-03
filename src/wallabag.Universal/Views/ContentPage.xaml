@@ -18,13 +18,12 @@
         </ItemsPanelTemplate>
         <DataTemplate x:Name="PivotContentTemplate">
             <GridView x:Name="ItemGridView"
-        	          ItemsSource="{Binding Items}"
-        	          IsItemClickEnabled="{Binding IsChecked, ElementName=multipleSelectToggleButton, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                      ItemsSource="{Binding Items}"
                       Padding="4"
-        	          ItemClick="ItemGridView_ItemClick"  
+                      ItemClick="ItemGridView_ItemClick"  
                       SizeChanged="ItemGridView_SizeChanged"
                       Loaded="ItemGridView_Loaded"
-        	          EntranceNavigationTransitionInfo.IsTargetElement="True">
+                      EntranceNavigationTransitionInfo.IsTargetElement="True">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:ItemViewModel">
                         <controls:ItemControl/>
@@ -200,11 +199,7 @@
             <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton"/>
         </StackPanel>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
-            <AppBarToggleButton x:Name="multipleSelectToggleButton" 
-                                Icon="Bullets" 
-                                Label="Select" 
-                                Checked="multipleSelectToggleButton_Checked"
-                                Unchecked="multipleSelectToggleButton_Unchecked"/>
+            <AppBarButton x:Name="multipleSelectToggleButton" Icon="Bullets" Label="Select" Click="multipleSelectToggleButton_Click"/>
             <AppBarToggleButton x:Name="searchToggleButton" Icon="Find" Label="Search"/>
             <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
             <AppBarButton x:Name="syncAppBarButton" Label="Sync" Command="{Binding RefreshCommand}">
@@ -235,7 +230,7 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Icon="Cancel" Label="Cancel" Click="multipleSelectToggleButton_Unchecked"/>
+            <AppBarButton Icon="Cancel" Label="Cancel" Click="multipleSelectToggleButton_Click"/>
         </CommandBar>
         <Border x:Name="EditTagsBorder" Background="{ThemeResource EditTagsBorderBackground}" Visibility="Collapsed">
             <Grid MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center">
