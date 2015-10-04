@@ -436,7 +436,7 @@
                 <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
                     <TextBlock Text="MANAGE TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
                 </Border>
-                <controls:TagControl Grid.Row="1" Margin="8" Tags="{x:Bind MultipleSelectionTags, Mode=TwoWay}"/>
+                <controls:TagControl Grid.Row="1" Margin="8,16" Tags="{x:Bind MultipleSelectionTags, Mode=TwoWay}"/>
                 <CommandBar Grid.Row="2">
                     <AppBarButton x:Name="SaveTagsAppBarButton" Icon="Save" Label="Save" Click="SaveTagsAppBarButton_Click"/>
                     <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Label="Cancel" Click="CancelTagsAppBarButton_Click"/>
@@ -459,7 +459,7 @@
                 <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
                     <TextBlock Text="SAVE A LINK" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
                 </Border>
-                <StackPanel Grid.Row="1" Margin="8">
+                <StackPanel Grid.Row="1" Margin="8,16">
                     <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="https://" InputScope="Url"/>
                     <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,8,0,0"/>
                 </StackPanel>
