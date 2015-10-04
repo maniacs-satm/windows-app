@@ -1,6 +1,16 @@
 Changelog
 =========
 
+# 2.0.3.0
+- Update tag control and list the tags horizontal (d45f7690e21a93c4c66616145143eb6f804402dd)
+- Replace the 'add item dialog' with a custom one (fe44fe9b6e2fbdec0a0eb3e6e2fc08b336a68504)
+- Multiple selection on main page (dbbbc23a80b74d97302e305fb8855641c7aab32b)
+- Fix the panel template (4fe0d67356b9e9b4f7b67d0c3ebb51ad9a16df76)
+- Context menu on main page (c8f831df6392cf9846993f2ed3095283f91a7987)
+- Disable the search box (just temporary) (7cacf3949d088f276bb3b1334469c056ca717fbd)
+- Use accent color every time (6f664164e18e182fb670ccebea72e54ac6efee71)
+- Merge ShareTargetPage and AddItemPage (c05292c62083e07e60ac94e40c77543698fcd5f2)
+
 # 2.0.2.0
 - Sync on start does now work (b106030eaff20f430abe50f36c4f1044bbc32814)
 - Faster UI response when performing some actions on a item (51d6f9e1335b9e507ceb25c07a54b74dd0890d4a, b7a0d98897ccc6be4aa4884f6e88503b5ac1ce48)
