@@ -366,7 +366,7 @@
         </SplitView>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" RequestedTheme="Dark"
                     HorizontalAlignment="Right" Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-                    Visibility="{Binding IsChecked, ElementName=searchToggleButton, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    Visibility="Collapsed">
             <AutoSuggestBox x:Name="SearchBox"
                             QueryIcon="Find"
                             PlaceholderText="Search..."
