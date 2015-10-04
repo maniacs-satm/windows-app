@@ -19,6 +19,7 @@
         <DataTemplate x:Name="PivotContentTemplate">
             <GridView x:Name="ItemGridView"
                       ItemsSource="{Binding Items}"
+                      IsItemClickEnabled="True"
                       Padding="4"
                       ItemClick="ItemGridView_ItemClick"  
                       SizeChanged="ItemGridView_SizeChanged"
