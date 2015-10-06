@@ -25,10 +25,10 @@ namespace wallabag.ViewModels
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
-            DeleteDelegateCommand = new DelegateCommand(async () => await DeleteItemAsync());
-            SwitchReadStatusDelegateCommand = new DelegateCommand(async () => await SwitchReadValueAsync());
-            SwitchFavoriteStatusDelegateCommand = new DelegateCommand(async () => await SwitchFavoriteValueAsync());
-            ShareDelegateCommand = new DelegateCommand(() =>
+            DeleteCommand = new DelegateCommand(async () => await DeleteItemAsync());
+            SwitchReadStatusCommand = new DelegateCommand(async () => await SwitchReadValueAsync());
+            SwitchFavoriteStatusCommand = new DelegateCommand(async () => await SwitchFavoriteValueAsync());
+            ShareCommand = new DelegateCommand(() =>
             {
                 DataTransferManager.GetForCurrentView().DataRequested += (s, args) =>
                 {
@@ -39,7 +39,7 @@ namespace wallabag.ViewModels
                 };
                 DataTransferManager.ShowShareUI();
             });
-            OpenInBrowserDelegateCommand = new DelegateCommand(async () => { await Launcher.LaunchUriAsync(new Uri(Model.Url)); });
+            OpenInBrowserCommand = new DelegateCommand(async () => { await Launcher.LaunchUriAsync(new Uri(Model.Url)); });
 
             GetIntroSentence();
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
@@ -49,11 +49,11 @@ namespace wallabag.ViewModels
         public string ContentWithHeader { get; set; }
         public string IntroSentence { get; set; }
 
-        public DelegateCommand DeleteDelegateCommand { get; private set; }
-        public DelegateCommand SwitchReadStatusDelegateCommand { get; private set; }
-        public DelegateCommand SwitchFavoriteStatusDelegateCommand { get; private set; }
-        public DelegateCommand ShareDelegateCommand { get; private set; }
-        public DelegateCommand OpenInBrowserDelegateCommand { get; private set; }
+        public DelegateCommand DeleteCommand { get; private set; }
+        public DelegateCommand SwitchReadStatusCommand { get; private set; }
+        public DelegateCommand SwitchFavoriteStatusCommand { get; private set; }
+        public DelegateCommand ShareCommand { get; private set; }
+        public DelegateCommand OpenInBrowserCommand { get; private set; }
 
         #region Methods
         public async Task CreateContentFromTemplateAsync()
