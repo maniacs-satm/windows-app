@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Template10.Common;
 using Template10.Mvvm;
 using Template10.Services.NavigationService;
 using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
 using Windows.ApplicationModel.DataTransfer.ShareTarget;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -48,8 +50,8 @@ namespace wallabag.Views
                 Url = string.Empty;
                 Tags.Clear();
 
-                if (NavigationService.CanGoBack)
-                    NavigationService.GoBack();
+                if ((Application.Current as BootStrapper).NavigationService.CanGoBack)
+                    (Application.Current as BootStrapper).NavigationService.GoBack();
                 else
                     shareOperation.ReportCompleted();
             });
