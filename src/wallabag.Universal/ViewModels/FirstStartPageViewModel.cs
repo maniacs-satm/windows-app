@@ -1,20 +1,19 @@
 ﻿using System.Threading.Tasks;
 using PropertyChanged;
+using Template10.Mvvm;
 using wallabag.Common;
-using wallabag.Common.Mvvm;
+using Template10.Services.NavigationService;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     class FirstStartPageViewModel : ViewModelBase
     {
-        public override string ViewModelIdentifier { get; set; } = "FirstStartPageViewModel";
-
         public string Username { get; set; }
         public string Password { get; set; }
         public string wallabagUrl { get; set; }
 
-        public Command LoginCommand { get; private set; }
+        public DelegateCommand LoginCommand { get; private set; }
         public async Task Login()
         {
             if (wallabagUrl.EndsWith("/"))
@@ -28,12 +27,12 @@ namespace wallabag.ViewModels
                 AppSettings.FontSize += 28;
 
             await Services.DataService.InitializeDatabaseAsync();
-            Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.ContentPage));
+            NavigationService.Navigate(typeof(Views.ContentPage));
         }
 
         public FirstStartPageViewModel()
         {
-            LoginCommand = new Command(async () => await Login());
+            LoginCommand = new DelegateCommand(async () => await Login());
         }
     }
 }

@@ -1,39 +1,40 @@
 ﻿using System.Collections.ObjectModel;
 using PropertyChanged;
+using Template10.Mvvm;
+using Template10.Services.NavigationService;
 using wallabag.Common;
-using wallabag.Common.Mvvm;
 using wallabag.Models;
 using wallabag.Services;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
-    public class AddItemPageViewModel
+    public class AddItemPageViewModel : ViewModelBase
     {
         public string Url { get; set; }
         public ObservableCollection<Tag> Tags { get; set; }
 
-        public Command AddItemCommand { get; private set; }
-        public Command CancelCommand { get; private set; }
+        public DelegateCommand AddItemCommand { get; private set; }
+        public DelegateCommand CancelCommand { get; private set; }
 
         public AddItemPageViewModel()
         {
             Tags = new ObservableCollection<Tag>();
-            AddItemCommand = new Command(async () =>
+            AddItemCommand = new DelegateCommand(async () =>
             {
                 await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
                 Url = string.Empty;
                 Tags.Clear();
 
-                if (Services.NavigationService.NavigationService.ApplicationNavigationService.CanGoBack)
-                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
+                if (NavigationService.CanGoBack)
+                    NavigationService.GoBack();
             });
-            CancelCommand = new Command(() =>
+            CancelCommand = new DelegateCommand(() =>
             {
                 Url = string.Empty;
                 Tags.Clear();
-                if (Services.NavigationService.NavigationService.ApplicationNavigationService.CanGoBack)
-                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
+                if (NavigationService.CanGoBack)
+                    NavigationService.GoBack();
             });
         }
     }

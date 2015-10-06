@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Template10.Mvvm;
+using Template10.Services.NavigationService;
 using wallabag.Common;
-using wallabag.Common.Mvvm;
 using wallabag.Models;
 using wallabag.Services;
 using Windows.ApplicationModel.DataTransfer.ShareTarget;
@@ -25,8 +26,8 @@ namespace wallabag.Views
         public string Url { get; set; }
         public ICollection<Tag> Tags { get; set; }
 
-        public Command AddItemCommand { get; private set; }
-        public Command CancelCommand { get; private set; }
+        public DelegateCommand AddItemCommand { get; private set; }
+        public DelegateCommand CancelCommand { get; private set; }
 
         public AddItemPage()
         {
@@ -35,7 +36,7 @@ namespace wallabag.Views
             Url = string.Empty;
             Tags = new ObservableCollection<Tag>();
 
-            AddItemCommand = new Command(async () =>
+            AddItemCommand = new DelegateCommand(async () =>
             {
                 addItemAppBarButton.IsEnabled = false;
                 urlTextBox.IsEnabled = false;
@@ -47,8 +48,8 @@ namespace wallabag.Views
                 Url = string.Empty;
                 Tags.Clear();
 
-                if (Services.NavigationService.NavigationService.ApplicationNavigationService.CanGoBack)
-                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
+                if (NavigationService.CanGoBack)
+                    NavigationService.GoBack();
                 else
                     shareOperation.ReportCompleted();
             });

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using PropertyChanged;
+using Template10.Mvvm;
 using wallabag.Common;
-using wallabag.Common.Mvvm;
 using wallabag.Services;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -15,7 +15,6 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class SingleItemPageViewModel : ViewModelBase
     {
-        public override string ViewModelIdentifier { get; set; } = "SingleItemPageViewModel";
         public ItemViewModel CurrentItem { get; set; }
         private string ContainerKey { get { return $"ReadingProgressContainer-{new Uri(AppSettings.wallabagUrl).Host}"; } }
 
@@ -25,8 +24,8 @@ namespace wallabag.ViewModels
             set { AppSettings.FontSize = value; }
         }
 
-        public Command DownloadItemCommand { get; private set; }
-        public Command MarkItemAsReadCommand { get; private set; }
+        public DelegateCommand DownloadItemCommand { get; private set; }
+        public DelegateCommand MarkItemAsReadCommand { get; private set; }
         public async Task DownloadItemAsFileAsync()
         {
             // Let the user select the download path
@@ -48,7 +47,7 @@ namespace wallabag.ViewModels
                     using (HttpClient http = new HttpClient())
                     {
                         // TODO: Currently just downloading the login page :/
-                        Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
+                        Uri downloadUrl = new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
                         await Helpers.AddHttpHeadersAsync(http);
 
@@ -62,20 +61,20 @@ namespace wallabag.ViewModels
 
         public SingleItemPageViewModel()
         {
-            DownloadItemCommand = new Command(async () => { await DownloadItemAsFileAsync(); });
-            MarkItemAsReadCommand = new Command(async () =>
+            DownloadItemCommand = new DelegateCommand(async () => { await DownloadItemAsFileAsync(); });
+            MarkItemAsReadCommand = new DelegateCommand(async () =>
             {
                 await CurrentItem.SwitchReadValueAsync();
                 if (AppSettings.NavigateBackAfterReadingAnArticle)
-                    Services.NavigationService.NavigationService.ApplicationNavigationService.GoBack();
+                   NavigationService.GoBack();
             });
         }
 
-        public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            if (!string.IsNullOrWhiteSpace(parameter))
+            if (!string.IsNullOrWhiteSpace(parameter as string))
             {
-                CurrentItem = new ItemViewModel(await DataService.GetItemAsync(int.Parse(parameter)));
+                CurrentItem = new ItemViewModel(await DataService.GetItemAsync(int.Parse(parameter as string)));
 
                 if (AppSettings.SyncReadingProgress)
                     if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey(ContainerKey))

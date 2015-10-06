@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Template10.Common;
 using wallabag.Common;
 using Windows.ApplicationModel.Activation;
 
