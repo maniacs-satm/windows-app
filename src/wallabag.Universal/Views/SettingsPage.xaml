@@ -13,27 +13,6 @@
     </Page.DataContext>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Phone">
-                    <VisualState.Setters>
-                        <Setter Target="AccountCredentialsStackPanel.HorizontalAlignment" Value="Stretch"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Desktop">
-                    <VisualState.Setters>
-                        <Setter Target="AccountCredentialsStackPanel.HorizontalAlignment" Value="Left"/>
-                        <Setter Target="AccountCredentialsStackPanel.Width" Value="400"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
             <RowDefinition />
@@ -66,11 +45,6 @@
                     <ToggleSwitch Header="Use 'normal' context menu when using a mouse" IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
-            <!--<PivotItem Header="Account credentials">
-                <StackPanel x:Name="AccountCredentialsStackPanel">
-                    <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{x:Bind ViewModel.wallabagUrl, Mode=TwoWay}"/>
-                </StackPanel>
-            </PivotItem>-->
             <PivotItem Header="Reading">
                 <StackPanel>
                     <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>
