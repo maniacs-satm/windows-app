@@ -13,7 +13,7 @@ namespace wallabag.Services
 
         private static DateTime _LastRequestDateTime;
         private static string _RefreshToken = string.Empty;
-        private static string _oAuthToken = string.Empty;        
+        private static string _AccessToken = string.Empty;
 
         public static async Task<bool> RequestTokenAsync(string Username, string Password, string Url)
         {
@@ -29,9 +29,20 @@ namespace wallabag.Services
                 parameters.Add("password", Password);
 
                 var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
-                var result = await http.PostAsync(requestUri, content);
+                var response = await http.PostAsync(requestUri, content);
+
+                if (!response.IsSuccessStatusCode)
+                    return false;
+
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                dynamic result = JsonConvert.DeserializeObject(responseString);
+                _AccessToken = result.access_token;
+                _RefreshToken = result.refresh_token;
+                _LastRequestDateTime = DateTime.UtcNow;
+
+                return true;
             }
-            return false;
         }
         public static void RefreshToken()
         {
