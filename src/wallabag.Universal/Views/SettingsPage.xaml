@@ -7,11 +7,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    
+
     <Page.DataContext>
         <vm:SettingsPageViewModel />
     </Page.DataContext>
-    
+    <Page.Resources>
+        <Style TargetType="PivotHeaderItem">
+            <Setter Property="RequestedTheme" Value="Dark"/>
+        </Style>
+        <Style TargetType="Pivot">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" TextWrapping="NoWrap" FontSize="18"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="PivotItem">
+            <Setter Property="Margin" Value="12,4"/>
+        </Style>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
@@ -20,6 +37,7 @@
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
+        <Rectangle Height="48" Grid.Row="1" VerticalAlignment="Top" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="0.5"/>
         <Pivot Grid.Row="1">
             <Pivot.Resources>
                 <Style TargetType="ToggleSwitch">
