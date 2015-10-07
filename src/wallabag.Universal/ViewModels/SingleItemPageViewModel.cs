@@ -50,7 +50,7 @@ namespace wallabag.ViewModels
                         // TODO: Currently just downloading the login page :/
                         Uri downloadUrl =new Uri( $"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
-                        await Helpers.AddHttpHeadersAsync(http);
+                        await Helpers.AddHttpHeaders(http);
 
                         var response = await http.GetAsync(downloadUrl);
                         if (response.IsSuccessStatusCode)
