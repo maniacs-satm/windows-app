@@ -12,7 +12,7 @@ namespace wallabag.Common
 {
     public static class Helpers
     {
-        public static string DATABASE_FILENAME { get; } = $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":","")}.db";
+        public static string DATABASE_FILENAME { get; } = $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":", "")}.db";
         public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, DATABASE_FILENAME);
 
         /// <summary>
@@ -24,10 +24,9 @@ namespace wallabag.Common
         {
             return ResourceLoader.GetForCurrentView().GetString(resourceName);
         }
-        public static async Task AddHttpHeadersAsync(HttpClient client)
+        public static async Task AddHttpHeaders(HttpClient client)
         {
-            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("WSSE", "profile=\"UsernameToken\"");
-            client.DefaultRequestHeaders.Add("X-WSSE", await AuthenticationService.GetAuthenticationHeaderAsync());
+            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("Bearer", AuthorizationService.GetAccessToken());
             client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));
         }
         public static bool IsConnectedToTheInternet
@@ -43,7 +42,7 @@ namespace wallabag.Common
         {
             using (HttpClient http = new HttpClient())
             {
-                await AddHttpHeadersAsync(http);
+                AddHttpHeaders(http);
 
                 Uri requestUri = new Uri($"{AppSettings.wallabagUrl}/api{RelativeUriString}.json");
                 var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");

@@ -66,13 +66,11 @@
                     <ToggleSwitch Header="Use 'normal' context menu when using a mouse" IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Account credentials">
+            <!--<PivotItem Header="Account credentials">
                 <StackPanel x:Name="AccountCredentialsStackPanel">
-                    <TextBox x:Name="UsernameTextBox" Header="Username" Text="{x:Bind ViewModel.Username, Mode=TwoWay}"/>
-                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{x:Bind ViewModel.Password, Mode=TwoWay}"/>
                     <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{x:Bind ViewModel.wallabagUrl, Mode=TwoWay}"/>
                 </StackPanel>
-            </PivotItem>
+            </PivotItem>-->
             <PivotItem Header="Reading">
                 <StackPanel>
                     <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>

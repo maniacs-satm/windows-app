@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using PropertyChanged;
 using wallabag.Common;
 using wallabag.Common.Mvvm;
@@ -19,16 +20,16 @@ namespace wallabag.ViewModels
         {
             if (wallabagUrl.EndsWith("/"))
                 wallabagUrl = wallabagUrl.Remove(wallabagUrl.Length - 1);
-
-            AppSettings.Username = Username;
-            AppSettings.Password = Password;
-            AppSettings.wallabagUrl = wallabagUrl;
-
+                       
             if (Helpers.IsPhone)
                 AppSettings.FontSize += 28;
-
-            await Services.DataService.InitializeDatabaseAsync();
-            Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.ContentPage));
+            
+            if (await Services.AuthorizationService.RequestTokenAsync(Username, Password, wallabagUrl))
+            {
+                AppSettings.wallabagUrl = wallabagUrl;
+                await Services.DataService.InitializeDatabaseAsync();
+                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.ContentPage));
+            }
         }
 
         public FirstStartPageViewModel()

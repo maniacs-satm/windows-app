@@ -49,94 +49,21 @@ namespace wallabag.Common
         }
         #endregion
 
-        #region PasswordVault
-        private static void GetFromPasswordVault()
-        {
-            try
-            {
-                PasswordVault vault = new PasswordVault();
-                IReadOnlyList<PasswordCredential> creds = vault.RetrieveAll();
 
-                if (creds != null && creds.Count != 0)
-                {
-                    creds[0].RetrievePassword();
-                    _Username = creds[0].UserName;
-                    _Password = creds[0].Password;
-                    _wallabagUrl = creds[0].Resource;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        private static void SaveToPasswordVault()
-        {
-            if (!string.IsNullOrWhiteSpace(_Username) &&
-                !string.IsNullOrWhiteSpace(_Password) &&
-                !string.IsNullOrWhiteSpace(_wallabagUrl))
-            {
-                PasswordVault vault = new PasswordVault();
-                PasswordCredential cred = new PasswordCredential(_wallabagUrl, _Username, _Password);
-
-                if (vault.RetrieveAll().Count == 0)
-                    vault.Add(cred);
-                else
-                {
-                    vault.Remove(vault.RetrieveAll()[0]);
-                    vault.Add(cred);
-                }
-            }
-        }
-        #endregion
-
-        private static string _Username;
-        public static string Username
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_Username))
-                    GetFromPasswordVault();
-                return _Username;
-            }
-            set
-            {
-                _Username = value;
-                SaveToPasswordVault();
-
-                RaisePropertyChanged(nameof(Username));
-            }
-        }
-        private static string _Password;
-        public static string Password
-        {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_Password))
-                    GetFromPasswordVault();
-                return _Password;
-            }
-            set
-            {
-                _Password = value;
-                SaveToPasswordVault();
-                RaisePropertyChanged(nameof(Password));
-            }
-        }
-        private static string _wallabagUrl;
         public static string wallabagUrl
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(_wallabagUrl)) GetFromPasswordVault();
-                return _wallabagUrl;
-            }
-            set
-            {
-                _wallabagUrl = value;
-                RaisePropertyChanged(nameof(wallabagUrl));
-                SaveToPasswordVault();
-            }
+            get { return GetProperty(nameof(wallabagUrl), string.Empty, true); }
+            set { SetProperty(nameof(wallabagUrl), value, true); }
+        }
+        public static string AccessToken
+        {
+            get { return GetProperty(nameof(AccessToken), string.Empty, true); }
+            set { SetProperty(nameof(AccessToken), value, true); }
+        }
+        public static string RefreshToken
+        {
+            get { return GetProperty(nameof(RefreshToken), string.Empty, true); }
+            set { SetProperty(nameof(RefreshToken), value, true); }
         }
 
         public static double FontSize
@@ -159,7 +86,7 @@ namespace wallabag.Common
             get { return GetProperty(nameof(TextAlignment), "left"); }
             set { SetProperty(nameof(TextAlignment), value); }
         }
-        
+
         public static bool NavigateBackAfterReadingAnArticle
         {
             get { return GetProperty(nameof(NavigateBackAfterReadingAnArticle), true); }
