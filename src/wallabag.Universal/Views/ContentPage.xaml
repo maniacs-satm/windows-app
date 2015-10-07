@@ -266,22 +266,6 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="ContentDialogStackPanel.MinWidth" Value="0"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="ContentDialogStackPanel.MinWidth" Value="450"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState>
                     <Storyboard x:Name="SyncStoryboard" RepeatBehavior="Forever">
                         <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="syncIcon" d:IsOptimized="True"/>
                     </Storyboard>
