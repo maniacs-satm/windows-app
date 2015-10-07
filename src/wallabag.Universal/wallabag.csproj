@@ -130,7 +130,6 @@
     <Compile Include="Models\OfflineAction.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\KeyboardService\KeyboardEventArgs.cs" />
     <Compile Include="Services\KeyboardService\KeyboardHelper.cs" />
