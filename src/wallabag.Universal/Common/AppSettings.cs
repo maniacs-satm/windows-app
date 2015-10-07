@@ -60,6 +60,11 @@ namespace wallabag.Common
             get { return GetProperty(nameof(AccessToken), string.Empty, true); }
             set { SetProperty(nameof(AccessToken), value, true); }
         }
+        public static string RefreshToken
+        {
+            get { return GetProperty(nameof(RefreshToken), string.Empty, true); }
+            set { SetProperty(nameof(RefreshToken), value, true); }
+        }
 
         public static double FontSize
         {

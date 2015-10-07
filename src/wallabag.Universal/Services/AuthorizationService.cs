@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using wallabag.Common;
 using Windows.Web.Http;
 
 namespace wallabag.Services
@@ -12,8 +13,6 @@ namespace wallabag.Services
         private const string _ClientSecret = "4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k";
 
         private static DateTime _LastRequestDateTime;
-        private static string _RefreshToken = string.Empty;
-        private static string _AccessToken = string.Empty;
 
         public static string GetAccessToken()
         {
@@ -21,7 +20,7 @@ namespace wallabag.Services
             if (duration.Seconds > 3600)
                 RefreshToken();
 
-            return _AccessToken;
+            return AppSettings.AccessToken;
         }
 
         public static async Task<bool> RequestTokenAsync(string Username, string Password, string Url)
@@ -46,8 +45,8 @@ namespace wallabag.Services
                 var responseString = await response.Content.ReadAsStringAsync();
 
                 dynamic result = JsonConvert.DeserializeObject(responseString);
-                _AccessToken = result.access_token;
-                _RefreshToken = result.refresh_token;
+                AppSettings.AccessToken = result.access_token;
+                AppSettings.RefreshToken = result.refresh_token;
                 _LastRequestDateTime = DateTime.UtcNow;
 
                 return true;
