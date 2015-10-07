@@ -15,6 +15,15 @@ namespace wallabag.Services
         private static string _RefreshToken = string.Empty;
         private static string _AccessToken = string.Empty;
 
+        public static string GetAccessToken()
+        {
+            TimeSpan duration = DateTime.UtcNow.Subtract(_LastRequestDateTime);
+            if (duration.Seconds > 3600)
+                RefreshToken();
+
+            return _AccessToken;
+        }
+
         public static async Task<bool> RequestTokenAsync(string Username, string Password, string Url)
         {
             Uri requestUri = new Uri($"{Url}/oauth/v2/token");
