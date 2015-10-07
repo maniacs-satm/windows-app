@@ -68,8 +68,6 @@
             </PivotItem>
             <PivotItem Header="Account credentials">
                 <StackPanel x:Name="AccountCredentialsStackPanel">
-                    <TextBox x:Name="UsernameTextBox" Header="Username" Text="{x:Bind ViewModel.Username, Mode=TwoWay}"/>
-                    <PasswordBox x:Name="PasswordTextBox" Header="Password" Password="{x:Bind ViewModel.Password, Mode=TwoWay}"/>
                     <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{x:Bind ViewModel.wallabagUrl, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>

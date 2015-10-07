@@ -1,25 +1,21 @@
-﻿using wallabag.Common;
+﻿using System;
+using wallabag.Common;
 
 namespace wallabag.ViewModels
 {
     public class SettingsPageViewModel : Common.Mvvm.ViewModelBase
     {
         public override string ViewModelIdentifier { get; set; } = "SettingsPageViewModel";
-
-        public string Username
-        {
-            get { return AppSettings.Username; }
-            set { AppSettings.Username = value; }
-        }
-        public string Password
-        {
-            get { return AppSettings.Password; }
-            set { AppSettings.Password = value; }
-        }
+               
         public string wallabagUrl
         {
             get { return AppSettings.wallabagUrl; }
             set { AppSettings.wallabagUrl = value; }
+        }
+        public string AccessToken
+        {
+            get { return AppSettings.AccessToken; }
+            set { AppSettings.AccessToken = value; }
         }
 
         public double FontSize
