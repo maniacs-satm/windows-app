@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using wallabag.Common;
 using Windows.ApplicationModel.Background;
 
 namespace wallabag.Services
@@ -15,7 +16,7 @@ namespace wallabag.Services
             builder.Name = "SyncItemsBackgroundTask";
             builder.TaskEntryPoint = "wallabag.Tasks.SyncItemsBackgroundTask";
 
-            IBackgroundTrigger timeTrigger = new TimeTrigger(15, false); // TODO: Add option for selecting the time span
+            IBackgroundTrigger timeTrigger = new TimeTrigger(AppSettings.BackgroundTaskInterval, false);
             builder.SetTrigger(timeTrigger);
             builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
 
