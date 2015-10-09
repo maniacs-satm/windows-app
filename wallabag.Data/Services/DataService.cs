@@ -18,6 +18,9 @@ namespace wallabag.Services
     {
         private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
         private static int _lastItemId = 0;
+
+        public static DateTime LastUserSyncDateTime { get; set; }
+
         public static async Task InitializeDatabaseAsync()
         {
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);

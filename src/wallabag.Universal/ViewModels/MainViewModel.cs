@@ -89,6 +89,7 @@ namespace wallabag.ViewModels
             {
                 IsSyncing = true;
                 await DataService.SyncWithServerAsync();
+                DataService.LastUserSyncDateTime = DateTime.Now;
                 await LoadItemsAsync();
                 IsSyncing = false;
 
