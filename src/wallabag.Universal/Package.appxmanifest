@@ -21,16 +21,17 @@
         <uap:SplashScreen Image="Assets\SplashScreen\SplashScreen.png" BackgroundColor="#000000" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="wallabag.Tasks.SyncItemsBackgroundTask">
-          <BackgroundTasks>
-            <Task Type="systemEvent" />
-          </BackgroundTasks>
-        </Extension>
         <uap:Extension Category="windows.shareTarget">
           <uap:ShareTarget Description="Save the link in your wallabag!">
             <uap:DataFormat>URI</uap:DataFormat>
           </uap:ShareTarget>
         </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="wallabag.Tasks.SyncItemsBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
