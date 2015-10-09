@@ -117,16 +117,7 @@
     <Compile Include="Converter\ReadToIconConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DataService.cs" />
-    <Compile Include="Services\KeyboardService\KeyboardEventArgs.cs" />
-    <Compile Include="Services\KeyboardService\KeyboardHelper.cs" />
-    <Compile Include="Services\KeyboardService\KeyboardService.cs" />
-    <Compile Include="Services\NavigationService\FrameFacade.cs" />
-    <Compile Include="Services\NavigationService\INavagable.cs" />
-    <Compile Include="Services\NavigationService\NavigatedEventArgs.cs" />
-    <Compile Include="Services\NavigationService\NavigatingEventArgs.cs" />
-    <Compile Include="Services\NavigationService\NavigationService.cs" />
-    <Compile Include="Services\AuthorizationService.cs" />
+    <Compile Include="Services\BackgroundTaskService.cs" />
     <Compile Include="ViewModels\AddItemPageViewModel.cs" />
     <Compile Include="ViewModels\FirstStartPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

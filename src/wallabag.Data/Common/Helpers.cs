@@ -24,7 +24,7 @@ namespace wallabag.Common
         {
             return ResourceLoader.GetForCurrentView().GetString(resourceName);
         }
-        public static async Task AddHttpHeaders(HttpClient client)
+        public static void AddHttpHeaders(HttpClient client)
         {
             client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("Bearer", AuthorizationService.GetAccessToken());
             client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));

@@ -5,18 +5,6 @@ namespace wallabag.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
-        public override string ViewModelIdentifier { get; set; } = "SettingsPageViewModel";
-
-        public string Username
-        {
-            get { return AppSettings.Username; }
-            set { AppSettings.Username = value; }
-        }
-        public string Password
-        {
-            get { return AppSettings.Password; }
-            set { AppSettings.Password = value; }
-        }
         public string wallabagUrl
         {
             get { return AppSettings.wallabagUrl; }
