@@ -19,6 +19,9 @@ namespace wallabag.Views
         }
 
         private void IntervalRadioButton_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-            => AppSettings.BackgroundTaskInterval = (uint)(sender as RadioButton).Content;
+        {
+            if ((sender as RadioButton).Content != null)
+                AppSettings.BackgroundTaskInterval = uint.Parse((sender as RadioButton).Content as string);
+        }
     }
 }
