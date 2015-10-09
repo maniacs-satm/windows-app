@@ -50,9 +50,15 @@ namespace wallabag.Universal
 
         #endregion
 
+        private bool AppFrameContentIsNotFirstStartPage
+        {
+            get { return (AppFrame.Content.GetType() != typeof(Views.FirstStartPage)); }
+        }
+        
+
         private async void Grid_Drop(object sender, DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.WebLink))
+            if (e.DataView.Contains(StandardDataFormats.WebLink) && AppFrameContentIsNotFirstStartPage)
             {
                 HideDragDropGridStoryboard.Begin();
 
@@ -65,7 +71,7 @@ namespace wallabag.Universal
 
         private void Grid_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.WebLink))
+            if (e.DataView.Contains(StandardDataFormats.WebLink) && AppFrameContentIsNotFirstStartPage)
             {
                 ShowDragDropGridStoryboard.Begin();
                 e.AcceptedOperation = DataPackageOperation.Move;
