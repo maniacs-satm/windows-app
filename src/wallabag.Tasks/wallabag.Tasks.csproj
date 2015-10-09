@@ -112,7 +112,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\wallabag.Data\wallabag.Data.csproj">
+    <ProjectReference Include="..\wallabag.Data\wallabag.Data.csproj">
       <Project>{b7cf54c4-8117-415a-bf06-6db5c9964c76}</Project>
       <Name>wallabag.Data</Name>
     </ProjectReference>

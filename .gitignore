@@ -205,3 +205,5 @@ src/wallabag.Tasks/wallabag.Tasks.nuget.targets
 /src/wallabag.Universal/_pkginfo.txt
 /src/wallabag.Universal/null
 /wallabag.Data/null
+/src/wallabag.Data
+/src/wallabag.Tasks/null
