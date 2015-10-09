@@ -471,10 +471,12 @@
         <ResourceDictionary x:Name="Dark">
             <SolidColorBrush x:Key="EditTagsBorderBackground" Color="Black" Opacity="0.8"/>
             <SolidColorBrush x:Key="EditTagsBorderGridBackground" Color="#424242"/>
+            <x:Double x:Key="SettingsPivotHeaderBackgroundOpacity">0.5</x:Double>
         </ResourceDictionary>
         <ResourceDictionary x:Name="Light">
             <SolidColorBrush x:Key="EditTagsBorderBackground" Color="White" Opacity="0.8"/>
             <SolidColorBrush x:Key="EditTagsBorderGridBackground" Color="#C8C8C8"/>
+            <x:Double x:Key="SettingsPivotHeaderBackgroundOpacity">0.8</x:Double>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

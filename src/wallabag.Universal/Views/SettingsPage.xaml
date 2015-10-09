@@ -37,7 +37,7 @@
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
-        <Rectangle Height="48" Grid.Row="1" VerticalAlignment="Top" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="0.5"/>
+        <Rectangle Height="48" Grid.Row="1" VerticalAlignment="Top" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="{ThemeResource SettingsPivotHeaderBackgroundOpacity}"/>
         <Pivot Grid.Row="1">
             <Pivot.Resources>
                 <Style TargetType="ToggleSwitch">
