@@ -57,5 +57,29 @@ namespace wallabag.ViewModels
             get { return AppSettings.UseClassicContextMenuForMouseInput; }
             set { AppSettings.UseClassicContextMenuForMouseInput = value; }
         }
+        public bool UseBackgroundTask
+        {
+            get { return AppSettings.UseBackgroundTask; }
+            set
+            {
+                AppSettings.UseBackgroundTask = value;
+
+                if (value)
+                    Services.BackgroundTaskService.RegisterSyncItemsBackgroundTask();
+                else
+                    Services.BackgroundTaskService.UnregisterSyncItemsBackgroundTask();
+            }
+        }     
+        public uint BackgroundTaskInterval
+        {
+            get { return AppSettings.BackgroundTaskInterval; }
+            set
+            {
+                AppSettings.BackgroundTaskInterval = value;
+
+                Services.BackgroundTaskService.UnregisterSyncItemsBackgroundTask();
+                Services.BackgroundTaskService.RegisterSyncItemsBackgroundTask();
+            }
+        }
     }
 }
