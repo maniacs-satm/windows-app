@@ -1,4 +1,5 @@
-﻿using wallabag.ViewModels;
+﻿using wallabag.Common;
+using wallabag.ViewModels;
 using Windows.UI.Xaml.Controls;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -15,6 +16,12 @@ namespace wallabag.Views
         public SettingsPage()
         {
             InitializeComponent();
+        }
+
+        private void IntervalRadioButton_Checked(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if ((sender as RadioButton).Content != null)
+                AppSettings.BackgroundTaskInterval = uint.Parse((sender as RadioButton).Content as string);
         }
     }
 }

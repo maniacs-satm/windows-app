@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
+using Template10.Mvvm;
 using wallabag.Common;
-using wallabag.Common.Mvvm;
 using wallabag.Models;
 using wallabag.Services;
 using Windows.UI.Xaml.Navigation;
@@ -16,7 +16,6 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class MainViewModel : ViewModelBase
     {
-        public override string ViewModelIdentifier { get; set; } = "MainViewModel";
         public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
@@ -57,14 +56,14 @@ namespace wallabag.ViewModels
             DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
         }
 
-        public Command RefreshCommand { get; private set; }
-        public Command NavigateToSettingsPageCommand { get; private set; }
+        public DelegateCommand RefreshCommand { get; private set; }
+        public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
 
-        public Command FilterCommand { get; private set; }
-        public Command ResetCommand { get; private set; }
+        public DelegateCommand FilterCommand { get; private set; }
+        public DelegateCommand ResetCommand { get; private set; }
         #endregion
 
-        public override async void OnNavigatedTo(string parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             if (state.ContainsKey(nameof(LastUsedFilterProperties)))
                 LastUsedFilterProperties = JsonConvert.DeserializeObject<FilterProperties>((string)state[nameof(LastUsedFilterProperties)]);
@@ -86,26 +85,27 @@ namespace wallabag.ViewModels
 
         public MainViewModel()
         {
-            RefreshCommand = new Command(async () =>
+            RefreshCommand = new DelegateCommand(async () =>
             {
                 IsSyncing = true;
                 await DataService.SyncWithServerAsync();
+                DataService.LastUserSyncDateTime = DateTime.Now;
                 await LoadItemsAsync();
                 IsSyncing = false;
 
                 SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
                 NumberOfOfflineActions = await conn.Table<OfflineAction>().CountAsync();
             });
-            NavigateToSettingsPageCommand = new Command(() =>
+            NavigateToSettingsPageCommand = new DelegateCommand(() =>
             {
-                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(Views.SettingsPage));
+                NavigationService.Navigate(typeof(Views.SettingsPage));
             });
 
-            FilterCommand = new Command(async () =>
+            FilterCommand = new DelegateCommand(async () =>
             {
                 await LoadItemsAsync();
             });
-            ResetCommand = new Command(async () =>
+            ResetCommand = new DelegateCommand(async () =>
             {
                 LastUsedFilterProperties = new FilterProperties();
                 await LoadItemsAsync();

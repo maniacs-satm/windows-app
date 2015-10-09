@@ -1,12 +1,22 @@
-﻿using System;
+﻿using Template10.Mvvm;
 using wallabag.Common;
 
 namespace wallabag.ViewModels
 {
-    public class SettingsPageViewModel : Common.Mvvm.ViewModelBase
+    public class SettingsPageViewModel : ViewModelBase
     {
         public override string ViewModelIdentifier { get; set; } = "SettingsPageViewModel";
-               
+
+        public string Username
+        {
+            get { return AppSettings.Username; }
+            set { AppSettings.Username = value; }
+        }
+        public string Password
+        {
+            get { return AppSettings.Password; }
+            set { AppSettings.Password = value; }
+        }
         public string wallabagUrl
         {
             get { return AppSettings.wallabagUrl; }
@@ -53,6 +63,30 @@ namespace wallabag.ViewModels
         {
             get { return AppSettings.UseClassicContextMenuForMouseInput; }
             set { AppSettings.UseClassicContextMenuForMouseInput = value; }
+        }
+        public bool UseBackgroundTask
+        {
+            get { return AppSettings.UseBackgroundTask; }
+            set
+            {
+                AppSettings.UseBackgroundTask = value;
+
+                if (value)
+                    Services.BackgroundTaskService.RegisterSyncItemsBackgroundTask();
+                else
+                    Services.BackgroundTaskService.UnregisterSyncItemsBackgroundTask();
+            }
+        }     
+        public uint BackgroundTaskInterval
+        {
+            get { return AppSettings.BackgroundTaskInterval; }
+            set
+            {
+                AppSettings.BackgroundTaskInterval = value;
+
+                Services.BackgroundTaskService.UnregisterSyncItemsBackgroundTask();
+                Services.BackgroundTaskService.RegisterSyncItemsBackgroundTask();
+            }
         }
     }
 }

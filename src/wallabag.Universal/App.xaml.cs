@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Template10.Common;
 using wallabag.Common;
+using wallabag.Services;
 using Windows.ApplicationModel.Activation;
+using Windows.UI.Notifications;
 
 namespace wallabag.Universal
 {
@@ -13,6 +17,12 @@ namespace wallabag.Universal
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
+            if (startKind == StartKind.Launch)
+            {
+                DataService.LastUserSyncDateTime = DateTime.Now;
+                BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
+            }
+
             if (!string.IsNullOrEmpty(AppSettings.AccessToken))
             {
                 await Services.DataService.InitializeDatabaseAsync();

@@ -7,7 +7,7 @@ using HtmlAgilityPack;
 using Newtonsoft.Json;
 using PropertyChanged;
 using wallabag.Common;
-using wallabag.Common.Mvvm;
+using Template10.Mvvm;
 using wallabag.Models;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -21,15 +21,14 @@ namespace wallabag.ViewModels
     public class ItemViewModel : ViewModelBase
     {
         private static SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-        public override string ViewModelIdentifier { get; set; } = "ItemViewModel";
 
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
-            DeleteCommand = new Command(async () => await DeleteItemAsync());
-            SwitchReadStatusCommand = new Command(async () => await SwitchReadValueAsync());
-            SwitchFavoriteStatusCommand = new Command(async () => await SwitchFavoriteValueAsync());
-            ShareCommand = new Command(() =>
+            DeleteCommand = new DelegateCommand(async () => await DeleteItemAsync());
+            SwitchReadStatusCommand = new DelegateCommand(async () => await SwitchReadValueAsync());
+            SwitchFavoriteStatusCommand = new DelegateCommand(async () => await SwitchFavoriteValueAsync());
+            ShareCommand = new DelegateCommand(() =>
             {
                 DataTransferManager.GetForCurrentView().DataRequested += (s, args) =>
                 {
@@ -40,7 +39,7 @@ namespace wallabag.ViewModels
                 };
                 DataTransferManager.ShowShareUI();
             });
-            OpenInBrowserCommand = new Command(async () => { await Launcher.LaunchUriAsync(new Uri(Model.Url)); });
+            OpenInBrowserCommand = new DelegateCommand(async () => { await Launcher.LaunchUriAsync(new Uri(Model.Url)); });
 
             GetIntroSentence();
             Model.Tags.CollectionChanged += Tags_CollectionChanged;
@@ -50,11 +49,11 @@ namespace wallabag.ViewModels
         public string ContentWithHeader { get; set; }
         public string IntroSentence { get; set; }
 
-        public Command DeleteCommand { get; private set; }
-        public Command SwitchReadStatusCommand { get; private set; }
-        public Command SwitchFavoriteStatusCommand { get; private set; }
-        public Command ShareCommand { get; private set; }
-        public Command OpenInBrowserCommand { get; private set; }
+        public DelegateCommand DeleteCommand { get; private set; }
+        public DelegateCommand SwitchReadStatusCommand { get; private set; }
+        public DelegateCommand SwitchFavoriteStatusCommand { get; private set; }
+        public DelegateCommand ShareCommand { get; private set; }
+        public DelegateCommand OpenInBrowserCommand { get; private set; }
 
         #region Methods
         public async Task CreateContentFromTemplateAsync()

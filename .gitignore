@@ -190,6 +190,18 @@ ModelManifest.xml
 src/wallabag.Universal/project.lock.json
 WebEssentials2015-Settings.json
 .vs/config/applicationhost.config
+
+# Custom rules
 src/wallabag.Universal/wallabag.nuget.targets
 src/wallabag.Tasks/project.lock.json
 src/wallabag.Tasks/wallabag.Tasks.nuget.targets
+/wallabag.Data/wallabag.Data.nuget.targets
+/wallabag.Data/project.lock.json
+/src/wallabag.Universal/BundleArtifacts
+/src/wallabag.Universal/_scale-400.appx
+/src/wallabag.Universal/_scale-150.appx
+/src/wallabag.Universal/_scale-125.appx
+/src/wallabag.Universal/_scale-100.appx
+/src/wallabag.Universal/_pkginfo.txt
+/src/wallabag.Universal/null
+/wallabag.Data/null

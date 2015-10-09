@@ -5,8 +5,7 @@
     "Newtonsoft.Json": "7.0.1",
     "PropertyChanged.Fody": "1.50.3",
     "sqlite-net": "1.0.8",
-    "Template10": "1.0.4",
-    "WindowsStateTriggers": "1.0.2"
+    "Template10": "1.0.4"
   },
   "frameworks": {
     "uap10.0": {}

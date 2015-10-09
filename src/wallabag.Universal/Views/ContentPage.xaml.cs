@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Template10.Common;
+using Template10.Services.NavigationService;
 using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
@@ -160,7 +162,7 @@ namespace wallabag.Views
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
-            Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id.ToString());
+            (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id.ToString());
         }
 
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -180,7 +182,7 @@ namespace wallabag.Views
             if (args.ChosenSuggestion != null)
             {
                 var id = ((KeyValuePair<int, string>)args.ChosenSuggestion).Key;
-                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(SingleItemPage), id.ToString());
+                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
             // TODO: Implement a search page in case the user didn't chose a suggestion.
         }
@@ -188,7 +190,7 @@ namespace wallabag.Views
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
         {
             if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
-                Services.NavigationService.NavigationService.ApplicationNavigationService.Navigate(typeof(AddItemPage));
+                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(AddItemPage));
             else
                 (Resources["ShowAddItemBorder"] as Storyboard).Begin();
         }

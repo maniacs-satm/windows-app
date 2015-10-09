@@ -107,5 +107,15 @@ namespace wallabag.Common
             get { return GetProperty(nameof(UseClassicContextMenuForMouseInput), true); }
             set { SetProperty(nameof(UseClassicContextMenuForMouseInput), value); }
         }
+        public static bool UseBackgroundTask
+        {
+            get { return GetProperty(nameof(UseBackgroundTask), false); }
+            set { SetProperty(nameof(UseBackgroundTask), value); }
+        }
+        public static uint BackgroundTaskInterval
+        {
+            get { return GetProperty<uint>(nameof(BackgroundTaskInterval), 15); }
+            set { SetProperty(nameof(BackgroundTaskInterval), value); }
+        }
     }
 }

@@ -106,16 +106,6 @@
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\AppSettings.cs" />
-    <Compile Include="Common\BootStrapper.cs" />
-    <Compile Include="Common\Extensions.cs" />
-    <Compile Include="Common\Helpers.cs" />
-    <Compile Include="Common\Mvvm\BindableBase.cs" />
-    <Compile Include="Common\Mvvm\Command.cs" />
-    <Compile Include="Common\Mvvm\ObservableDictionary.cs" />
-    <Compile Include="Common\Mvvm\ViewModelBase.cs" />
-    <Compile Include="Common\SQLite\SQLite.cs" />
-    <Compile Include="Common\SQLite\SQLiteAsync.cs" />
     <Compile Include="Controls\ItemControl.xaml.cs">
       <DependentUpon>ItemControl.xaml</DependentUpon>
     </Compile>
@@ -126,9 +116,6 @@
     <Compile Include="Converter\FavoriteToIconConverter.cs" />
     <Compile Include="Converter\ReadToIconConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Models\Item.cs" />
-    <Compile Include="Models\OfflineAction.cs" />
-    <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\KeyboardService\KeyboardEventArgs.cs" />
@@ -142,7 +129,6 @@
     <Compile Include="Services\AuthorizationService.cs" />
     <Compile Include="ViewModels\AddItemPageViewModel.cs" />
     <Compile Include="ViewModels\FirstStartPageViewModel.cs" />
-    <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SingleItemPageViewModel.cs" />
@@ -279,6 +265,16 @@
     <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\wallabag.Data\wallabag.Data.csproj">
+      <Project>{b7cf54c4-8117-415a-bf06-6db5c9964c76}</Project>
+      <Name>wallabag.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\wallabag.Tasks\wallabag.Tasks.csproj">
+      <Project>{12ba4535-124b-434c-9227-b1a8347dfed7}</Project>
+      <Name>wallabag.Tasks</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
