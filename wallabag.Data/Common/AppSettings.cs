@@ -159,7 +159,7 @@ namespace wallabag.Common
             get { return GetProperty(nameof(TextAlignment), "left"); }
             set { SetProperty(nameof(TextAlignment), value); }
         }
-        
+
         public static bool NavigateBackAfterReadingAnArticle
         {
             get { return GetProperty(nameof(NavigateBackAfterReadingAnArticle), true); }
@@ -179,6 +179,11 @@ namespace wallabag.Common
         {
             get { return GetProperty(nameof(UseClassicContextMenuForMouseInput), true); }
             set { SetProperty(nameof(UseClassicContextMenuForMouseInput), value); }
+        }
+        public static bool UseBackgroundTask
+        {
+            get { return GetProperty(nameof(UseBackgroundTask), false); }
+            set { SetProperty(nameof(UseBackgroundTask), value); }
         }
     }
 }
