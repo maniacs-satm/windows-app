@@ -19,7 +19,11 @@ namespace wallabag.Services
         private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
         private static int _lastItemId = 0;
 
-        public static DateTime LastUserSyncDateTime { get; set; }
+        public static DateTime LastUserSyncDateTime
+        {
+            get { return DateTime.Parse(Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastUserSyncDateTime"] as string ?? DateTime.Now.ToString()); }
+            set { Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastUserSyncDateTime"] = value.ToString(); }
+        }
 
         public static async Task InitializeDatabaseAsync()
         {
