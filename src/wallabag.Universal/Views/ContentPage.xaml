@@ -53,13 +53,18 @@
             <Setter Property="Margin" Value="0,0,0,48"/>
         </Style>
         <MenuFlyout x:Key="ItemContextMenu">
-            <MenuFlyoutItem x:Name="ContextMenuMarkAsRead" Text="Mark as read" Click="ContextMenuMarkAsRead_Click"/>
-            <MenuFlyoutItem x:Name="ContextMenuMarkAsFavorite" Text="Mark as favorite" Click="ContextMenuMarkAsFavorite_Click"/>
+            <MenuFlyoutItem x:Name="ContextMenuMarkAsRead" Text="Mark as read" Click="ContextMenuMarkAsRead_Click"
+                            Tag="&#xE001;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem x:Name="ContextMenuMarkAsFavorite" Text="Mark as favorite" Click="ContextMenuMarkAsFavorite_Click"
+                            Tag="&#xE0B4;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="ContextMenuShareItem" Text="Share" Click="ContextMenuShareItem_Click"/>
-            <MenuFlyoutItem x:Name="ContextMenuOpenInBrowser" Text="Open in browser" Click="ContextMenuOpenInBrowser_Click"/>
+            <MenuFlyoutItem x:Name="ContextMenuShareItem" Text="Share" Click="ContextMenuShareItem_Click"
+                            Tag="&#xE72D;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem x:Name="ContextMenuOpenInBrowser" Text="Open in browser" Click="ContextMenuOpenInBrowser_Click"
+                            Tag="&#xE12B;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="ContextMenuDeleteItem" Text="Delete" Click="ContextMenuDeleteItem_Click"/>
+            <MenuFlyoutItem x:Name="ContextMenuDeleteItem" Text="Delete" Click="ContextMenuDeleteItem_Click"
+                            Tag="&#xE107;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
         </MenuFlyout>
         <Style x:Key="MenuFlyoutItemIconTemplate" TargetType="MenuFlyoutItem">
             <Setter Property="Template">
