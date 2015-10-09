@@ -1,5 +1,4 @@
-﻿using System;
-using NotificationsExtensions.Badges;
+﻿using NotificationsExtensions.Badges;
 using wallabag.Services;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
@@ -14,9 +13,14 @@ namespace wallabag.Tasks
 
             if (await DataService.SyncWithServerAsync())
             {
+                uint newItemsSinceLastOpening = (uint)(await DataService.GetItemsAsync(new FilterProperties
+                {
+                    ItemType = FilterProperties.FilterPropertiesItemType.Unread,
+                    CreationDateFrom = DataService.LastUserSyncDateTime
+                })).Count;
                 BadgeNumericNotificationContent badgeContent =
-                    new BadgeNumericNotificationContent(42); // Update this number with the number of new items since last opening
-                TileUpdateManager.CreateTileUpdaterForApplication().Update(new TileNotification(badgeContent.GetXml()));
+                    new BadgeNumericNotificationContent(newItemsSinceLastOpening); // Update this number with the number of new items since last opening
+                BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeContent.GetXml()));
             }
         }
 
