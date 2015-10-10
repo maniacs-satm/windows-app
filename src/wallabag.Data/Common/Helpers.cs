@@ -24,9 +24,9 @@ namespace wallabag.Common
         {
             return ResourceLoader.GetForCurrentView().GetString(resourceName);
         }
-        public static void AddHttpHeaders(HttpClient client)
+        public static async Task AddHttpHeadersAsync(HttpClient client)
         {
-            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("Bearer", AuthorizationService.GetAccessToken());
+            client.DefaultRequestHeaders.Authorization = new HttpCredentialsHeaderValue("Bearer", await AuthorizationService.GetAccessTokenAsync());
             client.DefaultRequestHeaders.UserAgent.Add(new HttpProductInfoHeaderValue("wallabag for Windows"));
         }
         public static bool IsConnectedToTheInternet
@@ -42,7 +42,7 @@ namespace wallabag.Common
         {
             using (HttpClient http = new HttpClient())
             {
-                AddHttpHeaders(http);
+                await AddHttpHeadersAsync(http);
 
                 Uri requestUri = new Uri($"{AppSettings.wallabagUrl}/api{RelativeUriString}.json");
                 var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
