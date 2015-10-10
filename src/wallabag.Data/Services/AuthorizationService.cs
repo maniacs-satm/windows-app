@@ -12,13 +12,17 @@ namespace wallabag.Services
         private const string _ClientID = "1_3bcbxd9e24g0gk4swg0kwgcwg4o8k8g4g888kwc44gcc0gwwk4";
         private const string _ClientSecret = "4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k";
 
-        private static DateTime _LastRequestDateTime;
+        private static DateTime _LastRequestDateTime
+        {
+            get { return DateTime.Parse(Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastRequestDateTime"] as string ?? DateTime.UtcNow.ToString()); }
+            set { Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastRequestDateTime"] = value.ToString(); }
+        }
 
-        public static string GetAccessToken()
+        public static async Task<string> GetAccessTokenAsync()
         {
             TimeSpan duration = DateTime.UtcNow.Subtract(_LastRequestDateTime);
             if (duration.Seconds > 3600)
-                RefreshToken();
+                await RequestTokenAsync("wallabag", "wallabag", AppSettings.wallabagUrl); // TODO: Use RefreshTokenAsync method!
 
             return AppSettings.AccessToken;
         }
@@ -52,9 +56,9 @@ namespace wallabag.Services
                 return true;
             }
         }
-        public static void RefreshToken()
+        public static async Task<bool> RefreshTokenAsync()
         {
-
+            return false;  
         }
     }
 }
