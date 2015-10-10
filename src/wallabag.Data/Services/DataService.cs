@@ -74,8 +74,7 @@ namespace wallabag.Services
                 if (success)
                     await conn.DeleteAsync(task);
             }
-            await DownloadItemsFromServerAsync();
-            return true;
+            return await DownloadItemsFromServerAsync();
         }
         public static async Task<bool> DownloadItemsFromServerAsync()
         {
@@ -146,7 +145,7 @@ namespace wallabag.Services
                     result = allItems;
                     break;
                 case FilterProperties.FilterPropertiesItemType.Unread:
-                    result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false && i.IsStarred == false).ToListAsync();
+                    result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false).ToListAsync();
                     break;
                 case FilterProperties.FilterPropertiesItemType.Favorites:
                     result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
