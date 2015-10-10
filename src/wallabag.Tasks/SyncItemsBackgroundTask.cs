@@ -1,4 +1,5 @@
-﻿using NotificationsExtensions.Badges;
+﻿using System;
+using NotificationsExtensions.Badges;
 using wallabag.Services;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
@@ -9,6 +10,7 @@ namespace wallabag.Tasks
     {
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
+            var _deferral = taskInstance.GetDeferral();
             taskInstance.Canceled += TaskInstance_Canceled;
 
             if (await DataService.SyncWithServerAsync())
@@ -16,12 +18,14 @@ namespace wallabag.Tasks
                 uint newItemsSinceLastOpening = (uint)(await DataService.GetItemsAsync(new FilterProperties
                 {
                     ItemType = FilterProperties.FilterPropertiesItemType.Unread,
-                    CreationDateFrom = DataService.LastUserSyncDateTime
+                    CreationDateFrom = DataService.LastUserSyncDateTime,
+                    CreationDateTo = DateTime.Now
                 })).Count;
                 BadgeNumericNotificationContent badgeContent =
-                    new BadgeNumericNotificationContent(newItemsSinceLastOpening); // Update this number with the number of new items since last opening
-                BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeContent.GetXml()));
+                    new BadgeNumericNotificationContent(newItemsSinceLastOpening);
+                BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeContent.GetXml()));               
             }
+            _deferral.Complete();
         }
 
         private void TaskInstance_Canceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
