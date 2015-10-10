@@ -27,6 +27,19 @@
         <Style TargetType="PivotItem">
             <Setter Property="Margin" Value="12,4"/>
         </Style>
+        <Style x:Key="BoldTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="CharacterSpacing" Value="10"/>
+            <Setter Property="Margin" Value="0,12,0,2"/>
+        </Style>
+        <Style x:Key="InfoTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+        </Style>
+        <Style x:Key="IconHyperlinkButtonStyle" TargetType="Button" BasedOn="{StaticResource TextBlockButtonStyle}">
+            <Setter Property="Padding" Value="0"/>
+        </Style>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -67,6 +80,25 @@
                 <StackPanel>
                     <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>
                     <ToggleSwitch Header="Sync the reading progress" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Info">
+                <StackPanel>
+                    <TextBlock Text="VERSION" Style="{StaticResource BoldTextBlockStyle}" Margin="0"/>
+                    <TextBlock Text="2.0.0-beta3" Style="{StaticResource InfoTextBlockStyle}"/>
+                    <TextBlock Text="MADE WITH LOVE BY" Style="{StaticResource BoldTextBlockStyle}"/>
+                    <Button Content="Julian Oster" Style="{ThemeResource IconHyperlinkButtonStyle}"/>
+                    <TextBlock Text="SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
+                    <TextBlock Text="The whole Windows developer community for their help." Style="{StaticResource InfoTextBlockStyle}"/>
+                    <TextBlock Text="EXTRA SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
+                    <TextBlock Text="Nicolas Lœuillet, Thomas Citharel and Jérémy Benoist for creating such a great software." Style="{StaticResource InfoTextBlockStyle}"/>
+                    <TextBlock Text="NEED HELP?" Style="{StaticResource BoldTextBlockStyle}"/>
+                    <Button Content="@wallabagapp" Style="{ThemeResource IconHyperlinkButtonStyle}"/>
+                    <Button Content="@jlnostr" Style="{ThemeResource IconHyperlinkButtonStyle}"/>
+                    <Button Content="wallabag@jlnostr.de" Style="{ThemeResource IconHyperlinkButtonStyle}"/>
+                    <TextBlock Text="LIKE OUR WORK?" Style="{StaticResource BoldTextBlockStyle}"/>
+                    <Button Content="rate and review" Style="{ThemeResource IconHyperlinkButtonStyle}"/>
+                    <Button Content="share app" Style="{ThemeResource IconHyperlinkButtonStyle}"/>
                 </StackPanel>
             </PivotItem>
         </Pivot>
