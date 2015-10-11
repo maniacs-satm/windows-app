@@ -14,7 +14,11 @@ namespace wallabag.Services
 
         private static DateTime _LastRequestDateTime
         {
-            get { return DateTime.Parse(Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastRequestDateTime"] as string ?? DateTime.UtcNow.ToString()); }
+            get
+            {
+                return DateTime.Parse(Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastRequestDateTime"] as string
+                    ?? DateTime.UtcNow.Subtract(new TimeSpan(1, 0, 0)).ToString());
+            }
             set { Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastRequestDateTime"] = value.ToString(); }
         }
 
@@ -58,7 +62,7 @@ namespace wallabag.Services
         }
         public static async Task<bool> RefreshTokenAsync()
         {
-            return false;  
+            return false;
         }
     }
 }
