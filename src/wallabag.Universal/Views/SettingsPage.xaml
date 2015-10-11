@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    
+
     <Page.DataContext>
         <vm:SettingsPageViewModel />
     </Page.DataContext>
@@ -59,7 +59,7 @@
                                     VerticalAlignment="Center"/>
                                 <TextBlock x:Name="Content" Text="{TemplateBinding Content}" VerticalAlignment="Center"/>
                             </StackPanel>
-        <VisualStateManager.VisualStateGroups>
+                            <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal"/>
                                     <VisualState x:Name="PointerOver">
@@ -71,7 +71,7 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHyperlinkBaseMediumBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
-                </VisualState>
+                                    </VisualState>
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
@@ -91,9 +91,9 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -142,12 +142,34 @@
                     <ToggleSwitch Header="Sync the reading progress" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
+            <PivotItem Header="Background task">
+                <StackPanel>
+                    <ToggleSwitch Header="Use background task" IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}"/>
+                    <TextBlock Text="Interval in minutes" Margin="0,8,0,-4"/>
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel.Resources>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                                <Setter Property="Padding" Value="4"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                <Setter Property="Width" Value="48"/>
+                                <Setter Property="Height" Value="48"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" IsChecked="True">15</RadioButton>
+                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">30</RadioButton>
+                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">60</RadioButton>
+                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">120</RadioButton>
+                    </StackPanel>
+                </StackPanel>
+            </PivotItem>
             <PivotItem Header="Info">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
                         <TextBlock Text="VERSION" Style="{StaticResource BoldTextBlockStyle}" Margin="0,0,0,2"/>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="2.0.0-beta3" Style="{StaticResource InfoTextBlockStyle}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0">
+                            <TextBlock x:Name="versionTextBlock" Text="2.0.0" Style="{StaticResource InfoTextBlockStyle}"/>
                             <Button x:Name="OpenChangelogButton" Style="{ThemeResource TextBlockButtonStyle}" Content="(changelog)" Padding="0" Click="InfoPageButton_Click"/>
                         </StackPanel>
                         <TextBlock Text="MADE WITH LOVE BY" Style="{StaticResource BoldTextBlockStyle}"/>
@@ -205,28 +227,6 @@
                         </Button>
                     </StackPanel>
                 </ScrollViewer>
-            </PivotItem>
-            <PivotItem Header="Background task">
-                <StackPanel>
-                    <ToggleSwitch Header="Use background task" IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}"/>
-                    <TextBlock Text="Interval in minutes" Margin="0,8,0,-4"/>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Resources>
-                            <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
-                                <Setter Property="FontFamily" Value="Segoe UI"/>
-                                <Setter Property="Padding" Value="4"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                <Setter Property="Width" Value="48"/>
-                                <Setter Property="Height" Value="48"/>
-                            </Style>
-                        </StackPanel.Resources>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" IsChecked="True">15</RadioButton>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">30</RadioButton>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">60</RadioButton>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">120</RadioButton>
-                    </StackPanel>
-                </StackPanel>
             </PivotItem>
         </Pivot>
     </Grid>

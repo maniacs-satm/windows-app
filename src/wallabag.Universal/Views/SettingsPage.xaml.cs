@@ -1,6 +1,7 @@
 ﻿using System;
 using wallabag.Common;
 using wallabag.ViewModels;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -19,6 +20,16 @@ namespace wallabag.Views
         public SettingsPage()
         {
             InitializeComponent();
+            versionTextBlock.Text = GetAppVersion();
+        }
+
+        public static string GetAppVersion()
+        {
+            Package package = Package.Current;
+            PackageId packageId = package.Id;
+            PackageVersion version = packageId.Version;
+
+            return string.Format($"{version.Major}.{version.Minor}.{version.Build}");
         }
 
         private async void InfoPageButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
