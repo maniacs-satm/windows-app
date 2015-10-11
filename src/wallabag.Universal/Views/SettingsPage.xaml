@@ -7,33 +7,102 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-
+    
     <Page.DataContext>
         <vm:SettingsPageViewModel />
     </Page.DataContext>
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style TargetType="PivotHeaderItem">
+            <Setter Property="RequestedTheme" Value="Dark"/>
+        </Style>
+        <Style TargetType="Pivot">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" TextWrapping="NoWrap" FontSize="18"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="PivotItem">
+            <Setter Property="Margin" Value="12,4"/>
+        </Style>
+        <Style x:Key="BoldTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="NoWrap"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="CharacterSpacing" Value="10"/>
+            <Setter Property="Margin" Value="0,12,0,2"/>
+        </Style>
+        <Style x:Key="InfoTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+            <Setter Property="Margin" Value="8,2"/>
+        </Style>
+        <Style x:Key="IconAndTextHyperlinkButtonStyle" TargetType="ButtonBase">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlHyperlinkTextBrush}" />
+            <Setter Property="MinWidth" Value="0"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ButtonBase">
+                        <Grid Margin="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <ContentPresenter
+                                    x:Name="Icon"
+                                    Content="{TemplateBinding Tag}"
+                                    AutomationProperties.AccessibilityView="Raw"
+                                    Margin="0,0,8,0"
+                                    VerticalAlignment="Center"/>
+                                <TextBlock x:Name="Content" Text="{TemplateBinding Content}" VerticalAlignment="Center"/>
+                            </StackPanel>
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Phone">
-                    <VisualState.Setters>
-                        <Setter Target="AccountCredentialsStackPanel.HorizontalAlignment" Value="Stretch"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHyperlinkBaseMediumBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHyperlinkBaseMediumBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
                 </VisualState>
-                <VisualState x:Name="Desktop">
-                    <VisualState.Setters>
-                        <Setter Target="AccountCredentialsStackPanel.HorizontalAlignment" Value="Left"/>
-                        <Setter Target="AccountCredentialsStackPanel.Width" Value="400"/>
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500"/>
-                    </VisualState.StateTriggers>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"/>
             <RowDefinition />
@@ -41,6 +110,7 @@
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
+        <Rectangle Height="48" Grid.Row="1" VerticalAlignment="Top" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="{ThemeResource SettingsPivotHeaderBackgroundOpacity}"/>
         <Pivot Grid.Row="1">
             <Pivot.Resources>
                 <Style TargetType="ToggleSwitch">
@@ -66,16 +136,75 @@
                     <ToggleSwitch Header="Use 'normal' context menu when using a mouse" IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
-            <!--<PivotItem Header="Account credentials">
-                <StackPanel x:Name="AccountCredentialsStackPanel">
-                    <TextBox x:Name="UrlTextBox" Header="Url to wallabag" InputScope="Url" PlaceholderText="http://" Text="{x:Bind ViewModel.wallabagUrl, Mode=TwoWay}"/>
-                </StackPanel>
-            </PivotItem>-->
             <PivotItem Header="Reading">
                 <StackPanel>
                     <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>
                     <ToggleSwitch Header="Sync the reading progress" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
                 </StackPanel>
+            </PivotItem>
+            <PivotItem Header="Info">
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <StackPanel>
+                        <TextBlock Text="VERSION" Style="{StaticResource BoldTextBlockStyle}" Margin="0,0,0,2"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="2.0.0-beta3" Style="{StaticResource InfoTextBlockStyle}"/>
+                            <Button x:Name="OpenChangelogButton" Style="{ThemeResource TextBlockButtonStyle}" Content="(changelog)" Padding="0" Click="InfoPageButton_Click"/>
+                        </StackPanel>
+                        <TextBlock Text="MADE WITH LOVE BY" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock Text="Julian Oster" Style="{ThemeResource InfoTextBlockStyle}"/>
+                        <TextBlock Text="CREDITS" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock Style="{ThemeResource InfoTextBlockStyle}">
+                            <Hyperlink UnderlineStyle="None" NavigateUri="http://www.newtonsoft.com/json">• Newtonsoft.Json</Hyperlink><LineBreak/>
+                            <Hyperlink UnderlineStyle="None" NavigateUri="https://github.com/Fody/PropertyChanged">• PropertyChanged.Fody</Hyperlink><LineBreak/>
+                            <Hyperlink UnderlineStyle="None" NavigateUri="https://github.com/dotMorten/WindowsStateTriggers">• WindowsStateTriggers</Hyperlink><LineBreak/>
+                            <Hyperlink UnderlineStyle="None" NavigateUri="https://htmlagilitypack.codeplex.com">• HtmlAgilityPack</Hyperlink><LineBreak/>
+                            <Hyperlink UnderlineStyle="None" NavigateUri="https://github.com/WindowsNotifications/NotificationsExtensions">• NotificationsExtensions</Hyperlink><LineBreak/>
+                            <Hyperlink UnderlineStyle="None" NavigateUri="https://github.com/Windows-XAML/Template10">• Template10</Hyperlink><LineBreak/>
+                            <Hyperlink UnderlineStyle="None" NavigateUri="http://sixrevisions.com/free-icons/free-windows-10-icons/">• Twitter icon by Icons8</Hyperlink>
+                        </TextBlock>
+                        <TextBlock Text="SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock Text="The whole Windows developer community for their help." Style="{StaticResource InfoTextBlockStyle}"/>
+                        <TextBlock Text="EXTRA SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock Text="Nicolas Lœuillet, Thomas Citharel and Jérémy Benoist for creating such a great software." Style="{StaticResource InfoTextBlockStyle}"/>
+                        <TextBlock Text="NEED HELP?" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <Button x:Name="OpenWallabagDocumentationButton" Content="wallabag documentation" Style="{ThemeResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                            <Button.Tag>
+                                <SymbolIcon Symbol="Repair"/>
+                            </Button.Tag>
+                        </Button>
+                        <Button x:Name="OpenWallabagTwitterAccountButton" Content="@wallabagapp" Style="{ThemeResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                            <Button.Tag>
+                                <PathIcon Data="M 20 1.9241667 C 19.264166 2.250833 18.473333 2.4708331 17.643333 2.5700006 18.490833 2.0625005 19.140833 1.2583328 19.4475 0.3 18.655 0.7700002 17.776666 1.1116665 16.841666 1.2958328 16.093333 0.4983326 15.026665 0 13.846665 0 11.580832 0 9.7433308 1.8375005 9.7433308 4.1033335 c 0 0.3216676 0.036658 0.6350002 0.1058375 0.9350002 C 6.4391683 4.8675012 3.4158343 3.2333333 1.391667 0.7508326 1.0391669 1.3566665 0.83666683 2.0616667 0.83666683 2.814167 c 0 1.423334 0.72416687 2.6791669 1.82500047 3.4150008 C 1.9891671 6.2075053 1.356667 6.023334 0.80333358 5.7158339 c 0 0.0175 0 0.034162 0 0.051662 0 1.9883339 1.41416702 3.6466679 3.29166742 4.0233339 -0.3441667 0.09416 -0.7066668 0.144168 -1.0816668 0.144168 -0.2641669 0 -0.5216669 -0.02583 -0.771667 -0.07333 0.5225001 1.6300012 2.0375005 2.8166672 3.8333343 2.8500012 -1.4041669 1.100833 -3.1733342 1.756667 -5.09583467 1.756667 -0.3308333 0 -0.65750012 -0.01916 -0.97916683 -0.0575 1.8158338 1.164167 3.972501 1.843334 6.2900016 1.843334 7.5475014 0 11.6741694 -6.252501 11.6741694 -11.6750027 0 -0.1775001 -0.0042 -0.3550001 -0.01162 -0.5308339 C 18.754166 3.4691671 19.45 2.7466669 20 1.9241667 Z" Width="20"/>
+                            </Button.Tag>
+                        </Button>
+                        <Button x:Name="OpenDeveloperTwitterAccountButton" Content="@jlnostr" Style="{ThemeResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                            <Button.Tag>
+                                <PathIcon Data="M 20 1.9241667 C 19.264166 2.250833 18.473333 2.4708331 17.643333 2.5700006 18.490833 2.0625005 19.140833 1.2583328 19.4475 0.3 18.655 0.7700002 17.776666 1.1116665 16.841666 1.2958328 16.093333 0.4983326 15.026665 0 13.846665 0 11.580832 0 9.7433308 1.8375005 9.7433308 4.1033335 c 0 0.3216676 0.036658 0.6350002 0.1058375 0.9350002 C 6.4391683 4.8675012 3.4158343 3.2333333 1.391667 0.7508326 1.0391669 1.3566665 0.83666683 2.0616667 0.83666683 2.814167 c 0 1.423334 0.72416687 2.6791669 1.82500047 3.4150008 C 1.9891671 6.2075053 1.356667 6.023334 0.80333358 5.7158339 c 0 0.0175 0 0.034162 0 0.051662 0 1.9883339 1.41416702 3.6466679 3.29166742 4.0233339 -0.3441667 0.09416 -0.7066668 0.144168 -1.0816668 0.144168 -0.2641669 0 -0.5216669 -0.02583 -0.771667 -0.07333 0.5225001 1.6300012 2.0375005 2.8166672 3.8333343 2.8500012 -1.4041669 1.100833 -3.1733342 1.756667 -5.09583467 1.756667 -0.3308333 0 -0.65750012 -0.01916 -0.97916683 -0.0575 1.8158338 1.164167 3.972501 1.843334 6.2900016 1.843334 7.5475014 0 11.6741694 -6.252501 11.6741694 -11.6750027 0 -0.1775001 -0.0042 -0.3550001 -0.01162 -0.5308339 C 18.754166 3.4691671 19.45 2.7466669 20 1.9241667 Z" Width="20"/>
+                            </Button.Tag>
+                        </Button>
+                        <Button x:Name="ContactDeveloperEmailButton" Content="wallabag@jlnostr.de" Style="{ThemeResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                            <Button.Tag>
+                                <SymbolIcon Symbol="Mail"/>
+                            </Button.Tag>
+                        </Button>
+                        <Button x:Name="CreateIssueOnGithubButton" Content="Create an issue on GitHub" Style="{StaticResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                            <Button.Tag>
+                                <SymbolIcon Symbol="Remote"/>
+                            </Button.Tag>
+                        </Button>
+                        <TextBlock Text="LIKE OUR WORK?" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <Button x:Name="RateAndReviewButton" Content="rate and review" Style="{StaticResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                            <Button.Tag>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE19F;"/>
+                            </Button.Tag>
+                        </Button>
+                        <Button x:Name="ShareAppButton" Content="share app" Style="{StaticResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                            <Button.Tag>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
+                            </Button.Tag>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Background task">
                 <StackPanel>

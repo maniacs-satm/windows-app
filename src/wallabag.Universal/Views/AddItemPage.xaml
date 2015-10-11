@@ -8,7 +8,13 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
-    
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Name="addItemAppBarButton" Label="Add item" Icon="Accept" Command="{x:Bind AddItemCommand}"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -23,7 +29,6 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="headerRow" Height="48"/>
             <RowDefinition />
-            <RowDefinition Height="48"/>
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
             <TextBlock Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
@@ -39,9 +44,6 @@
                       Grid.Row="1" 
                       VerticalAlignment="Center" 
                       HorizontalAlignment="Center" 
-                      Visibility="Collapsed"/>     
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark" Grid.Row="2">
-            <AppBarButton x:Name="addItemAppBarButton" IsCompact="True" Icon="Accept" HorizontalAlignment="Center" Command="{x:Bind AddItemCommand}"/>
-        </Grid>
-    </Grid>   
+                      Visibility="Collapsed"/>
+    </Grid>
 </Page>
