@@ -306,7 +306,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <StackPanel Margin="0,48" Padding="8">
-                            <Grid>
+                            <Grid Margin="0,0,0,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -318,6 +318,7 @@
                                         <Setter Property="VerticalAlignment" Value="Stretch"/>
                                         <Setter Property="VerticalContentAlignment" Value="Center"/>
                                         <Setter Property="Margin" Value="0"/>
+                                        <Setter Property="Padding" Value="8"/>
                                     </Style>
                                 </Grid.Resources>
                                 <RadioButton Content="&#xE098;" Tag="ascending"/>
