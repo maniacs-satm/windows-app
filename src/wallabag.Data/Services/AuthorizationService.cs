@@ -25,7 +25,7 @@ namespace wallabag.Services
         public static async Task<string> GetAccessTokenAsync()
         {
             TimeSpan duration = DateTime.UtcNow.Subtract(_LastRequestDateTime);
-            if (duration.Seconds > 3600)
+            if (duration.TotalSeconds > 3600)
                 await RequestTokenAsync("wallabag", "wallabag", AppSettings.wallabagUrl); // TODO: Use RefreshTokenAsync method!
 
             return AppSettings.AccessToken;
