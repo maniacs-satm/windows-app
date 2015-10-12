@@ -162,7 +162,10 @@ namespace wallabag.Services
                 result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
             if (!string.IsNullOrEmpty(filterProperties.DomainName))
                 result = new List<Item>(result.Where(i => i.DomainName.Equals(filterProperties.DomainName)));
-            // TODO: handle EstimatedReadingTime
+            if (filterProperties.MinimumEstimatedReadingTime != null &&
+                filterProperties.MaximumEstimatedReadingTime != null)
+                result = new List<Item>(result.Where(i => i.EstimatedReadingTime >= filterProperties.MinimumEstimatedReadingTime
+                                                    && i.EstimatedReadingTime <= filterProperties.MaximumEstimatedReadingTime));
             if (filterProperties.CreationDateFrom != null &&
                 filterProperties.CreationDateTo != null)
             {
@@ -250,7 +253,8 @@ namespace wallabag.Services
         public FilterPropertiesSortOrder SortOrder { get; set; } = FilterPropertiesSortOrder.Descending;
         public Tag FilterTag { get; set; }
         public string DomainName { get; set; }
-        public TimeSpan EstimatedReadingTime { get; set; }
+        public int? MinimumEstimatedReadingTime { get; set; }
+        public int? MaximumEstimatedReadingTime { get; set; }
         public DateTimeOffset? CreationDateFrom { get; set; }
         public DateTimeOffset? CreationDateTo { get; set; }
 
