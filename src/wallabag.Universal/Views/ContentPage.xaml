@@ -291,7 +291,7 @@
             </StackPanel>
         </Grid>
 
-        <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=OneWay}">
+        <SplitView PanePlacement="Right" IsPaneOpen="True">
             <Pivot SelectionChanged="Pivot_SelectionChanged">
                 <Pivot.HeaderTemplate>
                     <DataTemplate>
@@ -306,11 +306,23 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <StackPanel Margin="0,48" Padding="8">
-                            <ComboBox x:Name="sortOrderComboBox" Header="Sort order" Margin="0,8,0,8" HorizontalAlignment="Stretch" SelectedIndex="1">
-                                <ComboBoxItem>Ascending</ComboBoxItem>
-                                <ComboBoxItem>Descending</ComboBoxItem>
-                            </ComboBox>
-
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.Resources>
+                                    <Style TargetType="RadioButton" BasedOn="{StaticResource IconAndTextRadioButtonStyle}">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                    </Style>
+                                </Grid.Resources>
+                                <RadioButton Content="&#xE098;" Tag="ascending"/>
+                                <RadioButton Content="&#xE099;" Tag="descending" Grid.Column="1"/>
+                            </Grid>
                             <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch"
                                       ItemsSource="{x:Bind ViewModel.DomainNames, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
                             <ComboBox x:Name="tagComboBox" Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch"
