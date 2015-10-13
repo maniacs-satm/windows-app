@@ -5,6 +5,8 @@ using wallabag.Common;
 using wallabag.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Notifications;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace wallabag.Universal
 {
@@ -13,6 +15,18 @@ namespace wallabag.Universal
         public App() : base()
         {
             InitializeComponent();
+        }
+
+        public override Task OnInitializeAsync(IActivatedEventArgs args)
+        {
+            if (args.Kind == ActivationKind.ShareTarget)
+            {
+                var frame = new Frame();
+                Window.Current.Content = frame;
+                frame.Navigate(typeof(Views.AddItemPage), (args as ShareTargetActivatedEventArgs).ShareOperation);
+                return Task.FromResult<object>(null);
+            }
+            return base.OnInitializeAsync(args);
         }
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
@@ -25,7 +39,7 @@ namespace wallabag.Universal
 
             if (!string.IsNullOrEmpty(AppSettings.AccessToken))
             {
-                await Services.DataService.InitializeDatabaseAsync();
+                await DataService.InitializeDatabaseAsync();
                 NavigationService.Navigate(typeof(Views.ContentPage));
             }
             else

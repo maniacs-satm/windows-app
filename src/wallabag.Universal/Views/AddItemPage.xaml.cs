@@ -43,17 +43,18 @@ namespace wallabag.Views
                 addItemAppBarButton.IsEnabled = false;
                 urlTextBox.IsEnabled = false;
                 tagControl.IsEnabled = false;
-                savingIndicator.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                savingIndicator.Visibility = Visibility.Visible;
 
                 await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
 
                 Url = string.Empty;
                 Tags.Clear();
 
-                if ((Application.Current as BootStrapper).NavigationService.CanGoBack)
-                    (Application.Current as BootStrapper).NavigationService.GoBack();
-                else
+                if (shareOperation != null)
                     shareOperation.ReportCompleted();
+                else
+                   if (BootStrapper.Current.NavigationService.CanGoBack)
+                    BootStrapper.Current.NavigationService.GoBack();
             });
         }
 
