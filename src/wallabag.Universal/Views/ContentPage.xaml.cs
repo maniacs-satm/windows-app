@@ -315,6 +315,13 @@ namespace wallabag.Views
 
         private void HideAddItemBorder_Click(object sender, RoutedEventArgs e) =>
             (Resources["HideAddItemBorder"] as Storyboard).Begin();
-
+        
+        private void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender == sortAscendingRadioButton)
+                ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Ascending;
+            else
+                ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
+        }
     }
 }
