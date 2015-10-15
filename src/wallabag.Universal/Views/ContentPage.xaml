@@ -279,6 +279,17 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup x:Name="AdaptiveTriggers">
+                <VisualState x:Name="Wide">
+                    <VisualState.Setters>
+                        <Setter Target="searchGrid.HorizontalAlignment" Value="Right"/>
+                        <Setter Target="searchGrid.Width" Value="400"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
             <Grid.ColumnDefinitions>
