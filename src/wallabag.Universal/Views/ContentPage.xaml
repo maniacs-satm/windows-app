@@ -344,7 +344,7 @@
             </StackPanel>
         </Grid>
 
-        <SplitView PanePlacement="Right" IsPaneOpen="True">
+        <SplitView PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=TwoWay}">
             <Pivot SelectionChanged="Pivot_SelectionChanged">
                 <Pivot.HeaderTemplate>
                     <DataTemplate>
