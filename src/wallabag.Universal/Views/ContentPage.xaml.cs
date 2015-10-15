@@ -315,13 +315,28 @@ namespace wallabag.Views
 
         private void HideAddItemBorder_Click(object sender, RoutedEventArgs e) =>
             (Resources["HideAddItemBorder"] as Storyboard).Begin();
-        
-        private void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
+
+        #region Filter
+
+        private async void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             if (sender == sortAscendingRadioButton)
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Ascending;
             else
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
+            await ViewModel.FilterItemsAsync();
         }
+
+        private async void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await ViewModel.FilterItemsAsync();
+        }
+
+        private async void filterCalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            await ViewModel.FilterItemsAsync();
+        }
+
+        #endregion
     }
 }
