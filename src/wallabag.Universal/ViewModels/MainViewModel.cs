@@ -40,6 +40,12 @@ namespace wallabag.ViewModels
 
             DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
         }
+        public async Task FilterItemsAsync()
+        {
+            Items.Clear();
+            foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
+                Items.Add(new ItemViewModel(i));
+        }
 
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
