@@ -280,10 +280,18 @@
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="AdaptiveTriggers">
+                <VisualState x:Name="Narrow">
+                    <VisualState.Setters>
+                        <Setter Target="searchHeaderTextBox.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.Setters>
-                        <Setter Target="searchGrid.HorizontalAlignment" Value="Right"/>
-                        <Setter Target="searchGrid.Width" Value="400"/>
+                        <Setter Target="SearchBox.HorizontalAlignment" Value="Right"/>
+                        <Setter Target="SearchBox.Width" Value="400"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720"/>
@@ -382,15 +390,18 @@
         <Grid x:Name="searchGrid" VerticalAlignment="Top" RequestedTheme="Dark"
               HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
+            <TextBlock x:Name="searchHeaderTextBox" Text="SEARCH &amp; FILTER" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
             <AutoSuggestBox x:Name="SearchBox"
                             QueryIcon="Find"
-                            PlaceholderText="Search..."
+                            PlaceholderText="Search…"
                             ItemsSource="{x:Bind SearchBoxSuggestions}"
                             TextChanged="SearchBox_TextChanged"
                             Margin="8,0"
+                            Grid.Column="1"
                             VerticalAlignment="Center"
                             QuerySubmitted="SearchBox_QuerySubmitted">
                 <AutoSuggestBox.ItemTemplate>
@@ -399,7 +410,7 @@
                     </DataTemplate>
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
-            <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton" Grid.Column="1"/>
+            <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton" Grid.Column="2"/>
         </Grid>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <AppBarButton x:Name="multipleSelectToggleButton" Icon="Bullets" Label="Select" Click="multipleSelectToggleButton_Click"/>
