@@ -367,16 +367,19 @@
                 </ScrollViewer>
             </SplitView.Pane>
         </SplitView>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" RequestedTheme="Dark"
-                    HorizontalAlignment="Right" Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-                    Visibility="Collapsed">
+        <Grid x:Name="searchGrid" VerticalAlignment="Top" RequestedTheme="Dark"
+              HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
             <AutoSuggestBox x:Name="SearchBox"
                             QueryIcon="Find"
                             PlaceholderText="Search..."
                             ItemsSource="{x:Bind SearchBoxSuggestions}"
                             TextChanged="SearchBox_TextChanged"
-                            Width="300"
-                            Margin="8"
+                            Margin="8,0"
+                            VerticalAlignment="Center"
                             QuerySubmitted="SearchBox_QuerySubmitted">
                 <AutoSuggestBox.ItemTemplate>
                     <DataTemplate>
@@ -384,8 +387,8 @@
                     </DataTemplate>
                 </AutoSuggestBox.ItemTemplate>
             </AutoSuggestBox>
-            <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton"/>
-        </StackPanel>
+            <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton" Grid.Column="1"/>
+        </Grid>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <AppBarButton x:Name="multipleSelectToggleButton" Icon="Bullets" Label="Select" Click="multipleSelectToggleButton_Click"/>
             <AppBarToggleButton x:Name="searchToggleButton" Icon="Find" Label="Search"/>
