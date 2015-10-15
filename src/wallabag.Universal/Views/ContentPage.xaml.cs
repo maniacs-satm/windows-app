@@ -23,6 +23,7 @@ namespace wallabag.Views
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
         private GridView _ItemGridView;
         public bool IsMultipleSelectionEnabled { get; set; } = false;
+        private bool IsSearchVisible { get; set; } = false;
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -343,5 +344,19 @@ namespace wallabag.Views
         }
 
         #endregion
+
+        private void searchToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSearchVisible)
+            {
+                ShowSearchGrid.Begin();
+                IsSearchVisible = true;
+            }
+            else
+            {
+                HideSearchGrid.Begin();                
+                IsSearchVisible = false;
+            }
+        }
     }
 }
