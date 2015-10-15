@@ -332,7 +332,7 @@
                                 </Style>
                             </Grid.Resources>
                             <RadioButton x:Name="sortAscendingRadioButton" Content="&#xE098;" Tag="ascending" Checked="sortOrderRadioButton_Checked"/>
-                            <RadioButton x:Name="sortDescendingRadioButton" Content="&#xE099;" Tag="descending" Grid.Column="1" Checked="sortOrderRadioButton_Checked"/>
+                            <RadioButton x:Name="sortDescendingRadioButton" Content="&#xE099;" Tag="descending" Grid.Column="1" Checked="sortOrderRadioButton_Checked" IsChecked="True"/>
                         </Grid>
                         <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectionChanged="filterComboBox_SelectionChanged"
                                       ItemsSource="{x:Bind ViewModel.DomainNames, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
@@ -374,6 +374,7 @@
                                     MaxDate="{x:Bind ViewModel.MaxDate}"
                                     DateChanged="filterCalendarDatePicker_DateChanged"/>
                         </Grid>
+                        <Button Content="Reset filter" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind ViewModel.ResetFilterCommand}" Margin="0,8,0,0" Click="resetFilterButton_Click"/>
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Pane>

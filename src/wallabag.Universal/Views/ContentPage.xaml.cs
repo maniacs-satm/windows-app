@@ -337,6 +337,11 @@ namespace wallabag.Views
             await ViewModel.FilterItemsAsync();
         }
 
+        private void resetFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            sortDescendingRadioButton.IsChecked = true;
+        }
+
         #endregion
     }
 }
