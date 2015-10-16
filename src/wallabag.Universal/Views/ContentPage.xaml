@@ -376,20 +376,9 @@
                             <RadioButton x:Name="sortAscendingRadioButton" Content="&#xE098;" Tag="ascending" Checked="sortOrderRadioButton_Checked"/>
                             <RadioButton x:Name="sortDescendingRadioButton" Content="&#xE099;" Tag="descending" Grid.Column="1" Checked="sortOrderRadioButton_Checked" IsChecked="True"/>
                         </Grid>
-                        <ComboBox x:Name="domainNameComboBox" Header="Domain name" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectionChanged="filterComboBox_SelectionChanged"
-                                      ItemsSource="{x:Bind ViewModel.DomainNames, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.LastUsedFilterProperties.DomainName, Mode=TwoWay}"/>
-                        <ComboBox x:Name="tagComboBox" Header="Tag" Margin="0,0,0,8" HorizontalAlignment="Stretch" SelectionChanged="filterComboBox_SelectionChanged"
-                                      ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}" SelectedItem="{Binding LastUsedFilterProperties.FilterTag, Mode=TwoWay}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="m:Tag">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Ellipse Fill="{x:Bind Color}" Height="16" Width="16"/>
-                                        <TextBlock Text="{x:Bind Label}" VerticalAlignment="Center" Margin="8,0,4,0"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                        <!-- estimated reading time -->
+                        <AutoSuggestBox x:Name="domainNameAutoSuggestBox" Header="Domain name" Margin="0,0,0,8" ItemsSource="{x:Bind DomainNameSuggestions, Mode=OneWay}" QuerySubmitted="domainNameAutoSuggestBox_QuerySubmitted" TextChanged="domainNameAutoSuggestBox_TextChanged"/>
+                        <AutoSuggestBox x:Name="tagAutoSuggestBox" Header="Tag" Margin="0,0,0,8" ItemsSource="{x:Bind TagSuggestions, Mode=OneWay}" QuerySubmitted="tagAutoSuggestBox_QuerySubmitted" TextChanged="tagAutoSuggestBox_TextChanged"/>
+                            <!-- estimated reading time -->
                         <Grid x:Name="creationDateGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -435,7 +424,7 @@
             <AutoSuggestBox x:Name="SearchBox"
                             QueryIcon="Find"
                             PlaceholderText="Search…"
-                            ItemsSource="{x:Bind SearchBoxSuggestions}"
+                            ItemsSource="{x:Bind ItemSearchSuggestions}"
                             TextChanged="SearchBox_TextChanged"
                             Margin="8,0"
                             Grid.Column="1"

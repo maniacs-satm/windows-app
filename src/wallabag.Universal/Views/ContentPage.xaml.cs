@@ -24,6 +24,15 @@ namespace wallabag.Views
         public bool IsMultipleSelectionEnabled { get; set; } = false;
         private bool IsSearchVisible { get; set; } = false;
 
+        public ObservableCollection<SearchResult> Items { get; set; } = new ObservableCollection<SearchResult>();
+        public ObservableCollection<SearchResult> ItemSearchSuggestions { get; set; } = new ObservableCollection<SearchResult>();
+
+        public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
+
+        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
+        public ObservableCollection<Tag> TagSuggestions { get; set; } = new ObservableCollection<Tag>();
+
         #region Context menu
         private bool _IsShiftPressed = false;
         private bool _IsPointerPressed = false;
@@ -137,9 +146,6 @@ namespace wallabag.Views
             => await _LastFocusedItemViewModel.DeleteItemAsync();
         #endregion
 
-        public ObservableCollection<SearchResult> PossibleSearchBoxResults { get; set; } = new ObservableCollection<SearchResult>();
-        public ObservableCollection<SearchResult> SearchBoxSuggestions { get; set; } = new ObservableCollection<SearchResult>();
-
         public ICollection<Tag> MultipleSelectionTags { get; set; }
 
         public ContentPage()
@@ -156,7 +162,17 @@ namespace wallabag.Views
         {
             List<Item> allItems = await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
             foreach (var item in allItems)
-                PossibleSearchBoxResults.Add(new SearchResult(item.Id, item.Title));
+            {
+                Items.Add(new SearchResult(item.Id, item.Title));
+
+                string domainName = item.DomainName.Replace("www.", string.Empty);
+                if (!DomainNames.Contains(domainName))
+                    DomainNames.Add(domainName);
+
+                foreach (Tag tag in item.Tags)
+                    if (Tags.Where(t => t.Label == tag.Label).Count() == 0)
+                        Tags.Add(tag);
+            }
         }
 
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -295,19 +311,17 @@ namespace wallabag.Views
             (Resources["HideAddItemBorder"] as Storyboard).Begin();
 
         #region Search & Filter
-
         private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<SearchResult>(PossibleSearchBoxResults.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<SearchResult>(Items.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                SearchBoxSuggestions.Clear();
+                ItemSearchSuggestions.Clear();
                 foreach (var item in possibleResults)
-                    SearchBoxSuggestions.Add(item);
+                    ItemSearchSuggestions.Add(item);
             }
         }
-
         private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
@@ -315,6 +329,40 @@ namespace wallabag.Views
                 var id = ((SearchResult)args.ChosenSuggestion).Id;
                 (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), id.ToString());
             }
+        }
+
+        private void domainNameAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var possibleResults = new ObservableCollection<string>(DomainNames.Where(t => t.ToLower().StartsWith(sender.Text.ToLower())));
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                DomainNameSuggestions.Clear();
+                foreach (var item in possibleResults)
+                    DomainNameSuggestions.Add(item);
+            }
+        }
+        private void domainNameAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
+        }
+
+        private void tagAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var possibleResults = new ObservableCollection<Tag>(Tags.Where(t => t.Label.ToLower().StartsWith(sender.Text.ToLower())));
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                TagSuggestions.Clear();
+                foreach (var item in possibleResults)
+                    TagSuggestions.Add(item);
+            }
+        }
+        private void tagAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                sender.Text = args.ChosenSuggestion.ToString();
         }
 
         private async void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
@@ -325,12 +373,10 @@ namespace wallabag.Views
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
             await ViewModel.FilterItemsAsync();
         }
-
         private async void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             await ViewModel.FilterItemsAsync();
         }
-
         private async void filterCalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             await ViewModel.FilterItemsAsync();
@@ -340,7 +386,6 @@ namespace wallabag.Views
         {
             sortDescendingRadioButton.IsChecked = true;
         }
-
         private void searchToggleButton_Click(object sender, RoutedEventArgs e)
         {
             if (!IsSearchVisible)
@@ -355,13 +400,11 @@ namespace wallabag.Views
                 splitView.IsPaneOpen = false;
             }
         }
-
         private void SplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
         {
             args.Cancel = true;
             HideFilterPanel(sender);
         }
-
         private void HideFilterPanel(SplitView sender)
         {
             if (filterToggleButton.IsChecked == true)
@@ -371,7 +414,7 @@ namespace wallabag.Views
                 IsSearchVisible = false;
             }
         }
-
         #endregion
+
     }
 }
