@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Template10.Common;
-using Template10.Services.NavigationService;
 using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
@@ -138,8 +137,8 @@ namespace wallabag.Views
             => await _LastFocusedItemViewModel.DeleteItemAsync();
         #endregion
 
-        public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
-        public ObservableCollection<KeyValuePair<int, string>> SearchBoxSuggestions { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
+        public ObservableCollection<SearchResult> PossibleSearchBoxResults { get; set; } = new ObservableCollection<SearchResult>();
+        public ObservableCollection<SearchResult> SearchBoxSuggestions { get; set; } = new ObservableCollection<SearchResult>();
 
         public ICollection<Tag> MultipleSelectionTags { get; set; }
 
@@ -157,35 +156,13 @@ namespace wallabag.Views
         {
             List<Item> allItems = await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
             foreach (var item in allItems)
-                PossibleSearchBoxResults.Add(new KeyValuePair<int, string>(item.Id, item.Title));
+                PossibleSearchBoxResults.Add(new SearchResult(item.Id, item.Title));
         }
 
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
             (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id.ToString());
-        }
-
-        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            var possibleResults = new ObservableCollection<KeyValuePair<int, string>>(PossibleSearchBoxResults.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
-
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                SearchBoxSuggestions.Clear();
-                foreach (var item in possibleResults)
-                    SearchBoxSuggestions.Add(item);
-            }
-        }
-
-        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null)
-            {
-                var id = ((KeyValuePair<int, string>)args.ChosenSuggestion).Key;
-                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), id.ToString());
-            }
-            // TODO: Implement a search page in case the user didn't chose a suggestion.
         }
 
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
@@ -317,7 +294,28 @@ namespace wallabag.Views
         private void HideAddItemBorder_Click(object sender, RoutedEventArgs e) =>
             (Resources["HideAddItemBorder"] as Storyboard).Begin();
 
-        #region Filter
+        #region Search & Filter
+
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var possibleResults = new ObservableCollection<SearchResult>(PossibleSearchBoxResults.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                SearchBoxSuggestions.Clear();
+                foreach (var item in possibleResults)
+                    SearchBoxSuggestions.Add(item);
+            }
+        }
+
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                var id = ((SearchResult)args.ChosenSuggestion).Id;
+                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), id.ToString());
+            }
+        }
 
         private async void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -343,8 +341,6 @@ namespace wallabag.Views
             sortDescendingRadioButton.IsChecked = true;
         }
 
-        #endregion
-
         private void searchToggleButton_Click(object sender, RoutedEventArgs e)
         {
             if (!IsSearchVisible)
@@ -364,7 +360,7 @@ namespace wallabag.Views
             args.Cancel = true;
             HideFilterPanel(sender);
         }
-        
+
         private void HideFilterPanel(SplitView sender)
         {
             if (filterToggleButton.IsChecked == true)
@@ -374,5 +370,7 @@ namespace wallabag.Views
                 IsSearchVisible = false;
             }
         }
+
+        #endregion
     }
 }
