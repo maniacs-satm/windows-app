@@ -393,6 +393,7 @@ namespace wallabag.Views
         private void resetFilterButton_Click(object sender, RoutedEventArgs e)
         {
             sortDescendingRadioButton.IsChecked = true;
+            ShowAllItemsToggleSwitch.IsOn = false;
         }
         private void searchToggleButton_Click(object sender, RoutedEventArgs e)
         {
@@ -424,15 +425,18 @@ namespace wallabag.Views
         }
 
         private FilterProperties.FilterPropertiesItemType _PreviousItemType;
-        private async void ShowAllItemsCheckBox_Checked(object sender, RoutedEventArgs e)
+        private async void ShowAllItemsToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            _PreviousItemType = ViewModel.LastUsedFilterProperties.ItemType;
-            ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
-            await ViewModel.FilterItemsAsync();
-        }
-        private async void ShowAllItemsCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            ViewModel.LastUsedFilterProperties.ItemType = _PreviousItemType;
+            var toggleSwitch = sender as ToggleSwitch;
+            if (toggleSwitch.IsOn)
+            {
+                _PreviousItemType = ViewModel.LastUsedFilterProperties.ItemType;
+                ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
+            }
+            else
+            {
+                ViewModel.LastUsedFilterProperties.ItemType = _PreviousItemType;
+            }
             await ViewModel.FilterItemsAsync();
         }
         #endregion

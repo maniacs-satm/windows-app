@@ -405,7 +405,7 @@
                                     MaxDate="{x:Bind ViewModel.MaxDate}"
                                     DateChanged="filterCalendarDatePicker_DateChanged"/>
                         </Grid>
-                        <CheckBox Content="Show all items" Checked="ShowAllItemsCheckBox_Checked" Unchecked="ShowAllItemsCheckBox_Unchecked"/>
+                        <ToggleSwitch x:Name="ShowAllItemsToggleSwitch" Header="Show all items" Toggled="ShowAllItemsToggleSwitch_Toggled"/>
                         <Button Content="Reset filter" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind ViewModel.ResetFilterCommand}" Margin="0,8,0,0" Click="resetFilterButton_Click"/>
                     </StackPanel>
                 </ScrollViewer>
