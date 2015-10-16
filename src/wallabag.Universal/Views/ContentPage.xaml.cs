@@ -342,10 +342,14 @@ namespace wallabag.Views
                     DomainNameSuggestions.Add(item);
             }
         }
-        private void domainNameAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void domainNameAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
+            {
                 sender.Text = args.ChosenSuggestion.ToString();
+                ViewModel.LastUsedFilterProperties.DomainName = sender.Text;
+                await ViewModel.FilterItemsAsync();
+            }
         }
 
         private void tagAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -359,10 +363,14 @@ namespace wallabag.Views
                     TagSuggestions.Add(item);
             }
         }
-        private void tagAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void tagAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
+            {
                 sender.Text = args.ChosenSuggestion.ToString();
+                ViewModel.LastUsedFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
+                await ViewModel.FilterItemsAsync();
+            }
         }
 
         private async void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
