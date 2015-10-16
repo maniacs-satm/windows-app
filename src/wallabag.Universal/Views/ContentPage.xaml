@@ -379,7 +379,7 @@
                         <AutoSuggestBox x:Name="domainNameAutoSuggestBox" Header="Domain name" Margin="0,0,0,8" ItemsSource="{x:Bind DomainNameSuggestions, Mode=OneWay}" QuerySubmitted="domainNameAutoSuggestBox_QuerySubmitted" TextChanged="domainNameAutoSuggestBox_TextChanged"/>
                         <AutoSuggestBox x:Name="tagAutoSuggestBox" Header="Tag" Margin="0,0,0,8" ItemsSource="{x:Bind TagSuggestions, Mode=OneWay}" QuerySubmitted="tagAutoSuggestBox_QuerySubmitted" TextChanged="tagAutoSuggestBox_TextChanged"/>
                             <!-- estimated reading time -->
-                        <Grid x:Name="creationDateGrid">
+                        <Grid x:Name="creationDateGrid" Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
@@ -405,6 +405,7 @@
                                     MaxDate="{x:Bind ViewModel.MaxDate}"
                                     DateChanged="filterCalendarDatePicker_DateChanged"/>
                         </Grid>
+                        <CheckBox Content="Show all items" Checked="ShowAllItemsCheckBox_Checked" Unchecked="ShowAllItemsCheckBox_Unchecked"/>
                         <Button Content="Reset filter" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind ViewModel.ResetFilterCommand}" Margin="0,8,0,0" Click="resetFilterButton_Click"/>
                     </StackPanel>
                 </ScrollViewer>

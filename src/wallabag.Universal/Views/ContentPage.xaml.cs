@@ -422,6 +422,19 @@ namespace wallabag.Views
                 IsSearchVisible = false;
             }
         }
+
+        private FilterProperties.FilterPropertiesItemType _PreviousItemType;
+        private async void ShowAllItemsCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            _PreviousItemType = ViewModel.LastUsedFilterProperties.ItemType;
+            ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
+            await ViewModel.FilterItemsAsync();
+        }
+        private async void ShowAllItemsCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ViewModel.LastUsedFilterProperties.ItemType = _PreviousItemType;
+            await ViewModel.FilterItemsAsync();
+        }
         #endregion
 
     }
