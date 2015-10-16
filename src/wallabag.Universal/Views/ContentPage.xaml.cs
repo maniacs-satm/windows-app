@@ -354,7 +354,23 @@ namespace wallabag.Views
             }
             else
             {
-                HideSearchGrid.Begin();                
+                HideSearchGrid.Begin();
+                IsSearchVisible = false;
+            }
+        }
+
+        private void SplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            args.Cancel = true;
+            HideFilterPanel(sender);
+        }
+        
+        private void HideFilterPanel(SplitView sender)
+        {
+            if (filterToggleButton.IsChecked == true)
+            {
+                HideSearchGrid.Begin();
+                sender.IsPaneOpen = false;
                 IsSearchVisible = false;
             }
         }
