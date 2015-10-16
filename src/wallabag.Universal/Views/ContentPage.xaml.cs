@@ -352,6 +352,7 @@ namespace wallabag.Views
             {
                 HideSearchGrid.Begin();
                 IsSearchVisible = false;
+                splitView.IsPaneOpen = false;
             }
         }
 
