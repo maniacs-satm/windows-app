@@ -6,8 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
+    xmlns:common="using:wallabag.Common"
     xmlns:vm="using:wallabag.ViewModels"
-    xmlns:m="using:wallabag.Models"
+    xmlns:m="using:wallabag.Models"    
+    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
+    common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemAccentColor}"
+    common:TitleBarExtensions.ForegroundColor="White"
+    common:TitleBarExtensions.ButtonForegroundColor="White"  
     mc:Ignorable="d">
     <Page.Resources>
         <ItemsPanelTemplate x:Name="GridViewTemplate">
