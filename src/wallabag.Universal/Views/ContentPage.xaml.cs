@@ -393,7 +393,6 @@ namespace wallabag.Views
         private void resetFilterButton_Click(object sender, RoutedEventArgs e)
         {
             sortDescendingRadioButton.IsChecked = true;
-            ShowAllItemsToggleSwitch.IsOn = false;
             shortEstimatedReadingTimeRadioButton.IsChecked = null;
             mediumEstimatedReadingTimeRadioButton.IsChecked = null;
             longEstimatedReadingTimeRadioButton.IsChecked = null;
@@ -427,23 +426,6 @@ namespace wallabag.Views
             }
         }
 
-        private FilterProperties.FilterPropertiesItemType _PreviousItemType;
-        private async void ShowAllItemsToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-        {
-            var toggleSwitch = sender as ToggleSwitch;
-            if (toggleSwitch.IsOn)
-            {
-                _PreviousItemType = ViewModel.LastUsedFilterProperties.ItemType;
-                ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
-            }
-            else
-            {
-                ViewModel.LastUsedFilterProperties.ItemType = _PreviousItemType;
-            }
-            await ViewModel.FilterItemsAsync();
-        }
-        #endregion
-
         private async void shortEstimatedReadingTimeRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             if (sender == shortEstimatedReadingTimeRadioButton)
@@ -463,5 +445,6 @@ namespace wallabag.Views
             }
             await ViewModel.FilterItemsAsync();
         }
+        #endregion
     }
 }
