@@ -1,6 +1,7 @@
 Changelog
 =========
 # 2.0.4
+- Improve search & filter functionality (0b7f4c16058a7a2e7120e7fb0b085561169cb657)
 - Info page (6a83ad1468930051d452619a1d5ede002df3968f)
 - UI consistency (8e405f18d017de03b3f95937530a09e9cbf3897c)
 - Background task for syncing (01bab4ef118519c458d3be323b1386681a08d854)
