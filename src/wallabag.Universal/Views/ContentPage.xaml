@@ -376,36 +376,7 @@
                             <RadioButton x:Name="sortAscendingRadioButton" Content="&#xE098;" Tag="ascending" Checked="sortOrderRadioButton_Checked"/>
                             <RadioButton x:Name="sortDescendingRadioButton" Content="&#xE099;" Tag="descending" Grid.Column="1" Checked="sortOrderRadioButton_Checked" IsChecked="True"/>
                         </Grid>
-                        <AutoSuggestBox x:Name="domainNameAutoSuggestBox" Header="Domain name" Margin="0,0,0,8" ItemsSource="{x:Bind DomainNameSuggestions, Mode=OneWay}" QuerySubmitted="domainNameAutoSuggestBox_QuerySubmitted" TextChanged="domainNameAutoSuggestBox_TextChanged"/>
-                        <AutoSuggestBox x:Name="tagAutoSuggestBox" Header="Tag" Margin="0,0,0,8" ItemsSource="{x:Bind TagSuggestions, Mode=OneWay}" QuerySubmitted="tagAutoSuggestBox_QuerySubmitted" TextChanged="tagAutoSuggestBox_TextChanged"/>
-                        <Grid x:Name="creationDateGrid" Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <CalendarDatePicker
-                                    x:Name="FromCalendarDatePicker"
-                                    HorizontalAlignment="Stretch"
-                                    PlaceholderText="from"
-                                    Margin="2,0"
-                                    Header="Creation date"
-                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateFrom, Mode=TwoWay}"
-                                    MaxDate="{Binding LastUsedFilterProperties.CreationDateTo}"
-                                    DateChanged="filterCalendarDatePicker_DateChanged"/>
-                            <CalendarDatePicker
-                                    x:Name="ToCalendarDatePicker"
-                                    HorizontalAlignment="Stretch"
-                                    PlaceholderText="to"
-                                    Grid.Column="1"
-                                    Margin="2,0"
-                                    Header=" "
-                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}"
-                                    MinDate="{Binding LastUsedFilterProperties.CreationDateFrom, Mode=OneWay}"
-                                    MaxDate="{x:Bind ViewModel.MaxDate}"
-                                    DateChanged="filterCalendarDatePicker_DateChanged"/>
-                        </Grid>
-                        <TextBlock Text="Reading time"/>
-                        <Grid Margin="0,8">
+                        <Grid Margin="0,0,0,8">
                             <Grid.Resources>
                                 <Style TargetType="RadioButton" BasedOn="{StaticResource TextRadioButtonStyle}">
                                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -439,6 +410,35 @@
                                     <TextBlock Text="&gt; 15 min" FontSize="12" TextAlignment="Center" Margin="0,2,0,0"/>
                                 </StackPanel>
                             </RadioButton>
+                        </Grid>
+
+                        <AutoSuggestBox x:Name="domainNameAutoSuggestBox" Header="Domain name" Margin="0,0,0,8" ItemsSource="{x:Bind DomainNameSuggestions, Mode=OneWay}" QuerySubmitted="domainNameAutoSuggestBox_QuerySubmitted" TextChanged="domainNameAutoSuggestBox_TextChanged"/>
+                        <AutoSuggestBox x:Name="tagAutoSuggestBox" Header="Tag" Margin="0,0,0,8" ItemsSource="{x:Bind TagSuggestions, Mode=OneWay}" QuerySubmitted="tagAutoSuggestBox_QuerySubmitted" TextChanged="tagAutoSuggestBox_TextChanged"/>
+                        <Grid x:Name="creationDateGrid" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <CalendarDatePicker
+                                    x:Name="FromCalendarDatePicker"
+                                    HorizontalAlignment="Stretch"
+                                    PlaceholderText="from"
+                                    Margin="2,0"
+                                    Header="Creation date"
+                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateFrom, Mode=TwoWay}"
+                                    MaxDate="{Binding LastUsedFilterProperties.CreationDateTo}"
+                                    DateChanged="filterCalendarDatePicker_DateChanged"/>
+                            <CalendarDatePicker
+                                    x:Name="ToCalendarDatePicker"
+                                    HorizontalAlignment="Stretch"
+                                    PlaceholderText="to"
+                                    Grid.Column="1"
+                                    Margin="2,0"
+                                    Header=" "
+                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}"
+                                    MinDate="{Binding LastUsedFilterProperties.CreationDateFrom, Mode=OneWay}"
+                                    MaxDate="{x:Bind ViewModel.MaxDate}"
+                                    DateChanged="filterCalendarDatePicker_DateChanged"/>
                         </Grid>
                         <ToggleSwitch x:Name="ShowAllItemsToggleSwitch" Header="Show all items" Toggled="ShowAllItemsToggleSwitch_Toggled"/>
                         <Button Content="Reset filter" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind ViewModel.ResetFilterCommand}" Margin="0,8,0,0" Click="resetFilterButton_Click"/>
