@@ -111,7 +111,7 @@ namespace wallabag.ViewModels
 
         public async Task<bool> DeleteItemAsync()
         {
-            NavigationService.GoBack();
+            NavigationService?.GoBack();
             bool result = Model.IsDeleted = await DeleteItemAsync(Model.Id);
             await conn.UpdateAsync(Model);
             return result;
