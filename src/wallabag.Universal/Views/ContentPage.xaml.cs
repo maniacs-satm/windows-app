@@ -173,7 +173,7 @@ namespace wallabag.Views
                     if (Tags.Where(t => t.Label == tag.Label).Count() == 0)
                         Tags.Add(tag);
             }
-            if (AppSettings.ShowTheFilterPaneInline)
+            if (AppSettings.ShowTheFilterPaneInline && !Helpers.IsPhone)
                 splitView.DisplayMode = SplitViewDisplayMode.Inline;
             else
                 splitView.DisplayMode = SplitViewDisplayMode.Overlay;
