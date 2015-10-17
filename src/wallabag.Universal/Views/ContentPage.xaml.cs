@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Template10.Common;
-using Template10.Services.NavigationService;
 using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
@@ -23,6 +22,16 @@ namespace wallabag.Views
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
         private GridView _ItemGridView;
         public bool IsMultipleSelectionEnabled { get; set; } = false;
+        private bool IsSearchVisible { get; set; } = false;
+
+        public ObservableCollection<SearchResult> Items { get; set; } = new ObservableCollection<SearchResult>();
+        public ObservableCollection<SearchResult> ItemSearchSuggestions { get; set; } = new ObservableCollection<SearchResult>();
+
+        public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
+
+        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
+        public ObservableCollection<Tag> TagSuggestions { get; set; } = new ObservableCollection<Tag>();
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -137,9 +146,6 @@ namespace wallabag.Views
             => await _LastFocusedItemViewModel.DeleteItemAsync();
         #endregion
 
-        public ObservableCollection<KeyValuePair<int, string>> PossibleSearchBoxResults { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
-        public ObservableCollection<KeyValuePair<int, string>> SearchBoxSuggestions { get; set; } = new ObservableCollection<KeyValuePair<int, string>>();
-
         public ICollection<Tag> MultipleSelectionTags { get; set; }
 
         public ContentPage()
@@ -156,35 +162,27 @@ namespace wallabag.Views
         {
             List<Item> allItems = await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
             foreach (var item in allItems)
-                PossibleSearchBoxResults.Add(new KeyValuePair<int, string>(item.Id, item.Title));
+            {
+                Items.Add(new SearchResult(item.Id, item.Title));
+
+                string domainName = item.DomainName.Replace("www.", string.Empty);
+                if (!DomainNames.Contains(domainName))
+                    DomainNames.Add(domainName);
+
+                foreach (Tag tag in item.Tags)
+                    if (Tags.Where(t => t.Label == tag.Label).Count() == 0)
+                        Tags.Add(tag);
+            }
+            if (AppSettings.ShowTheFilterPaneInline)
+                splitView.DisplayMode = SplitViewDisplayMode.Inline;
+            else
+                splitView.DisplayMode = SplitViewDisplayMode.Overlay;
         }
 
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
             (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id.ToString());
-        }
-
-        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            var possibleResults = new ObservableCollection<KeyValuePair<int, string>>(PossibleSearchBoxResults.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
-
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                SearchBoxSuggestions.Clear();
-                foreach (var item in possibleResults)
-                    SearchBoxSuggestions.Add(item);
-            }
-        }
-
-        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null)
-            {
-                var id = ((KeyValuePair<int, string>)args.ChosenSuggestion).Key;
-                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), id.ToString());
-            }
-            // TODO: Implement a search page in case the user didn't chose a suggestion.
         }
 
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
@@ -316,5 +314,142 @@ namespace wallabag.Views
         private void HideAddItemBorder_Click(object sender, RoutedEventArgs e) =>
             (Resources["HideAddItemBorder"] as Storyboard).Begin();
 
+        #region Search & Filter
+        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var possibleResults = new ObservableCollection<SearchResult>(Items.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                ItemSearchSuggestions.Clear();
+                foreach (var item in possibleResults)
+                    ItemSearchSuggestions.Add(item);
+            }
+        }
+        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                var id = ((SearchResult)args.ChosenSuggestion).Id;
+                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), id.ToString());
+            }
+        }
+
+        private void domainNameAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var possibleResults = new ObservableCollection<string>(DomainNames.Where(t => t.ToLower().StartsWith(sender.Text.ToLower())));
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                DomainNameSuggestions.Clear();
+                foreach (var item in possibleResults)
+                    DomainNameSuggestions.Add(item);
+            }
+        }
+        private async void domainNameAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                sender.Text = args.ChosenSuggestion.ToString();
+                ViewModel.LastUsedFilterProperties.DomainName = sender.Text;
+                await ViewModel.FilterItemsAsync();
+            }
+        }
+
+        private void tagAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            var possibleResults = new ObservableCollection<Tag>(Tags.Where(t => t.Label.ToLower().StartsWith(sender.Text.ToLower())));
+
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                TagSuggestions.Clear();
+                foreach (var item in possibleResults)
+                    TagSuggestions.Add(item);
+            }
+        }
+        private async void tagAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                sender.Text = args.ChosenSuggestion.ToString();
+                ViewModel.LastUsedFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
+                await ViewModel.FilterItemsAsync();
+            }
+        }
+
+        private async void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender == sortAscendingRadioButton)
+                ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Ascending;
+            else
+                ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
+            await ViewModel.FilterItemsAsync();
+        }
+        private async void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            await ViewModel.FilterItemsAsync();
+        }
+        private async void filterCalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
+        {
+            await ViewModel.FilterItemsAsync();
+        }
+
+        private void resetFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            sortDescendingRadioButton.IsChecked = true;
+            shortEstimatedReadingTimeRadioButton.IsChecked = null;
+            mediumEstimatedReadingTimeRadioButton.IsChecked = null;
+            longEstimatedReadingTimeRadioButton.IsChecked = null;
+        }
+        private void searchToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsSearchVisible)
+            {
+                ShowSearchGrid.Begin();
+                IsSearchVisible = true;
+                splitView.IsPaneOpen = AppSettings.OpenTheFilterPaneWithTheSearch;
+            }
+            else
+            {
+                HideSearchGrid.Begin();
+                IsSearchVisible = false;
+                splitView.IsPaneOpen = false;
+            }
+        }
+        private void SplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
+        {
+            args.Cancel = true;
+            HideFilterPanel(sender);
+        }
+        private void HideFilterPanel(SplitView sender)
+        {
+            if (filterToggleButton.IsChecked == true)
+            {
+                HideSearchGrid.Begin();
+                sender.IsPaneOpen = false;
+                IsSearchVisible = false;
+            }
+        }
+
+        private async void shortEstimatedReadingTimeRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender == shortEstimatedReadingTimeRadioButton)
+            {
+                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 0;
+                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 5;
+            }
+            else if (sender == mediumEstimatedReadingTimeRadioButton)
+            {
+                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 5;
+                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 15;
+            }
+            else if (sender == longEstimatedReadingTimeRadioButton)
+            {
+                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 15;
+                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read ;-)
+            }
+            await ViewModel.FilterItemsAsync();
+        }
+        #endregion
     }
 }

@@ -40,12 +40,17 @@ namespace wallabag.ViewModels
 
             DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
         }
+        public async Task FilterItemsAsync()
+        {
+            Items.Clear();
+            foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
+                Items.Add(new ItemViewModel(i));
+        }
 
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
 
-        public DelegateCommand FilterCommand { get; private set; }
-        public DelegateCommand ResetCommand { get; private set; }
+        public DelegateCommand ResetFilterCommand { get; private set; }
         #endregion
 
         public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -86,15 +91,11 @@ namespace wallabag.ViewModels
             {
                 NavigationService.Navigate(typeof(Views.SettingsPage));
             });
-
-            FilterCommand = new DelegateCommand(async () =>
-            {
-                await LoadItemsAsync();
-            });
-            ResetCommand = new DelegateCommand(async () =>
+            
+            ResetFilterCommand = new DelegateCommand(async () =>
             {
                 LastUsedFilterProperties = new FilterProperties();
-                await LoadItemsAsync();
+                await FilterItemsAsync();
             });
         }
     }

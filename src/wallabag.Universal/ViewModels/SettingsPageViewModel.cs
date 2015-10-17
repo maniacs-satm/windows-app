@@ -76,5 +76,15 @@ namespace wallabag.ViewModels
                 Services.BackgroundTaskService.RegisterSyncItemsBackgroundTask();
             }
         }
+        public bool OpenTheFilterPaneWithTheSearch
+        {
+            get { return AppSettings.OpenTheFilterPaneWithTheSearch; }
+            set { AppSettings.OpenTheFilterPaneWithTheSearch = value; }
+        }
+        public bool ShowTheFilterPaneInline
+        {
+            get { return AppSettings.ShowTheFilterPaneInline; }
+            set { AppSettings.ShowTheFilterPaneInline = value; }
+        }
     }
 }
