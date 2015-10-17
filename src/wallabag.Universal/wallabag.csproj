@@ -109,9 +109,6 @@
     <Compile Include="Controls\ItemControl.xaml.cs">
       <DependentUpon>ItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RangeSlider.xaml.cs">
-      <DependentUpon>RangeSlider.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\TagControl.xaml.cs">
       <DependentUpon>TagControl.xaml</DependentUpon>
     </Compile>
@@ -222,10 +219,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\ItemControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\RangeSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
