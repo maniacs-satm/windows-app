@@ -394,6 +394,9 @@ namespace wallabag.Views
         {
             sortDescendingRadioButton.IsChecked = true;
             ShowAllItemsToggleSwitch.IsOn = false;
+            shortEstimatedReadingTimeRadioButton.IsChecked = null;
+            mediumEstimatedReadingTimeRadioButton.IsChecked = null;
+            longEstimatedReadingTimeRadioButton.IsChecked = null;
         }
         private void searchToggleButton_Click(object sender, RoutedEventArgs e)
         {
@@ -441,5 +444,24 @@ namespace wallabag.Views
         }
         #endregion
 
+        private async void shortEstimatedReadingTimeRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender == shortEstimatedReadingTimeRadioButton)
+            {
+                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 0;
+                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 5;
+            }
+            else if (sender == mediumEstimatedReadingTimeRadioButton)
+            {
+                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 5;
+                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 15;
+            }
+            else if (sender == longEstimatedReadingTimeRadioButton)
+            {
+                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 15;
+                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read ;-)
+            }
+            await ViewModel.FilterItemsAsync();
+        }
     }
 }
