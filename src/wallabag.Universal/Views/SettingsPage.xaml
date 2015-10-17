@@ -136,6 +136,12 @@
                     <ToggleSwitch Header="Use 'normal' context menu when using a mouse" IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
+            <PivotItem Header="Look &amp; feel">
+                <StackPanel>
+                    <ToggleSwitch Header="Open the filter at the same time with the search" IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}"/>
+                    <ToggleSwitch Header="Display mode of the filter pane" OnContent="Inline" OffContent="Overlay" IsOn="{x:Bind ViewModel.ShowTheFilterPaneInline, Mode=TwoWay}"/>
+                </StackPanel>
+            </PivotItem>
             <PivotItem Header="Reading">
                 <StackPanel>
                     <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>

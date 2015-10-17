@@ -173,6 +173,10 @@ namespace wallabag.Views
                     if (Tags.Where(t => t.Label == tag.Label).Count() == 0)
                         Tags.Add(tag);
             }
+            if (AppSettings.ShowTheFilterPaneInline)
+                splitView.DisplayMode = SplitViewDisplayMode.Inline;
+            else
+                splitView.DisplayMode = SplitViewDisplayMode.Overlay;
         }
 
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
@@ -403,6 +407,7 @@ namespace wallabag.Views
             {
                 ShowSearchGrid.Begin();
                 IsSearchVisible = true;
+                splitView.IsPaneOpen = AppSettings.OpenTheFilterPaneWithTheSearch;
             }
             else
             {
