@@ -7,6 +7,7 @@ using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
 using wallabag.ViewModels;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -151,7 +152,8 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
-            (Resources["HideAddItemBorder"] as Storyboard).Completed += HideAddItemBorder_Completed;
+            HideAddItemBorder.Completed += HideAddItemBorder_Completed;
+            HideDragDropGridStoryboard.Completed += HideAddItemBorder_Completed;
             MultipleSelectionTags = new ObservableCollection<Tag>();
         }
 
@@ -449,6 +451,30 @@ namespace wallabag.Views
                 ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read ;-)
             }
             await ViewModel.FilterItemsAsync();
+        }
+        #endregion
+
+        #region Drag & Drop
+        private async void Grid_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.WebLink))
+            {
+                HideDragDropGridStoryboard.Begin();
+
+                var item = await e.DataView.GetWebLinkAsync();
+                await DataService.AddItemAsync(item.ToString());
+            }
+        }
+
+        private void Grid_DragLeave(object sender, DragEventArgs e) { HideDragDropGridStoryboard.Begin(); }
+
+        private void Grid_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.WebLink))
+            {
+                ShowDragDropGridStoryboard.Begin();
+                e.AcceptedOperation = DataPackageOperation.Move;
+            }
         }
         #endregion
     }
