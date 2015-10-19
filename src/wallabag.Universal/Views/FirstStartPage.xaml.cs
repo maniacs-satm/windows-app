@@ -23,6 +23,7 @@ namespace wallabag.Views
                 {
                     e.Handled = true;
                     Step2Panel.Visibility = Visibility.Collapsed;
+                    Step3Panel.Visibility = Visibility.Collapsed;
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     GoToStep1.Begin();
                 }
@@ -59,7 +60,7 @@ namespace wallabag.Views
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            //GoToStep3.Begin();
+            GoToStep3.Begin();
         }
     }
 }
