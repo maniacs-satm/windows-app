@@ -16,15 +16,15 @@ namespace wallabag.Views
         public FirstStartPage()
         {
             this.InitializeComponent();
-            FirstStartAnimation.Begin();
+            GoToStep1.Begin();
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
-                if (StackPanel2.Visibility == Visibility.Visible)
+                if (Step2Panel.Visibility == Visibility.Visible)
                 {
                     e.Handled = true;
-                    StackPanel2.Visibility = Visibility.Collapsed;
+                    Step2Panel.Visibility = Visibility.Collapsed;
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                    FirstStartAnimation.Begin();
+                    GoToStep1.Begin();
                 }
             };
         }
@@ -39,12 +39,12 @@ namespace wallabag.Views
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
             if (sender == framabagUserButton)
-                wallabagUrlTextBox.Visibility = Visibility.Collapsed; 
-                // TODO: Set the framabag url.            
+                wallabagUrlTextBox.Visibility = Visibility.Collapsed;
+            // TODO: Set the framabag url.            
             else
                 wallabagUrlTextBox.Visibility = Visibility.Visible;
 
-            StackPanelChangeStoryboard.Begin();
+            GoToStep2.Begin();
 
             if (sender == notFramabagUserButton)
                 wallabagUrlTextBox.Focus(FocusState.Programmatic);
@@ -55,6 +55,11 @@ namespace wallabag.Views
         private async void imageCreditButton_Click(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/"));
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+            //GoToStep3.Begin();
         }
     }
 }

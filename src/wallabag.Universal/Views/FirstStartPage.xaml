@@ -91,7 +91,7 @@
             <TextBox x:Name="wallabagUrlTextBox" Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8" PlaceholderText="https://" Text="{Binding wallabagUrl, Mode=TwoWay}"/>
             <TextBox x:Name="userNameTextBox" Header="Username" Margin="0,0,0,8" PlaceholderText="(e.g. wallabag)" Text="{Binding Username, Mode=TwoWay}"/>
             <PasswordBox x:Name="passwordBox" Header="Password" Margin="0,0,0,8" Password="{Binding Password, Mode=TwoWay}"/>
-            <Button x:Name="loginButton" Margin="0,8,0,0" Style="{ThemeResource ActionButtonStyle}" Command="{Binding LoginCommand}">LOGIN</Button>
+            <Button x:Name="loginButton" Margin="0,8,0,0" Style="{ThemeResource ActionButtonStyle}" Command="{Binding LoginCommand}" Click="loginButton_Click">LOGIN</Button>
         </StackPanel>
         <StackPanel x:Name="Step3Panel" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
             <ProgressRing x:Name="ProgressRing" Width="64" Height="64" IsActive="True"/>
