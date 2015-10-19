@@ -73,7 +73,7 @@ namespace wallabag.Models
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
 
         [JsonProperty("preview_picture")]
-        public string PreviewPictureUri { get; set; } = string.Empty;
+        public Uri PreviewPictureUri { get; set; }
 
         public string ReadingProgress { get; set; } = "0";
 
