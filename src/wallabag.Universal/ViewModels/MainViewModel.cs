@@ -63,7 +63,7 @@ namespace wallabag.ViewModels
             await LoadItemsAsync();
 
             SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-            NumberOfOfflineActions = await conn.Table<OfflineAction>().CountAsync();
+            NumberOfOfflineActions = await conn.Table<OfflineTask>().CountAsync();
 
             if (AppSettings.SyncOnStartup)
                 RefreshCommand.Execute(null);
@@ -85,7 +85,7 @@ namespace wallabag.ViewModels
                 IsSyncing = false;
 
                 SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-                NumberOfOfflineActions = await conn.Table<OfflineAction>().CountAsync();
+                NumberOfOfflineActions = await conn.Table<OfflineTask>().CountAsync();
             });
             NavigateToSettingsPageCommand = new DelegateCommand(() =>
             {

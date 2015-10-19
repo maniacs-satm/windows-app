@@ -119,9 +119,9 @@ namespace wallabag.ViewModels
         public static async Task<bool> DeleteItemAsync(int ItemId, bool IsOfflineAction = false)
         {
             if (!IsOfflineAction)
-                await conn.InsertAsync(new OfflineAction()
+                await conn.InsertAsync(new OfflineTask()
                 {
-                    Task = OfflineAction.OfflineActionTask.DeleteItem,
+                    Task = OfflineTask.OfflineTaskType.DeleteItem,
                     ItemId = ItemId
                 });
             return true;
@@ -175,9 +175,9 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineAction()
+                    await conn.InsertAsync(new OfflineTask()
                     {
-                        Task = OfflineAction.OfflineActionTask.AddTags,
+                        Task = OfflineTask.OfflineTaskType.AddTags,
                         ItemId = ItemId,
                         TagsString = tags
                     });
@@ -200,9 +200,9 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineAction()
+                    await conn.InsertAsync(new OfflineTask()
                     {
-                        Task = OfflineAction.OfflineActionTask.DeleteTag,
+                        Task = OfflineTask.OfflineTaskType.DeleteTag,
                         ItemId = ItemId,
                         TagId = TagId
                     });
@@ -214,12 +214,12 @@ namespace wallabag.ViewModels
         {
             Model.IsRead = !Model.IsRead;
 
-            OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsRead;
+            OfflineTask.OfflineTaskType actionTask = OfflineTask.OfflineTaskType.MarkItemAsRead;
 
             if (!Model.IsRead)
-                actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsRead;
+                actionTask = OfflineTask.OfflineTaskType.UnmarkItemAsRead;
 
-            await conn.InsertAsync(new OfflineAction()
+            await conn.InsertAsync(new OfflineTask()
             {
                 Task = actionTask,
                 ItemId = Model.Id
@@ -230,12 +230,12 @@ namespace wallabag.ViewModels
         {
             Model.IsStarred = !Model.IsStarred;
 
-            OfflineAction.OfflineActionTask actionTask = OfflineAction.OfflineActionTask.MarkItemAsFavorite;
+            OfflineTask.OfflineTaskType actionTask = OfflineTask.OfflineTaskType.MarkItemAsFavorite;
 
             if (!Model.IsStarred)
-                actionTask = OfflineAction.OfflineActionTask.UnmarkItemAsFavorite;
+                actionTask = OfflineTask.OfflineTaskType.UnmarkItemAsFavorite;
 
-            await conn.InsertAsync(new OfflineAction()
+            await conn.InsertAsync(new OfflineTask()
             {
                 Task = actionTask,
                 ItemId = Model.Id

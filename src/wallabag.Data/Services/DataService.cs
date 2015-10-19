@@ -31,7 +31,7 @@ namespace wallabag.Services
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
             await conn.CreateTableAsync<Tag>();
-            await conn.CreateTableAsync<OfflineAction>();
+            await conn.CreateTableAsync<OfflineTask>();
         }
 
         public static async Task<bool> SyncWithServerAsync()
@@ -39,35 +39,35 @@ namespace wallabag.Services
             if (!Helpers.IsConnectedToTheInternet)
                 return false;
 
-            var tasks = await conn.Table<OfflineAction>().ToListAsync();
+            var tasks = await conn.Table<OfflineTask>().ToListAsync();
 
             foreach (var task in tasks)
             {
                 bool success = false;
                 switch (task.Task)
                 {
-                    case OfflineAction.OfflineActionTask.AddItem:
+                    case OfflineTask.OfflineTaskType.AddItem:
                         success = await AddItemAsync(task.Url, task.TagsString, string.Empty, true);
                         break;
-                    case OfflineAction.OfflineActionTask.DeleteItem:
+                    case OfflineTask.OfflineTaskType.DeleteItem:
                         success = await ItemViewModel.DeleteItemAsync(task.ItemId, true);
                         break;
-                    case OfflineAction.OfflineActionTask.AddTags:
+                    case OfflineTask.OfflineTaskType.AddTags:
                         success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString, true)) != null;
                         break;
-                    case OfflineAction.OfflineActionTask.DeleteTag:
+                    case OfflineTask.OfflineTaskType.DeleteTag:
                         success = await ItemViewModel.DeleteTagAsync(task.ItemId, task.TagId, true);
                         break;
-                    case OfflineAction.OfflineActionTask.MarkItemAsRead:
+                    case OfflineTask.OfflineTaskType.MarkItemAsRead:
                         success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", true);
                         break;
-                    case OfflineAction.OfflineActionTask.UnmarkItemAsRead:
+                    case OfflineTask.OfflineTaskType.UnmarkItemAsRead:
                         success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", false);
                         break;
-                    case OfflineAction.OfflineActionTask.MarkItemAsFavorite:
+                    case OfflineTask.OfflineTaskType.MarkItemAsFavorite:
                         success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
                         break;
-                    case OfflineAction.OfflineActionTask.UnmarkItemAsFavorite:
+                    case OfflineTask.OfflineTaskType.UnmarkItemAsFavorite:
                         success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
                         break;
                 }
@@ -235,9 +235,9 @@ namespace wallabag.Services
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineAction()
+                    await conn.InsertAsync(new OfflineTask()
                     {
-                        Task = OfflineAction.OfflineActionTask.AddItem,
+                        Task = OfflineTask.OfflineTaskType.AddItem,
                         Url = Url,
                         TagsString = TagsString
                     });
