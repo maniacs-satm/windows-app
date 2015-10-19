@@ -37,7 +37,7 @@ namespace wallabag.Universal
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
             }
 
-            if (!string.IsNullOrEmpty(AppSettings.AccessToken))
+            if (string.IsNullOrEmpty(AppSettings.AccessToken))
             {
                 await DataService.InitializeDatabaseAsync();
                 NavigationService.Navigate(typeof(Views.ContentPage));
