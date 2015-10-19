@@ -85,13 +85,17 @@
                 <PlaneProjection/>
             </StackPanel.Projection>
             <Button x:Name="framabagUserButton" Content="I'm a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
-            <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
+            <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user." Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
         </StackPanel>
         <StackPanel x:Name="StackPanel2" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
             <TextBox x:Name="wallabagUrlTextBox" Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8" PlaceholderText="https://" Text="{Binding wallabagUrl, Mode=TwoWay}"/>
             <TextBox x:Name="userNameTextBox" Header="Username" Margin="0,0,0,8" PlaceholderText="(e.g. wallabag)" Text="{Binding Username, Mode=TwoWay}"/>
             <PasswordBox x:Name="passwordBox" Header="Password" Margin="0,0,0,8" Password="{Binding Password, Mode=TwoWay}"/>
             <Button x:Name="loginButton" Margin="0,8,0,0" Style="{ThemeResource ActionButtonStyle}" Command="{Binding LoginCommand}">LOGIN</Button>
+        </StackPanel>
+        <StackPanel x:Name="Step3Panel" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
+            <ProgressRing x:Name="ProgressRing" Width="64" Height="64" IsActive="True"/>
+            <TextBlock x:Name="ProgressTextBlock" Text="Logging in…" Margin="0,8,0,0" TextAlignment="Center"/>
         </StackPanel>
         <Button x:Name="imageCreditButton" Content="Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0" Margin="10" VerticalAlignment="Bottom" Style="{ThemeResource TextBlockButtonStyle}" Foreground="White" Click="imageCreditButton_Click"/>
     </Grid>
