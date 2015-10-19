@@ -106,7 +106,7 @@
         </StackPanel>
         <StackPanel x:Name="Step3Panel" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
             <ProgressRing x:Name="ProgressRing" Width="64" Height="64" IsActive="True"/>
-            <TextBlock x:Name="ProgressTextBlock" Text="Logging in…" Margin="0,8,0,0" TextAlignment="Center"/>
+            <TextBlock x:Name="ProgressTextBlock" Text="{Binding StatusText}" Margin="0,8,0,0" TextAlignment="Center"/>
         </StackPanel>
         <Button x:Name="imageCreditButton" Content="Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0" Margin="10" VerticalAlignment="Bottom" Style="{ThemeResource TextBlockButtonStyle}" Foreground="White" Click="imageCreditButton_Click"/>
     </Grid>

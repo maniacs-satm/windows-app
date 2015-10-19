@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
-using Template10.Services.NavigationService;
 
 namespace wallabag.ViewModels
 {
@@ -14,9 +13,12 @@ namespace wallabag.ViewModels
         public string Password { get; set; }
         public string wallabagUrl { get; set; }
 
+        public string StatusText { get; set; }
+
         public DelegateCommand LoginCommand { get; private set; }
         public async Task Login()
         {
+            StatusText = "Logging in…";
             if (wallabagUrl.EndsWith("/"))
                 wallabagUrl = wallabagUrl.Remove(wallabagUrl.Length - 1);
 
@@ -25,10 +27,16 @@ namespace wallabag.ViewModels
 
             if (await Services.AuthorizationService.RequestTokenAsync(Username, Password, wallabagUrl))
             {
+                StatusText = "Logged in.";
                 AppSettings.wallabagUrl = wallabagUrl;
-            await Services.DataService.InitializeDatabaseAsync();
-            NavigationService.Navigate(typeof(Views.ContentPage));
-        }
+                StatusText = "Create database…";
+                await Services.DataService.InitializeDatabaseAsync();
+                NavigationService.Navigate(typeof(Views.ContentPage));
+                NavigationService.ClearHistory();
+            }
+            else
+                StatusText = "Login failed.";
+
         }
 
         public FirstStartPageViewModel()
