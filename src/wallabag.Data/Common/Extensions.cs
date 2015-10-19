@@ -39,24 +39,7 @@ namespace wallabag.Common
                 wv.NavigateToString((string)e.NewValue);
             }
         }
-    }
-    public static class HttpClientExtensions
-    {
-        // copied and modified from StackOverflow <http://stackoverflow.com/a/26218765> - thanks to 'ricochete' :)
-        public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, IHttpContent iContent)
-        {
-            var method = new HttpMethod("PATCH");
-            var request = new HttpRequestMessage(method, requestUri)
-            {
-                Content = iContent
-            };
-
-            HttpResponseMessage response = new HttpResponseMessage();
-            response = await client.SendRequestAsync(request);
-
-            return response;
-        }
-    }
+    }   
     public static class TagExtensions
     {
         public static string ToCommaSeparatedString<T>(this ICollection<T> list)
