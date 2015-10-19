@@ -55,7 +55,7 @@
                         <Setter Target="StackPanel1.Margin" Value="32,0"/>
                         <Setter Target="StackPanel2.HorizontalAlignment" Value="Stretch"/>
                         <Setter Target="StackPanel2.Margin" Value="32,0"/>
-                        <Setter Target="imageCreditButton.Text" Value="Image by Terry Kearney."/>
+                        <Setter Target="imageCreditButton.Content" Value="Image by Terry Kearney."/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
