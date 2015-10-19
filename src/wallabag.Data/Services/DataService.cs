@@ -183,21 +183,7 @@ namespace wallabag.Services
         public static async Task<List<Tag>> GetTagsAsync()
         {
             List<Tag> result = new List<Tag>();
-
-            result = new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
-
-            int colorIndex = 0;
-            foreach (Tag tag in result)
-            {
-                colorIndex += 1;
-
-                if (colorIndex / Tag.PossibleColors.Count == 1)
-                    colorIndex = 0;
-
-                tag.Color = Tag.PossibleColors[colorIndex];
-            }
-
-            return result;
+            return new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
         }
 
         public static async Task<Item> GetItemAsync(int Id)
