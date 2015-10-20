@@ -56,7 +56,6 @@ namespace wallabag.ViewModels
         public DelegateCommand ShareCommand { get; private set; }
         public DelegateCommand OpenInBrowserCommand { get; private set; }
 
-        #region Methods
         public async Task CreateContentFromTemplateAsync()
         {
             StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Article/article.html"));
@@ -110,6 +109,26 @@ namespace wallabag.ViewModels
                     await AddTagsAsync(Model.Id, item.Label);
         }
 
+        public async Task<bool> SwitchReadValueAsync()
+        {
+            if (Model.IsRead)
+                Model.IsRead = false;
+            else
+                Model.IsRead = true;
+
+            await conn.UpdateAsync(Model);
+            return await UpdateSpecificProperty(Model.Id, "archive", Model.IsRead);
+        }
+        public async Task<bool> SwitchFavoriteValueAsync()
+        {
+            if (Model.IsStarred)
+                Model.IsStarred = false;
+            else
+                Model.IsStarred = true;
+
+            await conn.UpdateAsync(Model);
+            return await UpdateSpecificProperty(Model.Id, "star", Model.IsStarred);
+        }
         public async Task<bool> DeleteAsync()
         {
             NavigationService?.GoBack();
@@ -117,25 +136,6 @@ namespace wallabag.ViewModels
             await conn.UpdateAsync(Model);
 
             return await UpdateSpecificProperty(Model.Id, "deleted", true);
-        }
-        public static async Task<bool> UpdateSpecificProperty(int itemId, string propertyName, object propertyValue)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add(propertyName, propertyValue);
-
-            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Patch, $"/entries/{itemId}", parameters);
-            if (response.StatusCode == HttpStatusCode.Ok)
-                return true;
-            else
-            {
-                //await conn.InsertAsync(new OfflineTask()
-                //{
-                //    ItemId = itemId,
-                //    PropertyName = propertyName,
-                //    PropertyValue = propertyValue
-                //});
-                return false;
-            }
         }
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags, bool IsOfflineAction = false)
@@ -186,26 +186,24 @@ namespace wallabag.ViewModels
             }
         }
 
-        public async Task<bool> SwitchReadValueAsync()
+        public static async Task<bool> UpdateSpecificProperty(int itemId, string propertyName, object propertyValue)
         {
-            if (Model.IsRead)
-                Model.IsRead = false;
-            else
-                Model.IsRead = true;
+            Dictionary<string, object> parameters = new Dictionary<string, object>();
+            parameters.Add(propertyName, propertyValue);
 
-            await conn.UpdateAsync(Model);
-            return await UpdateSpecificProperty(Model.Id, "archive", true);
-        }
-        public async Task<bool> SwitchFavoriteValueAsync()
-        {
-            if (Model.IsStarred)
-                Model.IsStarred = false;
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Patch, $"/entries/{itemId}", parameters);
+            if (response.StatusCode == HttpStatusCode.Ok)
+                return true;
             else
-                Model.IsStarred = true;
-
-            await conn.UpdateAsync(Model);
-            return await UpdateSpecificProperty(Model.Id, "star", true);
+            {
+                //await conn.InsertAsync(new OfflineTask()
+                //{
+                //    ItemId = itemId,
+                //    PropertyName = propertyName,
+                //    PropertyValue = propertyValue
+                //});
+                return false;
+            }
         }
-        #endregion
     }
 }
