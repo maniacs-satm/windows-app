@@ -13,7 +13,7 @@ namespace wallabag.Tasks
             var _deferral = taskInstance.GetDeferral();
             taskInstance.Canceled += TaskInstance_Canceled;
 
-            if (await DataService.SyncWithServerAsync())
+            if (await DataService.SyncOfflineTasksWithServerAsync())
             {
                 uint newItemsSinceLastOpening = (uint)(await DataService.GetItemsAsync(new FilterProperties
                 {

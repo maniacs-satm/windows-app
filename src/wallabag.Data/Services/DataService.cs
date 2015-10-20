@@ -34,7 +34,7 @@ namespace wallabag.Services
             await conn.CreateTableAsync<OfflineTask>();
         }
 
-        public static async Task<bool> SyncWithServerAsync()
+        public static async Task<bool> SyncOfflineTasksWithServerAsync()
         {
             if (!Helpers.IsConnectedToTheInternet)
                 return false;

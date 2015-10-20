@@ -79,7 +79,7 @@ namespace wallabag.ViewModels
             RefreshCommand = new DelegateCommand(async () =>
             {
                 IsSyncing = true;
-                await DataService.SyncWithServerAsync();
+                await DataService.SyncOfflineTasksWithServerAsync();
                 DataService.LastUserSyncDateTime = DateTime.Now;
                 await LoadItemsAsync();
                 IsSyncing = false;
