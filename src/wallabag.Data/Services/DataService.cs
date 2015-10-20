@@ -10,13 +10,14 @@ using wallabag.Common;
 using wallabag.Models;
 using wallabag.ViewModels;
 using Windows.Web.Http;
+using static wallabag.Common.Helpers;
 
 namespace wallabag.Services
 {
     [ImplementPropertyChanged]
     public sealed class DataService
     {
-        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
         private static int _lastItemId = 0;
 
         public static DateTime LastUserSyncDateTime
@@ -27,8 +28,8 @@ namespace wallabag.Services
 
         public static async Task InitializeDatabaseAsync()
         {
-            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
             await conn.CreateTableAsync<Tag>();
             await conn.CreateTableAsync<OfflineTask>();
@@ -36,7 +37,7 @@ namespace wallabag.Services
 
         public static async Task<bool> SyncOfflineTasksWithServerAsync()
         {
-            if (!Helpers.IsConnectedToTheInternet)
+            if (!IsConnectedToTheInternet)
                 return false;
 
             var tasks = await conn.Table<OfflineTask>().ToListAsync();
@@ -82,7 +83,7 @@ namespace wallabag.Services
         public static async Task<int?> DownloadItemsFromServerAsync()
         {
             int? newItems = 0;
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
 
             if (response.StatusCode == HttpStatusCode.Ok)
             {
@@ -240,7 +241,7 @@ namespace wallabag.Services
             parameters.Add("tags", TagsString);
             parameters.Add("title", Title);
 
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, "/entries", parameters);
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Post, "/entries", parameters);
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;
             else
