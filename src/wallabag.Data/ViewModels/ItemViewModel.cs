@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 using PropertyChanged;
-using wallabag.Common;
 using Template10.Mvvm;
+using wallabag.Common;
 using wallabag.Models;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
+using static wallabag.Common.Helpers;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class ItemViewModel : ViewModelBase
     {
-        private static SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+        private static SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(DATABASE_PATH);
 
         public ItemViewModel(Item Model)
         {
@@ -112,19 +113,20 @@ namespace wallabag.ViewModels
         public async Task<bool> DeleteItemAsync()
         {
             NavigationService?.GoBack();
-            bool result = Model.IsDeleted = await DeleteItemAsync(Model.Id);
+            Model.IsDeleted = true;
             await conn.UpdateAsync(Model);
-            return result;
-        }
-        public static async Task<bool> DeleteItemAsync(int ItemId, bool IsOfflineAction = false)
-        {
-            if (!IsOfflineAction)
+
+            var result = await UpdateItemAsync();
+            if (!result)
+            {
                 await conn.InsertAsync(new OfflineTask()
                 {
                     Task = OfflineTask.OfflineTaskType.DeleteItem,
                     ItemId = ItemId
                 });
-            return true;
+            }
+            return result;
+
         }
         public async Task<bool> UpdateItemAsync()
         {
@@ -135,7 +137,7 @@ namespace wallabag.ViewModels
             parameters.Add("star", Model.IsStarred);
             parameters.Add("delete", Model.IsDeleted);
 
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Patch, $"/entries/{Model.Id}", parameters);
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Patch, $"/entries/{Model.Id}", parameters);
             if (response.StatusCode == HttpStatusCode.Ok)
             {
                 Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
@@ -156,7 +158,7 @@ namespace wallabag.ViewModels
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add(propertyName, propertyValue);
 
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Patch, $"/entries/{itemId}", parameters);
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Patch, $"/entries/{itemId}", parameters);
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;
             return false;
@@ -165,7 +167,7 @@ namespace wallabag.ViewModels
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags, bool IsOfflineAction = false)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
 
             if (response.StatusCode == HttpStatusCode.Ok)
             {
@@ -193,7 +195,7 @@ namespace wallabag.ViewModels
         }
         public static async Task<bool> DeleteTagAsync(int ItemId, int TagId, bool IsOfflineAction = false)
         {
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Delete, $"/entries/{ItemId}/tags/{TagId}");
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Delete, $"/entries/{ItemId}/tags/{TagId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;

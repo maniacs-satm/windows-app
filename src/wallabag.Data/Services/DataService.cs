@@ -51,7 +51,7 @@ namespace wallabag.Services
                         success = await AddItemAsync(task.Url, task.TagsString, string.Empty, true);
                         break;
                     case OfflineTask.OfflineTaskType.DeleteItem:
-                        success = await ItemViewModel.DeleteItemAsync(task.ItemId, true);
+                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "deleted", true);
                         break;
                     case OfflineTask.OfflineTaskType.AddTags:
                         success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString, true)) != null;
