@@ -116,17 +116,7 @@ namespace wallabag.ViewModels
             Model.IsDeleted = true;
             await conn.UpdateAsync(Model);
 
-            var result = await UpdateSpecificProperty(Model.Id, "deleted", true);
-            if (!result)
-            {
-                await conn.InsertAsync(new OfflineTask()
-                {
-                    Task = OfflineTask.OfflineTaskType.DeleteItem,
-                    ItemId = Model.Id
-                });
-            }
-            return result;
-
+            return await UpdateSpecificProperty(Model.Id, "deleted", true);
         }
         public static async Task<bool> UpdateSpecificProperty(int itemId, string propertyName, object propertyValue)
         {
@@ -136,7 +126,16 @@ namespace wallabag.ViewModels
             var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Patch, $"/entries/{itemId}", parameters);
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;
-            return false;
+            else
+            {
+                //await conn.InsertAsync(new OfflineTask()
+                //{
+                //    ItemId = itemId,
+                //    PropertyName = propertyName,
+                //    PropertyValue = propertyValue
+                //});
+                return false;
+            }
         }
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags, bool IsOfflineAction = false)
@@ -189,35 +188,23 @@ namespace wallabag.ViewModels
 
         public async Task<bool> SwitchReadValueAsync()
         {
-            Model.IsRead = !Model.IsRead;
+            if (Model.IsRead)
+                Model.IsRead = false;
+            else
+                Model.IsRead = true;
 
-            OfflineTask.OfflineTaskType actionTask = OfflineTask.OfflineTaskType.MarkItemAsRead;
-
-            if (!Model.IsRead)
-                actionTask = OfflineTask.OfflineTaskType.UnmarkItemAsRead;
-
-            await conn.InsertAsync(new OfflineTask()
-            {
-                Task = actionTask,
-                ItemId = Model.Id
-            });
-            return true;
+            await conn.UpdateAsync(Model);
+            return await UpdateSpecificProperty(Model.Id, "archive", true);
         }
         public async Task<bool> SwitchFavoriteValueAsync()
         {
-            Model.IsStarred = !Model.IsStarred;
+            if (Model.IsStarred)
+                Model.IsStarred = false;
+            else
+                Model.IsStarred = true;
 
-            OfflineTask.OfflineTaskType actionTask = OfflineTask.OfflineTaskType.MarkItemAsFavorite;
-
-            if (!Model.IsStarred)
-                actionTask = OfflineTask.OfflineTaskType.UnmarkItemAsFavorite;
-
-            await conn.InsertAsync(new OfflineTask()
-            {
-                Task = actionTask,
-                ItemId = Model.Id
-            });
-            return true;
+            await conn.UpdateAsync(Model);
+            return await UpdateSpecificProperty(Model.Id, "star", true);
         }
         #endregion
     }
