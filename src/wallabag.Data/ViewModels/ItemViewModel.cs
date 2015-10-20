@@ -117,7 +117,7 @@ namespace wallabag.ViewModels
                 Model.IsRead = true;
 
             await conn.UpdateAsync(Model);
-            return await UpdateSpecificProperty(Model.Id, "archive", Model.IsRead);
+            return await UpdateSpecificProperty(Model.Id, "is_archived", Model.IsRead);
         }
         public async Task<bool> SwitchFavoriteValueAsync()
         {
@@ -127,7 +127,7 @@ namespace wallabag.ViewModels
                 Model.IsStarred = true;
 
             await conn.UpdateAsync(Model);
-            return await UpdateSpecificProperty(Model.Id, "star", Model.IsStarred);
+            return await UpdateSpecificProperty(Model.Id, "is_starred", Model.IsStarred);
         }
         public async Task<bool> DeleteAsync()
         {
