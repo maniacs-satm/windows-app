@@ -144,34 +144,55 @@ namespace wallabag.Services
 
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
+            string sqlQuery = "SELECT * FROM 'Items' ";
+            List<object> sqlParams = new List<object>();
             List<Item> result = new List<Item>();
+
             var allItems = await conn.Table<Item>().ToListAsync();
+
             if (allItems.Count > 0)
                 _lastItemId = allItems.Last().Id;
 
             switch (filterProperties.ItemType)
             {
-                case FilterProperties.FilterPropertiesItemType.All:
-                    result = allItems;
-                    break;
+                case FilterProperties.FilterPropertiesItemType.All: break;
                 case FilterProperties.FilterPropertiesItemType.Unread:
-                    result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false).ToListAsync();
+                    sqlQuery += "WHERE IsRead = ? AND IsDeleted = ? ";
+                    sqlParams.Add(0); // 0 == false, 1 == true
+                    sqlParams.Add(0);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Favorites:
-                    result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
+                    sqlQuery += "WHERE IsDeleted = ? AND IsStarred = ? ";
+                    sqlParams.Add(0);
+                    sqlParams.Add(1);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Archived:
-                    result = await conn.Table<Item>().Where(i => i.IsRead == true && i.IsDeleted == false).ToListAsync();
+                    sqlQuery += "WHERE IsRead = ? AND IsDeleted = ? ";
+                    sqlParams.Add(1);
+                    sqlParams.Add(0);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Deleted:
-                    result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
+                    sqlQuery += "WHERE IsDeleted = ? ";
+                    sqlParams.Add(1);
                     break;
             }
 
             if (filterProperties.FilterTag != null)
-                result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
+            {
+                sqlQuery += "AND Tags LIKE ?";
+                sqlParams.Add(filterProperties.FilterTag.Label);
+            }
             if (!string.IsNullOrEmpty(filterProperties.DomainName))
-                result = new List<Item>(result.Where(i => i.DomainName.Equals(filterProperties.DomainName)));
+            {
+                sqlQuery += "AND DomainName = ?";
+                sqlParams.Add(filterProperties.DomainName);
+            }
+
+            if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
+                result = (await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray())).ToList().OrderBy(i => i.CreationDate).ToList();
+            else
+                result = (await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray())).ToList().OrderByDescending(i => i.CreationDate).ToList();
+
             if (filterProperties.MinimumEstimatedReadingTime != null &&
                 filterProperties.MaximumEstimatedReadingTime != null)
                 result = new List<Item>(result.Where(i => i.EstimatedReadingTime >= filterProperties.MinimumEstimatedReadingTime
@@ -182,12 +203,6 @@ namespace wallabag.Services
                 result = new List<Item>(result.Where(i => i.CreationDate < filterProperties.CreationDateTo
                                         && i.CreationDate > filterProperties.CreationDateFrom));
             }
-
-            if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
-                result = new List<Item>(result.OrderBy(i => i.CreationDate));
-            else
-                result = new List<Item>(result.OrderByDescending(i => i.CreationDate));
-
             return result;
         }
         public static async Task<List<Tag>> GetTagsAsync()
