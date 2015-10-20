@@ -26,7 +26,7 @@ namespace wallabag.ViewModels
         public ItemViewModel(Item Model)
         {
             this.Model = Model;
-            DeleteCommand = new DelegateCommand(async () => await DeleteItemAsync());
+            DeleteCommand = new DelegateCommand(async () => await DeleteAsync());
             SwitchReadStatusCommand = new DelegateCommand(async () => await SwitchReadValueAsync());
             SwitchFavoriteStatusCommand = new DelegateCommand(async () => await SwitchFavoriteValueAsync());
             ShareCommand = new DelegateCommand(() =>
@@ -110,7 +110,7 @@ namespace wallabag.ViewModels
                     await AddTagsAsync(Model.Id, item.Label);
         }
 
-        public async Task<bool> DeleteItemAsync()
+        public async Task<bool> DeleteAsync()
         {
             NavigationService?.GoBack();
             Model.IsDeleted = true;

@@ -144,7 +144,7 @@ namespace wallabag.Views
         private async void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e)
             => await Launcher.LaunchUriAsync(new Uri(_LastFocusedItemViewModel.Model.Url));
         private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
-            => await _LastFocusedItemViewModel.DeleteItemAsync();
+            => await _LastFocusedItemViewModel.DeleteAsync();
         #endregion
 
         public ICollection<Tag> MultipleSelectionTags { get; set; }
@@ -262,7 +262,7 @@ namespace wallabag.Views
             foreach (ItemViewModel item in _ItemGridView.SelectedItems)
             {
                 item.Model.IsDeleted = true;
-                await item.DeleteItemAsync();
+                await item.DeleteAsync();
             }
             multipleSelectToggleButton_Click(sender, e);
         }
