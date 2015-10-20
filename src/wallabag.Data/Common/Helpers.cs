@@ -66,7 +66,11 @@ namespace wallabag.Common
                 }
 
                 var method = new HttpMethod(httpMethodString);
-                var request = new HttpRequestMessage(method, requestUri) { Content = content };
+                var request = new HttpRequestMessage(method, requestUri);
+
+                if (parameters != null)
+                    request = new HttpRequestMessage(method, requestUri) { Content = content };
+
                 try { return await http.SendRequestAsync(request); }
                 catch { return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable); }
             }

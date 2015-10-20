@@ -140,7 +140,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}", new Dictionary<string, object>(), HttpRequestMethod.Delete));
+                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}", null, HttpRequestMethod.Delete));
                 return false;
             }
         }
@@ -178,7 +178,7 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags/{TagId}", new Dictionary<string, object>(), HttpRequestMethod.Delete));
+                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags/{TagId}",null, HttpRequestMethod.Delete));
                 return false;
             }
         }
