@@ -135,7 +135,18 @@ namespace wallabag.ViewModels
             Model.IsDeleted = true;
             await conn.UpdateAsync(Model);
 
-            return await UpdateSpecificProperty(Model.Id, "deleted", true);
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Delete, $"/entries/{Model.Id}");
+            if (response.StatusCode == HttpStatusCode.Ok)
+                return true;
+            else
+            {
+                await conn.InsertAsync(new OfflineTask()
+                {
+                    ItemId = Model.Id,
+                    Task = OfflineTask.OfflineTaskType.DeleteItem
+                });
+                return false;
+            }
         }
 
         public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags, bool IsOfflineAction = false)
