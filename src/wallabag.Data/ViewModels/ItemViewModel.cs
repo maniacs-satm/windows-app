@@ -140,11 +140,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await conn.InsertAsync(new OfflineTask()
-                {
-                    ItemId = Model.Id,
-                    Task = OfflineTask.OfflineTaskType.DeleteItem
-                });
+                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}", new Dictionary<string, object>(), HttpRequestMethod.Delete));
                 return false;
             }
         }
@@ -162,12 +158,7 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineTask()
-                    {
-                        Task = OfflineTask.OfflineTaskType.AddTags,
-                        ItemId = ItemId,
-                        TagsString = tags
-                    });
+                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags", parameters, HttpRequestMethod.Post));
                 return null;
             }
         }
@@ -187,12 +178,7 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineTask()
-                    {
-                        Task = OfflineTask.OfflineTaskType.DeleteTag,
-                        ItemId = ItemId,
-                        TagId = TagId
-                    });
+                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags/{TagId}", new Dictionary<string, object>(), HttpRequestMethod.Delete));
                 return false;
             }
         }
@@ -207,12 +193,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                //await conn.InsertAsync(new OfflineTask()
-                //{
-                //    ItemId = itemId,
-                //    PropertyName = propertyName,
-                //    PropertyValue = propertyValue
-                //});
+                await conn.InsertAsync(new OfflineTask($"/entries/{itemId}", parameters));
                 return false;
             }
         }

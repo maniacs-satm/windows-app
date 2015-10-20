@@ -44,41 +44,8 @@ namespace wallabag.Services
 
             bool success = false;
             foreach (var task in tasks)
-            {
-                switch (task.Task)
-                {
-                    case OfflineTask.OfflineTaskType.AddItem:
-                        success = await AddItemAsync(task.Url, task.TagsString, string.Empty, true);
-                        break;
-                    case OfflineTask.OfflineTaskType.DeleteItem:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "deleted", true);
-                        break;
-                    case OfflineTask.OfflineTaskType.AddTags:
-                        success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString, true)) != null;
-                        break;
-                    case OfflineTask.OfflineTaskType.DeleteTag:
-                        success = await ItemViewModel.DeleteTagAsync(task.ItemId, task.TagId, true);
-                        break;
-                    case OfflineTask.OfflineTaskType.MarkItemAsRead:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", true);
-                        break;
-                    case OfflineTask.OfflineTaskType.UnmarkItemAsRead:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", false);
-                        break;
-                    case OfflineTask.OfflineTaskType.MarkItemAsFavorite:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
-                        break;
-                    case OfflineTask.OfflineTaskType.UnmarkItemAsFavorite:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
-                        break;
-                }
-                if (success)
-                    await conn.DeleteAsync(task);
-            }
-            if (success)
-                return true;
-            else
-                return false;
+                success = await task.ExecuteAsync();
+            return success;
         }
         public static async Task<int?> DownloadItemsFromServerAsync()
         {
@@ -247,12 +214,7 @@ namespace wallabag.Services
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineTask()
-                    {
-                        Task = OfflineTask.OfflineTaskType.AddItem,
-                        Url = Url,
-                        TagsString = TagsString
-                    });
+                    await conn.InsertAsync(new OfflineTask("/entries", parameters, HttpRequestMethod.Post));
                 return false;
             }
         }
