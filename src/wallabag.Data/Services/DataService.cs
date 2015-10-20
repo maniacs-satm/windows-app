@@ -41,9 +41,9 @@ namespace wallabag.Services
 
             var tasks = await conn.Table<OfflineTask>().ToListAsync();
 
+            bool success = false;
             foreach (var task in tasks)
             {
-                bool success = false;
                 switch (task.Task)
                 {
                     case OfflineTask.OfflineTaskType.AddItem:
@@ -74,7 +74,10 @@ namespace wallabag.Services
                 if (success)
                     await conn.DeleteAsync(task);
             }
-            return await DownloadItemsFromServerAsync();
+            if (success)
+                return true;
+            else
+                return false;
         }
         public static async Task<bool> DownloadItemsFromServerAsync()
         {
@@ -83,7 +86,6 @@ namespace wallabag.Services
             if (response.StatusCode == HttpStatusCode.Ok)
             {
                 var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
-                System.Diagnostics.Debug.WriteLine(response.Content.ToString());
 
                 // Regular expression to remove multiple whitespaces (including newline etc.)
                 Regex Regex = new Regex("\\s+");
