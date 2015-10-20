@@ -116,42 +116,17 @@ namespace wallabag.ViewModels
             Model.IsDeleted = true;
             await conn.UpdateAsync(Model);
 
-            var result = await UpdateItemAsync();
+            var result = await UpdateSpecificProperty(Model.Id, "deleted", true);
             if (!result)
             {
                 await conn.InsertAsync(new OfflineTask()
                 {
                     Task = OfflineTask.OfflineTaskType.DeleteItem,
-                    ItemId = ItemId
+                    ItemId = Model.Id
                 });
             }
             return result;
 
-        }
-        public async Task<bool> UpdateItemAsync()
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add("title", Model.Title);
-            parameters.Add("tags", Model.Tags.ToCommaSeparatedString());
-            parameters.Add("archive", Model.IsRead);
-            parameters.Add("star", Model.IsStarred);
-            parameters.Add("delete", Model.IsDeleted);
-
-            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Patch, $"/entries/{Model.Id}", parameters);
-            if (response.StatusCode == HttpStatusCode.Ok)
-            {
-                Item resultItem = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
-                if (resultItem.Title == Model.Title &&
-                    resultItem.IsRead == Model.IsRead &&
-                    resultItem.IsStarred == Model.IsStarred &&
-                    resultItem.IsDeleted == Model.IsDeleted)
-                {
-                    Model.LastUpdated = resultItem.LastUpdated;
-                    await conn.UpdateAsync(Model);
-                    return true;
-                }
-            }
-            return false;
         }
         public static async Task<bool> UpdateSpecificProperty(int itemId, string propertyName, object propertyValue)
         {
