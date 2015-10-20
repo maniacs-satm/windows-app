@@ -204,7 +204,6 @@ WebEssentials2015-Settings.json
 /src/wallabag.Data/wallabag.Data.nuget.targets
 /src/wallabag.Data/project.lock.json
 /src/wallabag.Data/null
-/src/wallabag.Data
 /src/wallabag.Tasks/null
 src/wallabag.Tasks/project.lock.json
 src/wallabag.Tasks/wallabag.Tasks.nuget.targets
