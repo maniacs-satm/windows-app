@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using System.Collections.Generic;
+using SQLite;
 
 namespace wallabag.Models
 {
@@ -8,23 +9,16 @@ namespace wallabag.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int ItemId { get; set; }
-        public string TagsString { get; set; }
-        public int TagId { get; set; }
-        public string Url { get; set; }
+        public string RequestUri { get; set; }
+        public Dictionary<string, object> RequestParameters { get; set; }
+        public Common.Helpers.HttpRequestMethod RequestMethod { get; set; }
 
-        public OfflineTaskType Task { get; set; }
-
-        public enum OfflineTaskType
+        public OfflineTask() { }
+        public OfflineTask(string requestUri, Dictionary<string, object> parameters, Common.Helpers.HttpRequestMethod method = Common.Helpers.HttpRequestMethod.Patch)
         {
-            AddItem,
-            DeleteItem,
-            AddTags,
-            DeleteTag,
-            MarkItemAsRead,
-            UnmarkItemAsRead,
-            MarkItemAsFavorite,
-            UnmarkItemAsFavorite
+            RequestUri = requestUri;
+            RequestParameters = parameters;
+            RequestMethod = method;
         }
     }
 }
