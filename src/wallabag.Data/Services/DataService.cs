@@ -79,8 +79,9 @@ namespace wallabag.Services
             else
                 return false;
         }
-        public static async Task<bool> DownloadItemsFromServerAsync()
+        public static async Task<int?> DownloadItemsFromServerAsync()
         {
+            int? newItems = 0;
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -101,6 +102,11 @@ namespace wallabag.Services
                         // If the title starts with a space, remove it.
                         if (item.Title.StartsWith(" "))
                             item.Title = item.Title.Remove(0, 1);
+
+                        // Increase the number of new items
+                        newItems += 1;
+
+                        // Insert the new item in the database
                         await conn.InsertAsync(item);
                     }
                     else
@@ -127,11 +133,13 @@ namespace wallabag.Services
                             await conn.InsertAsync(tag);
                     }
                 }
-                return true;
             }
             else
-                return false;
-
+            {
+                // Return null if the download failed.
+                newItems = null;
+            }
+            return newItems;
         }
 
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
