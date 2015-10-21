@@ -157,7 +157,7 @@ namespace wallabag.Views
             MultipleSelectionTags = new ObservableCollection<Tag>();
         }
 
-        private async void HideAddItemBorder_Completed(object sender, object e) => await ViewModel.LoadItemsAsync();
+        private async void HideAddItemBorder_Completed(object sender, object e) => await ViewModel.RefreshItemsAsync();
         private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -291,15 +291,15 @@ namespace wallabag.Views
             {
                 case 0:
                     ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
-                    await ViewModel.LoadItemsAsync();
+                    await ViewModel.RefreshItemsAsync();
                     break;
                 case 1:
                     ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
-                    await ViewModel.LoadItemsAsync();
+                    await ViewModel.RefreshItemsAsync();
                     break;
                 case 2:
                     ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
-                    await ViewModel.LoadItemsAsync();
+                    await ViewModel.RefreshItemsAsync();
                     break;
             }
         }
@@ -354,7 +354,7 @@ namespace wallabag.Views
             {
                 sender.Text = args.ChosenSuggestion.ToString();
                 ViewModel.LastUsedFilterProperties.DomainName = sender.Text;
-                await ViewModel.FilterItemsAsync();
+                await ViewModel.RefreshItemsAsync();
             }
         }
 
@@ -375,7 +375,7 @@ namespace wallabag.Views
             {
                 sender.Text = args.ChosenSuggestion.ToString();
                 ViewModel.LastUsedFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
-                await ViewModel.FilterItemsAsync();
+                await ViewModel.RefreshItemsAsync();
             }
         }
 
@@ -385,15 +385,15 @@ namespace wallabag.Views
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Ascending;
             else
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync();
         }
         private async void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync();
         }
         private async void filterCalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync();
         }
 
         private void resetFilterButton_Click(object sender, RoutedEventArgs e)
@@ -450,7 +450,7 @@ namespace wallabag.Views
                 ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 15;
                 ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read ;-)
             }
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync();
         }
         #endregion
 

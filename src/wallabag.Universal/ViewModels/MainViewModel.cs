@@ -26,12 +26,32 @@ namespace wallabag.ViewModels
         public bool IsSyncing { get; set; } = false;
         public int NumberOfOfflineActions { get; set; }
 
+        private ObservableCollection<Item> _Models { get; set; } = new ObservableCollection<Item>();
+
         #region Tasks & Commands
         public async Task LoadItemsAsync()
         {
-            Items.Clear();
             foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
+            {
+                _Models.Add(i);
                 Items.Add(new ItemViewModel(i));
+            }
+            await RefreshItemsAsync(true);
+        }
+        public async Task RefreshItemsAsync(bool firstStart = false)
+        {
+            if (!firstStart)
+            {
+                var itemsInDatabase = await DataService.GetItemsAsync(LastUsedFilterProperties);
+
+                var newItems = itemsInDatabase.Except(_Models, new ItemComparer()).ToList();
+                var removedItems = _Models.Except(itemsInDatabase, new ItemComparer()).ToList();
+
+                foreach (var item in newItems)
+                    Items.Add(new ItemViewModel(item));
+                foreach (var item in removedItems)
+                    Items.Remove(new ItemViewModel(item));
+            }
 
             Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
             foreach (var item in Items)
@@ -39,12 +59,6 @@ namespace wallabag.ViewModels
                     DomainNames.Add(item.Model.DomainName);
 
             DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
-        }
-        public async Task FilterItemsAsync()
-        {
-            Items.Clear();
-            foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
-                Items.Add(new ItemViewModel(i));
         }
 
         public DelegateCommand RefreshCommand { get; private set; }
@@ -82,7 +96,7 @@ namespace wallabag.ViewModels
                 await DataService.SyncOfflineTasksWithServerAsync();
                 await DataService.DownloadItemsFromServerAsync();
                 DataService.LastUserSyncDateTime = DateTime.Now;
-                await LoadItemsAsync();
+                await RefreshItemsAsync();
                 IsSyncing = false;
 
                 SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
@@ -92,11 +106,11 @@ namespace wallabag.ViewModels
             {
                 NavigationService.Navigate(typeof(Views.SettingsPage));
             });
-            
+
             ResetFilterCommand = new DelegateCommand(async () =>
             {
                 LastUsedFilterProperties = new FilterProperties();
-                await FilterItemsAsync();
+                await RefreshItemsAsync();
             });
         }
     }
