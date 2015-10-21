@@ -397,7 +397,7 @@ namespace wallabag.Views
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Ascending;
             else
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
-            await ViewModel.RefreshItemsAsync();
+            await ViewModel.RefreshItemsAsync(false, true);
         }
         private async void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

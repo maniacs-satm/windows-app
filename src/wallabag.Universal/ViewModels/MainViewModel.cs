@@ -43,7 +43,7 @@ namespace wallabag.ViewModels
             }
             await RefreshItemsAsync(true);
         }
-        public async Task RefreshItemsAsync(bool firstStart = false)
+        public async Task RefreshItemsAsync(bool firstStart = false, bool completeReorder = false)
         {
             bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
 
@@ -73,6 +73,15 @@ namespace wallabag.ViewModels
                     DomainNames.Add(item.Model.DomainName);
 
             DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d));
+
+            if (completeReorder)
+            {
+                if (LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
+                    Items = new ObservableCollection<ItemViewModel>(Items.OrderBy(i => i.Model.CreationDate));
+                else
+                    Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
+
+            }
         }
 
         public DelegateCommand RefreshCommand { get; private set; }
