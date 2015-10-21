@@ -121,7 +121,10 @@ namespace wallabag.Views
             {
                 var grid = element as Grid;
                 if (grid.Name == "ContextMenuGrid")
+                {
                     (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
+                    (grid.Resources["HideContextMenu"] as Storyboard).Completed += async (s, e) => { await ViewModel.RefreshItemsAsync(); };
+                }
 
             }
         }
@@ -136,15 +139,24 @@ namespace wallabag.Views
         }
 
         private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
-            => await _LastFocusedItemViewModel.SwitchReadValueAsync();
+        {
+            await _LastFocusedItemViewModel.SwitchReadValueAsync();
+            await ViewModel.RefreshItemsAsync();
+        }
         private async void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e)
-            => await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
+        {
+            await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
+            await ViewModel.RefreshItemsAsync();
+        }
         private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e)
             => _LastFocusedItemViewModel.ShareCommand.Execute(null);
         private async void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e)
             => await Launcher.LaunchUriAsync(new Uri(_LastFocusedItemViewModel.Model.Url));
         private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
-            => await _LastFocusedItemViewModel.DeleteAsync();
+        {
+            await _LastFocusedItemViewModel.DeleteAsync();
+            await ViewModel.RefreshItemsAsync();
+        }
         #endregion
 
         public ICollection<Tag> MultipleSelectionTags { get; set; }
