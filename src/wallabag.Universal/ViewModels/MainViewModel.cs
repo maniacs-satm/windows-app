@@ -35,7 +35,7 @@ namespace wallabag.ViewModels
 
             foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
             {
-                if (_Models.Contains(i) == false)
+                if (_Models.Contains(i, new ItemComparer()) == false)
                 {
                     _Models.Add(i);
                     Items.AddSorted(new ItemViewModel(i), new ItemByDateTimeComparer(), sortDescending);
