@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using wallabag.Models;
+using wallabag.ViewModels;
 
 namespace wallabag.Common
 {
@@ -26,6 +28,14 @@ namespace wallabag.Common
                 return false;
             }
             return x1.Id == x2.Id;
+        }
+    }
+    public class ItemByDateTimeComparer : IComparer<ItemViewModel>
+    {
+        public int Compare(ItemViewModel x, ItemViewModel y)
+        {
+            TimeSpan duration = x.Model.CreationDate.Subtract(y.Model.CreationDate);
+            return (int)duration.TotalSeconds;
         }
     }
 }
