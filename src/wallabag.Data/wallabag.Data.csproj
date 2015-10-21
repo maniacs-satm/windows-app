@@ -111,6 +111,7 @@
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Common\Extensions.cs" />
     <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\ItemComparer.cs" />
     <Compile Include="Common\SQLite\SQLite.cs" />
     <Compile Include="Common\SQLite\SQLiteAsync.cs" />
     <Compile Include="Models\Item.cs" />
