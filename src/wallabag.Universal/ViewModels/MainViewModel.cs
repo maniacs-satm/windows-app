@@ -31,15 +31,22 @@ namespace wallabag.ViewModels
         #region Tasks & Commands
         public async Task LoadItemsAsync()
         {
+            bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
+
             foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
             {
-                _Models.Add(i);
-                Items.Add(new ItemViewModel(i));
+                if (!_Models.Contains(i))
+                {
+                    _Models.Add(i);
+                    Items.AddSorted(new ItemViewModel(i), new ItemByDateTimeComparer(), sortDescending);
+                }
             }
             await RefreshItemsAsync(true);
         }
         public async Task RefreshItemsAsync(bool firstStart = false)
         {
+            bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
+
             if (!firstStart)
             {
                 var itemsInDatabase = await DataService.GetItemsAsync(LastUsedFilterProperties);
@@ -49,7 +56,7 @@ namespace wallabag.ViewModels
 
                 foreach (var item in newItems)
                 {
-                    Items.Add(new ItemViewModel(item));
+                    Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
                     _Models.Add(item);
                 }
                 foreach (var item in removedItems)
@@ -65,12 +72,7 @@ namespace wallabag.ViewModels
                 if (!DomainNames.Contains(item.Model.DomainName))
                     DomainNames.Add(item.Model.DomainName);
 
-            DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
-
-            if (LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
-                Items = new ObservableCollection<ItemViewModel>(Items.OrderBy(i => i.Model.CreationDate));
-            else
-                Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
+            DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d));
         }
 
         public DelegateCommand RefreshCommand { get; private set; }
