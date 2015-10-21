@@ -156,10 +156,7 @@ namespace wallabag.Services
                 sqlParams.Add(filterProperties.DomainName);
             }
 
-            if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
-                result = (await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray())).ToList().OrderBy(i => i.CreationDate).ToList();
-            else
-                result = (await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray())).ToList().OrderByDescending(i => i.CreationDate).ToList();
+            result = await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray());
 
             if (filterProperties.MinimumEstimatedReadingTime != null &&
                 filterProperties.MaximumEstimatedReadingTime != null)

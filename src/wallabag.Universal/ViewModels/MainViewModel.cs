@@ -48,9 +48,16 @@ namespace wallabag.ViewModels
                 var removedItems = _Models.Except(itemsInDatabase, new ItemComparer()).ToList();
 
                 foreach (var item in newItems)
+                {
                     Items.Add(new ItemViewModel(item));
+                    _Models.Add(item);
+                }
                 foreach (var item in removedItems)
-                    Items.Remove(new ItemViewModel(item));
+                {
+                    ItemViewModel itemInCollection = Items.Where(i => i.Model == item).First();
+                    Items.Remove(itemInCollection);
+                    _Models.Remove(item);
+                }
             }
 
             Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
@@ -59,6 +66,11 @@ namespace wallabag.ViewModels
                     DomainNames.Add(item.Model.DomainName);
 
             DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
+
+            if (LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
+                Items = new ObservableCollection<ItemViewModel>(Items.OrderBy(i => i.Model.CreationDate));
+            else
+                Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
         }
 
         public DelegateCommand RefreshCommand { get; private set; }
