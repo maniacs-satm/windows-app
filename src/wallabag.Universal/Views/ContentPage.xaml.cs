@@ -121,7 +121,10 @@ namespace wallabag.Views
             {
                 var grid = element as Grid;
                 if (grid.Name == "ContextMenuGrid")
+                {
                     (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
+                    (grid.Resources["HideContextMenu"] as Storyboard).Completed += async (s, e) => { await ViewModel.RefreshItemsAsync(); };
+                }
 
             }
         }
@@ -136,15 +139,24 @@ namespace wallabag.Views
         }
 
         private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
-            => await _LastFocusedItemViewModel.SwitchReadValueAsync();
+        {
+            await _LastFocusedItemViewModel.SwitchReadValueAsync();
+            await ViewModel.RefreshItemsAsync();
+        }
         private async void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e)
-            => await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
+        {
+            await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
+            await ViewModel.RefreshItemsAsync();
+        }
         private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e)
             => _LastFocusedItemViewModel.ShareCommand.Execute(null);
         private async void ContextMenuOpenInBrowser_Click(object sender, RoutedEventArgs e)
             => await Launcher.LaunchUriAsync(new Uri(_LastFocusedItemViewModel.Model.Url));
         private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
-            => await _LastFocusedItemViewModel.DeleteItemAsync();
+        {
+            await _LastFocusedItemViewModel.DeleteAsync();
+            await ViewModel.RefreshItemsAsync();
+        }
         #endregion
 
         public ICollection<Tag> MultipleSelectionTags { get; set; }
@@ -157,7 +169,7 @@ namespace wallabag.Views
             MultipleSelectionTags = new ObservableCollection<Tag>();
         }
 
-        private async void HideAddItemBorder_Completed(object sender, object e) => await ViewModel.LoadItemsAsync();
+        private async void HideAddItemBorder_Completed(object sender, object e) => await ViewModel.RefreshItemsAsync();
         private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -197,10 +209,17 @@ namespace wallabag.Views
 
         #region Multiple selection
 
-        private void multipleSelectToggleButton_Click(object sender, RoutedEventArgs e)
+        private async void multipleSelectToggleButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsMultipleSelectionEnabled)
             {
+                SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+
+                foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+                    await conn.UpdateAsync(item.Model);
+
+                await ViewModel.RefreshItemsAsync();
+
                 IsMultipleSelectionEnabled = false;
                 _ItemGridView.SelectionMode = ListViewSelectionMode.None;
                 _ItemGridView.IsItemClickEnabled = true;
@@ -262,7 +281,7 @@ namespace wallabag.Views
             foreach (ItemViewModel item in _ItemGridView.SelectedItems)
             {
                 item.Model.IsDeleted = true;
-                await item.DeleteItemAsync();
+                await item.DeleteAsync();
             }
             multipleSelectToggleButton_Click(sender, e);
         }
@@ -291,15 +310,15 @@ namespace wallabag.Views
             {
                 case 0:
                     ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
-                    await ViewModel.LoadItemsAsync();
+                    await ViewModel.RefreshItemsAsync();
                     break;
                 case 1:
                     ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
-                    await ViewModel.LoadItemsAsync();
+                    await ViewModel.RefreshItemsAsync();
                     break;
                 case 2:
                     ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
-                    await ViewModel.LoadItemsAsync();
+                    await ViewModel.RefreshItemsAsync();
                     break;
             }
         }
@@ -354,7 +373,7 @@ namespace wallabag.Views
             {
                 sender.Text = args.ChosenSuggestion.ToString();
                 ViewModel.LastUsedFilterProperties.DomainName = sender.Text;
-                await ViewModel.FilterItemsAsync();
+                await ViewModel.RefreshItemsAsync();
             }
         }
 
@@ -375,7 +394,7 @@ namespace wallabag.Views
             {
                 sender.Text = args.ChosenSuggestion.ToString();
                 ViewModel.LastUsedFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
-                await ViewModel.FilterItemsAsync();
+                await ViewModel.RefreshItemsAsync();
             }
         }
 
@@ -385,15 +404,15 @@ namespace wallabag.Views
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Ascending;
             else
                 ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync(false, true);
         }
         private async void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync();
         }
         private async void filterCalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync();
         }
 
         private void resetFilterButton_Click(object sender, RoutedEventArgs e)
@@ -450,7 +469,7 @@ namespace wallabag.Views
                 ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 15;
                 ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read ;-)
             }
-            await ViewModel.FilterItemsAsync();
+            await ViewModel.RefreshItemsAsync();
         }
         #endregion
 

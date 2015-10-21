@@ -4,13 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using wallabag.Models;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Web.Http;
 
 namespace wallabag.Common
 {
@@ -38,23 +36,6 @@ namespace wallabag.Common
             {
                 wv.NavigateToString((string)e.NewValue);
             }
-        }
-    }
-    public static class HttpClientExtensions
-    {
-        // copied and modified from StackOverflow <http://stackoverflow.com/a/26218765> - thanks to 'ricochete' :)
-        public static async Task<HttpResponseMessage> PatchAsync(this HttpClient client, Uri requestUri, IHttpContent iContent)
-        {
-            var method = new HttpMethod("PATCH");
-            var request = new HttpRequestMessage(method, requestUri)
-            {
-                Content = iContent
-            };
-
-            HttpResponseMessage response = new HttpResponseMessage();
-            response = await client.SendRequestAsync(request);
-
-            return response;
         }
     }
     public static class TagExtensions
@@ -207,7 +188,7 @@ namespace wallabag.Common
 
             List<object> values = new List<object>();
 
-            string rewrittenFormat = r.Replace(format, delegate(Match m)
+            string rewrittenFormat = r.Replace(format, delegate (Match m)
             {
                 Group startGroup = m.Groups["start"];
                 Group propertyGroup = m.Groups["property"];
@@ -222,6 +203,25 @@ namespace wallabag.Common
                                   + new string('}', endGroup.Captures.Count);
             });
             return string.Format(rewrittenFormat, values.ToArray());
+        }
+    }
+    public static class ListExtensions
+    {
+        public static void AddSorted<T>(this IList<T> List, T Item, IComparer<T> Comparer = null, bool SortDescending = false)
+        {
+            if (Comparer == null)
+                Comparer = Comparer<T>.Default;
+
+            int i = 0;
+
+            if (!SortDescending)
+                while (i < List.Count && Comparer.Compare(List[i], Item) < 0)
+                    i++;
+            else
+                while (i < List.Count && Comparer.Compare(List[i], Item) > 0)
+                    i++;
+
+            List.Insert(i, Item);
         }
     }
 }

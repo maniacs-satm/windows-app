@@ -12,7 +12,16 @@ namespace wallabag.Common
 {
     public static class Helpers
     {
-        public static string DATABASE_FILENAME { get; } = $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":", "")}.db";
+        public static string DATABASE_FILENAME
+        {
+            get
+            {
+                if (AppSettings.wallabagUrl != null)
+                    return $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":", "")}.db";
+                else
+                    return "wallabag_temp.db";
+            }
+        }
         public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, DATABASE_FILENAME);
 
         /// <summary>
@@ -57,7 +66,11 @@ namespace wallabag.Common
                 }
 
                 var method = new HttpMethod(httpMethodString);
-                var request = new HttpRequestMessage(method, requestUri) { Content = content };
+                var request = new HttpRequestMessage(method, requestUri);
+
+                if (parameters != null)
+                    request = new HttpRequestMessage(method, requestUri) { Content = content };
+
                 try { return await http.SendRequestAsync(request); }
                 catch { return new HttpResponseMessage(HttpStatusCode.ServiceUnavailable); }
             }
