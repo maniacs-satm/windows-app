@@ -209,10 +209,17 @@ namespace wallabag.Views
 
         #region Multiple selection
 
-        private void multipleSelectToggleButton_Click(object sender, RoutedEventArgs e)
+        private async void multipleSelectToggleButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsMultipleSelectionEnabled)
             {
+                SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+
+                foreach (ItemViewModel item in _ItemGridView.SelectedItems)
+                    await conn.UpdateAsync(item.Model);
+
+                await ViewModel.RefreshItemsAsync();
+
                 IsMultipleSelectionEnabled = false;
                 _ItemGridView.SelectionMode = ListViewSelectionMode.None;
                 _ItemGridView.IsItemClickEnabled = true;
