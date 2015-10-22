@@ -20,7 +20,10 @@ namespace wallabag.Models
         {
             var response = await ExecuteHttpRequestAsync(RequestMethod, RequestUri, RequestParameters);
             if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                await new SQLiteAsyncConnection(DATABASE_PATH).DeleteAsync(this);
                 return true;
+            }
             else
                 return false;
         }
