@@ -17,8 +17,14 @@ namespace wallabag.Views
         public FirstStartPage()
         {
             this.InitializeComponent();
-            GoToStep1.Begin();
-
+            GoToStep0.Begin();
+            GoToStep0.Completed += (s, e) =>
+            {
+                if (string.IsNullOrEmpty(Common.AppSettings.AccessToken))
+                    GoToStep0.Begin();
+                else
+                    GoToStep3.Begin();
+            };
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
@@ -29,7 +35,7 @@ namespace wallabag.Views
                     Step2Panel.Visibility = Visibility.Collapsed;
                     Step3Panel.Visibility = Visibility.Collapsed;
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                    GoToStep1.Begin();
+                    GoToStep0.Begin();
                 }
             };
         }

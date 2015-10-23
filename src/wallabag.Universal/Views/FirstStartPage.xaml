@@ -19,11 +19,6 @@
         <Storyboard x:Name="GoToStep2">
             <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step1Panel" d:IsOptimized="True"/>
             <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step2Panel" d:IsOptimized="True"/>
-            <DoubleAnimation Duration="0:0:0.3" To="-100" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="welcomeTextBlock" d:IsOptimized="True">
-                <DoubleAnimation.EasingFunction>
-                    <QuadraticEase EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Step2Panel">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
@@ -43,7 +38,7 @@
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Name="GoToStep1">
+        <Storyboard x:Name="GoToStep0">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="backgroundImage">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
@@ -55,21 +50,22 @@
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="welcomeTextBlock">
                 <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-100"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-200"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imageCreditButton">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="GoToStep1">            
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step1Panel">
                 <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="Step1Panel">
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="25"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="25"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
