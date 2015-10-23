@@ -13,13 +13,14 @@ using wallabag.Models;
 using wallabag.ViewModels;
 using Windows.Foundation;
 using Windows.Web.Http;
+using static wallabag.Common.Helpers;
 
 namespace wallabag.Services
 {
     [ImplementPropertyChanged]
     public sealed class DataService
     {
-        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
         private static int _lastItemId = 0;
 
         public static DateTime LastUserSyncDateTime
@@ -30,54 +31,24 @@ namespace wallabag.Services
 
         public static async Task InitializeDatabaseAsync()
         {
-            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
-            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
+            SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
             await conn.CreateTableAsync<Item>();
             await conn.CreateTableAsync<Tag>();
-            await conn.CreateTableAsync<OfflineAction>();
+            await conn.CreateTableAsync<OfflineTask>();
         }
 
-        public static async Task<bool> SyncWithServerAsync()
+        public static async Task<bool> SyncOfflineTasksWithServerAsync()
         {
-            if (!Helpers.IsConnectedToTheInternet)
+            if (!IsConnectedToTheInternet)
                 return false;
 
-            var tasks = await conn.Table<OfflineAction>().ToListAsync();
+            var tasks = await conn.Table<OfflineTask>().ToListAsync();
 
+            bool success = false;
             foreach (var task in tasks)
-            {
-                bool success = false;
-                switch (task.Task)
-                {
-                    case OfflineAction.OfflineActionTask.AddItem:
-                        success = await AddItemAsync(task.Url, task.TagsString, string.Empty, true);
-                        break;
-                    case OfflineAction.OfflineActionTask.DeleteItem:
-                        success = await ItemViewModel.DeleteItemAsync(task.ItemId, true);
-                        break;
-                    case OfflineAction.OfflineActionTask.AddTags:
-                        success = (await ItemViewModel.AddTagsAsync(task.ItemId, task.TagsString, true)) != null;
-                        break;
-                    case OfflineAction.OfflineActionTask.DeleteTag:
-                        success = await ItemViewModel.DeleteTagAsync(task.ItemId, task.TagId, true);
-                        break;
-                    case OfflineAction.OfflineActionTask.MarkItemAsRead:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", true);
-                        break;
-                    case OfflineAction.OfflineActionTask.UnmarkItemAsRead:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "archive", false);
-                        break;
-                    case OfflineAction.OfflineActionTask.MarkItemAsFavorite:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
-                        break;
-                    case OfflineAction.OfflineActionTask.UnmarkItemAsFavorite:
-                        success = await ItemViewModel.UpdateSpecificProperty(task.ItemId, "star", true);
-                        break;
-                }
-                if (success)
-                    await conn.DeleteAsync(task);
-            }
-            return await DownloadItemsFromServerAsync();
+                success = await task.ExecuteAsync();
+            return success;
         }
         public static IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync()
         {
@@ -87,7 +58,7 @@ namespace wallabag.Services
         private static async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress)
         {
             var dProgress = new DownloadProgress();
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
 
             if (response.StatusCode == HttpStatusCode.Ok)
             {
@@ -102,7 +73,7 @@ namespace wallabag.Services
                     for (int i = 2; i <= json.Pages; i++)
                     {
                         Dictionary<string, object> parameters = new Dictionary<string, object>() {["page"] = i };
-                        var additionalHttpResponse = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
+                        var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
 
                         var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                         foreach (var item in additionalJson.Embedded.Items)
@@ -156,46 +127,61 @@ namespace wallabag.Services
                         if (existingTag == null)
                             await conn.InsertAsync(tag);
                     }
-
-                    index += 1;
                 }
                 return true;
             }
             else
                 return false;
-
         }
 
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
+            string sqlQuery = "SELECT * FROM 'Items' ";
+            List<object> sqlParams = new List<object>();
             List<Item> result = new List<Item>();
+
             var allItems = await conn.Table<Item>().ToListAsync();
+
             if (allItems.Count > 0)
                 _lastItemId = allItems.Last().Id;
 
             switch (filterProperties.ItemType)
             {
-                case FilterProperties.FilterPropertiesItemType.All:
-                    result = allItems;
-                    break;
+                case FilterProperties.FilterPropertiesItemType.All: break;
                 case FilterProperties.FilterPropertiesItemType.Unread:
-                    result = await conn.Table<Item>().Where(i => i.IsRead == false && i.IsDeleted == false).ToListAsync();
+                    sqlQuery += "WHERE IsRead = ? AND IsDeleted = ? ";
+                    sqlParams.Add(0); // 0 == false, 1 == true
+                    sqlParams.Add(0);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Favorites:
-                    result = await conn.Table<Item>().Where(i => i.IsDeleted == false && i.IsStarred == true).ToListAsync();
+                    sqlQuery += "WHERE IsDeleted = ? AND IsStarred = ? ";
+                    sqlParams.Add(0);
+                    sqlParams.Add(1);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Archived:
-                    result = await conn.Table<Item>().Where(i => i.IsRead == true && i.IsDeleted == false).ToListAsync();
+                    sqlQuery += "WHERE IsRead = ? AND IsDeleted = ? ";
+                    sqlParams.Add(1);
+                    sqlParams.Add(0);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Deleted:
-                    result = await conn.Table<Item>().Where(i => i.IsDeleted == true).ToListAsync();
+                    sqlQuery += "WHERE IsDeleted = ? ";
+                    sqlParams.Add(1);
                     break;
             }
 
             if (filterProperties.FilterTag != null)
-                result = new List<Item>(result.Where(i => i.Tags.ToCommaSeparatedString().Contains(filterProperties.FilterTag.Label)));
+            {
+                sqlQuery += "AND Tags LIKE ?";
+                sqlParams.Add(filterProperties.FilterTag.Label);
+            }
             if (!string.IsNullOrEmpty(filterProperties.DomainName))
-                result = new List<Item>(result.Where(i => i.DomainName.Equals(filterProperties.DomainName)));
+            {
+                sqlQuery += "AND DomainName = ?";
+                sqlParams.Add(filterProperties.DomainName);
+            }
+
+            result = await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray());
+
             if (filterProperties.MinimumEstimatedReadingTime != null &&
                 filterProperties.MaximumEstimatedReadingTime != null)
                 result = new List<Item>(result.Where(i => i.EstimatedReadingTime >= filterProperties.MinimumEstimatedReadingTime
@@ -206,32 +192,12 @@ namespace wallabag.Services
                 result = new List<Item>(result.Where(i => i.CreationDate < filterProperties.CreationDateTo
                                         && i.CreationDate > filterProperties.CreationDateFrom));
             }
-
-            if (filterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
-                result = new List<Item>(result.OrderBy(i => i.CreationDate));
-            else
-                result = new List<Item>(result.OrderByDescending(i => i.CreationDate));
-
             return result;
         }
         public static async Task<List<Tag>> GetTagsAsync()
         {
             List<Tag> result = new List<Tag>();
-
-            result = new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
-
-            int colorIndex = 0;
-            foreach (Tag tag in result)
-            {
-                colorIndex += 1;
-
-                if (colorIndex / Tag.PossibleColors.Count == 1)
-                    colorIndex = 0;
-
-                tag.Color = Tag.PossibleColors[colorIndex];
-            }
-
-            return result;
+            return new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
         }
 
         public static async Task<Item> GetItemAsync(int Id)
@@ -243,38 +209,65 @@ namespace wallabag.Services
             return await conn.GetAsync<Item>(i => i.Title == Title);
         }
 
-        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineAction = false)
+        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false)
         {
-            if (!IsOfflineAction)
-            {
-                var newItem = new Item();
-                var hostName = new Uri(Url).Host;
-                newItem.Id = _lastItemId + 1;
-                newItem.Title = hostName;
-                newItem.DomainName = hostName;
-                newItem.Tags = TagsString.ToObservableCollection();
-                newItem.Url = Url;
-
-                await conn.InsertAsync(newItem);
-            }
-
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", Url);
             parameters.Add("tags", TagsString);
             parameters.Add("title", Title);
 
-            var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Post, "/entries", parameters);
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Post, "/entries", parameters);
             if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                var item = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
+
+                if (existingItem != null)
+                {
+                    existingItem.Id = item.Id;
+                    existingItem.Title = item.Title;
+                    existingItem.Url = item.Url;
+                    existingItem.IsRead = item.IsRead;
+                    existingItem.IsStarred = item.IsStarred;
+                    existingItem.IsDeleted = item.IsDeleted;
+                    existingItem.Content = item.Content;
+                    existingItem.CreationDate = item.CreationDate;
+                    existingItem.LastUpdated = item.LastUpdated;
+                    existingItem.DomainName = item.DomainName;
+                    existingItem.EstimatedReadingTime = item.EstimatedReadingTime;
+                    existingItem.PreviewPictureUri = item.PreviewPictureUri;
+
+                    await conn.UpdateAsync(existingItem);
+                }
+                else
+                    await conn.InsertAsync(item);
+
+                foreach (Tag tag in item.Tags)
+                {
+                    var existingTag = await (conn.Table<Tag>().Where(i => i.Id == tag.Id)).FirstOrDefaultAsync();
+                    if (existingTag == null)
+                        await conn.InsertAsync(tag);
+                }
                 return true;
+            }
             else
             {
-                if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineAction()
-                    {
-                        Task = OfflineAction.OfflineActionTask.AddItem,
-                        Url = Url,
-                        TagsString = TagsString
-                    });
+                if (!IsOfflineTask)
+                {
+                    var newItem = new Item();
+                    var hostName = new Uri(Url).Host;
+                    newItem.Id = _lastItemId + 1;
+                    newItem.Title = hostName;
+                    newItem.DomainName = hostName;
+                    newItem.Tags = TagsString.ToObservableCollection();
+                    newItem.Url = Url;
+                    newItem.CreationDate = DateTime.Now;
+
+                    _lastItemId += 1;
+                    await conn.InsertAsync(newItem);
+
+                    await conn.InsertAsync(new OfflineTask("/entries", parameters, HttpRequestMethod.Post));
+                }
                 return false;
             }
         }

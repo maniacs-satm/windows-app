@@ -265,10 +265,6 @@
       <Project>{b7cf54c4-8117-415a-bf06-6db5c9964c76}</Project>
       <Name>wallabag.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\wallabag.Tasks\wallabag.Tasks.csproj">
-      <Project>{12ba4535-124b-434c-9227-b1a8347dfed7}</Project>
-      <Name>wallabag.Tasks</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

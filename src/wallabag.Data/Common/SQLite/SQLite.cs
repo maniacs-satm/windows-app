@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -30,12 +29,20 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Newtonsoft.Json;
-using wallabag.Models;
 using Sqlite3DatabaseHandle = System.IntPtr;
 using Sqlite3Statement = System.IntPtr;
 
 namespace SQLite
 {
+    public static class CustomSQLiteSettings
+    {
+        public static JsonSerializerSettings SerializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple,
+            TypeNameHandling = TypeNameHandling.All
+        };
+    }
+
     public class SQLiteException : Exception
     {
         public SQLite3.Result Result { get; private set; }
@@ -193,7 +200,7 @@ namespace SQLite
 
             BusyTimeout = TimeSpan.FromSeconds(0.1);
         }
-        
+
         public void EnableLoadExtension(int onoff)
         {
             SQLite3.Result r = SQLite3.EnableLoadExtension(Handle, onoff);
@@ -2290,7 +2297,7 @@ namespace SQLite
                 }
                 else
                 {
-                    SQLite3.BindText(statement, index, JsonConvert.SerializeObject(value), -1, NegativePointer);
+                    SQLite3.BindText(statement, index, JsonConvert.SerializeObject(value, CustomSQLiteSettings.SerializerSettings), -1, NegativePointer);
                 }
             }
         }
@@ -2395,8 +2402,7 @@ namespace SQLite
                 }
                 else
                 {
-                    // TODO: Find a general way!
-                    return JsonConvert.DeserializeObject<ObservableCollection<Tag>>(SQLite3.ColumnString(statement, index));
+                    return JsonConvert.DeserializeObject(SQLite3.ColumnString(statement, index), CustomSQLiteSettings.SerializerSettings);
                 }
             }
         }

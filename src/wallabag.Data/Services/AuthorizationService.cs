@@ -16,10 +16,10 @@ namespace wallabag.Services
         {
             get
             {
-                return DateTime.Parse(Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastRequestDateTime"] as string
+                return DateTime.Parse(Windows.Storage.ApplicationData.Current.LocalSettings.Values[nameof(_LastRequestDateTime)] as string
                     ?? DateTime.UtcNow.Subtract(new TimeSpan(1, 0, 0)).ToString());
             }
-            set { Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastRequestDateTime"] = value.ToString(); }
+            set { Windows.Storage.ApplicationData.Current.LocalSettings.Values[nameof(_LastRequestDateTime)] = value.ToString(); }
         }
 
         public static async Task<string> GetAccessTokenAsync()

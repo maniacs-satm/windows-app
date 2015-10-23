@@ -133,13 +133,13 @@
                     <TextBlock Text="To apply the following settings you need to restart the app." TextWrapping="Wrap" Margin="0,0,0,12" FontStyle="Italic"/>
                     <ComboBox Header="Language" IsEnabled="False" Width="320" Margin="0,8"/>
                     <ToggleSwitch Header="Sync with the server on start" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
-                    <ToggleSwitch Header="Use 'normal' context menu when using a mouse" IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Look &amp; feel">
+            <PivotItem Header="Appereance">
                 <StackPanel>
                     <ToggleSwitch Header="Open the filter at the same time with the search" IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}"/>
                     <ToggleSwitch Header="Display mode of the filter pane" OnContent="Inline" OffContent="Overlay" IsOn="{x:Bind ViewModel.ShowTheFilterPaneInline, Mode=TwoWay}"/>
+                    <ToggleSwitch Header="Use 'normal' context menu when using a mouse" IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem Header="Reading">
@@ -148,7 +148,7 @@
                     <ToggleSwitch Header="Sync the reading progress" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Background task">
+            <!--<PivotItem Header="Background task">
                 <StackPanel>
                     <ToggleSwitch Header="Use background task" IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}"/>
                     <TextBlock Text="Interval in minutes" Margin="0,8,0,-4"/>
@@ -169,7 +169,7 @@
                         <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">120</RadioButton>
                     </StackPanel>
                 </StackPanel>
-            </PivotItem>
+            </PivotItem>-->
             <PivotItem Header="Info">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>

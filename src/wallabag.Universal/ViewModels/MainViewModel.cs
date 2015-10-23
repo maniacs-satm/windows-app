@@ -26,25 +26,72 @@ namespace wallabag.ViewModels
         public bool IsSyncing { get; set; } = false;
         public int NumberOfOfflineActions { get; set; }
 
+        private ObservableCollection<Item> _Models { get; set; } = new ObservableCollection<Item>();
+
         #region Tasks & Commands
         public async Task LoadItemsAsync()
         {
-            Items.Clear();
+            bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
+
             foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
-                Items.Add(new ItemViewModel(i));
+            {
+                if (_Models.Contains(i, new ItemComparer()) == false)
+                {
+                    _Models.Add(i);
+                    Items.AddSorted(new ItemViewModel(i), new ItemByDateTimeComparer(), sortDescending);
+                }
+            }
+            await RefreshItemsAsync(true);
+        }
+        public async Task RefreshItemsAsync(bool firstStart = false, bool completeReorder = false)
+        {
+            bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
+
+            if (!firstStart)
+            {
+                var itemsInDatabase = await DataService.GetItemsAsync(LastUsedFilterProperties);
+
+                var newItems = itemsInDatabase.Except(_Models, new ItemComparer()).ToList();
+                var changedItems = itemsInDatabase.Except(_Models, new ItemChangedComparer()).ToList();
+                var removedItems = _Models.Except(itemsInDatabase, new ItemComparer()).ToList();
+
+                foreach (var item in newItems)
+                {
+                    Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
+                    _Models.Add(item);
+                }
+                foreach (var item in changedItems)
+                {
+                    Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
+                    Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
+                    _Models.Remove(_Models.Where(i => i.Id == item.Id).First());
+                    _Models.Add(item);
+
+                    await new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH).UpdateAsync(item);
+                }
+                foreach (var item in removedItems)
+                {
+                    ItemViewModel itemInCollection = Items.Where(i => i.Model == item).First();
+                    Items.Remove(itemInCollection);
+                    _Models.Remove(item);
+                }
+            }
 
             Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
             foreach (var item in Items)
                 if (!DomainNames.Contains(item.Model.DomainName))
                     DomainNames.Add(item.Model.DomainName);
 
-            DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d).ToList());
-        }
-        public async Task FilterItemsAsync()
-        {
-            Items.Clear();
-            foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
-                Items.Add(new ItemViewModel(i));
+            DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d));
+
+            if (completeReorder)
+            {
+                if (LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
+                    Items = new ObservableCollection<ItemViewModel>(Items.OrderBy(i => i.Model.CreationDate));
+                else
+                    Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
+
+            }
         }
 
         public DelegateCommand RefreshCommand { get; private set; }
@@ -63,7 +110,7 @@ namespace wallabag.ViewModels
             await LoadItemsAsync();
 
             SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-            NumberOfOfflineActions = await conn.Table<OfflineAction>().CountAsync();
+            NumberOfOfflineActions = await conn.Table<OfflineTask>().CountAsync();
 
             if (AppSettings.SyncOnStartup)
                 RefreshCommand.Execute(null);
@@ -79,23 +126,24 @@ namespace wallabag.ViewModels
             RefreshCommand = new DelegateCommand(async () =>
             {
                 IsSyncing = true;
-                await DataService.SyncWithServerAsync();
+                await DataService.SyncOfflineTasksWithServerAsync();
+                await DataService.DownloadItemsFromServerAsync();
                 DataService.LastUserSyncDateTime = DateTime.Now;
-                await LoadItemsAsync();
+                await RefreshItemsAsync();
                 IsSyncing = false;
 
                 SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-                NumberOfOfflineActions = await conn.Table<OfflineAction>().CountAsync();
+                NumberOfOfflineActions = await conn.Table<OfflineTask>().CountAsync();
             });
             NavigateToSettingsPageCommand = new DelegateCommand(() =>
             {
                 NavigationService.Navigate(typeof(Views.SettingsPage));
             });
-            
+
             ResetFilterCommand = new DelegateCommand(async () =>
             {
                 LastUsedFilterProperties = new FilterProperties();
-                await FilterItemsAsync();
+                await RefreshItemsAsync();
             });
         }
     }
