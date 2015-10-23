@@ -7,12 +7,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
+    xmlns:converter="using:wallabag.Converter"
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:SingleItemPageViewModel/>
     </Page.DataContext>
+
+    <Page.Resources>
+        <converter:BooleanNullableConverter x:Key="BoolNullConverter"/>
+    </Page.Resources>
 
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal"
@@ -23,12 +28,12 @@
                 <AppBarToggleButton x:Name="MarkAsReadButton" 
                                     Icon="Accept"
                                     Label="Mark as read"
-                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay}"
+                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"
                                     Click="MarkAsReadButton_Click"/>
                 <AppBarToggleButton x:Name="MarkAsFavoriteButton"
                                     Icon="Favorite" 
                                     Label="Mark as favorite"
-                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay}"
+                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"                                    
                                     Click="MarkAsFavoriteButton_Click"/>
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
@@ -39,7 +44,7 @@
                                     <Setter Property="Padding" Value="0"/>
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
-                            <controls:TagControl Tags="{x:Bind ViewModel.CurrentItem.Model.Tags, Mode=TwoWay}" Width="300"/>
+                            <controls:TagControl Tags="{Binding CurrentItem.Model.Tags, Mode=TwoWay}" Width="300"/>
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

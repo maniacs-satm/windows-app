@@ -111,6 +111,7 @@
     </Compile>
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\FavoriteToIconConverter.cs" />
+    <Compile Include="Converter\BooleanNullableConverter.cs" />
     <Compile Include="Converter\ReadToIconConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\SearchResult.cs" />
