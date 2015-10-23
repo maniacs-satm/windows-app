@@ -30,6 +30,34 @@ namespace wallabag.Common
             return x1.Id == x2.Id;
         }
     }
+    public class ItemChangedComparer : IEqualityComparer<Item>
+    {
+        public int GetHashCode(Item i)
+        {
+            if (i == null)
+            {
+                return 0;
+            }
+            return i.Id;
+        }
+
+        public bool Equals(Item x1, Item x2)
+        {
+            if (x1.Id == x2.Id)
+            {
+                if (x1.LastUpdated != x2.LastUpdated)
+                    return false;
+                else
+                    return true;
+            }
+            if (ReferenceEquals(x1, null) ||
+                ReferenceEquals(x2, null))
+            {
+                return false;
+            }
+            return x1.Id == x2.Id && x1.LastUpdated != x2.LastUpdated;
+        }
+    }
     public class ItemByDateTimeComparer : IComparer<ItemViewModel>
     {
         public int Compare(ItemViewModel x, ItemViewModel y)

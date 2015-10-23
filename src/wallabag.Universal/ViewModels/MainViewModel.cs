@@ -52,12 +52,22 @@ namespace wallabag.ViewModels
                 var itemsInDatabase = await DataService.GetItemsAsync(LastUsedFilterProperties);
 
                 var newItems = itemsInDatabase.Except(_Models, new ItemComparer()).ToList();
+                var changedItems = itemsInDatabase.Except(_Models, new ItemChangedComparer()).ToList();
                 var removedItems = _Models.Except(itemsInDatabase, new ItemComparer()).ToList();
 
                 foreach (var item in newItems)
                 {
                     Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
                     _Models.Add(item);
+                }
+                foreach (var item in changedItems)
+                {
+                    Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
+                    Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
+                    _Models.Remove(_Models.Where(i => i.Id == item.Id).First());
+                    _Models.Add(item);
+
+                    await new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH).UpdateAsync(item);
                 }
                 foreach (var item in removedItems)
                 {
