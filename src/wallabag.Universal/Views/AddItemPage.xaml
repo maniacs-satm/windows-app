@@ -12,6 +12,7 @@
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton x:Name="addItemAppBarButton" Label="Add item" Icon="Accept" Command="{x:Bind AddItemCommand}"/>
+            <AppBarButton x:Name="cancelAppBarButton" Label="Add item" Icon="Cancel" Command="{x:Bind CancelCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
 
