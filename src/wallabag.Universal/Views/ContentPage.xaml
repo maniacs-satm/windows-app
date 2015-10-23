@@ -587,7 +587,7 @@
                     <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,8,0,0"/>
                 </StackPanel>
                 <CommandBar Grid.Row="2">
-                    <AppBarButton x:Name="AddItemAppBarButton" Icon="Add" Label="Add" Command="{Binding AddItemCommand}" Click="HideAddItemBorder_Click"/>
+                    <AppBarButton x:Name="AddItemAppBarButton" Icon="Accept" Label="Add" Command="{Binding AddItemCommand}" Click="HideAddItemBorder_Click"/>
                     <AppBarButton x:Name="CancelItemAppBarButton" Icon="Cancel" Label="Cancel" Command="{Binding CancelCommand}" Click="HideAddItemBorder_Click"/>
                 </CommandBar>
             </Grid>
