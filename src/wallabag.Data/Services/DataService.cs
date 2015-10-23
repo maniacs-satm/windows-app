@@ -92,16 +92,31 @@ namespace wallabag.Services
             if (response.StatusCode == HttpStatusCode.Ok)
             {
                 var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
-                System.Diagnostics.Debug.WriteLine(response.Content.ToString());
+                List<Item> downloadedItems = json.Embedded.Items.ToList();
 
                 dProgress.TotalNumberOfItems = json.TotalNumberOfItems;
                 progress.Report(dProgress);
+
+                if (json.Pages > 1)
+                {
+                    for (int i = 2; i <= json.Pages; i++)
+                    {
+                        Dictionary<string, object> parameters = new Dictionary<string, object>() {["page"] = i };
+                        var additionalHttpResponse = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
+
+                        var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                        foreach (var item in additionalJson.Embedded.Items)
+                            if (!downloadedItems.Contains(item))
+                                downloadedItems.Add(item);
+                    }
+
+                }
 
                 // Regular expression to remove multiple whitespaces (including newline etc.)
                 Regex Regex = new Regex("\\s+");
 
                 int index = 0;
-                foreach (var item in json.Embedded.Items)
+                foreach (var item in downloadedItems)
                 {
                     dProgress.CurrentItem = item;
                     dProgress.CurrentItemIndex = index;
