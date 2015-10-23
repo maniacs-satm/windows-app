@@ -36,7 +36,7 @@ namespace wallabag.Views
                     MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
                 else
                     MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
-            };         
+            };
         }
 
         private async void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
@@ -86,12 +86,14 @@ namespace wallabag.Views
             parameters.Add(AppSettings.TextAlignment);
 
             if (ViewModel.CurrentItem != null)
-                await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);           
+                await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
         }
 
         private void WebView_ScriptNotify(object sender, NotifyEventArgs e)
         {
             ViewModel.CurrentItem.Model.ReadingProgress = e.Value;
+            if (float.Parse(e.Value) == 100)
+                BottomAppBar.IsOpen = true;
         }
 
         private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
