@@ -141,5 +141,14 @@ namespace wallabag.Views
             }
             await ChangeHtmlAttributesAsync();
         }
+
+        private void EditTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowEditTagsBorder.Begin();
+        }
+        private void HideTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            HideEditTagsBorder.Begin();
+        }
     }
 }
