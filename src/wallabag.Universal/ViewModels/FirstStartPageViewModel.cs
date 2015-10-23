@@ -33,6 +33,8 @@ namespace wallabag.ViewModels
                 await Services.DataService.InitializeDatabaseAsync();
                 NavigationService.Navigate(typeof(Views.ContentPage));
                 NavigationService.ClearHistory();
+
+                Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             }
             else
                 StatusText = "Login failed.";
