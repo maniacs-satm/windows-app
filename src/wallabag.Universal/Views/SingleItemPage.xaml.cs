@@ -121,26 +121,6 @@ namespace wallabag.Views
         private async void IncreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize += 1; await ChangeHtmlAttributesAsync(); }
         private async void DecreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize -= 1; await ChangeHtmlAttributesAsync(); }
 
-        private void MarkAsReadButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.MarkItemAsReadCommand.Execute(null);
-
-            if (ViewModel.CurrentItem.Model.IsRead)
-                MarkAsReadButton.Icon = new SymbolIcon(Symbol.Add);
-            else
-                MarkAsReadButton.Icon = new SymbolIcon(Symbol.Accept);
-        }
-
-        private void MarkAsFavoriteButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.CurrentItem.SwitchFavoriteStatusCommand.Execute(null);
-
-            if (ViewModel.CurrentItem.Model.IsStarred)
-                MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
-            else
-                MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
-        }
-
         private PathIcon TextAlignJustifyPathIcon;
         private async void ChangeTextAlignButton_Click(object sender, RoutedEventArgs e)
         {

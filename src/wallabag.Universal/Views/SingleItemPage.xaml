@@ -26,15 +26,15 @@
                     RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton x:Name="MarkAsReadButton" 
-                                    Icon="Accept"
+                                    Icon="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource ReadToIconConverter}}" 
                                     Label="Mark as read"
                                     IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"
-                                    Click="MarkAsReadButton_Click"/>
+                                    Command="{x:Bind ViewModel.MarkItemAsReadCommand}"/>
                 <AppBarToggleButton x:Name="MarkAsFavoriteButton"
-                                    Icon="Favorite" 
+                                    Icon="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource FavoriteToIconConverter}}" 
                                     Label="Mark as favorite"
                                     IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"                                    
-                                    Click="MarkAsFavoriteButton_Click"/>
+                                    Command="{x:Bind  ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top" x:Name="TagFlyout">
