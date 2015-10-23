@@ -23,8 +23,8 @@ namespace wallabag.ViewModels
         public ItemViewModel CurrentItem { get; set; }
         private string ContainerKey { get { return $"ReadingProgressContainer-{new Uri(AppSettings.wallabagUrl).Host}"; } }
 
-        public SolidColorBrush AppBarBackground { get; set; }
-        public SolidColorBrush AppBarForeground { get; set; }
+        public SolidColorBrush CurrentBackground { get; set; }
+        public SolidColorBrush CurrentForeground { get; set; }
         public ElementTheme AppBarRequestedTheme { get; set; }
 
         public ICollection<Tag> ItemTags { get; set; }
@@ -101,23 +101,23 @@ namespace wallabag.ViewModels
             switch (AppSettings.ColorScheme)
             {
                 case "light":
-                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 255, 255, 255));
-                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 68, 68, 68));
+                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 255, 255, 255));
+                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 68, 68, 68));
                     AppBarRequestedTheme = ElementTheme.Light;
                     break;
                 case "sepia":
-                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 245, 245, 220));
-                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 128, 0, 0));
+                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 245, 245, 220));
+                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 128, 0, 0));
                     AppBarRequestedTheme = ElementTheme.Light;
                     break;
                 case "dark":
-                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
-                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
+                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
+                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
                     AppBarRequestedTheme = ElementTheme.Dark;
                     break;
                 case "black":
-                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 0, 0, 0));
-                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 178, 178, 178));
+                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 0, 0, 0));
+                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 178, 178, 178));
                     AppBarRequestedTheme = ElementTheme.Dark;
                     break;
             }

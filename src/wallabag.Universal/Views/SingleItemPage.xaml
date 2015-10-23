@@ -9,10 +9,10 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:converter="using:wallabag.Converter"
     xmlns:vm="using:wallabag.ViewModels"
-    common:TitleBarExtensions.BackgroundColor="{x:Bind ViewModel.AppBarBackground.Color, Mode=OneWay}"
-    common:TitleBarExtensions.ButtonBackgroundColor="{x:Bind ViewModel.AppBarBackground.Color, Mode=OneWay}"
-    common:TitleBarExtensions.ForegroundColor="{x:Bind ViewModel.AppBarForeground.Color, Mode=OneWay}"
-    common:TitleBarExtensions.ButtonForegroundColor="{x:Bind ViewModel.AppBarForeground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.BackgroundColor="{x:Bind ViewModel.CurrentBackground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.ButtonBackgroundColor="{x:Bind ViewModel.CurrentBackground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.ForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.ButtonForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -83,8 +83,8 @@
 
     <Page.BottomAppBar>
         <CommandBar ClosedDisplayMode="Minimal"
-                    Background="{x:Bind ViewModel.AppBarBackground, Mode=OneWay}" 
-                    Foreground="{x:Bind ViewModel.AppBarForeground, Mode=OneWay}" 
+                    Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}" 
+                    Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}" 
                     RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton x:Name="MarkAsReadButton" 
@@ -164,8 +164,8 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}"/>
-        <Border x:Name="EditTagsBorder" Visibility="Collapsed" Opacity="0" Background="{ThemeResource EditTagsBorderBackground}">
+        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}" d:IsHidden="True"/>
+        <Border x:Name="EditTagsBorder" Visibility="Collapsed" Opacity="0" Background="{ThemeResource EditTagsBorderBackground}" d:IsHidden="True" >
             <Grid x:Name="EditTagsBorderGrid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <CompositeTransform/>
@@ -183,7 +183,6 @@
                     <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Label="Close" Click="HideTagsAppBarButton_Click"/>
                 </CommandBar>
             </Grid>
-        </Border>
-
+        </Border>        
     </Grid>
 </Page>
