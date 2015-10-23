@@ -36,7 +36,7 @@ namespace wallabag.Views
                     MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
                 else
                     MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
-            };
+            };         
         }
 
         private async void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
@@ -86,7 +86,7 @@ namespace wallabag.Views
             parameters.Add(AppSettings.TextAlignment);
 
             if (ViewModel.CurrentItem != null)
-                await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
+                await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);           
         }
 
         private void WebView_ScriptNotify(object sender, NotifyEventArgs e)
@@ -115,6 +115,7 @@ namespace wallabag.Views
             else
                 AppSettings.ColorScheme = "black";
             await ChangeHtmlAttributesAsync();
+            ViewModel.ChangeAppBarBrushes();
         }
 
         private async void IncreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize += 1; await ChangeHtmlAttributesAsync(); }

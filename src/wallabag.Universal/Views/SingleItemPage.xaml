@@ -15,7 +15,10 @@
     </Page.DataContext>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Compact">
+        <CommandBar ClosedDisplayMode="Minimal"
+                    Background="{x:Bind ViewModel.AppBarBackground, Mode=OneWay}" 
+                    Foreground="{x:Bind ViewModel.AppBarForeground, Mode=OneWay}" 
+                    RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton x:Name="MarkAsReadButton" 
                                     Icon="Accept"
@@ -106,6 +109,6 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader}"/>
+        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}"/>
     </Grid>
 </Page>

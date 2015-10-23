@@ -7,6 +7,9 @@ using wallabag.Common;
 using wallabag.Services;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 
@@ -17,6 +20,10 @@ namespace wallabag.ViewModels
     {
         public ItemViewModel CurrentItem { get; set; }
         private string ContainerKey { get { return $"ReadingProgressContainer-{new Uri(AppSettings.wallabagUrl).Host}"; } }
+
+        public SolidColorBrush AppBarBackground { get; set; }
+        public SolidColorBrush AppBarForeground { get; set; }
+        public ElementTheme AppBarRequestedTheme { get; set; }
 
         public double FontSize
         {
@@ -66,7 +73,7 @@ namespace wallabag.ViewModels
             {
                 await CurrentItem.SwitchReadValueAsync();
                 if (AppSettings.NavigateBackAfterReadingAnArticle)
-                   NavigationService.GoBack();
+                    NavigationService.GoBack();
             });
         }
 
@@ -87,6 +94,33 @@ namespace wallabag.ViewModels
 
                 if (Helpers.IsPhone)
                     await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
+            }
+            ChangeAppBarBrushes();
+        }
+        public void ChangeAppBarBrushes()
+        {
+            switch (AppSettings.ColorScheme)
+            {
+                case "light":
+                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 255, 255, 255));
+                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 68, 68, 68));
+                    AppBarRequestedTheme = ElementTheme.Light;
+                    break;
+                case "sepia":
+                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 245, 245, 220));
+                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 128, 0, 0));
+                    AppBarRequestedTheme = ElementTheme.Light;
+                    break;
+                case "dark":
+                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
+                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
+                    AppBarRequestedTheme = ElementTheme.Dark;
+                    break;
+                case "black":
+                    AppBarBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 0, 0, 0));
+                    AppBarForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 178, 178, 178));
+                    AppBarRequestedTheme = ElementTheme.Dark;
+                    break;
             }
         }
 
