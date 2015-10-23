@@ -16,7 +16,7 @@ namespace wallabag.Views
         public FirstStartPage()
         {
             this.InitializeComponent();
-            GoToStep0.Begin();
+            GoToStep1.Begin();
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
                 if (Step2Panel.Visibility == Visibility.Visible)
