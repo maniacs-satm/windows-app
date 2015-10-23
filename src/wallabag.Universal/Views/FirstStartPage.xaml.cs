@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -17,6 +18,9 @@ namespace wallabag.Views
         {
             this.InitializeComponent();
             GoToStep1.Begin();
+
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
                 if (Step2Panel.Visibility == Visibility.Visible)
