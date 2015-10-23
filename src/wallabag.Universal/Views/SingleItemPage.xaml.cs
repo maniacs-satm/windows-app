@@ -5,7 +5,6 @@ using PropertyChanged;
 using wallabag.Common;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;

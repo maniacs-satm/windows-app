@@ -20,12 +20,12 @@
                 <AppBarToggleButton x:Name="MarkAsReadButton" 
                                     Icon="Accept"
                                     Label="Mark as read"
-                                    IsChecked="{Binding CurrentItem.Model.IsRead}"
+                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay}"
                                     Click="MarkAsReadButton_Click"/>
                 <AppBarToggleButton x:Name="MarkAsFavoriteButton"
                                     Icon="Favorite" 
                                     Label="Mark as favorite"
-                                    IsChecked="{Binding CurrentItem.Model.IsStarred}"
+                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay}"
                                     Click="MarkAsFavoriteButton_Click"/>
                 <AppBarButton Icon="Tag" Label="Manage tags">
                     <AppBarButton.Flyout>
@@ -36,7 +36,7 @@
                                     <Setter Property="Padding" Value="0"/>
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
-                            <controls:TagControl Tags="{Binding CurrentItem.Model.Tags, Mode=TwoWay}" Width="300"/>
+                            <controls:TagControl Tags="{x:Bind ViewModel.CurrentItem.Model.Tags, Mode=TwoWay}" Width="300"/>
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -96,7 +96,7 @@
                         <Flyout>
                             <StackPanel Margin="8">
                                 <TextBlock Text="The article will be permantely deleted from wallabag."/>
-                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Command="{Binding CurrentItem.DeleteCommand}"/>
+                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
@@ -106,6 +106,6 @@
     </Page.BottomAppBar>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{Binding CurrentItem.ContentWithHeader}"/>
+        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader}"/>
     </Grid>
 </Page>
