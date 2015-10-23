@@ -51,12 +51,29 @@
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Name="GoToStep0">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="backgroundImage">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="welcomeTextBlock">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="welcomeTextBlock">
+                <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imageCreditButton">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Page.Resources>
 
     <Grid RequestedTheme="Dark">
-        <Grid.Background>
-            <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/books.jpg"/>
-        </Grid.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -84,9 +101,16 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Rectangle Fill="#3F000000"/>
+        <Rectangle x:Name="backgroundImage" Opacity="0.8">
+            <Rectangle.Fill>
+                <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/books.jpg"/>
+            </Rectangle.Fill>
+        </Rectangle>
         <TextBlock x:Name="welcomeTextBlock" Text="Welcome to wallabag!" Style="{StaticResource HeaderTextBlockStyle}" 
-                   Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                   Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <CompositeTransform/>
+            </TextBlock.RenderTransform>
             <TextBlock.Projection>
                 <PlaneProjection/>
             </TextBlock.Projection>
