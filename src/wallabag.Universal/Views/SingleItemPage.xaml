@@ -82,7 +82,7 @@
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="Minimal"
+        <CommandBar ClosedDisplayMode="{x:Bind ViewModel.CommandBarClosedDisplayMode, Mode=OneWay}"
                     Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}" 
                     Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}" 
                     RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
@@ -183,6 +183,29 @@
                     <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Label="Close" Click="HideTagsAppBarButton_Click"/>
                 </CommandBar>
             </Grid>
-        </Border>        
+        </Border>
+        <Border
+            Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
+            RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="SymbolTextBlock"
+                           FontSize="64"
+                           Text=":-("
+                           TextAlignment="Center"
+                           Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
+                <TextBlock x:Name="errorHeaderTextBlock" 
+                           Text="Unfortunately, an error happened."
+                           Margin="8,16"
+                           TextAlignment="Center"
+                           Style="{StaticResource TitleTextBlockStyle}"                       
+                           Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
+                <TextBlock Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" 
+                           Margin="8,0,8,16"
+                           TextAlignment="Center"
+                           Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
+                <Button Content="Open in browser" HorizontalAlignment="Center" Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

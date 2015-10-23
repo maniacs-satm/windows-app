@@ -11,6 +11,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
@@ -26,14 +27,16 @@ namespace wallabag.ViewModels
         public SolidColorBrush CurrentBackground { get; set; }
         public SolidColorBrush CurrentForeground { get; set; }
         public ElementTheme AppBarRequestedTheme { get; set; }
-
         public ICollection<Tag> ItemTags { get; set; }
-
         public double FontSize
         {
             get { return AppSettings.FontSize; }
             set { AppSettings.FontSize = value; }
         }
+
+        public string ErrorMessage { get; set; } = string.Empty;
+        public bool ErrorHappened { get; set; } = false;
+        public AppBarClosedDisplayMode CommandBarClosedDisplayMode { get; set; } = AppBarClosedDisplayMode.Minimal;
 
         public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
@@ -92,6 +95,19 @@ namespace wallabag.ViewModels
 
                 ItemTags = CurrentItem.Model.Tags;
                 (ItemTags as ObservableCollection<Tag>).CollectionChanged += SingleItemPageViewModel_CollectionChanged;
+
+                if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
+                {
+                    ErrorHappened = true;
+                    ErrorMessage = "The article wasn't downloaded yet.";
+                    CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
+                }
+                else if (CurrentItem.Model.Content == "<p>Unable to retrieve readable content.</p>")
+                {
+                    ErrorHappened = true;
+                    ErrorMessage = "wallabag didn't found readable content.";
+                    CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
+                }
             }
             ChangeAppBarBrushes();
         }
