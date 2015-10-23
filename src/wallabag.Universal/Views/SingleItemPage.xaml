@@ -9,6 +9,10 @@
     xmlns:controls="using:wallabag.Controls"
     xmlns:converter="using:wallabag.Converter"
     xmlns:vm="using:wallabag.ViewModels"
+    common:TitleBarExtensions.BackgroundColor="{x:Bind ViewModel.AppBarBackground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.ButtonBackgroundColor="{x:Bind ViewModel.AppBarBackground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.ForegroundColor="{x:Bind ViewModel.AppBarForeground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.ButtonForegroundColor="{x:Bind ViewModel.AppBarForeground.Color, Mode=OneWay}"
     mc:Ignorable="d">
 
     <Page.DataContext>
