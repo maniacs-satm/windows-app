@@ -185,21 +185,8 @@ namespace wallabag.Services
             return await conn.GetAsync<Item>(i => i.Title == Title);
         }
 
-        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineAction = false)
+        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false)
         {
-            if (!IsOfflineAction)
-            {
-                var newItem = new Item();
-                var hostName = new Uri(Url).Host;
-                newItem.Id = _lastItemId + 1;
-                newItem.Title = hostName;
-                newItem.DomainName = hostName;
-                newItem.Tags = TagsString.ToObservableCollection();
-                newItem.Url = Url;
-
-                await conn.InsertAsync(newItem);
-            }
-
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", Url);
             parameters.Add("tags", TagsString);
@@ -207,11 +194,56 @@ namespace wallabag.Services
 
             var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Post, "/entries", parameters);
             if (response.StatusCode == HttpStatusCode.Ok)
+            {
+                var item = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
+                var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
+
+                if (existingItem != null)
+                {
+                    existingItem.Id = item.Id;
+                    existingItem.Title = item.Title;
+                    existingItem.Url = item.Url;
+                    existingItem.IsRead = item.IsRead;
+                    existingItem.IsStarred = item.IsStarred;
+                    existingItem.IsDeleted = item.IsDeleted;
+                    existingItem.Content = item.Content;
+                    existingItem.CreationDate = item.CreationDate;
+                    existingItem.LastUpdated = item.LastUpdated;
+                    existingItem.DomainName = item.DomainName;
+                    existingItem.EstimatedReadingTime = item.EstimatedReadingTime;
+                    existingItem.PreviewPictureUri = item.PreviewPictureUri;
+
+                    await conn.UpdateAsync(existingItem);
+                }
+                else
+                    await conn.InsertAsync(item);
+
+                foreach (Tag tag in item.Tags)
+                {
+                    var existingTag = await (conn.Table<Tag>().Where(i => i.Id == tag.Id)).FirstOrDefaultAsync();
+                    if (existingTag == null)
+                        await conn.InsertAsync(tag);
+                }
                 return true;
+            }
             else
             {
-                if (!IsOfflineAction)
+                if (!IsOfflineTask)
+                {
+                    var newItem = new Item();
+                    var hostName = new Uri(Url).Host;
+                    newItem.Id = _lastItemId + 1;
+                    newItem.Title = hostName;
+                    newItem.DomainName = hostName;
+                    newItem.Tags = TagsString.ToObservableCollection();
+                    newItem.Url = Url;
+                    newItem.CreationDate = DateTime.Now;
+
+                    _lastItemId += 1;
+                    await conn.InsertAsync(newItem);
+
                     await conn.InsertAsync(new OfflineTask("/entries", parameters, HttpRequestMethod.Post));
+                }
                 return false;
             }
         }
