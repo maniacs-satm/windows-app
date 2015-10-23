@@ -30,9 +30,8 @@ namespace wallabag.Common
 
         private static void OnHTMLChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-
             WebView wv = d as WebView;
-            if (wv != null)
+            if (wv != null && e.NewValue != null)
             {
                 wv.NavigateToString((string)e.NewValue);
             }
