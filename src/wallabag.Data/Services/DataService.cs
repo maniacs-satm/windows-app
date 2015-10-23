@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -9,6 +11,7 @@ using SQLite;
 using wallabag.Common;
 using wallabag.Models;
 using wallabag.ViewModels;
+using Windows.Foundation;
 using Windows.Web.Http;
 
 namespace wallabag.Services
@@ -76,8 +79,14 @@ namespace wallabag.Services
             }
             return await DownloadItemsFromServerAsync();
         }
-        public static async Task<bool> DownloadItemsFromServerAsync()
+        public static IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync()
         {
+            Func<CancellationToken, IProgress<DownloadProgress>, Task<bool>> taskProvider = (token, progress) => _DownloadItemsFromServerAsync(progress);
+            return AsyncInfo.Run(taskProvider);
+        }
+        private static async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress)
+        {
+            var dProgress = new DownloadProgress();
             var response = await Helpers.ExecuteHttpRequestAsync(Helpers.HttpRequestMethod.Get, "/entries");
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -85,11 +94,19 @@ namespace wallabag.Services
                 var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                 System.Diagnostics.Debug.WriteLine(response.Content.ToString());
 
+                dProgress.TotalNumberOfItems = json.TotalNumberOfItems;
+                progress.Report(dProgress);
+
                 // Regular expression to remove multiple whitespaces (including newline etc.)
                 Regex Regex = new Regex("\\s+");
 
+                int index = 0;
                 foreach (var item in json.Embedded.Items)
                 {
+                    dProgress.CurrentItem = item;
+                    dProgress.CurrentItemIndex = index;
+                    progress.Report(dProgress);
+
                     var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
                     if (existingItem == null)
@@ -124,6 +141,8 @@ namespace wallabag.Services
                         if (existingTag == null)
                             await conn.InsertAsync(tag);
                     }
+
+                    index += 1;
                 }
                 return true;
             }
@@ -260,5 +279,12 @@ namespace wallabag.Services
 
         public enum FilterPropertiesSortOrder { Ascending, Descending }
         public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }
+    }
+
+    public class DownloadProgress
+    {
+        public int TotalNumberOfItems { get; set; }
+        public int CurrentItemIndex { get; set; }
+        public Item CurrentItem { get; set; }
     }
 }
