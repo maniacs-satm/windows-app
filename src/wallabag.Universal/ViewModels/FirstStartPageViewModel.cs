@@ -51,13 +51,18 @@ namespace wallabag.ViewModels
             };
             downloadTask.Completed = (i, s) =>
             {
-                StatusText = "Finished downloading.";
+                if (i.ErrorCode != null)
+                {
+                    StatusText = "Finished downloading. Enjoy :)";
+                    NavigationService.Navigate(typeof(Views.ContentPage));
+                    NavigationService.ClearHistory();
+
+                    Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+                }
+                else
+                    StatusText = i.ErrorCode.Message;
             };
             var result = await downloadTask;
-            NavigationService.Navigate(typeof(Views.ContentPage));
-            NavigationService.ClearHistory();
-
-            Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
         }
 
         public FirstStartPageViewModel()
