@@ -51,7 +51,7 @@ namespace wallabag.ViewModels
             };
             downloadTask.Completed = (i, s) =>
             {
-                if (i.ErrorCode != null)
+                if (i.ErrorCode == null)
                 {
                     StatusText = "Finished downloading. Enjoy :)";
                     NavigationService.Navigate(typeof(Views.ContentPage));
