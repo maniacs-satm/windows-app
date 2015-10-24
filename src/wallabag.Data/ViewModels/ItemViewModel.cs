@@ -50,6 +50,7 @@ namespace wallabag.ViewModels
         public string ContentWithHeader { get; set; }
         public string IntroSentence { get; set; }
         public string PublishedDateFormatted { get { return Model.CreationDate.ToString("m"); } }
+        public string TagsString { get { return Model.Tags.ToCommaSeparatedString().Replace(",",", "); } }
 
         public DelegateCommand DeleteCommand { get; private set; }
         public DelegateCommand SwitchReadStatusCommand { get; private set; }

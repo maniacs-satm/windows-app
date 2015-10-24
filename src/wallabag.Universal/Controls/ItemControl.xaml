@@ -61,6 +61,12 @@
             </StackPanel>
         </Grid>
         <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed" Opacity="0" RequestedTheme="Dark">
+            <TextBlock
+                Text="{Binding TagsString, Mode=OneWay}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="12,12,64,12"
+                Opacity="0.8" FontSize="13.333"/>
             <StackPanel
                 Orientation="Horizontal"
                 HorizontalAlignment="Right" 
