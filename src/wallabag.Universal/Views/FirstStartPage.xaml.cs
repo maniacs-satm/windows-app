@@ -42,16 +42,13 @@ namespace wallabag.Views
 
         private void framabagUserButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Remove in final release!
-            wallabagUrlTextBox.Text = "https://v2.wallabag.org/";
-            userNameTextBox.Text = "wallabag";
-            passwordBox.Password = "wallabag";
+            // TODO: Set the framabag URL.
+            //wallabagUrlTextBox.Text = "https://v2.wallabag.org/";
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
             if (sender == framabagUserButton)
                 wallabagUrlTextBox.Visibility = Visibility.Collapsed;
-            // TODO: Set the framabag url.            
             else
                 wallabagUrlTextBox.Visibility = Visibility.Visible;
 
