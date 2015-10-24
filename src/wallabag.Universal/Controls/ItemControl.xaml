@@ -24,7 +24,6 @@
                 <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="BottomGrid" d:IsOptimized="True"/>
         </Storyboard>
         <Storyboard x:Name="HideOverlayStoryboard">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="OverlayGrid">
@@ -38,9 +37,6 @@
                 <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="BottomGrid">
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
 
     </UserControl.Resources>
@@ -49,27 +45,8 @@
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Model.PreviewPictureUri, Mode=OneTime}"/>
         </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-            <Grid x:Name="BottomGrid" Grid.Row="1"
-              RequestedTheme="Dark">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#00000000" Offset="0"/>
-                    <GradientStop Color="#7F000000" Offset="1"/>
-                </LinearGradientBrush>
-            </Grid.Background>
-            <TextBlock Text="{Binding Model.Title, Mode=OneTime}" 
-                       Margin="16"
-                       FontSize="16"
-                       VerticalAlignment="Bottom"
-                       MaxLines="2" TextWrapping="Wrap"/>
-        </Grid>
-        <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed" Opacity="0"
-              RequestedTheme="Dark" Background="#CC000000">
+        <Grid x:Name="BottomGrid" Grid.Row="1"
+              RequestedTheme="Dark" Background="#7F000000">
             <StackPanel VerticalAlignment="Center">
                 <TextBlock 
                     Text="{Binding Model.Title, Mode=OneTime}" 
@@ -83,6 +60,8 @@
                     TextAlignment="Center"
                     Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
             </StackPanel>
+        </Grid>
+        <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed" Opacity="0" RequestedTheme="Dark">
             <TextBlock
                 Text="{Binding PublishedDateFormatted, Mode=OneTime}"
                 HorizontalAlignment="Right"
