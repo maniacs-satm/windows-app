@@ -49,6 +49,7 @@ namespace wallabag.ViewModels
         public Item Model { get; set; }
         public string ContentWithHeader { get; set; }
         public string IntroSentence { get; set; }
+        public string PublishedDateFormatted { get { return Model.CreationDate.ToString("m"); } }
 
         public DelegateCommand DeleteCommand { get; private set; }
         public DelegateCommand SwitchReadStatusCommand { get; private set; }
@@ -178,7 +179,7 @@ namespace wallabag.ViewModels
             else
             {
                 if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags/{TagId}",null, HttpRequestMethod.Delete));
+                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags/{TagId}", null, HttpRequestMethod.Delete));
                 return false;
             }
         }
