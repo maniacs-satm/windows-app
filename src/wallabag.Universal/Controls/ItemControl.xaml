@@ -55,12 +55,28 @@
                     TextAlignment="Center"
                     MaxLines="2" TextWrapping="Wrap"/>
                 <TextBlock
-                    Text="{Binding Model.DomainName, Mode=OneTime}"                    
+                    Text="{Binding Model.DomainName, Mode=OneTime}"
                     TextAlignment="Center"
                     Opacity="0.8" FontSize="13.333"/>
             </StackPanel>
         </Grid>
         <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed" Opacity="0" RequestedTheme="Dark">
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top" 
+                Opacity="0.8"
+                Margin="12">
+                <TextBlock
+                    Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Text="&#xE00A;"
+                    FontFamily="Segoe MDL2 Assets"/>
+                <TextBlock
+                    Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    Margin="8,0,0,0"
+                    Text="&#xE001;" 
+                    FontFamily="Segoe MDL2 Assets"/>
+            </StackPanel>
             <TextBlock
                 Text="{Binding PublishedDateFormatted, Mode=OneTime}"
                 HorizontalAlignment="Right"
@@ -76,7 +92,6 @@
                     Text="&#xE121;"
                     FontFamily="Segoe MDL2 Assets"
                     Opacity="0.8"
-                    FontSize="13.333"
                     VerticalAlignment="Center"/>
                 <TextBlock
                     Text="{Binding Model.EstimatedReadingTime, Mode=OneTime}"
