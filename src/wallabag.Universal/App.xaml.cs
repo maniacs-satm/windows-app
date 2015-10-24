@@ -37,9 +37,9 @@ namespace wallabag.Universal
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
             }
 
-            if (!string.IsNullOrEmpty(AppSettings.AccessToken))
+            if (!string.IsNullOrEmpty(AppSettings.AccessToken) &&
+                await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(Helpers.DATABASE_FILENAME) != null)
             {
-                await DataService.InitializeDatabaseAsync();
                 NavigationService.Navigate(typeof(Views.ContentPage));
             }
             else
