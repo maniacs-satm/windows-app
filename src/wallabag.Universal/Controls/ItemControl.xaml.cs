@@ -29,7 +29,7 @@ namespace wallabag.Controls
         private async void BottomGrid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             _PointerExited = false;
-            await Task.Delay(300);
+            await Task.Delay(666);
 
             if (!_PointerExited)
                 ShowOverlayStoryboard.Begin();
