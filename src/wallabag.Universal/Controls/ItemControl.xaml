@@ -55,10 +55,9 @@
                     TextAlignment="Center"
                     MaxLines="2" TextWrapping="Wrap"/>
                 <TextBlock
-                    Text="{Binding Model.DomainName, Mode=OneTime}"
-                    FontWeight="Bold"
+                    Text="{Binding Model.DomainName, Mode=OneTime}"                    
                     TextAlignment="Center"
-                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"/>
+                    Opacity="0.8" FontSize="13.333"/>
             </StackPanel>
         </Grid>
         <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed" Opacity="0" RequestedTheme="Dark">
