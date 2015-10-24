@@ -101,7 +101,7 @@
                 <AppBarButton Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
-                            <StackPanel Orientation="Vertical">
+                            <StackPanel>
                                 <StackPanel.Resources>
                                     <Style TargetType="Button">
                                         <Setter Property="Width" Value="40"/>
@@ -147,18 +147,8 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-
-                <AppBarButton Label="Download as file" Command="{x:Bind ViewModel.DownloadItemCommand}" IsEnabled="False"/>
-                <AppBarButton Label="Delete article">
-                    <AppBarButton.Flyout>
-                        <Flyout>
-                            <StackPanel Margin="8">
-                                <TextBlock Text="The article will be permantely deleted from wallabag."/>
-                                <Button HorizontalAlignment="Right" Background="Red" Content="Delete" Margin="0,15,0,0" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
-                            </StackPanel>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
+                <AppBarSeparator/>
+                <AppBarButton Label="Delete article" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
