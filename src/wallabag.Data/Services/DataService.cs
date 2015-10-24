@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -9,6 +11,7 @@ using SQLite;
 using wallabag.Common;
 using wallabag.Models;
 using wallabag.ViewModels;
+using Windows.Foundation;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
 
@@ -47,20 +50,49 @@ namespace wallabag.Services
                 success = await task.ExecuteAsync();
             return success;
         }
-        public static async Task<int?> DownloadItemsFromServerAsync()
+        public static IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync(bool DownloadAllItems = false)
         {
-            int? newItems = 0;
+            Func<CancellationToken, IProgress<DownloadProgress>, Task<bool>> taskProvider = (token, progress) => _DownloadItemsFromServerAsync(progress, DownloadAllItems);
+            return AsyncInfo.Run(taskProvider);
+        }
+        private static async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress, bool DownloadAllItems)
+        {
+            var dProgress = new DownloadProgress();
             var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
 
             if (response.StatusCode == HttpStatusCode.Ok)
             {
                 var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                List<Item> downloadedItems = json.Embedded.Items.ToList();
+
+                dProgress.TotalNumberOfItems = json.TotalNumberOfItems;
+                progress.Report(dProgress);
+
+                if (json.Pages > 1 && DownloadAllItems)
+                {
+                    for (int i = 2; i <= json.Pages; i++)
+                    {
+                        Dictionary<string, object> parameters = new Dictionary<string, object>() {["page"] = i };
+                        var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries", parameters);
+
+                        var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                        foreach (var item in additionalJson.Embedded.Items)
+                            if (!downloadedItems.Contains(item, new ItemComparer()))
+                                downloadedItems.Add(item);
+                    }
+
+                }
 
                 // Regular expression to remove multiple whitespaces (including newline etc.)
                 Regex Regex = new Regex("\\s+");
 
-                foreach (var item in json.Embedded.Items)
+                int index = 0;
+                foreach (var item in downloadedItems)
                 {
+                    dProgress.CurrentItem = item;
+                    dProgress.CurrentItemIndex = index;
+                    progress.Report(dProgress);
+
                     var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
                     if (existingItem == null)
@@ -70,11 +102,6 @@ namespace wallabag.Services
                         // If the title starts with a space, remove it.
                         if (item.Title.StartsWith(" "))
                             item.Title = item.Title.Remove(0, 1);
-
-                        // Increase the number of new items
-                        newItems += 1;
-
-                        // Insert the new item in the database
                         await conn.InsertAsync(item);
                     }
                     else
@@ -100,14 +127,13 @@ namespace wallabag.Services
                         if (existingTag == null)
                             await conn.InsertAsync(tag);
                     }
+
+                    index += 1;
                 }
+                return true;
             }
             else
-            {
-                // Return null if the download failed.
-                newItems = null;
-            }
-            return newItems;
+                return false;
         }
 
         public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
@@ -263,5 +289,12 @@ namespace wallabag.Services
 
         public enum FilterPropertiesSortOrder { Ascending, Descending }
         public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }
+    }
+
+    public class DownloadProgress
+    {
+        public int TotalNumberOfItems { get; set; }
+        public int CurrentItemIndex { get; set; }
+        public Item CurrentItem { get; set; }
     }
 }

@@ -6,22 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
+    xmlns:common="using:wallabag.Common"    
+    common:TitleBarExtensions.ButtonBackgroundColor="Transparent"
+    common:TitleBarExtensions.ButtonForegroundColor="White"  
     mc:Ignorable="d">
 
     <Page.DataContext>
         <vm:FirstStartPageViewModel />
     </Page.DataContext>
-    
+
     <Page.Resources>
-        <Storyboard x:Name="StackPanelChangeStoryboard">
-            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="StackPanel1" d:IsOptimized="True"/>
-            <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="StackPanel2" d:IsOptimized="True"/>
-            <DoubleAnimation Duration="0:0:0.3" To="-200" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="welcomeTextBlock" d:IsOptimized="True">
-                <DoubleAnimation.EasingFunction>
-                    <QuadraticEase EasingMode="EaseInOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="StackPanel2">
+        <Storyboard x:Name="GoToStep2">
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step1Panel" d:IsOptimized="True"/>
+            <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step2Panel" d:IsOptimized="True"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Step2Panel">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
@@ -29,33 +27,61 @@
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Name="FirstStartAnimation">
-            <DoubleAnimation Duration="0:0:0.5" To="-100" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="welcomeTextBlock" d:IsOptimized="True"/>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="StackPanel1">
+        <Storyboard x:Name="GoToStep3">
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step2Panel" d:IsOptimized="True"/>
+            <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step3Panel" d:IsOptimized="True"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="Step3Panel">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.5" To="0.5" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="backgroundImage" d:IsOptimized="True"/>
+        </Storyboard>
+        <Storyboard x:Name="GoToStep0">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="backgroundImage">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.8"/>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="StackPanel1">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="25"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="welcomeTextBlock">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="welcomeTextBlock">
+                <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-200"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imageCreditButton">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="GoToStep1">            
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="Step1Panel">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="Step1Panel">
+                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="25"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
 
     <Grid RequestedTheme="Dark">
-        <Grid.Background>
-            <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/books.jpg"/>
-        </Grid.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="welcomeTextBlock.FontSize" Value="32"/>
-                        <Setter Target="StackPanel1.HorizontalAlignment" Value="Stretch"/>
-                        <Setter Target="StackPanel1.Margin" Value="32,0"/>
-                        <Setter Target="StackPanel2.HorizontalAlignment" Value="Stretch"/>
-                        <Setter Target="StackPanel2.Margin" Value="32,0"/>
-                        <Setter Target="imageCreditButton.Text" Value="Image by Terry Kearney."/>
+                        <Setter Target="Step1Panel.HorizontalAlignment" Value="Stretch"/>
+                        <Setter Target="Step1Panel.Margin" Value="32,0"/>
+                        <Setter Target="Step2Panel.HorizontalAlignment" Value="Stretch"/>
+                        <Setter Target="Step2Panel.Margin" Value="32,0"/>
+                        <Setter Target="imageCreditButton.Content" Value="Image by Terry Kearney."/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -64,8 +90,8 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="welcomeTextBlock.FontSize" Value="48"/>
-                        <Setter Target="StackPanel1.Width" Value="250"/>
-                        <Setter Target="StackPanel2.Width" Value="250"/>
+                        <Setter Target="Step1Panel.Width" Value="250"/>
+                        <Setter Target="Step2Panel.Width" Value="250"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720"/>
@@ -73,25 +99,36 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Rectangle Fill="#3F000000"/>
+        <Rectangle x:Name="backgroundImage" Opacity="0.8">
+            <Rectangle.Fill>
+                <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/books.jpg"/>
+            </Rectangle.Fill>
+        </Rectangle>
         <TextBlock x:Name="welcomeTextBlock" Text="Welcome to wallabag!" Style="{StaticResource HeaderTextBlockStyle}" 
-                   Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center">
+                   Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <CompositeTransform/>
+            </TextBlock.RenderTransform>
             <TextBlock.Projection>
                 <PlaneProjection/>
             </TextBlock.Projection>
         </TextBlock>
-        <StackPanel x:Name="StackPanel1" VerticalAlignment="Center" Opacity="0">
+        <StackPanel x:Name="Step1Panel" VerticalAlignment="Center" Opacity="0">
             <StackPanel.Projection>
                 <PlaneProjection/>
             </StackPanel.Projection>
             <Button x:Name="framabagUserButton" Content="I'm a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
-            <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user!" Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
+            <Button x:Name="notFramabagUserButton" Content="I'm not a framabag user." Margin="4" Click="framabagUserButton_Click" HorizontalAlignment="Stretch"/>
         </StackPanel>
-        <StackPanel x:Name="StackPanel2" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
+        <StackPanel x:Name="Step2Panel" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
             <TextBox x:Name="wallabagUrlTextBox" Header="URL to your wallabag instance" InputScope="Url" Margin="0,0,0,8" PlaceholderText="https://" Text="{Binding wallabagUrl, Mode=TwoWay}"/>
             <TextBox x:Name="userNameTextBox" Header="Username" Margin="0,0,0,8" PlaceholderText="(e.g. wallabag)" Text="{Binding Username, Mode=TwoWay}"/>
             <PasswordBox x:Name="passwordBox" Header="Password" Margin="0,0,0,8" Password="{Binding Password, Mode=TwoWay}"/>
-            <Button x:Name="loginButton" Margin="0,8,0,0" Style="{ThemeResource ActionButtonStyle}" Command="{Binding LoginCommand}">LOGIN</Button>
+            <Button x:Name="loginButton" Margin="0,8,0,0" Style="{ThemeResource ActionButtonStyle}" Command="{Binding LoginCommand}" Click="loginButton_Click">LOGIN</Button>
+        </StackPanel>
+        <StackPanel x:Name="Step3Panel" VerticalAlignment="Center" Opacity="0" Visibility="Collapsed">
+            <ProgressRing x:Name="ProgressRing" Width="64" Height="64" IsActive="True"/>
+            <TextBlock x:Name="ProgressTextBlock" Text="{Binding StatusText}" Margin="0,8,0,0" TextAlignment="Center"/>
         </StackPanel>
         <Button x:Name="imageCreditButton" Content="Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0" Margin="10" VerticalAlignment="Bottom" Style="{ThemeResource TextBlockButtonStyle}" Foreground="White" Click="imageCreditButton_Click"/>
     </Grid>

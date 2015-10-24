@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -16,35 +17,42 @@ namespace wallabag.Views
         public FirstStartPage()
         {
             this.InitializeComponent();
-            FirstStartAnimation.Begin();
+            GoToStep0.Begin();
+            GoToStep0.Completed += (s, e) =>
+            {
+                if (string.IsNullOrEmpty(Common.AppSettings.AccessToken))
+                    GoToStep0.Begin();
+                else
+                    GoToStep3.Begin();
+            };
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
             {
-                if (StackPanel2.Visibility == Visibility.Visible)
+                if (Step2Panel.Visibility == Visibility.Visible)
                 {
                     e.Handled = true;
-                    StackPanel2.Visibility = Visibility.Collapsed;
+                    Step2Panel.Visibility = Visibility.Collapsed;
+                    Step3Panel.Visibility = Visibility.Collapsed;
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-                    FirstStartAnimation.Begin();
+                    GoToStep0.Begin();
                 }
             };
         }
 
         private void framabagUserButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Remove in final release!
-            wallabagUrlTextBox.Text = "https://v2.wallabag.org/";
-            userNameTextBox.Text = "wallabag";
-            passwordBox.Password = "wallabag";
+            // TODO: Set the framabag URL.
+            //wallabagUrlTextBox.Text = "https://v2.wallabag.org/";
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
             if (sender == framabagUserButton)
-                wallabagUrlTextBox.Visibility = Visibility.Collapsed; 
-                // TODO: Set the framabag url.            
+                wallabagUrlTextBox.Visibility = Visibility.Collapsed;
             else
                 wallabagUrlTextBox.Visibility = Visibility.Visible;
 
-            StackPanelChangeStoryboard.Begin();
+            GoToStep2.Begin();
 
             if (sender == notFramabagUserButton)
                 wallabagUrlTextBox.Focus(FocusState.Programmatic);
@@ -55,6 +63,11 @@ namespace wallabag.Views
         private async void imageCreditButton_Click(object sender, RoutedEventArgs e)
         {
             await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/"));
+        }
+
+        private void loginButton_Click(object sender, RoutedEventArgs e)
+        {
+            GoToStep3.Begin();
         }
     }
 }
