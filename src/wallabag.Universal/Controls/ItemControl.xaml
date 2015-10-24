@@ -10,6 +10,41 @@
     d:DesignWidth="350"
     d:DesignHeight="300">
 
+    <UserControl.Resources>
+
+        <Storyboard x:Name="ShowOverlayStoryboard">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="OverlayGrid">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="OverlayGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="BottomGrid" d:IsOptimized="True"/>
+        </Storyboard>
+        <Storyboard x:Name="HideOverlayStoryboard">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="OverlayGrid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="OverlayGrid">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="BottomGrid">
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </UserControl.Resources>
+
     <Grid x:Name="RootGrid" Width="350" Height="250">
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Model.PreviewPictureUri, Mode=OneTime}"/>
@@ -19,7 +54,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="BottomGrid" Grid.Row="1"
+            <Grid x:Name="BottomGrid" Grid.Row="1"
               RequestedTheme="Dark">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -33,7 +68,7 @@
                        VerticalAlignment="Bottom"
                        MaxLines="2" TextWrapping="Wrap"/>
         </Grid>
-        <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed"
+        <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed" Opacity="0"
               RequestedTheme="Dark" Background="#CC000000">
             <StackPanel VerticalAlignment="Center">
                 <TextBlock 
