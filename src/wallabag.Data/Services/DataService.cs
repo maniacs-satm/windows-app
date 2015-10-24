@@ -50,12 +50,12 @@ namespace wallabag.Services
                 success = await task.ExecuteAsync();
             return success;
         }
-        public static IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync()
+        public static IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync(bool DownloadAllItems = false)
         {
-            Func<CancellationToken, IProgress<DownloadProgress>, Task<bool>> taskProvider = (token, progress) => _DownloadItemsFromServerAsync(progress);
+            Func<CancellationToken, IProgress<DownloadProgress>, Task<bool>> taskProvider = (token, progress) => _DownloadItemsFromServerAsync(progress, DownloadAllItems);
             return AsyncInfo.Run(taskProvider);
         }
-        private static async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress)
+        private static async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress, bool DownloadAllItems)
         {
             var dProgress = new DownloadProgress();
             var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
@@ -68,16 +68,16 @@ namespace wallabag.Services
                 dProgress.TotalNumberOfItems = json.TotalNumberOfItems;
                 progress.Report(dProgress);
 
-                if (json.Pages > 1)
+                if (json.Pages > 1 && DownloadAllItems)
                 {
                     for (int i = 2; i <= json.Pages; i++)
                     {
                         Dictionary<string, object> parameters = new Dictionary<string, object>() {["page"] = i };
-                        var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
+                        var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries", parameters);
 
                         var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
                         foreach (var item in additionalJson.Embedded.Items)
-                            if (!downloadedItems.Contains(item))
+                            if (!downloadedItems.Contains(item, new ItemComparer()))
                                 downloadedItems.Add(item);
                     }
 
@@ -127,6 +127,8 @@ namespace wallabag.Services
                         if (existingTag == null)
                             await conn.InsertAsync(tag);
                     }
+
+                    index += 1;
                 }
                 return true;
             }

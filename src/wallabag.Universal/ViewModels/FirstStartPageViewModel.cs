@@ -44,11 +44,10 @@ namespace wallabag.ViewModels
             await Services.DataService.InitializeDatabaseAsync();
 
             StatusText = "Downloading articles from server…";
-            var downloadTask = Services.DataService.DownloadItemsFromServerAsync();
+            var downloadTask = Services.DataService.DownloadItemsFromServerAsync(true);
             downloadTask.Progress = (s, p) =>
             {
                 StatusText = $"Downloading item {p.CurrentItemIndex} of {p.TotalNumberOfItems}";
-                System.Diagnostics.Debug.WriteLine(StatusText);
             };
             downloadTask.Completed = (i, s) =>
             {
