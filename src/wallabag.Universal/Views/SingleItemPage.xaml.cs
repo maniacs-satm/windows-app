@@ -27,15 +27,13 @@ namespace wallabag.Views
             WebView.NavigationStarting += WebView_NavigationStarting;
             WebView.NavigationCompleted += (s, e) =>
             {
-                if (ViewModel.CurrentItem.Model.IsRead)
-                    MarkAsReadButton.Icon = new SymbolIcon(Symbol.Add);
-                else
-                    MarkAsReadButton.Icon = new SymbolIcon(Symbol.Accept);
+                if (TextAlignJustifyPathIcon == null)
+                    TextAlignJustifyPathIcon = ChangeTextAlignButton.Content as PathIcon;
 
-                if (ViewModel.CurrentItem.Model.IsStarred)
-                    MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
+                if (AppSettings.TextAlignment == "left")
+                    ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
                 else
-                    MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
+                    ChangeTextAlignButton.Content = "";
             };
         }
 
@@ -126,9 +124,6 @@ namespace wallabag.Views
         private PathIcon TextAlignJustifyPathIcon;
         private async void ChangeTextAlignButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TextAlignJustifyPathIcon == null)
-                TextAlignJustifyPathIcon = (sender as Button).Content as PathIcon;
-
             if (AppSettings.TextAlignment == "left")
             {
                 AppSettings.TextAlignment = "justify";
