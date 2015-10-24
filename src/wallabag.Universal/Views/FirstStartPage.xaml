@@ -37,6 +37,7 @@
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.5" To="0.5" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="backgroundImage" d:IsOptimized="True"/>
         </Storyboard>
         <Storyboard x:Name="GoToStep0">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="backgroundImage">
