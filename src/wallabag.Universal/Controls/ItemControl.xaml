@@ -41,7 +41,31 @@
 
     </UserControl.Resources>
 
-    <Grid x:Name="RootGrid" Width="350" Height="250">
+    <Grid x:Name="RootGrid" Height="250">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="OverlayGrid.Visibility" Value="Visible"/>
+                        <Setter Target="OverlayGrid.Opacity" Value="1"/>
+                        <Setter Target="RootGrid.Height" Value="200"/>
+                        <Setter Target="TagsTextBlock.Visibility" Value="Collapsed"/>
+                        <Setter Target="PropertyIndicatorStackPanel.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="RootGrid.Width" Value="350"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.Background>
             <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Model.PreviewPictureUri, Mode=OneTime}"/>
         </Grid.Background>
@@ -75,13 +99,13 @@
                     <GradientStop Offset="0.5" Color="#00000000"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <TextBlock
+            <TextBlock x:Name="TagsTextBlock"
                 Text="{Binding TagsString, Mode=OneWay}"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Margin="12,12,64,12"
                 Opacity="0.8" FontSize="13.333"/>
-            <StackPanel
+            <StackPanel x:Name="PropertyIndicatorStackPanel"
                 Orientation="Horizontal"
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
