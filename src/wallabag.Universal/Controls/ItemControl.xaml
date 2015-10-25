@@ -46,7 +46,14 @@
             <ImageBrush Stretch="UniformToFill" ImageSource="{Binding Model.PreviewPictureUri, Mode=OneTime}"/>
         </Grid.Background>
         <Grid x:Name="BottomGrid" Grid.Row="1"
-              RequestedTheme="Dark" Background="#7F000000">
+              RequestedTheme="Dark">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#33000000" Offset="0"/>
+                    <GradientStop Color="#33000000" Offset="1"/>
+                    <GradientStop Color="#66000000" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Grid.Background>
             <StackPanel VerticalAlignment="Center">
                 <TextBlock 
                     Text="{Binding Model.Title, Mode=OneTime}" 
@@ -61,6 +68,13 @@
             </StackPanel>
         </Grid>
         <Grid x:Name="OverlayGrid" Grid.RowSpan="2" Visibility="Collapsed" Opacity="0" RequestedTheme="Dark">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#4C000000" Offset="0"/>
+                    <GradientStop Color="#4C000000" Offset="1"/>
+                    <GradientStop Offset="0.5" Color="#00000000"/>
+                </LinearGradientBrush>
+            </Grid.Background>
             <TextBlock
                 Text="{Binding TagsString, Mode=OneWay}"
                 HorizontalAlignment="Left"
