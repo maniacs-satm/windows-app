@@ -29,6 +29,11 @@ namespace wallabag.Controls
 
         private void ItemControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
+                ShowContextMenuColorAnimation.To = Color.FromArgb(0xCC, 0, 0, 0);
+            else
+                ShowContextMenuColorAnimation.To = Color.FromArgb(0xCC, 255, 255, 255);
+
             var itemViewModel = DataContext as ItemViewModel;
             if (itemViewModel != null && string.IsNullOrEmpty(itemViewModel.Model.PreviewPictureUri))
             {

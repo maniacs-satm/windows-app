@@ -148,7 +148,7 @@
         <Grid x:Name="ContextMenuGrid" Grid.RowSpan="2" Background="Transparent">
             <Grid.Resources>
                 <Storyboard x:Name="ShowContextMenu">
-                    <ColorAnimation Duration="0:0:0.2" To="#CCFFFFFF" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ContextMenuGrid" d:IsOptimized="True"/>
+                    <ColorAnimation x:Name="ShowContextMenuColorAnimation" Duration="0:0:0.2" To="#CCFFFFFF" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="ContextMenuGrid" d:IsOptimized="True"/>
                     <DoubleAnimation Duration="0:0:0.2" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="stackPanel" d:IsOptimized="True"/>
                     <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="stackPanel">
                         <DiscreteObjectKeyFrame KeyTime="0">
