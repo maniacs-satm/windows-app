@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using wallabag.Common;
 using wallabag.ViewModels;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -28,7 +29,7 @@ namespace wallabag.Controls
             var itemViewModel = DataContext as ItemViewModel;
             if (itemViewModel != null && string.IsNullOrEmpty(itemViewModel.Model.PreviewPictureUri))
             {
-                var newBackground = Resources["SystemControlBackgroundAccentBrush"] as SolidColorBrush;
+                var newBackground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
                 newBackground.Opacity = 0.3;
                 RootGrid.Background = newBackground;
             }
