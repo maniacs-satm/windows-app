@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Template10.Common;
-using Template10.Mvvm;
-using wallabag.Common;
-using wallabag.Models;
-using wallabag.Services;
-using Windows.ApplicationModel.DataTransfer.ShareTarget;
-using Windows.UI.Xaml;
+﻿using Windows.ApplicationModel.DataTransfer.ShareTarget;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using System;
 
 // Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
 
@@ -22,61 +14,20 @@ namespace wallabag.Views
     {
         public ViewModels.AddItemPageViewModel ViewModel { get { return (ViewModels.AddItemPageViewModel)DataContext; } }
 
-        private ShareOperation shareOperation;
-
-        public string Url { get; set; }
-        public ICollection<Tag> Tags { get; set; }
-
-        public DelegateCommand AddItemCommand { get; private set; }
-        public DelegateCommand CancelCommand { get; private set; }
-
         public AddItemPage()
         {
             InitializeComponent();
-
-            Url = string.Empty;
-            Tags = new ObservableCollection<Tag>();
-
-            AddItemCommand = new DelegateCommand(async () =>
-            {
-                addItemAppBarButton.IsEnabled = false;
-                urlTextBox.IsEnabled = false;
-                tagControl.IsEnabled = false;
-                savingIndicator.Visibility = Visibility.Visible;
-
-                await DataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
-
-                Url = string.Empty;
-                Tags.Clear();
-
-                if (shareOperation != null)
-                    shareOperation.ReportCompleted();
-                else
-                   if (BootStrapper.Current.NavigationService.CanGoBack)
-                    BootStrapper.Current.NavigationService.GoBack();
-            });
-            CancelCommand = new DelegateCommand(() =>
-            {
-                Url = string.Empty;
-                Tags.Clear();
-
-                if (shareOperation != null)
-                    shareOperation.ReportError("Cancelled by user.");
-                else
-                   if (BootStrapper.Current.NavigationService.CanGoBack)
-                    BootStrapper.Current.NavigationService.GoBack();
-            });
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter != null)
             {
-                shareOperation = (ShareOperation)e.Parameter;
-                Url = (await shareOperation.Data.GetWebLinkAsync()).ToString();
-
-                HideHeaderVisualState.StateTriggers.Add(new WindowsStateTriggers.DeviceFamilyStateTrigger() { DeviceFamily = WindowsStateTriggers.DeviceFamily.Desktop });
+                ViewModel.ShareOperation = (ShareOperation)e.Parameter;
+                ViewModel.Url = (await ViewModel.ShareOperation.Data.GetWebLinkAsync()).ToString();
             }
+
+            HideHeaderVisualState.StateTriggers.Add(new WindowsStateTriggers.DeviceFamilyStateTrigger() { DeviceFamily = WindowsStateTriggers.DeviceFamily.Desktop });
         }
     }
 }

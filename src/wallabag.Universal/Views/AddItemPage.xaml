@@ -9,10 +9,14 @@
     xmlns:vm="using:wallabag.ViewModels"
     mc:Ignorable="d">
 
+    <Page.DataContext>
+        <vm:AddItemPageViewModel/>
+    </Page.DataContext>
+
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="addItemAppBarButton" Label="Add item" Icon="Accept" Command="{x:Bind AddItemCommand}"/>
-            <AppBarButton x:Name="cancelAppBarButton" Label="Add item" Icon="Cancel" Command="{x:Bind CancelCommand}"/>
+            <AppBarButton x:Name="addItemAppBarButton" Label="Add item" Icon="Accept" Command="{x:Bind ViewModel.AddItemCommand}"/>
+            <AppBarButton x:Name="cancelAppBarButton" Label="Add item" Icon="Cancel" Command="{x:Bind ViewModel.CancelCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -35,8 +39,8 @@
             <TextBlock Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
         <StackPanel x:Name="stackPanel" Grid.Row="1" Margin="8">
-            <TextBox x:Name="urlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind Url, Mode=TwoWay}"/>
-            <controls:TagControl x:Name="tagControl" Margin="0,4" Tags="{x:Bind Tags, Mode=TwoWay}"/>
+            <TextBox x:Name="urlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind ViewModel.Url, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
+            <controls:TagControl x:Name="tagControl" Margin="0,4" Tags="{x:Bind ViewModel.Tags, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
         </StackPanel>
         <ProgressRing x:Name="savingIndicator"
                       IsActive="True"
@@ -45,6 +49,6 @@
                       Grid.Row="1" 
                       VerticalAlignment="Center" 
                       HorizontalAlignment="Center" 
-                      Visibility="Collapsed"/>
+                      Visibility="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </Page>
