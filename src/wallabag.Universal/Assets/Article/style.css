@@ -3,7 +3,7 @@
 /*-----------------------------------------------------------------*/
 body {
   background-color: white;
-  color: #444444;
+  color: #444;
   font-family: Georgia;
   font-size: 18px;
   line-height: 1.7;
@@ -48,7 +48,7 @@ p {
   margin-bottom: 0.75em;
 }
 a {
-  color: #444444;
+  color: #444;
   text-decoration: underline;
 }
 a:active,
@@ -106,7 +106,7 @@ button {
 hr {
   display: block;
   height: 1px;
-  border: solid #666666;
+  border: solid #666;
   border-width: 1px 0 0 0;
   margin: 1.6em 0;
   padding: 0;
@@ -166,13 +166,13 @@ code {
 }
 ::selection,
 mark {
-  background: #666666;
+  background: #666;
   color: white;
 }
 article {
   margin: 0 auto;
   margin-bottom: 4em;
-  max-width: 960px;
+  max-width: 700px;
   padding: 0 20px;
 }
 /*-----------------------------------------------------------------*/
@@ -180,7 +180,7 @@ article {
 /*-----------------------------------------------------------------*/
 .wallabag-header h1,
 .wallabag-header h2 {
-  max-width: 960px;
+  padding: 0 20px;
   text-align: center;
   margin: 0 auto;
 }
