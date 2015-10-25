@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Template10.Common;
 using Template10.Mvvm;
-using Template10.Services.NavigationService;
 using wallabag.Common;
 using wallabag.Models;
 using wallabag.Services;
@@ -52,6 +51,17 @@ namespace wallabag.Views
 
                 if (shareOperation != null)
                     shareOperation.ReportCompleted();
+                else
+                   if (BootStrapper.Current.NavigationService.CanGoBack)
+                    BootStrapper.Current.NavigationService.GoBack();
+            });
+            CancelCommand = new DelegateCommand(() =>
+            {
+                Url = string.Empty;
+                Tags.Clear();
+
+                if (shareOperation != null)
+                    shareOperation.ReportError("Cancelled by user.");
                 else
                    if (BootStrapper.Current.NavigationService.CanGoBack)
                     BootStrapper.Current.NavigationService.GoBack();

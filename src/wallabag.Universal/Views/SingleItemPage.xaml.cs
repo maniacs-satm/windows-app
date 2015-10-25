@@ -5,7 +5,6 @@ using PropertyChanged;
 using wallabag.Common;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -28,15 +27,13 @@ namespace wallabag.Views
             WebView.NavigationStarting += WebView_NavigationStarting;
             WebView.NavigationCompleted += (s, e) =>
             {
-                if (ViewModel.CurrentItem.Model.IsRead)
-                    MarkAsReadButton.Icon = new SymbolIcon(Symbol.Add);
-                else
-                    MarkAsReadButton.Icon = new SymbolIcon(Symbol.Accept);
+                if (TextAlignJustifyPathIcon == null)
+                    TextAlignJustifyPathIcon = ChangeTextAlignButton.Content as PathIcon;
 
-                if (ViewModel.CurrentItem.Model.IsStarred)
-                    MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
+                if (AppSettings.TextAlignment == "left")
+                    ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
                 else
-                    MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
+                    ChangeTextAlignButton.Content = "";
             };
         }
 
@@ -93,6 +90,8 @@ namespace wallabag.Views
         private void WebView_ScriptNotify(object sender, NotifyEventArgs e)
         {
             ViewModel.CurrentItem.Model.ReadingProgress = e.Value;
+            if (float.Parse(e.Value) == 100)
+                BottomAppBar.IsOpen = true;
         }
 
         private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
@@ -116,37 +115,15 @@ namespace wallabag.Views
             else
                 AppSettings.ColorScheme = "black";
             await ChangeHtmlAttributesAsync();
+            ViewModel.ChangeAppBarBrushes();
         }
 
         private async void IncreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize += 1; await ChangeHtmlAttributesAsync(); }
         private async void DecreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize -= 1; await ChangeHtmlAttributesAsync(); }
 
-        private void MarkAsReadButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.MarkItemAsReadCommand.Execute(null);
-
-            if (ViewModel.CurrentItem.Model.IsRead)
-                MarkAsReadButton.Icon = new SymbolIcon(Symbol.Add);
-            else
-                MarkAsReadButton.Icon = new SymbolIcon(Symbol.Accept);
-        }
-
-        private void MarkAsFavoriteButton_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.CurrentItem.SwitchFavoriteStatusCommand.Execute(null);
-
-            if (ViewModel.CurrentItem.Model.IsStarred)
-                MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.UnFavorite);
-            else
-                MarkAsFavoriteButton.Icon = new SymbolIcon(Symbol.Favorite);
-        }
-
         private PathIcon TextAlignJustifyPathIcon;
         private async void ChangeTextAlignButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TextAlignJustifyPathIcon == null)
-                TextAlignJustifyPathIcon = (sender as Button).Content as PathIcon;
-
             if (AppSettings.TextAlignment == "left")
             {
                 AppSettings.TextAlignment = "justify";
@@ -158,6 +135,15 @@ namespace wallabag.Views
                 ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
             }
             await ChangeHtmlAttributesAsync();
+        }
+
+        private void EditTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowEditTagsBorder.Begin();
+        }
+        private void HideTagsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            HideEditTagsBorder.Begin();
         }
     }
 }
