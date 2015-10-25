@@ -13,6 +13,16 @@ namespace wallabag.Controls
     {
         private double WindowWidth { get { return Window.Current.CoreWindow.Bounds.Width; } }
 
+        public Models.Item Model
+        {
+            get { return (Models.Item)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Model.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof(Models.Item), typeof(ItemControl), new PropertyMetadata(DependencyProperty.UnsetValue));
+
         public ItemControl()
         {
             InitializeComponent();
@@ -34,11 +44,10 @@ namespace wallabag.Controls
             else
                 ShowContextMenuColorAnimation.To = Color.FromArgb(0xCC, 255, 255, 255);
 
-            var itemViewModel = DataContext as ItemViewModel;
-            if (itemViewModel != null && string.IsNullOrEmpty(itemViewModel.Model.PreviewPictureUri))
+            if (string.IsNullOrEmpty(Model.PreviewPictureUri))
             {
                 var newBackground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
-                newBackground.Opacity = 0.3;
+                newBackground.Opacity = 0.5;
                 RootGrid.Background = newBackground;
             }
         }
