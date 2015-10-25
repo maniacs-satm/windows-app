@@ -19,5 +19,8 @@ function Initialize() {
 
     var progressCalculated = progress / 100 * (root.scrollHeight - root.clientHeight);
     document.body.scrollTop = progressCalculated;
-    window.external.notify(progress.toString());
+
+    $(document).ready(function () {
+        $("article").fitVids({ customSelector: "iframe[src^='https://medium.com/media']" });
+    });
 }
