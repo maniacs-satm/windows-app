@@ -4,40 +4,41 @@ using System.Threading.Tasks;
 using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
+using Windows.System;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
-    class FirstStartPageViewModel : ViewModelBase
+    public class FirstStartPageViewModel : ViewModelBase
     {
         public string Username { get; set; }
         public string Password { get; set; }
-        public string wallabagUrl { get; set; }
+        public string WallabagUrl { get; set; }
 
         public string StatusText { get; set; }
-
         public DelegateCommand LoginCommand { get; private set; }
+        public DelegateCommand OpenImageSourceCommand { get; private set; }
+
         public async Task Login()
         {
             StatusText = "Logging in…";
-            if (wallabagUrl.EndsWith("/"))
-                wallabagUrl = wallabagUrl.Remove(wallabagUrl.Length - 1);
+            if (WallabagUrl.EndsWith("/"))
+                WallabagUrl = WallabagUrl.Remove(WallabagUrl.Length - 1);
 
             if (Helpers.IsPhone)
                 AppSettings.FontSize += 28;
 
-            if (await Services.AuthorizationService.RequestTokenAsync(Username, Password, wallabagUrl))
+            if (await Services.AuthorizationService.RequestTokenAsync(Username, Password, WallabagUrl))
             {
                 StatusText = "Logged in.";
-                AppSettings.wallabagUrl = wallabagUrl;
+                AppSettings.wallabagUrl = WallabagUrl;
                 await SetupWallabagAndNavigateToContentPage();
             }
             else
                 StatusText = "Login failed.";
 
         }
-
         public async Task SetupWallabagAndNavigateToContentPage()
         {
             StatusText = "Create database…";
@@ -68,6 +69,7 @@ namespace wallabag.ViewModels
         public FirstStartPageViewModel()
         {
             LoginCommand = new DelegateCommand(async () => await Login());
+            OpenImageSourceCommand = new DelegateCommand(async () => await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/")));
         }
 
         public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)

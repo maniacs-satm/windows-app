@@ -1,6 +1,4 @@
-﻿using System;
-using Windows.ApplicationModel.Core;
-using Windows.System;
+﻿using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,6 +12,8 @@ namespace wallabag.Views
     /// </summary>
     public sealed partial class FirstStartPage : Page
     {
+        public ViewModels.FirstStartPageViewModel ViewModel { get { return (ViewModels.FirstStartPageViewModel)DataContext; } }
+
         public FirstStartPage()
         {
             this.InitializeComponent();
@@ -58,11 +58,6 @@ namespace wallabag.Views
                 wallabagUrlTextBox.Focus(FocusState.Programmatic);
             else
                 userNameTextBox.Focus(FocusState.Programmatic);
-        }
-
-        private async void imageCreditButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/"));
         }
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
