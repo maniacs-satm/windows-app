@@ -356,8 +356,15 @@ namespace wallabag.Views
             }
         }
 
-        private void domainNameAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void domainNameAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (string.IsNullOrEmpty(sender.Text))
+            {
+                ViewModel.LastUsedFilterProperties.DomainName = string.Empty;
+                await ViewModel.RefreshItemsAsync();
+                return;
+            }
+
             var possibleResults = new ObservableCollection<string>(DomainNames.Where(t => t.ToLower().StartsWith(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -377,8 +384,15 @@ namespace wallabag.Views
             }
         }
 
-        private void tagAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void tagAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (string.IsNullOrEmpty(sender.Text))
+            {
+                ViewModel.LastUsedFilterProperties.FilterTag = null;
+                await ViewModel.RefreshItemsAsync();
+                return;
+            }
+
             var possibleResults = new ObservableCollection<Tag>(Tags.Where(t => t.Label.ToLower().StartsWith(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -467,7 +481,7 @@ namespace wallabag.Views
             else if (sender == longEstimatedReadingTimeRadioButton)
             {
                 ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 15;
-                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read ;-)
+                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read :D
             }
             await ViewModel.RefreshItemsAsync();
         }
