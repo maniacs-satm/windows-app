@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using wallabag.Common;
+using wallabag.ViewModels;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace wallabag.Controls
@@ -15,9 +17,21 @@ namespace wallabag.Controls
             ContextMenuGrid.PointerWheelChanged += (s, e) => HideTouchMenu();
             this.PointerEntered += BottomGrid_PointerEntered;
             this.PointerExited += BottomGrid_PointerExited;
+            this.Loaded += ItemControl_Loaded;
 
             foreach (AppBarButton button in stackPanel.Children)
                 button.Click += (s, e) => HideTouchMenu();
+        }
+
+        private void ItemControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var itemViewModel = DataContext as ItemViewModel;
+            if (itemViewModel != null && string.IsNullOrEmpty(itemViewModel.Model.PreviewPictureUri))
+            {
+                var newBackground = Resources["SystemControlBackgroundAccentBrush"] as SolidColorBrush;
+                newBackground.Opacity = 0.3;
+                RootGrid.Background = newBackground;
+            }
         }
 
         private bool _PointerExited;
@@ -34,7 +48,7 @@ namespace wallabag.Controls
             if (!_PointerExited)
                 ShowOverlayStoryboard.Begin();
         }
-        
+
         private void HideTouchMenu() =>
             (ContextMenuGrid.Resources["HideContextMenu"] as Storyboard).Begin();
 
