@@ -79,6 +79,24 @@
                 <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Name="ShowContentStoryboard">
+            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="LoadingProgressRing" d:IsOptimized="True"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoadingProgressRing">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="WebView" d:IsOptimized="True"/>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="WebView">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
     </Page.Resources>
 
     <Page.BottomAppBar>
@@ -153,9 +171,13 @@
         </CommandBar>
     </Page.BottomAppBar>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}" d:IsHidden="True"/>
-        <Border x:Name="EditTagsBorder" Visibility="Collapsed" Opacity="0" Background="{ThemeResource EditTagsBorderBackground}" d:IsHidden="True" >
+    <Grid Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}">
+        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}" Opacity="0" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+            <WebView.RenderTransform>
+                <CompositeTransform/>
+            </WebView.RenderTransform>
+        </WebView>
+        <Border x:Name="EditTagsBorder" Visibility="Collapsed" Opacity="0" Background="{ThemeResource EditTagsBorderBackground}" d:IsHidden="True">
             <Grid x:Name="EditTagsBorderGrid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
                     <CompositeTransform/>
@@ -197,5 +219,13 @@
                 <Button Content="Open in browser" HorizontalAlignment="Center" Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"/>
             </StackPanel>
         </Border>
+        <ProgressRing
+            x:Name="LoadingProgressRing"
+            IsActive="True"
+            Width="64"
+            Height="64"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
     </Grid>
 </Page>

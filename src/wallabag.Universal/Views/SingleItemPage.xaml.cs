@@ -21,6 +21,7 @@ namespace wallabag.Views
         {
             InitializeComponent();
 
+            ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += SingleItemPage_DataRequested;
             WebView.ScriptNotify += WebView_ScriptNotify;
@@ -34,7 +35,10 @@ namespace wallabag.Views
                     ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
                 else
                     ChangeTextAlignButton.Content = "";
+
+                ShowContentStoryboard.Begin();
             };
+            ShowContentStoryboard.Completed += (s, e) => { ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Minimal; };
         }
 
         private async void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
