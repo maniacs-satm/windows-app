@@ -61,7 +61,7 @@ p, ul, ol, dl {
 }
 
 ul, ol {
-    padding-left: 20px;
+    padding-left: 1.25em;
 }
 
 li {
@@ -87,9 +87,9 @@ mark {
 
 blockquote {
     font-style: italic;
-    border-left: 3px solid black;
-    margin-left: -23px;
-    padding-left: 20px;
+    border-left: 0.25em solid black;
+    margin-left: -1.4375em;
+    padding-left: 1.25em;
     margin-bottom: 0.5em;
     margin-top: 0.5em;
 
@@ -100,7 +100,7 @@ blockquote {
 
         &:before {
             content: "—";
-            margin-right: 4px;
+            margin-right: 0.5em;
         }
     }
 }
@@ -139,7 +139,7 @@ hr {
 }
 
 small {
-    font-size: 12pt;
+    font-size: 0.7em;
 }
 
 dl {
@@ -147,7 +147,7 @@ dl {
 
     dt {
         float: left;
-        width: 180px;
+        width: 11.25em;
         overflow: hidden;
         clear: left;
         text-align: right;
@@ -160,7 +160,7 @@ dl {
     }
 
     dd {
-        margin-left: 200px;
+        margin-left: 12.5em;
         margin-bottom: 1em;
     }
 }
@@ -169,10 +169,10 @@ pre {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    margin: 64px 0;
-    border: 1px solid #efefef;
+    margin: 4em 0;
+    border: 0.0625em solid #efefef;
     width: 100%;
-    padding: 16px;
+    padding: 1em;
     font-family: Consolas, monospace;
     white-space: pre;
     overflow: auto;
@@ -189,8 +189,8 @@ pre {
 }
 
 code {
-    padding: 2px 6px;
-    margin: 0 4px;
+    padding: 0.125em 0.375em;
+    margin: 0 2.5em;
     font-family: Consolas, monospace;
     font-size: 0.8em;
     white-space: pre;
@@ -206,8 +206,8 @@ code {
 article {
     margin: 0 auto;
     margin-bottom: 2em;
-    max-width: 700px;
-    padding: 0 20px;
+    max-width: 43.75em;
+    padding: 0 1.25em;
 }
 
 /*-----------------------------------------------------------------*/
@@ -216,8 +216,8 @@ article {
 
 .wallabag-header {
     h1, h2 {
-        max-width: 700px;
-        padding: 0 20px;
+        max-width: 43.75em;
+        padding: 0 1.25em;
         text-align: center;
         margin: 0 auto;
     }
@@ -272,7 +272,7 @@ article {
     }
 
     blockquote {
-        border-left: 3px solid #000;
+        border-color: #000;
     }
 }
 
@@ -296,7 +296,7 @@ article {
     }
 
     blockquote {
-        border-left: 3px solid darken(maroon, 5%);
+        border-color: darken(maroon, 5%);
     }
 }
 
@@ -320,7 +320,7 @@ article {
     }
 
     blockquote {
-        border-left: 3px solid hsl(0, 0%, 90%);
+        border-color: hsl(0, 0%, 90%);
     }
 }
 
@@ -344,7 +344,7 @@ article {
     }
 
     blockquote {
-        border-left: 3px solid hsl(0, 0%, 80%);
+        border-color: hsl(0, 0%, 80%);
     }
 }
 
