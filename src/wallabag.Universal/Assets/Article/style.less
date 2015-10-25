@@ -61,7 +61,7 @@ p, ul, ol, dl {
 }
 
 ul, ol {
-    padding-left: 20px;
+    padding-left: 1.25em;
 }
 
 li {
@@ -82,6 +82,26 @@ mark {
 
     a {
         text-decoration: none;
+    }
+}
+
+blockquote {
+    font-style: italic;
+    border-left: 0.25em solid black;
+    margin-left: -1.4375em;
+    padding-left: 1.25em;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+
+    cite {
+        text-transform: uppercase;
+        font-size: 0.8em;
+        font-style: normal;
+
+        &:before {
+            content: "—";
+            margin-right: 0.5em;
+        }
     }
 }
 
@@ -119,7 +139,7 @@ hr {
 }
 
 small {
-    font-size: 12pt;
+    font-size: 0.7em;
 }
 
 dl {
@@ -127,7 +147,7 @@ dl {
 
     dt {
         float: left;
-        width: 180px;
+        width: 11.25em;
         overflow: hidden;
         clear: left;
         text-align: right;
@@ -140,7 +160,7 @@ dl {
     }
 
     dd {
-        margin-left: 200px;
+        margin-left: 12.5em;
         margin-bottom: 1em;
     }
 }
@@ -149,10 +169,10 @@ pre {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    margin: 64px 0;
-    border: 1px solid #efefef;
+    margin: 4em 0;
+    border: 0.0625em solid #efefef;
     width: 100%;
-    padding: 16px;
+    padding: 1em;
     font-family: Consolas, monospace;
     white-space: pre;
     overflow: auto;
@@ -169,8 +189,8 @@ pre {
 }
 
 code {
-    padding: 2px 6px;
-    margin: 0 4px;
+    padding: 0.125em 0.375em;
+    margin: 0 2.5em;
     font-family: Consolas, monospace;
     font-size: 0.8em;
     white-space: pre;
@@ -185,9 +205,9 @@ code {
 
 article {
     margin: 0 auto;
-    margin-bottom: 4em;
-    max-width: 960px;
-    padding: 0 20px;   
+    margin-bottom: 2em;
+    max-width: 43.75em;
+    padding: 0 1.25em;
 }
 
 /*-----------------------------------------------------------------*/
@@ -196,17 +216,18 @@ article {
 
 .wallabag-header {
     h1, h2 {
-        max-width: 960px;
+        max-width: 43.75em;
+        padding: 0 1.25em;
         text-align: center;
         margin: 0 auto;
     }
 
     h1 {
-        font-size: 1.6em;
-        font-weight: lighter;
+        font-size: 1.5em;
+        font-weight: 300;
         line-height: 1.2;
-        margin-top: 0.5em;
-        margin-bottom: 0.3em;
+        margin-top: 0.75em;
+        margin-bottom: 0.4em;
     }
 
     h2 {
@@ -249,6 +270,10 @@ article {
     a {
         color: #888;
     }
+
+    blockquote {
+        border-color: #000;
+    }
 }
 
 [data-color="sepia"] {
@@ -268,6 +293,10 @@ article {
         a {
             color: maroon !important;
         }
+    }
+
+    blockquote {
+        border-color: darken(maroon, 5%);
     }
 }
 
@@ -289,6 +318,10 @@ article {
             color: hsl(0, 0%, 50%) !important;
         }
     }
+
+    blockquote {
+        border-color: hsl(0, 0%, 90%);
+    }
 }
 
 [data-color="black"] {
@@ -308,5 +341,19 @@ article {
         a {
             color: hsl(0, 0%, 50%) !important;
         }
+    }
+
+    blockquote {
+        border-color: hsl(0, 0%, 80%);
+    }
+}
+
+/*-----------------------------------------------------------------*/
+/*--------------------- Responsive design -------------------------*/
+/*-----------------------------------------------------------------*/
+@media (max-width: 767px) {
+    blockquote {
+        margin-left: -20px;
+        padding-left: 17px;
     }
 }
