@@ -241,6 +241,9 @@ article {
 [data-color="light"] a {
   color: #888;
 }
+[data-color="light"] blockquote {
+  border-left: 3px solid #000;
+}
 [data-color="sepia"] body {
   background: beige;
   color: maroon;
@@ -254,6 +257,9 @@ article {
 }
 [data-color="sepia"] .wallabag-header h2 a {
   color: maroon !important;
+}
+[data-color="sepia"] blockquote {
+  border-left: 3px solid #670000;
 }
 [data-color="dark"] body {
   background: #333333;
@@ -269,6 +275,9 @@ article {
 [data-color="dark"] .wallabag-header h2 a {
   color: #808080 !important;
 }
+[data-color="dark"] blockquote {
+  border-left: 3px solid #e6e6e6;
+}
 [data-color="black"] body {
   background: #000000;
   color: #b3b3b3;
@@ -282,6 +291,9 @@ article {
 }
 [data-color="black"] .wallabag-header h2 a {
   color: #808080 !important;
+}
+[data-color="black"] blockquote {
+  border-left: 3px solid #cccccc;
 }
 /*-----------------------------------------------------------------*/
 /*--------------------- Responsive design -------------------------*/
