@@ -1,42 +1,414 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<root>	
-	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-		<xsd:element name="root" msdata:IsDataSet="true">
-			<xsd:complexType>
-				<xsd:choice maxOccurs="unbounded">
-					<xsd:element name="data">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
-							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="resheader">
-						<xsd:complexType>
-							<xsd:sequence>
-								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-							</xsd:sequence>
-							<xsd:attribute name="name" type="xsd:string" use="required" />
-						</xsd:complexType>
-					</xsd:element>
-				</xsd:choice>
-			</xsd:complexType>
-		</xsd:element>
-	</xsd:schema>
-	<resheader name="resmimetype">
-		<value>text/microsoft-resx</value>
-	</resheader>
-	<resheader name="version">
-		<value>1.3</value>
-	</resheader>
-	<resheader name="reader">
-		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
-	<resheader name="writer">
-		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-	</resheader>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddItemAppBarButton.Label" xml:space="preserve">
+    <value>Eintrag hinzufügen</value>
+  </data>
+  <data name="AppereanceSettingsPivotItem.Header" xml:space="preserve">
+    <value>Aussehen</value>
+  </data>
+  <data name="ArchivePivotItem.Header" xml:space="preserve">
+    <value>ARCHIV</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="CancelAppBarButton.Label" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="CreateIssueOnGithubButton.Content" xml:space="preserve">
+    <value>Ein Issue auf GitHub erstellen</value>
+  </data>
+  <data name="DeleteAppBarButton.Label" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="DeleteItemMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="DomainNameAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Nach Adresse filtern…</value>
+  </data>
+  <data name="DragDropTextBlock.Text" xml:space="preserve">
+    <value>Lass den Link hier fallen!</value>
+  </data>
+  <data name="EditMultipleItemsAppBarButton.Label" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
+  <data name="EditTagsAppBarButton.Label" xml:space="preserve">
+    <value>Tags bearbeiten</value>
+  </data>
+  <data name="ErrorHeaderTextBlock.Text" xml:space="preserve">
+    <value>Das tut uns leid.</value>
+  </data>
+  <data name="ExtraSpecialThanksTextBlock.Text" xml:space="preserve">
+    <value>EXTRA-DANKESCHÖN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ExtraSpecialThanksTextBlock2.Text" xml:space="preserve">
+    <value>Nicolas Lœuillet, Thomas Citharel und Jérémy Benoist für die Arbeit, die in wallabag investiert wurde.</value>
+  </data>
+  <data name="FavoritesPivotItem.Header" xml:space="preserve">
+    <value>FAVORITEN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="FirstStartCreateDatabaseLabel" xml:space="preserve">
+    <value>Datenbank wird erstellt…</value>
+  </data>
+  <data name="FirstStartDownloadArticlesFromServerLabel" xml:space="preserve">
+    <value>Artikel werden heruntergeladen…</value>
+  </data>
+  <data name="FirstStartDownloadProgressLabel" xml:space="preserve">
+    <value>Artikel {0} von {1} wird heruntergeladen…</value>
+  </data>
+  <data name="FirstStartFinishedDownloadingLabel" xml:space="preserve">
+    <value>Download abgeschlossen. Viel Spaß :)</value>
+  </data>
+  <data name="FirstStartLoggingInLabel" xml:space="preserve">
+    <value>Anmelden…</value>
+  </data>
+  <data name="FirstStartLoginFailedLabel" xml:space="preserve">
+    <value>Anmeldung fehlgeschlagen.</value>
+  </data>
+  <data name="FirstStartLoginSuccededLabel" xml:space="preserve">
+    <value>Angemeldet.</value>
+  </data>
+  <data name="FontSettingsAppBarButton.Label" xml:space="preserve">
+    <value>Schrift-Einstellungen</value>
+  </data>
+  <data name="FramabagUserButton.Content" xml:space="preserve">
+    <value>Ich bin framabag-Nutzer!</value>
+  </data>
+  <data name="FromCalendarDatePicker.PlaceholderText" xml:space="preserve">
+    <value>von</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="GeneralSettingsPivotItem.Header" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
+  <data name="ImageCreditButton.Content" xml:space="preserve">
+    <value>Bild: 'Books of Knowledge Picton Library Liverpool' von Terry Kearney. CC-BY-NC 2.0</value>
+  </data>
+  <data name="ImageCreditButtonContentShort" xml:space="preserve">
+    <value>Bild von Terry Kearney.</value>
+  </data>
+  <data name="InfoSettingsPivotItem.Header" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="LikeMyWorkTextBlock.Text" xml:space="preserve">
+    <value>DIR GEFÄLLT MEINE ARBEIT?</value>
+  </data>
+  <data name="LoginButton.Content" xml:space="preserve">
+    <value>ANMELDEN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="LongEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
+    <value>lang</value>
+  </data>
+  <data name="MadeWithLoveByTextBlock.Text" xml:space="preserve">
+    <value>MIT HERZBLUT ERSTELLT VON</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ManageTagsHeaderTextBlock.Text" xml:space="preserve">
+    <value>TAGS VERWALTEN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ManageTagsMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Tags verwalten</value>
+  </data>
+  <data name="MarkAsFavoriteButton.Label" xml:space="preserve">
+    <value>Als Favorit markieren</value>
+  </data>
+  <data name="MarkAsFavoriteMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Als Favorit markieren</value>
+  </data>
+  <data name="MarkAsReadAppBarButton.Label" xml:space="preserve">
+    <value>Als gelesen markieren</value>
+  </data>
+  <data name="MarkAsReadMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Als gelesen markieren</value>
+  </data>
+  <data name="MediumEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
+    <value>medium</value>
+  </data>
+  <data name="MultipleSelectionAppBarButton.Label" xml:space="preserve">
+    <value>Auswählen</value>
+  </data>
+  <data name="NavigateBackAfterReadingAnArticleToggleSwitch.Header" xml:space="preserve">
+    <value>Nach dem Lesen auf die Startseite navigieren</value>
+  </data>
+  <data name="NeedHelpTextBlock.Text" xml:space="preserve">
+    <value>HILFE BENÖTIGT?</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="NotAFramabagUserButton.Content" xml:space="preserve">
+    <value>Ich bin kein framabag-Nutzer.</value>
+  </data>
+  <data name="OpenChangelogButton.Content" xml:space="preserve">
+    <value>(changelog)</value>
+  </data>
+  <data name="OpenInBrowserButton.Content" xml:space="preserve">
+    <value>Im Browser öffnen</value>
+  </data>
+  <data name="OpenInBrowserMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Im Browser öffnen</value>
+  </data>
+  <data name="OpenSettingsAppBarButton.Label" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="OpenTheFilterPaneWithTheSearchToggleSwitch.Header" xml:space="preserve">
+    <value>Filter zur gleichen Zeit wie die Suche öffnen</value>
+  </data>
+  <data name="OpenWallabagDocumentationButton.Content" xml:space="preserve">
+    <value>wallabag-Dokumentation</value>
+  </data>
+  <data name="PasswordBox.Header" xml:space="preserve">
+    <value>Kennwort</value>
+  </data>
+  <data name="RateAndReviewButton.Content" xml:space="preserve">
+    <value>im store bewerten</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="ReadingSettingsPivotItem.HEader" xml:space="preserve">
+    <value>Lese-Ansicht</value>
+  </data>
+  <data name="ResetFilterButton.Content" xml:space="preserve">
+    <value>Filter zurücksetzen</value>
+  </data>
+  <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
+    <value>LINK SPEICHERN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="SaveAppBarButton.Label" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="SearchAndFilterHeaderTextBlock.Text" xml:space="preserve">
+    <value>SUCHE &amp; FILTER</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="SearchAppBarButton.Label" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Suchen…</value>
+  </data>
+  <data name="SettingsHeaderTextBlocSettingsHeaderTextBlock.Text" xml:space="preserve">
+    <value>EINSTELLUNGEN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ShareAppBarButton.Label" xml:space="preserve">
+    <value>Teilen</value>
+  </data>
+  <data name="ShareAppButton.Content" xml:space="preserve">
+    <value>app teilen</value>
+  </data>
+  <data name="ShareMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Teilen</value>
+  </data>
+  <data name="ShortEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
+    <value>kurz</value>
+  </data>
+  <data name="ShowTheFilterPaneInlineToggleSwitch.Header" xml:space="preserve">
+    <value>Filter-Ansicht 'inline' anzeigen</value>
+  </data>
+  <data name="SingleItemArticleNotDownloaded" xml:space="preserve">
+    <value>Der Artikel wurde noch nicht heruntergeladen.</value>
+  </data>
+  <data name="SingleItemNoReadableContentFound" xml:space="preserve">
+    <value>wallabag hat leider keinen lesbaren Inhalt gefunden.</value>
+  </data>
+  <data name="SortAscendingRadioButton.Tag" xml:space="preserve">
+    <value>aufsteigend</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="SortDescendingRadioButton.Tag" xml:space="preserve">
+    <value>absteigend</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="SpecialThanksTextBlock.Text" xml:space="preserve">
+    <value>SPEZIELLES DANKESCHÖN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="SpecialThanksTextBlock2.Text" xml:space="preserve">
+    <value>Die ganze Windows-Entwickler-Community für ihre Hilfe.</value>
+  </data>
+  <data name="SyncAppBarButton.Label" xml:space="preserve">
+    <value>Synchronisieren</value>
+  </data>
+  <data name="SyncReadingProgressToggleSwitch.Header" xml:space="preserve">
+    <value>Lese-Fortschritt synchronisieren</value>
+  </data>
+  <data name="SyncWithServerOnStartUpToggleSwitch.Header" xml:space="preserve">
+    <value>Bei App-Start mit Server synchronisieren</value>
+  </data>
+  <data name="TagAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Nach Schlagwort filtern…</value>
+  </data>
+  <data name="TagControlAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>tag eingeben und enter drücken</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="TagControlNoTagsExistingTextBlock.Text" xml:space="preserve">
+    <value>Keine Tags vorhanden.
+Warum fügst du nicht ein paar hinzu?</value>
+  </data>
+  <data name="ThanksTextBlock.Text" xml:space="preserve">
+    <value>DANKESCHÖN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ToCalendarDatePicker.PlaceholderText" xml:space="preserve">
+    <value>bis</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="UnmarkAsFavoriteButton.Label" xml:space="preserve">
+    <value>Als nicht-favorisiert markieren</value>
+  </data>
+  <data name="UnmarkAsFavoriteMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Als nicht-favorisiert markieren</value>
+  </data>
+  <data name="UnmarkAsReadAppBarButton.Label" xml:space="preserve">
+    <value>Als ungelesen markieren</value>
+  </data>
+  <data name="UnmarkAsReadMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Als ungelesen markieren</value>
+  </data>
+  <data name="UnreadPivotItem.Header" xml:space="preserve">
+    <value>UNGELESEN</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="UrlTextBox.Header" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="UseClassicContextMenuForMouseInput.Header" xml:space="preserve">
+    <value>Normales Kontextmenü nutzen, falls eine Maus verwendet wird</value>
+  </data>
+  <data name="UsernameTextBox.Header" xml:space="preserve">
+    <value>Benutzername</value>
+  </data>
+  <data name="UsernameTextBox.PlaceholderText" xml:space="preserve">
+    <value>(z.B. wallabag)</value>
+  </data>
+  <data name="VersionTextBlock.Text" xml:space="preserve">
+    <value>VERSION</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="WallabagUrlTextBox.Header" xml:space="preserve">
+    <value>URL zur wallabag-Installation</value>
+  </data>
+  <data name="WelcomeTextBlock.Text" xml:space="preserve">
+    <value>Willkommen!</value>
+  </data>
 </root>
