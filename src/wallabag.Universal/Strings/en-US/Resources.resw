@@ -136,7 +136,7 @@
   <data name="DeleteAppBarButton.Label" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="DeleteItemMenuFlyoutItem.Text" xml:space="preserve">
+  <data name="DeleteMenuFlyoutItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="DomainNameAutoSuggestBox.PlaceholderText" xml:space="preserve">
@@ -282,7 +282,7 @@
     <value>rate and review</value>
     <comment>lowercase</comment>
   </data>
-  <data name="ReadingSettingsPivotItem.HEader" xml:space="preserve">
+  <data name="ReadingSettingsPivotItem.Header" xml:space="preserve">
     <value>Reading</value>
   </data>
   <data name="ResetFilterButton.Content" xml:space="preserve">
@@ -305,7 +305,7 @@
   <data name="SearchBox.PlaceholderText" xml:space="preserve">
     <value>Search…</value>
   </data>
-  <data name="SettingsHeaderTextBlocSettingsHeaderTextBlock.Text" xml:space="preserve">
+  <data name="SettingsHeaderTextBlock.Text" xml:space="preserve">
     <value>SETTINGS</value>
     <comment>UPPERCASE</comment>
   </data>

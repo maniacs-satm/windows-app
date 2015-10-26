@@ -635,7 +635,7 @@
                                         Tag="&#xE1CB;" 
                                         Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
                         <MenuFlyoutItem x:Name="DeleteMenuFlyoutItem" 
-                                        x:Uid="DeleteItemMenuFlyoutItem"
+                                        x:Uid="DeleteMenuFlyoutItem"
                                         Text="Delete" 
                                         Click="DeleteMenuFlyoutItem_Click"
                                         Tag="&#xE107;" 
