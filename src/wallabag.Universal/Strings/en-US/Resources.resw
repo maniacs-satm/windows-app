@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddItemAppBarButton.Label" xml:space="preserve">
+    <value>Add item</value>
+  </data>
+  <data name="CancelAppBarButton.Label" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="FirstStartCreateDatabaseLabel" xml:space="preserve">
     <value>Create database…</value>
   </data>
@@ -138,6 +144,10 @@
   <data name="FirstStartLoginSuccededLabel" xml:space="preserve">
     <value>Logged in.</value>
   </data>
+  <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
+    <value>SAVE A LINK IN YOUR WALLABAG</value>
+    <comment>UPPERCASE</comment>
+  </data>
   <data name="SingleItemArticleNotDownloaded" xml:space="preserve">
     <value>The article wasn't downloaded yet.</value>
   </data>
@@ -150,5 +160,8 @@
   <data name="TagControlNoTagsExistingTextBlock.Text" xml:space="preserve">
     <value>No tags existing.&amp;#x0a;So, why aren't you adding one? :-)</value>
     <comment>&amp;#x0a represents a line break</comment>
+  </data>
+  <data name="UrlTextBox.Header" xml:space="preserve">
+    <value>URL</value>
   </data>
 </root>
