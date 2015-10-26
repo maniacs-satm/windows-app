@@ -41,14 +41,25 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <AutoSuggestBox x:Name="textBox" PlaceholderText="enter tag and press enter" Grid.Row="1"
-                        ItemsSource="{x:Bind Suggestions}" Style="{StaticResource CustomAutoSuggestBoxStyle}"
-                        QuerySubmitted="textBox_QuerySubmitted" TextChanged="textBox_TextChanged" QueryIcon="Add"/>
-        <StackPanel x:Name="noTagsExistingStackPanel" Orientation="Horizontal" HorizontalAlignment="Center" d:IsHidden="True" Margin="16">
+        <AutoSuggestBox x:Name="textBox"
+                        x:Uid="TagControlAutoSuggestBox"
+                        PlaceholderText="enter tag and press enter"
+                        Grid.Row="1"
+                        ItemsSource="{x:Bind Suggestions}"
+                        Style="{StaticResource CustomAutoSuggestBoxStyle}"
+                        QuerySubmitted="textBox_QuerySubmitted" 
+                        TextChanged="textBox_TextChanged" 
+                        QueryIcon="Add"/>
+        <StackPanel x:Name="noTagsExistingStackPanel"
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center"                    
+                    Margin="16">
             <SymbolIcon Symbol="Tag" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
-            <TextBlock Text="No tags existing.&#x0a;So, why aren't you adding one? :-)"
-                       VerticalAlignment="Center"
-                       Margin="16,0" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
+            <TextBlock 
+                x:Uid="TagControlNoTagsExistingTextBlock"
+                Text="No tags existing.&#x0a;So, why aren't you adding one? :-)"
+                VerticalAlignment="Center"
+                Margin="16,0" Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"/>
         </StackPanel>
     </Grid>
 </UserControl>

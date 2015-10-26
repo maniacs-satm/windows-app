@@ -105,18 +105,23 @@
                     Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}" 
                     RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
-                <AppBarToggleButton x:Name="MarkAsReadButton" 
+                <AppBarToggleButton x:Name="MarkAsReadButton"
+                                    x:Uid="MarkAsReadAppBarButton"
                                     Icon="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource ReadToIconConverter}}" 
                                     Label="Mark as read"
                                     IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"
                                     Command="{x:Bind ViewModel.MarkItemAsReadCommand}"/>
                 <AppBarToggleButton x:Name="MarkAsFavoriteButton"
+                                    x:Uid="MarkAsFavoriteButton"
                                     Icon="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource FavoriteToIconConverter}}" 
                                     Label="Mark as favorite"
                                     IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"                                    
                                     Command="{x:Bind  ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
-                <AppBarButton Icon="Tag" Label="Manage tags" Click="EditTagsAppBarButton_Click"/>
-                <AppBarButton Icon="Font" Label="Font settings">
+                <AppBarButton x:Uid="EditTagsAppBarButton"
+                              Icon="Tag" 
+                              Label="Edit tags" 
+                              Click="EditTagsAppBarButton_Click"/>
+                <AppBarButton x:Uid="FontSettingsAppBarButton" Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
                             <StackPanel>
@@ -154,7 +159,7 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Share">
+                <AppBarButton x:Uid="ShareAppBarButton" Label="Share">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
                     </AppBarButton.Icon>
@@ -166,7 +171,7 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarSeparator/>
-                <AppBarButton Label="Delete article" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
+                <AppBarButton x:Uid="DeleteAppBarButton" Label="Delete" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
@@ -188,11 +193,19 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-                    <TextBlock Text="MANAGE TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+                    <TextBlock 
+                        x:Uid="ManageTagsHeaderTextBlock"
+                        Text="MANAGE TAGS" 
+                        Style="{ThemeResource PageTitleTextBlockStyle}"
+                        VerticalAlignment="Top"/>
                 </Border>
                 <controls:TagControl Grid.Row="1" Margin="8,16" Tags="{x:Bind ViewModel.ItemTags, Mode=TwoWay}"/>
                 <CommandBar Grid.Row="2">
-                    <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Label="Close" Click="HideTagsAppBarButton_Click"/>
+                    <AppBarButton x:Name="CancelTagsAppBarButton" 
+                                  x:Uid="CancelAppBarButton"
+                                  Icon="Cancel" 
+                                  Label="Cancel" 
+                                  Click="HideTagsAppBarButton_Click"/>
                 </CommandBar>
             </Grid>
         </Border>
@@ -214,8 +227,9 @@
                            Text=":-("
                            TextAlignment="Center"
                            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
-                <TextBlock x:Name="errorHeaderTextBlock" 
-                           Text="Unfortunately, an error happened."
+                <TextBlock x:Name="errorHeaderTextBlock"
+                           x:Uid="ErrorHeaderTextBlock"
+                           Text="Sorry."
                            Margin="8,16"
                            TextAlignment="Center"
                            Style="{StaticResource TitleTextBlockStyle}"
@@ -224,7 +238,11 @@
                            Margin="8,0,8,16"
                            TextAlignment="Center"
                            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
-                <Button Content="Open in browser" HorizontalAlignment="Center" Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"/>
+                <Button
+                    x:Uid="OpenInBrowserButton"
+                    Content="Open in browser" 
+                    HorizontalAlignment="Center"
+                    Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"/>
             </StackPanel>
         </Border>
     </Grid>

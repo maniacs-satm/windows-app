@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
+using static wallabag.Common.Helpers;
 
 namespace wallabag.ViewModels
 {
@@ -98,13 +99,13 @@ namespace wallabag.ViewModels
             if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
             {
                 ErrorHappened = true;
-                ErrorMessage = "The article wasn't downloaded yet.";
+                ErrorMessage = LocalizedString("SingleItemArticleNotDownloaded");
                 CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             }
             else if (CurrentItem.Model.Content == "<p>Unable to retrieve readable content.</p>")
             {
                 ErrorHappened = true;
-                ErrorMessage = "wallabag didn't found readable content.";
+                ErrorMessage = LocalizedString("SingleItemNoReadableContentFound");
                 CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             }
 
@@ -137,6 +138,8 @@ namespace wallabag.ViewModels
                     break;
             }
         }
+
+        // TODO: Add translations.
         public async Task DownloadItemAsFileAsync()
         {
             // Let the user select the download path

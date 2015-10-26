@@ -15,8 +15,8 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="addItemAppBarButton" Label="Add item" Icon="Accept" Command="{x:Bind ViewModel.AddItemCommand}"/>
-            <AppBarButton x:Name="cancelAppBarButton" Label="Add item" Icon="Cancel" Command="{x:Bind ViewModel.CancelCommand}"/>
+            <AppBarButton x:Name="addItemAppBarButton" x:Uid="AddItemAppBarButton" Label="Add item" Icon="Accept" Command="{x:Bind ViewModel.AddItemCommand}"/>
+            <AppBarButton x:Name="cancelAppBarButton" x:Uid="CancelAppBarButton" Label="Cancel" Icon="Cancel" Command="{x:Bind ViewModel.CancelCommand}"/>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -36,10 +36,10 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-            <TextBlock Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+            <TextBlock x:Uid="SaveALinkHeaderTextBlock" Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
         </Grid>
         <StackPanel x:Name="stackPanel" Grid.Row="1" Margin="8">
-            <TextBox x:Name="urlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind ViewModel.Url, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
+            <TextBox x:Name="urlTextBox" x:Uid="UrlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind ViewModel.Url, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
             <controls:TagControl x:Name="tagControl" Margin="0,4" Tags="{x:Bind ViewModel.Tags, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
         </StackPanel>
         <ProgressRing x:Name="savingIndicator"
