@@ -6,12 +6,23 @@ With this application you will not miss content anymore. Click, save, read it wh
 There are two ways to use wallabag: you can install it on your web server or you can create an account at Framabag (we install and upgrade wallabag for you).
 
 ## Tags (up to seven)
+- self-hosted
+- free
+- read it later
+-
 -
 -
 -
 
 ## Screenshot description
-(coming soon)
+1. Start page
+2. "Save a link" dialog
+3. Easily search through your articles
+4. Distraction-free reading of your articles
 
-## Link to translation file
-(coming soon)
+## Features
+-
+-
+-
+-
+-

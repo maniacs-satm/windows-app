@@ -4,14 +4,3 @@ wallabag (anciennement poche) est une application auto h�bergeable pour sauveg
 Gr�ce � cette application, vous ne raterez plus aucun contenu. Sauvegardez quand vous surfez ; lisez o� vous voulez quand vous voulez. wallabag sauvegarde le contenu que vous avez choisi, vous pourrez le lire quand vous aurez le temps.
 
 Il y a deux mani�res : vous installez wallabag sur votre serveur web ou alors vous vous cr�ez un compte gratuit sur Framabag (nous g�rons l�installation et la mise � jour pour vous).
-
-## Tags (up to seven)
--
--
--
-
-## Screenshot description
-(coming soon)
-
-## Link to translation file
-(coming soon)
