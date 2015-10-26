@@ -16,7 +16,7 @@ namespace wallabag.Common
         {
             get
             {
-                if (AppSettings.wallabagUrl != null)
+                if (!string.IsNullOrEmpty(AppSettings.wallabagUrl)) 
                     return $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":", "")}.db";
                 else
                     return "wallabag_temp.db";
