@@ -24,7 +24,7 @@ namespace wallabag.ViewModels
         public FilterProperties LastUsedFilterProperties { get; set; } = new FilterProperties();
 
         public bool IsSyncing { get; set; } = false;
-        public int NumberOfOfflineActions { get; set; }
+        public int NumberOfOfflineTasks { get; set; }
 
         private ObservableCollection<Item> _Models { get; set; } = new ObservableCollection<Item>();
 
@@ -92,6 +92,9 @@ namespace wallabag.ViewModels
                     Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
 
             }
+
+            SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
+            NumberOfOfflineTasks = await conn.Table<OfflineTask>().CountAsync();
         }
 
         public DelegateCommand RefreshCommand { get; private set; }
@@ -110,7 +113,7 @@ namespace wallabag.ViewModels
             await LoadItemsAsync();
 
             SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-            NumberOfOfflineActions = await conn.Table<OfflineTask>().CountAsync();
+            NumberOfOfflineTasks = await conn.Table<OfflineTask>().CountAsync();
 
             if (AppSettings.SyncOnStartup)
                 RefreshCommand.Execute(null);
@@ -131,9 +134,6 @@ namespace wallabag.ViewModels
                 DataService.LastUserSyncDateTime = DateTime.Now;
                 await RefreshItemsAsync();
                 IsSyncing = false;
-
-                SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-                NumberOfOfflineActions = await conn.Table<OfflineTask>().CountAsync();
             });
             NavigateToSettingsPageCommand = new DelegateCommand(() =>
             {
