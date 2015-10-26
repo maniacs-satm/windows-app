@@ -207,3 +207,4 @@ WebEssentials2015-Settings.json
 /src/wallabag.Tasks/null
 src/wallabag.Tasks/project.lock.json
 src/wallabag.Tasks/wallabag.Tasks.nuget.targets
+*.appx
