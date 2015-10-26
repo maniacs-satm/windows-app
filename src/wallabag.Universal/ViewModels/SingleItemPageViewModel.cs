@@ -77,38 +77,37 @@ namespace wallabag.ViewModels
         }
         public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            if (!string.IsNullOrWhiteSpace(parameter as string))
+
+            CurrentItem = new ItemViewModel(await DataService.GetItemAsync((int)parameter));
+
+            if (AppSettings.SyncReadingProgress)
+                if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey(ContainerKey))
+                    CurrentItem.Model.ReadingProgress = (string)ApplicationData.Current.RoamingSettings.
+                        Containers[ContainerKey].
+                        Values[CurrentItem.Model.Id.ToString()];
+
+            await CurrentItem.CreateContentFromTemplateAsync();
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;
+
+            if (Helpers.IsPhone)
+                await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
+
+            ItemTags = CurrentItem.Model.Tags;
+            (ItemTags as ObservableCollection<Tag>).CollectionChanged += SingleItemPageViewModel_CollectionChanged;
+
+            if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
             {
-                CurrentItem = new ItemViewModel(await DataService.GetItemAsync(int.Parse(parameter as string)));
-
-                if (AppSettings.SyncReadingProgress)
-                    if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey(ContainerKey))
-                        CurrentItem.Model.ReadingProgress = (string)ApplicationData.Current.RoamingSettings.
-                            Containers[ContainerKey].
-                            Values[CurrentItem.Model.Id.ToString()];
-
-                await CurrentItem.CreateContentFromTemplateAsync();
-                Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;
-
-                if (Helpers.IsPhone)
-                    await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
-
-                ItemTags = CurrentItem.Model.Tags;
-                (ItemTags as ObservableCollection<Tag>).CollectionChanged += SingleItemPageViewModel_CollectionChanged;
-
-                if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
-                {
-                    ErrorHappened = true;
-                    ErrorMessage = "The article wasn't downloaded yet.";
-                    CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
-                }
-                else if (CurrentItem.Model.Content == "<p>Unable to retrieve readable content.</p>")
-                {
-                    ErrorHappened = true;
-                    ErrorMessage = "wallabag didn't found readable content.";
-                    CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
-                }
+                ErrorHappened = true;
+                ErrorMessage = "The article wasn't downloaded yet.";
+                CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             }
+            else if (CurrentItem.Model.Content == "<p>Unable to retrieve readable content.</p>")
+            {
+                ErrorHappened = true;
+                ErrorMessage = "wallabag didn't found readable content.";
+                CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
+            }
+
             ChangeAppBarBrushes();
         }
 

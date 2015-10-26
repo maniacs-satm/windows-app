@@ -192,7 +192,7 @@ namespace wallabag.Views
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var clickedItem = (ItemViewModel)e.ClickedItem;
-            (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id.ToString());
+            BootStrapper.Current.NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id);
         }
 
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
