@@ -119,7 +119,7 @@ namespace wallabag.Views
             if (element.GetType() == typeof(Grid) && element.Name == "ContextMenuGrid")
             {
                 _LastFocusedItem = element;
-             
+
                 (element.Resources["ShowContextMenu"] as Storyboard).Begin();
                 (element.Resources["HideContextMenu"] as Storyboard).Completed += async (s, e) => { await ViewModel.RefreshItemsAsync(); };
             }
@@ -191,8 +191,11 @@ namespace wallabag.Views
 
         private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var clickedItem = (ItemViewModel)e.ClickedItem;
-            BootStrapper.Current.NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id);
+            if (e.ClickedItem != null)
+            {
+                var clickedItem = (ItemViewModel)e.ClickedItem;
+                BootStrapper.Current.NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id);
+            }
         }
 
         private void AddItemButton_Click(object sender, RoutedEventArgs e)
