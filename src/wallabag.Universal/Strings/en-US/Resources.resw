@@ -164,9 +164,22 @@
   <data name="FirstStartLoginSuccededLabel" xml:space="preserve">
     <value>Logged in.</value>
   </data>
+  <data name="FramabagUserButton.Content" xml:space="preserve">
+    <value>I'm a framabag user!</value>
+  </data>
   <data name="FromCalendarDatePicker.PlaceholderText" xml:space="preserve">
     <value>from</value>
     <comment>lowercase</comment>
+  </data>
+  <data name="ImageCreditButton.Content" xml:space="preserve">
+    <value>Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0</value>
+  </data>
+  <data name="ImageCreditButton.ContentShort" xml:space="preserve">
+    <value>Image by Terry Kearney.</value>
+  </data>
+  <data name="LoginButton.Content" xml:space="preserve">
+    <value>LOGIN</value>
+    <comment>UPPERCASE</comment>
   </data>
   <data name="LongEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
     <value>long</value>
@@ -190,11 +203,20 @@
   <data name="MultipleSelectionAppBarButton.Label" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="NotAFramabagUserButton.Content" xml:space="preserve">
+    <value>I'm not a framabag user.</value>
+  </data>
+  <data name="NotAFramabagUserButton.Header" xml:space="preserve">
+    <value>URL to your wallabag installation</value>
+  </data>
   <data name="OpenInBrowserMenuFlyoutItem.Text" xml:space="preserve">
     <value>Open in browser</value>
   </data>
   <data name="OpenSettingsAppBarButton.Label" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="PasswordBox.Header" xml:space="preserve">
+    <value>Password</value>
   </data>
   <data name="ResetFilterButton.Content" xml:space="preserve">
     <value>Reset filter</value>
@@ -266,5 +288,14 @@
   </data>
   <data name="UrlTextBox.Header" xml:space="preserve">
     <value>URL</value>
+  </data>
+  <data name="UsernameTextBox.Header" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UsernameTextBox.PlaceholderText" xml:space="preserve">
+    <value>(e.g. wallabag)</value>
+  </data>
+  <data name="WelcomeTextBlock.Text" xml:space="preserve">
+    <value>Welcome to wallabag!</value>
   </data>
 </root>
