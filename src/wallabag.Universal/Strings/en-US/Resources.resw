@@ -365,8 +365,8 @@
     <comment>lowercase</comment>
   </data>
   <data name="TagControlNoTagsExistingTextBlock.Text" xml:space="preserve">
-    <value>No tags existing.&amp;#x0a;So, why aren't you adding one? :-)</value>
-    <comment>&amp;#x0a represents a line break</comment>
+    <value>No tags existing.
+So, why aren't you adding one? :-)</value>
   </data>
   <data name="ThanksTextBlock.Text" xml:space="preserve">
     <value>THANKS TO</value>
