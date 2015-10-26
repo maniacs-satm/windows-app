@@ -138,6 +138,12 @@
   <data name="FirstStartLoginSuccededLabel" xml:space="preserve">
     <value>Logged in.</value>
   </data>
+  <data name="SingleItemArticleNotDownloaded" xml:space="preserve">
+    <value>The article wasn't downloaded yet.</value>
+  </data>
+  <data name="SingleItemNoReadableContentFound" xml:space="preserve">
+    <value>wallabag didn't found readable content.</value>
+  </data>
   <data name="TagControlAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>enter tag and press enter</value>
   </data>
