@@ -120,12 +120,18 @@
   <data name="AddItemAppBarButton.Label" xml:space="preserve">
     <value>Add item</value>
   </data>
+  <data name="AppereanceSettingsPivotItem.Header" xml:space="preserve">
+    <value>Appereance</value>
+  </data>
   <data name="ArchivePivotItem.Header" xml:space="preserve">
     <value>ARCHIVE</value>
     <comment>UPPERCASE</comment>
   </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="CreateIssueOnGithubButton.Content" xml:space="preserve">
+    <value>Create an issue on GitHub</value>
   </data>
   <data name="DeleteItemMenuFlyoutItem.Text" xml:space="preserve">
     <value>Delete</value>
@@ -138,6 +144,13 @@
   </data>
   <data name="EditMultipleItemsAppBarButton.Label" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="ExtraSpecialThanksTextBlock.Text" xml:space="preserve">
+    <value>EXTRA SPECIAL THANKS</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ExtraSpecialThanksTextBlock2.Text" xml:space="preserve">
+    <value>Nicolas Lœuillet, Thomas Citharel and Jérémy Benoist for creating such a great software.</value>
   </data>
   <data name="FavoritesPivotItem.Header" xml:space="preserve">
     <value>FAVORITES</value>
@@ -171,11 +184,20 @@
     <value>from</value>
     <comment>lowercase</comment>
   </data>
+  <data name="GeneralSettingsPivotItem.Header" xml:space="preserve">
+    <value>General</value>
+  </data>
   <data name="ImageCreditButton.Content" xml:space="preserve">
     <value>Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0</value>
   </data>
   <data name="ImageCreditButton.ContentShort" xml:space="preserve">
     <value>Image by Terry Kearney.</value>
+  </data>
+  <data name="InfoSettingsPivotItem.Header" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="LikeMyWorkTextBlock.Text" xml:space="preserve">
+    <value>YOU LIKE MY WORK?</value>
   </data>
   <data name="LoginButton.Content" xml:space="preserve">
     <value>LOGIN</value>
@@ -183,6 +205,10 @@
   </data>
   <data name="LongEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
     <value>long</value>
+  </data>
+  <data name="MadeWithLoveByTextBlock.Text" xml:space="preserve">
+    <value>MADE WITH LOVE BY</value>
+    <comment>UPPERCASE</comment>
   </data>
   <data name="ManageTagsHeaderTextBlock.Text" xml:space="preserve">
     <value>Manage tags</value>
@@ -203,11 +229,21 @@
   <data name="MultipleSelectionAppBarButton.Label" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="NavigateBackAfterReadingAnArticleToggleSwitch.Header" xml:space="preserve">
+    <value>Navigate back after reading an article</value>
+  </data>
+  <data name="NeedHelpTextBlock.Text" xml:space="preserve">
+    <value>NEED HELP?</value>
+    <comment>UPPERCASE</comment>
+  </data>
   <data name="NotAFramabagUserButton.Content" xml:space="preserve">
     <value>I'm not a framabag user.</value>
   </data>
   <data name="NotAFramabagUserButton.Header" xml:space="preserve">
     <value>URL to your wallabag installation</value>
+  </data>
+  <data name="OpenChangelogButton.Content" xml:space="preserve">
+    <value>(changelog)</value>
   </data>
   <data name="OpenInBrowserMenuFlyoutItem.Text" xml:space="preserve">
     <value>Open in browser</value>
@@ -215,8 +251,21 @@
   <data name="OpenSettingsAppBarButton.Label" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="OpenTheFilterPaneWithTheSearchToggleSwitch.Header" xml:space="preserve">
+    <value>Open the filter at the same time with the search</value>
+  </data>
+  <data name="OpenWallabagDocumentationButton.Content" xml:space="preserve">
+    <value>wallabag documentation</value>
+  </data>
   <data name="PasswordBox.Header" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="RateAndReviewButton.Content" xml:space="preserve">
+    <value>rate and review</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="ReadingSettingsPivotItem.HEader" xml:space="preserve">
+    <value>Reading</value>
   </data>
   <data name="ResetFilterButton.Content" xml:space="preserve">
     <value>Reset filter</value>
@@ -238,11 +287,21 @@
   <data name="SearchBox.PlaceholderText" xml:space="preserve">
     <value>Search…</value>
   </data>
+  <data name="SettingsHeaderTextBlocSettingsHeaderTextBlock.Text" xml:space="preserve">
+    <value>SETTINGS</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ShareAppButton.Content" xml:space="preserve">
+    <value>share app</value>
+  </data>
   <data name="ShareMenuFlyoutItem.Text" xml:space="preserve">
     <value>Share</value>
   </data>
   <data name="ShortEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
     <value>short</value>
+  </data>
+  <data name="ShowTheFilterPaneInlineToggleSwitch.Header" xml:space="preserve">
+    <value>Show the filter pane inline</value>
   </data>
   <data name="SingleItemArticleNotDownloaded" xml:space="preserve">
     <value>The article wasn't downloaded yet.</value>
@@ -258,8 +317,21 @@
     <value>descending</value>
     <comment>lowercase</comment>
   </data>
+  <data name="SpecialThanksTextBlock.Text" xml:space="preserve">
+    <value>SPECIAL THANKS</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="SpecialThanksTextBlock2.Text" xml:space="preserve">
+    <value>The whole Windows developer community for their help.</value>
+  </data>
   <data name="SyncAppBarButton.Label" xml:space="preserve">
     <value>Sync</value>
+  </data>
+  <data name="SyncReadingProgressToggleSwitch.Header" xml:space="preserve">
+    <value>Sync the reading progress</value>
+  </data>
+  <data name="SyncWithServerOnStartUpToggleSwitch.Header" xml:space="preserve">
+    <value>Sync with the server on startup</value>
   </data>
   <data name="TagAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>Filter by tag…</value>
@@ -271,6 +343,10 @@
   <data name="TagControlNoTagsExistingTextBlock.Text" xml:space="preserve">
     <value>No tags existing.&amp;#x0a;So, why aren't you adding one? :-)</value>
     <comment>&amp;#x0a represents a line break</comment>
+  </data>
+  <data name="ThanksTextBlock.Text" xml:space="preserve">
+    <value>THANKS TO</value>
+    <comment>UPPERCASE</comment>
   </data>
   <data name="ToCalendarDatePicker.PlaceholderText" xml:space="preserve">
     <value>to</value>
@@ -289,11 +365,18 @@
   <data name="UrlTextBox.Header" xml:space="preserve">
     <value>URL</value>
   </data>
+  <data name="UseClassicContextMenuForMouseInput.Header" xml:space="preserve">
+    <value>Use "normal" context menu when using a mouse</value>
+  </data>
   <data name="UsernameTextBox.Header" xml:space="preserve">
     <value>Username</value>
   </data>
   <data name="UsernameTextBox.PlaceholderText" xml:space="preserve">
     <value>(e.g. wallabag)</value>
+  </data>
+  <data name="VersionTextBlock.Text" xml:space="preserve">
+    <value>VERSION</value>
+    <comment>UPPERCASE</comment>
   </data>
   <data name="WelcomeTextBlock.Text" xml:space="preserve">
     <value>Welcome to wallabag!</value>

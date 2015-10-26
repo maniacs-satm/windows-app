@@ -108,7 +108,11 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-            <TextBlock Text="SETTINGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+            <TextBlock
+                x:Uid="SettingsHeaderTextBlock"
+                Text="SETTINGS" 
+                Style="{ThemeResource PageTitleTextBlockStyle}"
+                VerticalAlignment="Top"/>
         </Grid>
         <Rectangle Height="48" Grid.Row="1" VerticalAlignment="Top" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="{ThemeResource SettingsPivotHeaderBackgroundOpacity}"/>
         <Pivot Grid.Row="1">
@@ -128,24 +132,40 @@
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 </Style>
             </Pivot.Resources>
-            <PivotItem Header="General">
+            <PivotItem x:Uid="GeneralSettingsPivotItem" Header="General">
                 <StackPanel>
-                    <TextBlock Text="To apply the following settings you need to restart the app." TextWrapping="Wrap" Margin="0,0,0,12" FontStyle="Italic"/>
-                    <ComboBox Header="Language" IsEnabled="False" Width="320" Margin="0,8"/>
-                    <ToggleSwitch Header="Sync with the server on start" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
+                    <ToggleSwitch
+                        x:Uid="SyncWithServerOnStartUpToggleSwitch"
+                        Header="Sync with the server on start" 
+                        IsOn="{x:Bind ViewModel.SyncOnStartup, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Appereance">
+            <PivotItem x:Uid="AppereanceSettingsPivotItem" Header="Appereance">
                 <StackPanel>
-                    <ToggleSwitch Header="Open the filter at the same time with the search" IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}"/>
-                    <ToggleSwitch Header="Display mode of the filter pane" OnContent="Inline" OffContent="Overlay" IsOn="{x:Bind ViewModel.ShowTheFilterPaneInline, Mode=TwoWay}"/>
-                    <ToggleSwitch Header="Use 'normal' context menu when using a mouse" IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
+                    <ToggleSwitch
+                        x:Uid="OpenTheFilterPaneWithTheSearchToggleSwitch"
+                        Header="Open the filter at the same time with the search" 
+                        IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}"/>
+                    <ToggleSwitch 
+                        x:Uid="ShowTheFilterPaneInlineToggleSwitch"
+                        Header="Show the filter pane inline"
+                        IsOn="{x:Bind ViewModel.ShowTheFilterPaneInline, Mode=TwoWay}"/>
+                    <ToggleSwitch
+                        x:Uid="UseClassicContextMenuForMouseInput"
+                        Header="Use 'normal' context menu when using a mouse" 
+                        IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
-            <PivotItem Header="Reading">
+            <PivotItem x:Uid="ReadingSettingsPivotItem" Header="Reading">
                 <StackPanel>
-                    <ToggleSwitch Header="Navigate back after reading an article" IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>
-                    <ToggleSwitch Header="Sync the reading progress" IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
+                    <ToggleSwitch
+                        x:Uid="NavigateBackAfterReadingAnArticleToggleSwitch"
+                        Header="Navigate back after reading an article" 
+                        IsOn="{x:Bind ViewModel.NavigateBackAfterReadingAnArticle, Mode=TwoWay}"/>
+                    <ToggleSwitch
+                        x:Uid="SyncReadingProgressToggleSwitch"
+                        Header="Sync the reading progress"
+                        IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}"/>
                 </StackPanel>
             </PivotItem>
             <!--<PivotItem Header="Background task">
@@ -170,17 +190,22 @@
                     </StackPanel>
                 </StackPanel>
             </PivotItem>-->
-            <PivotItem Header="Info">
+            <PivotItem x:Uid="InfoSettingsPivotItem" Header="Info">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
-                        <TextBlock Text="VERSION" Style="{StaticResource BoldTextBlockStyle}" Margin="0,0,0,2"/>
+                        <TextBlock x:Uid="VersionTextBlock" Text="VERSION" Style="{StaticResource BoldTextBlockStyle}" Margin="0,0,0,2"/>
                         <StackPanel Orientation="Horizontal" Margin="0">
                             <TextBlock x:Name="versionTextBlock" Text="2.0.0" Style="{StaticResource InfoTextBlockStyle}"/>
-                            <Button x:Name="OpenChangelogButton" Style="{ThemeResource TextBlockButtonStyle}" Content="(changelog)" Padding="0" Click="InfoPageButton_Click"/>
+                            <Button x:Name="OpenChangelogButton"
+                                    x:Uid="OpenChangelogButton"
+                                    Style="{ThemeResource TextBlockButtonStyle}" 
+                                    Content="(changelog)" 
+                                    Padding="0"
+                                    Click="InfoPageButton_Click"/>
                         </StackPanel>
-                        <TextBlock Text="MADE WITH LOVE BY" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock x:Uid="MadeWithLoveByTextBlock" Text="MADE WITH LOVE BY" Style="{StaticResource BoldTextBlockStyle}"/>
                         <TextBlock Text="Julian Oster" Style="{ThemeResource InfoTextBlockStyle}"/>
-                        <TextBlock Text="CREDITS" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock x:Uid="ThanksTextBlock" Text="THANKS TO" Style="{StaticResource BoldTextBlockStyle}"/>
                         <TextBlock Style="{ThemeResource InfoTextBlockStyle}">
                             <Hyperlink UnderlineStyle="None" NavigateUri="http://www.newtonsoft.com/json">• Newtonsoft.Json</Hyperlink><LineBreak/>
                             <Hyperlink UnderlineStyle="None" NavigateUri="https://github.com/Fody/PropertyChanged">• PropertyChanged.Fody</Hyperlink><LineBreak/>
@@ -190,12 +215,16 @@
                             <Hyperlink UnderlineStyle="None" NavigateUri="https://github.com/Windows-XAML/Template10">• Template10</Hyperlink><LineBreak/>
                             <Hyperlink UnderlineStyle="None" NavigateUri="http://sixrevisions.com/free-icons/free-windows-10-icons/">• Twitter icon by Icons8</Hyperlink>
                         </TextBlock>
-                        <TextBlock Text="SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
-                        <TextBlock Text="The whole Windows developer community for their help." Style="{StaticResource InfoTextBlockStyle}"/>
-                        <TextBlock Text="EXTRA SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
-                        <TextBlock Text="Nicolas Lœuillet, Thomas Citharel and Jérémy Benoist for creating such a great software." Style="{StaticResource InfoTextBlockStyle}"/>
-                        <TextBlock Text="NEED HELP?" Style="{StaticResource BoldTextBlockStyle}"/>
-                        <Button x:Name="OpenWallabagDocumentationButton" Content="wallabag documentation" Style="{ThemeResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                        <TextBlock x:Uid="SpecialThanksTextBlock" Text="SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock x:Uid="SpecialThanksTextBlock2" Text="The whole Windows developer community for their help." Style="{StaticResource InfoTextBlockStyle}"/>
+                        <TextBlock x:Uid="ExtraSpecialThanksTextBlock" Text="EXTRA SPECIAL THANKS" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <TextBlock x:Uid="ExtraSpecialThanksTextBlock2" Text="Nicolas Lœuillet, Thomas Citharel and Jérémy Benoist for creating such a great software." Style="{StaticResource InfoTextBlockStyle}"/>
+                        <TextBlock x:Uid="NeedHelpTextBlock" Text="NEED HELP?" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <Button x:Name="OpenWallabagDocumentationButton"
+                                x:Uid="OpenWallabagDocumentationButton"
+                                Content="wallabag documentation" 
+                                Style="{ThemeResource IconAndTextHyperlinkButtonStyle}" 
+                                Click="InfoPageButton_Click">
                             <Button.Tag>
                                 <SymbolIcon Symbol="Repair"/>
                             </Button.Tag>
@@ -215,18 +244,30 @@
                                 <SymbolIcon Symbol="Mail"/>
                             </Button.Tag>
                         </Button>
-                        <Button x:Name="CreateIssueOnGithubButton" Content="Create an issue on GitHub" Style="{StaticResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                        <Button x:Name="CreateIssueOnGithubButton"
+                                x:Uid="CreateIssueOnGithubButton"
+                                Content="Create an issue on GitHub"
+                                Style="{StaticResource IconAndTextHyperlinkButtonStyle}"
+                                Click="InfoPageButton_Click">
                             <Button.Tag>
                                 <SymbolIcon Symbol="Remote"/>
                             </Button.Tag>
                         </Button>
-                        <TextBlock Text="LIKE OUR WORK?" Style="{StaticResource BoldTextBlockStyle}"/>
-                        <Button x:Name="RateAndReviewButton" Content="rate and review" Style="{StaticResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                        <TextBlock x:Uid="LikeMyWorkTextBlock" Text="YOU LIKE MY WORK?" Style="{StaticResource BoldTextBlockStyle}"/>
+                        <Button x:Name="RateAndReviewButton" 
+                                x:Uid="RateAndReviewButton"
+                                Content="rate and review"
+                                Style="{StaticResource IconAndTextHyperlinkButtonStyle}" 
+                                Click="InfoPageButton_Click">
                             <Button.Tag>
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE19F;"/>
                             </Button.Tag>
                         </Button>
-                        <Button x:Name="ShareAppButton" Content="share app" Style="{StaticResource IconAndTextHyperlinkButtonStyle}" Click="InfoPageButton_Click">
+                        <Button x:Name="ShareAppButton"
+                                x:Uid="ShareAppButton"
+                                Content="share app" 
+                                Style="{StaticResource IconAndTextHyperlinkButtonStyle}"
+                                Click="InfoPageButton_Click">
                             <Button.Tag>
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
                             </Button.Tag>
