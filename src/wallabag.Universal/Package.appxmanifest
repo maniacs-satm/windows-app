@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="36523JulianOster.wallabag.Beta" Publisher="CN=1568B1BC-E22B-483C-96D0-E71125281590" Version="2.0.4.0" />
+  <Identity Name="36523JulianOster.wallabag.Beta" Publisher="CN=1568B1BC-E22B-483C-96D0-E71125281590" Version="2.0.5.0" />
   <mp:PhoneIdentity PhoneProductId="c2c96f2d-84df-4705-84ee-ab77a5edfb8d" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>wallabag.Beta</DisplayName>
@@ -21,17 +21,17 @@
         <uap:SplashScreen Image="Assets\SplashScreen\SplashScreen.png" BackgroundColor="#000000" />
       </uap:VisualElements>
       <Extensions>
+        <uap:Extension Category="windows.shareTarget">
+          <uap:ShareTarget Description="Save the link in your wallabag!">
+            <uap:DataFormat>URI</uap:DataFormat>
+          </uap:ShareTarget>
+        </uap:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="wallabag.Tasks.SyncItemsBackgroundTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
-        <uap:Extension Category="windows.shareTarget">
-          <uap:ShareTarget Description="Save the link in your wallabag!">
-            <uap:DataFormat>URI</uap:DataFormat>
-          </uap:ShareTarget>
-        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
