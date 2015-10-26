@@ -21,7 +21,7 @@ namespace wallabag.Views
             GoToStep0.Completed += (s, e) =>
             {
                 if (string.IsNullOrEmpty(Common.AppSettings.AccessToken))
-                    GoToStep0.Begin();
+                    GoToStep1.Begin();
                 else
                     GoToStep3.Begin();
             };
