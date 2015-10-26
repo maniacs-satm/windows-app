@@ -171,7 +171,7 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarSeparator/>
-                <AppBarButton x:Name="DeleteAppBarButton" Label="Delete" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
+                <AppBarButton x:Uid="DeleteAppBarButton" Label="Delete" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

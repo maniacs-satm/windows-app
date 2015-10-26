@@ -149,7 +149,7 @@
     <value>Bearbeiten</value>
   </data>
   <data name="EditTagsAppBarButton.Label" xml:space="preserve">
-    <value>Tags bearbeiten</value>
+    <value>Tags verwalten</value>
   </data>
   <data name="ErrorHeaderTextBlock.Text" xml:space="preserve">
     <value>Das tut uns leid.</value>
@@ -343,7 +343,7 @@
     <comment>UPPERCASE</comment>
   </data>
   <data name="SpecialThanksTextBlock2.Text" xml:space="preserve">
-    <value>Die ganze Windows-Entwickler-Community für ihre Hilfe.</value>
+    <value>An die ganze Windows-Community für ihre Hilfe.</value>
   </data>
   <data name="SyncAppBarButton.Label" xml:space="preserve">
     <value>Synchronisieren</value>
