@@ -1,5 +1,13 @@
 Changelog
 =========
+# 2.0.5
+- App can now be translated (en-US and de-DE already included) (e3079a61f06520c062780773201c105bc45c1a34)
+- More responsive design in the article view (904ac20143adfc11895f457e6ecdb8d563aa3d3c)
+- General UI updates (db37c7f9c0979a161ee60894c394aff5536abf80)
+- Update the first start page (458d610124bbe8b235af72d53dd0cde49460fbe5)
+- Update UI if items changed (c9a9f155e779e77f7adb91f48e49d1e4bb7d6735)
+- Delete OfflineTasks if they succeded (fe3e2f26b0a37512e425b97646860ba4013623ef)
+
 # 2.0.4
 - Improve search & filter functionality (0b7f4c16058a7a2e7120e7fb0b085561169cb657)
 - Info page (6a83ad1468930051d452619a1d5ede002df3968f)
