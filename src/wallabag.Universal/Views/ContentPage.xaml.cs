@@ -116,16 +116,12 @@ namespace wallabag.Views
             if (_LastFocusedItem != null)
                 ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
 
-            _LastFocusedItem = element;
-            if (element.GetType() == typeof(Grid))
+            if (element.GetType() == typeof(Grid) && element.Name == "ContextMenuGrid")
             {
-                var grid = element as Grid;
-                if (grid.Name == "ContextMenuGrid")
-                {
-                    (grid.Resources["ShowContextMenu"] as Storyboard).Begin();
-                    (grid.Resources["HideContextMenu"] as Storyboard).Completed += async (s, e) => { await ViewModel.RefreshItemsAsync(); };
-                }
-
+                _LastFocusedItem = element;
+             
+                (element.Resources["ShowContextMenu"] as Storyboard).Begin();
+                (element.Resources["HideContextMenu"] as Storyboard).Completed += async (s, e) => { await ViewModel.RefreshItemsAsync(); };
             }
         }
 
