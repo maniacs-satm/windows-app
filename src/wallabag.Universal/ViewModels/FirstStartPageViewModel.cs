@@ -5,6 +5,7 @@ using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
 using Windows.System;
+using static wallabag.Common.Helpers;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
@@ -22,7 +23,7 @@ namespace wallabag.ViewModels
 
         public async Task Login()
         {
-            StatusText = "Logging in…";
+            StatusText = LocalizedString("FirstStartLoggingInLabel");
             if (WallabagUrl.EndsWith("/"))
                 WallabagUrl = WallabagUrl.Remove(WallabagUrl.Length - 1);
 
@@ -31,30 +32,30 @@ namespace wallabag.ViewModels
 
             if (await Services.AuthorizationService.RequestTokenAsync(Username, Password, WallabagUrl))
             {
-                StatusText = "Logged in.";
+                StatusText = LocalizedString("FirstStartLoginSuccededLabel");
                 AppSettings.wallabagUrl = WallabagUrl;
                 await SetupWallabagAndNavigateToContentPage();
             }
             else
-                StatusText = "Login failed.";
+                StatusText = LocalizedString("FirstStartLoginFailedLabel");
 
         }
         public async Task SetupWallabagAndNavigateToContentPage()
         {
-            StatusText = "Create database…";
+            StatusText = LocalizedString("FirstStartCreateDatabaseLabel");
             await Services.DataService.InitializeDatabaseAsync();
 
-            StatusText = "Downloading articles from server…";
+            StatusText = LocalizedString("FirstStartDownloadArticlesFromServerLabel");
             var downloadTask = Services.DataService.DownloadItemsFromServerAsync(true);
             downloadTask.Progress = (s, p) =>
             {
-                StatusText = $"Downloading item {p.CurrentItemIndex} of {p.TotalNumberOfItems}";
+                StatusText = string.Format(LocalizedString("FirstStartDownloadProgressLabel"), p.CurrentItemIndex, p.TotalNumberOfItems);
             };
             downloadTask.Completed = (i, s) =>
             {
                 if (i.ErrorCode == null)
                 {
-                    StatusText = "Finished downloading. Enjoy :)";
+                    StatusText = LocalizedString("FirstStartFinishedDownloadingLabel");
                     NavigationService.Navigate(typeof(Views.ContentPage));
                     NavigationService.ClearHistory();
 

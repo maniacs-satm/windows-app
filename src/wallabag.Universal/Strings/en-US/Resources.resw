@@ -117,6 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FirstStartCreateDatabaseLabel" xml:space="preserve">
+    <value>Create database…</value>
+  </data>
+  <data name="FirstStartDownloadArticlesFromServerLabel" xml:space="preserve">
+    <value>Downloading articles from server…</value>
+  </data>
+  <data name="FirstStartDownloadProgressLabel" xml:space="preserve">
+    <value>Downloading item {0} of {1}</value>
+  </data>
+  <data name="FirstStartFinishedDownloadingLabel" xml:space="preserve">
+    <value>Finished downloading. Enjoy :)</value>
+  </data>
+  <data name="FirstStartLoggingInLabel" xml:space="preserve">
+    <value>Logging in…</value>
+  </data>
+  <data name="FirstStartLoginFailedLabel" xml:space="preserve">
+    <value>Login failed.</value>
+  </data>
+  <data name="FirstStartLoginSuccededLabel" xml:space="preserve">
+    <value>Logged in.</value>
+  </data>
   <data name="TagControlAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>enter tag and press enter</value>
   </data>
