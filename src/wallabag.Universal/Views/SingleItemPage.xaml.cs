@@ -38,7 +38,11 @@ namespace wallabag.Views
 
                 ShowContentStoryboard.Begin();
             };
-            ShowContentStoryboard.Completed += (s, e) => { ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Minimal; };
+            ShowContentStoryboard.Completed += (s, e) =>
+            {
+                if (ViewModel.ErrorHappened == false)
+                    ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
+            };
         }
 
         private async void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
