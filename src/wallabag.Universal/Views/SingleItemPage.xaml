@@ -196,6 +196,14 @@
                 </CommandBar>
             </Grid>
         </Border>
+        <ProgressRing
+            x:Name="LoadingProgressRing"
+            IsActive="True"
+            Width="64"
+            Height="64"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
         <Border
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}"
@@ -210,7 +218,7 @@
                            Text="Unfortunately, an error happened."
                            Margin="8,16"
                            TextAlignment="Center"
-                           Style="{StaticResource TitleTextBlockStyle}"                       
+                           Style="{StaticResource TitleTextBlockStyle}"
                            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
                 <TextBlock Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" 
                            Margin="8,0,8,16"
@@ -219,13 +227,5 @@
                 <Button Content="Open in browser" HorizontalAlignment="Center" Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"/>
             </StackPanel>
         </Border>
-        <ProgressRing
-            x:Name="LoadingProgressRing"
-            IsActive="True"
-            Width="64"
-            Height="64"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
     </Grid>
 </Page>
