@@ -279,8 +279,7 @@
     <value>Password</value>
   </data>
   <data name="RateAndReviewButton.Content" xml:space="preserve">
-    <value>rate and review</value>
-    <comment>lowercase</comment>
+    <value>Rate and review</value>
   </data>
   <data name="ReadingSettingsPivotItem.Header" xml:space="preserve">
     <value>Reading</value>
@@ -313,7 +312,7 @@
     <value>Share</value>
   </data>
   <data name="ShareAppButton.Content" xml:space="preserve">
-    <value>share app</value>
+    <value>Share app</value>
   </data>
   <data name="ShareMenuFlyoutItem.Text" xml:space="preserve">
     <value>Share</value>

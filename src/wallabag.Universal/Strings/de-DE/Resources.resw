@@ -140,7 +140,7 @@
     <value>Löschen</value>
   </data>
   <data name="DomainNameAutoSuggestBox.PlaceholderText" xml:space="preserve">
-    <value>Nach Adresse filtern…</value>
+    <value>Nach Domain filtern…</value>
   </data>
   <data name="DragDropTextBlock.Text" xml:space="preserve">
     <value>Lass den Link hier fallen!</value>
@@ -187,7 +187,7 @@
     <value>Angemeldet.</value>
   </data>
   <data name="FontSettingsAppBarButton.Label" xml:space="preserve">
-    <value>Schrift-Einstellungen</value>
+    <value>Schrift ändern</value>
   </data>
   <data name="FramabagUserButton.Content" xml:space="preserve">
     <value>Ich bin framabag-Nutzer!</value>
@@ -219,7 +219,7 @@
     <value>lang</value>
   </data>
   <data name="MadeWithLoveByTextBlock.Text" xml:space="preserve">
-    <value>MIT HERZBLUT ERSTELLT VON</value>
+    <value>MIT LIEBE ERSTELLT VON</value>
     <comment>UPPERCASE</comment>
   </data>
   <data name="ManageTagsHeaderTextBlock.Text" xml:space="preserve">
@@ -242,7 +242,7 @@
     <value>Als gelesen markieren</value>
   </data>
   <data name="MediumEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
-    <value>medium</value>
+    <value>mittel</value>
   </data>
   <data name="MultipleSelectionAppBarButton.Label" xml:space="preserve">
     <value>Auswählen</value>
@@ -279,8 +279,7 @@
     <value>Kennwort</value>
   </data>
   <data name="RateAndReviewButton.Content" xml:space="preserve">
-    <value>im store bewerten</value>
-    <comment>lowercase</comment>
+    <value>Im Store bewerten</value>
   </data>
   <data name="ReadingSettingsPivotItem.Header" xml:space="preserve">
     <value>Lese-Ansicht</value>
@@ -313,7 +312,7 @@
     <value>Teilen</value>
   </data>
   <data name="ShareAppButton.Content" xml:space="preserve">
-    <value>app teilen</value>
+    <value>App teilen</value>
   </data>
   <data name="ShareMenuFlyoutItem.Text" xml:space="preserve">
     <value>Teilen</value>
@@ -346,16 +345,16 @@
     <value>An die ganze Windows-Community für ihre Hilfe.</value>
   </data>
   <data name="SyncAppBarButton.Label" xml:space="preserve">
-    <value>Synchronisieren</value>
+    <value>Synchron-isieren</value>
   </data>
   <data name="SyncReadingProgressToggleSwitch.Header" xml:space="preserve">
     <value>Lese-Fortschritt synchronisieren</value>
   </data>
   <data name="SyncWithServerOnStartUpToggleSwitch.Header" xml:space="preserve">
-    <value>Bei App-Start mit Server synchronisieren</value>
+    <value>Bei App-Start synchronisieren</value>
   </data>
   <data name="TagAutoSuggestBox.PlaceholderText" xml:space="preserve">
-    <value>Nach Schlagwort filtern…</value>
+    <value>Nach Tag filtern…</value>
   </data>
   <data name="TagControlAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>tag eingeben und enter drücken</value>
