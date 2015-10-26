@@ -58,18 +58,38 @@
             <Setter Property="Margin" Value="0,0,0,48"/>
         </Style>
         <MenuFlyout x:Key="ItemContextMenu">
-            <MenuFlyoutItem x:Name="ContextMenuMarkAsRead" Text="Mark as read" Click="ContextMenuMarkAsRead_Click"
-                            Tag="&#xE001;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-            <MenuFlyoutItem x:Name="ContextMenuMarkAsFavorite" Text="Mark as favorite" Click="ContextMenuMarkAsFavorite_Click"
-                            Tag="&#xE0B4;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem x:Name="ContextMenuMarkAsRead"
+                            x:Uid="MarkAsReadMenuFlyoutItem"
+                            Text="Mark as read"
+                            Click="ContextMenuMarkAsRead_Click"
+                            Tag="&#xE001;"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem x:Name="ContextMenuMarkAsFavorite"
+                            x:Uid="MarkAsFavoriteMenuFlyoutItem"
+                            Text="Mark as favorite" 
+                            Click="ContextMenuMarkAsFavorite_Click"
+                            Tag="&#xE0B4;"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="ContextMenuShareItem" Text="Share" Click="ContextMenuShareItem_Click"
-                            Tag="&#xE72D;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-            <MenuFlyoutItem x:Name="ContextMenuOpenInBrowser" Text="Open in browser" Click="ContextMenuOpenInBrowser_Click"
-                            Tag="&#xE12B;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem x:Name="ContextMenuShareItem"
+                            x:Uid="ShareMenuFlyoutItem"
+                            Text="Share" 
+                            Click="ContextMenuShareItem_Click"
+                            Tag="&#xE72D;"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem x:Name="ContextMenuOpenInBrowser"
+                            x:Uid="OpenInBrowserMenuFlyoutItem"
+                            Text="Open in browser" 
+                            Click="ContextMenuOpenInBrowser_Click"
+                            Tag="&#xE12B;"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="ContextMenuDeleteItem" Text="Delete" Click="ContextMenuDeleteItem_Click"
-                            Tag="&#xE107;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem x:Name="ContextMenuDeleteItem" 
+                            x:Uid="DeleteMenuFlyoutItem"
+                            Text="Delete" 
+                            Click="ContextMenuDeleteItem_Click"
+                            Tag="&#xE107;" 
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
         </MenuFlyout>
         <Style x:Key="MenuFlyoutItemIconTemplate" TargetType="MenuFlyoutItem">
             <Setter Property="Template">
@@ -386,9 +406,9 @@
                         <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0"/>
                     </DataTemplate>
                 </Pivot.HeaderTemplate>
-                <PivotItem Header="UNREAD" ContentTemplate="{StaticResource PivotContentTemplate}"/>
-                <PivotItem Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
-                <PivotItem Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem x:Uid="UnreadPivotItem" Header="UNREAD" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem x:Uid="FavoritesPivotItem" Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
+                <PivotItem x:Uid="ArchivePivotItem" Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
             </Pivot>
             <SplitView.Pane>
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -408,8 +428,18 @@
                                     <Setter Property="Padding" Value="8"/>
                                 </Style>
                             </Grid.Resources>
-                            <RadioButton x:Name="sortAscendingRadioButton" Content="&#xE098;" Tag="ascending" Checked="sortOrderRadioButton_Checked"/>
-                            <RadioButton x:Name="sortDescendingRadioButton" Content="&#xE099;" Tag="descending" Grid.Column="1" Checked="sortOrderRadioButton_Checked" IsChecked="True"/>
+                            <RadioButton x:Name="sortAscendingRadioButton"
+                                         x:Uid="SortAscendingRadioButton"
+                                         Content="&#xE098;" 
+                                         Tag="ascending" 
+                                         Checked="sortOrderRadioButton_Checked"/>
+                            <RadioButton x:Name="sortDescendingRadioButton" 
+                                         x:Uid="SortDescendingRadioButton"
+                                         Content="&#xE099;" 
+                                         Tag="descending" 
+                                         Grid.Column="1" 
+                                         Checked="sortOrderRadioButton_Checked" 
+                                         IsChecked="True"/>
                         </Grid>
                         <Grid Margin="0,0,0,8">
                             <Grid.Resources>
@@ -429,26 +459,38 @@
                             </Grid.ColumnDefinitions>
                             <RadioButton x:Name="shortEstimatedReadingTimeRadioButton" Checked="shortEstimatedReadingTimeRadioButton_Checked">
                                 <StackPanel>
-                                    <TextBlock Text="short" TextAlignment="Center"/>
+                                    <TextBlock x:Uid="ShortEstimatedReadingTimeTextBlock" Text="short" TextAlignment="Center"/>
                                     <TextBlock Text="&lt; 5 min" FontSize="12" TextAlignment="Center" Margin="0,2,0,0"/>
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton x:Name="mediumEstimatedReadingTimeRadioButton" Grid.Column="1" Checked="shortEstimatedReadingTimeRadioButton_Checked">
                                 <StackPanel>
-                                    <TextBlock Text="medium" TextAlignment="Center"/>
+                                    <TextBlock x:Uid="MediumEstimatedReadingTimeTextBlock" Text="medium" TextAlignment="Center"/>
                                     <TextBlock Text="5-15 min" FontSize="12" TextAlignment="Center" Margin="0,2,0,0"/>
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton x:Name="longEstimatedReadingTimeRadioButton" Grid.Column="2" Checked="shortEstimatedReadingTimeRadioButton_Checked">
                                 <StackPanel>
-                                    <TextBlock Text="long" TextAlignment="Center"/>
+                                    <TextBlock x:Uid="LongEstimatedReadingTimeTextBlock" Text="long" TextAlignment="Center"/>
                                     <TextBlock Text="&gt; 15 min" FontSize="12" TextAlignment="Center" Margin="0,2,0,0"/>
                                 </StackPanel>
                             </RadioButton>
                         </Grid>
 
-                        <AutoSuggestBox x:Name="domainNameAutoSuggestBox" PlaceholderText="Filter by domain…" Margin="0,0,0,8" ItemsSource="{x:Bind DomainNameSuggestions, Mode=OneWay}" QuerySubmitted="domainNameAutoSuggestBox_QuerySubmitted" TextChanged="domainNameAutoSuggestBox_TextChanged"/>
-                        <AutoSuggestBox x:Name="tagAutoSuggestBox" PlaceholderText="Filter by tag…" Margin="0,0,0,8" ItemsSource="{x:Bind TagSuggestions, Mode=OneWay}" QuerySubmitted="tagAutoSuggestBox_QuerySubmitted" TextChanged="tagAutoSuggestBox_TextChanged"/>
+                        <AutoSuggestBox x:Name="domainNameAutoSuggestBox"
+                                        x:Uid="DomainNameAutoSuggestBox"
+                                        PlaceholderText="Filter by domain…" 
+                                        Margin="0,0,0,8" 
+                                        ItemsSource="{x:Bind DomainNameSuggestions, Mode=OneWay}" 
+                                        QuerySubmitted="domainNameAutoSuggestBox_QuerySubmitted" 
+                                        TextChanged="domainNameAutoSuggestBox_TextChanged"/>
+                        <AutoSuggestBox x:Name="tagAutoSuggestBox"
+                                        x:Uid="TagAutoSuggestBox"
+                                        PlaceholderText="Filter by tag…"
+                                        Margin="0,0,0,8" 
+                                        ItemsSource="{x:Bind TagSuggestions, Mode=OneWay}"
+                                        QuerySubmitted="tagAutoSuggestBox_QuerySubmitted"
+                                        TextChanged="tagAutoSuggestBox_TextChanged"/>
                         <Grid x:Name="creationDateGrid" Margin="0,0,0,8">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -456,6 +498,7 @@
                             </Grid.ColumnDefinitions>
                             <CalendarDatePicker
                                     x:Name="FromCalendarDatePicker"
+                                    x:Uid="FromCalendarDatePicker"
                                     HorizontalAlignment="Stretch"
                                     PlaceholderText="from"
                                     Margin="2,0"
@@ -464,6 +507,7 @@
                                     DateChanged="filterCalendarDatePicker_DateChanged"/>
                             <CalendarDatePicker
                                     x:Name="ToCalendarDatePicker"
+                                    x:Uid="ToCalendarDatePicker"
                                     HorizontalAlignment="Stretch"
                                     PlaceholderText="to"
                                     Grid.Column="1"
@@ -473,7 +517,11 @@
                                     MaxDate="{x:Bind ViewModel.MaxDate}"
                                     DateChanged="filterCalendarDatePicker_DateChanged"/>
                         </Grid>
-                        <Button Content="Reset filter" Style="{ThemeResource TextBlockButtonStyle}" Command="{x:Bind ViewModel.ResetFilterCommand}" Click="resetFilterButton_Click"/>
+                        <Button x:Uid="ResetFilterButton" 
+                                Content="Reset filter" 
+                                Style="{ThemeResource TextBlockButtonStyle}" 
+                                Command="{x:Bind ViewModel.ResetFilterCommand}"
+                                Click="resetFilterButton_Click"/>
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Pane>
@@ -488,8 +536,13 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="searchHeaderTextBox" Text="SEARCH &amp; FILTER" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+            <TextBlock x:Name="searchHeaderTextBlock"
+                       x:Uid="SearchAndFilterHeaderTextBlock"
+                       Text="SEARCH &amp; FILTER"
+                       Style="{ThemeResource PageTitleTextBlockStyle}"
+                       VerticalAlignment="Top"/>
             <AutoSuggestBox x:Name="SearchBox"
+                            x:Uid="SearchBox"
                             QueryIcon="Find"
                             PlaceholderText="Search…"
                             ItemsSource="{x:Bind ItemSearchSuggestions}"
@@ -507,10 +560,25 @@
             <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton" Grid.Column="2"/>
         </Grid>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
-            <AppBarButton x:Name="multipleSelectToggleButton" Icon="Bullets" Label="Select" Click="multipleSelectToggleButton_Click"/>
-            <AppBarButton x:Name="searchToggleButton" Icon="Find" Label="Search" Click="searchToggleButton_Click"/>
-            <AppBarButton x:Name="addItemAppBarButton" Icon="Add" Label="Add item" Click="AddItemButton_Click"/>
-            <AppBarButton x:Name="syncAppBarButton" Label="Sync" Command="{Binding RefreshCommand}">
+            <AppBarButton x:Name="multipleSelectToggleButton"
+                          x:Uid="MultipleSelectionAppBarButton"
+                          Icon="Bullets"
+                          Label="Select"
+                          Click="multipleSelectToggleButton_Click"/>
+            <AppBarButton x:Name="searchToggleButton"
+                          x:Uid="SearchAppBarButton"
+                          Icon="Find"
+                          Label="Search" 
+                          Click="searchToggleButton_Click"/>
+            <AppBarButton x:Name="addItemAppBarButton"
+                          x:Uid="AddItemAppBarButton"
+                          Icon="Add" 
+                          Label="Add item" 
+                          Click="AddItemButton_Click"/>
+            <AppBarButton x:Name="syncAppBarButton"
+                          x:Uid="SyncAppBarButton"
+                          Label="Sync"
+                          Command="{Binding RefreshCommand}">
                 <AppBarButton.Icon>
                     <SymbolIcon x:Name="syncIcon" Symbol="Sync" RenderTransformOrigin="0.5,0.5">
                         <SymbolIcon.RenderTransform>
@@ -520,31 +588,66 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Setting" Label="Settings" Command="{Binding NavigateToSettingsPageCommand}"/>
+                <AppBarButton 
+                    x:Uid="OpenSettingsAppBarButton"
+                    Icon="Setting" 
+                    Label="Settings" 
+                    Command="{Binding NavigateToSettingsPageCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
         <CommandBar x:Name="MultipleSelectionCommandBar" VerticalAlignment="Bottom" Visibility="Collapsed">
-            <AppBarButton Icon="Edit" Label="Edit">
+            <AppBarButton
+                x:Uid="EditMultipleItemsAppBarButton"
+                Icon="Edit"
+                Label="Edit">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Name="MarkItemsAsReadMenuFlyoutItem" Text="Mark as read" Click="MarkItemsAsReadMenuFlyoutItem_Click"
-                                        Tag="&#xE001;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutItem x:Name="UnmarkItemsAsReadMenuFlyoutItem" Text="Unmark as read" Click="UnmarkItemsAsReadMenuFlyoutItem_Click"
-                                        Tag="&#xE109;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="MarkItemsAsReadMenuFlyoutItem"
+                                        x:Uid="MarkAsReadMenuFlyoutItem"
+                                        Text="Mark as read" 
+                                        Click="MarkItemsAsReadMenuFlyoutItem_Click"
+                                        Tag="&#xE001;" 
+                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="UnmarkItemsAsReadMenuFlyoutItem"
+                                        x:Uid="UnmarkAsReadMenuFlyoutItem"
+                                        Text="Unmark as read" 
+                                        Click="UnmarkItemsAsReadMenuFlyoutItem_Click"
+                                        Tag="&#xE109;" 
+                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="MarkItemsAsFavoriteMenuFlyoutItem"  Text="Mark as favorite" Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"
-                                        Tag="&#xE0B4;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutItem x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem" Text="Unmark as favorite" Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"
-                                        Tag="&#xE195;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="MarkItemsAsFavoriteMenuFlyoutItem"
+                                        x:Uid="MarkAsFavoriteMenuFlyoutItem"
+                                        Text="Mark as favorite"
+                                        Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"
+                                        Tag="&#xE0B4;" 
+                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem" 
+                                        x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
+                                        Text="Unmark as favorite" 
+                                        Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"
+                                        Tag="&#xE195;" 
+                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem" Text="Manage tags" Click="ManageTagsMenuFlyoutItem_Click"
-                                        Tag="&#xE1CB;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutItem x:Name="DeleteMenuFlyoutItem" Text="Delete" Click="DeleteMenuFlyoutItem_Click"
-                                        Tag="&#xE107;" Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem"
+                                        x:Uid="ManageTagsMenuFlyoutItem"
+                                        Text="Manage tags"
+                                        Click="ManageTagsMenuFlyoutItem_Click"
+                                        Tag="&#xE1CB;" 
+                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem x:Name="DeleteMenuFlyoutItem" 
+                                        x:Uid="DeleteItemMenuFlyoutItem"
+                                        Text="Delete" 
+                                        Click="DeleteMenuFlyoutItem_Click"
+                                        Tag="&#xE107;" 
+                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Icon="Cancel" Label="Cancel" Click="multipleSelectToggleButton_Click"/>
+            <AppBarButton
+                x:Uid="CancelAppBarButton"
+                Icon="Cancel"
+                Label="Cancel" 
+                Click="multipleSelectToggleButton_Click"/>
         </CommandBar>
         <Border x:Name="EditTagsBorder" Background="{ThemeResource EditTagsBorderBackground}" Visibility="Collapsed" Opacity="0">
             <Grid x:Name="EditTagsBorderGrid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
@@ -557,12 +660,24 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-                    <TextBlock Text="MANAGE TAGS" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+                    <TextBlock 
+                        x:Uid="ManageTagsHeaderTextBlock"
+                        Text="MANAGE TAGS" 
+                        Style="{ThemeResource PageTitleTextBlockStyle}"
+                        VerticalAlignment="Top"/>
                 </Border>
                 <controls:TagControl Grid.Row="1" Margin="8,16" Tags="{x:Bind MultipleSelectionTags, Mode=TwoWay}"/>
                 <CommandBar Grid.Row="2">
-                    <AppBarButton x:Name="SaveTagsAppBarButton" Icon="Save" Label="Save" Click="SaveTagsAppBarButton_Click"/>
-                    <AppBarButton x:Name="CancelTagsAppBarButton" Icon="Cancel" Label="Cancel" Click="CancelTagsAppBarButton_Click"/>
+                    <AppBarButton x:Name="SaveTagsAppBarButton"
+                                  x:Uid="SaveAppBarButton"
+                                  Icon="Save"
+                                  Label="Save" 
+                                  Click="SaveTagsAppBarButton_Click"/>
+                    <AppBarButton x:Name="CancelTagsAppBarButton" 
+                                  x:Uid="CancelAppBarButton"
+                                  Icon="Cancel" 
+                                  Label="Cancel" 
+                                  Click="CancelTagsAppBarButton_Click"/>
                 </CommandBar>
             </Grid>
         </Border>
@@ -580,20 +695,48 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-                    <TextBlock Text="SAVE A LINK" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+                    <TextBlock 
+                        x:Uid="SaveALinkHeaderTextBlock"
+                        Text="SAVE A LINK" 
+                        Style="{ThemeResource PageTitleTextBlockStyle}"
+                        VerticalAlignment="Top"/>
                 </Border>
                 <StackPanel Grid.Row="1" Margin="8,16">
-                    <TextBox x:Name="UrlTextBox" Text="{Binding Url, Mode=TwoWay}" PlaceholderText="https://" InputScope="Url"/>
+                    <TextBox
+                        x:Name="UrlTextBox" 
+                        x:Uid="UrlTextBox"
+                        Text="{Binding Url, Mode=TwoWay}" 
+                        PlaceholderText="https://" 
+                        InputScope="Url"/>
                     <controls:TagControl Tags="{Binding Tags, Mode=TwoWay}" Margin="0,8,0,0"/>
                 </StackPanel>
                 <CommandBar Grid.Row="2">
-                    <AppBarButton x:Name="AddItemAppBarButton" Icon="Accept" Label="Add" Command="{Binding AddItemCommand}" Click="HideAddItemBorder_Click"/>
-                    <AppBarButton x:Name="CancelItemAppBarButton" Icon="Cancel" Label="Cancel" Command="{Binding CancelCommand}" Click="HideAddItemBorder_Click"/>
+                    <AppBarButton x:Name="AddItemAppBarButton" 
+                                  x:Uid="AddItemAppBarButton"
+                                  Icon="Accept" 
+                                  Label="Add" 
+                                  Command="{Binding AddItemCommand}"
+                                  Click="HideAddItemBorder_Click"/>
+                    <AppBarButton x:Name="CancelItemAppBarButton"
+                                  x:Uid="CancelAppBarButton"
+                                  Icon="Cancel"
+                                  Label="Cancel" 
+                                  Command="{Binding CancelCommand}"
+                                  Click="HideAddItemBorder_Click"/>
                 </CommandBar>
             </Grid>
         </Border>
         <Grid x:Name="dragDropGrid" Visibility="Collapsed" Background="#F2FFFFFF" Opacity="0">
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Drop the link here to save it in your wallabag!" VerticalAlignment="Center" Style="{StaticResource HeaderTextBlockStyle}" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" Margin="16" TextAlignment="Center"/>
+            <TextBlock
+                x:Uid="DragDropTextBlock"
+                HorizontalAlignment="Center" 
+                TextWrapping="Wrap"
+                Text="Drop the link here to save it in your wallabag!" 
+                VerticalAlignment="Center" 
+                Style="{StaticResource HeaderTextBlockStyle}"
+                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                Margin="32" 
+                TextAlignment="Center"/>
         </Grid>
     </Grid>
 </Page>

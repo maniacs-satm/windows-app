@@ -120,8 +120,28 @@
   <data name="AddItemAppBarButton.Label" xml:space="preserve">
     <value>Add item</value>
   </data>
+  <data name="ArchivePivotItem.Header" xml:space="preserve">
+    <value>ARCHIVE</value>
+    <comment>UPPERCASE</comment>
+  </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="DeleteItemMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DomainNameAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Filter by domain…</value>
+  </data>
+  <data name="DragDropTextBlock.Text" xml:space="preserve">
+    <value>Drop the link here to save it in your wallabag!</value>
+  </data>
+  <data name="EditMultipleItemsAppBarButton.Label" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="FavoritesPivotItem.Header" xml:space="preserve">
+    <value>FAVORITES</value>
+    <comment>UPPERCASE</comment>
   </data>
   <data name="FirstStartCreateDatabaseLabel" xml:space="preserve">
     <value>Create database…</value>
@@ -144,9 +164,63 @@
   <data name="FirstStartLoginSuccededLabel" xml:space="preserve">
     <value>Logged in.</value>
   </data>
-  <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
-    <value>SAVE A LINK IN YOUR WALLABAG</value>
+  <data name="FromCalendarDatePicker.PlaceholderText" xml:space="preserve">
+    <value>from</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="LongEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
+    <value>long</value>
+  </data>
+  <data name="ManageTagsHeaderTextBlock.Text" xml:space="preserve">
+    <value>Manage tags</value>
     <comment>UPPERCASE</comment>
+  </data>
+  <data name="ManageTagsMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Manage tags</value>
+  </data>
+  <data name="MarkAsFavoriteMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Mark as favorite</value>
+  </data>
+  <data name="MarkAsReadMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Mark as read</value>
+  </data>
+  <data name="MediumEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
+    <value>medium</value>
+  </data>
+  <data name="MultipleSelectionAppBarButton.Label" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="OpenInBrowserMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Open in browser</value>
+  </data>
+  <data name="OpenSettingsAppBarButton.Label" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="ResetFilterButton.Content" xml:space="preserve">
+    <value>Reset filter</value>
+  </data>
+  <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
+    <value>SAVE A LINK</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="SaveAppBarButton.Label" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SearchAndFilterHeaderTextBlock.Text" xml:space="preserve">
+    <value>SEARCH &amp; FILTER</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="SearchAppBarButton.Label" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Search…</value>
+  </data>
+  <data name="ShareMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="ShortEstimatedReadingTimeTextBlock.Text" xml:space="preserve">
+    <value>short</value>
   </data>
   <data name="SingleItemArticleNotDownloaded" xml:space="preserve">
     <value>The article wasn't downloaded yet.</value>
@@ -154,12 +228,41 @@
   <data name="SingleItemNoReadableContentFound" xml:space="preserve">
     <value>wallabag didn't found readable content.</value>
   </data>
+  <data name="SortAscendingRadioButton.Tag" xml:space="preserve">
+    <value>ascending</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="SortDescendingRadioButton.Tag" xml:space="preserve">
+    <value>descending</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="SyncAppBarButton.Label" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="TagAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>Filter by tag…</value>
+  </data>
   <data name="TagControlAutoSuggestBox.PlaceholderText" xml:space="preserve">
     <value>enter tag and press enter</value>
+    <comment>lowercase</comment>
   </data>
   <data name="TagControlNoTagsExistingTextBlock.Text" xml:space="preserve">
     <value>No tags existing.&amp;#x0a;So, why aren't you adding one? :-)</value>
     <comment>&amp;#x0a represents a line break</comment>
+  </data>
+  <data name="ToCalendarDatePicker.PlaceholderText" xml:space="preserve">
+    <value>to</value>
+    <comment>lowercase</comment>
+  </data>
+  <data name="UnmarkAsFavoriteMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Unmark as favorite</value>
+  </data>
+  <data name="UnmarkAsReadMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Unmark as read</value>
+  </data>
+  <data name="UnreadPivotItem.Header" xml:space="preserve">
+    <value>UNREAD</value>
+    <comment>UPPERCASE</comment>
   </data>
   <data name="UrlTextBox.Header" xml:space="preserve">
     <value>URL</value>
