@@ -1,10 +1,10 @@
 Translation guide
 ================
 
-## Easy
+## Easy way
  Send me your e-mail adress and the language you want to add to [this e-mail adress](mailto:wallabag@jlnostr.de). This allows me to invite you to the project on [OneSkyApp](https://oneskyapp.com) where you can easily translate the app :)
 
-# A bit harder
+## A bit harder way
 1. Fork the app.
 2. Create folder `\src\wallabag.Universal\Strings\<language-code>`, for example `\src\wallabag.Universal\Strings\en-GB`.
 3. Copy the file `Resources.resw` from the `en-US` folder to your newly created folder.
