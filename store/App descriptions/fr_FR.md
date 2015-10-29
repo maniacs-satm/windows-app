@@ -12,7 +12,6 @@ Il y a deux manières d'utiliser wallabag : vous l'installez sur votre serveur w
 - read it later
 - Pocket
 - Instapaper
-- Poche
 - Readability
 
 ## Screenshot description
