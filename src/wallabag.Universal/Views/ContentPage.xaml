@@ -32,7 +32,7 @@
                       EntranceNavigationTransitionInfo.IsTargetElement="True">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:ItemViewModel">
-                        <controls:ItemControl Model="{x:Bind Model}"/>
+                        <controls:ItemControl/>
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <GridView.ItemContainerStyle>
