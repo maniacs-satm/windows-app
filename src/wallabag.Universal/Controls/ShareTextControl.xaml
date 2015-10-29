@@ -1,0 +1,47 @@
+﻿<UserControl
+    x:Class="wallabag.Controls.ShareTextControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:wallabag.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid x:Name="RootGrid" RequestedTheme="Light" Background="White" Width="400">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="TitleTextBlock"
+                       Margin="4,0,4,4"
+                       Grid.ColumnSpan="2"
+                       FontWeight="SemiBold"
+                       TextTrimming="CharacterEllipsis"
+                       Text="The title of the article"/>
+            <TextBlock x:Name="DomainNameTextBlock"
+                       Text="very.long.domain.name.tld" 
+                       Grid.Row="1"
+                       Margin="4,2"
+                       FontSize="13.333"/>
+            <TextBlock Grid.Column="1"
+                       Grid.Row="1"
+                       Text="Shared via wallabag" 
+                       TextAlignment="Right" 
+                       Foreground="#666"
+                       FontSize="13.333" 
+                       Margin="2" VerticalAlignment="Bottom"/>
+        </Grid>
+        <TextBlock x:Name="ContentTextBlock" Margin="8" TextWrapping="Wrap"/>
+    </Grid>
+</UserControl>
