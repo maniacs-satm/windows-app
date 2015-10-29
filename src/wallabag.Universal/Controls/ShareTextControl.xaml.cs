@@ -30,12 +30,41 @@ namespace wallabag.Controls
             this.InitializeComponent();
         }
 
-        public void SetupControl(string Title, string Content, string DomainName)
+        #region Properties 
+        public string Title
         {
-            TitleTextBlock.Text = Title;
-            ContentTextBlock.Text = Content;
-            DomainNameTextBlock.Text = DomainName;
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(ShareTextControl), new PropertyMetadata(DependencyProperty.UnsetValue));
+
+
+
+        public string DomainName
+        {
+            get { return (string)GetValue(DomainNameProperty); }
+            set { SetValue(DomainNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DomainName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DomainNameProperty =
+            DependencyProperty.Register("DomainName", typeof(string), typeof(ShareTextControl), new PropertyMetadata(DependencyProperty.UnsetValue));
+
+
+        public string SelectionContent
+        {
+            get { return (string)GetValue(SelectionContentProperty); }
+            set { SetValue(SelectionContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectionContent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectionContentProperty =
+            DependencyProperty.Register("SelectionContent", typeof(string), typeof(ShareTextControl), new PropertyMetadata(DependencyProperty.UnsetValue));
+
+        #endregion
 
         public async Task<RenderTargetBitmap> CaptureToStreamAsync(IRandomAccessStream stream)
         {
