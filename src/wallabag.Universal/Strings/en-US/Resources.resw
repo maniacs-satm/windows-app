@@ -314,6 +314,9 @@
   <data name="ShareAppButton.Content" xml:space="preserve">
     <value>Share app</value>
   </data>
+  <data name="SharedViaWallabagTextBlock.Text" xml:space="preserve">
+    <value>Shared via wallabag</value>
+  </data>
   <data name="ShareMenuFlyoutItem.Text" xml:space="preserve">
     <value>Share</value>
   </data>
