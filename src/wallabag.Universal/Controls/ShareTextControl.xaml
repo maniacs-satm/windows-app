@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid x:Name="RootGrid" RequestedTheme="Light" Background="White" Width="400" MaxHeight="400">
+    <Grid x:Name="RootGrid" RequestedTheme="Light" Background="White" Width="400" MaxHeight="400" Padding="8">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="auto"/>
@@ -45,6 +45,8 @@
                    TextWrapping="Wrap"
                    TextTrimming="CharacterEllipsis"
                    FontFamily="Georgia"
-                   Text="{x:Bind SelectionContent, Mode=OneWay}" FontSize="18.667"/>
+                   Text="{x:Bind SelectionContent, Mode=OneWay}" 
+                   FontSize="18.667" 
+                   LineHeight="29.333"/>
     </Grid>
 </UserControl>
