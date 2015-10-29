@@ -245,5 +245,11 @@
                     Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"/>
             </StackPanel>
         </Border>
+        <controls:ShareTextControl 
+            x:Name="ShareTextControl" 
+            Title="{x:Bind ViewModel.CurrentItem.Model.Title, Mode=OneWay}"
+            DomainName="{x:Bind ViewModel.CurrentItem.Model.DomainName, Mode=OneWay}" 
+            VerticalAlignment="Center"
+            Opacity="0"/>
     </Grid>
 </Page>
