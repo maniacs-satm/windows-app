@@ -23,7 +23,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Margin="4,0,4,4"
+            <TextBlock Margin="4,0,0,4"
                        Grid.ColumnSpan="2"
                        FontWeight="SemiBold"
                        TextTrimming="CharacterEllipsis"
