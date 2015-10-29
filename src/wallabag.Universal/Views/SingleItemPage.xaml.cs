@@ -62,6 +62,8 @@ namespace wallabag.Views
         private bool shareContent = false;
         private async void SingleItemPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
+            var deferral = args.Request.GetDeferral();
+
             StorageFile quoteFile = null;
             if (shareContent == false)
             {
@@ -90,6 +92,7 @@ namespace wallabag.Views
                 }
                 data.Properties.Title = ViewModel.CurrentItem.Model.Title;
             }
+            deferral.Complete();
         }
 
         private void ShareLinkFlyoutItem_Click(object sender, RoutedEventArgs e)
