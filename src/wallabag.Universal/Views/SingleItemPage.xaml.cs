@@ -5,6 +5,8 @@ using PropertyChanged;
 using wallabag.Common;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -58,15 +60,34 @@ namespace wallabag.Views
 
         #region Data transfer
         private bool shareContent = false;
-        private void SingleItemPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        private async void SingleItemPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
+            StorageFile quoteFile = null;
+            if (shareContent == false)
+            {
+                var selectedText = await WebView.InvokeScriptAsync("getSelectionText", new List<string>());
+                if (!string.IsNullOrWhiteSpace(selectedText))
+                {
+                    ShareTextControl.SelectionContent = selectedText;
+
+                    quoteFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"{Guid.NewGuid()}.png", CreationCollisionOption.ReplaceExisting);
+                    var stream = await quoteFile.OpenAsync(FileAccessMode.ReadWrite);
+                    await ShareTextControl.CaptureToStreamAsync(stream);
+                    stream.Dispose();
+                }
+            }
+
             if (ViewModel.CurrentItem != null)
             {
                 var data = args.Request.Data;
                 if (shareContent)
                     data.SetHtmlFormat(ViewModel.CurrentItem.ContentWithHeader);
                 else
+                {
                     data.SetWebLink(new Uri(ViewModel.CurrentItem.Model.Url));
+                    if (quoteFile != null)
+                        data.SetBitmap(RandomAccessStreamReference.CreateFromFile(quoteFile));
+                }
                 data.Properties.Title = ViewModel.CurrentItem.Model.Title;
             }
         }
