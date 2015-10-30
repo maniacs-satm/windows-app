@@ -6,7 +6,7 @@ Grâce à cette application, vous ne raterez plus aucun contenu. Sauvegardez qua
 Il y a deux manières d'utiliser wallabag : vous l'installez sur votre serveur web ou alors vous vous créez un compte gratuit sur Framabag (nous gérons l'installation et la mise à jour pour vous).
 
 ## Tags (up to seven)
-- autohébergé
+- auto-hébergé
 - libre
 - gratuit
 - read it later
