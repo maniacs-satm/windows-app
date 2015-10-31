@@ -67,6 +67,7 @@ namespace wallabag.Views
             StorageFile quoteFile = null;
             if (shareContent == false)
             {
+                ShareTextControl.Visibility = Visibility.Visible;
                 var selectedText = await WebView.InvokeScriptAsync("getSelectionText", new List<string>());
                 if (!string.IsNullOrWhiteSpace(selectedText))
                 {
@@ -76,6 +77,7 @@ namespace wallabag.Views
                     var stream = await quoteFile.OpenAsync(FileAccessMode.ReadWrite);
                     await ShareTextControl.CaptureToStreamAsync(stream);
                     stream.Dispose();
+                    ShareTextControl.Visibility = Visibility.Collapsed;
                 }
             }
 
