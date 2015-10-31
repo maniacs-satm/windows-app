@@ -40,7 +40,7 @@
         </Grid>
         <StackPanel x:Name="stackPanel" Grid.Row="1" Margin="8">
             <TextBox x:Name="urlTextBox" x:Uid="UrlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind ViewModel.Url, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
-            <controls:TagControl x:Name="tagControl" Margin="0,4" Tags="{x:Bind ViewModel.Tags, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
+            <controls:TagControl x:Name="tagControl" Margin="0,4" ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
         </StackPanel>
         <ProgressRing x:Name="savingIndicator"
                       IsActive="True"

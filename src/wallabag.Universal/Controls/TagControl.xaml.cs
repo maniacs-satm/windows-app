@@ -15,10 +15,10 @@ namespace wallabag.Controls
             InitializeComponent();
         }
 
-        public ICollection<Tag> Tags
+        public ICollection<Tag> ItemsSource
         {
-            get { return (ICollection<Tag>)GetValue(TagsProperty); }
-            set { SetValue(TagsProperty, value); }
+            get { return (ICollection<Tag>)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
         }
         public List<string> possibleTags { get; set; }
         public ObservableCollection<string> Suggestions { get; set; } = new ObservableCollection<string>();
@@ -36,10 +36,10 @@ namespace wallabag.Controls
             }
         }
 
-        // Using a DependencyProperty as the backing store for Tags.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TagsProperty =
-            DependencyProperty.Register("Tags", typeof(ICollection<Tag>), typeof(TagControl), new PropertyMetadata(DependencyProperty.UnsetValue, new PropertyChangedCallback(OnTagsChanged)));
-
+        // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(ICollection<Tag>), typeof(TagControl), new PropertyMetadata(DependencyProperty.UnsetValue, new PropertyChangedCallback(OnTagsChanged)));
+        
         private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             var possibleResults = new ObservableCollection<string>(possibleTags.Where(t => t.Contains(sender.Text.ToLower())));
@@ -54,13 +54,13 @@ namespace wallabag.Controls
 
         private void listView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Tags.Remove(e.ClickedItem as Tag);
+            ItemsSource.Remove(e.ClickedItem as Tag);
             UpdateNoTagsExistingStackPanelVisibility();
         }
 
         public void UpdateNoTagsExistingStackPanelVisibility()
         {
-            if (Tags.Count > 0)
+            if (ItemsSource.Count > 0)
                 noTagsExistingStackPanel.Visibility = Visibility.Collapsed;
             else
                 noTagsExistingStackPanel.Visibility = Visibility.Visible;
@@ -77,10 +77,10 @@ namespace wallabag.Controls
                 {
                     if (!string.IsNullOrWhiteSpace(item))
                     {
-                        if (Tags.Where(t => t.Label == item).Count() == 0)
+                        if (ItemsSource.Where(t => t.Label == item).Count() == 0)
                         {
                             var newTag = new Tag() { Label = item };
-                            Tags.Add(newTag);
+                            ItemsSource.Add(newTag);
                             _lastTag = newTag;
                         }
                     }
