@@ -181,6 +181,10 @@ code {
   border: 1px solid lightgray;
   vertical-align: top;
 }
+audio,
+video {
+  max-width: 43.75em;
+}
 ::selection,
 mark {
   background: #666;
