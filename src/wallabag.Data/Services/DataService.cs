@@ -58,24 +58,27 @@ namespace wallabag.Services
         private static async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress, bool DownloadAllItems)
         {
             var dProgress = new DownloadProgress();
-            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
+            var itemResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
+            var tagResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/tags");
 
-            if (response.StatusCode == HttpStatusCode.Ok)
+            if (itemResponse.StatusCode == HttpStatusCode.Ok &&
+                tagResponse.StatusCode == HttpStatusCode.Ok)
             {
-                var json = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
-                List<Item> downloadedItems = json.Embedded.Items.ToList();
+                #region itemResponse handling
+                var itemJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(itemResponse.Content.ToString()));
+                List<Item> downloadedItems = itemJson.Embedded.Items.ToList();
 
-                dProgress.TotalNumberOfItems = json.TotalNumberOfItems;
+                dProgress.TotalNumberOfItems = itemJson.TotalNumberOfItems;
                 progress.Report(dProgress);
 
-                if (json.Pages > 1 && DownloadAllItems)
+                if (itemJson.Pages > 1 && DownloadAllItems)
                 {
-                    for (int i = 2; i <= json.Pages; i++)
+                    for (int i = 2; i <= itemJson.Pages; i++)
                     {
                         Dictionary<string, object> parameters = new Dictionary<string, object>() {["page"] = i };
                         var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries", parameters);
 
-                        var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(response.Content.ToString()));
+                        var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(itemResponse.Content.ToString()));
                         foreach (var item in additionalJson.Embedded.Items)
                             if (!downloadedItems.Contains(item, new ItemComparer()))
                                 downloadedItems.Add(item);
@@ -120,16 +123,13 @@ namespace wallabag.Services
 
                         await conn.UpdateAsync(existingItem);
                     }
-
-                    foreach (Tag tag in item.Tags)
-                    {
-                        var existingTag = await (conn.Table<Tag>().Where(i => i.Id == tag.Id)).FirstOrDefaultAsync();
-                        if (existingTag == null)
-                            await conn.InsertAsync(tag);
-                    }
-
                     index += 1;
                 }
+                #endregion
+
+                var tagList = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Tag>>(tagResponse.Content.ToString()));
+                await conn.InsertAllAsync(tagList);
+
                 return true;
             }
             else
