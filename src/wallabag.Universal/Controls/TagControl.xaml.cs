@@ -45,7 +45,7 @@ namespace wallabag.Controls
 
         private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<string>(possibleTags.Where(t=>t.Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<string>(possibleTags.Where(t => t.Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -73,13 +73,24 @@ namespace wallabag.Controls
         {
             if (!string.IsNullOrWhiteSpace(sender.Text))
             {
-                var newTag = new Tag() { Label = sender.Text };
+                List<string> tags = sender.Text.Split(new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                if (Tags.Where(t => t.Label == sender.Text).Count() == 0)
-                    Tags.Add(newTag);
+                Tag _lastTag = null;
+                foreach (string item in tags)
+                {
+                    if (!string.IsNullOrWhiteSpace(item))
+                    {
+                        if (Tags.Where(t => t.Label == item).Count() == 0)
+                        {
+                            var newTag = new Tag() { Label = item };
+                            Tags.Add(newTag);
+                            _lastTag = newTag;
+                        }
+                    }
+                }
 
                 textBox.Text = string.Empty;
-                listView.ScrollIntoView(newTag);
+                listView.ScrollIntoView(_lastTag);
                 UpdateNoTagsExistingStackPanelVisibility();
             }
         }
