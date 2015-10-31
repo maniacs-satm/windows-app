@@ -173,6 +173,9 @@ namespace wallabag.ViewModels
         }
         public static async Task<bool> DeleteTagAsync(int ItemId, int TagId, bool IsOfflineAction = false)
         {
+            if (TagId == -1)
+                return true;
+
             var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Delete, $"/entries/{ItemId}/tags/{TagId}");
 
             if (response.StatusCode == HttpStatusCode.Ok)

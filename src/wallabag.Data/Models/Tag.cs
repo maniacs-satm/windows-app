@@ -13,5 +13,11 @@ namespace wallabag.Models
         public string Label { get; set; }
 
         public override string ToString() { return Label; }
+
+        public Tag()
+        {
+            Id = -1;
+            Label = string.Empty;
+        }
     }
 }
