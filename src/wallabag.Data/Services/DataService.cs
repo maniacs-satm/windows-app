@@ -10,7 +10,6 @@ using PropertyChanged;
 using SQLite;
 using wallabag.Common;
 using wallabag.Models;
-using wallabag.ViewModels;
 using Windows.Foundation;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
@@ -128,7 +127,12 @@ namespace wallabag.Services
                 #endregion
 
                 var tagList = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Tag>>(tagResponse.Content.ToString()));
-                await conn.InsertAllAsync(tagList);
+                foreach (var item in tagList)
+                {
+                    var existingTag = await conn.Table<Tag>().Where(t => t.Label == item.Label).FirstOrDefaultAsync();
+                    if (existingTag == null)
+                        await conn.InsertAsync(item);
+                }
 
                 return true;
             }
