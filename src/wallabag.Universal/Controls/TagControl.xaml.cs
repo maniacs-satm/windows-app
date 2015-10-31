@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using wallabag.Models;
+using wallabag.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,7 +20,7 @@ namespace wallabag.Controls
             get { return (ICollection<Tag>)GetValue(TagsProperty); }
             set { SetValue(TagsProperty, value); }
         }
-        public ObservableCollection<string> possibleTags { get; set; }
+        public List<string> possibleTags { get; set; }
         public ObservableCollection<string> Suggestions { get; set; } = new ObservableCollection<string>();
 
         private static async void OnTagsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -29,12 +30,8 @@ namespace wallabag.Controls
 
             if (control.possibleTags == null)
             {
-                control.possibleTags = new ObservableCollection<string>();
-                List<Tag> tags = new List<Tag>(); ;
-                SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Common.Helpers.DATABASE_PATH);
-                tags = await conn.Table<Tag>().ToListAsync();
-
-                foreach (var item in tags)
+                control.possibleTags = new List<string>();
+                foreach (var item in await DataService.GetTagsAsync())
                     control.possibleTags.Add(item.Label);
             }
         }
