@@ -39,7 +39,7 @@ namespace wallabag.Controls
         // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register("ItemsSource", typeof(ICollection<Tag>), typeof(TagControl), new PropertyMetadata(DependencyProperty.UnsetValue, new PropertyChangedCallback(OnTagsChanged)));
-        
+
         private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             var possibleResults = new ObservableCollection<string>(possibleTags.Where(t => t.Contains(sender.Text.ToLower())));
@@ -75,16 +75,15 @@ namespace wallabag.Controls
                 Tag _lastTag = null;
                 foreach (string item in tags)
                 {
-                    if (!string.IsNullOrWhiteSpace(item))
+                    if (!string.IsNullOrWhiteSpace(item) &&
+                        ItemsSource.Where(t => t.Label == item).Count() == 0)
                     {
-                        if (ItemsSource.Where(t => t.Label == item).Count() == 0)
-                        {
-                            var newTag = new Tag() { Label = item };
-                            ItemsSource.Add(newTag);
-                            _lastTag = newTag;
-                        }
+                        var newTag = new Tag() { Label = item };
+                        ItemsSource.Add(newTag);
+                        _lastTag = newTag;
                     }
                 }
+
 
                 textBox.Text = string.Empty;
                 listView.ScrollIntoView(_lastTag);
