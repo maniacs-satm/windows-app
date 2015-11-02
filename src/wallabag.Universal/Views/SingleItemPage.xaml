@@ -199,7 +199,7 @@
                         Style="{ThemeResource PageTitleTextBlockStyle}"
                         VerticalAlignment="Top"/>
                 </Border>
-                <controls:TagControl Grid.Row="1" Margin="8,16" ItemsSource="{x:Bind ViewModel.ItemTags, Mode=TwoWay}"/>
+                <controls:TagControl Grid.Row="1" Margin="8,16" ItemsSource="{x:Bind ViewModel.CurrentItem.Model.Tags, Mode=TwoWay}"/>
                 <CommandBar Grid.Row="2">
                     <AppBarButton x:Name="CancelTagsAppBarButton" 
                                   x:Uid="CancelAppBarButton"

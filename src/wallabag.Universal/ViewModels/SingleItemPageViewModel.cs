@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
-using wallabag.Models;
 using wallabag.Services;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -28,7 +26,6 @@ namespace wallabag.ViewModels
         public SolidColorBrush CurrentBackground { get; set; }
         public SolidColorBrush CurrentForeground { get; set; }
         public ElementTheme AppBarRequestedTheme { get; set; }
-        public ICollection<Tag> ItemTags { get; set; }
         public double FontSize
         {
             get { return AppSettings.FontSize; }
@@ -51,18 +48,7 @@ namespace wallabag.ViewModels
                 if (AppSettings.NavigateBackAfterReadingAnArticle)
                     NavigationService.GoBack();
             });
-        }
-
-        private async void SingleItemPageViewModel_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-                foreach (Tag t in e.NewItems)
-                    await ItemViewModel.AddTagsAsync(CurrentItem.Model.Id, t.Label);
-
-            if (e.OldItems != null)
-                foreach (Tag t in e.OldItems)
-                    await ItemViewModel.DeleteTagAsync(CurrentItem.Model.Id, t.Id);
-        }
+        }              
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -92,10 +78,7 @@ namespace wallabag.ViewModels
 
             if (Helpers.IsPhone)
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
-
-            ItemTags = CurrentItem.Model.Tags;
-            (ItemTags as ObservableCollection<Tag>).CollectionChanged += SingleItemPageViewModel_CollectionChanged;
-
+        
             if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
             {
                 ErrorHappened = true;
