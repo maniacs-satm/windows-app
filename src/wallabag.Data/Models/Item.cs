@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using PropertyChanged;
@@ -70,7 +71,7 @@ namespace wallabag.Models
         public string DomainName { get; set; } = string.Empty;
 
         [JsonProperty("tags")]
-        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
+        public ICollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
 
         [JsonProperty("preview_picture")]
         public string PreviewPictureUri { get; set; } = string.Empty;
