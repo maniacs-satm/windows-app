@@ -108,17 +108,8 @@ namespace wallabag.Services
                     }
                     else
                     {
+                        existingItem = item;
                         existingItem.Title = Regex.Replace(item.Title, " ");
-                        existingItem.Url = item.Url;
-                        existingItem.IsRead = item.IsRead;
-                        existingItem.IsStarred = item.IsStarred;
-                        existingItem.IsDeleted = item.IsDeleted;
-                        existingItem.Content = item.Content;
-                        existingItem.CreationDate = item.CreationDate;
-                        existingItem.LastUpdated = item.LastUpdated;
-                        existingItem.DomainName = item.DomainName;
-                        existingItem.EstimatedReadingTime = item.EstimatedReadingTime;
-                        existingItem.PreviewPictureUri = item.PreviewPictureUri;
 
                         await conn.UpdateAsync(existingItem);
                     }
