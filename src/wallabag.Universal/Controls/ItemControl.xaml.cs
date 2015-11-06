@@ -17,38 +17,20 @@ namespace wallabag.Controls
         public ItemControl()
         {
             InitializeComponent();
-            if (!Helpers.IsPhone)
-                ContextMenuGrid.PointerExited += (s, e) => HideTouchMenu();
-            ContextMenuGrid.PointerWheelChanged += (s, e) => HideTouchMenu();
-            this.PointerEntered += BottomGrid_PointerEntered;
-            this.PointerExited += BottomGrid_PointerExited;
-            this.Loaded += ItemControl_Loaded;
+            PointerEntered += BottomGrid_PointerEntered;
+            PointerExited += BottomGrid_PointerExited;
 
-            foreach (AppBarButton button in stackPanel.Children)
-                button.Click += (s, e) => HideTouchMenu();
             DataContextChanged += ItemControl_DataContextChanged;
         }
 
         private void ItemControl_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if (args.NewValue is ItemViewModel)
+            if (args.NewValue is ItemViewModel && string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri))
             {
-               
-                if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri))
-                {
-                    var newBackground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
-                    newBackground.Opacity = 0.5;
-                    RootGrid.Background = newBackground;
-                }
+                var newBackground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
+                newBackground.Opacity = 0.5;
+                RootGrid.Background = newBackground;
             }
-        }
-
-        private void ItemControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
-                ShowContextMenuColorAnimation.To = Color.FromArgb(0xCC, 0, 0, 0);
-            else
-                ShowContextMenuColorAnimation.To = Color.FromArgb(0xCC, 255, 255, 255);
         }
 
         private bool _PointerExited;
@@ -66,9 +48,5 @@ namespace wallabag.Controls
             if (!_PointerExited && WindowWidth >= 720)
                 ShowOverlayStoryboard.Begin();
         }
-
-        private void HideTouchMenu() =>
-            (ContextMenuGrid.Resources["HideContextMenu"] as Storyboard).Begin();
-
     }
 }

@@ -13,6 +13,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -38,7 +39,6 @@ namespace wallabag.Views
         private bool _IsShiftPressed = false;
         private bool _IsPointerPressed = false;
         private ItemViewModel _LastFocusedItemViewModel;
-        private FrameworkElement _LastFocusedItem;
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
@@ -56,7 +56,7 @@ namespace wallabag.Views
                 if (FocusedUIElement is ContentControl)
                     _LastFocusedItemViewModel = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
 
-                ShowContextMenu(_LastFocusedItemViewModel, FocusedUIElement, new Point(0, 0));
+                ShowContextMenu(FocusedUIElement, new Point(0, 0));
                 e.Handled = true;
             }
 
@@ -71,10 +71,18 @@ namespace wallabag.Views
         }
         protected override void OnHolding(HoldingRoutedEventArgs e)
         {
-            ShowContextMenu(e.OriginalSource as FrameworkElement);
-            _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+            if (e.HoldingState == Windows.UI.Input.HoldingState.Started)
+            {
+                _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+                ShowContextMenu(null, e.GetPosition(null));
+                e.Handled = true;
 
-            e.Handled = true;
+                _IsPointerPressed = false;
+
+                var itemsToCancel = VisualTreeHelper.FindElementsInHostCoordinates(e.GetPosition(null), _ItemGridView);
+                foreach (var item in itemsToCancel)
+                    item.CancelDirectManipulations();
+            }
 
             base.OnHolding(e);
         }
@@ -89,48 +97,19 @@ namespace wallabag.Views
             if (_IsPointerPressed)
             {
                 _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
-
-                if (AppSettings.UseClassicContextMenuForMouseInput)
-                    ShowContextMenu(_LastFocusedItemViewModel, null, e.GetPosition(null));
-                else
-                    ShowContextMenu(e.OriginalSource as FrameworkElement);
+                ShowContextMenu(null, e.GetPosition(null));
 
                 e.Handled = true;
             }
 
             base.OnRightTapped(e);
         }
-        private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
+        private void ShowContextMenu(UIElement target, Point offset)
         {
-            if (data != null && !IsMultipleSelectionEnabled)
+            if (_LastFocusedItemViewModel != null && !IsMultipleSelectionEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
                 MyFlyout.ShowAt(target, offset);
-            }
-        }
-        private void ShowContextMenu(FrameworkElement element)
-        {
-            if (IsMultipleSelectionEnabled)
-                return;
-
-            if (_LastFocusedItem != null)
-                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
-
-            if (element.GetType() == typeof(Grid) && element.Name == "ContextMenuGrid")
-            {
-                _LastFocusedItem = element;
-
-                (element.Resources["ShowContextMenu"] as Storyboard).Begin();
-                (element.Resources["HideContextMenu"] as Storyboard).Completed += async (s, e) => { await ViewModel.RefreshItemsAsync(); };
-            }
-        }
-
-        private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
-        {
-            if (_LastFocusedItem != null)
-            {
-                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
-                _LastFocusedItem = null;
             }
         }
 

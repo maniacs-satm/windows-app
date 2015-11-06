@@ -149,11 +149,7 @@
                     <ToggleSwitch 
                         x:Uid="ShowTheFilterPaneInlineToggleSwitch"
                         Header="Show the filter pane inline"
-                        IsOn="{x:Bind ViewModel.ShowTheFilterPaneInline, Mode=TwoWay}"/>
-                    <ToggleSwitch
-                        x:Uid="UseClassicContextMenuForMouseInput"
-                        Header="Use 'normal' context menu when using a mouse" 
-                        IsOn="{x:Bind ViewModel.UseClassicContextMenuForMouseInput, Mode=TwoWay}"/>
+                        IsOn="{x:Bind ViewModel.ShowTheFilterPaneInline, Mode=TwoWay}"/>                   
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="ReadingSettingsPivotItem" Header="Reading">
