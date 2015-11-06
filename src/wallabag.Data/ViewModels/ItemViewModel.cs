@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -43,14 +44,14 @@ namespace wallabag.ViewModels
             OpenInBrowserCommand = new DelegateCommand(async () => { await Launcher.LaunchUriAsync(new Uri(Model.Url)); });
 
             GetIntroSentence();
-            Model.Tags.CollectionChanged += Tags_CollectionChanged;
+            (Model.Tags as ObservableCollection<Tag>).CollectionChanged += Tags_CollectionChanged;
         }
 
         public Item Model { get; set; }
         public string ContentWithHeader { get; set; }
         public string IntroSentence { get; set; }
         public string PublishedDateFormatted { get { return Model.CreationDate.ToString("m"); } }
-        public string TagsString { get { return Model.Tags.ToCommaSeparatedString().Replace(",",", "); } }
+        public string TagsString { get { return Model.Tags.ToCommaSeparatedString().Replace(",", ", "); } }
 
         public DelegateCommand DeleteCommand { get; private set; }
         public DelegateCommand SwitchReadStatusCommand { get; private set; }
@@ -107,8 +108,13 @@ namespace wallabag.ViewModels
                     await DeleteTagAsync(item);
 
             if (e.NewItems != null)
+            {
+                IList<Tag> newItems = new List<Tag>();
                 foreach (Tag item in e.NewItems)
-                    await AddTagsAsync(Model.Id, item.Label);
+                    newItems.Add(item);
+
+                await AddTagsAsync(newItems);
+            }
         }
 
         public async Task<bool> SwitchReadValueAsync()
@@ -147,43 +153,49 @@ namespace wallabag.ViewModels
             }
         }
 
-        public async static Task<ObservableCollection<Tag>> AddTagsAsync(int ItemId, string tags, bool IsOfflineAction = false)
+        public async Task<bool> AddTagsAsync(IList<Tag> Tags)
         {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = tags };
-            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Post, $"/entries/{ItemId}/tags", parameters);
+            Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = Tags.ToCommaSeparatedString() };
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Post, $"/entries/{Model.Id}/tags", parameters);
 
             if (response.StatusCode == HttpStatusCode.Ok)
             {
                 var json = JsonConvert.DeserializeObject<Item>(response.Content.ToString());
-                return json.Tags ?? new ObservableCollection<Tag>();
+
+                foreach (var tag in json.Tags)
+                {
+                    var existingTag = Model.Tags.Where(t => t.Label == tag.Label).FirstOrDefault();
+                    if (existingTag != null)
+                        existingTag.Id = tag.Id;
+                }
+
+                await conn.UpdateAsync(Model);
+                return true;
             }
             else
             {
-                if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags", parameters, HttpRequestMethod.Post));
-                return null;
+                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post));
+                return false;
             }
         }
         public async Task<bool> DeleteTagAsync(Tag Tag)
         {
-            bool result = await DeleteTagAsync(Model.Id, Tag.Id);
-            if (result)
-                await conn.UpdateAsync(Model);
-            return result;
-        }
-        public static async Task<bool> DeleteTagAsync(int ItemId, int TagId, bool IsOfflineAction = false)
-        {
-            if (TagId == -1)
-                return true;
+            if (Tag.Id == -1)
+            {
+                OfflineTask task = (await conn.Table<OfflineTask>().ToListAsync()).Where(t => t.RequestParameters.ContainsValue(Tag.Label)).FirstOrDefault();
+                if (task != null)
+                    await conn.DeleteAsync(task);
 
-            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Delete, $"/entries/{ItemId}/tags/{TagId}");
+                return true;
+            }
+
+            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Delete, $"/entries/{Model.Id}/tags/{Tag.Id}");
 
             if (response.StatusCode == HttpStatusCode.Ok)
                 return true;
             else
             {
-                if (!IsOfflineAction)
-                    await conn.InsertAsync(new OfflineTask($"/entries/{ItemId}/tags/{TagId}", null, HttpRequestMethod.Delete));
+                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete));
                 return false;
             }
         }

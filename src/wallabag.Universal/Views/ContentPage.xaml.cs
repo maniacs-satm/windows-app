@@ -295,7 +295,7 @@ namespace wallabag.Views
             (Resources["HideEditTagsBorder"] as Storyboard).Begin();
 
             foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-                await ItemViewModel.AddTagsAsync(item.Model.Id, MultipleSelectionTags.ToCommaSeparatedString());
+                await item.AddTagsAsync(MultipleSelectionTags as IList<Tag>);
 
             MultipleSelectionTags.Clear();
             multipleSelectToggleButton_Click(sender, e);
