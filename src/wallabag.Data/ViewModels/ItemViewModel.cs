@@ -74,10 +74,20 @@ namespace wallabag.ViewModels
             styleSheetBuilder.Append("text-align: " + AppSettings.TextAlignment + "}");
             styleSheetBuilder.Append("</style>");
 
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(Model.Content);
+
+            foreach (HtmlNode node in document.DocumentNode.Descendants("img"))
+            {
+                var imageSource = node.Attributes["src"].Value;
+                node.Attributes.Add("data-src", imageSource);
+                node.Attributes["src"].Value = string.Empty;
+            }
+
             ContentWithHeader = _template.FormatWith(new
             {
                 title = Model.Title,
-                content = Model.Content,
+                content = document.DocumentNode.OuterHtml,
                 articleUrl = Model.Url,
                 hostname = Model.DomainName,
                 color = AppSettings.ColorScheme,

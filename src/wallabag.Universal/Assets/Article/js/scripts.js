@@ -21,6 +21,11 @@ function Initialize() {
     document.body.scrollTop = progressCalculated;
 
     $(document).ready(function () {
+        $("img").unveil(0, function () {
+            $(this).load(function () {
+                this.style.opacity = 1;
+            });
+        });
         $("article").fitVids({ customSelector: "iframe[src^='https://medium.com/media']" });
     });
 }
