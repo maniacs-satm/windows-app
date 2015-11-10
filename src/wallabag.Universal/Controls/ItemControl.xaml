@@ -113,7 +113,7 @@
                 Margin="12">
                 <TextBlock
                     Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}"
-                    Text="&#xE00A;"
+                    Text="&#xE00B;"
                     FontFamily="Segoe MDL2 Assets"/>
                 <TextBlock
                     Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}"

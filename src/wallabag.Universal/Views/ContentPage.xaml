@@ -68,7 +68,7 @@
                             x:Uid="MarkAsFavoriteMenuFlyoutItem"
                             Text="Mark as favorite" 
                             Click="ContextMenuMarkAsFavorite_Click"
-                            Tag="&#xE0B4;"
+                            Tag="&#xE00B;"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem x:Name="ContextMenuShareItem"
