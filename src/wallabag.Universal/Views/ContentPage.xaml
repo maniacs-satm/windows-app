@@ -619,13 +619,13 @@
                                         x:Uid="MarkAsFavoriteMenuFlyoutItem"
                                         Text="Mark as favorite"
                                         Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"
-                                        Tag="&#xE0B4;" 
+                                        Tag="&#xE00B;" 
                                         Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
                         <MenuFlyoutItem x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem" 
                                         x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
                                         Text="Unmark as favorite" 
                                         Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"
-                                        Tag="&#xE195;" 
+                                        Tag="&#xE006;" 
                                         Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem"
