@@ -109,6 +109,10 @@ namespace wallabag.Views
             if (_LastFocusedItemViewModel != null && !IsMultipleSelectionEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
+
+                foreach (var item in MyFlyout.Items)
+                    item.DataContext = _LastFocusedItemViewModel;
+
                 MyFlyout.ShowAt(target, offset);
             }
         }

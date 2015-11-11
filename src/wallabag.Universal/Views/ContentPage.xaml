@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
     xmlns:common="using:wallabag.Common"
+    xmlns:conv="using:wallabag.Converter"
     xmlns:vm="using:wallabag.ViewModels"
     xmlns:m="using:wallabag.Models"    
     common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
@@ -15,6 +16,7 @@
     common:TitleBarExtensions.ButtonForegroundColor="White"  
     mc:Ignorable="d">
     <Page.Resources>
+        <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter"/>
         <ItemsPanelTemplate x:Name="GridViewTemplate">
             <ItemsWrapGrid Orientation="Horizontal"/>
         </ItemsPanelTemplate>
@@ -63,13 +65,29 @@
                             Text="Mark as read"
                             Click="ContextMenuMarkAsRead_Click"
                             Tag="&#xE001;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityNegatedConverter}}"/>
+            <MenuFlyoutItem x:Name="ContextMenuUnmarkAsRead"
+                            x:Uid="UnmarkAsReadMenuFlyoutItem"
+                            Text="Unmark as read"
+                            Click="ContextMenuMarkAsRead_Click"
+                            Tag="&#xE109;"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <MenuFlyoutItem x:Name="ContextMenuMarkAsFavorite"
                             x:Uid="MarkAsFavoriteMenuFlyoutItem"
                             Text="Mark as favorite" 
                             Click="ContextMenuMarkAsFavorite_Click"
                             Tag="&#xE00B;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}"/>
+            <MenuFlyoutItem x:Name="ContextMenuUnmarkAsFavorite"
+                            x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
+                            Text="Unmark as favorite" 
+                            Click="ContextMenuMarkAsFavorite_Click"
+                            Tag="&#xE006;"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem x:Name="ContextMenuShareItem"
                             x:Uid="ShareMenuFlyoutItem"
