@@ -116,7 +116,7 @@
                                     Icon="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource FavoriteToIconConverter}}" 
                                     Label="Mark as favorite"
                                     IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"                                    
-                                    Command="{x:Bind  ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
+                                    Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand, Mode=OneWay}"/>
                 <AppBarButton x:Uid="EditTagsAppBarButton"
                               Icon="Tag" 
                               Label="Edit tags" 
