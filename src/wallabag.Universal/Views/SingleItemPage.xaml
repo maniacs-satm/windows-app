@@ -121,6 +121,13 @@
                               Icon="Tag" 
                               Label="Edit tags" 
                               Click="EditTagsAppBarButton_Click"/>
+                <AppBarButton x:Uid="ShareAppBarButton" Label="Share" Click="ShareLinkFlyoutItem_Click">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="FontSettingsAppBarButton" Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
@@ -156,13 +163,6 @@
                             </StackPanel>
                         </Flyout>
                     </AppBarButton.Flyout>
-                </AppBarButton>
-            </CommandBar.PrimaryCommands>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="ShareAppBarButton" Label="Share" Click="ShareLinkFlyoutItem_Click">
-                    <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
-                    </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarSeparator/>
                 <AppBarButton x:Uid="DeleteAppBarButton" Label="Delete" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
