@@ -238,10 +238,10 @@ article {
 /*----------------------- Customization ---------------------------*/
 /*-----------------------------------------------------------------*/
 [data-font="serif"] body {
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Cambria;
 }
 [data-font="sans"] body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI';
 }
 [data-color="light"] body {
   background: #ffffff;
