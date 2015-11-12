@@ -389,7 +389,7 @@
             <VisualStateGroup x:Name="AdaptiveTriggers">
                 <VisualState x:Name="Narrow">
                     <VisualState.Setters>
-                        <Setter Target="searchHeaderTextBox.Visibility" Value="Collapsed"/>
+                        <Setter Target="searchHeaderTextBlock.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
@@ -557,8 +557,7 @@
             <TextBlock x:Name="searchHeaderTextBlock"
                        x:Uid="SearchAndFilterHeaderTextBlock"
                        Text="SEARCH &amp; FILTER"
-                       Style="{ThemeResource PageTitleTextBlockStyle}"
-                       VerticalAlignment="Top"/>
+                       Style="{ThemeResource PageTitleTextBlockStyle}"/>
             <AutoSuggestBox x:Name="SearchBox"
                             x:Uid="SearchBox"
                             QueryIcon="Find"
