@@ -111,8 +111,7 @@
             <TextBlock
                 x:Uid="SettingsHeaderTextBlock"
                 Text="SETTINGS" 
-                Style="{ThemeResource PageTitleTextBlockStyle}"
-                VerticalAlignment="Top"/>
+                Style="{ThemeResource PageTitleTextBlockStyle}"/>
         </Grid>
         <Rectangle Height="48" Grid.Row="1" VerticalAlignment="Top" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" Opacity="{ThemeResource SettingsPivotHeaderBackgroundOpacity}"/>
         <Pivot Grid.Row="1">

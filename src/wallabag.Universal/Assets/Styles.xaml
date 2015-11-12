@@ -122,8 +122,8 @@
         <Setter Property="TextWrapping" Value="NoWrap"/>
         <Setter Property="CharacterSpacing" Value="10"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Bottom"/>
-        <Setter Property="Margin" Value="16,14,16,4"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="16,0"/>
     </Style>
     <Style TargetType="FlyoutPresenter">
         <Setter Property="Padding" Value="0"/>

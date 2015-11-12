@@ -681,8 +681,7 @@
                     <TextBlock 
                         x:Uid="ManageTagsHeaderTextBlock"
                         Text="MANAGE TAGS" 
-                        Style="{ThemeResource PageTitleTextBlockStyle}"
-                        VerticalAlignment="Top"/>
+                        Style="{ThemeResource PageTitleTextBlockStyle}"/>
                 </Border>
                 <controls:TagControl Grid.Row="1" Margin="8,16" ItemsSource="{x:Bind MultipleSelectionTags, Mode=TwoWay}"/>
                 <CommandBar Grid.Row="2">
@@ -716,8 +715,7 @@
                     <TextBlock 
                         x:Uid="SaveALinkHeaderTextBlock"
                         Text="SAVE A LINK" 
-                        Style="{ThemeResource PageTitleTextBlockStyle}"
-                        VerticalAlignment="Top"/>
+                        Style="{ThemeResource PageTitleTextBlockStyle}"/>
                 </Border>
                 <StackPanel Grid.Row="1" Margin="8,16">
                     <TextBox
