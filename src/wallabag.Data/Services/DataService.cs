@@ -97,20 +97,22 @@ namespace wallabag.Services
 
                     var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
+                    item.Title = Regex.Replace(item.Title, " ");
+
+                    // If the title starts with a space, remove it.
+                    if (item.Title.StartsWith(" "))
+                        item.Title = item.Title.Remove(0, 1);
+
+                    if (item.PreviewPictureUri.StartsWith("/"))
+                        item.PreviewPictureUri = $"{new Uri(item.Url).Scheme}://{item.DomainName}{item.PreviewPictureUri}";
+
                     if (existingItem == null)
                     {
-                        item.Title = Regex.Replace(item.Title, " ");
-
-                        // If the title starts with a space, remove it.
-                        if (item.Title.StartsWith(" "))
-                            item.Title = item.Title.Remove(0, 1);
                         await conn.InsertAsync(item);
                     }
                     else
                     {
                         existingItem = item;
-                        existingItem.Title = Regex.Replace(item.Title, " ");
-
                         await conn.UpdateAsync(existingItem);
                     }
                     index += 1;
