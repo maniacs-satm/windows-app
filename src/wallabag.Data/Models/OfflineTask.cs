@@ -19,7 +19,8 @@ namespace wallabag.Models
         public async Task<bool> ExecuteAsync()
         {
             var response = await ExecuteHttpRequestAsync(RequestMethod, RequestUri, RequestParameters);
-            if (response.StatusCode == HttpStatusCode.Ok)
+            if (response.StatusCode == HttpStatusCode.Ok ||
+                response.StatusCode == HttpStatusCode.NotFound)
             {
                 await new SQLiteAsyncConnection(DATABASE_PATH).DeleteAsync(this);
                 return true;
