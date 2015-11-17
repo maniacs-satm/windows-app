@@ -36,7 +36,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-            <TextBlock x:Uid="SaveALinkHeaderTextBlock" Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}" VerticalAlignment="Top"/>
+            <TextBlock x:Uid="SaveALinkHeaderTextBlock" Text="SAVE A LINK IN YOUR WALLABAG" Style="{ThemeResource PageTitleTextBlockStyle}"/>
         </Grid>
         <StackPanel x:Name="stackPanel" Grid.Row="1" Margin="8">
             <TextBox x:Name="urlTextBox" x:Uid="UrlTextBox" Header="URL" InputScope="Url" IsSpellCheckEnabled="False" PlaceholderText="https://" Margin="0,4" Text="{x:Bind ViewModel.Url, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsActive, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"/>
