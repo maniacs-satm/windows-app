@@ -93,7 +93,7 @@ namespace wallabag.Services
                 {
                     dProgress.CurrentItem = item;
                     dProgress.CurrentItemIndex = index;
-                    progress.Report(dProgress);
+                    progress.Report(dProgress);                      
 
                     var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
@@ -181,15 +181,18 @@ namespace wallabag.Services
 
             result = await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray());
 
-            if (filterProperties.MinimumEstimatedReadingTime != null &&
-                filterProperties.MaximumEstimatedReadingTime != null)
-                result = new List<Item>(result.Where(i => i.EstimatedReadingTime >= filterProperties.MinimumEstimatedReadingTime
-                                                    && i.EstimatedReadingTime <= filterProperties.MaximumEstimatedReadingTime));
-            if (filterProperties.CreationDateFrom != null &&
-                filterProperties.CreationDateTo != null)
+            if (result != null)
             {
-                result = new List<Item>(result.Where(i => i.CreationDate < filterProperties.CreationDateTo
-                                        && i.CreationDate > filterProperties.CreationDateFrom));
+                if (filterProperties.MinimumEstimatedReadingTime != null &&
+                    filterProperties.MaximumEstimatedReadingTime != null)
+                    result = new List<Item>(result.Where(i => i.EstimatedReadingTime >= filterProperties.MinimumEstimatedReadingTime
+                                                        && i.EstimatedReadingTime <= filterProperties.MaximumEstimatedReadingTime));
+                if (filterProperties.CreationDateFrom != null &&
+                    filterProperties.CreationDateTo != null)
+                {
+                    result = new List<Item>(result.Where(i => i.CreationDate < filterProperties.CreationDateTo
+                                            && i.CreationDate > filterProperties.CreationDateFrom));
+                }
             }
             return result;
         }
