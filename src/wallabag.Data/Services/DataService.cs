@@ -198,8 +198,10 @@ namespace wallabag.Services
         }
         public static async Task<List<Tag>> GetTagsAsync()
         {
-            List<Tag> result = new List<Tag>();
-            return new List<Tag>((await conn.Table<Tag>().ToListAsync()).OrderBy(i => i.Label));
+            List<Tag> result = await conn.Table<Tag>().ToListAsync();
+            if (result != null)
+                return result.OrderBy(i => i.Label));
+            return result;
         }
 
         public static async Task<Item> GetItemAsync(int Id)
