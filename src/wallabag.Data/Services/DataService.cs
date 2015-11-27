@@ -228,19 +228,7 @@ namespace wallabag.Services
 
                 if (existingItem != null)
                 {
-                    existingItem.Id = item.Id;
-                    existingItem.Title = item.Title;
-                    existingItem.Url = item.Url;
-                    existingItem.IsRead = item.IsRead;
-                    existingItem.IsStarred = item.IsStarred;
-                    existingItem.IsDeleted = item.IsDeleted;
-                    existingItem.Content = item.Content;
-                    existingItem.CreationDate = item.CreationDate;
-                    existingItem.LastUpdated = item.LastUpdated;
-                    existingItem.DomainName = item.DomainName;
-                    existingItem.EstimatedReadingTime = item.EstimatedReadingTime;
-                    existingItem.PreviewPictureUri = item.PreviewPictureUri;
-
+                    existingItem = item;
                     await conn.UpdateAsync(existingItem);
                 }
                 else
@@ -266,6 +254,7 @@ namespace wallabag.Services
                     newItem.Tags = TagsString.ToObservableCollection();
                     newItem.Url = Url;
                     newItem.CreationDate = DateTime.Now;
+                    newItem.LastUpdated = DateTime.Now;
 
                     _lastItemId += 1;
                     await conn.InsertAsync(newItem);
