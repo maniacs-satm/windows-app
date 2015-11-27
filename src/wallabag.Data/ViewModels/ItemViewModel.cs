@@ -134,7 +134,7 @@ namespace wallabag.ViewModels
             else
                 Model.IsRead = true;
 
-            await conn.UpdateAsync(Model);
+            await Model.UpdateAsync();
             return await UpdateSpecificProperty(Model.Id, "is_archived", Model.IsRead);
         }
         public async Task<bool> SwitchFavoriteValueAsync()
@@ -144,14 +144,14 @@ namespace wallabag.ViewModels
             else
                 Model.IsStarred = true;
 
-            await conn.UpdateAsync(Model);
+            await Model.UpdateAsync();
             return await UpdateSpecificProperty(Model.Id, "is_starred", Model.IsStarred);
         }
         public async Task<bool> DeleteAsync()
         {
             NavigationService?.GoBack();
             Model.IsDeleted = true;
-            await conn.UpdateAsync(Model);
+            await Model.UpdateAsync();
 
             var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Delete, $"/entries/{Model.Id}");
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -179,7 +179,7 @@ namespace wallabag.ViewModels
                         existingTag.Id = tag.Id;
                 }
 
-                await conn.UpdateAsync(Model);
+                await Model.UpdateAsync();
                 return true;
             }
             else

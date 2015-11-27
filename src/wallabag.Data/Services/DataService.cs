@@ -93,7 +93,7 @@ namespace wallabag.Services
                 {
                     dProgress.CurrentItem = item;
                     dProgress.CurrentItemIndex = index;
-                    progress.Report(dProgress);                      
+                    progress.Report(dProgress);
 
                     var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
@@ -113,7 +113,7 @@ namespace wallabag.Services
                     else
                     {
                         existingItem = item;
-                        await conn.UpdateAsync(existingItem);
+                        await existingItem.UpdateAsync();
                     }
                     index += 1;
                 }
@@ -200,7 +200,7 @@ namespace wallabag.Services
         {
             List<Tag> result = await conn.Table<Tag>().ToListAsync();
             if (result != null)
-                return new List<Tag>(result.OrderBy(i => i.Label)));
+                return new List<Tag>(result.OrderBy(i => i.Label));
             return result;
         }
 
@@ -226,13 +226,13 @@ namespace wallabag.Services
                 var item = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<Item>(response.Content.ToString()));
                 var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
-                if (existingItem != null)
+                if (existingItem == null)
+                    conn.InsertAsync(item);
+                else
                 {
                     existingItem = item;
-                    await conn.UpdateAsync(existingItem);
+                    await existingItem.UpdateAsync();
                 }
-                else
-                    await conn.InsertAsync(item);
 
                 foreach (Tag tag in item.Tags)
                 {
@@ -253,8 +253,6 @@ namespace wallabag.Services
                     newItem.DomainName = hostName;
                     newItem.Tags = TagsString.ToObservableCollection();
                     newItem.Url = Url;
-                    newItem.CreationDate = DateTime.Now;
-                    newItem.LastUpdated = DateTime.Now;
 
                     _lastItemId += 1;
                     await conn.InsertAsync(newItem);

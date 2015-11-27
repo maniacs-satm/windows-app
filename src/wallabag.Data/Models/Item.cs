@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
 using SQLite;
@@ -79,5 +80,11 @@ namespace wallabag.Models
         public string ReadingProgress { get; set; } = "0";
 
         public override string ToString() { return Title; }
+
+        public Task<int> UpdateAsync()
+        {
+            this.LastUpdated = DateTime.Now;
+            return new SQLiteAsyncConnection(Common.Helpers.DATABASE_PATH).UpdateAsync(this);
+        }
     }
 }
