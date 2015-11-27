@@ -200,7 +200,7 @@ namespace wallabag.Services
         {
             List<Tag> result = await conn.Table<Tag>().ToListAsync();
             if (result != null)
-                return result.OrderBy(i => i.Label));
+                return new List<Tag>(result.OrderBy(i => i.Label)));
             return result;
         }
 
