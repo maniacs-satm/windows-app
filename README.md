@@ -2,14 +2,10 @@ wallabag for Windows
 ================
 - **[Download for Windows](http://apps.microsoft.com/windows/app/wallabag/f551b9c4-7346-4509-ae46-c6167c705a30)**
 - **[Download for Windows Phone](http://www.windowsphone.com/s?appid=d5226cf1-f422-4e00-996c-88e9c5233332)**
+- *[download the beta for wallabag v2 (only Windows 10)](https://www.microsoft.com/store/apps/9nblggh5x3p6) ([source code](https://github.com/wallabag/windows-app/tree/v2))* 
 
 ## Current features
 - Read your saved articles on the go - even offline!
-
-## Planned features (with wallabag v2)
-- Add new articles easily to wallabag
-- Mark articles as read
-- Make downloading of pictures optional
 
 ## Currently supported languages
 - English
