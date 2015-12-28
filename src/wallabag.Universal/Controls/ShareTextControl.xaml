@@ -47,7 +47,7 @@
                    Margin="8"
                    TextWrapping="Wrap"
                    TextTrimming="CharacterEllipsis"
-                   FontFamily="Georgia"
+                   FontFamily="Cambria"
                    Text="{x:Bind SelectionContent, Mode=OneWay}" 
                    FontSize="18.667" 
                    LineHeight="29.333"/>
