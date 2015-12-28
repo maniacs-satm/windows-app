@@ -131,36 +131,7 @@
                 <AppBarButton x:Uid="FontSettingsAppBarButton" Icon="Font" Label="Font settings">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
-                            <StackPanel>
-                                <StackPanel.Resources>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Width" Value="40"/>
-                                        <Setter Property="Height" Value="40"/>
-                                        <Setter Property="Margin" Value="2,0"/>
-                                        <Setter Property="FontSize" Value="15"/>
-                                        <Setter Property="Background" Value="Transparent"/>
-                                    </Style>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="Margin" Value="4"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    </Style>
-                                </StackPanel.Resources>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f311;" FontFamily="Segoe UI Symbol"/>
-                                    <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f312;" FontFamily="Segoe UI Symbol"/>
-                                    <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f314;" FontFamily="Segoe UI Symbol"/>
-                                    <Button x:Name="blackColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
-                                </StackPanel>
-                                <Rectangle Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="1"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Click="IncreaseFontSize"/>
-                                    <Button Content="&#xE738;" FontFamily="Segoe MDL2 Assets" Click="DecreaseFontSize"/>
-                                    <Button Content="&#xE185;" FontFamily="Segoe MDL2 Assets" Click="FontFamilyButton_Click" />
-                                    <Button x:Name="ChangeTextAlignButton" FontFamily="Segoe MDL2 Assets" Click="ChangeTextAlignButton_Click">
-                                        <PathIcon Data="M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14"/>
-                                    </Button>
-                                </StackPanel>
-                            </StackPanel>
+                            
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -210,11 +181,11 @@
             Height="64"
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
-            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
+            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}" d:IsHidden="True"/>
         <Border
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock x:Name="SymbolTextBlock"
                            FontSize="64"
@@ -245,6 +216,85 @@
             DomainName="{x:Bind ViewModel.CurrentItem.Model.DomainName, Mode=OneWay}" 
             VerticalAlignment="Center"
             Opacity="0"
-            Visibility="Collapsed"/>
+            Visibility="Collapsed" d:IsHidden="True"/>
+        <Grid x:Name="viewOptionsGrid"
+              Padding="8" 
+              VerticalAlignment="Bottom" 
+              Margin="0,0,0,48"
+              Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
+              RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
+            <StackPanel>
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#x1f311;"/>
+                            <TextBlock Text="light" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Grid.Column="1">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#x1f312;"/>
+                            <TextBlock Text="sepia" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Grid.Column="2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#x1f314;"/>
+                            <TextBlock Text="dark" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="blackColorSchemeButton" Click="ChangeColorSchemeButton_Click" Grid.Column="3">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#x1f315;"/>
+                            <TextBlock Text="black" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Margin="0,16,0,0">
+                    <Grid.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource RoundButtonStyle}">
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Height" Value="40"/>
+                            <Setter Property="Width"  Value="40"/>
+                            <Setter Property="Margin"  Value="4,0"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Content="&#xE738;" FontFamily="Segoe MDL2 Assets" Click="DecreaseFontSize"/>
+                        <TextBlock Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold">18</TextBlock>
+                        <Button Grid.Column="2" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Click="IncreaseFontSize"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                        <Button Content="&#xE185;" FontFamily="Segoe MDL2 Assets" Click="FontFamilyButton_Click" />
+                        <Button x:Name="ChangeTextAlignButton" FontFamily="Segoe MDL2 Assets" Click="ChangeTextAlignButton_Click">
+                            <PathIcon Data="M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
