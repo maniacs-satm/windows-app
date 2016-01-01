@@ -589,11 +589,6 @@
                           Icon="Find"
                           Label="Search" 
                           Click="searchToggleButton_Click"/>
-            <AppBarButton x:Name="addItemAppBarButton"
-                          x:Uid="AddItemAppBarButton"
-                          Icon="Add" 
-                          Label="Add item" 
-                          Click="AddItemButton_Click"/>
             <AppBarButton x:Name="syncAppBarButton"
                           x:Uid="SyncAppBarButton"
                           Label="Sync"
@@ -606,6 +601,11 @@
                     </SymbolIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
+            <AppBarButton x:Name="addItemAppBarButton"
+                          x:Uid="AddItemAppBarButton"
+                          Icon="Add" 
+                          Label="Add item" 
+                          Click="AddItemButton_Click"/>
             <CommandBar.SecondaryCommands>
                 <AppBarButton 
                     x:Uid="OpenSettingsAppBarButton"
@@ -614,7 +614,7 @@
                     Command="{Binding NavigateToSettingsPageCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
-        <CommandBar x:Name="MultipleSelectionCommandBar" VerticalAlignment="Bottom" Visibility="Collapsed">
+        <CommandBar x:Name="MultipleSelectionCommandBar" VerticalAlignment="Bottom" Visibility="Collapsed" d:IsHidden="True">
             <AppBarButton
                 x:Uid="EditMultipleItemsAppBarButton"
                 Icon="Edit"
