@@ -164,5 +164,15 @@ namespace wallabag.Views
         {
             HideEditTagsBorder.Begin();
         }
+
+        private void FontSettingsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowOptionsGrid.Begin();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            HideOptionsGrid.Begin();
+        }
     }
 }
