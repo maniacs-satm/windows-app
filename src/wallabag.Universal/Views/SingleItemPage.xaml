@@ -165,6 +165,26 @@
 
     <Grid Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
           RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Stretch"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Right"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}" Opacity="0" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
             <WebView.RenderTransform>
                 <CompositeTransform/>
