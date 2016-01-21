@@ -2,10 +2,10 @@
   "dependencies": {
     "HtmlAgilityPack": "1.4.9",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "Newtonsoft.Json": "8.0.1",
+    "Newtonsoft.Json": "8.0.2",
     "PropertyChanged.Fody": "1.50.3",
     "sqlite-net": "1.0.8",
-    "Template10": "1.0.8",
+    "Template10": "1.1.0",
     "WindowsStateTriggers": "1.0.2"
   },
   "frameworks": {
