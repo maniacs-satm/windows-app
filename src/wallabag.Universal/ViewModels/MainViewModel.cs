@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
+using wallabag.Data.Interfaces;
+using wallabag.Data.Models;
 using wallabag.Models;
-using wallabag.Services;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
@@ -16,6 +17,8 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class MainViewModel : ViewModelBase
     {
+        private IDataService _dataService;
+
         public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
@@ -124,15 +127,17 @@ namespace wallabag.ViewModels
             return base.OnNavigatedFromAsync(state, suspending);
         }
 
-        public MainViewModel()
+        public MainViewModel(IDataService dataService)
         {
+            _dataService = dataService;
             RefreshCommand = new DelegateCommand(async () =>
             {
                 IsSyncing = true;
-                await DataService.SyncOfflineTasksWithServerAsync();
-                await DataService.DownloadItemsFromServerAsync();
-                DataService.LastUserSyncDateTime = DateTime.Now;
+
+                await _dataService.SyncOfflineTasksWithServerAsync();
+                await _dataService.DownloadItemsFromServerAsync();
                 await RefreshItemsAsync();
+
                 IsSyncing = false;
             });
             NavigateToSettingsPageCommand = new DelegateCommand(() =>
