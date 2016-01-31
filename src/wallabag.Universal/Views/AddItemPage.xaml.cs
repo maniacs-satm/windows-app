@@ -1,7 +1,8 @@
-﻿using Windows.ApplicationModel.DataTransfer.ShareTarget;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
+using Windows.ApplicationModel.DataTransfer.ShareTarget;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using System;
 
 // Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
 
@@ -19,13 +20,10 @@ namespace wallabag.Views
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (e.Parameter != null)
-            {
-                ViewModel.ShareOperation = (ShareOperation)e.Parameter;
-                ViewModel.Url = (await ViewModel.ShareOperation.Data.GetWebLinkAsync()).ToString();
-            }
+                Messenger.Default.Send(new NotificationMessage<ShareOperation>(e.Parameter as ShareOperation, string.Empty));
 
             HideHeaderVisualState.StateTriggers.Add(new WindowsStateTriggers.DeviceFamilyStateTrigger() { DeviceFamily = WindowsStateTriggers.DeviceFamily.Desktop });
         }
