@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using wallabag.Common;
 using wallabag.Data.Interfaces;
+using wallabag.Data.Models;
 using wallabag.Models;
 using Windows.Foundation;
 using Windows.Web.Http;
@@ -263,28 +264,5 @@ namespace wallabag.Data.Services
                 return false;
             }
         }
-    }
-
-    [ImplementPropertyChanged]
-    public class FilterProperties
-    {
-        public FilterPropertiesItemType ItemType { get; set; } = FilterPropertiesItemType.Unread;
-        public FilterPropertiesSortOrder SortOrder { get; set; } = FilterPropertiesSortOrder.Descending;
-        public Tag FilterTag { get; set; }
-        public string DomainName { get; set; }
-        public int? MinimumEstimatedReadingTime { get; set; }
-        public int? MaximumEstimatedReadingTime { get; set; }
-        public DateTimeOffset? CreationDateFrom { get; set; }
-        public DateTimeOffset? CreationDateTo { get; set; }
-
-        public enum FilterPropertiesSortOrder { Ascending, Descending }
-        public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }
-    }
-
-    public class DownloadProgress
-    {
-        public int TotalNumberOfItems { get; set; }
-        public int CurrentItemIndex { get; set; }
-        public Item CurrentItem { get; set; }
     }
 }
