@@ -36,7 +36,7 @@ namespace wallabag.ViewModels
         {
             bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
 
-            foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
+            foreach (Item i in await _dataService.GetItemsAsync(LastUsedFilterProperties))
             {
                 if (_Models.Contains(i, new ItemComparer()) == false)
                 {
@@ -52,7 +52,7 @@ namespace wallabag.ViewModels
 
             if (!firstStart)
             {
-                var itemsInDatabase = await DataService.GetItemsAsync(LastUsedFilterProperties);
+                var itemsInDatabase = await _dataService.GetItemsAsync(LastUsedFilterProperties);
 
                 var newItems = itemsInDatabase.Except(_Models, new ItemComparer()).ToList();
                 var changedItems = itemsInDatabase.Except(_Models, new ItemChangedComparer()).ToList();
