@@ -126,6 +126,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsPageViewModel.cs" />
     <Compile Include="ViewModels\SingleItemPageViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\AddItemPage.xaml.cs">
       <DependentUpon>AddItemPage.xaml</DependentUpon>
     </Compile>
