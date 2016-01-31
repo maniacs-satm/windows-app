@@ -1,7 +1,9 @@
-﻿using Windows.ApplicationModel.Core;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // Die Elementvorlage "Leere Seite" ist unter http://go.microsoft.com/fwlink/?LinkId=234238 dokumentiert.
 
@@ -40,6 +42,22 @@ namespace wallabag.Views
             };
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "LoginFailed")
+                {
+                    GoToStep2.Begin();
+                    // TODO: Are there any additional steps to do?
+                }
+            });
+        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            Messenger.Default.Unregister<NotificationMessage>(this);
+        }
+
         private void framabagUserButton_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Set the framabag URL.
@@ -59,7 +77,6 @@ namespace wallabag.Views
             else
                 userNameTextBox.Focus(FocusState.Programmatic);
         }
-
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             GoToStep3.Begin();
