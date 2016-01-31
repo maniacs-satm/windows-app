@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using wallabag.Data.Services;
+using wallabag.Data.Models;
 using wallabag.Models;
 using Windows.Foundation;
 
