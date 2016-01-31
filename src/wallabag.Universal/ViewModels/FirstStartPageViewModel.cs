@@ -7,12 +7,15 @@ using wallabag.Common;
 using Windows.System;
 using static wallabag.Common.Helpers;
 using Windows.UI.Xaml.Navigation;
+using wallabag.Data.Interfaces;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class FirstStartPageViewModel : ViewModelBase
     {
+        private IDataService _dataService;
+
         public string Username { get; set; }
         public string Password { get; set; }
         public string WallabagUrl { get; set; }
@@ -43,10 +46,10 @@ namespace wallabag.ViewModels
         public async Task SetupWallabagAndNavigateToContentPage()
         {
             StatusText = LocalizedString("FirstStartCreateDatabaseLabel");
-            await Services.DataService.InitializeDatabaseAsync();
+            await _dataService.InitializeDatabaseAsync();
 
             StatusText = LocalizedString("FirstStartDownloadArticlesFromServerLabel");
-            var downloadTask = Services.DataService.DownloadItemsFromServerAsync(true);
+            var downloadTask = _dataService.DownloadItemsFromServerAsync(true);
             downloadTask.Progress = (s, p) =>
             {
                 StatusText = string.Format(LocalizedString("FirstStartDownloadProgressLabel"), p.CurrentItemIndex, p.TotalNumberOfItems);
@@ -67,8 +70,10 @@ namespace wallabag.ViewModels
             var result = await downloadTask;
         }
 
-        public FirstStartPageViewModel()
+        public FirstStartPageViewModel(IDataService dataService)
         {
+            _dataService = dataService;
+
             LoginCommand = new DelegateCommand(async () => await Login());
             OpenImageSourceCommand = new DelegateCommand(async () => await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/")));
         }

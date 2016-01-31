@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using wallabag.Data.Services;
 using wallabag.Models;
-using wallabag.Services;
 using Windows.Foundation;
 
 namespace wallabag.Data.Interfaces
