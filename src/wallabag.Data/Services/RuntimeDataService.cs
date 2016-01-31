@@ -15,10 +15,10 @@ using Windows.Foundation;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
 
-namespace wallabag.Services
+namespace wallabag.Data.Services
 {
     [ImplementPropertyChanged]
-    public sealed class DataService : IDataService
+    public sealed class RuntimeDataService : IDataService
     {
         private SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
         private int _lastItemId = 0;

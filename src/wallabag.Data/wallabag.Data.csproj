@@ -120,7 +120,8 @@
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthorizationService.cs" />
-    <Compile Include="Services\DataService.cs" />
+    <Compile Include="Services\TestDataService.cs" />
+    <Compile Include="Services\RuntimeDataService.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
