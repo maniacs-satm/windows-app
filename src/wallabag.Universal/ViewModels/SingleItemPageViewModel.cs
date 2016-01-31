@@ -14,12 +14,15 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
+using wallabag.Data.Interfaces;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class SingleItemPageViewModel : ViewModelBase
     {
+        private IDataService _dataService;
+
         public ItemViewModel CurrentItem { get; set; }
         private string ContainerKey { get { return $"ReadingProgressContainer-{new Uri(AppSettings.wallabagUrl).Host}"; } }
 
@@ -39,8 +42,9 @@ namespace wallabag.ViewModels
         public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
 
-        public SingleItemPageViewModel()
+        public SingleItemPageViewModel(IDataService dataService)
         {
+            _dataService = dataService;
             DownloadItemCommand = new DelegateCommand(async () => { await DownloadItemAsFileAsync(); });
             MarkItemAsReadCommand = new DelegateCommand(async () =>
             {
@@ -65,7 +69,7 @@ namespace wallabag.ViewModels
         public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
 
-            CurrentItem = new ItemViewModel(await DataService.GetItemAsync((int)parameter));
+            CurrentItem = new ItemViewModel(await _dataService.GetItemAsync((int)parameter));
 
             if (AppSettings.SyncReadingProgress)
                 if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey(ContainerKey))
@@ -146,7 +150,7 @@ namespace wallabag.ViewModels
                         // TODO: Currently just downloading the login page :/
                         Uri downloadUrl = new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
-                        Helpers.AddHttpHeadersAsync(http);
+                        AddHttpHeadersAsync(http);
 
                         var response = await http.GetAsync(downloadUrl);
                         if (response.IsSuccessStatusCode)
