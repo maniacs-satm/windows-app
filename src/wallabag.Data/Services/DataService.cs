@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PropertyChanged;
+using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PropertyChanged;
-using SQLite;
 using wallabag.Common;
+using wallabag.Data.Interfaces;
 using wallabag.Models;
 using Windows.Foundation;
 using Windows.Web.Http;
@@ -17,18 +18,18 @@ using static wallabag.Common.Helpers;
 namespace wallabag.Services
 {
     [ImplementPropertyChanged]
-    public sealed class DataService
+    public sealed class DataService : IDataService
     {
-        private static SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
-        private static int _lastItemId = 0;
+        private SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
+        private int _lastItemId = 0;
 
-        public static DateTime LastUserSyncDateTime
+        public DateTime LastUserSyncDateTime
         {
             get { return DateTime.Parse(Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastUserSyncDateTime"] as string ?? DateTime.Now.ToString()); }
             set { Windows.Storage.ApplicationData.Current.LocalSettings.Values["LastUserSyncDateTime"] = value.ToString(); }
         }
 
-        public static async Task InitializeDatabaseAsync()
+        public async Task InitializeDatabaseAsync()
         {
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
             SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
@@ -37,7 +38,7 @@ namespace wallabag.Services
             await conn.CreateTableAsync<OfflineTask>();
         }
 
-        public static async Task<bool> SyncOfflineTasksWithServerAsync()
+        public async Task<bool> SyncOfflineTasksWithServerAsync()
         {
             if (!IsConnectedToTheInternet)
                 return false;
@@ -49,12 +50,12 @@ namespace wallabag.Services
                 success = await task.ExecuteAsync();
             return success;
         }
-        public static IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync(bool DownloadAllItems = false)
+        public IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync(bool DownloadAllItems = false)
         {
             Func<CancellationToken, IProgress<DownloadProgress>, Task<bool>> taskProvider = (token, progress) => _DownloadItemsFromServerAsync(progress, DownloadAllItems);
             return AsyncInfo.Run(taskProvider);
         }
-        private static async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress, bool DownloadAllItems)
+        private async Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress, bool DownloadAllItems)
         {
             var dProgress = new DownloadProgress();
             var itemResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries");
@@ -74,7 +75,7 @@ namespace wallabag.Services
                 {
                     for (int i = 2; i <= itemJson.Pages; i++)
                     {
-                        Dictionary<string, object> parameters = new Dictionary<string, object>() {["page"] = i };
+                        Dictionary<string, object> parameters = new Dictionary<string, object>() { ["page"] = i };
                         var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries", parameters);
 
                         var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(itemResponse.Content.ToString()));
@@ -133,7 +134,7 @@ namespace wallabag.Services
                 return false;
         }
 
-        public static async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
+        public async Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
             string sqlQuery = "SELECT * FROM 'Items' ";
             List<object> sqlParams = new List<object>();
@@ -196,7 +197,7 @@ namespace wallabag.Services
             }
             return result;
         }
-        public static async Task<List<Tag>> GetTagsAsync()
+        public async Task<List<Tag>> GetTagsAsync()
         {
             List<Tag> result = await conn.Table<Tag>().ToListAsync();
             if (result != null)
@@ -204,16 +205,16 @@ namespace wallabag.Services
             return result;
         }
 
-        public static async Task<Item> GetItemAsync(int Id)
+        public async Task<Item> GetItemAsync(int Id)
         {
             return await conn.GetAsync<Item>(i => i.Id == Id);
         }
-        public static async Task<Item> GetItemAsync(string Title)
+        public async Task<Item> GetItemAsync(string Title)
         {
             return await conn.GetAsync<Item>(i => i.Title == Title);
         }
 
-        public static async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false)
+        public async Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add("url", Url);

@@ -114,6 +114,7 @@
     <Compile Include="Common\ItemComparer.cs" />
     <Compile Include="Common\SQLite\SQLite.cs" />
     <Compile Include="Common\SQLite\SQLiteAsync.cs" />
+    <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\OfflineTask.cs" />
     <Compile Include="Models\Tag.cs" />
@@ -135,6 +136,7 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
