@@ -8,12 +8,9 @@
     xmlns:vm="using:wallabag.ViewModels"
     xmlns:common="using:wallabag.Common"    
     common:TitleBarExtensions.ButtonBackgroundColor="Transparent"
-    common:TitleBarExtensions.ButtonForegroundColor="White"  
+    common:TitleBarExtensions.ButtonForegroundColor="White"
+    DataContext="{Binding FirstStart, Source={StaticResource Locator}}"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <vm:FirstStartPageViewModel />
-    </Page.DataContext>
 
     <Page.Resources>
         <Storyboard x:Name="GoToStep2">

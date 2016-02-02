@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PropertyChanged;
 using SQLite;
@@ -70,7 +72,7 @@ namespace wallabag.Models
         public string DomainName { get; set; } = string.Empty;
 
         [JsonProperty("tags")]
-        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
+        public ICollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
 
         [JsonProperty("preview_picture")]
         public string PreviewPictureUri { get; set; } = string.Empty;
@@ -78,5 +80,11 @@ namespace wallabag.Models
         public string ReadingProgress { get; set; } = "0";
 
         public override string ToString() { return Title; }
+
+        public Task<int> UpdateAsync()
+        {
+            this.LastUpdated = DateTime.Now;
+            return new SQLiteAsyncConnection(Common.Helpers.DATABASE_PATH).UpdateAsync(this);
+        }
     }
 }

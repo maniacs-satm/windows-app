@@ -1,14 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
+using wallabag.Data.Interfaces;
+using wallabag.Data.Models;
 using wallabag.Models;
-using wallabag.Services;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
@@ -16,68 +18,161 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class MainViewModel : ViewModelBase
     {
-        public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
+        private IDataService _dataService;
+        private SQLite.SQLiteAsyncConnection _sqlconn;
 
-        public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
-        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
-        public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<ItemViewModel> Items { get; set; }
+        public ObservableCollection<Tag> Tags { get; set; }
+        public ObservableCollection<string> DomainNames { get; set; }
+
+        public ObservableCollection<SearchResult> SearchSuggestions { get; set; }
+        public ObservableCollection<string> DomainNameSuggestions { get; set; }
+        public ObservableCollection<Tag> TagSuggestions { get; set; }
+
         public FilterProperties LastUsedFilterProperties { get; set; } = new FilterProperties();
-
         public bool IsSyncing { get; set; } = false;
-        public int NumberOfOfflineTasks { get; set; }
+        public int NumberOfOfflineTasks { get; set; } = 0;
 
-        private ObservableCollection<Item> _Models { get; set; } = new ObservableCollection<Item>();
+        public DelegateCommand RefreshCommand { get; private set; }
+        public DelegateCommand AddItemCommand { get; private set; }
+        public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
+        public DelegateCommand ResetFilterCommand { get; private set; }
 
-        #region Tasks & Commands
-        public async Task LoadItemsAsync()
+        // TODO
+        public DelegateCommand PivotSelectionChangedCommand { get; private set; }
+        public DelegateCommand ItemClickCommand { get; private set; }
+
+        public MainViewModel(IDataService dataService)
         {
-            bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
+            _dataService = dataService;
+            _sqlconn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
 
-            foreach (Item i in await DataService.GetItemsAsync(LastUsedFilterProperties))
+            RefreshCommand = new DelegateCommand(async () => await RefreshItemsAsync());
+            NavigateToSettingsPageCommand = new DelegateCommand(() =>
             {
-                if (_Models.Contains(i, new ItemComparer()) == false)
-                {
-                    _Models.Add(i);
-                    Items.AddSorted(new ItemViewModel(i), new ItemByDateTimeComparer(), sortDescending);
-                }
-            }
-            await RefreshItemsAsync(true);
+                NavigationService.Navigate(typeof(Views.SettingsPage));
+            });
+
+            ResetFilterCommand = new DelegateCommand(async () =>
+            {
+                LastUsedFilterProperties = new FilterProperties();
+                await RefreshItemsAsync();
+            });
         }
-        public async Task RefreshItemsAsync(bool firstStart = false, bool completeReorder = false)
+
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
+            if (state.ContainsKey(nameof(LastUsedFilterProperties)))
+                LastUsedFilterProperties = JsonConvert.DeserializeObject<FilterProperties>((string)state[nameof(LastUsedFilterProperties)]);
+            else
+                LastUsedFilterProperties = new FilterProperties();
+
+            await LoadItemsFromDatabaseAsync();
+
+            NumberOfOfflineTasks = await _sqlconn.Table<OfflineTask>().CountAsync();
+
+            if (AppSettings.SyncOnStartup)
+                await RefreshItemsAsync();
+
+            List<Item> allItems = await _dataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
+            foreach (var item in allItems)
+            {
+                SearchSuggestions.Add(new SearchResult(item.Id, item.Title));
+
+                string domainName = item.DomainName.Replace("www.", string.Empty);
+                if (!DomainNames.Contains(domainName))
+                    DomainNames.Add(domainName);
+
+                foreach (Tag tag in item.Tags)
+                    if (!Tags.Contains(tag))
+                        Tags.Add(tag);
+            }
+        }
+        public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
+        {
+            state[nameof(LastUsedFilterProperties)] = JsonConvert.SerializeObject(LastUsedFilterProperties);
+            return base.OnNavigatedFromAsync(state, suspending);
+        }
+
+        // TODO
+        public void AddItem()
+        {
+            if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
+                NavigationService.Navigate(typeof(Views.AddItemPage));
+            // else show AddItemDialog.
+        }
+        public async Task PivotSelectionChangedAsync()
+        {
+            //switch ((sender as Pivot).SelectedIndex)
+            //{
+            //    case 0:
+            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+            //        await ViewModel.RefreshItemsAsync();
+            //        break;
+            //    case 1:
+            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+            //        await ViewModel.RefreshItemsAsync();
+            //        break;
+            //    case 2:
+            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
+            //        await ViewModel.RefreshItemsAsync();
+            //        break;
+            //}
+        }        
+        public void ItemClick()
+        {
+            //if (e.ClickedItem != null)
+            //{
+            //    var clickedItem = (ItemViewModel)e.ClickedItem;
+            //    BootStrapper.Current.NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id);
+            //}
+        }
+
+        public async Task RefreshItemsAsync()
+        {
+            IsSyncing = true;
+
+            await _dataService.SyncOfflineTasksWithServerAsync();
+            await _dataService.DownloadItemsFromServerAsync();
+
+            bool firstStart = Items.Count == 0;
+            await LoadItemsFromDatabaseAsync(firstStart);
+
+            IsSyncing = false;
+        }
+        public async Task LoadItemsFromDatabaseAsync(bool firstStart = false, bool completeReorder = false)
         {
             bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
 
             if (!firstStart)
             {
-                var itemsInDatabase = await DataService.GetItemsAsync(LastUsedFilterProperties);
+                var itemsInDatabase = await _dataService.GetItemsAsync(LastUsedFilterProperties);
+                var currentItems = new List<Item>();
 
-                var newItems = itemsInDatabase.Except(_Models, new ItemComparer()).ToList();
-                var changedItems = itemsInDatabase.Except(_Models, new ItemChangedComparer()).ToList();
-                var removedItems = _Models.Except(itemsInDatabase, new ItemComparer()).ToList();
+                foreach (var item in Items)
+                    currentItems.Add(item.Model);
+
+                var newItems = itemsInDatabase.Except(currentItems).ToList();
+                var changedItems = itemsInDatabase.Except(currentItems, new ItemChangedComparer()).ToList();
+                var removedItems = currentItems.Except(itemsInDatabase).ToList();
 
                 foreach (var item in newItems)
-                {
                     Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
-                    _Models.Add(item);
-                }
+
                 foreach (var item in changedItems)
                 {
                     Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
                     Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
-                    _Models.Remove(_Models.Where(i => i.Id == item.Id).First());
-                    _Models.Add(item);
 
-                    await new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH).UpdateAsync(item);
+                    await _sqlconn.UpdateAsync(item);
                 }
+
                 foreach (var item in removedItems)
-                {
-                    ItemViewModel itemInCollection = Items.Where(i => i.Model == item).First();
-                    Items.Remove(itemInCollection);
-                    _Models.Remove(item);
-                }
+                    Items.Remove(new ItemViewModel(item));
             }
 
-            Tags = new ObservableCollection<Tag>(await DataService.GetTagsAsync());
+            Tags = new ObservableCollection<Tag>(await _dataService.GetTagsAsync());
+
             foreach (var item in Items)
                 if (!DomainNames.Contains(item.Model.DomainName))
                     DomainNames.Add(item.Model.DomainName);
@@ -90,61 +185,9 @@ namespace wallabag.ViewModels
                     Items = new ObservableCollection<ItemViewModel>(Items.OrderBy(i => i.Model.CreationDate));
                 else
                     Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
-
             }
 
-            SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-            NumberOfOfflineTasks = await conn.Table<OfflineTask>().CountAsync();
-        }
-
-        public DelegateCommand RefreshCommand { get; private set; }
-        public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
-
-        public DelegateCommand ResetFilterCommand { get; private set; }
-        #endregion
-
-        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
-            if (state.ContainsKey(nameof(LastUsedFilterProperties)))
-                LastUsedFilterProperties = JsonConvert.DeserializeObject<FilterProperties>((string)state[nameof(LastUsedFilterProperties)]);
-            else
-                LastUsedFilterProperties = new FilterProperties();
-
-            await LoadItemsAsync();
-
-            SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-            NumberOfOfflineTasks = await conn.Table<OfflineTask>().CountAsync();
-
-            if (AppSettings.SyncOnStartup)
-                RefreshCommand.Execute(null);
-        }
-        public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
-        {
-            state[nameof(LastUsedFilterProperties)] = JsonConvert.SerializeObject(LastUsedFilterProperties);
-            return base.OnNavigatedFromAsync(state, suspending);
-        }
-
-        public MainViewModel()
-        {
-            RefreshCommand = new DelegateCommand(async () =>
-            {
-                IsSyncing = true;
-                await DataService.SyncOfflineTasksWithServerAsync();
-                await DataService.DownloadItemsFromServerAsync();
-                DataService.LastUserSyncDateTime = DateTime.Now;
-                await RefreshItemsAsync();
-                IsSyncing = false;
-            });
-            NavigateToSettingsPageCommand = new DelegateCommand(() =>
-            {
-                NavigationService.Navigate(typeof(Views.SettingsPage));
-            });
-
-            ResetFilterCommand = new DelegateCommand(async () =>
-            {
-                LastUsedFilterProperties = new FilterProperties();
-                await RefreshItemsAsync();
-            });
+            NumberOfOfflineTasks = await _sqlconn.Table<OfflineTask>().CountAsync();
         }
     }
 }

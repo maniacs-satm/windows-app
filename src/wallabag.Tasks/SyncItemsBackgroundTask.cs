@@ -13,17 +13,17 @@ namespace wallabag.Tasks
             var _deferral = taskInstance.GetDeferral();
             taskInstance.Canceled += TaskInstance_Canceled;
 
-            await DataService.SyncOfflineTasksWithServerAsync();
-            await DataService.DownloadItemsFromServerAsync();
+            //await DataService.SyncOfflineTasksWithServerAsync();
+            //await DataService.DownloadItemsFromServerAsync();
 
-            uint newItemsSinceLastOpening = (uint)(await DataService.GetItemsAsync(new FilterProperties
-            {
-                ItemType = FilterProperties.FilterPropertiesItemType.Unread,
-                CreationDateFrom = DataService.LastUserSyncDateTime,
-                CreationDateTo = DateTime.Now
-            })).Count;
-            BadgeNumericNotificationContent badgeContent = new BadgeNumericNotificationContent(newItemsSinceLastOpening);
-            BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeContent.GetXml()));
+            //uint newItemsSinceLastOpening = (uint)(await DataService.GetItemsAsync(new FilterProperties
+            //{
+            //    ItemType = FilterProperties.FilterPropertiesItemType.Unread,
+            //    CreationDateFrom = DataService.LastUserSyncDateTime,
+            //    CreationDateTo = DateTime.Now
+            //})).Count;
+            //BadgeNumericNotificationContent badgeContent = new BadgeNumericNotificationContent(newItemsSinceLastOpening);
+            //BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeContent.GetXml()));
 
             _deferral.Complete();
         }

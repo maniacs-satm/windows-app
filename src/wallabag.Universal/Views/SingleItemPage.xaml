@@ -13,11 +13,8 @@
     common:TitleBarExtensions.ButtonBackgroundColor="{x:Bind ViewModel.CurrentBackground.Color, Mode=OneWay}"
     common:TitleBarExtensions.ForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
     common:TitleBarExtensions.ButtonForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
+    DataContext="{Binding SingleItem, Source={StaticResource Locator}}"
     mc:Ignorable="d">
-
-    <Page.DataContext>
-        <vm:SingleItemPageViewModel/>
-    </Page.DataContext>
 
     <Page.Resources>
         <converter:BooleanNullableConverter x:Key="BoolNullConverter"/>
@@ -97,12 +94,40 @@
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Name="ShowOptionsGrid">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="viewOptionsGrid">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.5" From="136" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="viewOptionsGrid"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewOptionsGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideOptionsGrid">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="viewOptionsGrid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.5" From="0" To="136" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="viewOptionsGrid"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewOptionsGrid">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar ClosedDisplayMode="{x:Bind ViewModel.CommandBarClosedDisplayMode, Mode=OneWay}"
-                    Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}" 
-                    Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}" 
+        <CommandBar x:Name="commandBar" ClosedDisplayMode="{x:Bind ViewModel.CommandBarClosedDisplayMode, Mode=OneWay}"
+                    Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
+                    Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
                     RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton x:Name="MarkAsReadButton"
@@ -116,67 +141,47 @@
                                     Icon="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource FavoriteToIconConverter}}" 
                                     Label="Mark as favorite"
                                     IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"                                    
-                                    Command="{x:Bind  ViewModel.CurrentItem.SwitchFavoriteStatusCommand}"/>
+                                    Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand, Mode=OneWay}"/>
                 <AppBarButton x:Uid="EditTagsAppBarButton"
                               Icon="Tag" 
                               Label="Edit tags" 
                               Click="EditTagsAppBarButton_Click"/>
-                <AppBarButton x:Uid="FontSettingsAppBarButton" Icon="Font" Label="Font settings">
-                    <AppBarButton.Flyout>
-                        <Flyout Placement="Top">
-                            <StackPanel>
-                                <StackPanel.Resources>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Width" Value="40"/>
-                                        <Setter Property="Height" Value="40"/>
-                                        <Setter Property="Margin" Value="2,0"/>
-                                        <Setter Property="FontSize" Value="15"/>
-                                        <Setter Property="Background" Value="Transparent"/>
-                                    </Style>
-                                    <Style TargetType="StackPanel">
-                                        <Setter Property="Margin" Value="4"/>
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    </Style>
-                                </StackPanel.Resources>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="lightColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f311;" FontFamily="Segoe UI Symbol"/>
-                                    <Button x:Name="sepiaColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f312;" FontFamily="Segoe UI Symbol"/>
-                                    <Button x:Name="darkColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f314;" FontFamily="Segoe UI Symbol"/>
-                                    <Button x:Name="blackColorSchemeButton" Click="ChangeColorSchemeButton_Click" Content="&#x1f315;" FontFamily="Segoe UI Symbol"/>
-                                </StackPanel>
-                                <Rectangle Fill="{ThemeResource SystemControlBackgroundBaseLowBrush}" Height="1"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Content="&#xE710;" FontFamily="Segoe MDL2 Assets" Click="IncreaseFontSize"/>
-                                    <Button Content="&#xE738;" FontFamily="Segoe MDL2 Assets" Click="DecreaseFontSize"/>
-                                    <Button Content="&#xE185;" FontFamily="Segoe MDL2 Assets" Click="FontFamilyButton_Click" />
-                                    <Button x:Name="ChangeTextAlignButton" FontFamily="Segoe MDL2 Assets" Click="ChangeTextAlignButton_Click">
-                                        <PathIcon Data="M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14"/>
-                                    </Button>
-                                </StackPanel>
-                            </StackPanel>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-            </CommandBar.PrimaryCommands>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="ShareAppBarButton" Label="Share">
+                <AppBarButton x:Uid="ShareAppBarButton" Label="Share" Click="ShareLinkFlyoutItem_Click">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
                     </AppBarButton.Icon>
-                    <AppBarButton.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem x:Name="ShareContentFlyoutItem" Text="Content" Click="ShareContentFlyoutItem_Click"/>
-                            <MenuFlyoutItem x:Name="ShareLinkFlyoutItem" Text="Link" Click="ShareLinkFlyoutItem_Click"/>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
                 </AppBarButton>
+            </CommandBar.PrimaryCommands>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Uid="FontSettingsAppBarButton" Icon="Font" Label="Font settings" Click="FontSettingsAppBarButton_Click"/>
                 <AppBarSeparator/>
                 <AppBarButton x:Uid="DeleteAppBarButton" Label="Delete" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 
-    <Grid Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}">
+    <Grid Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
+          RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Stretch"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.Setters>
+                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Right"/>
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}" Opacity="0" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
             <WebView.RenderTransform>
                 <CompositeTransform/>
@@ -196,10 +201,9 @@
                     <TextBlock 
                         x:Uid="ManageTagsHeaderTextBlock"
                         Text="MANAGE TAGS" 
-                        Style="{ThemeResource PageTitleTextBlockStyle}"
-                        VerticalAlignment="Top"/>
+                        Style="{ThemeResource PageTitleTextBlockStyle}"/>
                 </Border>
-                <controls:TagControl Grid.Row="1" Margin="8,16" Tags="{x:Bind ViewModel.ItemTags, Mode=TwoWay}"/>
+                <controls:TagControl Grid.Row="1" Margin="8,16" ItemsSource="{x:Bind ViewModel.CurrentItem.Model.Tags, Mode=TwoWay}"/>
                 <CommandBar Grid.Row="2">
                     <AppBarButton x:Name="CancelTagsAppBarButton" 
                                   x:Uid="CancelAppBarButton"
@@ -216,11 +220,11 @@
             Height="64"
             VerticalAlignment="Center"
             HorizontalAlignment="Center"
-            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
+            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}" d:IsHidden="True"/>
         <Border
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock x:Name="SymbolTextBlock"
                            FontSize="64"
@@ -250,6 +254,54 @@
             Title="{x:Bind ViewModel.CurrentItem.Model.Title, Mode=OneWay}"
             DomainName="{x:Bind ViewModel.CurrentItem.Model.DomainName, Mode=OneWay}" 
             VerticalAlignment="Center"
-            Opacity="0"/>
+            Opacity="0"
+            Visibility="Collapsed" d:IsHidden="True"/>
+        <Grid x:Name="viewOptionsGrid"
+              Padding="8" 
+              VerticalAlignment="Bottom"
+              RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" Background="#4C000000">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RenderTransform>
+                <CompositeTransform TranslateY="136"/>
+            </Grid.RenderTransform>
+            <Grid.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource RoundButtonStyle}">
+                    <Setter Property="Padding" Value="8"/>
+                    <Setter Property="Margin" Value="6"/>
+                    <Setter Property="Height" Value="48" />
+                    <Setter Property="Width" Value="48"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+                </Style>
+            </Grid.Resources>
+
+            <RelativePanel>
+                <Button x:Name="lightColorSchemeButton" Content="&#x1f311;" Click="ChangeColorSchemeButton_Click" FontFamily="Segoe UI Symbol"/>
+                <Button x:Name="sepiaColorSchemeButton" Content="&#x1f312;" Click="ChangeColorSchemeButton_Click" RelativePanel.RightOf="lightColorSchemeButton" FontFamily="Segoe UI Symbol"/>
+                <Button x:Name="darkColorSchemeButton" Content="&#x1f314;" Click="ChangeColorSchemeButton_Click" RelativePanel.Below="lightColorSchemeButton" FontFamily="Segoe UI Symbol"/>
+                <Button x:Name="blackColorSchemeButton" Content="&#x1f315;" Click="ChangeColorSchemeButton_Click" RelativePanel.Below="sepiaColorSchemeButton" RelativePanel.RightOf="darkColorSchemeButton" FontFamily="Segoe UI Symbol"/>
+            </RelativePanel>
+
+            <Button Content="&#xE011;" 
+                    Grid.Column="1" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Bottom" 
+                    Background="Transparent" 
+                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                    Click="Button_Click"/>
+
+            <RelativePanel Grid.Column="2">
+                <Button x:Name="DecreaseFontSizeButton" Content="&#xE738;" Click="DecreaseFontSize"/>
+                <Button x:Name="IncreaseFontSizeButton" Content="&#xE710;" Click="IncreaseFontSize" RelativePanel.RightOf="DecreaseFontSizeButton"/>
+                <Button x:Name="ChangeFontFamilyButton" Content="&#xE185;" Click="FontFamilyButton_Click" RelativePanel.Below="IncreaseFontSizeButton"/>
+                <Button x:Name="ChangeTextAlignButton" Click="ChangeTextAlignButton_Click" RelativePanel.Below="DecreaseFontSizeButton" RelativePanel.RightOf="ChangeFontFamilyButton">
+                    <PathIcon Data="M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14"/>
+                </Button>
+            </RelativePanel>
+        </Grid>
     </Grid>
 </Page>

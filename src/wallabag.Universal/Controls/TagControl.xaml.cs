@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using wallabag.Models;
+using wallabag.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -14,12 +15,12 @@ namespace wallabag.Controls
             InitializeComponent();
         }
 
-        public ICollection<Tag> Tags
+        public ICollection<Tag> ItemsSource
         {
-            get { return (ICollection<Tag>)GetValue(TagsProperty); }
-            set { SetValue(TagsProperty, value); }
+            get { return (ICollection<Tag>)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
         }
-        public ObservableCollection<string> possibleTags { get; set; }
+        public List<string> possibleTags { get; set; }
         public ObservableCollection<string> Suggestions { get; set; } = new ObservableCollection<string>();
 
         private static async void OnTagsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -29,23 +30,21 @@ namespace wallabag.Controls
 
             if (control.possibleTags == null)
             {
-                control.possibleTags = new ObservableCollection<string>();
-                List<Tag> tags = new List<Tag>(); ;
-                SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Common.Helpers.DATABASE_PATH);
-                tags = await conn.Table<Tag>().ToListAsync();
+                control.possibleTags = new List<string>();
 
-                foreach (var item in tags)
-                    control.possibleTags.Add(item.Label);
+                // TODO
+                //foreach (var item in await DataService.GetTagsAsync())
+                //    control.possibleTags.Add(item.Label);
             }
         }
 
-        // Using a DependencyProperty as the backing store for Tags.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TagsProperty =
-            DependencyProperty.Register("Tags", typeof(ICollection<Tag>), typeof(TagControl), new PropertyMetadata(DependencyProperty.UnsetValue, new PropertyChangedCallback(OnTagsChanged)));
+        // Using a DependencyProperty as the backing store for ItemsSource.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(ICollection<Tag>), typeof(TagControl), new PropertyMetadata(DependencyProperty.UnsetValue, new PropertyChangedCallback(OnTagsChanged)));
 
         private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<string>(possibleTags.Where(t=>t.Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<string>(possibleTags.Where(t => t.Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
@@ -57,13 +56,13 @@ namespace wallabag.Controls
 
         private void listView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Tags.Remove(e.ClickedItem as Tag);
+            ItemsSource.Remove(e.ClickedItem as Tag);
             UpdateNoTagsExistingStackPanelVisibility();
         }
 
         public void UpdateNoTagsExistingStackPanelVisibility()
         {
-            if (Tags.Count > 0)
+            if (ItemsSource.Count > 0)
                 noTagsExistingStackPanel.Visibility = Visibility.Collapsed;
             else
                 noTagsExistingStackPanel.Visibility = Visibility.Visible;
@@ -73,13 +72,23 @@ namespace wallabag.Controls
         {
             if (!string.IsNullOrWhiteSpace(sender.Text))
             {
-                var newTag = new Tag() { Label = sender.Text };
+                List<string> tags = sender.Text.Split(new string[] { "," }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                if (Tags.Where(t => t.Label == sender.Text).Count() == 0)
-                    Tags.Add(newTag);
+                Tag _lastTag = null;
+                foreach (string item in tags)
+                {
+                    if (!string.IsNullOrWhiteSpace(item) &&
+                        ItemsSource.Where(t => t.Label == item).Count() == 0)
+                    {
+                        var newTag = new Tag() { Label = item };
+                        ItemsSource.Add(newTag);
+                        _lastTag = newTag;
+                    }
+                }
+
 
                 textBox.Text = string.Empty;
-                listView.ScrollIntoView(newTag);
+                listView.ScrollIntoView(_lastTag);
                 UpdateNoTagsExistingStackPanelVisibility();
             }
         }

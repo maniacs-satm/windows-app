@@ -12,39 +12,20 @@ namespace wallabag.Controls
     public sealed partial class ItemControl : UserControl
     {
         private double WindowWidth { get { return Window.Current.CoreWindow.Bounds.Width; } }
-
-        public Models.Item Model
-        {
-            get { return (Models.Item)GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Model.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ModelProperty =
-            DependencyProperty.Register("Model", typeof(Models.Item), typeof(ItemControl), new PropertyMetadata(DependencyProperty.UnsetValue));
+        public ItemViewModel ViewModel { get { return DataContext as ItemViewModel; } }
 
         public ItemControl()
         {
             InitializeComponent();
-            if (!Helpers.IsPhone)
-                ContextMenuGrid.PointerExited += (s, e) => HideTouchMenu();
-            ContextMenuGrid.PointerWheelChanged += (s, e) => HideTouchMenu();
-            this.PointerEntered += BottomGrid_PointerEntered;
-            this.PointerExited += BottomGrid_PointerExited;
-            this.Loaded += ItemControl_Loaded;
+            PointerEntered += BottomGrid_PointerEntered;
+            PointerExited += BottomGrid_PointerExited;
 
-            foreach (AppBarButton button in stackPanel.Children)
-                button.Click += (s, e) => HideTouchMenu();
+            DataContextChanged += ItemControl_DataContextChanged;
         }
 
-        private void ItemControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void ItemControl_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
-                ShowContextMenuColorAnimation.To = Color.FromArgb(0xCC, 0, 0, 0);
-            else
-                ShowContextMenuColorAnimation.To = Color.FromArgb(0xCC, 255, 255, 255);
-
-            if (string.IsNullOrEmpty(Model.PreviewPictureUri))
+            if (args.NewValue is ItemViewModel && string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri))
             {
                 var newBackground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
                 newBackground.Opacity = 0.5;
@@ -67,9 +48,5 @@ namespace wallabag.Controls
             if (!_PointerExited && WindowWidth >= 720)
                 ShowOverlayStoryboard.Begin();
         }
-
-        private void HideTouchMenu() =>
-            (ContextMenuGrid.Resources["HideContextMenu"] as Storyboard).Begin();
-
     }
 }

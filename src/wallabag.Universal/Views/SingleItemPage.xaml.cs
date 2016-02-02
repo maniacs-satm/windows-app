@@ -59,52 +59,39 @@ namespace wallabag.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e) { dataTransferManager.DataRequested -= SingleItemPage_DataRequested; }
 
         #region Data transfer
-        private bool shareContent = false;
         private async void SingleItemPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             var deferral = args.Request.GetDeferral();
 
             StorageFile quoteFile = null;
-            if (shareContent == false)
-            {
-                var selectedText = await WebView.InvokeScriptAsync("getSelectionText", new List<string>());
-                if (!string.IsNullOrWhiteSpace(selectedText))
-                {
-                    ShareTextControl.SelectionContent = selectedText;
 
-                    quoteFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"{Guid.NewGuid()}.png", CreationCollisionOption.ReplaceExisting);
-                    var stream = await quoteFile.OpenAsync(FileAccessMode.ReadWrite);
-                    await ShareTextControl.CaptureToStreamAsync(stream);
-                    stream.Dispose();
-                }
+            ShareTextControl.Visibility = Visibility.Visible;
+            var selectedText = await WebView.InvokeScriptAsync("getSelectionText", new List<string>());
+            if (!string.IsNullOrWhiteSpace(selectedText))
+            {
+                ShareTextControl.SelectionContent = selectedText;
+
+                quoteFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"{Guid.NewGuid()}.png", CreationCollisionOption.ReplaceExisting);
+                var stream = await quoteFile.OpenAsync(FileAccessMode.ReadWrite);
+                await ShareTextControl.CaptureToStreamAsync(stream);
+                stream.Dispose();
+                ShareTextControl.Visibility = Visibility.Collapsed;
             }
 
             if (ViewModel.CurrentItem != null)
             {
                 var data = args.Request.Data;
-                if (shareContent)
-                    data.SetHtmlFormat(ViewModel.CurrentItem.ContentWithHeader);
-                else
-                {
-                    data.SetWebLink(new Uri(ViewModel.CurrentItem.Model.Url));
-                    if (quoteFile != null)
-                        data.SetBitmap(RandomAccessStreamReference.CreateFromFile(quoteFile));
-                }
+
+                data.SetWebLink(new Uri(ViewModel.CurrentItem.Model.Url));
+                if (quoteFile != null)
+                    data.SetBitmap(RandomAccessStreamReference.CreateFromFile(quoteFile));
+
                 data.Properties.Title = ViewModel.CurrentItem.Model.Title;
             }
             deferral.Complete();
         }
 
-        private void ShareLinkFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            shareContent = false;
-            DataTransferManager.ShowShareUI();
-        }
-        private void ShareContentFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            shareContent = true;
-            DataTransferManager.ShowShareUI();
-        }
+        private void ShareLinkFlyoutItem_Click(object sender, RoutedEventArgs e) { DataTransferManager.ShowShareUI(); }
         #endregion
 
         private async Task ChangeHtmlAttributesAsync()
@@ -176,6 +163,16 @@ namespace wallabag.Views
         private void HideTagsAppBarButton_Click(object sender, RoutedEventArgs e)
         {
             HideEditTagsBorder.Begin();
+        }
+
+        private void FontSettingsAppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowOptionsGrid.Begin();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            HideOptionsGrid.Begin();
         }
     }
 }

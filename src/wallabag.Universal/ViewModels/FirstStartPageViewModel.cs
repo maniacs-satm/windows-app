@@ -1,18 +1,22 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
+using wallabag.Data.Interfaces;
 using Windows.System;
-using static wallabag.Common.Helpers;
 using Windows.UI.Xaml.Navigation;
+using static wallabag.Common.Helpers;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class FirstStartPageViewModel : ViewModelBase
     {
+        private IDataService _dataService;
+
         public string Username { get; set; }
         public string Password { get; set; }
         public string WallabagUrl { get; set; }
@@ -21,6 +25,20 @@ namespace wallabag.ViewModels
         public DelegateCommand LoginCommand { get; private set; }
         public DelegateCommand OpenImageSourceCommand { get; private set; }
 
+        public FirstStartPageViewModel(IDataService dataService)
+        {
+            _dataService = dataService;
+
+            LoginCommand = new DelegateCommand(async () => await Login());
+            OpenImageSourceCommand = new DelegateCommand(async () => await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/")));
+        }
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
+            bool databaseDoesNotExist = await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(DATABASE_FILENAME) == null;
+
+            if (!string.IsNullOrEmpty(AppSettings.AccessToken) && databaseDoesNotExist)
+                await SetupWallabagAndNavigateToContentPage();
+        }
         public async Task Login()
         {
             StatusText = LocalizedString("FirstStartLoggingInLabel");
@@ -37,16 +55,19 @@ namespace wallabag.ViewModels
                 await SetupWallabagAndNavigateToContentPage();
             }
             else
+            {
                 StatusText = LocalizedString("FirstStartLoginFailedLabel");
+                Messenger.Default.Send(new NotificationMessage("LoginFailed"));
+            }
 
         }
         public async Task SetupWallabagAndNavigateToContentPage()
         {
             StatusText = LocalizedString("FirstStartCreateDatabaseLabel");
-            await Services.DataService.InitializeDatabaseAsync();
+            await _dataService.InitializeDatabaseAsync();
 
             StatusText = LocalizedString("FirstStartDownloadArticlesFromServerLabel");
-            var downloadTask = Services.DataService.DownloadItemsFromServerAsync(true);
+            var downloadTask = _dataService.DownloadItemsFromServerAsync(true);
             downloadTask.Progress = (s, p) =>
             {
                 StatusText = string.Format(LocalizedString("FirstStartDownloadProgressLabel"), p.CurrentItemIndex, p.TotalNumberOfItems);
@@ -65,19 +86,6 @@ namespace wallabag.ViewModels
                     StatusText = i.ErrorCode.Message;
             };
             var result = await downloadTask;
-        }
-
-        public FirstStartPageViewModel()
-        {
-            LoginCommand = new DelegateCommand(async () => await Login());
-            OpenImageSourceCommand = new DelegateCommand(async () => await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/")));
-        }
-
-        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
-            bool databaseDoesNotExist = await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(Helpers.DATABASE_FILENAME) == null;
-            if (!string.IsNullOrEmpty(AppSettings.AccessToken) && databaseDoesNotExist)
-                await SetupWallabagAndNavigateToContentPage();
         }
     }
 }

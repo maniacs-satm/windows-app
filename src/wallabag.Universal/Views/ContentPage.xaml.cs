@@ -5,7 +5,6 @@ using System.Linq;
 using Template10.Common;
 using wallabag.Common;
 using wallabag.Models;
-using wallabag.Services;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -13,6 +12,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -21,24 +21,35 @@ namespace wallabag.Views
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
+
         private GridView _ItemGridView;
         public bool IsMultipleSelectionEnabled { get; set; } = false;
         private bool IsSearchVisible { get; set; } = false;
 
-        public ObservableCollection<SearchResult> Items { get; set; } = new ObservableCollection<SearchResult>();
-        public ObservableCollection<SearchResult> ItemSearchSuggestions { get; set; } = new ObservableCollection<SearchResult>();
 
-        public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
+        public ContentPage()
+        {
+            InitializeComponent();
+            HideDragDropGridStoryboard.Completed += (s, e) =>
+            {
+                ViewModel.RefreshItemsAsync(); // TODO: Use the messenger!
+            };
+        }
 
-        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
-        public ObservableCollection<Tag> TagSuggestions { get; set; } = new ObservableCollection<Tag>();
+        // TODO: Use VisualStates.
+        //private void ItemGridView_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    var ItemGridView = sender as GridView;
+        //    if (e.NewSize.Width < 720)
+        //        ItemGridView.ItemsPanel = ListViewTemplate;
+        //    else
+        //        ItemGridView.ItemsPanel = GridViewTemplate;
+        //}
 
         #region Context menu
         private bool _IsShiftPressed = false;
         private bool _IsPointerPressed = false;
         private ItemViewModel _LastFocusedItemViewModel;
-        private FrameworkElement _LastFocusedItem;
 
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
@@ -56,7 +67,7 @@ namespace wallabag.Views
                 if (FocusedUIElement is ContentControl)
                     _LastFocusedItemViewModel = ((ContentControl)FocusedUIElement).Content as ItemViewModel;
 
-                ShowContextMenu(_LastFocusedItemViewModel, FocusedUIElement, new Point(0, 0));
+                ShowContextMenu(FocusedUIElement, new Point(0, 0));
                 e.Handled = true;
             }
 
@@ -71,10 +82,18 @@ namespace wallabag.Views
         }
         protected override void OnHolding(HoldingRoutedEventArgs e)
         {
-            ShowContextMenu(e.OriginalSource as FrameworkElement);
-            _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+            if (e.HoldingState == Windows.UI.Input.HoldingState.Started)
+            {
+                _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
+                ShowContextMenu(null, e.GetPosition(null));
+                e.Handled = true;
 
-            e.Handled = true;
+                _IsPointerPressed = false;
+
+                var itemsToCancel = VisualTreeHelper.FindElementsInHostCoordinates(e.GetPosition(null), _ItemGridView);
+                foreach (var item in itemsToCancel)
+                    item.CancelDirectManipulations();
+            }
 
             base.OnHolding(e);
         }
@@ -89,48 +108,23 @@ namespace wallabag.Views
             if (_IsPointerPressed)
             {
                 _LastFocusedItemViewModel = (e.OriginalSource as FrameworkElement).DataContext as ItemViewModel;
-
-                if (AppSettings.UseClassicContextMenuForMouseInput)
-                    ShowContextMenu(_LastFocusedItemViewModel, null, e.GetPosition(null));
-                else
-                    ShowContextMenu(e.OriginalSource as FrameworkElement);
+                ShowContextMenu(null, e.GetPosition(null));
 
                 e.Handled = true;
             }
 
             base.OnRightTapped(e);
         }
-        private void ShowContextMenu(ItemViewModel data, UIElement target, Point offset)
+        private void ShowContextMenu(UIElement target, Point offset)
         {
-            if (data != null && !IsMultipleSelectionEnabled)
+            if (_LastFocusedItemViewModel != null && !IsMultipleSelectionEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
+
+                foreach (var item in MyFlyout.Items)
+                    item.DataContext = _LastFocusedItemViewModel;
+
                 MyFlyout.ShowAt(target, offset);
-            }
-        }
-        private void ShowContextMenu(FrameworkElement element)
-        {
-            if (IsMultipleSelectionEnabled)
-                return;
-
-            if (_LastFocusedItem != null)
-                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
-
-            if (element.GetType() == typeof(Grid) && element.Name == "ContextMenuGrid")
-            {
-                _LastFocusedItem = element;
-
-                (element.Resources["ShowContextMenu"] as Storyboard).Begin();
-                (element.Resources["HideContextMenu"] as Storyboard).Completed += async (s, e) => { await ViewModel.RefreshItemsAsync(); };
-            }
-        }
-
-        private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
-        {
-            if (_LastFocusedItem != null)
-            {
-                ((_LastFocusedItem as Grid).Resources["HideContextMenu"] as Storyboard).Begin();
-                _LastFocusedItem = null;
             }
         }
 
@@ -154,57 +148,6 @@ namespace wallabag.Views
             await ViewModel.RefreshItemsAsync();
         }
         #endregion
-
-        public ICollection<Tag> MultipleSelectionTags { get; set; }
-
-        public ContentPage()
-        {
-            InitializeComponent();
-            HideAddItemBorder.Completed += HideAddItemBorder_Completed;
-            HideDragDropGridStoryboard.Completed += HideAddItemBorder_Completed;
-            MultipleSelectionTags = new ObservableCollection<Tag>();
-        }
-
-        private async void HideAddItemBorder_Completed(object sender, object e) => await ViewModel.RefreshItemsAsync();
-        private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            List<Item> allItems = await DataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
-            foreach (var item in allItems)
-            {
-                Items.Add(new SearchResult(item.Id, item.Title));
-
-                string domainName = item.DomainName.Replace("www.", string.Empty);
-                if (!DomainNames.Contains(domainName))
-                    DomainNames.Add(domainName);
-
-                foreach (Tag tag in item.Tags)
-                    if (Tags.Where(t => t.Label == tag.Label).Count() == 0)
-                        Tags.Add(tag);
-            }
-            if (AppSettings.ShowTheFilterPaneInline && !Helpers.IsPhone)
-                splitView.DisplayMode = SplitViewDisplayMode.Inline;
-            else
-                splitView.DisplayMode = SplitViewDisplayMode.Overlay;
-        }
-
-        private void ItemGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem != null)
-            {
-                var clickedItem = (ItemViewModel)e.ClickedItem;
-                BootStrapper.Current.NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id);
-            }
-        }
-
-        private void AddItemButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
-                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(AddItemPage));
-            else
-                (Resources["ShowAddItemBorder"] as Storyboard).Begin();
-        }
 
         #region Multiple selection
 
@@ -284,206 +227,6 @@ namespace wallabag.Views
             }
             multipleSelectToggleButton_Click(sender, e);
         }
-
-        private void CancelTagsAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            MultipleSelectionTags.Clear();
-            (Resources["HideEditTagsBorder"] as Storyboard).Begin();
-        }
-        private async void SaveTagsAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            (Resources["HideEditTagsBorder"] as Storyboard).Begin();
-
-            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-                await ItemViewModel.AddTagsAsync(item.Model.Id, MultipleSelectionTags.ToCommaSeparatedString());
-
-            MultipleSelectionTags.Clear();
-            multipleSelectToggleButton_Click(sender, e);
-        }
-
-        #endregion
-
-        private async void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch ((sender as Pivot).SelectedIndex)
-            {
-                case 0:
-                    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
-                    await ViewModel.RefreshItemsAsync();
-                    break;
-                case 1:
-                    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
-                    await ViewModel.RefreshItemsAsync();
-                    break;
-                case 2:
-                    ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
-                    await ViewModel.RefreshItemsAsync();
-                    break;
-            }
-        }
-
-        private void ItemGridView_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var ItemGridView = sender as GridView;
-            if (e.NewSize.Width < 720)
-                ItemGridView.ItemsPanel = ListViewTemplate;
-            else
-                ItemGridView.ItemsPanel = GridViewTemplate;
-        }
-
-        private void HideAddItemBorder_Click(object sender, RoutedEventArgs e) =>
-            (Resources["HideAddItemBorder"] as Storyboard).Begin();
-
-        #region Search & Filter
-        private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            var possibleResults = new ObservableCollection<SearchResult>(Items.Where(t => t.Value.ToLower().Contains(sender.Text.ToLower())));
-
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                ItemSearchSuggestions.Clear();
-                foreach (var item in possibleResults)
-                    ItemSearchSuggestions.Add(item);
-            }
-        }
-        private void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null)
-            {
-                var id = ((SearchResult)args.ChosenSuggestion).Id;
-                (Application.Current as BootStrapper).NavigationService.Navigate(typeof(SingleItemPage), id.ToString());
-            }
-        }
-
-        private async void domainNameAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (string.IsNullOrEmpty(sender.Text))
-            {
-                ViewModel.LastUsedFilterProperties.DomainName = string.Empty;
-                await ViewModel.RefreshItemsAsync();
-                return;
-            }
-
-            var possibleResults = new ObservableCollection<string>(DomainNames.Where(t => t.ToLower().StartsWith(sender.Text.ToLower())));
-
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                DomainNameSuggestions.Clear();
-                foreach (var item in possibleResults)
-                    DomainNameSuggestions.Add(item);
-            }
-        }
-        private async void domainNameAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null)
-            {
-                sender.Text = args.ChosenSuggestion.ToString();
-                ViewModel.LastUsedFilterProperties.DomainName = sender.Text;
-                await ViewModel.RefreshItemsAsync();
-            }
-        }
-
-        private async void tagAutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (string.IsNullOrEmpty(sender.Text))
-            {
-                ViewModel.LastUsedFilterProperties.FilterTag = null;
-                await ViewModel.RefreshItemsAsync();
-                return;
-            }
-
-            var possibleResults = new ObservableCollection<Tag>(Tags.Where(t => t.Label.ToLower().StartsWith(sender.Text.ToLower())));
-
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                TagSuggestions.Clear();
-                foreach (var item in possibleResults)
-                    TagSuggestions.Add(item);
-            }
-        }
-        private async void tagAutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (args.ChosenSuggestion != null)
-            {
-                sender.Text = args.ChosenSuggestion.ToString();
-                ViewModel.LastUsedFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
-                await ViewModel.RefreshItemsAsync();
-            }
-        }
-
-        private async void sortOrderRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            if (sender == sortAscendingRadioButton)
-                ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Ascending;
-            else
-                ViewModel.LastUsedFilterProperties.SortOrder = FilterProperties.FilterPropertiesSortOrder.Descending;
-            await ViewModel.RefreshItemsAsync(false, true);
-        }
-        private async void filterComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            await ViewModel.RefreshItemsAsync();
-        }
-        private async void filterCalendarDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
-        {
-            await ViewModel.RefreshItemsAsync();
-        }
-
-        private void resetFilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            sortDescendingRadioButton.IsChecked = true;
-            shortEstimatedReadingTimeRadioButton.IsChecked = null;
-            mediumEstimatedReadingTimeRadioButton.IsChecked = null;
-            longEstimatedReadingTimeRadioButton.IsChecked = null;
-        }
-        private void searchToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!IsSearchVisible)
-            {
-                ShowSearchGrid.Begin();
-                IsSearchVisible = true;
-                splitView.IsPaneOpen = AppSettings.OpenTheFilterPaneWithTheSearch;
-            }
-            else
-            {
-                HideSearchGrid.Begin();
-                IsSearchVisible = false;
-                splitView.IsPaneOpen = false;
-            }
-        }
-        private void SplitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
-        {
-            args.Cancel = true;
-            HideFilterPanel(sender);
-        }
-        private void HideFilterPanel(SplitView sender)
-        {
-            if (filterToggleButton.IsChecked == true)
-            {
-                HideSearchGrid.Begin();
-                sender.IsPaneOpen = false;
-                IsSearchVisible = false;
-            }
-        }
-
-        private async void shortEstimatedReadingTimeRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            if (sender == shortEstimatedReadingTimeRadioButton)
-            {
-                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 0;
-                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 5;
-            }
-            else if (sender == mediumEstimatedReadingTimeRadioButton)
-            {
-                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 5;
-                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 15;
-            }
-            else if (sender == longEstimatedReadingTimeRadioButton)
-            {
-                ViewModel.LastUsedFilterProperties.MinimumEstimatedReadingTime = 15;
-                ViewModel.LastUsedFilterProperties.MaximumEstimatedReadingTime = 999; // I really hope there's no article which takes more than 999 minutes to read :D
-            }
-            await ViewModel.RefreshItemsAsync();
-        }
         #endregion
 
         #region Drag & Drop
@@ -494,7 +237,7 @@ namespace wallabag.Views
                 HideDragDropGridStoryboard.Begin();
 
                 var item = await e.DataView.GetWebLinkAsync();
-                await DataService.AddItemAsync(item.ToString());
+                // TODO:  await DataService.AddItemAsync(item.ToString());
             }
         }
 

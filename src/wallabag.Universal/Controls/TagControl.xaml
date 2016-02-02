@@ -14,7 +14,7 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="listView" ItemsSource="{x:Bind Tags, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="listView_ItemClick"
+        <ListView x:Name="listView" ItemsSource="{x:Bind ItemsSource, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="listView_ItemClick"
                   ScrollViewer.HorizontalScrollMode="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollMode="Disabled">
             <ListView.ItemsPanel>

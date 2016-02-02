@@ -47,11 +47,6 @@ namespace wallabag.ViewModels
             get { return AppSettings.SyncOnStartup; }
             set { AppSettings.SyncOnStartup = value; }
         }
-        public bool UseClassicContextMenuForMouseInput
-        {
-            get { return AppSettings.UseClassicContextMenuForMouseInput; }
-            set { AppSettings.UseClassicContextMenuForMouseInput = value; }
-        }
         public bool UseBackgroundTask
         {
             get { return AppSettings.UseBackgroundTask; }

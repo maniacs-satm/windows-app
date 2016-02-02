@@ -111,6 +111,11 @@ img {
     margin-bottom: 0.5em;
     max-width: 100%;
     vertical-align: middle;
+    opacity: 0;
+    -moz-transition: opacity .5s ease-in;
+    -o-transition: opacity .5s ease-in;
+    -webkit-transition: opacity .5s ease-in;
+    transition: opacity .5s ease-in;
 }
 
 figure {
@@ -198,6 +203,10 @@ code {
     vertical-align: top;
 }
 
+audio, video {
+    max-width: 43.75em;
+}
+
 ::selection, mark {
     background: @accent-color;
     color: @background-color;
@@ -254,11 +263,11 @@ article {
 /*-----------------------------------------------------------------*/
 
 [data-font="serif"] body {
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: Cambria;
 }
 
 [data-font="sans"] body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI';
 }
 
 [data-color="light"] {

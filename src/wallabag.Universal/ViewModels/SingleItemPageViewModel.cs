@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
-using wallabag.Models;
 using wallabag.Services;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -16,19 +14,21 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
+using wallabag.Data.Interfaces;
 
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
     public class SingleItemPageViewModel : ViewModelBase
     {
+        private IDataService _dataService;
+
         public ItemViewModel CurrentItem { get; set; }
         private string ContainerKey { get { return $"ReadingProgressContainer-{new Uri(AppSettings.wallabagUrl).Host}"; } }
 
         public SolidColorBrush CurrentBackground { get; set; }
         public SolidColorBrush CurrentForeground { get; set; }
         public ElementTheme AppBarRequestedTheme { get; set; }
-        public ICollection<Tag> ItemTags { get; set; }
         public double FontSize
         {
             get { return AppSettings.FontSize; }
@@ -42,8 +42,9 @@ namespace wallabag.ViewModels
         public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
 
-        public SingleItemPageViewModel()
+        public SingleItemPageViewModel(IDataService dataService)
         {
+            _dataService = dataService;
             DownloadItemCommand = new DelegateCommand(async () => { await DownloadItemAsFileAsync(); });
             MarkItemAsReadCommand = new DelegateCommand(async () =>
             {
@@ -51,18 +52,7 @@ namespace wallabag.ViewModels
                 if (AppSettings.NavigateBackAfterReadingAnArticle)
                     NavigationService.GoBack();
             });
-        }
-
-        private async void SingleItemPageViewModel_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.NewItems != null)
-                foreach (Tag t in e.NewItems)
-                    await ItemViewModel.AddTagsAsync(CurrentItem.Model.Id, t.Label);
-
-            if (e.OldItems != null)
-                foreach (Tag t in e.OldItems)
-                    await ItemViewModel.DeleteTagAsync(CurrentItem.Model.Id, t.Id);
-        }
+        }              
 
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -76,10 +66,10 @@ namespace wallabag.ViewModels
             if (Helpers.IsPhone)
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
         }
-        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
 
-            CurrentItem = new ItemViewModel(await DataService.GetItemAsync((int)parameter));
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
+            CurrentItem = new ItemViewModel(await _dataService.GetItemAsync((int)parameter));
 
             if (AppSettings.SyncReadingProgress)
                 if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey(ContainerKey))
@@ -92,9 +82,6 @@ namespace wallabag.ViewModels
 
             if (Helpers.IsPhone)
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
-
-            ItemTags = CurrentItem.Model.Tags;
-            (ItemTags as ObservableCollection<Tag>).CollectionChanged += SingleItemPageViewModel_CollectionChanged;
 
             if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
             {
@@ -163,7 +150,7 @@ namespace wallabag.ViewModels
                         // TODO: Currently just downloading the login page :/
                         Uri downloadUrl = new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
-                        Helpers.AddHttpHeadersAsync(http);
+                        AddHttpHeadersAsync(http);
 
                         var response = await http.GetAsync(downloadUrl);
                         if (response.IsSuccessStatusCode)
