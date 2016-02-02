@@ -66,9 +66,9 @@ namespace wallabag.ViewModels
             if (Helpers.IsPhone)
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
         }
-        public override async void OnNavigatedTo(object parameter, NavigationMode mode, IDictionary<string, object> state)
-        {
 
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        {
             CurrentItem = new ItemViewModel(await _dataService.GetItemAsync((int)parameter));
 
             if (AppSettings.SyncReadingProgress)
@@ -82,7 +82,7 @@ namespace wallabag.ViewModels
 
             if (Helpers.IsPhone)
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
-        
+
             if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
             {
                 ErrorHappened = true;

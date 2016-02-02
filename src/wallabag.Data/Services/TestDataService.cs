@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using wallabag.Data.Interfaces;
+using wallabag.Data.Models;
 using wallabag.Models;
 using wallabag.Services;
 using Windows.Foundation;

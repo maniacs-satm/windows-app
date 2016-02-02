@@ -10,6 +10,7 @@ using wallabag.Common;
 using wallabag.Data.Interfaces;
 using wallabag.Data.Models;
 using wallabag.Models;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
@@ -33,8 +34,13 @@ namespace wallabag.ViewModels
         public int NumberOfOfflineTasks { get; set; } = 0;
 
         public DelegateCommand RefreshCommand { get; private set; }
+        public DelegateCommand AddItemCommand { get; private set; }
         public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
         public DelegateCommand ResetFilterCommand { get; private set; }
+
+        // TODO
+        public DelegateCommand PivotSelectionChangedCommand { get; private set; }
+        public DelegateCommand ItemClickCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -86,6 +92,40 @@ namespace wallabag.ViewModels
         {
             state[nameof(LastUsedFilterProperties)] = JsonConvert.SerializeObject(LastUsedFilterProperties);
             return base.OnNavigatedFromAsync(state, suspending);
+        }
+
+        // TODO
+        public void AddItem()
+        {
+            if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
+                NavigationService.Navigate(typeof(Views.AddItemPage));
+            // else show AddItemDialog.
+        }
+        public async Task PivotSelectionChangedAsync()
+        {
+            //switch ((sender as Pivot).SelectedIndex)
+            //{
+            //    case 0:
+            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+            //        await ViewModel.RefreshItemsAsync();
+            //        break;
+            //    case 1:
+            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+            //        await ViewModel.RefreshItemsAsync();
+            //        break;
+            //    case 2:
+            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
+            //        await ViewModel.RefreshItemsAsync();
+            //        break;
+            //}
+        }        
+        public void ItemClick()
+        {
+            //if (e.ClickedItem != null)
+            //{
+            //    var clickedItem = (ItemViewModel)e.ClickedItem;
+            //    BootStrapper.Current.NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id);
+            //}
         }
 
         public async Task RefreshItemsAsync()

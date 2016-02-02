@@ -165,7 +165,7 @@ namespace wallabag.ViewModels
 
         public async Task<bool> AddTagsAsync(IList<Tag> Tags)
         {
-            Dictionary<string, object> parameters = new Dictionary<string, object>() {["tags"] = Tags.ToCommaSeparatedString() };
+            Dictionary<string, object> parameters = new Dictionary<string, object>() { ["tags"] = Tags.ToCommaSeparatedString() };
             var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Post, $"/entries/{Model.Id}/tags", parameters);
 
             if (response.StatusCode == HttpStatusCode.Ok)
@@ -223,6 +223,13 @@ namespace wallabag.ViewModels
                 await conn.InsertAsync(new OfflineTask($"/entries/{itemId}", parameters));
                 return false;
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this.Model.Id == (obj as ItemViewModel).Model.Id)
+                return true;
+            else return false;
         }
     }
 }

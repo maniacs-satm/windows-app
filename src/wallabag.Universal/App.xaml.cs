@@ -33,7 +33,6 @@ namespace wallabag.Universal
         {
             if (startKind == StartKind.Launch)
             {
-                DataService.LastUserSyncDateTime = DateTime.Now;
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
             }
 

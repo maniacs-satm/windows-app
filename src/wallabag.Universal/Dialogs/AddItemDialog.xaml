@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    x:Class="wallabag.Dialogs.AddItemDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="using:wallabag.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:wallabag.Dialogs"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Add item"
+    PrimaryButtonCommand="{Binding AddItemCommand}"
+    PrimaryButtonText="Add"
+    SecondaryButtonCommand="{Binding CancelCommand}"
+    SecondaryButtonText="Cancel"
+    mc:Ignorable="d" FullSizeDesired="True">
+
+    <StackPanel>
+        <TextBox
+            x:Name="UrlTextBox"
+            x:Uid="UrlTextBox"
+            InputScope="Url"
+            PlaceholderText="https://"
+            Text="{Binding Url, Mode=TwoWay}" />
+        <Controls:TagControl Margin="0,8,0,0" ItemsSource="{Binding Tags, Mode=TwoWay}" />
+    </StackPanel>
+</ContentDialog>

@@ -2,51 +2,78 @@
     x:Class="wallabag.Views.ContentPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:wallabag.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:wallabag.Controls"
     xmlns:common="using:wallabag.Common"
+    xmlns:controls="using:wallabag.Controls"
     xmlns:conv="using:wallabag.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:wallabag.Views"
+    xmlns:m="using:wallabag.Models"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:t10="using:Template10.Controls"
     xmlns:vm="using:wallabag.ViewModels"
-    xmlns:m="using:wallabag.Models"    
     common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
     common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemAccentColor}"
+    common:TitleBarExtensions.ButtonForegroundColor="White"
     common:TitleBarExtensions.ForegroundColor="White"
-    common:TitleBarExtensions.ButtonForegroundColor="White"  
+    DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d">
     <Page.Resources>
-        <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter"/>
+        <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter" />
         <ItemsPanelTemplate x:Name="GridViewTemplate">
-            <ItemsWrapGrid Orientation="Horizontal"/>
+            <ItemsWrapGrid Orientation="Horizontal" />
         </ItemsPanelTemplate>
         <ItemsPanelTemplate x:Name="ListViewTemplate">
-            <ItemsStackPanel Orientation="Vertical"/>
+            <ItemsStackPanel Orientation="Vertical" />
         </ItemsPanelTemplate>
         <DataTemplate x:Name="PivotContentTemplate">
-            <GridView x:Name="ItemGridView"
-                      ItemsSource="{Binding Items}"
-                      IsItemClickEnabled="True"
-                      Padding="4"
-                      ItemClick="ItemGridView_ItemClick"  
-                      SizeChanged="ItemGridView_SizeChanged"
-                      Loaded="ItemGridView_Loaded"
-                      EntranceNavigationTransitionInfo.IsTargetElement="True">
+            <GridView
+                x:Name="ItemGridView"
+                Padding="4"
+                EntranceNavigationTransitionInfo.IsTargetElement="True"
+                IsItemClickEnabled="True"
+                ItemClick="ItemGridView_ItemClick"
+                ItemsSource="{Binding Items}"
+                Loaded="ItemGridView_Loaded"
+                SizeChanged="ItemGridView_SizeChanged">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:ItemViewModel">
-                        <controls:ItemControl/>
+                        <controls:ItemControl />
                     </DataTemplate>
                 </GridView.ItemTemplate>
                 <GridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </GridView.ItemContainerStyle>
                 <GridView.Template>
                     <ControlTemplate TargetType="GridView">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                            <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                <ItemsPresenter FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Footer="{TemplateBinding Footer}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" Padding="{TemplateBinding Padding}"/>
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer
+                                x:Name="ScrollViewer"
+                                AutomationProperties.AccessibilityView="Raw"
+                                BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                TabNavigation="{TemplateBinding TabNavigation}"
+                                VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ItemsPresenter
+                                    Padding="{TemplateBinding Padding}"
+                                    Footer="{TemplateBinding Footer}"
+                                    FooterTemplate="{TemplateBinding FooterTemplate}"
+                                    FooterTransitions="{TemplateBinding FooterTransitions}"
+                                    Header="{TemplateBinding Header}"
+                                    HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                    HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                             </ScrollViewer>
                         </Border>
                     </ControlTemplate>
@@ -54,66 +81,78 @@
             </GridView>
         </DataTemplate>
         <Style TargetType="PivotHeaderItem">
-            <Setter Property="RequestedTheme" Value="Dark"/>
+            <Setter Property="RequestedTheme" Value="Dark" />
         </Style>
         <Style TargetType="PivotItem">
-            <Setter Property="Margin" Value="0,0,0,48"/>
+            <Setter Property="Margin" Value="0,0,0,48" />
         </Style>
         <MenuFlyout x:Key="ItemContextMenu">
-            <MenuFlyoutItem x:Name="ContextMenuMarkAsRead"
-                            x:Uid="MarkAsReadMenuFlyoutItem"
-                            Text="Mark as read"
-                            Click="ContextMenuMarkAsRead_Click"
-                            Tag="&#xE001;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityNegatedConverter}}"/>
-            <MenuFlyoutItem x:Name="ContextMenuUnmarkAsRead"
-                            x:Uid="UnmarkAsReadMenuFlyoutItem"
-                            Text="Unmark as read"
-                            Click="ContextMenuMarkAsRead_Click"
-                            Tag="&#xE109;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <MenuFlyoutItem x:Name="ContextMenuMarkAsFavorite"
-                            x:Uid="MarkAsFavoriteMenuFlyoutItem"
-                            Text="Mark as favorite" 
-                            Click="ContextMenuMarkAsFavorite_Click"
-                            Tag="&#xE00B;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}"/>
-            <MenuFlyoutItem x:Name="ContextMenuUnmarkAsFavorite"
-                            x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
-                            Text="Unmark as favorite" 
-                            Click="ContextMenuMarkAsFavorite_Click"
-                            Tag="&#xE006;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-            <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="ContextMenuShareItem"
-                            x:Uid="ShareMenuFlyoutItem"
-                            Text="Share" 
-                            Click="ContextMenuShareItem_Click"
-                            Tag="&#xE72D;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-            <MenuFlyoutItem x:Name="ContextMenuOpenInBrowser"
-                            x:Uid="OpenInBrowserMenuFlyoutItem"
-                            Text="Open in browser" 
-                            Click="ContextMenuOpenInBrowser_Click"
-                            Tag="&#xE12B;"
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-            <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="ContextMenuDeleteItem" 
-                            x:Uid="DeleteMenuFlyoutItem"
-                            Text="Delete" 
-                            Click="ContextMenuDeleteItem_Click"
-                            Tag="&#xE107;" 
-                            Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+            <MenuFlyoutItem
+                x:Name="ContextMenuMarkAsRead"
+                x:Uid="MarkAsReadMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsRead_Click"
+                Tag="&#xE001;"
+                Text="Mark as read"
+                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuUnmarkAsRead"
+                x:Uid="UnmarkAsReadMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsRead_Click"
+                Tag="&#xE109;"
+                Text="Unmark as read"
+                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuMarkAsFavorite"
+                x:Uid="MarkAsFavoriteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsFavorite_Click"
+                Tag="&#xE00B;"
+                Text="Mark as favorite"
+                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuUnmarkAsFavorite"
+                x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsFavorite_Click"
+                Tag="&#xE006;"
+                Text="Unmark as favorite"
+                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="ContextMenuShareItem"
+                x:Uid="ShareMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuShareItem_Click"
+                Tag="&#xE72D;"
+                Text="Share" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuOpenInBrowser"
+                x:Uid="OpenInBrowserMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuOpenInBrowser_Click"
+                Tag="&#xE12B;"
+                Text="Open in browser" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="ContextMenuDeleteItem"
+                x:Uid="DeleteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuDeleteItem_Click"
+                Tag="&#xE107;"
+                Text="Delete" />
         </MenuFlyout>
         <Style x:Key="MenuFlyoutItemIconTemplate" TargetType="MenuFlyoutItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="MenuFlyoutItem">
-                        <Grid x:Name="LayoutRoot" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid
+                            x:Name="LayoutRoot"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Normal" />
@@ -181,579 +220,244 @@
                             </VisualStateManager.VisualStateGroups>
 
                             <StackPanel Orientation="Horizontal">
-                                <FontIcon  Margin="0,0,12,0" x:Name="TextBlock" Glyph="{TemplateBinding Tag}" Height="16" Width="16" FontSize="16" />
-                                <TextBlock  Text="{TemplateBinding Text}" TextTrimming="CharacterEllipsis" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                <FontIcon
+                                    x:Name="TextBlock"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,12,0"
+                                    FontSize="16"
+                                    Glyph="{TemplateBinding Tag}" />
+                                <TextBlock
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{TemplateBinding Text}"
+                                    TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Storyboard x:Name="ShowEditTagsBorder">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditTagsBorder">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="EditTagsBorder">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="EditTagsBorderGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="EditTagsBorderGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideEditTagsBorder">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditTagsBorder">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="EditTagsBorder">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="EditTagsBorderGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="EditTagsBorderGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="ShowAddItemBorder">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddItemBorder">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddItemBorder">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="AddItemBorderGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="AddItemBorderGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
-                    <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
-                    </EasingDoubleKeyFrame.EasingFunction>
-                </EasingDoubleKeyFrame>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideAddItemBorder">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="AddItemBorder">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="AddItemBorder">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="AddItemBorderGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="AddItemBorderGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="ShowSearchGrid">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="searchGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-48"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchGrid">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="searchGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideSearchGrid">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)" Storyboard.TargetName="searchGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="0"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="-48"/>
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchGrid">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="searchGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
         <Storyboard x:Name="ShowDragDropGridStoryboard">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="dragDropGrid">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="dragDropGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="dragDropGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dragDropGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="HideDragDropGridStoryboard">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="dragDropGrid">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="dragDropGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Collapsed</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="dragDropGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dragDropGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
-    <Page.DataContext>
-        <vm:MainViewModel/>
-    </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
-          AllowDrop="True"
-          Drop="Grid_Drop"
-          DragLeave="Grid_DragLeave"
-          DragEnter="Grid_DragEnter">
+    <Grid
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        AllowDrop="True"
+        DragEnter="Grid_DragEnter"
+        DragLeave="Grid_DragLeave"
+        Drop="Grid_Drop">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <Storyboard x:Name="SyncStoryboard" RepeatBehavior="Forever">
-                        <DoubleAnimation Duration="0:0:1" To="360" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="syncIcon" d:IsOptimized="True"/>
+                        <DoubleAnimation
+                            d:IsOptimized="True"
+                            Duration="0:0:1"
+                            Storyboard.TargetName="syncIcon"
+                            Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)"
+                            To="360" />
                     </Storyboard>
                     <VisualState.StateTriggers>
-                        <StateTrigger IsActive="{Binding IsSyncing}"/>
+                        <StateTrigger IsActive="{Binding IsSyncing}" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="AdaptiveTriggers">
                 <VisualState x:Name="Narrow">
                     <VisualState.Setters>
-                        <Setter Target="searchHeaderTextBlock.Visibility" Value="Collapsed"/>
+                        <Setter Target="searchHeaderTextBlock.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.Setters>
-                        <Setter Target="SearchBox.HorizontalAlignment" Value="Right"/>
-                        <Setter Target="SearchBox.Width" Value="400"/>
+                        <Setter Target="SearchBox.HorizontalAlignment" Value="Right" />
+                        <Setter Target="SearchBox.Width" Value="400" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
+                        <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="48" VerticalAlignment="Top" RequestedTheme="Dark">
+        <Grid
+            Height="48"
+            VerticalAlignment="Top"
+            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+            RequestedTheme="Dark">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" Margin="0,0,16,0" Grid.Column="1">
-                <TextBlock Text="{x:Bind ViewModel.NumberOfOfflineTasks, Mode=OneWay}" VerticalAlignment="Center" Margin="8,0" FontWeight="SemiBold"/>
-                <TextBlock Text="" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="24"/>
-            </StackPanel>
+            <Button Grid.Column="1" Margin="0,0,6,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Margin="8,0"
+                        VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        Text="{x:Bind ViewModel.NumberOfOfflineTasks, Mode=OneWay}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="24"
+                        Text="&#xE753;" />
+                </StackPanel>
+            </Button>
         </Grid>
-
-        <SplitView x:Name="splitView" PanePlacement="Right" IsPaneOpen="{Binding IsChecked, ElementName=filterToggleButton, Mode=TwoWay}" PaneClosing="SplitView_PaneClosing">
-            <SplitView.Content>
-                <Pivot SelectionChanged="Pivot_SelectionChanged">
-                    <Pivot.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" Style="{StaticResource PageTitleTextBlockStyle}" Margin="0"/>
-                        </DataTemplate>
-                    </Pivot.HeaderTemplate>
-                    <PivotItem x:Uid="UnreadPivotItem" Header="UNREAD" ContentTemplate="{StaticResource PivotContentTemplate}"/>
-                    <PivotItem x:Uid="FavoritesPivotItem" Header="FAVORITES" ContentTemplate="{StaticResource PivotContentTemplate}"/>
-                    <PivotItem x:Uid="ArchivePivotItem" Header="ARCHIVE" ContentTemplate="{StaticResource PivotContentTemplate}"/>
-                </Pivot>
-            </SplitView.Content>
-            <SplitView.Pane>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="0,48" Padding="8">
-                        <Grid Margin="0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.Resources>
-                                <Style TargetType="RadioButton" BasedOn="{StaticResource IconAndTextRadioButtonStyle}">
-                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="Padding" Value="8"/>
-                                </Style>
-                            </Grid.Resources>
-                            <RadioButton x:Name="sortAscendingRadioButton"
-                                         x:Uid="SortAscendingRadioButton"
-                                         Content="&#xE098;" 
-                                         Tag="ascending" 
-                                         Checked="sortOrderRadioButton_Checked"/>
-                            <RadioButton x:Name="sortDescendingRadioButton" 
-                                         x:Uid="SortDescendingRadioButton"
-                                         Content="&#xE099;" 
-                                         Tag="descending" 
-                                         Grid.Column="1" 
-                                         Checked="sortOrderRadioButton_Checked" 
-                                         IsChecked="True"/>
-                        </Grid>
-                        <Grid Margin="0,0,0,8">
-                            <Grid.Resources>
-                                <Style TargetType="RadioButton" BasedOn="{StaticResource TextRadioButtonStyle}">
-                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
-                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                    <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="Padding" Value="8"/>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <RadioButton x:Name="shortEstimatedReadingTimeRadioButton" Checked="shortEstimatedReadingTimeRadioButton_Checked">
-                                <StackPanel>
-                                    <TextBlock x:Uid="ShortEstimatedReadingTimeTextBlock" Text="short" TextAlignment="Center"/>
-                                    <TextBlock Text="&lt; 5 min" FontSize="12" TextAlignment="Center" Margin="0,2,0,0"/>
-                                </StackPanel>
-                            </RadioButton>
-                            <RadioButton x:Name="mediumEstimatedReadingTimeRadioButton" Grid.Column="1" Checked="shortEstimatedReadingTimeRadioButton_Checked">
-                                <StackPanel>
-                                    <TextBlock x:Uid="MediumEstimatedReadingTimeTextBlock" Text="medium" TextAlignment="Center"/>
-                                    <TextBlock Text="5-15 min" FontSize="12" TextAlignment="Center" Margin="0,2,0,0"/>
-                                </StackPanel>
-                            </RadioButton>
-                            <RadioButton x:Name="longEstimatedReadingTimeRadioButton" Grid.Column="2" Checked="shortEstimatedReadingTimeRadioButton_Checked">
-                                <StackPanel>
-                                    <TextBlock x:Uid="LongEstimatedReadingTimeTextBlock" Text="long" TextAlignment="Center"/>
-                                    <TextBlock Text="&gt; 15 min" FontSize="12" TextAlignment="Center" Margin="0,2,0,0"/>
-                                </StackPanel>
-                            </RadioButton>
-                        </Grid>
-
-                        <AutoSuggestBox x:Name="domainNameAutoSuggestBox"
-                                        x:Uid="DomainNameAutoSuggestBox"
-                                        PlaceholderText="Filter by domain…" 
-                                        Margin="0,0,0,8" 
-                                        ItemsSource="{x:Bind DomainNameSuggestions, Mode=OneWay}" 
-                                        QuerySubmitted="domainNameAutoSuggestBox_QuerySubmitted" 
-                                        TextChanged="domainNameAutoSuggestBox_TextChanged"/>
-                        <AutoSuggestBox x:Name="tagAutoSuggestBox"
-                                        x:Uid="TagAutoSuggestBox"
-                                        PlaceholderText="Filter by tag…"
-                                        Margin="0,0,0,8" 
-                                        ItemsSource="{x:Bind TagSuggestions, Mode=OneWay}"
-                                        QuerySubmitted="tagAutoSuggestBox_QuerySubmitted"
-                                        TextChanged="tagAutoSuggestBox_TextChanged"/>
-                        <Grid x:Name="creationDateGrid" Margin="0,0,0,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <CalendarDatePicker
-                                    x:Name="FromCalendarDatePicker"
-                                    x:Uid="FromCalendarDatePicker"
-                                    HorizontalAlignment="Stretch"
-                                    PlaceholderText="from"
-                                    Margin="2,0"
-                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateFrom, Mode=TwoWay}"
-                                    MaxDate="{Binding LastUsedFilterProperties.CreationDateTo}"
-                                    DateChanged="filterCalendarDatePicker_DateChanged"/>
-                            <CalendarDatePicker
-                                    x:Name="ToCalendarDatePicker"
-                                    x:Uid="ToCalendarDatePicker"
-                                    HorizontalAlignment="Stretch"
-                                    PlaceholderText="to"
-                                    Grid.Column="1"
-                                    Margin="2,0"
-                                    Date="{x:Bind ViewModel.LastUsedFilterProperties.CreationDateTo, Mode=TwoWay}"
-                                    MinDate="{Binding LastUsedFilterProperties.CreationDateFrom, Mode=OneWay}"
-                                    MaxDate="{x:Bind ViewModel.MaxDate}"
-                                    DateChanged="filterCalendarDatePicker_DateChanged"/>
-                        </Grid>
-                        <Button x:Uid="ResetFilterButton" 
-                                Content="Reset filter" 
-                                Style="{ThemeResource TextBlockButtonStyle}" 
-                                Command="{x:Bind ViewModel.ResetFilterCommand}"
-                                Click="resetFilterButton_Click"/>
-                    </StackPanel>
-                </ScrollViewer>
-            </SplitView.Pane>
-        </SplitView>
-        <Grid x:Name="searchGrid" VerticalAlignment="Top" RequestedTheme="Dark" Visibility="Collapsed" Opacity="0"
-              HorizontalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAccentBrush}">
-            <Grid.Projection>
-                <PlaneProjection/>
-            </Grid.Projection>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Name="searchHeaderTextBlock"
-                       x:Uid="SearchAndFilterHeaderTextBlock"
-                       Text="SEARCH &amp; FILTER"
-                       Style="{ThemeResource PageTitleTextBlockStyle}"/>
-            <AutoSuggestBox x:Name="SearchBox"
-                            x:Uid="SearchBox"
-                            QueryIcon="Find"
-                            PlaceholderText="Search…"
-                            ItemsSource="{x:Bind ItemSearchSuggestions}"
-                            TextChanged="SearchBox_TextChanged"
-                            Margin="8,0"
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            QuerySubmitted="SearchBox_QuerySubmitted">
-                <AutoSuggestBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Value, Mode=OneTime}"/>
-                    </DataTemplate>
-                </AutoSuggestBox.ItemTemplate>
-            </AutoSuggestBox>
-            <AppBarToggleButton IsCompact="True" Icon="Filter" x:Name="filterToggleButton" Grid.Column="2"/>
-        </Grid>
+        <Pivot>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock
+                        Margin="0"
+                        Style="{StaticResource PageTitleTextBlockStyle}"
+                        Text="{Binding}" />
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="UNREAD" />
+            <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="FAVORITES" />
+            <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="ARCHIVED" />
+        </Pivot>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
-            <AppBarButton x:Name="multipleSelectToggleButton"
-                          x:Uid="MultipleSelectionAppBarButton"
-                          Icon="Bullets"
-                          Label="Select"
-                          Click="multipleSelectToggleButton_Click"/>
-            <AppBarButton x:Name="searchToggleButton"
-                          x:Uid="SearchAppBarButton"
-                          Icon="Find"
-                          Label="Search" 
-                          Click="searchToggleButton_Click"/>
-            <AppBarButton x:Name="syncAppBarButton"
-                          x:Uid="SyncAppBarButton"
-                          Label="Sync"
-                          Command="{Binding RefreshCommand}">
+            <AppBarButton
+                x:Name="searchToggleButton"
+                x:Uid="SearchAppBarButton"
+                Icon="Find"
+                Label="Search" />
+            <AppBarButton
+                x:Name="syncAppBarButton"
+                x:Uid="SyncAppBarButton"
+                Command="{Binding RefreshCommand}"
+                Label="Sync">
                 <AppBarButton.Icon>
-                    <SymbolIcon x:Name="syncIcon" Symbol="Sync" RenderTransformOrigin="0.5,0.5">
+                    <SymbolIcon
+                        x:Name="syncIcon"
+                        RenderTransformOrigin="0.5,0.5"
+                        Symbol="Sync">
                         <SymbolIcon.RenderTransform>
-                            <CompositeTransform/>
+                            <CompositeTransform />
                         </SymbolIcon.RenderTransform>
                     </SymbolIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton x:Name="addItemAppBarButton"
-                          x:Uid="AddItemAppBarButton"
-                          Icon="Add" 
-                          Label="Add item" 
-                          Click="AddItemButton_Click"/>
+            <AppBarButton
+                x:Name="addItemAppBarButton"
+                x:Uid="AddItemAppBarButton"
+                Icon="Add"
+                Label="Add item" />
             <CommandBar.SecondaryCommands>
-                <AppBarButton 
+                <AppBarButton
                     x:Uid="OpenSettingsAppBarButton"
-                    Icon="Setting" 
-                    Label="Settings" 
-                    Command="{Binding NavigateToSettingsPageCommand}"/>
+                    Command="{Binding NavigateToSettingsPageCommand}"
+                    Icon="Setting"
+                    Label="Settings" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
-        <CommandBar x:Name="MultipleSelectionCommandBar" VerticalAlignment="Bottom" Visibility="Collapsed" d:IsHidden="True">
+        <CommandBar
+            x:Name="MultipleSelectionCommandBar"
+            VerticalAlignment="Bottom"
+            Visibility="Collapsed">
             <AppBarButton
                 x:Uid="EditMultipleItemsAppBarButton"
                 Icon="Edit"
                 Label="Edit">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Name="MarkItemsAsReadMenuFlyoutItem"
-                                        x:Uid="MarkAsReadMenuFlyoutItem"
-                                        Text="Mark as read" 
-                                        Click="MarkItemsAsReadMenuFlyoutItem_Click"
-                                        Tag="&#xE001;" 
-                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutItem x:Name="UnmarkItemsAsReadMenuFlyoutItem"
-                                        x:Uid="UnmarkAsReadMenuFlyoutItem"
-                                        Text="Unmark as read" 
-                                        Click="UnmarkItemsAsReadMenuFlyoutItem_Click"
-                                        Tag="&#xE109;" 
-                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="MarkItemsAsFavoriteMenuFlyoutItem"
-                                        x:Uid="MarkAsFavoriteMenuFlyoutItem"
-                                        Text="Mark as favorite"
-                                        Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"
-                                        Tag="&#xE00B;" 
-                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutItem x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem" 
-                                        x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
-                                        Text="Unmark as favorite" 
-                                        Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"
-                                        Tag="&#xE006;" 
-                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="ManageTagsMenuFlyoutItem"
-                                        x:Uid="ManageTagsMenuFlyoutItem"
-                                        Text="Manage tags"
-                                        Click="ManageTagsMenuFlyoutItem_Click"
-                                        Tag="&#xE1CB;" 
-                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
-                        <MenuFlyoutItem x:Name="DeleteMenuFlyoutItem" 
-                                        x:Uid="DeleteMenuFlyoutItem"
-                                        Text="Delete" 
-                                        Click="DeleteMenuFlyoutItem_Click"
-                                        Tag="&#xE107;" 
-                                        Style="{StaticResource MenuFlyoutItemIconTemplate}"/>
+                        <MenuFlyoutItem
+                            x:Name="MarkItemsAsReadMenuFlyoutItem"
+                            x:Uid="MarkAsReadMenuFlyoutItem"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Click="MarkItemsAsReadMenuFlyoutItem_Click"
+                            Tag="&#xE001;"
+                            Text="Mark as read" />
+                        <MenuFlyoutItem
+                            x:Name="UnmarkItemsAsReadMenuFlyoutItem"
+                            x:Uid="UnmarkAsReadMenuFlyoutItem"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Click="UnmarkItemsAsReadMenuFlyoutItem_Click"
+                            Tag="&#xE109;"
+                            Text="Unmark as read" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            x:Name="MarkItemsAsFavoriteMenuFlyoutItem"
+                            x:Uid="MarkAsFavoriteMenuFlyoutItem"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"
+                            Tag="&#xE00B;"
+                            Text="Mark as favorite" />
+                        <MenuFlyoutItem
+                            x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem"
+                            x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"
+                            Tag="&#xE006;"
+                            Text="Unmark as favorite" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            x:Name="ManageTagsMenuFlyoutItem"
+                            x:Uid="ManageTagsMenuFlyoutItem"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Click="ManageTagsMenuFlyoutItem_Click"
+                            Tag="&#xE1CB;"
+                            Text="Manage tags" />
+                        <MenuFlyoutItem
+                            x:Name="DeleteMenuFlyoutItem"
+                            x:Uid="DeleteMenuFlyoutItem"
+                            Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                            Click="DeleteMenuFlyoutItem_Click"
+                            Tag="&#xE107;"
+                            Text="Delete" />
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarButton
                 x:Uid="CancelAppBarButton"
                 Icon="Cancel"
-                Label="Cancel" 
-                Click="multipleSelectToggleButton_Click"/>
+                Label="Cancel" />
         </CommandBar>
-        <Border x:Name="EditTagsBorder" Background="{ThemeResource EditTagsBorderBackground}" Visibility="Collapsed" Opacity="0">
-            <Grid x:Name="EditTagsBorderGrid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                <Grid.RenderTransform>
-                    <CompositeTransform/>
-                </Grid.RenderTransform>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="48"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-                    <TextBlock 
-                        x:Uid="ManageTagsHeaderTextBlock"
-                        Text="MANAGE TAGS" 
-                        Style="{ThemeResource PageTitleTextBlockStyle}"/>
-                </Border>
-                <controls:TagControl Grid.Row="1" Margin="8,16" ItemsSource="{x:Bind MultipleSelectionTags, Mode=TwoWay}"/>
-                <CommandBar Grid.Row="2">
-                    <AppBarButton x:Name="SaveTagsAppBarButton"
-                                  x:Uid="SaveAppBarButton"
-                                  Icon="Save"
-                                  Label="Save" 
-                                  Click="SaveTagsAppBarButton_Click"/>
-                    <AppBarButton x:Name="CancelTagsAppBarButton" 
-                                  x:Uid="CancelAppBarButton"
-                                  Icon="Cancel" 
-                                  Label="Cancel" 
-                                  Click="CancelTagsAppBarButton_Click"/>
-                </CommandBar>
-            </Grid>
-        </Border>
-        <Border x:Name="AddItemBorder" Background="{ThemeResource EditTagsBorderBackground}" Visibility="Collapsed" Opacity="0">
-            <Grid x:Name="AddItemBorderGrid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                <Grid.DataContext>
-                    <vm:AddItemPageViewModel/>
-                </Grid.DataContext>
-                <Grid.RenderTransform>
-                    <CompositeTransform/>
-                </Grid.RenderTransform>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="48"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-                    <TextBlock 
-                        x:Uid="SaveALinkHeaderTextBlock"
-                        Text="SAVE A LINK" 
-                        Style="{ThemeResource PageTitleTextBlockStyle}"/>
-                </Border>
-                <StackPanel Grid.Row="1" Margin="8,16">
-                    <TextBox
-                        x:Name="UrlTextBox" 
-                        x:Uid="UrlTextBox"
-                        Text="{Binding Url, Mode=TwoWay}" 
-                        PlaceholderText="https://" 
-                        InputScope="Url"/>
-                    <controls:TagControl ItemsSource="{Binding Tags, Mode=TwoWay}" Margin="0,8,0,0"/>
-                </StackPanel>
-                <CommandBar Grid.Row="2">
-                    <AppBarButton x:Name="AddItemAppBarButton" 
-                                  x:Uid="AddItemAppBarButton"
-                                  Icon="Accept" 
-                                  Label="Add" 
-                                  Command="{Binding AddItemCommand}"
-                                  Click="HideAddItemBorder_Click"/>
-                    <AppBarButton x:Name="CancelItemAppBarButton"
-                                  x:Uid="CancelAppBarButton"
-                                  Icon="Cancel"
-                                  Label="Cancel" 
-                                  Command="{Binding CancelCommand}"
-                                  Click="HideAddItemBorder_Click"/>
-                </CommandBar>
-            </Grid>
-        </Border>
-        <Grid x:Name="dragDropGrid" Visibility="Collapsed" Background="#F2FFFFFF" Opacity="0">
+        <Grid
+            x:Name="dragDropGrid"
+            Background="#F2FFFFFF"
+            Opacity="0"
+            Visibility="Collapsed">
             <TextBlock
                 x:Uid="DragDropTextBlock"
-                HorizontalAlignment="Center" 
-                TextWrapping="Wrap"
-                Text="Drop the link here to save it in your wallabag!" 
-                VerticalAlignment="Center" 
+                Margin="32"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Style="{StaticResource HeaderTextBlockStyle}"
                 Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                Margin="32" 
-                TextAlignment="Center"/>
+                Text="Drop the link here to save it in your wallabag!"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
         </Grid>
     </Grid>
 </Page>

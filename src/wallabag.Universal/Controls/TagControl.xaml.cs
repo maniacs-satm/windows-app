@@ -31,8 +31,10 @@ namespace wallabag.Controls
             if (control.possibleTags == null)
             {
                 control.possibleTags = new List<string>();
-                foreach (var item in await DataService.GetTagsAsync())
-                    control.possibleTags.Add(item.Label);
+
+                // TODO
+                //foreach (var item in await DataService.GetTagsAsync())
+                //    control.possibleTags.Add(item.Label);
             }
         }
 
