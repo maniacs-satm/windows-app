@@ -258,5 +258,8 @@ namespace wallabag.Data.Services
                 return false;
             }
         }
+
+        public Task UpdateItemAsync(Item item) => conn.UpdateAsync(item);
+        public Task<int> GetNumberOfOfflineTasksAsync() => conn.Table<OfflineTask>().CountAsync();
     }
 }

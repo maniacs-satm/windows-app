@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using wallabag.Data.Interfaces;
 using wallabag.Data.Models;
 using wallabag.Models;
-using wallabag.Services;
 using Windows.Foundation;
 
 namespace wallabag.Data.Services
@@ -38,6 +35,11 @@ namespace wallabag.Data.Services
             throw new NotImplementedException();
         }
 
+        public Task<int> GetNumberOfOfflineTasksAsync()
+        {
+            throw new NotImplementedException();
+        }
+        
         public Task<List<Tag>> GetTagsAsync()
         {
             throw new NotImplementedException();
@@ -49,6 +51,11 @@ namespace wallabag.Data.Services
         }
 
         public Task<bool> SyncOfflineTasksWithServerAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateItemAsync(Item item)
         {
             throw new NotImplementedException();
         }

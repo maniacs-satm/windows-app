@@ -19,5 +19,8 @@ namespace wallabag.Data.Interfaces
         Task<Item> GetItemAsync(string Title);
 
         Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false);
+        Task UpdateItemAsync(Item item);
+
+        Task<int> GetNumberOfOfflineTasksAsync();
     }
 }

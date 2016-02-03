@@ -19,7 +19,6 @@ namespace wallabag.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private IDataService _dataService;
-        private SQLite.SQLiteAsyncConnection _sqlconn;
 
         public ObservableCollection<ItemViewModel> Items { get; set; }
         public ObservableCollection<Tag> Tags { get; set; }
@@ -45,7 +44,6 @@ namespace wallabag.ViewModels
         public MainViewModel(IDataService dataService)
         {
             _dataService = dataService;
-            _sqlconn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
 
             RefreshCommand = new DelegateCommand(async () => await RefreshItemsAsync());
             NavigateToSettingsPageCommand = new DelegateCommand(() =>
@@ -69,7 +67,7 @@ namespace wallabag.ViewModels
 
             await LoadItemsFromDatabaseAsync();
 
-            NumberOfOfflineTasks = await _sqlconn.Table<OfflineTask>().CountAsync();
+            NumberOfOfflineTasks = await _dataService.GetNumberOfOfflineTasksAsync();
 
             if (AppSettings.SyncOnStartup)
                 await RefreshItemsAsync();
@@ -164,7 +162,7 @@ namespace wallabag.ViewModels
                     Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
                     Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
 
-                    await _sqlconn.UpdateAsync(item);
+                    await _dataService.UpdateItemAsync(item);
                 }
 
                 foreach (var item in removedItems)
@@ -187,7 +185,7 @@ namespace wallabag.ViewModels
                     Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
             }
 
-            NumberOfOfflineTasks = await _sqlconn.Table<OfflineTask>().CountAsync();
+            NumberOfOfflineTasks = await _dataService.GetNumberOfOfflineTasksAsync();
         }
     }
 }
