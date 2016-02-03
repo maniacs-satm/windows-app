@@ -31,10 +31,7 @@
                 Padding="4"
                 EntranceNavigationTransitionInfo.IsTargetElement="True"
                 IsItemClickEnabled="True"
-                ItemClick="ItemGridView_ItemClick"
-                ItemsSource="{Binding Items}"
-                Loaded="ItemGridView_Loaded"
-                SizeChanged="ItemGridView_SizeChanged">
+                ItemsSource="{Binding Items}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="vm:ItemViewModel">
                         <controls:ItemControl />
