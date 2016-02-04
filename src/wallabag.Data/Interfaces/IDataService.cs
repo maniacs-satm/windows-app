@@ -10,6 +10,9 @@ namespace wallabag.Data.Interfaces
     {
         Task InitializeDatabaseAsync();
 
+        Task<bool> LoginAsync(string url, string username, string password);
+        bool CredentialsAreExisting { get; }
+
         Task<bool> SyncOfflineTasksWithServerAsync();
         IAsyncOperationWithProgress<bool, DownloadProgress> DownloadItemsFromServerAsync(bool DownloadAllItems = false);
 

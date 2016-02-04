@@ -24,6 +24,8 @@ namespace wallabag.Data.Services
         private SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
         private int _lastItemId = 0;
 
+        public bool CredentialsAreExisting { get; } = !string.IsNullOrEmpty(AppSettings.AccessToken);
+
         public async Task InitializeDatabaseAsync()
         {
             await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.OpenIfExists);
@@ -261,5 +263,10 @@ namespace wallabag.Data.Services
 
         public Task UpdateItemAsync(Item item) => conn.UpdateAsync(item);
         public Task<int> GetNumberOfOfflineTasksAsync() => conn.Table<OfflineTask>().CountAsync();
+
+        public Task<bool> LoginAsync(string url, string username, string password)
+        {
+            return AuthorizationService.RequestTokenAsync(username, password, url);
+        }
     }
 }

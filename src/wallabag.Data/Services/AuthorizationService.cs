@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using wallabag.Common;
 using Windows.Web.Http;
 
-namespace wallabag.Services
+namespace wallabag.Data.Services
 {
     public class AuthorizationService
     {

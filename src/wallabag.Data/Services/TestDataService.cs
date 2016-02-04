@@ -17,6 +17,8 @@ namespace wallabag.Data.Services
     {
         private ObservableCollection<Item> _Items = new ObservableCollection<Item>();
 
+        public bool CredentialsAreExisting { get; } = true;
+
         private Item GenerateSampleItem(int Id)
         {
             var content = "<b>This is some test content.</b> ";
@@ -122,6 +124,11 @@ namespace wallabag.Data.Services
             _Items.Remove(_Items.Where(i => i.Id == item.Id).FirstOrDefault());
             _Items.Add(item);
             return Task.CompletedTask;
+        }
+
+        public Task<bool> LoginAsync(string url, string username, string password)
+        {
+            return Task.FromResult(true);
         }
     }
 }
