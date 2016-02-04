@@ -62,7 +62,7 @@ namespace wallabag.Data.Services
         private Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress, bool DownloadAllItems)
         {
             var dProgress = new DownloadProgress();
-            for (int i = _Items.Count; i < _Items.Count + 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 dProgress.CurrentItemIndex = i;
                 progress.Report(dProgress);
