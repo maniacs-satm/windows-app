@@ -11,6 +11,7 @@ using wallabag.Data.Interfaces;
 using wallabag.Data.Models;
 using wallabag.Models;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
@@ -39,7 +40,7 @@ namespace wallabag.ViewModels
 
         // TODO
         public DelegateCommand PivotSelectionChangedCommand { get; private set; }
-        public DelegateCommand ItemClickCommand { get; private set; }
+        public DelegateCommand<ItemClickEventArgs> ItemClickCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -56,6 +57,7 @@ namespace wallabag.ViewModels
                 LastUsedFilterProperties = new FilterProperties();
                 await RefreshItemsAsync();
             });
+            ItemClickCommand = new DelegateCommand<ItemClickEventArgs>(args => ItemClick(args));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -117,13 +119,13 @@ namespace wallabag.ViewModels
             //        break;
             //}
         }        
-        public void ItemClick()
+        public void ItemClick(ItemClickEventArgs e)
         {
-            //if (e.ClickedItem != null)
-            //{
-            //    var clickedItem = (ItemViewModel)e.ClickedItem;
-            //    BootStrapper.Current.NavigationService.Navigate(typeof(SingleItemPage), clickedItem.Model.Id);
-            //}
+            if (e.ClickedItem != null)
+            {
+                var clickedItem = (ItemViewModel)e.ClickedItem;
+                NavigationService.Navigate(typeof(Views.SingleItemPage), clickedItem.Model.Id);
+            }
         }
 
         public async Task RefreshItemsAsync()
