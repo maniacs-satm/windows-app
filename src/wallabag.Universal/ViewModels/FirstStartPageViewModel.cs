@@ -34,9 +34,7 @@ namespace wallabag.ViewModels
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            bool databaseDoesNotExist = await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(DATABASE_FILENAME) == null;
-
-            if (!string.IsNullOrEmpty(AppSettings.AccessToken) && databaseDoesNotExist)
+            if (_dataService.CredentialsAreExisting)
                 await SetupWallabagAndNavigateToContentPage();
         }
         public async Task Login()
@@ -45,10 +43,10 @@ namespace wallabag.ViewModels
             if (WallabagUrl.EndsWith("/"))
                 WallabagUrl = WallabagUrl.Remove(WallabagUrl.Length - 1);
 
-            if (Helpers.IsPhone)
+            if (IsPhone)
                 AppSettings.FontSize += 28;
 
-            if (await Services.AuthorizationService.RequestTokenAsync(Username, Password, WallabagUrl))
+            if (await _dataService.LoginAsync(WallabagUrl, Username, Password))
             {
                 StatusText = LocalizedString("FirstStartLoginSuccededLabel");
                 AppSettings.wallabagUrl = WallabagUrl;
