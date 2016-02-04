@@ -40,6 +40,9 @@ namespace wallabag.Data.Services
         {
             var content = "<b>This is some test content.</b> ";
 
+            if (string.IsNullOrWhiteSpace(Title))
+                Title = new Uri(Url).Host;
+
             for (int i = 0; i < 25; i++)
                 content += "This is some test content. ";
 
