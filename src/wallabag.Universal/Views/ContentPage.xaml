@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:common="using:wallabag.Common"
-    xmlns:controls="using:wallabag.Controls"
     xmlns:conv="using:wallabag.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:wallabag.Views"
@@ -11,24 +10,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:t10="using:Template10.Controls"
     xmlns:vm="using:wallabag.ViewModels"
+    xmlns:controls="using:wallabag.Controls"
     common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
     common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemAccentColor}"
     common:TitleBarExtensions.ButtonForegroundColor="White"
-    common:TitleBarExtensions.ForegroundColor="White"
+    common:TitleBarExtensions.ForegroundColor="White"    
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d">
     <Page.Resources>
         <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter" />
-        <ItemsPanelTemplate x:Name="GridViewTemplate">
-            <ItemsWrapGrid Orientation="Horizontal" />
-        </ItemsPanelTemplate>
-        <ItemsPanelTemplate x:Name="ListViewTemplate">
-            <ItemsStackPanel Orientation="Vertical" />
-        </ItemsPanelTemplate>
         <DataTemplate x:Name="PivotContentTemplate">
-            <GridView
+            <controls:AdaptiveGridView
                 x:Name="ItemGridView"
+                MinItemWidth="300"
+                MinItemHeight="200"
                 Padding="4"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
                 EntranceNavigationTransitionInfo.IsTargetElement="True"
                 IsItemClickEnabled="True"
                 ItemsSource="{Binding Items}">
@@ -37,45 +35,7 @@
                         <controls:ItemControl />
                     </DataTemplate>
                 </GridView.ItemTemplate>
-                <GridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    </Style>
-                </GridView.ItemContainerStyle>
-                <GridView.Template>
-                    <ControlTemplate TargetType="GridView">
-                        <Border
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer
-                                x:Name="ScrollViewer"
-                                AutomationProperties.AccessibilityView="Raw"
-                                BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                TabNavigation="{TemplateBinding TabNavigation}"
-                                VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                <ItemsPresenter
-                                    Padding="{TemplateBinding Padding}"
-                                    Footer="{TemplateBinding Footer}"
-                                    FooterTemplate="{TemplateBinding FooterTemplate}"
-                                    FooterTransitions="{TemplateBinding FooterTransitions}"
-                                    Header="{TemplateBinding Header}"
-                                    HeaderTemplate="{TemplateBinding HeaderTemplate}"
-                                    HeaderTransitions="{TemplateBinding HeaderTransitions}" />
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </GridView.Template>
-            </GridView>
+            </controls:AdaptiveGridView>
         </DataTemplate>
         <Style TargetType="PivotHeaderItem">
             <Setter Property="RequestedTheme" Value="Dark" />
@@ -286,25 +246,6 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
-            <VisualStateGroup x:Name="AdaptiveTriggers">
-                <VisualState x:Name="Narrow">
-                    <VisualState.Setters>
-                        <Setter Target="searchHeaderTextBlock.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Wide">
-                    <VisualState.Setters>
-                        <Setter Target="SearchBox.HorizontalAlignment" Value="Right" />
-                        <Setter Target="SearchBox.Width" Value="400" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid
             Height="48"
@@ -315,7 +256,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Margin="0,0,6,0">
+            <Button Grid.Column="1" Margin="0,0,6,0" Background="Transparent">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock
                         Margin="8,0"
@@ -330,7 +271,7 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <Pivot>
+        <Pivot>            
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <TextBlock
