@@ -20,13 +20,13 @@ namespace wallabag.ViewModels
     {
         private IDataService _dataService;
 
-        public ObservableCollection<ItemViewModel> Items { get; set; }
-        public ObservableCollection<Tag> Tags { get; set; }
-        public ObservableCollection<string> DomainNames { get; set; }
+        public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
+        public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
+        public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
 
-        public ObservableCollection<SearchResult> SearchSuggestions { get; set; }
-        public ObservableCollection<string> DomainNameSuggestions { get; set; }
-        public ObservableCollection<Tag> TagSuggestions { get; set; }
+        public ObservableCollection<SearchResult> SearchSuggestions { get; set; } = new ObservableCollection<SearchResult>();
+        public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<Tag> TagSuggestions { get; set; } = new ObservableCollection<Tag>();
 
         public FilterProperties LastUsedFilterProperties { get; set; } = new FilterProperties();
         public bool IsSyncing { get; set; } = false;
