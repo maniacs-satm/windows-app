@@ -26,8 +26,9 @@
                 x:Name="ItemGridView"
                 Padding="4"
                 EntranceNavigationTransitionInfo.IsTargetElement="True"
-                IsItemClickEnabled="True"
+                IsItemClickEnabled="{x:Bind IsMultipleSelectionEnabled, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
                 ItemsSource="{x:Bind Items}"
+                Loaded="ItemGridView_Loaded"
                 MinItemHeight="200"
                 MinItemWidth="300">
                 <GridView.ItemTemplate>
@@ -293,6 +294,11 @@
             <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="ARCHIVED" />
         </Pivot>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
+            <AppBarToggleButton
+                Click="EnableMultipleSelection"
+                Icon="Bullets"
+                IsChecked="{x:Bind ViewModel.IsMultipleSelectionEnabled, Mode=TwoWay}"
+                Label="Select" />
             <AppBarButton
                 x:Name="searchToggleButton"
                 x:Uid="SearchAppBarButton"
@@ -330,7 +336,7 @@
         <CommandBar
             x:Name="MultipleSelectionCommandBar"
             VerticalAlignment="Bottom"
-            Visibility="Collapsed">
+            Visibility="{x:Bind ViewModel.IsMultipleSelectionEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
             <AppBarButton
                 x:Uid="EditMultipleItemsAppBarButton"
                 Icon="Edit"
@@ -341,14 +347,14 @@
                             x:Name="MarkItemsAsReadMenuFlyoutItem"
                             x:Uid="MarkAsReadMenuFlyoutItem"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Click="MarkItemsAsReadMenuFlyoutItem_Click"
+                            Command="{x:Bind ViewModel.MarkItemsAsReadCommand}"
                             Tag="&#xE001;"
                             Text="Mark as read" />
                         <MenuFlyoutItem
                             x:Name="UnmarkItemsAsReadMenuFlyoutItem"
                             x:Uid="UnmarkAsReadMenuFlyoutItem"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Click="UnmarkItemsAsReadMenuFlyoutItem_Click"
+                            Command="{x:Bind ViewModel.UnmarkItemsAsReadCommand}"
                             Tag="&#xE109;"
                             Text="Unmark as read" />
                         <MenuFlyoutSeparator />
@@ -356,14 +362,14 @@
                             x:Name="MarkItemsAsFavoriteMenuFlyoutItem"
                             x:Uid="MarkAsFavoriteMenuFlyoutItem"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Click="MarkItemsAsFavoriteMenuFlyoutItem_Click"
+                            Command="{x:Bind ViewModel.MarkItemsAsFavoriteCommand}"
                             Tag="&#xE00B;"
                             Text="Mark as favorite" />
                         <MenuFlyoutItem
                             x:Name="UnmarkItemsAsFavoriteMenuFlyoutItem"
                             x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Click="UnmarkItemsAsFavoriteMenuFlyoutItem_Click"
+                            Command="{x:Bind ViewModel.UnmarkItemsAsFavoriteCommand}"
                             Tag="&#xE006;"
                             Text="Unmark as favorite" />
                         <MenuFlyoutSeparator />
@@ -372,13 +378,14 @@
                             x:Uid="ManageTagsMenuFlyoutItem"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"
                             Click="ManageTagsMenuFlyoutItem_Click"
+                            IsEnabled="False"
                             Tag="&#xE1CB;"
                             Text="Manage tags" />
                         <MenuFlyoutItem
                             x:Name="DeleteMenuFlyoutItem"
                             x:Uid="DeleteMenuFlyoutItem"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Click="DeleteMenuFlyoutItem_Click"
+                            Command="{x:Bind ViewModel.DeleteItemsCommand}"
                             Tag="&#xE107;"
                             Text="Delete" />
                     </MenuFlyout>
@@ -386,6 +393,7 @@
             </AppBarButton>
             <AppBarButton
                 x:Uid="CancelAppBarButton"
+                Click="DisableMultipleSelection"
                 Icon="Cancel"
                 Label="Cancel" />
         </CommandBar>

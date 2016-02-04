@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Template10.Common;
-using wallabag.Common;
-using wallabag.Models;
+﻿using GalaSoft.MvvmLight.Messaging;
+using System;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -14,37 +9,20 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
 {
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
-
         private GridView _ItemGridView;
-        public bool IsMultipleSelectionEnabled { get; set; } = false;
-        private bool IsSearchVisible { get; set; } = false;
-
 
         public ContentPage()
         {
             InitializeComponent();
-            HideDragDropGridStoryboard.Completed += (s, e) =>
-            {
-                ViewModel.RefreshItemsAsync(); // TODO: Use the messenger!
-            };
         }
 
-        // TODO: Use VisualStates.
-        //private void ItemGridView_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    var ItemGridView = sender as GridView;
-        //    if (e.NewSize.Width < 720)
-        //        ItemGridView.ItemsPanel = ListViewTemplate;
-        //    else
-        //        ItemGridView.ItemsPanel = GridViewTemplate;
-        //}
+        private void ItemGridView_Loaded(object sender, RoutedEventArgs e) { _ItemGridView = sender as GridView; }
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -117,7 +95,7 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(UIElement target, Point offset)
         {
-            if (_LastFocusedItemViewModel != null && !IsMultipleSelectionEnabled)
+            if (_LastFocusedItemViewModel != null && !(bool)ViewModel.IsMultipleSelectionEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
 
@@ -150,82 +128,18 @@ namespace wallabag.Views
         #endregion
 
         #region Multiple selection
-
-        private async void multipleSelectToggleButton_Click(object sender, RoutedEventArgs e)
+        private void EnableMultipleSelection(object sender, RoutedEventArgs e)
         {
-            if (IsMultipleSelectionEnabled)
-            {
-                SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH);
-
-                foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-                    await conn.UpdateAsync(item.Model);
-
-                await ViewModel.RefreshItemsAsync();
-
-                IsMultipleSelectionEnabled = false;
-                _ItemGridView.SelectionMode = ListViewSelectionMode.None;
-                _ItemGridView.IsItemClickEnabled = true;
-                MultipleSelectionCommandBar.Visibility = Visibility.Collapsed;
-                PrimaryCommandBar.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                IsMultipleSelectionEnabled = true;
-                _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
-                _ItemGridView.IsItemClickEnabled = false;
-                MultipleSelectionCommandBar.Visibility = Visibility.Visible;
-                PrimaryCommandBar.Visibility = Visibility.Collapsed;
-            }
+            _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
         }
-
-        private async void MarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        private void DisableMultipleSelection(object sender, RoutedEventArgs e)
         {
-            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-            {
-                item.Model.IsRead = true;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", true);
-            }
-            multipleSelectToggleButton_Click(sender, e);
-        }
-        private async void UnmarkItemsAsReadMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-            {
-                item.Model.IsRead = false;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", false);
-            }
-            multipleSelectToggleButton_Click(sender, e);
-        }
-        private async void MarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-            {
-                item.Model.IsStarred = true;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", true);
-            }
-            multipleSelectToggleButton_Click(sender, e);
-        }
-        private async void UnmarkItemsAsFavoriteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-            {
-                item.Model.IsStarred = true;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", false);
-            }
-            multipleSelectToggleButton_Click(sender, e);
+            _ItemGridView.SelectionMode = ListViewSelectionMode.None;
+            ViewModel.IsMultipleSelectionEnabled = false;
         }
         private void ManageTagsMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             (Resources["ShowEditTagsBorder"] as Storyboard).Begin();
-        }
-        private async void DeleteMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (ItemViewModel item in _ItemGridView.SelectedItems)
-            {
-                item.Model.IsDeleted = true;
-                await item.DeleteAsync();
-            }
-            multipleSelectToggleButton_Click(sender, e);
         }
         #endregion
 
@@ -236,8 +150,8 @@ namespace wallabag.Views
             {
                 HideDragDropGridStoryboard.Begin();
 
-                var item = await e.DataView.GetWebLinkAsync();
-                // TODO:  await DataService.AddItemAsync(item.ToString());
+                var url = await e.DataView.GetWebLinkAsync();
+                Messenger.Default.Send(new NotificationMessage<Uri>(url, "addItem"));
             }
         }
 

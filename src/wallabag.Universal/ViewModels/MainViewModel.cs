@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using GalaSoft.MvvmLight.Messaging;
+using Newtonsoft.Json;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ using wallabag.Common;
 using wallabag.Data.Interfaces;
 using wallabag.Data.Models;
 using wallabag.Models;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -37,10 +37,16 @@ namespace wallabag.ViewModels
         public DelegateCommand AddItemCommand { get; private set; }
         public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
         public DelegateCommand ResetFilterCommand { get; private set; }
-
-        // TODO
-        public DelegateCommand PivotSelectionChangedCommand { get; private set; }
         public DelegateCommand<ItemClickEventArgs> ItemClickCommand { get; private set; }
+
+        // Multiple selection
+        public bool? IsMultipleSelectionEnabled { get; set; } = false;
+        public ObservableCollection<ItemViewModel> SelectedItems { get; set; } = new ObservableCollection<ItemViewModel>();
+        public DelegateCommand MarkItemsAsReadCommand { get; private set; }
+        public DelegateCommand MarkItemsAsFavoriteCommand { get; private set; }
+        public DelegateCommand UnmarkItemsAsReadCommand { get; private set; }
+        public DelegateCommand UnmarkItemsAsFavoriteCommand { get; private set; }
+        public DelegateCommand DeleteItemsCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -58,6 +64,12 @@ namespace wallabag.ViewModels
                 await RefreshItemsAsync();
             });
             ItemClickCommand = new DelegateCommand<ItemClickEventArgs>(args => ItemClick(args));
+
+            MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsReadAsync());
+            UnmarkItemsAsReadCommand = new DelegateCommand(async () => await UnmarkItemsAsReadAsync());
+            MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsFavoriteAsync());
+            UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
+            DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -87,38 +99,21 @@ namespace wallabag.ViewModels
                     if (!Tags.Contains(tag))
                         Tags.Add(tag);
             }
+
+            Messenger.Default.Register<NotificationMessage<Uri>>(this, async uri =>
+            {
+                await _dataService.AddItemAsync(uri.Content.ToString());
+                await RefreshItemsAsync();
+            });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
             state[nameof(LastUsedFilterProperties)] = JsonConvert.SerializeObject(LastUsedFilterProperties);
+
+            Messenger.Default.Unregister(this);
             return base.OnNavigatedFromAsync(state, suspending);
         }
 
-        // TODO
-        public void AddItem()
-        {
-            if (Window.Current.Bounds.Width <= 500 || Helpers.IsPhone)
-                NavigationService.Navigate(typeof(Views.AddItemPage));
-            // else show AddItemDialog.
-        }
-        public async Task PivotSelectionChangedAsync()
-        {
-            //switch ((sender as Pivot).SelectedIndex)
-            //{
-            //    case 0:
-            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
-            //        await ViewModel.RefreshItemsAsync();
-            //        break;
-            //    case 1:
-            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
-            //        await ViewModel.RefreshItemsAsync();
-            //        break;
-            //    case 2:
-            //        ViewModel.LastUsedFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
-            //        await ViewModel.RefreshItemsAsync();
-            //        break;
-            //}
-        }        
         public void ItemClick(ItemClickEventArgs e)
         {
             if (e.ClickedItem != null)
@@ -188,6 +183,60 @@ namespace wallabag.ViewModels
             }
 
             NumberOfOfflineTasks = await _dataService.GetNumberOfOfflineTasksAsync();
+        }
+
+        public async Task MarkItemsAsReadAsync()
+        {
+            foreach (var item in SelectedItems)
+            {
+                item.Model.IsRead = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", item.Model.IsRead);
+            }
+            await FinishMultipleSelection();
+        }
+        public async Task UnmarkItemsAsReadAsync()
+        {
+            foreach (var item in SelectedItems)
+            {
+                item.Model.IsRead = false;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", item.Model.IsRead);
+            }
+            await FinishMultipleSelection();
+        }
+        public async Task MarkItemsAsFavoriteAsync()
+        {
+            foreach (var item in SelectedItems)
+            {
+                item.Model.IsStarred = true;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", item.Model.IsStarred);
+            }
+            await FinishMultipleSelection();
+        }
+        public async Task UnmarkItemsAsFavoriteAsync()
+        {
+            foreach (var item in SelectedItems)
+            {
+                item.Model.IsStarred = false;
+                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", item.Model.IsStarred);
+            }
+            await FinishMultipleSelection();
+        }
+        public async Task DeleteItemsAsync()
+        {
+            foreach (var item in SelectedItems)
+            {
+                item.Model.IsDeleted = true;
+                await item.DeleteAsync();
+            }
+            await FinishMultipleSelection();
+        }
+        private async Task FinishMultipleSelection()
+        {
+            foreach (var item in SelectedItems)
+                await _dataService.UpdateItemAsync(item.Model);
+
+            await RefreshItemsAsync();
+            IsMultipleSelectionEnabled = false;
         }
     }
 }
