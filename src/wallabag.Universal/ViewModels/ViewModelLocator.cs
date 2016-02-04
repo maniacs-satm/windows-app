@@ -14,7 +14,7 @@ namespace wallabag.ViewModels
             if (GalaSoft.MvvmLight.ViewModelBase.IsInDesignModeStatic)
                 SimpleIoc.Default.Register<IDataService, TestDataService>();
             else
-                SimpleIoc.Default.Register<IDataService, RuntimeDataService>();
+                SimpleIoc.Default.Register<IDataService, TestDataService>();
 
 
             SimpleIoc.Default.Register<MainViewModel>();

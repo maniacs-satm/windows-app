@@ -1,6 +1,5 @@
 ﻿using System;
 using NotificationsExtensions.Badges;
-using wallabag.Services;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 
