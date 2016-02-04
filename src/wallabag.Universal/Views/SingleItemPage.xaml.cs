@@ -1,12 +1,10 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PropertyChanged;
 using wallabag.Common;
 using wallabag.ViewModels;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -16,7 +14,6 @@ namespace wallabag.Views
     [ImplementPropertyChanged]
     public sealed partial class SingleItemPage : Page
     {
-        private DataTransferManager dataTransferManager;
         public SingleItemPageViewModel ViewModel { get { return (SingleItemPageViewModel)DataContext; } }
 
         public SingleItemPage()
@@ -24,19 +21,17 @@ namespace wallabag.Views
             InitializeComponent();
 
             ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
-            dataTransferManager = DataTransferManager.GetForCurrentView();
-            dataTransferManager.DataRequested += SingleItemPage_DataRequested;
             WebView.ScriptNotify += WebView_ScriptNotify;
             WebView.NavigationStarting += WebView_NavigationStarting;
             WebView.NavigationCompleted += (s, e) =>
             {
-                if (TextAlignJustifyPathIcon == null)
-                    TextAlignJustifyPathIcon = ChangeTextAlignButton.Content as PathIcon;
+                //if (TextAlignJustifyPathIcon == null)
+                //    TextAlignJustifyPathIcon = ChangeTextAlignButton.Content as PathIcon;
 
-                if (AppSettings.TextAlignment == "left")
-                    ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
-                else
-                    ChangeTextAlignButton.Content = "";
+                //if (AppSettings.TextAlignment == "left")
+                //    ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
+                //else
+                //    ChangeTextAlignButton.Content = "";
 
                 ShowContentStoryboard.Begin();
             };
@@ -46,6 +41,15 @@ namespace wallabag.Views
                     ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
             };
         }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Messenger.Default.Register<NotificationMessage>(this, async message =>
+{
+    if (message.Notification == "updateHTML")
+        await ChangeHtmlAttributesAsync();
+});
+        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e) { Messenger.Default.Unregister(this); }
 
         private async void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
@@ -55,44 +59,13 @@ namespace wallabag.Views
                 await Windows.System.Launcher.LaunchUriAsync(args.Uri);
             }
         }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e) { dataTransferManager.DataRequested -= SingleItemPage_DataRequested; }
-
-        #region Data transfer
-        private async void SingleItemPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        private void WebView_ScriptNotify(object sender, NotifyEventArgs e)
         {
-            var deferral = args.Request.GetDeferral();
+            Messenger.Default.Send(new NotificationMessage<string>(e.Value, "readingProgress"));
 
-            StorageFile quoteFile = null;
-
-            ShareTextControl.Visibility = Visibility.Visible;
-            var selectedText = await WebView.InvokeScriptAsync("getSelectionText", new List<string>());
-            if (!string.IsNullOrWhiteSpace(selectedText))
-            {
-                ShareTextControl.SelectionContent = selectedText;
-
-                quoteFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync($"{Guid.NewGuid()}.png", CreationCollisionOption.ReplaceExisting);
-                var stream = await quoteFile.OpenAsync(FileAccessMode.ReadWrite);
-                await ShareTextControl.CaptureToStreamAsync(stream);
-                stream.Dispose();
-                ShareTextControl.Visibility = Visibility.Collapsed;
-            }
-
-            if (ViewModel.CurrentItem != null)
-            {
-                var data = args.Request.Data;
-
-                data.SetWebLink(new Uri(ViewModel.CurrentItem.Model.Url));
-                if (quoteFile != null)
-                    data.SetBitmap(RandomAccessStreamReference.CreateFromFile(quoteFile));
-
-                data.Properties.Title = ViewModel.CurrentItem.Model.Title;
-            }
-            deferral.Complete();
+            if (float.Parse(e.Value) == 100)
+                BottomAppBar.IsOpen = true;
         }
-
-        private void ShareLinkFlyoutItem_Click(object sender, RoutedEventArgs e) { DataTransferManager.ShowShareUI(); }
-        #endregion
 
         private async Task ChangeHtmlAttributesAsync()
         {
@@ -102,58 +75,7 @@ namespace wallabag.Views
             parameters.Add(AppSettings.FontSize.ToString());
             parameters.Add(AppSettings.TextAlignment);
 
-            if (ViewModel.CurrentItem != null)
-                await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
-        }
-
-        private void WebView_ScriptNotify(object sender, NotifyEventArgs e)
-        {
-            ViewModel.CurrentItem.Model.ReadingProgress = e.Value;
-            if (float.Parse(e.Value) == 100)
-                BottomAppBar.IsOpen = true;
-        }
-
-        private async void FontFamilyButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (AppSettings.FontFamily == "serif")
-                AppSettings.FontFamily = "sans";
-            else
-                AppSettings.FontFamily = "serif";
-
-            await ChangeHtmlAttributesAsync();
-        }
-
-        private async void ChangeColorSchemeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender == lightColorSchemeButton)
-                AppSettings.ColorScheme = "light";
-            else if (sender == sepiaColorSchemeButton)
-                AppSettings.ColorScheme = "sepia";
-            else if (sender == darkColorSchemeButton)
-                AppSettings.ColorScheme = "dark";
-            else
-                AppSettings.ColorScheme = "black";
-            await ChangeHtmlAttributesAsync();
-            ViewModel.ChangeAppBarBrushes();
-        }
-
-        private async void IncreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize += 1; await ChangeHtmlAttributesAsync(); }
-        private async void DecreaseFontSize(object sender, RoutedEventArgs e) { ViewModel.FontSize -= 1; await ChangeHtmlAttributesAsync(); }
-
-        private PathIcon TextAlignJustifyPathIcon;
-        private async void ChangeTextAlignButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (AppSettings.TextAlignment == "left")
-            {
-                AppSettings.TextAlignment = "justify";
-                ChangeTextAlignButton.Content = "";
-            }
-            else
-            {
-                AppSettings.TextAlignment = "left";
-                ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
-            }
-            await ChangeHtmlAttributesAsync();
+            await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
         }
 
         private void EditTagsAppBarButton_Click(object sender, RoutedEventArgs e)
@@ -169,7 +91,6 @@ namespace wallabag.Views
         {
             ShowOptionsGrid.Begin();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             HideOptionsGrid.Begin();

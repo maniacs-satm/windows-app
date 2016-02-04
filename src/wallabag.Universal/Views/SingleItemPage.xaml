@@ -2,91 +2,101 @@
     x:Class="wallabag.Views.SingleItemPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:wallabag.Views"
     xmlns:common="using:wallabag.Common"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:wallabag.Controls"
     xmlns:converter="using:wallabag.Converter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:wallabag.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
     common:TitleBarExtensions.BackgroundColor="{x:Bind ViewModel.CurrentBackground.Color, Mode=OneWay}"
     common:TitleBarExtensions.ButtonBackgroundColor="{x:Bind ViewModel.CurrentBackground.Color, Mode=OneWay}"
-    common:TitleBarExtensions.ForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
     common:TitleBarExtensions.ButtonForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
+    common:TitleBarExtensions.ForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
     DataContext="{Binding SingleItem, Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <converter:BooleanNullableConverter x:Key="BoolNullConverter"/>
+        <converter:BooleanNullableConverter x:Key="BoolNullConverter" />
         <Storyboard x:Name="ShowEditTagsBorder">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditTagsBorder">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="EditTagsBorder">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1" />
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="EditTagsBorderGrid">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorderGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
+                        <BackEase EasingMode="EaseOut" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
+                        <BackEase EasingMode="EaseOut" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="EditTagsBorderGrid">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorderGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
+                        <BackEase EasingMode="EaseOut" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
                 <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
+                        <BackEase EasingMode="EaseOut" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="HideEditTagsBorder">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="EditTagsBorder">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.4">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Collapsed</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="EditTagsBorder">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0" />
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="EditTagsBorderGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorderGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8" />
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="EditTagsBorderGrid">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
-                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8"/>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="EditTagsBorderGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.4" Value="0.8" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="ShowContentStoryboard">
-            <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="LoadingProgressRing" d:IsOptimized="True"/>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="LoadingProgressRing">
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="LoadingProgressRing"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoadingProgressRing" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Collapsed</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimation Duration="0:0:0.3" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="WebView" d:IsOptimized="True"/>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="WebView">
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="WebView"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="1" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="WebView" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
@@ -95,212 +105,295 @@
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="ShowOptionsGrid">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="viewOptionsGrid">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimation Duration="0:0:0.5" From="136" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="viewOptionsGrid"/>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewOptionsGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+            <DoubleAnimation
+                Duration="0:0:0.5"
+                From="136"
+                Storyboard.TargetName="viewOptionsGrid"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)"
+                To="0" />
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="HideOptionsGrid">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="viewOptionsGrid">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Collapsed</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimation Duration="0:0:0.5" From="0" To="136" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="viewOptionsGrid"/>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewOptionsGrid">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            <DoubleAnimation
+                Duration="0:0:0.5"
+                From="0"
+                Storyboard.TargetName="viewOptionsGrid"
+                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)"
+                To="136" />
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="commandBar" ClosedDisplayMode="{x:Bind ViewModel.CommandBarClosedDisplayMode, Mode=OneWay}"
-                    Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
-                    Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
-                    RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
+        <CommandBar
+            x:Name="commandBar"
+            Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
+            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
+            ClosedDisplayMode="{x:Bind ViewModel.CommandBarClosedDisplayMode, Mode=OneWay}"
+            RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
-                <AppBarToggleButton x:Name="MarkAsReadButton"
-                                    x:Uid="MarkAsReadAppBarButton"
-                                    Icon="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource ReadToIconConverter}}" 
-                                    Label="Mark as read"
-                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"
-                                    Command="{x:Bind ViewModel.MarkItemAsReadCommand}"/>
-                <AppBarToggleButton x:Name="MarkAsFavoriteButton"
-                                    x:Uid="MarkAsFavoriteButton"
-                                    Icon="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource FavoriteToIconConverter}}" 
-                                    Label="Mark as favorite"
-                                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"                                    
-                                    Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand, Mode=OneWay}"/>
-                <AppBarButton x:Uid="EditTagsAppBarButton"
-                              Icon="Tag" 
-                              Label="Edit tags" 
-                              Click="EditTagsAppBarButton_Click"/>
-                <AppBarButton x:Uid="ShareAppBarButton" Label="Share" Click="ShareLinkFlyoutItem_Click">
+                <AppBarToggleButton
+                    x:Name="MarkAsReadButton"
+                    x:Uid="MarkAsReadAppBarButton"
+                    Command="{x:Bind ViewModel.MarkItemAsReadCommand}"
+                    Icon="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource ReadToIconConverter}}"
+                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsRead, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"
+                    Label="Mark as read" />
+                <AppBarToggleButton
+                    x:Name="MarkAsFavoriteButton"
+                    x:Uid="MarkAsFavoriteButton"
+                    Command="{x:Bind ViewModel.CurrentItem.SwitchFavoriteStatusCommand, Mode=OneWay}"
+                    Icon="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource FavoriteToIconConverter}}"
+                    IsChecked="{x:Bind ViewModel.CurrentItem.Model.IsStarred, Mode=OneWay, Converter={StaticResource BoolNullConverter}}"
+                    Label="Mark as favorite" />
+                <AppBarButton
+                    x:Uid="EditTagsAppBarButton"
+                    Click="EditTagsAppBarButton_Click"
+                    Icon="Tag"
+                    Label="Edit tags" />
+                <AppBarButton
+                    x:Uid="ShareAppBarButton"
+                    Command="{x:Bind ViewModel.ShowShareUICommand}"
+                    Label="Share">
                     <AppBarButton.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Uid="FontSettingsAppBarButton" Icon="Font" Label="Font settings" Click="FontSettingsAppBarButton_Click"/>
-                <AppBarSeparator/>
-                <AppBarButton x:Uid="DeleteAppBarButton" Label="Delete" Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"/>
+                <AppBarButton
+                    x:Uid="FontSettingsAppBarButton"
+                    Click="FontSettingsAppBarButton_Click"
+                    Icon="Font"
+                    Label="Font settings" />
+                <AppBarSeparator />
+                <AppBarButton
+                    x:Uid="DeleteAppBarButton"
+                    Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"
+                    Label="Delete" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
 
-    <Grid Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
-          RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
+    <Grid Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}" RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Stretch"/>
+                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Stretch" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Right"/>
+                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Right" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720"/>
+                        <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <WebView x:Name="WebView" common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}" Opacity="0" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+        <WebView
+            x:Name="WebView"
+            Opacity="0"
+            common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}"
+            RenderTransformOrigin="0.5,0.5"
+            Visibility="Collapsed">
             <WebView.RenderTransform>
-                <CompositeTransform/>
+                <CompositeTransform />
             </WebView.RenderTransform>
         </WebView>
-        <Border x:Name="EditTagsBorder" Visibility="Collapsed" Opacity="0" Background="{ThemeResource EditTagsBorderBackground}" d:IsHidden="True">
-            <Grid x:Name="EditTagsBorderGrid" MaxWidth="500" Background="{ThemeResource EditTagsBorderGridBackground}" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+        <Border
+            x:Name="EditTagsBorder"
+            Background="{ThemeResource EditTagsBorderBackground}"
+            Opacity="0"
+            d:IsHidden="True"
+            Visibility="Collapsed">
+            <Grid
+                x:Name="EditTagsBorderGrid"
+                MaxWidth="500"
+                VerticalAlignment="Center"
+                Background="{ThemeResource EditTagsBorderGridBackground}"
+                RenderTransformOrigin="0.5,0.5">
                 <Grid.RenderTransform>
-                    <CompositeTransform/>
+                    <CompositeTransform />
                 </Grid.RenderTransform>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="48"/>
-                    <RowDefinition/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="48" />
+                    <RowDefinition />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Border Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
-                    <TextBlock 
+                    <TextBlock
                         x:Uid="ManageTagsHeaderTextBlock"
-                        Text="MANAGE TAGS" 
-                        Style="{ThemeResource PageTitleTextBlockStyle}"/>
+                        Style="{ThemeResource PageTitleTextBlockStyle}"
+                        Text="MANAGE TAGS" />
                 </Border>
-                <controls:TagControl Grid.Row="1" Margin="8,16" ItemsSource="{x:Bind ViewModel.CurrentItem.Model.Tags, Mode=TwoWay}"/>
+                <controls:TagControl
+                    Grid.Row="1"
+                    Margin="8,16"
+                    ItemsSource="{x:Bind ViewModel.CurrentItem.Model.Tags, Mode=TwoWay}" />
                 <CommandBar Grid.Row="2">
-                    <AppBarButton x:Name="CancelTagsAppBarButton" 
-                                  x:Uid="CancelAppBarButton"
-                                  Icon="Cancel" 
-                                  Label="Cancel" 
-                                  Click="HideTagsAppBarButton_Click"/>
+                    <AppBarButton
+                        x:Name="CancelTagsAppBarButton"
+                        x:Uid="CancelAppBarButton"
+                        Click="HideTagsAppBarButton_Click"
+                        Icon="Cancel"
+                        Label="Cancel" />
                 </CommandBar>
             </Grid>
         </Border>
         <ProgressRing
             x:Name="LoadingProgressRing"
-            IsActive="True"
             Width="64"
             Height="64"
-            VerticalAlignment="Center"
             HorizontalAlignment="Center"
-            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}" d:IsHidden="True"/>
+            VerticalAlignment="Center"
+            Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
+            d:IsHidden="True"
+            IsActive="True" />
         <Border
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
+            d:IsHidden="True"
             RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}"
-            Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock x:Name="SymbolTextBlock"
-                           FontSize="64"
-                           Text=":-("
-                           TextAlignment="Center"
-                           Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
-                <TextBlock x:Name="errorHeaderTextBlock"
-                           x:Uid="ErrorHeaderTextBlock"
-                           Text="Sorry."
-                           Margin="8,16"
-                           TextAlignment="Center"
-                           Style="{StaticResource TitleTextBlockStyle}"
-                           Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
-                <TextBlock Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}" 
-                           Margin="8,0,8,16"
-                           TextAlignment="Center"
-                           Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"/>
+            Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock
+                    x:Name="SymbolTextBlock"
+                    Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
+                    FontSize="64"
+                    Text=":-("
+                    TextAlignment="Center" />
+                <TextBlock
+                    x:Name="errorHeaderTextBlock"
+                    x:Uid="ErrorHeaderTextBlock"
+                    Margin="8,16"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
+                    Text="Sorry."
+                    TextAlignment="Center" />
+                <TextBlock
+                    Margin="8,0,8,16"
+                    Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
+                    Text="{x:Bind ViewModel.ErrorMessage, Mode=OneWay}"
+                    TextAlignment="Center" />
                 <Button
                     x:Uid="OpenInBrowserButton"
-                    Content="Open in browser" 
                     HorizontalAlignment="Center"
-                    Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"/>
+                    Command="{x:Bind ViewModel.CurrentItem.OpenInBrowserCommand, Mode=OneWay}"
+                    Content="Open in browser" />
             </StackPanel>
         </Border>
-        <controls:ShareTextControl 
-            x:Name="ShareTextControl" 
-            Title="{x:Bind ViewModel.CurrentItem.Model.Title, Mode=OneWay}"
-            DomainName="{x:Bind ViewModel.CurrentItem.Model.DomainName, Mode=OneWay}" 
-            VerticalAlignment="Center"
-            Opacity="0"
-            Visibility="Collapsed" d:IsHidden="True"/>
-        <Grid x:Name="viewOptionsGrid"
-              Padding="8" 
-              VerticalAlignment="Bottom"
-              RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}" RenderTransformOrigin="0.5,0.5" Background="#4C000000">
+        <Grid
+            x:Name="viewOptionsGrid"
+            Padding="8"
+            VerticalAlignment="Bottom"
+            Background="#4C000000"
+            RenderTransformOrigin="0.5,0.5"
+            RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RenderTransform>
-                <CompositeTransform TranslateY="136"/>
+                <CompositeTransform TranslateY="136" />
             </Grid.RenderTransform>
             <Grid.Resources>
-                <Style TargetType="Button" BasedOn="{StaticResource RoundButtonStyle}">
-                    <Setter Property="Padding" Value="8"/>
-                    <Setter Property="Margin" Value="6"/>
+                <Style BasedOn="{StaticResource RoundButtonStyle}" TargetType="Button">
+                    <Setter Property="Padding" Value="8" />
+                    <Setter Property="Margin" Value="6" />
                     <Setter Property="Height" Value="48" />
-                    <Setter Property="Width" Value="48"/>
-                    <Setter Property="FontSize" Value="20"/>
-                    <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+                    <Setter Property="Width" Value="48" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
                 </Style>
             </Grid.Resources>
 
             <RelativePanel>
-                <Button x:Name="lightColorSchemeButton" Content="&#x1f311;" Click="ChangeColorSchemeButton_Click" FontFamily="Segoe UI Symbol"/>
-                <Button x:Name="sepiaColorSchemeButton" Content="&#x1f312;" Click="ChangeColorSchemeButton_Click" RelativePanel.RightOf="lightColorSchemeButton" FontFamily="Segoe UI Symbol"/>
-                <Button x:Name="darkColorSchemeButton" Content="&#x1f314;" Click="ChangeColorSchemeButton_Click" RelativePanel.Below="lightColorSchemeButton" FontFamily="Segoe UI Symbol"/>
-                <Button x:Name="blackColorSchemeButton" Content="&#x1f315;" Click="ChangeColorSchemeButton_Click" RelativePanel.Below="sepiaColorSchemeButton" RelativePanel.RightOf="darkColorSchemeButton" FontFamily="Segoe UI Symbol"/>
+                <Button
+                    x:Name="lightColorSchemeButton"
+                    FontFamily="Segoe UI Symbol"
+                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                    CommandParameter="light"
+                    Content="&#x1f311;" />
+                <Button
+                    x:Name="sepiaColorSchemeButton"
+                    FontFamily="Segoe UI Symbol"
+                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                    CommandParameter="sepia"
+                    Content="&#x1f312;"
+                    RelativePanel.RightOf="lightColorSchemeButton" />
+                <Button
+                    x:Name="darkColorSchemeButton"
+                    FontFamily="Segoe UI Symbol"
+                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                    CommandParameter="dark"
+                    Content="&#x1f314;"
+                    RelativePanel.Below="lightColorSchemeButton" />
+                <Button
+                    x:Name="blackColorSchemeButton"
+                    FontFamily="Segoe UI Symbol"
+                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                    CommandParameter="black"
+                    Content="&#x1f315;"
+                    RelativePanel.Below="sepiaColorSchemeButton"
+                    RelativePanel.RightOf="darkColorSchemeButton" />
             </RelativePanel>
 
-            <Button Content="&#xE011;" 
-                    Grid.Column="1" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Bottom" 
-                    Background="Transparent" 
-                    Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                    Click="Button_Click"/>
+            <Button
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Background="Transparent"
+                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
+                Click="Button_Click"
+                Content="&#xE011;" />
 
             <RelativePanel Grid.Column="2">
-                <Button x:Name="DecreaseFontSizeButton" Content="&#xE738;" Click="DecreaseFontSize"/>
-                <Button x:Name="IncreaseFontSizeButton" Content="&#xE710;" Click="IncreaseFontSize" RelativePanel.RightOf="DecreaseFontSizeButton"/>
-                <Button x:Name="ChangeFontFamilyButton" Content="&#xE185;" Click="FontFamilyButton_Click" RelativePanel.Below="IncreaseFontSizeButton"/>
-                <Button x:Name="ChangeTextAlignButton" Click="ChangeTextAlignButton_Click" RelativePanel.Below="DecreaseFontSizeButton" RelativePanel.RightOf="ChangeFontFamilyButton">
-                    <PathIcon Data="M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14"/>
-                </Button>
+                <Button
+                    x:Name="DecreaseFontSizeButton"
+                    Command="{x:Bind ViewModel.DecreaseFontSizeCommand}"
+                    Content="&#xE738;" />
+                <Button
+                    x:Name="IncreaseFontSizeButton"
+                    Command="{x:Bind ViewModel.IncreaseFontSizeCommand}"
+                    Content="&#xE710;"
+                    RelativePanel.RightOf="DecreaseFontSizeButton" />
+                <Button
+                    x:Name="ChangeFontFamilyButton"
+                    Command="{x:Bind ViewModel.ChangeFontFamilyCommand}"
+                    Content="&#xE185;"
+                    RelativePanel.Below="IncreaseFontSizeButton" />
+                <Button
+                    x:Name="ChangeTextAlignButton"
+                    Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}"
+                    RelativePanel.Below="DecreaseFontSizeButton"
+                    RelativePanel.RightOf="ChangeFontFamilyButton"
+                    Content="{x:Bind ViewModel.TextAlignButtonContent, Mode=OneWay}"/>
             </RelativePanel>
         </Grid>
     </Grid>

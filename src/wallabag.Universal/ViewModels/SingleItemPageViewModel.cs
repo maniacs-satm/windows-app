@@ -1,10 +1,12 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight.Messaging;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
-using wallabag.Services;
+using wallabag.Data.Interfaces;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI;
@@ -14,7 +16,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
-using wallabag.Data.Interfaces;
 
 namespace wallabag.ViewModels
 {
@@ -22,10 +23,10 @@ namespace wallabag.ViewModels
     public class SingleItemPageViewModel : ViewModelBase
     {
         private IDataService _dataService;
+        private DataTransferManager _dataTransferManager;
+        private string ContainerKey { get { return $"ReadingProgressContainer"; } }
 
         public ItemViewModel CurrentItem { get; set; }
-        private string ContainerKey { get { return $"ReadingProgressContainer-{new Uri(AppSettings.wallabagUrl).Host}"; } }
-
         public SolidColorBrush CurrentBackground { get; set; }
         public SolidColorBrush CurrentForeground { get; set; }
         public ElementTheme AppBarRequestedTheme { get; set; }
@@ -39,8 +40,29 @@ namespace wallabag.ViewModels
         public bool ErrorHappened { get; set; } = false;
         public AppBarClosedDisplayMode CommandBarClosedDisplayMode { get; set; } = AppBarClosedDisplayMode.Minimal;
 
+        public object TextAlignButtonContent { get; set; }
+        private PathIcon TextAlignJustifyPathIcon { get; }
+            = new PathIcon() { Data = PathMarkupToGeometry("M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14") };
+        private static Geometry PathMarkupToGeometry(string markup)
+        {
+            string xaml = $"<Path xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'><Path.Data>{markup}</Path.Data></Path>";
+            var path = Windows.UI.Xaml.Markup.XamlReader.Load(xaml) as Windows.UI.Xaml.Shapes.Path;
+
+            // Detach the PathGeometry from the Path
+            Geometry geometry = path.Data;
+            path.Data = null;
+
+            return geometry;
+        }
+
         public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
+        public DelegateCommand ShowShareUICommand { get; private set; }
+        public DelegateCommand<string> ChangeColorSchemeCommand { get; private set; }
+        public DelegateCommand ChangeFontFamilyCommand { get; private set; }
+        public DelegateCommand IncreaseFontSizeCommand { get; private set; }
+        public DelegateCommand DecreaseFontSizeCommand { get; private set; }
+        public DelegateCommand ChangeTextAlignmentCommand { get; private set; }
 
         public SingleItemPageViewModel(IDataService dataService)
         {
@@ -52,21 +74,35 @@ namespace wallabag.ViewModels
                 if (AppSettings.NavigateBackAfterReadingAnArticle)
                     NavigationService.GoBack();
             });
-        }              
+            ShowShareUICommand = new DelegateCommand(() => { DataTransferManager.ShowShareUI(); });
 
-        public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
-        {
-            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = string.Empty;
-            await new SQLite.SQLiteAsyncConnection(Helpers.DATABASE_PATH).UpdateAsync(CurrentItem.Model);
-
-            if (AppSettings.SyncReadingProgress)
-                ApplicationData.Current.RoamingSettings.CreateContainer(ContainerKey,
-                    ApplicationDataCreateDisposition.Always).Values[CurrentItem.Model.Id.ToString()] = CurrentItem.Model.ReadingProgress;
-
-            if (Helpers.IsPhone)
-                await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
+            ChangeColorSchemeCommand = new DelegateCommand<string>(scheme => ChangeColorScheme(scheme));
+            ChangeFontFamilyCommand = new DelegateCommand(() => ChangeFontFamily());
+            IncreaseFontSizeCommand = new DelegateCommand(() =>
+            {
+                FontSize += 1;
+                Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            });
+            DecreaseFontSizeCommand = new DelegateCommand(() =>
+            {
+                FontSize -= 1;
+                Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            });
+            ChangeTextAlignmentCommand = new DelegateCommand(() =>
+            {
+                if (AppSettings.TextAlignment == "left")
+                {
+                    AppSettings.TextAlignment = "justify";
+                    TextAlignButtonContent = ""; //&#xE1A2;
+                }
+                else
+                {
+                    AppSettings.TextAlignment = "left";
+                    TextAlignButtonContent = TextAlignJustifyPathIcon;
+                }
+                Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            });
         }
-
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             CurrentItem = new ItemViewModel(await _dataService.GetItemAsync((int)parameter));
@@ -96,11 +132,50 @@ namespace wallabag.ViewModels
                 CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             }
 
-            ChangeAppBarBrushes();
+            _dataTransferManager = DataTransferManager.GetForCurrentView();
+            _dataTransferManager.DataRequested += DataRequested;
+
+            if (AppSettings.TextAlignment == "left")            
+                TextAlignButtonContent = ""; //&#xE1A2;            
+            else            
+                TextAlignButtonContent = TextAlignJustifyPathIcon;            
+        }
+        public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
+        {
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = string.Empty;
+            await _dataService.UpdateItemAsync(CurrentItem.Model);
+
+            if (AppSettings.SyncReadingProgress)
+                ApplicationData.Current.RoamingSettings.CreateContainer(ContainerKey,
+                    ApplicationDataCreateDisposition.Always).Values[CurrentItem.Model.Id.ToString()] = CurrentItem.Model.ReadingProgress;
+
+            if (IsPhone)
+                await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
+
+            _dataTransferManager.DataRequested -= DataRequested;
+
+            GC.Collect();
         }
 
-        public void ChangeAppBarBrushes()
+        private void DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
+            var deferral = args.Request.GetDeferral();
+
+            if (CurrentItem != null)
+            {
+                var data = args.Request.Data;
+
+                data.SetWebLink(new Uri(CurrentItem.Model.Url));
+                data.Properties.Title = CurrentItem.Model.Title;
+            }
+
+            deferral.Complete();
+        }
+
+        public void ChangeColorScheme(string scheme)
+        {
+            AppSettings.ColorScheme = scheme;
+
             switch (AppSettings.ColorScheme)
             {
                 case "light":
@@ -124,6 +199,17 @@ namespace wallabag.ViewModels
                     AppBarRequestedTheme = ElementTheme.Dark;
                     break;
             }
+
+            Messenger.Default.Send(new NotificationMessage("updateHTML"));
+        }
+        public void ChangeFontFamily()
+        {
+            if (AppSettings.FontFamily == "serif")
+                AppSettings.FontFamily = "sans";
+            else
+                AppSettings.FontFamily = "serif";
+
+            Messenger.Default.Send(new NotificationMessage("updateHTML"));
         }
 
         // TODO: Add translations.
