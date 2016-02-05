@@ -11,7 +11,7 @@
     PrimaryButtonText="Add"
     SecondaryButtonCommand="{Binding CancelCommand}"
     SecondaryButtonText="Cancel"
-    mc:Ignorable="d" FullSizeDesired="True">
+    mc:Ignorable="d">
 
     <StackPanel>
         <TextBox

@@ -321,7 +321,8 @@
                 x:Name="addItemAppBarButton"
                 x:Uid="AddItemAppBarButton"
                 Icon="Add"
-                Label="Add item" />
+                Label="Add item"
+                Command="{x:Bind ViewModel.AddItemCommand}"/>
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     x:Uid="OpenSettingsAppBarButton"

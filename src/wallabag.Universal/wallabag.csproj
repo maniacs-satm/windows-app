@@ -128,6 +128,7 @@
     <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BackgroundTaskService.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="ViewModels\AddItemPageViewModel.cs" />
     <Compile Include="ViewModels\FirstStartPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

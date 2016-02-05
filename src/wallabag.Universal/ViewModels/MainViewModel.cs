@@ -57,6 +57,7 @@ namespace wallabag.ViewModels
             {
                 NavigationService.Navigate(typeof(Views.SettingsPage));
             });
+            AddItemCommand = new DelegateCommand(async () => await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.AddItem));
 
             ResetFilterCommand = new DelegateCommand(async () =>
             {
