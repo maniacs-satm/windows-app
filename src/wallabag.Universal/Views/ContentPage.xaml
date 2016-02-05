@@ -279,7 +279,7 @@
             RequestedTheme="Dark">
             <Button.Flyout>
                 <Flyout Placement="Bottom">
-                    <ListView ItemsSource="{x:Bind ViewModel.OfflineTasks}">
+                    <ListView ItemsSource="{x:Bind ViewModel.OfflineTasks}" MaxHeight="250">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -296,7 +296,7 @@
                     Margin="8,0"
                     VerticalAlignment="Center"
                     FontWeight="SemiBold"
-                    Text="{x:Bind ViewModel.NumberOfOfflineTasks, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.OfflineTasks.Count, Mode=OneWay}" />
                 <TextBlock
                     VerticalAlignment="Center"
                     FontFamily="Segoe MDL2 Assets"

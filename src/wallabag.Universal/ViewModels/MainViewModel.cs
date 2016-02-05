@@ -10,6 +10,7 @@ using Template10.Mvvm;
 using wallabag.Common;
 using wallabag.Data.Interfaces;
 using wallabag.Data.Models;
+using wallabag.Data.ViewModels;
 using wallabag.Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -24,6 +25,7 @@ namespace wallabag.ViewModels
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>();
         public ObservableCollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
         public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<OfflineTaskViewModel> OfflineTasks { get; set; } = new ObservableCollection<OfflineTaskViewModel>();
 
         public ObservableCollection<SearchResult> SearchSuggestions { get; set; } = new ObservableCollection<SearchResult>();
         public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
@@ -31,7 +33,6 @@ namespace wallabag.ViewModels
 
         public FilterProperties LastUsedFilterProperties { get; set; } = new FilterProperties();
         public bool IsSyncing { get; set; } = false;
-        public int NumberOfOfflineTasks { get; set; } = 0;
 
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand AddItemCommand { get; private set; }
@@ -81,9 +82,7 @@ namespace wallabag.ViewModels
                 LastUsedFilterProperties = new FilterProperties();
 
             await LoadItemsFromDatabaseAsync();
-
-            NumberOfOfflineTasks = await _dataService.GetNumberOfOfflineTasksAsync();
-
+            
             if (AppSettings.SyncOnStartup)
                 await RefreshItemsAsync();
 
@@ -107,6 +106,14 @@ namespace wallabag.ViewModels
                 await RefreshItemsAsync();
             });
         }
+
+        private async Task GetOfflineTasksAsync()
+        {
+            OfflineTasks.Clear();
+            foreach (var item in await _dataService.GetOfflineTasksAsync())
+                OfflineTasks.Add(new OfflineTaskViewModel(item));
+        }
+
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
             state[nameof(LastUsedFilterProperties)] = JsonConvert.SerializeObject(LastUsedFilterProperties);
@@ -183,7 +190,7 @@ namespace wallabag.ViewModels
                     Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
             }
 
-            NumberOfOfflineTasks = await _dataService.GetNumberOfOfflineTasksAsync();
+            await GetOfflineTasksAsync();
         }
 
         public async Task MarkItemsAsReadAsync()

@@ -97,9 +97,8 @@ namespace wallabag.Data.Services
             var result = new List<OfflineTask>();
             for (int i = 0; i < 10; i++)
             {
-                // TODO
-
-            });
+                result.Add(new OfflineTask());
+            }
 
             return Task.FromResult(result);
         }

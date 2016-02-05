@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using wallabag.Models;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
 
@@ -31,7 +32,8 @@ namespace wallabag.Data.Models
             MarkAsFavorite = 2,
             UnmarkAsFavorite = 3,
             ModifyTags = 4,
-            Delete = 5
+            Delete = 5,
+            AddItem = 6
         }
 
         public static async Task AddTaskAsync(Item Item, Action action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)

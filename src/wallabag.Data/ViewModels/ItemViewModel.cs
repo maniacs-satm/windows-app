@@ -16,6 +16,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
+using wallabag.Data.Models;
 
 namespace wallabag.ViewModels
 {
@@ -158,7 +159,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}", null, HttpRequestMethod.Delete));
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.Action.Delete, $"/entries/{Model.Id}", null, HttpRequestMethod.Delete);
                 return false;
             }
         }
@@ -184,7 +185,7 @@ namespace wallabag.ViewModels
             }
             else
             {
-                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post));
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.Action.ModifyTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
                 return false;
             }
         }
@@ -205,7 +206,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await conn.InsertAsync(new OfflineTask($"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete));
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.Action.ModifyTags, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
                 return false;
             }
         }
@@ -220,7 +221,8 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await conn.InsertAsync(new OfflineTask($"/entries/{itemId}", parameters));
+                // TODO: Set Action based on the propertyName
+                await OfflineTask.AddTaskAsync(new Item() { Id = itemId }, OfflineTask.Action.ModifyTags, $"/entries/{itemId}", parameters);
                 return false;
             }
         }
