@@ -253,33 +253,10 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid
+        <Rectangle
             Height="48"
             VerticalAlignment="Top"
-            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-            RequestedTheme="Dark">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <Button
-                Grid.Column="1"
-                Margin="0,0,6,0"
-                Background="Transparent">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Margin="8,0"
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        Text="{x:Bind ViewModel.NumberOfOfflineTasks, Mode=OneWay}" />
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontSize="24"
-                        Text="&#xE753;" />
-                </StackPanel>
-            </Button>
-        </Grid>
+            Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
         <Pivot>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
@@ -293,6 +270,26 @@
             <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="FAVORITES" />
             <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="ARCHIVED" />
         </Pivot>
+
+        <Button
+            Margin="6"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            RequestedTheme="Dark">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Margin="8,0"
+                    VerticalAlignment="Center"
+                    FontWeight="SemiBold"
+                    Text="{x:Bind ViewModel.NumberOfOfflineTasks, Mode=OneWay}" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="24"
+                    Text="&#xE753;" />
+            </StackPanel>
+        </Button>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <AppBarToggleButton
                 Click="EnableMultipleSelection"
