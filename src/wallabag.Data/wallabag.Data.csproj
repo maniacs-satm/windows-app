@@ -125,6 +125,7 @@
     <Compile Include="Services\TestDataService.cs" />
     <Compile Include="Services\RuntimeDataService.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
+    <Compile Include="ViewModels\OfflineTaskViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
