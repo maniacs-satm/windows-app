@@ -277,6 +277,20 @@
             VerticalAlignment="Top"
             Background="Transparent"
             RequestedTheme="Dark">
+            <Button.Flyout>
+                <Flyout Placement="Bottom">
+                    <ListView ItemsSource="{x:Bind ViewModel.OfflineTasks}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE00B;" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="wallabag: A free read-it-later alternative"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Flyout>
+            </Button.Flyout>
             <StackPanel Orientation="Horizontal">
                 <TextBlock
                     Margin="8,0"
