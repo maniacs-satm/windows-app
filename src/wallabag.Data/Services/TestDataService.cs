@@ -92,9 +92,16 @@ namespace wallabag.Data.Services
             return Task.FromResult(_Items.ToList());
         }
 
-        public Task<int> GetNumberOfOfflineTasksAsync()
+        public Task<List<OfflineTask>> GetOfflineTasksAsync()
         {
-            return Task.FromResult(99);
+            var result = new List<OfflineTask>();
+            for (int i = 0; i < 10; i++)
+            {
+                // TODO
+
+            });
+
+            return Task.FromResult(result);
         }
 
         public Task<List<Tag>> GetTagsAsync()

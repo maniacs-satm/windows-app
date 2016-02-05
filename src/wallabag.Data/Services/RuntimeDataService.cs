@@ -262,7 +262,7 @@ namespace wallabag.Data.Services
         }
 
         public Task UpdateItemAsync(Item item) => conn.UpdateAsync(item);
-        public Task<int> GetNumberOfOfflineTasksAsync() => conn.Table<OfflineTask>().CountAsync();
+        public Task<List<OfflineTask>> GetOfflineTasksAsync() => conn.Table<OfflineTask>().ToListAsync();
 
         public Task<bool> LoginAsync(string url, string username, string password)
         {
