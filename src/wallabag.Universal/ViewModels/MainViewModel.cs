@@ -31,7 +31,7 @@ namespace wallabag.ViewModels
         public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<Tag> TagSuggestions { get; set; } = new ObservableCollection<Tag>();
 
-        public FilterProperties LastUsedFilterProperties { get; set; } = new FilterProperties();
+        public FilterProperties CurrentFilterProperties { get; set; } = new FilterProperties();
         public bool IsSyncing { get; set; } = false;
 
         public DelegateCommand RefreshCommand { get; private set; }
@@ -68,7 +68,7 @@ namespace wallabag.ViewModels
 
             ResetFilterCommand = new DelegateCommand(async () =>
             {
-                LastUsedFilterProperties = new FilterProperties();
+                CurrentFilterProperties = new FilterProperties();
                 await RefreshItemsAsync();
             });
             ItemClickCommand = new DelegateCommand<ItemClickEventArgs>(args => ItemClick(args));
@@ -86,10 +86,10 @@ namespace wallabag.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            if (state.ContainsKey(nameof(LastUsedFilterProperties)))
-                LastUsedFilterProperties = JsonConvert.DeserializeObject<FilterProperties>((string)state[nameof(LastUsedFilterProperties)]);
+            if (state.ContainsKey(nameof(CurrentFilterProperties)))
+                CurrentFilterProperties = JsonConvert.DeserializeObject<FilterProperties>((string)state[nameof(CurrentFilterProperties)]);
             else
-                LastUsedFilterProperties = new FilterProperties();
+                CurrentFilterProperties = new FilterProperties();
 
             await LoadItemsFromDatabaseAsync();
 
@@ -118,7 +118,7 @@ namespace wallabag.ViewModels
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
-            state[nameof(LastUsedFilterProperties)] = JsonConvert.SerializeObject(LastUsedFilterProperties);
+            state[nameof(CurrentFilterProperties)] = JsonConvert.SerializeObject(CurrentFilterProperties);
 
             Messenger.Default.Unregister(this);
             return base.OnNavigatedFromAsync(state, suspending);
@@ -158,11 +158,11 @@ namespace wallabag.ViewModels
         }
         public async Task LoadItemsFromDatabaseAsync(bool firstStart = false, bool completeReorder = false)
         {
-            bool sortDescending = LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
+            bool sortDescending = CurrentFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
 
             if (!firstStart)
             {
-                var itemsInDatabase = await _dataService.GetItemsAsync(LastUsedFilterProperties);
+                var itemsInDatabase = await _dataService.GetItemsAsync(CurrentFilterProperties);
                 var currentItems = new List<Item>();
 
                 foreach (var item in Items)
@@ -197,7 +197,7 @@ namespace wallabag.ViewModels
 
             if (completeReorder)
             {
-                if (LastUsedFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
+                if (CurrentFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
                     Items = new ObservableCollection<ItemViewModel>(Items.OrderBy(i => i.Model.CreationDate));
                 else
                     Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
@@ -262,7 +262,7 @@ namespace wallabag.ViewModels
 
         public async Task SearchQueryChangedAsync(AutoSuggestBoxTextChangedEventArgs args)
         {
-           
+
         }
         public async Task SearchQuerySubmittedAsync(AutoSuggestBoxQuerySubmittedEventArgs args)
         {
