@@ -13,7 +13,7 @@ namespace wallabag.Data.Models
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
 
-        public int ActionId { get; set; }
+        public OfflineTaskAction Action { get; set; }
         public int ItemId { get; set; }
 
         public string RequestUri { get; set; }
@@ -24,11 +24,11 @@ namespace wallabag.Data.Models
             RequestUri = string.Empty;
             RequestParameters = new Dictionary<string, object>();
             RequestMethod = HttpRequestMethod.Patch;
-            ActionId = -1;
+            Action = OfflineTaskAction.MarkAsRead;
             ItemId = -1;
         }
 
-        public enum Action
+        public enum OfflineTaskAction
         {
             MarkAsRead = 0,
             UnmarkAsRead = 1,
@@ -39,14 +39,14 @@ namespace wallabag.Data.Models
             AddItem = 6
         }
 
-        public static async Task AddTaskAsync(Item Item, Action action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
+        public static async Task AddTaskAsync(Item Item, OfflineTaskAction action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
         {
             var newTask = new OfflineTask();
 
             newTask.RequestUri = requestUri;
             newTask.RequestParameters = parameters;
             newTask.RequestMethod = method;
-            newTask.ActionId = action.GetHashCode();
+            newTask.Action = action;
             newTask.ItemId = Item.Id;
 
             await new SQLiteAsyncConnection(DATABASE_PATH).InsertAsync(newTask);
