@@ -53,7 +53,6 @@ namespace wallabag.ViewModels
         public string SearchQuery { get; set; }
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> SearchQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
-        public DelegateCommand<AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosenCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -81,7 +80,6 @@ namespace wallabag.ViewModels
 
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
             SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
-            SearchSuggestionChosenCommand = new DelegateCommand<AutoSuggestBoxSuggestionChosenEventArgs>(async e => await SearchSuggestionChosenAsync(e));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -281,11 +279,13 @@ namespace wallabag.ViewModels
         }
         public async Task SearchQuerySubmittedAsync(AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-
-        }
-        public async Task SearchSuggestionChosenAsync(AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-
+            if (args.ChosenSuggestion != null)
+                NavigationService.Navigate(typeof(Views.SingleItemPage), (args.ChosenSuggestion as SearchResult).Id);
+            else
+            {
+                CurrentFilterProperties.SearchQuery = args.QueryText;
+                await LoadItemsFromDatabaseAsync();
+            }
         }
     }
 }

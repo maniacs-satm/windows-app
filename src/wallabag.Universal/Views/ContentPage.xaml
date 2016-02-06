@@ -329,9 +329,9 @@
                 Margin="0,0,6,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
+                ItemsSource="{x:Bind ViewModel.SearchSuggestions, Mode=OneWay}"
                 PlaceholderText="Search for items…"
                 QueryIcon="Find"
-                ItemsSource="{x:Bind ViewModel.SearchSuggestions, Mode=OneWay}"
                 Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay}">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="TextChanged">
@@ -339,9 +339,6 @@
                     </core:EventTriggerBehavior>
                     <core:EventTriggerBehavior EventName="QuerySubmitted">
                         <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchQuerySubmittedCommand}" />
-                    </core:EventTriggerBehavior>
-                    <core:EventTriggerBehavior EventName="SuggestionChosen">
-                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchSuggestionChosenCommand}" />
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </AutoSuggestBox>
