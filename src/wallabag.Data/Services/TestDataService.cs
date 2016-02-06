@@ -93,28 +93,29 @@ namespace wallabag.Data.Services
             return Task.FromResult(_Items.ToList());
         }
 
-        public Task<List<OfflineTask>> GetOfflineTasksAsync()
+        public async Task<List<OfflineTask>> GetOfflineTasksAsync()
         {
             var result = new List<OfflineTask>();
             for (int i = 0; i < 10; i++)
             {
                 result.Add(new OfflineTask()
                 {
-                    Action = GetRandomOfflineTaskAction(),
+                    Action = await GetRandomOfflineTaskAction(),
                     Id = i,
                     ItemId = i
                 });
             }
 
-            return Task.FromResult(result);
+            return result;
         }
 
-        private OfflineTask.OfflineTaskAction GetRandomOfflineTaskAction()
+        private async Task<OfflineTask.OfflineTaskAction> GetRandomOfflineTaskAction()
         {
             Array values = Enum.GetValues(typeof(OfflineTask.OfflineTaskAction));
             Random random = new Random();
-            var value = (OfflineTask.OfflineTaskAction)values.GetValue(random.Next(values.Length));
-            return value;
+
+            await Task.Delay(TimeSpan.FromMilliseconds(10));
+            return (OfflineTask.OfflineTaskAction)values.GetValue(random.Next(values.Length));
         }
 
         public Task<List<Tag>> GetTagsAsync()
