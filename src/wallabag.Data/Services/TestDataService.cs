@@ -28,6 +28,7 @@ namespace wallabag.Data.Services
 
             var result = new Item()
             {
+                Id = Id,
                 Url = "https://localhost/" + Id,
                 Title = "Sample item #" + Id,
                 Content = content,
@@ -97,10 +98,23 @@ namespace wallabag.Data.Services
             var result = new List<OfflineTask>();
             for (int i = 0; i < 10; i++)
             {
-                result.Add(new OfflineTask());
+                result.Add(new OfflineTask()
+                {
+                    Action = GetRandomOfflineTaskAction(),
+                    Id = i,
+                    ItemId = i
+                });
             }
 
             return Task.FromResult(result);
+        }
+
+        private OfflineTask.OfflineTaskAction GetRandomOfflineTaskAction()
+        {
+            Array values = Enum.GetValues(typeof(OfflineTask.OfflineTaskAction));
+            Random random = new Random();
+            var value = (OfflineTask.OfflineTaskAction)values.GetValue(random.Next(values.Length));
+            return value;
         }
 
         public Task<List<Tag>> GetTagsAsync()
