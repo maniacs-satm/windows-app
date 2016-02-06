@@ -282,10 +282,13 @@
                 <Flyout Placement="Bottom">
                     <Flyout.FlyoutPresenterStyle>
                         <Style TargetType="FlyoutPresenter">
-                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Padding" Value="0" />
                         </Style>
                     </Flyout.FlyoutPresenterStyle>
-                    <ListView MaxHeight="250" ItemsSource="{x:Bind ViewModel.OfflineTasks}" Padding="0,0,12,0">
+                    <ListView
+                        MaxHeight="250"
+                        Padding="0,0,12,0"
+                        ItemsSource="{x:Bind ViewModel.OfflineTasks}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="data:OfflineTaskViewModel">
                                 <StackPanel Orientation="Horizontal">
@@ -314,6 +317,35 @@
                     Text="&#xE753;" />
             </StackPanel>
         </Button>
+        <Grid
+            x:Name="SearchGrid"
+            Height="48"
+            VerticalAlignment="Top"
+            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
+            RequestedTheme="Dark">
+            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="SEARCH &amp; FILTER" />
+            <AutoSuggestBox
+                MinWidth="300"
+                Margin="0,0,6,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                PlaceholderText="Search for items…"
+                QueryIcon="Find"
+                ItemsSource="{x:Bind ViewModel.SearchSuggestions, Mode=OneWay}"
+                Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay}">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="TextChanged">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchQueryChangedCommand}" />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="QuerySubmitted">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchQuerySubmittedCommand}" />
+                    </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="SuggestionChosen">
+                        <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchSuggestionChosenCommand}" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </AutoSuggestBox>
+        </Grid>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <AppBarToggleButton
                 Click="EnableMultipleSelection"
@@ -358,6 +390,7 @@
         <CommandBar
             x:Name="MultipleSelectionCommandBar"
             VerticalAlignment="Bottom"
+            d:IsHidden="True"
             Visibility="{x:Bind ViewModel.IsMultipleSelectionEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
             <AppBarButton
                 x:Uid="EditMultipleItemsAppBarButton"
