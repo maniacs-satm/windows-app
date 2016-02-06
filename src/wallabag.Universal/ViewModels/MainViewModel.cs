@@ -49,6 +49,12 @@ namespace wallabag.ViewModels
         public DelegateCommand UnmarkItemsAsFavoriteCommand { get; private set; }
         public DelegateCommand DeleteItemsCommand { get; private set; }
 
+        // Search
+        public string SearchQuery { get; set; }
+        public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> SearchQueryChangedCommand { get; private set; }
+        public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
+        public DelegateCommand<AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosenCommand { get; private set; }
+
         public MainViewModel(IDataService dataService)
         {
             _dataService = dataService;
@@ -72,6 +78,10 @@ namespace wallabag.ViewModels
             MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsFavoriteAsync());
             UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
+
+            SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
+            SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
+            SearchSuggestionChosenCommand = new DelegateCommand<AutoSuggestBoxSuggestionChosenEventArgs>(async e => await SearchSuggestionChosenAsync(e));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -82,7 +92,7 @@ namespace wallabag.ViewModels
                 LastUsedFilterProperties = new FilterProperties();
 
             await LoadItemsFromDatabaseAsync();
-            
+
             if (AppSettings.SyncOnStartup)
                 await RefreshItemsAsync();
 
@@ -106,19 +116,6 @@ namespace wallabag.ViewModels
                 await RefreshItemsAsync();
             });
         }
-
-        private async Task GetOfflineTasksAsync()
-        {
-            OfflineTasks.Clear();
-            foreach (var item in await _dataService.GetOfflineTasksAsync())
-            {
-                var viewModel = new OfflineTaskViewModel(_dataService);
-                await viewModel.InitializeAsync(item);
-
-                OfflineTasks.Add(viewModel);                
-            }
-        }
-
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
             state[nameof(LastUsedFilterProperties)] = JsonConvert.SerializeObject(LastUsedFilterProperties);
@@ -147,6 +144,17 @@ namespace wallabag.ViewModels
             await LoadItemsFromDatabaseAsync(firstStart);
 
             IsSyncing = false;
+        }
+        private async Task GetOfflineTasksAsync()
+        {
+            OfflineTasks.Clear();
+            foreach (var item in await _dataService.GetOfflineTasksAsync())
+            {
+                var viewModel = new OfflineTaskViewModel(_dataService);
+                await viewModel.InitializeAsync(item);
+
+                OfflineTasks.Add(viewModel);
+            }
         }
         public async Task LoadItemsFromDatabaseAsync(bool firstStart = false, bool completeReorder = false)
         {
@@ -250,6 +258,19 @@ namespace wallabag.ViewModels
 
             await RefreshItemsAsync();
             IsMultipleSelectionEnabled = false;
+        }
+
+        public async Task SearchQueryChangedAsync(AutoSuggestBoxTextChangedEventArgs args)
+        {
+           
+        }
+        public async Task SearchQuerySubmittedAsync(AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+
+        }
+        public async Task SearchSuggestionChosenAsync(AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+
         }
     }
 }
