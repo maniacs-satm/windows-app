@@ -89,8 +89,13 @@ namespace wallabag.Data.Services
 
         public Task<List<Item>> GetItemsAsync(FilterProperties filterProperties)
         {
+            var result = _Items.ToList();
+
             // TODO: Implement filtering.
-            return Task.FromResult(_Items.ToList());
+            if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
+                result = _Items.Where(i => i.Title.Contains(filterProperties.SearchQuery)).ToList(); ;
+
+            return Task.FromResult(result);
         }
 
         public async Task<List<OfflineTask>> GetOfflineTasksAsync()

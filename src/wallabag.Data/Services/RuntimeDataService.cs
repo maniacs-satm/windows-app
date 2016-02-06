@@ -176,6 +176,11 @@ namespace wallabag.Data.Services
                 sqlQuery += "AND DomainName = ?";
                 sqlParams.Add(filterProperties.DomainName);
             }
+            if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
+            {
+                sqlQuery += "AND Title LIKE = ?";
+                sqlParams.Add($"%{filterProperties.SearchQuery}%");
+            }
 
             result = await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray());
 
