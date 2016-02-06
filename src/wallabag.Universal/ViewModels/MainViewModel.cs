@@ -135,6 +135,8 @@ namespace wallabag.ViewModels
         {
             IsSyncing = true;
 
+            CurrentFilterProperties.SearchQuery = string.Empty;
+
             await _dataService.SyncOfflineTasksWithServerAsync();
             await _dataService.DownloadItemsFromServerAsync();
 
