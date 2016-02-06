@@ -93,7 +93,7 @@ namespace wallabag.ViewModels
                 if (AppSettings.TextAlignment == "left")
                 {
                     AppSettings.TextAlignment = "justify";
-                    TextAlignButtonContent = ""; //&#xE1A2;
+                    TextAlignButtonContent = "\uE1A2";
                 }
                 else
                 {
