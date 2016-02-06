@@ -7,6 +7,7 @@
     xmlns:conv="using:wallabag.Converter"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:data="using:wallabag.Data.ViewModels"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:wallabag.Views"
     xmlns:m="using:wallabag.Models"
@@ -279,12 +280,16 @@
             RequestedTheme="Dark">
             <Button.Flyout>
                 <Flyout Placement="Bottom">
-                    <ListView ItemsSource="{x:Bind ViewModel.OfflineTasks}" MaxHeight="250">
+                    <ListView MaxHeight="250" ItemsSource="{x:Bind ViewModel.OfflineTasks}">
                         <ListView.ItemTemplate>
-                            <DataTemplate>
+                            <DataTemplate x:DataType="data:OfflineTaskViewModel">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE00B;" Margin="0,0,8,0" VerticalAlignment="Center"/>
-                                    <TextBlock Text="wallabag: A free read-it-later alternative"/>
+                                    <TextBlock
+                                        Margin="0,0,8,0"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Text="{x:Bind ActionLogo}" />
+                                    <TextBlock Text="{x:Bind ItemTitle}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -334,9 +339,9 @@
             <AppBarButton
                 x:Name="addItemAppBarButton"
                 x:Uid="AddItemAppBarButton"
+                Command="{x:Bind ViewModel.AddItemCommand}"
                 Icon="Add"
-                Label="Add item"
-                Command="{x:Bind ViewModel.AddItemCommand}"/>
+                Label="Add item" />
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     x:Uid="OpenSettingsAppBarButton"
