@@ -111,7 +111,12 @@ namespace wallabag.ViewModels
         {
             OfflineTasks.Clear();
             foreach (var item in await _dataService.GetOfflineTasksAsync())
-                OfflineTasks.Add(new OfflineTaskViewModel(item));
+            {
+                var viewModel = new OfflineTaskViewModel(_dataService);
+                await viewModel.InitializeAsync(item);
+
+                OfflineTasks.Add(viewModel);                
+            }
         }
 
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
