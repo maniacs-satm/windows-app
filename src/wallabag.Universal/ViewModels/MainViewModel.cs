@@ -262,7 +262,15 @@ namespace wallabag.ViewModels
 
         public async Task SearchQueryChangedAsync(AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                CurrentFilterProperties.SearchQuery = SearchQuery;
+                var searchItems = await _dataService.GetItemsAsync(CurrentFilterProperties);
 
+                SearchSuggestions.Clear();
+                foreach (var item in searchItems)
+                    SearchSuggestions.Add(new SearchResult(item.Id, item.Title));
+            }
         }
         public async Task SearchQuerySubmittedAsync(AutoSuggestBoxQuerySubmittedEventArgs args)
         {
