@@ -159,7 +159,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.Action.Delete, $"/entries/{Model.Id}", null, HttpRequestMethod.Delete);
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.Delete, $"/entries/{Model.Id}", null, HttpRequestMethod.Delete);
                 return false;
             }
         }
@@ -185,7 +185,7 @@ namespace wallabag.ViewModels
             }
             else
             {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.Action.ModifyTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.ModifyTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
                 return false;
             }
         }
@@ -206,7 +206,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.Action.ModifyTags, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.ModifyTags, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
                 return false;
             }
         }
@@ -222,7 +222,7 @@ namespace wallabag.ViewModels
             else
             {
                 // TODO: Set Action based on the propertyName
-                await OfflineTask.AddTaskAsync(new Item() { Id = itemId }, OfflineTask.Action.ModifyTags, $"/entries/{itemId}", parameters);
+                await OfflineTask.AddTaskAsync(new Item() { Id = itemId }, OfflineTask.OfflineTaskAction.ModifyTags, $"/entries/{itemId}", parameters);
                 return false;
             }
         }
