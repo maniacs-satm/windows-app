@@ -262,6 +262,13 @@ namespace wallabag.ViewModels
 
         public async Task SearchQueryChangedAsync(AutoSuggestBoxTextChangedEventArgs args)
         {
+            if (string.IsNullOrWhiteSpace(SearchQuery))
+            {
+                CurrentFilterProperties.SearchQuery = string.Empty;
+                await LoadItemsFromDatabaseAsync();
+                return;
+            }
+
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 CurrentFilterProperties.SearchQuery = SearchQuery;
