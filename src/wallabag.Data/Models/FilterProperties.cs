@@ -11,6 +11,7 @@ namespace wallabag.Data.Models
         public FilterPropertiesSortOrder SortOrder { get; set; } = FilterPropertiesSortOrder.Descending;
         public Tag FilterTag { get; set; }
         public string DomainName { get; set; }
+        public string SearchQuery { get; set; }
         public int? MinimumEstimatedReadingTime { get; set; }
         public int? MaximumEstimatedReadingTime { get; set; }
         public DateTimeOffset? CreationDateFrom { get; set; }
