@@ -14,6 +14,7 @@ namespace wallabag.Data.Models
         public int Id { get; set; }
 
         public int ActionId { get; set; }
+        public int ItemId { get; set; }
 
         public string RequestUri { get; set; }
         public Dictionary<string, object> RequestParameters { get; set; }
@@ -23,6 +24,8 @@ namespace wallabag.Data.Models
             RequestUri = string.Empty;
             RequestParameters = new Dictionary<string, object>();
             RequestMethod = HttpRequestMethod.Patch;
+            ActionId = -1;
+            ItemId = -1;
         }
 
         public enum Action
@@ -44,6 +47,7 @@ namespace wallabag.Data.Models
             newTask.RequestParameters = parameters;
             newTask.RequestMethod = method;
             newTask.ActionId = action.GetHashCode();
+            newTask.ItemId = Item.Id;
 
             await new SQLiteAsyncConnection(DATABASE_PATH).InsertAsync(newTask);
         }
