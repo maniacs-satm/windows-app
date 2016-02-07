@@ -352,6 +352,7 @@
                 Label="Filter" />
         </Grid>
         <ScrollViewer x:Name="FilterPopup"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
              Width="375"
             Margin="0,48,0,0"
             Padding="8"
@@ -434,8 +435,20 @@
 
                 <TextBlock Text="ESTIMATED READING TIME" Style="{StaticResource HeaderTextBlockStyle}" />
                 <TextBlock Text="CREATION DATE" Style="{StaticResource HeaderTextBlockStyle}" />
-                <!-- EstimatedReadingTime -->
-                <!-- CreationDate -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="CalendarDatePicker">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="Margin" Value="4"/>
+                        </Style>
+                    </Grid.Resources>
+                    <CalendarDatePicker />
+                    <CalendarDatePicker Grid.Column="1"/>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
 
