@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using System;
+using wallabag.Common;
 using wallabag.ViewModels;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -166,5 +167,39 @@ namespace wallabag.Views
             }
         }
         #endregion
+
+        private bool _IsSearchVisible = false;
+        private void searchToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_IsSearchVisible == false)
+            {
+                _IsSearchVisible = true;
+                ShowSearch.Begin();
+                if (AppSettings.OpenTheFilterPaneWithTheSearch)
+                    FilterButton_Click(sender, e);
+            }
+            else
+            {
+                _IsSearchVisible = false;
+                HideSearch.Begin();
+                if (_IsFilterPopupVisible)
+                    FilterButton_Click(sender, e);
+            }
+        }
+
+        private bool _IsFilterPopupVisible = false;
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_IsFilterPopupVisible == false)
+            {
+                _IsFilterPopupVisible = true;
+                ShowFilterPopup.Begin();
+            }
+            else
+            {
+                _IsFilterPopupVisible = false;
+                HideFilterPopup.Begin();
+            }
+        }
     }
 }
