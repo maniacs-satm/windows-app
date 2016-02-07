@@ -319,10 +319,13 @@
         </Button>
         <Grid
             x:Name="SearchGrid"
-            Height="48"
             VerticalAlignment="Top"
-            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
             RequestedTheme="Dark">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.ColumnSpan="2" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
             <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="SEARCH &amp; FILTER" />
             <AutoSuggestBox
                 MinWidth="300"
@@ -342,7 +345,27 @@
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </AutoSuggestBox>
+            <AppBarButton
+                Grid.Column="1"
+                Icon="Filter"
+                IsCompact="True"
+                Label="Filter" />
         </Grid>
+        <StackPanel
+            x:Name="FilterStackPanel"
+            Width="375"
+            Height="240"
+            Margin="0,48,0,0"
+            Padding="8"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+            <!-- ItemType -->
+            <!-- SortOrder -->
+            <AutoSuggestBox Header="Domain name" />
+            <AutoSuggestBox Header="Tag" />
+            <!-- EstimatedReadingTime -->
+            <!-- CreationDate -->
+        </StackPanel>
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <AppBarToggleButton
                 Click="EnableMultipleSelection"
