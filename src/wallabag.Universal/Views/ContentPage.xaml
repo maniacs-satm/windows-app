@@ -383,7 +383,42 @@
                     Content="&#xE107;"
                     ToolTipService.ToolTip="Deleted" />
             </StackPanel>
-            <!-- SortOrder -->
+            <Grid Margin="0,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <RadioButton
+                    Style="{StaticResource IconAndTextRadioButtonStyle}"
+                    Content="ascending"
+                    GroupName="SortOrder"
+                    Tag="&#xE010;" />
+                <RadioButton
+                    Grid.Row="1"
+                    Style="{StaticResource IconAndTextRadioButtonStyle}"
+                    Content="descending"
+                    GroupName="SortOrder"
+                    IsChecked="True"
+                    Tag="&#xE011;" />
+                <RadioButton
+                    Grid.Column="1"
+                    Style="{StaticResource IconAndTextRadioButtonStyle}"
+                    Content="by title"
+                    GroupName="SortType"
+                    Tag="&#xE12A;"/>
+                <RadioButton
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Style="{StaticResource IconAndTextRadioButtonStyle}"
+                    Content="by date"
+                    GroupName="SortType"
+                    IsChecked="True"
+                    Tag="&#xE121;" />
+            </Grid>
             <AutoSuggestBox Header="Domain name" ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}" />
             <AutoSuggestBox Header="Tag" ItemsSource="{x:Bind ViewModel.TagSuggestions}" />
             <!-- EstimatedReadingTime -->
