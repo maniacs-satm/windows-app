@@ -351,46 +351,53 @@
                 IsCompact="True"
                 Label="Filter" />
         </Grid>
-        <ScrollViewer x:Name="FilterPopup"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-             Width="375"
+        <ScrollViewer
+            x:Name="FilterPopup"
+            Width="375"
             Margin="0,48,0,0"
             Padding="8"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Background="Gainsboro">
+            Background="Gainsboro"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <StackPanel.Resources>
-                    <Style TargetType="TextBlock" BasedOn="{StaticResource BoldTextBlockStyle}" x:Name="HeaderTextBlockStyle">
-                        <Setter Property="FontSize" Value="12"/>
-                        <Setter Property="Margin" Value="0,16,0,4"/>
+                    <Style
+                        x:Name="HeaderTextBlockStyle"
+                        BasedOn="{StaticResource BoldTextBlockStyle}"
+                        TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="Margin" Value="0,16,0,4" />
                     </Style>
                 </StackPanel.Resources>
-                <TextBlock Text="ITEM TYPE" Style="{StaticResource HeaderTextBlockStyle}" Margin="0,0,0,4" />
+                <TextBlock
+                    Margin="0,0,0,4"
+                    Style="{StaticResource HeaderTextBlockStyle}"
+                    Text="ITEM TYPE" />
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                     <RadioButton
-                    Style="{StaticResource RoundIconRadioButtonStyle}"
-                    Content="&#xE138;"
-                    IsChecked="True"
-                    ToolTipService.ToolTip="All" />
+                        Style="{StaticResource RoundIconRadioButtonStyle}"
+                        Content="&#xE138;"
+                        IsChecked="True"
+                        ToolTipService.ToolTip="All" />
                     <RadioButton
-                    Style="{StaticResource RoundIconRadioButtonStyle}"
-                    Content="&#xE052;"
-                    ToolTipService.ToolTip="Unread" />
+                        Style="{StaticResource RoundIconRadioButtonStyle}"
+                        Content="&#xE052;"
+                        ToolTipService.ToolTip="Unread" />
                     <RadioButton
-                    Style="{StaticResource RoundIconRadioButtonStyle}"
-                    Content="&#xE006;"
-                    ToolTipService.ToolTip="Starred" />
+                        Style="{StaticResource RoundIconRadioButtonStyle}"
+                        Content="&#xE006;"
+                        ToolTipService.ToolTip="Starred" />
                     <RadioButton
-                    Style="{StaticResource RoundIconRadioButtonStyle}"
-                    Content="&#xE1D3;"
-                    ToolTipService.ToolTip="Archived" />
+                        Style="{StaticResource RoundIconRadioButtonStyle}"
+                        Content="&#xE1D3;"
+                        ToolTipService.ToolTip="Archived" />
                     <RadioButton
-                    Style="{StaticResource RoundIconRadioButtonStyle}"
-                    Content="&#xE107;"
-                    ToolTipService.ToolTip="Deleted" />
+                        Style="{StaticResource RoundIconRadioButtonStyle}"
+                        Content="&#xE107;"
+                        ToolTipService.ToolTip="Deleted" />
                 </StackPanel>
-                <TextBlock Text="SORT ORDER" Style="{StaticResource HeaderTextBlockStyle}" />
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="SORT ORDER" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -401,34 +408,34 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <RadioButton
-                    Style="{StaticResource IconAndTextRadioButtonStyle}"
-                    Content="ascending"
-                    GroupName="SortOrder"
-                    Tag="&#xE010;" />
+                        Style="{StaticResource IconAndTextRadioButtonStyle}"
+                        Content="ascending"
+                        GroupName="SortOrder"
+                        Tag="&#xE010;" />
                     <RadioButton
-                    Grid.Row="1"
-                    Style="{StaticResource IconAndTextRadioButtonStyle}"
-                    Content="descending"
-                    GroupName="SortOrder"
-                    IsChecked="True"
-                    Tag="&#xE011;" />
+                        Grid.Row="1"
+                        Style="{StaticResource IconAndTextRadioButtonStyle}"
+                        Content="descending"
+                        GroupName="SortOrder"
+                        IsChecked="True"
+                        Tag="&#xE011;" />
                     <RadioButton
-                    Grid.Column="1"
-                    Style="{StaticResource IconAndTextRadioButtonStyle}"
-                    Content="by title"
-                    GroupName="SortType"
-                    Tag="&#xE12A;"/>
+                        Grid.Column="1"
+                        Style="{StaticResource IconAndTextRadioButtonStyle}"
+                        Content="by title"
+                        GroupName="SortType"
+                        Tag="&#xE12A;" />
                     <RadioButton
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Style="{StaticResource IconAndTextRadioButtonStyle}"
-                    Content="by date"
-                    GroupName="SortType"
-                    IsChecked="True"
-                    Tag="&#xE121;" />
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Style="{StaticResource IconAndTextRadioButtonStyle}"
+                        Content="by date"
+                        GroupName="SortType"
+                        IsChecked="True"
+                        Tag="&#xE121;" />
                 </Grid>
 
-                <TextBlock Text="DOMAIN NAME" Style="{StaticResource HeaderTextBlockStyle}" />
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="DOMAIN NAME" />
                 <AutoSuggestBox ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}" Text="{x:Bind ViewModel.DomainQuery, Mode=TwoWay}">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="TextChanged">
@@ -439,7 +446,7 @@
                         </core:EventTriggerBehavior>
                     </interactivity:Interaction.Behaviors>
                 </AutoSuggestBox>
-                <TextBlock Text="TAG" Style="{StaticResource HeaderTextBlockStyle}" />
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="TAG" />
                 <AutoSuggestBox ItemsSource="{x:Bind ViewModel.TagSuggestions}" Text="{x:Bind ViewModel.TagQuery, Mode=TwoWay}">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="TextChanged">
@@ -451,8 +458,8 @@
                     </interactivity:Interaction.Behaviors>
                 </AutoSuggestBox>
 
-                <TextBlock Text="ESTIMATED READING TIME" Style="{StaticResource HeaderTextBlockStyle}" />
-                <TextBlock Text="CREATION DATE" Style="{StaticResource HeaderTextBlockStyle}" />
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="ESTIMATED READING TIME" />
+                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="CREATION DATE" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -460,12 +467,12 @@
                     </Grid.ColumnDefinitions>
                     <Grid.Resources>
                         <Style TargetType="CalendarDatePicker">
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                            <Setter Property="Margin" Value="4"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="Margin" Value="4" />
                         </Style>
                     </Grid.Resources>
                     <CalendarDatePicker />
-                    <CalendarDatePicker Grid.Column="1"/>
+                    <CalendarDatePicker Grid.Column="1" />
                 </Grid>
             </StackPanel>
         </ScrollViewer>
