@@ -360,23 +360,32 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="Gainsboro">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <RadioButton Style="{StaticResource RoundIconRadioButtonStyle}" Content="&#xE138;" ToolTipService.ToolTip="All"/>
-                <RadioButton Style="{StaticResource RoundIconRadioButtonStyle}" Content="&#xE052;" Grid.Column="1" ToolTipService.ToolTip="Unread"/>
-                <RadioButton Style="{StaticResource RoundIconRadioButtonStyle}" Content="&#xE006;" Grid.Column="2" ToolTipService.ToolTip="Starred"/>
-                <RadioButton Style="{StaticResource RoundIconRadioButtonStyle}" Content="&#xE1D3;" Grid.Column="3" ToolTipService.ToolTip="Archived"/>
-                <RadioButton Style="{StaticResource RoundIconRadioButtonStyle}" Content="&#xE107;" Grid.Column="4" ToolTipService.ToolTip="Deleted"/>
-            </Grid>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <RadioButton
+                    Style="{StaticResource RoundIconRadioButtonStyle}"
+                    Content="&#xE138;"
+                    IsChecked="True"
+                    ToolTipService.ToolTip="All" />
+                <RadioButton
+                    Style="{StaticResource RoundIconRadioButtonStyle}"
+                    Content="&#xE052;"
+                    ToolTipService.ToolTip="Unread" />
+                <RadioButton
+                    Style="{StaticResource RoundIconRadioButtonStyle}"
+                    Content="&#xE006;"
+                    ToolTipService.ToolTip="Starred" />
+                <RadioButton
+                    Style="{StaticResource RoundIconRadioButtonStyle}"
+                    Content="&#xE1D3;"
+                    ToolTipService.ToolTip="Archived" />
+                <RadioButton
+                    Style="{StaticResource RoundIconRadioButtonStyle}"
+                    Content="&#xE107;"
+                    ToolTipService.ToolTip="Deleted" />
+            </StackPanel>
             <!-- SortOrder -->
-            <AutoSuggestBox Header="Domain name" ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}"/>
-            <AutoSuggestBox Header="Tag" ItemsSource="{x:Bind ViewModel.TagSuggestions}"/>
+            <AutoSuggestBox Header="Domain name" ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}" />
+            <AutoSuggestBox Header="Tag" ItemsSource="{x:Bind ViewModel.TagSuggestions}" />
             <!-- EstimatedReadingTime -->
             <!-- CreationDate -->
         </StackPanel>
