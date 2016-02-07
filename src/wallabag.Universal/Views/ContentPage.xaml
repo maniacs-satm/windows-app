@@ -354,7 +354,7 @@
         <ScrollViewer
             x:Name="FilterPopup"
             Width="375"
-            Margin="0,48,0,0"
+            Margin="0,48"
             Padding="8"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
