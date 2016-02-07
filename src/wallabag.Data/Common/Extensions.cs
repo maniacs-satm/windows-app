@@ -222,5 +222,11 @@ namespace wallabag.Common
 
             List.Insert(i, Item);
         }
+        public static void Replace<T>(this IList<T> oldList, IList<T> newList)
+        {
+            oldList.Clear();
+            foreach (var item in newList)
+                oldList.Add(item);
+        }
     }
 }
