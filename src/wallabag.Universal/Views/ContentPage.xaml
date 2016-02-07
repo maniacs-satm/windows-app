@@ -429,9 +429,27 @@
                 </Grid>
 
                 <TextBlock Text="DOMAIN NAME" Style="{StaticResource HeaderTextBlockStyle}" />
-                <AutoSuggestBox ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}" />
+                <AutoSuggestBox ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}" Text="{x:Bind ViewModel.DomainQuery, Mode=TwoWay}">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="TextChanged">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.DomainQueryChangedCommand}" />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.DomainQuerySubmittedCommand}" />
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </AutoSuggestBox>
                 <TextBlock Text="TAG" Style="{StaticResource HeaderTextBlockStyle}" />
-                <AutoSuggestBox ItemsSource="{x:Bind ViewModel.TagSuggestions}" />
+                <AutoSuggestBox ItemsSource="{x:Bind ViewModel.TagSuggestions}" Text="{x:Bind ViewModel.TagQuery, Mode=TwoWay}">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="TextChanged">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TagQueryChangedCommand}" />
+                        </core:EventTriggerBehavior>
+                        <core:EventTriggerBehavior EventName="QuerySubmitted">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TagQuerySubmittedCommand}" />
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </AutoSuggestBox>
 
                 <TextBlock Text="ESTIMATED READING TIME" Style="{StaticResource HeaderTextBlockStyle}" />
                 <TextBlock Text="CREATION DATE" Style="{StaticResource HeaderTextBlockStyle}" />

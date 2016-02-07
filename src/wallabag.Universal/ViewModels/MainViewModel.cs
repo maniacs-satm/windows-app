@@ -54,6 +54,14 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> SearchQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
 
+        // Filter
+        public string DomainQuery { get; set; }
+        public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> DomainQueryChangedCommand { get; private set; }
+        public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> DomainQuerySubmittedCommand { get; private set; }
+        public string TagQuery { get; set; }
+        public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> TagQueryChangedCommand { get; private set; }
+        public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> TagQuerySubmittedCommand { get; private set; }
+
         public MainViewModel(IDataService dataService)
         {
             _dataService = dataService;
@@ -80,6 +88,10 @@ namespace wallabag.ViewModels
 
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
             SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
+            DomainQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => DomainQueryChanged(e));
+            DomainQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => DomainQuerySubmitted(e));
+            TagQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => TagQueryChanged(e));
+            TagQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => TagQuerySubmitted(e));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -288,6 +300,29 @@ namespace wallabag.ViewModels
                 CurrentFilterProperties.SearchQuery = args.QueryText;
                 await LoadItemsFromDatabaseAsync();
             }
+        }
+        public void DomainQueryChanged(AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                CurrentFilterProperties.DomainName = DomainQuery;
+                DomainNameSuggestions.Replace(DomainNames.Where(d => d.Contains(DomainQuery)).ToList());
+            }
+        }
+        public void DomainQuerySubmitted(AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                CurrentFilterProperties.DomainName = args.QueryText;
+        }
+        public void TagQueryChanged(AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+                TagSuggestions.Replace(Tags.Where(t => t.Label.Contains(TagQuery)).ToList());
+        }
+        public void TagQuerySubmitted(AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+                CurrentFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
         }
     }
 }
