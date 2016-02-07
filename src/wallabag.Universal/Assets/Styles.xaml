@@ -253,7 +253,7 @@
         </Setter>
     </Style>
     <Style x:Key="IconAndTextRadioButtonStyle" TargetType="RadioButton">
-        <Setter Property="Margin" Value="4,0" />
+        <Setter Property="Margin" Value="2" />
         <Setter Property="Padding" Value="12,8" />
         <Setter Property="MinWidth" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
