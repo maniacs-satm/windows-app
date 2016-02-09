@@ -55,6 +55,7 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
 
         // Filter
+        public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
         public string DomainQuery { get; set; }
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> DomainQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> DomainQuerySubmittedCommand { get; private set; }
@@ -86,6 +87,7 @@ namespace wallabag.ViewModels
             UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
 
+            ItemTypeSelectionChangedCommand = new DelegateCommand<string>(async itemType => await ItemTypeSelectionChangedAsync(itemType));
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
             SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
             DomainQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => DomainQueryChanged(e));
@@ -272,6 +274,28 @@ namespace wallabag.ViewModels
             IsMultipleSelectionEnabled = false;
         }
 
+        public Task ItemTypeSelectionChangedAsync(string itemType)
+        {
+            switch (itemType)
+            {
+                case "all":
+                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
+                    break;
+                case "unread":
+                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+                    break;
+                case "starred":
+                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+                    break;
+                case "archived":
+                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
+                    break;
+                case "deleted":
+                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
+                    break;
+            }
+            return LoadItemsFromDatabaseAsync();
+        }
         public async Task SearchQueryChangedAsync(AutoSuggestBoxTextChangedEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(SearchQuery))

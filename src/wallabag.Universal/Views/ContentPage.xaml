@@ -474,23 +474,53 @@
                         Style="{StaticResource RoundIconRadioButtonStyle}"
                         Content="&#xE138;"
                         IsChecked="True"
-                        ToolTipService.ToolTip="All" />
+                        ToolTipService.ToolTip="All">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="all" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                     <RadioButton
                         Style="{StaticResource RoundIconRadioButtonStyle}"
                         Content="&#xE052;"
-                        ToolTipService.ToolTip="Unread" />
+                        ToolTipService.ToolTip="Unread">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="unread" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                     <RadioButton
                         Style="{StaticResource RoundIconRadioButtonStyle}"
                         Content="&#xE006;"
-                        ToolTipService.ToolTip="Starred" />
+                        ToolTipService.ToolTip="Starred">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="starred" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                     <RadioButton
                         Style="{StaticResource RoundIconRadioButtonStyle}"
                         Content="&#xE1D3;"
-                        ToolTipService.ToolTip="Archived" />
+                        ToolTipService.ToolTip="Archived">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="archived" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                     <RadioButton
                         Style="{StaticResource RoundIconRadioButtonStyle}"
                         Content="&#xE107;"
-                        ToolTipService.ToolTip="Deleted" />
+                        ToolTipService.ToolTip="Deleted">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="deleted" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                 </StackPanel>
                 <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="SORT ORDER" />
                 <Grid>
