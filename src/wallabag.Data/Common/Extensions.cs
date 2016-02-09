@@ -229,4 +229,35 @@ namespace wallabag.Common
                 oldList.Add(item);
         }
     }
+    public static class ObservableCollectionExtensions
+    {
+        public enum SortOrder { Ascending, Descending }
+        public static void Sort<T>(this ObservableCollection<T> collection, SortOrder sortOrder = SortOrder.Descending) where T : IComparable
+        {
+            List<T> sorted;
+
+            if (sortOrder == SortOrder.Ascending)
+                sorted = collection.OrderBy(x => x).ToList();
+            else
+                sorted = collection.OrderByDescending(x => x).ToList();
+
+            Sort(collection, sorted);
+        }
+        public static void Sort<T>(this ObservableCollection<T> collection, Func<T, T> sortParameter, SortOrder sortOrder = SortOrder.Descending) where T : IComparable
+        {
+            List<T> sorted;
+
+            if (sortOrder == SortOrder.Ascending)
+                sorted = collection.OrderBy(sortParameter).ToList();
+            else
+                sorted = collection.OrderByDescending(sortParameter).ToList();
+
+            Sort(collection, sorted); Sort(collection, sorted);
+        }
+        private static void Sort<T>(ObservableCollection<T> collection, List<T> list)
+        {
+            for (int i = 0; i < list.Count(); i++)
+                collection.Move(collection.IndexOf(list[i]), i);
+        }
+    }
 }
