@@ -55,7 +55,11 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
 
         // Filter
+        private string _SortType = "date";
+        private string _SortOrder = "desc";
         public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
+        public DelegateCommand<string> ItemSortOrderChangedCommand { get; set; }
+        public DelegateCommand<string> ItemSortTypeChangedCommand { get; set; }
         public string DomainQuery { get; set; }
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> DomainQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> DomainQuerySubmittedCommand { get; private set; }
@@ -88,6 +92,8 @@ namespace wallabag.ViewModels
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
 
             ItemTypeSelectionChangedCommand = new DelegateCommand<string>(async itemType => await ItemTypeSelectionChangedAsync(itemType));
+            ItemSortOrderChangedCommand = new DelegateCommand<string>(sortOrder => ItemSortOrderChanged(sortOrder));
+            ItemSortTypeChangedCommand = new DelegateCommand<string>(sortType => ItemSortTypeChanged(sortType));
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
             SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
             DomainQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => DomainQueryChanged(e));
@@ -172,7 +178,7 @@ namespace wallabag.ViewModels
         }
         public async Task LoadItemsFromDatabaseAsync(bool firstStart = false, bool completeReorder = false)
         {
-            bool sortDescending = CurrentFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Descending;
+            bool sortDescending = _SortOrder == "desc";
 
             if (!firstStart)
             {
@@ -210,12 +216,7 @@ namespace wallabag.ViewModels
             DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d));
 
             if (completeReorder)
-            {
-                if (CurrentFilterProperties.SortOrder == FilterProperties.FilterPropertiesSortOrder.Ascending)
-                    Items = new ObservableCollection<ItemViewModel>(Items.OrderBy(i => i.Model.CreationDate));
-                else
-                    Items = new ObservableCollection<ItemViewModel>(Items.OrderByDescending(i => i.Model.CreationDate));
-            }
+                SortItems();
 
             await GetOfflineTasksAsync();
         }
@@ -296,6 +297,25 @@ namespace wallabag.ViewModels
             }
             return LoadItemsFromDatabaseAsync();
         }
+        public void ItemSortOrderChanged(string sortOrder)
+        {
+            this._SortOrder = sortOrder;
+            SortItems();
+        }
+        public void ItemSortTypeChanged(string sortType)
+        {
+            this._SortType = sortType;
+            SortItems();
+        }
+        public void SortItems()
+        {
+            var sortOrder = (_SortOrder == "asc" ? ObservableCollectionExtensions.SortOrder.Ascending : ObservableCollectionExtensions.SortOrder.Descending);
+            if (_SortType == "title")
+                Items.Sort(i => i.Model.Title, sortOrder);
+            else
+                Items.Sort(i => i.Model.CreationDate, sortOrder);
+        }
+
         public async Task SearchQueryChangedAsync(AutoSuggestBoxTextChangedEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(SearchQuery))

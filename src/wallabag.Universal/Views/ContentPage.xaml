@@ -536,20 +536,37 @@
                         Style="{StaticResource IconAndTextRadioButtonStyle}"
                         Content="ascending"
                         GroupName="SortOrder"
-                        Tag="&#xE010;" />
+                        Tag="&#xE010;">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortOrderChangedCommand}" CommandParameter="asc" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                     <RadioButton
                         Grid.Row="1"
                         Style="{StaticResource IconAndTextRadioButtonStyle}"
                         Content="descending"
                         GroupName="SortOrder"
                         IsChecked="True"
-                        Tag="&#xE011;" />
+                        Tag="&#xE011;">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortOrderChangedCommand}" CommandParameter="desc" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                     <RadioButton
                         Grid.Column="1"
                         Style="{StaticResource IconAndTextRadioButtonStyle}"
                         Content="by title"
                         GroupName="SortType"
-                        Tag="&#xE12A;" />
+                        Tag="&#xE12A;">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortTypeChangedCommand}" CommandParameter="title" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors></RadioButton>
                     <RadioButton
                         Grid.Row="1"
                         Grid.Column="1"
@@ -557,7 +574,13 @@
                         Content="by date"
                         GroupName="SortType"
                         IsChecked="True"
-                        Tag="&#xE121;" />
+                        Tag="&#xE121;">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortTypeChangedCommand}" CommandParameter="date" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                 </Grid>
 
                 <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="DOMAIN NAME" />
