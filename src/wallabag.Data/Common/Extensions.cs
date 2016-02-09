@@ -243,16 +243,16 @@ namespace wallabag.Common
 
             Sort(collection, sorted);
         }
-        public static void Sort<T>(this ObservableCollection<T> collection, Func<T, T> sortParameter, SortOrder sortOrder = SortOrder.Descending) where T : IComparable
+        public static void Sort<TSource, TKey>(this ObservableCollection<TSource> collection, Func<TSource, TKey> keySelector, SortOrder sortOrder = SortOrder.Descending) where TSource : IComparable
         {
-            List<T> sorted;
+            List<TSource> sorted;
 
             if (sortOrder == SortOrder.Ascending)
-                sorted = collection.OrderBy(sortParameter).ToList();
+                sorted = collection.OrderBy(keySelector).ToList();
             else
-                sorted = collection.OrderByDescending(sortParameter).ToList();
+                sorted = collection.OrderByDescending(keySelector).ToList();
 
-            Sort(collection, sorted); Sort(collection, sorted);
+            Sort(collection, sorted);
         }
         private static void Sort<T>(ObservableCollection<T> collection, List<T> list)
         {
