@@ -21,7 +21,7 @@ using wallabag.Data.Models;
 namespace wallabag.ViewModels
 {
     [ImplementPropertyChanged]
-    public class ItemViewModel : ViewModelBase
+    public class ItemViewModel : ViewModelBase, IComparable
     {
         private static SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(DATABASE_PATH);
 
@@ -232,6 +232,12 @@ namespace wallabag.ViewModels
             if (this.Model.Id == (obj as ItemViewModel).Model.Id)
                 return true;
             else return false;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (this.Model.Id == (obj as ItemViewModel).Model.Id) return 0;
+            else return this.Model.Id.CompareTo((obj as ItemViewModel).Model.Id);
         }
     }
 }
