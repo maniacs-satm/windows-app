@@ -66,6 +66,7 @@ namespace wallabag.ViewModels
         public string TagQuery { get; set; }
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> TagQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> TagQuerySubmittedCommand { get; private set; }
+        public DelegateCommand<string> EstimatedReadingTimeFilterChangedCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -100,6 +101,7 @@ namespace wallabag.ViewModels
             DomainQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => DomainQuerySubmitted(e));
             TagQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => TagQueryChanged(e));
             TagQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => TagQuerySubmitted(e));
+            EstimatedReadingTimeFilterChangedCommand = new DelegateCommand<string>(async readingTime => await EstimatedReadingTimeFilterChangedAsync(readingTime));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -367,6 +369,25 @@ namespace wallabag.ViewModels
         {
             if (args.ChosenSuggestion != null)
                 CurrentFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
+        }
+        public Task EstimatedReadingTimeFilterChangedAsync(string readingTime)
+        {
+            if (readingTime == "short")
+            {
+                CurrentFilterProperties.MinimumEstimatedReadingTime = 0;
+                CurrentFilterProperties.MaximumEstimatedReadingTime = 5;
+            }
+            else if (readingTime == "medium")
+            {
+                CurrentFilterProperties.MinimumEstimatedReadingTime = 5;
+                CurrentFilterProperties.MaximumEstimatedReadingTime = 15;
+            }
+            else
+            {
+                CurrentFilterProperties.MinimumEstimatedReadingTime = 15;
+                CurrentFilterProperties.MaximumEstimatedReadingTime = 1337; // because I'm smart :D
+            }
+            return LoadItemsFromDatabaseAsync();
         }
     }
 }

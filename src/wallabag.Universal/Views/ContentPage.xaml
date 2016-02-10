@@ -566,7 +566,8 @@
                             <core:EventTriggerBehavior EventName="Checked">
                                 <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortTypeChangedCommand}" CommandParameter="title" />
                             </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors></RadioButton>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
                     <RadioButton
                         Grid.Row="1"
                         Grid.Column="1"
@@ -607,6 +608,40 @@
                 </AutoSuggestBox>
 
                 <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="ESTIMATED READING TIME" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <RadioButton Style="{StaticResource TextRadioButtonStyle}" Content="&lt; 5 min">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="short" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
+                    <RadioButton
+                        Grid.Column="1"
+                        Style="{StaticResource TextRadioButtonStyle}"
+                        Content="5-15 min">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="medium" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
+                    <RadioButton
+                        Grid.Column="2"
+                        Style="{StaticResource TextRadioButtonStyle}"
+                        Content="&gt; 15 min">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Checked">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="long" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </RadioButton>
+                </Grid>
                 <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="CREATION DATE" />
                 <Grid>
                     <Grid.ColumnDefinitions>
