@@ -57,6 +57,8 @@ namespace wallabag.ViewModels
         // Filter
         private string _SortType = "date";
         private string _SortOrder = "desc";
+        private DateTimeOffset _MinDate = DateTimeOffset.Now;
+        private DateTimeOffset _MaxDate = DateTimeOffset.Now;
         public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortOrderChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortTypeChangedCommand { get; set; }
@@ -67,6 +69,28 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> TagQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> TagQuerySubmittedCommand { get; private set; }
         public DelegateCommand<string> EstimatedReadingTimeFilterChangedCommand { get; private set; }
+        public DateTimeOffset? MinDateNullable
+        {
+            get { return _MinDate; }
+            set
+            {
+                _MinDate = (DateTimeOffset)value;
+                RaisePropertyChanged(nameof(MinDateNullable));
+                RaisePropertyChanged(nameof(MinDate));
+            }
+        }
+        public DateTimeOffset MinDate { get { return _MinDate; } }
+        public DateTimeOffset? MaxDateNullable
+        {
+            get { return _MaxDate; }
+            set
+            {
+                _MaxDate = value ?? DateTimeOffset.Now;
+                RaisePropertyChanged(nameof(MaxDateNullable));
+            }
+        }
+        public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
+        public DelegateCommand<CalendarDatePickerDateChangedEventArgs> CreationDateFilterChangedCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -102,6 +126,7 @@ namespace wallabag.ViewModels
             TagQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => TagQueryChanged(e));
             TagQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => TagQuerySubmitted(e));
             EstimatedReadingTimeFilterChangedCommand = new DelegateCommand<string>(async readingTime => await EstimatedReadingTimeFilterChangedAsync(readingTime));
+            CreationDateFilterChangedCommand = new DelegateCommand<CalendarDatePickerDateChangedEventArgs>(async args => await CreationDateFilterChangedAsync(args));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -387,6 +412,12 @@ namespace wallabag.ViewModels
                 CurrentFilterProperties.MinimumEstimatedReadingTime = 15;
                 CurrentFilterProperties.MaximumEstimatedReadingTime = 1337; // because I'm smart :D
             }
+            return LoadItemsFromDatabaseAsync();
+        }
+        public Task CreationDateFilterChangedAsync(CalendarDatePickerDateChangedEventArgs args)
+        {
+            CurrentFilterProperties.CreationDateFrom = MinDateNullable;
+            CurrentFilterProperties.CreationDateTo = MaxDateNullable;
             return LoadItemsFromDatabaseAsync();
         }
     }

@@ -654,8 +654,28 @@
                             <Setter Property="Margin" Value="4" />
                         </Style>
                     </Grid.Resources>
-                    <CalendarDatePicker />
-                    <CalendarDatePicker Grid.Column="1" />
+                    <CalendarDatePicker
+                        Date="{x:Bind ViewModel.MinDateNullable, Mode=TwoWay}"
+                        MaxDate="{x:Bind ViewModel.MaxDate}"
+                        PlaceholderText="from">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="DateChanged">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.CreationDateFilterChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </CalendarDatePicker>
+                    <CalendarDatePicker
+                        Grid.Column="1"
+                        Date="{x:Bind ViewModel.MaxDateNullable, Mode=TwoWay}"
+                        MaxDate="{x:Bind ViewModel.MaxDate}"
+                        MinDate="{x:Bind ViewModel.MinDate, Mode=OneWay}"
+                        PlaceholderText="to">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="DateChanged">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.CreationDateFilterChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                    </CalendarDatePicker>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
