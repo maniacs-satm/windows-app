@@ -585,7 +585,10 @@
                 </Grid>
 
                 <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="DOMAIN NAME" />
-                <AutoSuggestBox ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}" Text="{x:Bind ViewModel.DomainQuery, Mode=TwoWay}">
+                <AutoSuggestBox
+                    ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}"
+                    PlaceholderText="Enter a domain name…"
+                    Text="{x:Bind ViewModel.DomainQuery, Mode=TwoWay}">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="TextChanged">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.DomainQueryChangedCommand}" />
@@ -596,7 +599,10 @@
                     </interactivity:Interaction.Behaviors>
                 </AutoSuggestBox>
                 <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="TAG" />
-                <AutoSuggestBox ItemsSource="{x:Bind ViewModel.TagSuggestions}" Text="{x:Bind ViewModel.TagQuery, Mode=TwoWay}">
+                <AutoSuggestBox
+                    ItemsSource="{x:Bind ViewModel.TagSuggestions}"
+                    PlaceholderText="Enter a tag…"
+                    Text="{x:Bind ViewModel.TagQuery, Mode=TwoWay}">
                     <interactivity:Interaction.Behaviors>
                         <core:EventTriggerBehavior EventName="TextChanged">
                             <core:InvokeCommandAction Command="{x:Bind ViewModel.TagQueryChangedCommand}" />
