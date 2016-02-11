@@ -353,52 +353,56 @@
             <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="FAVORITES" />
             <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="ARCHIVED" />
         </Pivot>
-
-        <Button
-            Margin="6"
+        <StackPanel
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Background="Transparent"
+            Orientation="Horizontal"
             RequestedTheme="Dark">
-            <Button.Flyout>
-                <Flyout Placement="Bottom">
-                    <Flyout.FlyoutPresenterStyle>
-                        <Style TargetType="FlyoutPresenter">
-                            <Setter Property="Padding" Value="0" />
-                        </Style>
-                    </Flyout.FlyoutPresenterStyle>
-                    <ListView
-                        MaxHeight="250"
-                        Padding="0,0,12,0"
-                        ItemsSource="{x:Bind ViewModel.OfflineTasks}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="data:OfflineTaskViewModel">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock
-                                        Margin="0,0,8,0"
-                                        VerticalAlignment="Center"
-                                        FontFamily="Segoe MDL2 Assets"
-                                        Text="{x:Bind ActionLogo}" />
-                                    <TextBlock Text="{x:Bind ItemTitle}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Flyout>
-            </Button.Flyout>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock
-                    Margin="8,0"
-                    VerticalAlignment="Center"
-                    FontWeight="SemiBold"
-                    Text="{x:Bind ViewModel.OfflineTasks.Count, Mode=OneWay}" />
-                <TextBlock
-                    VerticalAlignment="Center"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="24"
-                    Text="&#xE753;" />
-            </StackPanel>
-        </Button>
+            <AppBarButton MinWidth="1" IsCompact="True">
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,4,-2"
+                        VerticalAlignment="Bottom"
+                        FontSize="12"
+                        Text="{x:Bind ViewModel.OfflineTasks.Count, Mode=OneWay}" />
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
+                </StackPanel>
+                <AppBarButton.Flyout>
+                    <Flyout Placement="Bottom">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <ListView
+                            MaxHeight="250"
+                            Padding="0,0,12,0"
+                            ItemsSource="{x:Bind ViewModel.OfflineTasks}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="data:OfflineTaskViewModel">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock
+                                            Margin="0,0,8,0"
+                                            VerticalAlignment="Center"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Text="{x:Bind ActionLogo}" />
+                                        <TextBlock Text="{x:Bind ItemTitle}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="searchToggleButton"
+                x:Uid="SearchAppBarButton"
+                Width="48"
+                Click="searchToggleButton_Click"
+                Icon="Find"
+                IsCompact="True"
+                Label="Search" />
+        </StackPanel>
         <Grid
             x:Name="SearchGrid"
             VerticalAlignment="Top"
@@ -692,12 +696,6 @@
                 Icon="Bullets"
                 IsChecked="{x:Bind ViewModel.IsMultipleSelectionEnabled, Mode=TwoWay}"
                 Label="Select" />
-            <AppBarButton
-                x:Name="searchToggleButton"
-                x:Uid="SearchAppBarButton"
-                Click="searchToggleButton_Click"
-                Icon="Find"
-                Label="Search" />
             <AppBarButton
                 x:Name="syncAppBarButton"
                 x:Uid="SyncAppBarButton"
