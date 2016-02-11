@@ -447,7 +447,7 @@
             Padding="8"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Background="Gainsboro"
+            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
             x:DeferLoadStrategy="Lazy"
             RenderTransformOrigin="0.5,0.5"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
