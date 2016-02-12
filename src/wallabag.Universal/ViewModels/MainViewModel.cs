@@ -13,6 +13,7 @@ using wallabag.Data.Models;
 using wallabag.Data.ViewModels;
 using wallabag.Models;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.ViewModels
@@ -101,7 +102,7 @@ namespace wallabag.ViewModels
             RefreshCommand = new DelegateCommand(async () => await RefreshItemsAsync());
             NavigateToSettingsPageCommand = new DelegateCommand(() =>
             {
-                NavigationService.Navigate(typeof(Views.SettingsPage));
+                NavigationService.Navigate(typeof(Views.SettingsPage), null, new DrillInNavigationTransitionInfo());
             });
             AddItemCommand = new DelegateCommand(async () => await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.AddItem));
 
@@ -188,7 +189,7 @@ namespace wallabag.ViewModels
             if (e.ClickedItem != null && IsItemClickEnabled == true)
             {
                 var clickedItem = (ItemViewModel)e.ClickedItem;
-                NavigationService.Navigate(typeof(Views.SingleItemPage), clickedItem.Model.Id);
+                NavigationService.Navigate(typeof(Views.SingleItemPage), clickedItem.Model.Id, new DrillInNavigationTransitionInfo());
             }
         }
 
