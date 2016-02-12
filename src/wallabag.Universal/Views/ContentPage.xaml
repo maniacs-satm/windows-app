@@ -724,11 +724,12 @@
         </Grid>
 
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
-            <AppBarToggleButton
-                Click="EnableMultipleSelection"
-                Icon="Bullets"
-                IsChecked="{x:Bind ViewModel.IsItemClickEnabled, Mode=TwoWay}"
-                Label="Select" />
+            <AppBarButton
+                x:Name="addItemAppBarButton"
+                x:Uid="AddItemAppBarButton"
+                Command="{x:Bind ViewModel.AddItemCommand}"
+                Icon="Add"
+                Label="Add item" />
             <AppBarButton
                 x:Name="syncAppBarButton"
                 x:Uid="SyncAppBarButton"
@@ -745,12 +746,11 @@
                     </SymbolIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton
-                x:Name="addItemAppBarButton"
-                x:Uid="AddItemAppBarButton"
-                Command="{x:Bind ViewModel.AddItemCommand}"
-                Icon="Add"
-                Label="Add item" />
+            <AppBarToggleButton
+                Click="EnableMultipleSelection"
+                Icon="Bullets"
+                IsChecked="{x:Bind ViewModel.IsItemClickEnabled, Mode=TwoWay}"
+                Label="Select" />
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     x:Uid="OpenSettingsAppBarButton"
