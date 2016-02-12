@@ -117,10 +117,5 @@ namespace wallabag.Common
             get { return GetProperty(nameof(OpenTheFilterPaneWithTheSearch), true); }
             set { SetProperty(nameof(OpenTheFilterPaneWithTheSearch), value); }
         }
-        public static bool ShowTheFilterPaneInline
-        {
-            get { return GetProperty(nameof(ShowTheFilterPaneInline), false); }
-            set { SetProperty(nameof(ShowTheFilterPaneInline), value); }
-        }
     }
 }
