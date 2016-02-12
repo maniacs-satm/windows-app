@@ -169,14 +169,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                    <Grid
+                        x:Name="RootGrid"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <Storyboard>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
-                                </VisualState>
+                                <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
@@ -204,50 +204,28 @@
                                         <Setter Target="Icon.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Checked">
                                     <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        <Setter Target="Icon.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
+                                        <Setter Target="CheckedBackground.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="CheckedPointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                        <Setter Target="Icon.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                    </VisualState.Setters>
-                                    <Storyboard>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CheckedPressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
-                                    </VisualState.Setters>
-                                    <Storyboard>
-                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CheckedDisabled">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
-                                        <Setter Target="Icon.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Indeterminate" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid
-                            Padding="{TemplateBinding Padding}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Rectangle
+                            x:Name="CheckedBackground"
+                            Fill="{ThemeResource SystemControlBackgroundAccentBrush}"
+                            Opacity="0.3"
+                            Visibility="Collapsed" />
+                        <Grid Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <ContentPresenter
@@ -271,8 +249,11 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="TextRadioButtonStyle" TargetType="RadioButton" BasedOn="{StaticResource IconAndTextRadioButtonStyle}">
-        <Setter Property="Tag" Value=" " />       
+    <Style
+        x:Key="TextRadioButtonStyle"
+        BasedOn="{StaticResource IconAndTextRadioButtonStyle}"
+        TargetType="RadioButton">
+        <Setter Property="Tag" Value=" " />
     </Style>
 
     <Style x:Key="RoundIconRadioButtonStyle" TargetType="RadioButton">
@@ -283,33 +264,18 @@
         <Setter Property="MinWidth" Value="32" />
         <Setter Property="MinHeight" Value="32" />
         <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border
+                    <Grid
                         x:Name="RootGrid"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="1000">
-                        <ContentPresenter
-                            x:Name="ContentPresenter"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            AutomationProperties.AccessibilityView="Raw"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            ContentTransitions="{TemplateBinding ContentTransitions}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <Storyboard>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
-                                </VisualState>
+                                <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
@@ -334,41 +300,35 @@
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
                                 <VisualState x:Name="Checked">
                                     <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
+                                        <Setter Target="CheckedBackground.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="CheckedPointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                    </VisualState.Setters>
-                                    <Storyboard>
-                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CheckedPressed">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
-                                    </VisualState.Setters>
-                                    <Storyboard>
-                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="CheckedDisabled">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                        <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
-                                    </VisualState.Setters>
-                                </VisualState>
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Indeterminate" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                    </Border>
+                        <Ellipse
+                            x:Name="CheckedBackground"
+                            Fill="{ThemeResource SystemControlBackgroundAccentBrush}"
+                            Opacity="0.3"
+                            Visibility="Collapsed" />
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
