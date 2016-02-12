@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using PropertyChanged;
 using System;
 using wallabag.Common;
 using wallabag.ViewModels;
@@ -10,9 +11,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
 {
+    [ImplementPropertyChanged]
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
@@ -22,8 +25,17 @@ namespace wallabag.Views
         {
             InitializeComponent();
         }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "HideSearch")
+                    searchToggleButton_Click(this, new RoutedEventArgs());
+            });
+        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e) => Messenger.Default.Unregister(this);
 
-        private void ItemGridView_Loaded(object sender, RoutedEventArgs e) { _ItemGridView = sender as GridView; }
+        private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -96,7 +108,7 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(UIElement target, Point offset)
         {
-            if (_LastFocusedItemViewModel != null && !(bool)ViewModel.IsMultipleSelectionEnabled)
+            if (_LastFocusedItemViewModel != null && !(bool)ViewModel.IsItemClickEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
 
@@ -110,12 +122,12 @@ namespace wallabag.Views
         private async void ContextMenuMarkAsRead_Click(object sender, RoutedEventArgs e)
         {
             await _LastFocusedItemViewModel.SwitchReadValueAsync();
-            await ViewModel.RefreshItemsAsync();
+            UpdateView();
         }
         private async void ContextMenuMarkAsFavorite_Click(object sender, RoutedEventArgs e)
         {
             await _LastFocusedItemViewModel.SwitchFavoriteValueAsync();
-            await ViewModel.RefreshItemsAsync();
+            UpdateView();
         }
         private void ContextMenuShareItem_Click(object sender, RoutedEventArgs e)
             => _LastFocusedItemViewModel.ShareCommand.Execute(null);
@@ -124,19 +136,38 @@ namespace wallabag.Views
         private async void ContextMenuDeleteItem_Click(object sender, RoutedEventArgs e)
         {
             await _LastFocusedItemViewModel.DeleteAsync();
-            await ViewModel.RefreshItemsAsync();
+            UpdateView();
         }
         #endregion
+
+        // Used as shortcuts for the Messenger
+        private void UpdateView()
+        {
+            Messenger.Default.Send(new NotificationMessage("UpdateView"));
+        }
+        private void SetItemClickEnabledProperty(bool newValue)
+        {
+            Messenger.Default.Send(new NotificationMessage<bool>(newValue, "SetItemClickEnabled"));
+        }
+        private void SetMultipleSelectionEnabledProperty(bool newValue)
+        {
+            Messenger.Default.Send(new NotificationMessage<bool>(newValue, "SetMultipleSelectionEnabled"));
+        }
 
         #region Multiple selection
         private void EnableMultipleSelection(object sender, RoutedEventArgs e)
         {
+            SetMultipleSelectionEnabledProperty(true);
+            SetItemClickEnabledProperty(false);
+
             _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
         }
         private void DisableMultipleSelection(object sender, RoutedEventArgs e)
         {
+            SetMultipleSelectionEnabledProperty(false);
+            SetItemClickEnabledProperty(true);
+
             _ItemGridView.SelectionMode = ListViewSelectionMode.None;
-            ViewModel.IsMultipleSelectionEnabled = false;
         }
         private void ManageTagsMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -177,6 +208,7 @@ namespace wallabag.Views
                 ShowSearch.Begin();
                 if (AppSettings.OpenTheFilterPaneWithTheSearch)
                     FilterButton_Click(sender, e);
+                SetItemClickEnabledProperty(false);
             }
             else
             {
@@ -184,6 +216,7 @@ namespace wallabag.Views
                 HideSearch.Begin();
                 if (_IsFilterPopupVisible)
                     FilterButton_Click(sender, e);
+                SetItemClickEnabledProperty(true);
             }
         }
 
@@ -200,6 +233,11 @@ namespace wallabag.Views
                 _IsFilterPopupVisible = false;
                 HideFilterPopup.Begin();
             }
+        }
+
+        private void OverlayGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            searchToggleButton_Click(sender, new RoutedEventArgs());
         }
     }
 }

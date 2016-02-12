@@ -50,6 +50,8 @@ namespace wallabag.ViewModels
         public DelegateCommand DeleteItemsCommand { get; private set; }
 
         // Search
+        public bool? IsItemClickEnabled { get; set; } = true;
+        public bool IsSearchVisible { get; set; } = false;
         public string SearchQuery { get; set; }
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> SearchQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
@@ -160,6 +162,18 @@ namespace wallabag.ViewModels
                 await _dataService.AddItemAsync(uri.Content.ToString());
                 await RefreshItemsAsync();
             });
+            Messenger.Default.Register<NotificationMessage<bool>>(this, message =>
+            {
+                if (message.Notification == "SetItemClickEnabled")
+                    IsItemClickEnabled = message.Content;
+                else if (message.Notification == "SetMultipleSelectionEnabled")
+                    IsMultipleSelectionEnabled = message.Content;
+            });
+            Messenger.Default.Register<NotificationMessage>(this, async message =>
+            {
+                if (message.Notification == "UpdateView")
+                    await LoadItemsFromDatabaseAsync();
+            });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -171,7 +185,7 @@ namespace wallabag.ViewModels
 
         public void ItemClick(ItemClickEventArgs e)
         {
-            if (e.ClickedItem != null)
+            if (e.ClickedItem != null && IsItemClickEnabled == true)
             {
                 var clickedItem = (ItemViewModel)e.ClickedItem;
                 NavigationService.Navigate(typeof(Views.SingleItemPage), clickedItem.Model.Id);
@@ -299,7 +313,7 @@ namespace wallabag.ViewModels
                 await _dataService.UpdateItemAsync(item.Model);
 
             await RefreshItemsAsync();
-            IsMultipleSelectionEnabled = false;
+            IsItemClickEnabled = false;
         }
 
         public Task ItemTypeSelectionChangedAsync(string itemType)

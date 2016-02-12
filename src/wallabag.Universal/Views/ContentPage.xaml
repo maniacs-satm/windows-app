@@ -27,7 +27,7 @@
                 x:Name="ItemGridView"
                 Padding="4"
                 EntranceNavigationTransitionInfo.IsTargetElement="True"
-                IsItemClickEnabled="{x:Bind IsMultipleSelectionEnabled, Mode=OneWay, Converter={StaticResource BooleanNegationConverter}}"
+                IsItemClickEnabled="True"
                 ItemsSource="{x:Bind Items}"
                 Loaded="ItemGridView_Loaded"
                 MinItemHeight="200"
@@ -237,11 +237,22 @@
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-48" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
@@ -278,11 +289,22 @@
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                 <SplineDoubleKeyFrame KeyTime="0" Value="0" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="-48" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <SplineDoubleKeyFrame KeyTime="0" Value="1" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
@@ -444,257 +466,268 @@
                 IsCompact="True"
                 Label="Filter" />
         </Grid>
-        <ScrollViewer
-            x:Name="FilterPopup"
-            Width="375"
+        <Grid
+            x:Name="OverlayGrid"
             Margin="0,48"
-            Padding="8"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+            Background="#3F000000"
+            Opacity="0"
             x:DeferLoadStrategy="Lazy"
-            RenderTransformOrigin="0.5,0.5"
-            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            PointerPressed="OverlayGrid_PointerPressed"
             Visibility="Collapsed">
-            <ScrollViewer.RenderTransform>
+            <Grid.RenderTransform>
                 <CompositeTransform />
-            </ScrollViewer.RenderTransform>
-            <StackPanel>
-                <StackPanel.Resources>
-                    <Style
-                        x:Name="HeaderTextBlockStyle"
-                        BasedOn="{StaticResource BoldTextBlockStyle}"
-                        TargetType="TextBlock">
-                        <Setter Property="FontSize" Value="12" />
-                        <Setter Property="Margin" Value="0,16,0,4" />
-                    </Style>
-                </StackPanel.Resources>
-                <TextBlock
-                    Margin="0,0,0,4"
-                    Style="{StaticResource HeaderTextBlockStyle}"
-                    Text="ITEM TYPE" />
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <RadioButton
-                        Style="{StaticResource RoundIconRadioButtonStyle}"
-                        Content="&#xE138;"
-                        IsChecked="True"
-                        ToolTipService.ToolTip="All">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="all" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Style="{StaticResource RoundIconRadioButtonStyle}"
-                        Content="&#xE052;"
-                        ToolTipService.ToolTip="Unread">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="unread" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Style="{StaticResource RoundIconRadioButtonStyle}"
-                        Content="&#xE006;"
-                        ToolTipService.ToolTip="Starred">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="starred" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Style="{StaticResource RoundIconRadioButtonStyle}"
-                        Content="&#xE1D3;"
-                        ToolTipService.ToolTip="Archived">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="archived" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Style="{StaticResource RoundIconRadioButtonStyle}"
-                        Content="&#xE107;"
-                        ToolTipService.ToolTip="Deleted">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="deleted" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                </StackPanel>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="SORT ORDER" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <RadioButton
-                        Style="{StaticResource IconAndTextRadioButtonStyle}"
-                        Content="ascending"
-                        GroupName="SortOrder"
-                        Tag="&#xE010;">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortOrderChangedCommand}" CommandParameter="asc" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Grid.Row="1"
-                        Style="{StaticResource IconAndTextRadioButtonStyle}"
-                        Content="descending"
-                        GroupName="SortOrder"
-                        IsChecked="True"
-                        Tag="&#xE011;">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortOrderChangedCommand}" CommandParameter="desc" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Grid.Column="1"
-                        Style="{StaticResource IconAndTextRadioButtonStyle}"
-                        Content="by title"
-                        GroupName="SortType"
-                        Tag="&#xE12A;">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortTypeChangedCommand}" CommandParameter="title" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Style="{StaticResource IconAndTextRadioButtonStyle}"
-                        Content="by date"
-                        GroupName="SortType"
-                        IsChecked="True"
-                        Tag="&#xE121;">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortTypeChangedCommand}" CommandParameter="date" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                </Grid>
-
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="DOMAIN NAME" />
-                <AutoSuggestBox
-                    ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}"
-                    PlaceholderText="Enter a domain name…"
-                    Text="{x:Bind ViewModel.DomainQuery, Mode=TwoWay}">
-                    <interactivity:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="TextChanged">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.DomainQueryChangedCommand}" />
-                        </core:EventTriggerBehavior>
-                        <core:EventTriggerBehavior EventName="QuerySubmitted">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.DomainQuerySubmittedCommand}" />
-                        </core:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
-                </AutoSuggestBox>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="TAG" />
-                <AutoSuggestBox
-                    ItemsSource="{x:Bind ViewModel.TagSuggestions}"
-                    PlaceholderText="Enter a tag…"
-                    Text="{x:Bind ViewModel.TagQuery, Mode=TwoWay}">
-                    <interactivity:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="TextChanged">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TagQueryChangedCommand}" />
-                        </core:EventTriggerBehavior>
-                        <core:EventTriggerBehavior EventName="QuerySubmitted">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.TagQuerySubmittedCommand}" />
-                        </core:EventTriggerBehavior>
-                    </interactivity:Interaction.Behaviors>
-                </AutoSuggestBox>
-
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="ESTIMATED READING TIME" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <RadioButton Style="{StaticResource TextRadioButtonStyle}" Content="&lt; 5 min">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="short" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Grid.Column="1"
-                        Style="{StaticResource TextRadioButtonStyle}"
-                        Content="5-15 min">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="medium" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                    <RadioButton
-                        Grid.Column="2"
-                        Style="{StaticResource TextRadioButtonStyle}"
-                        Content="&gt; 15 min">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Checked">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="long" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
-                    </RadioButton>
-                </Grid>
-                <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="CREATION DATE" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.Resources>
-                        <Style TargetType="CalendarDatePicker">
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="Margin" Value="4" />
+            </Grid.RenderTransform>
+            <ScrollViewer
+                x:Name="FilterPopup"
+                Width="375"
+                Padding="8"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                x:DeferLoadStrategy="Lazy"
+                RenderTransformOrigin="0.5,0.5"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Visibility="Collapsed">
+                <ScrollViewer.RenderTransform>
+                    <CompositeTransform />
+                </ScrollViewer.RenderTransform>
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style
+                            x:Name="HeaderTextBlockStyle"
+                            BasedOn="{StaticResource BoldTextBlockStyle}"
+                            TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="12" />
+                            <Setter Property="Margin" Value="0,16,0,4" />
                         </Style>
-                    </Grid.Resources>
-                    <CalendarDatePicker
-                        Date="{x:Bind ViewModel.MinDateNullable, Mode=TwoWay}"
-                        MaxDate="{x:Bind ViewModel.MaxDate}"
-                        PlaceholderText="from">
+                    </StackPanel.Resources>
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        Style="{StaticResource HeaderTextBlockStyle}"
+                        Text="ITEM TYPE" />
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <RadioButton
+                            Style="{StaticResource RoundIconRadioButtonStyle}"
+                            Content="&#xE138;"
+                            IsChecked="True"
+                            ToolTipService.ToolTip="All">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="all" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Style="{StaticResource RoundIconRadioButtonStyle}"
+                            Content="&#xE052;"
+                            ToolTipService.ToolTip="Unread">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="unread" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Style="{StaticResource RoundIconRadioButtonStyle}"
+                            Content="&#xE006;"
+                            ToolTipService.ToolTip="Starred">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="starred" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Style="{StaticResource RoundIconRadioButtonStyle}"
+                            Content="&#xE1D3;"
+                            ToolTipService.ToolTip="Archived">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="archived" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Style="{StaticResource RoundIconRadioButtonStyle}"
+                            Content="&#xE107;"
+                            ToolTipService.ToolTip="Deleted">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="deleted" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                    </StackPanel>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="SORT ORDER" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <RadioButton
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="ascending"
+                            GroupName="SortOrder"
+                            Tag="&#xE010;">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortOrderChangedCommand}" CommandParameter="asc" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Grid.Row="1"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="descending"
+                            GroupName="SortOrder"
+                            IsChecked="True"
+                            Tag="&#xE011;">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortOrderChangedCommand}" CommandParameter="desc" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Grid.Column="1"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="by title"
+                            GroupName="SortType"
+                            Tag="&#xE12A;">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortTypeChangedCommand}" CommandParameter="title" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="by date"
+                            GroupName="SortType"
+                            IsChecked="True"
+                            Tag="&#xE121;">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSortTypeChangedCommand}" CommandParameter="date" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                    </Grid>
+
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="DOMAIN NAME" />
+                    <AutoSuggestBox
+                        ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}"
+                        PlaceholderText="Enter a domain name…"
+                        Text="{x:Bind ViewModel.DomainQuery, Mode=TwoWay}">
                         <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="DateChanged">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.CreationDateFilterChangedCommand}" />
+                            <core:EventTriggerBehavior EventName="TextChanged">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.DomainQueryChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                            <core:EventTriggerBehavior EventName="QuerySubmitted">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.DomainQuerySubmittedCommand}" />
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
-                    </CalendarDatePicker>
-                    <CalendarDatePicker
-                        Grid.Column="1"
-                        Date="{x:Bind ViewModel.MaxDateNullable, Mode=TwoWay}"
-                        MaxDate="{x:Bind ViewModel.MaxDate}"
-                        MinDate="{x:Bind ViewModel.MinDate, Mode=OneWay}"
-                        PlaceholderText="to">
+                    </AutoSuggestBox>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="TAG" />
+                    <AutoSuggestBox
+                        ItemsSource="{x:Bind ViewModel.TagSuggestions}"
+                        PlaceholderText="Enter a tag…"
+                        Text="{x:Bind ViewModel.TagQuery, Mode=TwoWay}">
                         <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="DateChanged">
-                                <core:InvokeCommandAction Command="{x:Bind ViewModel.CreationDateFilterChangedCommand}" />
+                            <core:EventTriggerBehavior EventName="TextChanged">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.TagQueryChangedCommand}" />
+                            </core:EventTriggerBehavior>
+                            <core:EventTriggerBehavior EventName="QuerySubmitted">
+                                <core:InvokeCommandAction Command="{x:Bind ViewModel.TagQuerySubmittedCommand}" />
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
-                    </CalendarDatePicker>
-                </Grid>
-            </StackPanel>
-        </ScrollViewer>
+                    </AutoSuggestBox>
+
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="ESTIMATED READING TIME" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Style="{StaticResource TextRadioButtonStyle}" Content="&lt; 5 min">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="short" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Grid.Column="1"
+                            Style="{StaticResource TextRadioButtonStyle}"
+                            Content="5-15 min">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="medium" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                        <RadioButton
+                            Grid.Column="2"
+                            Style="{StaticResource TextRadioButtonStyle}"
+                            Content="&gt; 15 min">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Checked">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="long" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </RadioButton>
+                    </Grid>
+                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="CREATION DATE" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
+                            <Style TargetType="CalendarDatePicker">
+                                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                <Setter Property="Margin" Value="4" />
+                            </Style>
+                        </Grid.Resources>
+                        <CalendarDatePicker
+                            Date="{x:Bind ViewModel.MinDateNullable, Mode=TwoWay}"
+                            MaxDate="{x:Bind ViewModel.MaxDate}"
+                            PlaceholderText="from">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="DateChanged">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.CreationDateFilterChangedCommand}" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </CalendarDatePicker>
+                        <CalendarDatePicker
+                            Grid.Column="1"
+                            Date="{x:Bind ViewModel.MaxDateNullable, Mode=TwoWay}"
+                            MaxDate="{x:Bind ViewModel.MaxDate}"
+                            MinDate="{x:Bind ViewModel.MinDate, Mode=OneWay}"
+                            PlaceholderText="to">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="DateChanged">
+                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.CreationDateFilterChangedCommand}" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+                        </CalendarDatePicker>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
 
         <CommandBar x:Name="PrimaryCommandBar" VerticalAlignment="Bottom">
             <AppBarToggleButton
                 Click="EnableMultipleSelection"
                 Icon="Bullets"
-                IsChecked="{x:Bind ViewModel.IsMultipleSelectionEnabled, Mode=TwoWay}"
+                IsChecked="{x:Bind ViewModel.IsItemClickEnabled, Mode=TwoWay}"
                 Label="Select" />
             <AppBarButton
                 x:Name="syncAppBarButton"
