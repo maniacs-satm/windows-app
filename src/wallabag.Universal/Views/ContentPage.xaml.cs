@@ -108,7 +108,7 @@ namespace wallabag.Views
         }
         private void ShowContextMenu(UIElement target, Point offset)
         {
-            if (_LastFocusedItemViewModel != null && !(bool)ViewModel.IsItemClickEnabled)
+            if (_LastFocusedItemViewModel != null && (bool)ViewModel.IsItemClickEnabled)
             {
                 var MyFlyout = Resources["ItemContextMenu"] as MenuFlyout;
 
