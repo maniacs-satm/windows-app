@@ -469,7 +469,7 @@
         <Grid
             x:Name="OverlayGrid"
             Margin="0,48"
-            Background="#3F000000"
+            Background="#4F000000"
             Opacity="0"
             x:DeferLoadStrategy="Lazy"
             PointerPressed="OverlayGrid_PointerPressed"
