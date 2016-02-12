@@ -31,7 +31,10 @@ namespace wallabag.Data.Services
                 Id = Id,
                 Url = "https://localhost/" + Id,
                 Title = "Sample item #" + Id,
+                IsRead = Id % 2 != 0,
+                IsStarred = Id % 2 == 0,
                 Content = content,
+                DomainName = "localhost",
                 PreviewPictureUri = "https://jlnostr.de/content/1-projects/1-wallabag-for-windows/header.png"
             };
             return result;
@@ -39,22 +42,14 @@ namespace wallabag.Data.Services
 
         public Task<bool> AddItemAsync(string Url, string TagsString = "", string Title = "", bool IsOfflineTask = false)
         {
-            var content = "<b>This is some test content.</b> ";
+            var newItem = GenerateSampleItem(-1);
+            newItem.Url = Url;
+            newItem.Tags = TagsString.ToObservableCollection();
 
             if (string.IsNullOrWhiteSpace(Title))
-                Title = new Uri(Url).Host;
+                newItem.Title = new Uri(Url).Host;
 
-            for (int i = 0; i < 25; i++)
-                content += "This is some test content. ";
-
-            _Items.Add(new Item()
-            {
-                Url = Url,
-                Tags = TagsString.ToObservableCollection(),
-                Title = Title,
-                Content = content,
-                PreviewPictureUri = "https://jlnostr.de/content/1-projects/1-wallabag-for-windows/header.png"
-            });
+            _Items.Add(newItem);
             return Task.FromResult(true);
         }
 
@@ -91,9 +86,26 @@ namespace wallabag.Data.Services
         {
             var result = _Items.ToList();
 
-            // TODO: Implement filtering.
+            switch (filterProperties.ItemType)
+            {
+                case FilterProperties.FilterPropertiesItemType.Unread:
+                   result.Replace(result.Where(i => i.IsRead == false).ToList());
+                    break;
+                case FilterProperties.FilterPropertiesItemType.Favorites:
+                    result.Replace(result.Where(i => i.IsStarred == true).ToList());
+                    break;
+                case FilterProperties.FilterPropertiesItemType.Archived:
+                    result.Replace(result.Where(i => i.IsRead == true).ToList());
+                    break;
+                case FilterProperties.FilterPropertiesItemType.Deleted:
+                    result.Replace(result.Where(i => i.IsDeleted == true).ToList());
+                    break;
+                default:
+                    break;
+            }
+
             if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
-                result = _Items.Where(i => i.Title.Contains(filterProperties.SearchQuery)).ToList(); ;
+                result = result.Where(i => i.Title.Contains(filterProperties.SearchQuery)).ToList(); ;
 
             return Task.FromResult(result);
         }
