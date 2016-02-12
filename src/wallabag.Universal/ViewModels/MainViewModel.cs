@@ -58,20 +58,20 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
 
         // Filter
-        private string _SortType = "date";
-        private string _SortOrder = "desc";
+        public enum ItemSortOrder { Ascending, Descending }
+        public enum ItemSortType { ByTitle, ByDate }
+        public enum ItemEstimatedReadingType { All, Short, Medium, Long }
+        public ItemSortOrder SortOrder { get; set; } = ItemSortOrder.Descending;
+        public ItemSortType SortType { get; set; } = ItemSortType.ByDate;
+        public ItemEstimatedReadingType EstimatedReadingTime { get; set; } = ItemEstimatedReadingType.All;
         private DateTimeOffset _MinDate = DateTimeOffset.Now;
         private DateTimeOffset _MaxDate = DateTimeOffset.Now;
-        public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
-        public DelegateCommand<string> ItemSortOrderChangedCommand { get; set; }
-        public DelegateCommand<string> ItemSortTypeChangedCommand { get; set; }
         public string DomainQuery { get; set; }
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> DomainQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> DomainQuerySubmittedCommand { get; private set; }
         public string TagQuery { get; set; }
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> TagQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> TagQuerySubmittedCommand { get; private set; }
-        public DelegateCommand<string> EstimatedReadingTimeFilterChangedCommand { get; private set; }
         public DateTimeOffset? MinDateNullable
         {
             get { return _MinDate; }
@@ -119,16 +119,12 @@ namespace wallabag.ViewModels
             UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
 
-            ItemTypeSelectionChangedCommand = new DelegateCommand<string>(async itemType => await ItemTypeSelectionChangedAsync(itemType));
-            ItemSortOrderChangedCommand = new DelegateCommand<string>(sortOrder => ItemSortOrderChanged(sortOrder));
-            ItemSortTypeChangedCommand = new DelegateCommand<string>(sortType => ItemSortTypeChanged(sortType));
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
             SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
             DomainQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => DomainQueryChanged(e));
             DomainQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => DomainQuerySubmitted(e));
             TagQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => TagQueryChanged(e));
             TagQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => TagQuerySubmitted(e));
-            EstimatedReadingTimeFilterChangedCommand = new DelegateCommand<string>(async readingTime => await EstimatedReadingTimeFilterChangedAsync(readingTime));
             CreationDateFilterChangedCommand = new DelegateCommand<CalendarDatePickerDateChangedEventArgs>(async args => await CreationDateFilterChangedAsync(args));
         }
 
@@ -220,7 +216,7 @@ namespace wallabag.ViewModels
         }
         public async Task LoadItemsFromDatabaseAsync(bool firstStart = false, bool completeReorder = false)
         {
-            bool sortDescending = _SortOrder == "desc";
+            bool sortDescending = SortOrder == ItemSortOrder.Descending;
 
             if (!firstStart)
             {
@@ -317,42 +313,10 @@ namespace wallabag.ViewModels
             IsItemClickEnabled = false;
         }
 
-        public Task ItemTypeSelectionChangedAsync(string itemType)
-        {
-            switch (itemType)
-            {
-                case "all":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
-                    break;
-                case "unread":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
-                    break;
-                case "starred":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
-                    break;
-                case "archived":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
-                    break;
-                case "deleted":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
-                    break;
-            }
-            return LoadItemsFromDatabaseAsync();
-        }
-        public void ItemSortOrderChanged(string sortOrder)
-        {
-            this._SortOrder = sortOrder;
-            SortItems();
-        }
-        public void ItemSortTypeChanged(string sortType)
-        {
-            this._SortType = sortType;
-            SortItems();
-        }
         public void SortItems()
         {
-            var sortOrder = (_SortOrder == "asc" ? ObservableCollectionExtensions.SortOrder.Ascending : ObservableCollectionExtensions.SortOrder.Descending);
-            if (_SortType == "title")
+            var sortOrder = (SortOrder == ItemSortOrder.Ascending ? ObservableCollectionExtensions.SortOrder.Ascending : ObservableCollectionExtensions.SortOrder.Descending);
+            if (SortType == ItemSortType.ByTitle)
                 Items.Sort(i => i.Model.Title, sortOrder);
             else
                 Items.Sort(i => i.Model.CreationDate, sortOrder);
@@ -410,24 +374,27 @@ namespace wallabag.ViewModels
             if (args.ChosenSuggestion != null)
                 CurrentFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
         }
-        public Task EstimatedReadingTimeFilterChangedAsync(string readingTime)
+        private void ConvertReadingEnumerationToNumbers()
         {
-            if (readingTime == "short")
+            switch (EstimatedReadingTime)
             {
-                CurrentFilterProperties.MinimumEstimatedReadingTime = 0;
-                CurrentFilterProperties.MaximumEstimatedReadingTime = 5;
+                case ItemEstimatedReadingType.All:
+                    break;
+                case ItemEstimatedReadingType.Short:
+                    CurrentFilterProperties.MinimumEstimatedReadingTime = 0;
+                    CurrentFilterProperties.MaximumEstimatedReadingTime = 5;
+                    break;
+                case ItemEstimatedReadingType.Medium:
+                    CurrentFilterProperties.MinimumEstimatedReadingTime = 5;
+                    CurrentFilterProperties.MaximumEstimatedReadingTime = 15;
+                    break;
+                case ItemEstimatedReadingType.Long:
+                    CurrentFilterProperties.MinimumEstimatedReadingTime = 15;
+                    CurrentFilterProperties.MaximumEstimatedReadingTime = 1337;
+                    break;
+                default:
+                    break;
             }
-            else if (readingTime == "medium")
-            {
-                CurrentFilterProperties.MinimumEstimatedReadingTime = 5;
-                CurrentFilterProperties.MaximumEstimatedReadingTime = 15;
-            }
-            else
-            {
-                CurrentFilterProperties.MinimumEstimatedReadingTime = 15;
-                CurrentFilterProperties.MaximumEstimatedReadingTime = 1337; // because I'm smart :D
-            }
-            return LoadItemsFromDatabaseAsync();
         }
         public Task CreationDateFilterChangedAsync(CalendarDatePickerDateChangedEventArgs args)
         {
