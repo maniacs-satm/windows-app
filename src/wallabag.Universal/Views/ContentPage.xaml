@@ -22,6 +22,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter" />
+        <conv:EnumBooleanConverter x:Key="EnumBooleanConverter" />
         <DataTemplate x:Name="PivotContentTemplate" x:DataType="vm:MainViewModel">
             <controls:AdaptiveGridView
                 x:Name="ItemGridView"
@@ -509,7 +510,8 @@
                         <RadioButton
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE138;"
-                            IsChecked="True"
+                            GroupName="ItemType"
+                            IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=All, Mode=OneWay}"
                             ToolTipService.ToolTip="All">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -520,6 +522,8 @@
                         <RadioButton
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE052;"
+                            GroupName="ItemType"
+                            IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Unread, Mode=OneWay}"
                             ToolTipService.ToolTip="Unread">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -530,6 +534,8 @@
                         <RadioButton
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE006;"
+                            GroupName="ItemType"
+                            IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Favorites, Mode=OneWay}"
                             ToolTipService.ToolTip="Starred">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -540,6 +546,8 @@
                         <RadioButton
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE1D3;"
+                            GroupName="ItemType"
+                            IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Archived, Mode=OneWay}"
                             ToolTipService.ToolTip="Archived">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -550,6 +558,8 @@
                         <RadioButton
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE107;"
+                            GroupName="ItemType"
+                            IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Deleted, Mode=OneWay}"
                             ToolTipService.ToolTip="Deleted">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -572,6 +582,7 @@
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="ascending"
                             GroupName="SortOrder"
+                            IsChecked="{x:Bind ViewModel.SortOrder, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Ascending, Mode=OneWay}"
                             Tag="&#xE010;">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -584,7 +595,7 @@
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="descending"
                             GroupName="SortOrder"
-                            IsChecked="True"
+                            IsChecked="{x:Bind ViewModel.SortOrder, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Descending, Mode=OneWay}"
                             Tag="&#xE011;">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -597,6 +608,7 @@
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="by title"
                             GroupName="SortType"
+                            IsChecked="{x:Bind ViewModel.SortType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=ByTitle, Mode=OneWay}"
                             Tag="&#xE12A;">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -610,7 +622,7 @@
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="by date"
                             GroupName="SortType"
-                            IsChecked="True"
+                            IsChecked="{x:Bind ViewModel.SortType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=ByDate, Mode=OneWay}"
                             Tag="&#xE121;">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -656,7 +668,10 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <RadioButton Style="{StaticResource TextRadioButtonStyle}" Content="&lt; 5 min">
+                        <RadioButton
+                            Style="{StaticResource TextRadioButtonStyle}"
+                            Content="&lt; 5 min"
+                            IsChecked="{x:Bind ViewModel.EstimatedReadingTime, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Short, Mode=OneWay}">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
                                     <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="short" />
@@ -666,7 +681,8 @@
                         <RadioButton
                             Grid.Column="1"
                             Style="{StaticResource TextRadioButtonStyle}"
-                            Content="5-15 min">
+                            Content="5-15 min"
+                            IsChecked="{x:Bind ViewModel.EstimatedReadingTime, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Medium, Mode=OneWay}">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
                                     <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="medium" />
@@ -676,7 +692,8 @@
                         <RadioButton
                             Grid.Column="2"
                             Style="{StaticResource TextRadioButtonStyle}"
-                            Content="&gt; 15 min">
+                            Content="&gt; 15 min"
+                            IsChecked="{x:Bind ViewModel.EstimatedReadingTime, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Long, Mode=OneWay}">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
                                     <core:InvokeCommandAction Command="{x:Bind ViewModel.EstimatedReadingTimeFilterChangedCommand}" CommandParameter="long" />
@@ -718,6 +735,19 @@
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                         </CalendarDatePicker>
+                    </Grid>
+
+                    <Grid Margin="0,16,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Command="{x:Bind ViewModel.ResetFilterCommand}" Content="Reset" />
+                        <Button
+                            Grid.Column="1"
+                            Style="{StaticResource ActionButtonStyle}"
+                            Command="{x:Bind ViewModel.FilterCommand}"
+                            Content="Filter" />
                     </Grid>
                 </StackPanel>
             </ScrollViewer>

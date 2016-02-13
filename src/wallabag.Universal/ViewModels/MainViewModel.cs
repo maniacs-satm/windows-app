@@ -59,8 +59,10 @@ namespace wallabag.ViewModels
         // Filter
         public enum FilterSortType { ByDate, ByTitle }
         public enum FilterSortOrder { Ascending, Descending }
-        public FilterSortType SortType { get; set; }
-        public FilterSortOrder SortOrder { get; set; }
+        public enum FilterEstimatedReadingTime { Unfiltered, Short, Medium, Long }
+        public FilterSortType SortType { get; set; } = FilterSortType.ByDate;
+        public FilterSortOrder SortOrder { get; set; } = FilterSortOrder.Descending;
+        public FilterEstimatedReadingTime EstimatedReadingTime { get; set; } = FilterEstimatedReadingTime.Unfiltered;
         private DateTimeOffset _MinDate = DateTimeOffset.Now;
         private DateTimeOffset _MaxDate = DateTimeOffset.Now;
         public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
@@ -96,6 +98,7 @@ namespace wallabag.ViewModels
         public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
         public DelegateCommand<CalendarDatePickerDateChangedEventArgs> CreationDateFilterChangedCommand { get; private set; }
         public DelegateCommand ResetFilterCommand { get; private set; }
+        public DelegateCommand FilterCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -111,7 +114,14 @@ namespace wallabag.ViewModels
             ResetFilterCommand = new DelegateCommand(async () =>
             {
                 CurrentFilterProperties = new FilterProperties();
-                await RefreshItemsAsync();
+                SortType = FilterSortType.ByDate;
+                SortOrder = FilterSortOrder.Descending;
+                EstimatedReadingTime = FilterEstimatedReadingTime.Unfiltered;
+                await LoadItemsFromDatabaseAsync();
+            });
+            FilterCommand = new DelegateCommand(async () =>
+            {
+                await LoadItemsFromDatabaseAsync();
             });
             ItemClickCommand = new DelegateCommand<ItemClickEventArgs>(args => ItemClick(args));
 
@@ -121,17 +131,17 @@ namespace wallabag.ViewModels
             UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
 
-            ItemTypeSelectionChangedCommand = new DelegateCommand<string>(async itemType => await ItemTypeSelectionChangedAsync(itemType));
+            ItemTypeSelectionChangedCommand = new DelegateCommand<string>(itemType => ItemTypeSelectionChanged(itemType));
             ItemSortOrderChangedCommand = new DelegateCommand<string>(sortOrder => ItemSortOrderChanged(sortOrder));
             ItemSortTypeChangedCommand = new DelegateCommand<string>(sortType => ItemSortTypeChanged(sortType));
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
-            SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
+            SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => SearchQuerySubmitted(e));
             DomainQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => DomainQueryChanged(e));
             DomainQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => DomainQuerySubmitted(e));
             TagQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => TagQueryChanged(e));
             TagQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => TagQuerySubmitted(e));
-            EstimatedReadingTimeFilterChangedCommand = new DelegateCommand<string>(async readingTime => await EstimatedReadingTimeFilterChangedAsync(readingTime));
-            CreationDateFilterChangedCommand = new DelegateCommand<CalendarDatePickerDateChangedEventArgs>(async args => await CreationDateFilterChangedAsync(args));
+            EstimatedReadingTimeFilterChangedCommand = new DelegateCommand<string>(readingTime => EstimatedReadingTimeFilterChanged(readingTime));
+            CreationDateFilterChangedCommand = new DelegateCommand<CalendarDatePickerDateChangedEventArgs>(args => CreationDateFilterChanged(args));
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -177,6 +187,7 @@ namespace wallabag.ViewModels
                 if (message.Notification == "UpdateView")
                     await LoadItemsFromDatabaseAsync();
             });
+            RaisePropertyChanged(nameof(FilterProperties.ItemType));
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -319,7 +330,7 @@ namespace wallabag.ViewModels
             IsItemClickEnabled = false;
         }
 
-        public Task ItemTypeSelectionChangedAsync(string itemType)
+        public void ItemTypeSelectionChanged(string itemType)
         {
             switch (itemType)
             {
@@ -339,7 +350,6 @@ namespace wallabag.ViewModels
                     CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
                     break;
             }
-            return LoadItemsFromDatabaseAsync();
         }
         public void ItemSortOrderChanged(string sortOrder)
         {
@@ -347,8 +357,6 @@ namespace wallabag.ViewModels
                 SortOrder = FilterSortOrder.Ascending;
             else
                 SortOrder = FilterSortOrder.Descending;
-
-            SortItems();
         }
         public void ItemSortTypeChanged(string sortType)
         {
@@ -356,8 +364,6 @@ namespace wallabag.ViewModels
                 SortType = FilterSortType.ByTitle;
             else
                 SortType = FilterSortType.ByDate;
-
-            SortItems();
         }
         public void SortItems()
         {
@@ -373,7 +379,6 @@ namespace wallabag.ViewModels
             if (string.IsNullOrWhiteSpace(SearchQuery))
             {
                 CurrentFilterProperties.SearchQuery = string.Empty;
-                await LoadItemsFromDatabaseAsync();
                 return;
             }
 
@@ -387,14 +392,13 @@ namespace wallabag.ViewModels
                     SearchSuggestions.Add(new SearchResult(item.Id, item.Title));
             }
         }
-        public async Task SearchQuerySubmittedAsync(AutoSuggestBoxQuerySubmittedEventArgs args)
+        public void SearchQuerySubmitted(AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
                 NavigationService.Navigate(typeof(Views.SingleItemPage), (args.ChosenSuggestion as SearchResult).Id);
             else
             {
                 CurrentFilterProperties.SearchQuery = args.QueryText;
-                await LoadItemsFromDatabaseAsync();
             }
         }
         public void DomainQueryChanged(AutoSuggestBoxTextChangedEventArgs args)
@@ -420,30 +424,31 @@ namespace wallabag.ViewModels
             if (args.ChosenSuggestion != null)
                 CurrentFilterProperties.FilterTag = args.ChosenSuggestion as Tag;
         }
-        public Task EstimatedReadingTimeFilterChangedAsync(string readingTime)
+        public void EstimatedReadingTimeFilterChanged(string readingTime)
         {
             if (readingTime == "short")
             {
+                EstimatedReadingTime = FilterEstimatedReadingTime.Short;
                 CurrentFilterProperties.MinimumEstimatedReadingTime = 0;
                 CurrentFilterProperties.MaximumEstimatedReadingTime = 5;
             }
             else if (readingTime == "medium")
             {
+                EstimatedReadingTime = FilterEstimatedReadingTime.Medium;
                 CurrentFilterProperties.MinimumEstimatedReadingTime = 5;
                 CurrentFilterProperties.MaximumEstimatedReadingTime = 15;
             }
             else
             {
+                EstimatedReadingTime = FilterEstimatedReadingTime.Long;
                 CurrentFilterProperties.MinimumEstimatedReadingTime = 15;
                 CurrentFilterProperties.MaximumEstimatedReadingTime = 1337;
             }
-            return LoadItemsFromDatabaseAsync();
         }
-        public Task CreationDateFilterChangedAsync(CalendarDatePickerDateChangedEventArgs args)
+        public void CreationDateFilterChanged(CalendarDatePickerDateChangedEventArgs args)
         {
             CurrentFilterProperties.CreationDateFrom = MinDateNullable;
             CurrentFilterProperties.CreationDateTo = MaxDateNullable;
-            return LoadItemsFromDatabaseAsync();
         }
     }
 }
