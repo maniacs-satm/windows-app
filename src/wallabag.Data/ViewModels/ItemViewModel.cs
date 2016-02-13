@@ -231,7 +231,7 @@ namespace wallabag.ViewModels
                     action = OfflineTask.OfflineTaskAction.UnmarkAsRead;
                 else if (propertyName == ItemStarredAPIString && (bool)propertyValue == true)
                     action = OfflineTask.OfflineTaskAction.MarkAsFavorite;
-                else if (propertyName == ItemStarredAPIStrings && (bool)propertyValue == false)
+                else if (propertyName == ItemStarredAPIString && (bool)propertyValue == false)
                     action = OfflineTask.OfflineTaskAction.UnmarkAsFavorite;
                 else if (propertyName == "tags")
                     action = OfflineTask.OfflineTaskAction.ModifyTags;
