@@ -281,7 +281,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = true;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", item.Model.IsRead);
+                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemReadAPIString, item.Model.IsRead);
             }
             await FinishMultipleSelection();
         }
@@ -290,7 +290,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = false;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "archive", item.Model.IsRead);
+                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemReadAPIString, item.Model.IsRead);
             }
             await FinishMultipleSelection();
         }
@@ -299,7 +299,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = true;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", item.Model.IsStarred);
+                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemStarredAPIString, item.Model.IsStarred);
             }
             await FinishMultipleSelection();
         }
@@ -308,7 +308,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = false;
-                await ItemViewModel.UpdateSpecificProperty(item.Model.Id, "star", item.Model.IsStarred);
+                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemStarredAPIString, item.Model.IsStarred);
             }
             await FinishMultipleSelection();
         }

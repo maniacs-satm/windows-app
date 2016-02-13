@@ -136,7 +136,7 @@ namespace wallabag.ViewModels
                 Model.IsRead = true;
 
             await Model.UpdateAsync();
-            return await UpdateSpecificProperty(Model.Id, "is_archived", Model.IsRead);
+            return await UpdateSpecificPropertyAsync(Model.Id, ItemReadAPIString, Model.IsRead);
         }
         public async Task<bool> SwitchFavoriteValueAsync()
         {
@@ -146,7 +146,7 @@ namespace wallabag.ViewModels
                 Model.IsStarred = true;
 
             await Model.UpdateAsync();
-            return await UpdateSpecificProperty(Model.Id, "is_starred", Model.IsStarred);
+            return await UpdateSpecificPropertyAsync(Model.Id, ItemStarredAPIString, Model.IsStarred);
         }
         public async Task<bool> DeleteAsync()
         {
@@ -211,7 +211,9 @@ namespace wallabag.ViewModels
             }
         }
 
-        public static async Task<bool> UpdateSpecificProperty(int itemId, string propertyName, object propertyValue)
+        public static string ItemReadAPIString { get; } = "is_starred";
+        public static string ItemStarredAPIString { get; } = "is_starred";
+        public static async Task<bool> UpdateSpecificPropertyAsync(int itemId, string propertyName, object propertyValue)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
             parameters.Add(propertyName, propertyValue);
@@ -221,8 +223,22 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                // TODO: Set Action based on the propertyName
-                await OfflineTask.AddTaskAsync(new Item() { Id = itemId }, OfflineTask.OfflineTaskAction.ModifyTags, $"/entries/{itemId}", parameters);
+                OfflineTask.OfflineTaskAction action = OfflineTask.OfflineTaskAction.MarkAsRead;
+
+                if (propertyName == ItemReadAPIString && (bool)propertyValue == true)
+                    action = OfflineTask.OfflineTaskAction.MarkAsRead;
+                else if (propertyName == ItemReadAPIString && (bool)propertyValue == false)
+                    action = OfflineTask.OfflineTaskAction.UnmarkAsRead;
+                else if (propertyName == ItemStarredAPIString && (bool)propertyValue == true)
+                    action = OfflineTask.OfflineTaskAction.MarkAsFavorite;
+                else if (propertyName == ItemStarredAPIStrings && (bool)propertyValue == false)
+                    action = OfflineTask.OfflineTaskAction.UnmarkAsFavorite;
+                else if (propertyName == "tags")
+                    action = OfflineTask.OfflineTaskAction.ModifyTags;
+                else
+                    throw new NotSupportedException($"Property '{propertyName}' cannot be changed as it is not supported by the wallabag API.");
+
+                await OfflineTask.AddTaskAsync(new Item() { Id = itemId }, action, $"/entries/{itemId}", parameters);
                 return false;
             }
         }
