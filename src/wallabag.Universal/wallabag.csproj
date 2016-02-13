@@ -115,7 +115,6 @@
     </Compile>
     <Compile Include="Converter\BooleanNegationConverter.cs" />
     <Compile Include="Converter\BooleanToVisibilityNegatedConverter.cs" />
-    <Compile Include="Converter\EnumBooleanConverter.cs" />
     <Compile Include="Converter\FavoriteToIconConverter.cs" />
     <Compile Include="Converter\BooleanNullableConverter.cs" />
     <Compile Include="Converter\ReadToIconConverter.cs" />
