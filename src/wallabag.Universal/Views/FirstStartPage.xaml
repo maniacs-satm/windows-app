@@ -86,14 +86,47 @@
             </ObjectAnimationUsingKeyFrames>
             <DoubleAnimation
                 d:IsOptimized="True"
-                Duration="0:0:0.5"
+                Duration="0:0:0.3"
                 Storyboard.TargetName="backgroundImage"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0.5" />
         </Storyboard>
+        <Storyboard x:Name="RevertStep3">
+            <DoubleAnimation
+                d:IsOptimized="True"
+                BeginTime="0:0:1"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="Step2Panel"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="1" />
+            <DoubleAnimation
+                d:IsOptimized="True"
+                BeginTime="0:0:1"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="Step3Panel"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0" />
+            <ObjectAnimationUsingKeyFrames
+                BeginTime="0:0:1"
+                Storyboard.TargetName="Step3Panel"
+                Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation
+                d:IsOptimized="True"
+                BeginTime="0:0:1"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="backgroundImage"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0.8" />
+        </Storyboard>
     </Page.Resources>
 
-    <Grid RequestedTheme="Dark">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

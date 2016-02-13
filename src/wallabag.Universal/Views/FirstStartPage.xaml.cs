@@ -49,7 +49,7 @@ namespace wallabag.Views
                 if (message.Notification == "LoginFailed")
                 {
                     GoToStep2.Begin();
-                    // TODO: Are there any additional steps to do?
+                    RevertStep3.Begin();
                 }
             });
         }
