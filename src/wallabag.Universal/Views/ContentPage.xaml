@@ -395,6 +395,7 @@
                         <Flyout.FlyoutPresenterStyle>
                             <Style TargetType="FlyoutPresenter">
                                 <Setter Property="Padding" Value="0" />
+                                <Setter Property="RequestedTheme" Value="Default"/>
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
                         <ListView
