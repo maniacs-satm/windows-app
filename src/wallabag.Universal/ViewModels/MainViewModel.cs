@@ -38,7 +38,6 @@ namespace wallabag.ViewModels
         public DelegateCommand RefreshCommand { get; private set; }
         public DelegateCommand AddItemCommand { get; private set; }
         public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
-        public DelegateCommand ResetFilterCommand { get; private set; }
         public DelegateCommand<ItemClickEventArgs> ItemClickCommand { get; private set; }
 
         // Multiple selection
@@ -58,8 +57,10 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmittedCommand { get; private set; }
 
         // Filter
-        private string _SortType = "date";
-        private string _SortOrder = "desc";
+        public enum FilterSortType { ByDate, ByTitle }
+        public enum FilterSortOrder { Ascending, Descending }
+        public FilterSortType SortType { get; set; }
+        public FilterSortOrder SortOrder { get; set; }
         private DateTimeOffset _MinDate = DateTimeOffset.Now;
         private DateTimeOffset _MaxDate = DateTimeOffset.Now;
         public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
@@ -94,6 +95,7 @@ namespace wallabag.ViewModels
         }
         public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
         public DelegateCommand<CalendarDatePickerDateChangedEventArgs> CreationDateFilterChangedCommand { get; private set; }
+        public DelegateCommand ResetFilterCommand { get; private set; }
 
         public MainViewModel(IDataService dataService)
         {
@@ -220,7 +222,7 @@ namespace wallabag.ViewModels
         }
         public async Task LoadItemsFromDatabaseAsync(bool firstStart = false, bool completeReorder = false)
         {
-            bool sortDescending = _SortOrder == "desc";
+            bool sortDescending = SortOrder == FilterSortOrder.Descending;
 
             if (!firstStart)
             {
@@ -341,18 +343,26 @@ namespace wallabag.ViewModels
         }
         public void ItemSortOrderChanged(string sortOrder)
         {
-            this._SortOrder = sortOrder;
+            if (sortOrder == "asc")
+                SortOrder = FilterSortOrder.Ascending;
+            else
+                SortOrder = FilterSortOrder.Descending;
+
             SortItems();
         }
         public void ItemSortTypeChanged(string sortType)
         {
-            this._SortType = sortType;
+            if (sortType == "title")
+                SortType = FilterSortType.ByTitle;
+            else
+                SortType = FilterSortType.ByDate;
+
             SortItems();
         }
         public void SortItems()
         {
-            var sortOrder = (_SortOrder == "asc" ? ObservableCollectionExtensions.SortOrder.Ascending : ObservableCollectionExtensions.SortOrder.Descending);
-            if (_SortType == "title")
+            var sortOrder = (SortOrder == FilterSortOrder.Ascending ? ObservableCollectionExtensions.SortOrder.Ascending : ObservableCollectionExtensions.SortOrder.Descending);
+            if (SortType == FilterSortType.ByTitle)
                 Items.Sort(i => i.Model.Title, sortOrder);
             else
                 Items.Sort(i => i.Model.CreationDate, sortOrder);
@@ -425,7 +435,7 @@ namespace wallabag.ViewModels
             else
             {
                 CurrentFilterProperties.MinimumEstimatedReadingTime = 15;
-                CurrentFilterProperties.MaximumEstimatedReadingTime = 1337; // because I'm smart :D
+                CurrentFilterProperties.MaximumEstimatedReadingTime = 1337;
             }
             return LoadItemsFromDatabaseAsync();
         }
