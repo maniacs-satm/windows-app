@@ -20,7 +20,12 @@ namespace wallabag.Data.ViewModels
         public async Task InitializeAsync(OfflineTask Model)
         {
             this.Model = Model;
-            ItemTitle = (await _dataService.GetItemAsync(Model.ItemId)).Title;
+            var item = await _dataService.GetItemAsync(Model.ItemId);
+
+            if (item != null)
+                ItemTitle = item.Title;
+            else
+                ItemTitle = "<no title>";
 
             switch (Model.Action)
             {
