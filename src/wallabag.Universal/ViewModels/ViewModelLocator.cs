@@ -24,6 +24,7 @@ namespace wallabag.ViewModels
             SimpleIoc.Default.Register<SingleItemPageViewModel>();
         }
 
+        public static IDataService CurrentDataService => SimpleIoc.Default.GetInstance<IDataService>();
         public MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
         public AddItemPageViewModel AddItem => SimpleIoc.Default.GetInstance<AddItemPageViewModel>();
         public FirstStartPageViewModel FirstStart => SimpleIoc.Default.GetInstance<FirstStartPageViewModel>();
