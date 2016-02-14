@@ -395,7 +395,7 @@
                         <Flyout.FlyoutPresenterStyle>
                             <Style TargetType="FlyoutPresenter">
                                 <Setter Property="Padding" Value="0" />
-                                <Setter Property="RequestedTheme" Value="Default"/>
+                                <Setter Property="RequestedTheme" Value="Default" />
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
                         <ListView
@@ -444,6 +444,7 @@
             <Rectangle Grid.ColumnSpan="2" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
             <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="SEARCH &amp; FILTER" />
             <AutoSuggestBox
+                x:Name="SearchQueryAutoSuggestBox"
                 MinWidth="300"
                 Margin="0,0,6,0"
                 HorizontalAlignment="Right"

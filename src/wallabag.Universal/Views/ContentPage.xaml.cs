@@ -24,6 +24,8 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
+            ShowSearch.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
+            HideSearch.Completed += (s, e) => { SearchQueryAutoSuggestBox.Text = string.Empty; };
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
