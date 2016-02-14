@@ -36,7 +36,7 @@ namespace wallabag.Universal
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
             }
 
-            if (!string.IsNullOrEmpty(AppSettings.AccessToken) &&
+            if (ViewModels.ViewModelLocator.CurrentDataService.CredentialsAreExisting &&
                 await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(Helpers.DATABASE_FILENAME) != null)
             {
                 NavigationService.Navigate(typeof(Views.ContentPage));
