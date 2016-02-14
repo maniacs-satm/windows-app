@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using wallabag.Models;
-using wallabag.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -31,10 +30,9 @@ namespace wallabag.Controls
             if (control.possibleTags == null)
             {
                 control.possibleTags = new List<string>();
-
-                // TODO
-                //foreach (var item in await DataService.GetTagsAsync())
-                //    control.possibleTags.Add(item.Label);
+                
+                foreach (var item in await ViewModels.ViewModelLocator.CurrentDataService.GetTagsAsync())
+                    control.possibleTags.Add(item.Label);
             }
         }
 
