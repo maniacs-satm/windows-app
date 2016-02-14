@@ -35,7 +35,7 @@ namespace wallabag.Data.Services
                 IsStarred = Id % 2 == 0,
                 Content = content,
                 DomainName = "localhost",
-                PreviewPictureUri = "https://jlnostr.de/content/1-projects/1-wallabag-for-windows/header.png"
+                PreviewPictureUri = "http://lorempixel.com/300/200?=" + Id
             };
             return result;
         }
@@ -61,7 +61,8 @@ namespace wallabag.Data.Services
         private Task<bool> _DownloadItemsFromServerAsync(IProgress<DownloadProgress> progress, bool DownloadAllItems)
         {
             var dProgress = new DownloadProgress();
-            for (int i = 0; i < 10; i++)
+            var maximum = _Items.Count + 10;
+            for (int i = _Items.Count; i < maximum; i++)
             {
                 dProgress.CurrentItemIndex = i;
                 progress.Report(dProgress);
@@ -89,7 +90,7 @@ namespace wallabag.Data.Services
             switch (filterProperties.ItemType)
             {
                 case FilterProperties.FilterPropertiesItemType.Unread:
-                   result.Replace(result.Where(i => i.IsRead == false).ToList());
+                    result.Replace(result.Where(i => i.IsRead == false).ToList());
                     break;
                 case FilterProperties.FilterPropertiesItemType.Favorites:
                     result.Replace(result.Where(i => i.IsStarred == true).ToList());
@@ -139,7 +140,7 @@ namespace wallabag.Data.Services
         {
             var result = new List<Tag>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 15; i++)
                 result.Add(new Tag()
                 {
                     Id = i,
@@ -149,10 +150,10 @@ namespace wallabag.Data.Services
             return Task.FromResult(result);
         }
 
-        public Task InitializeDatabaseAsync()
+        public async Task InitializeDatabaseAsync()
         {
             _Items = new ObservableCollection<Item>();
-            return Task.CompletedTask;
+            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.ReplaceExisting);
         }
 
         public Task<bool> SyncOfflineTasksWithServerAsync()
