@@ -30,7 +30,7 @@ namespace wallabag.Controls
             if (control.possibleTags == null)
             {
                 control.possibleTags = new List<string>();
-                
+
                 foreach (var item in await ViewModels.ViewModelLocator.CurrentDataService.GetTagsAsync())
                     control.possibleTags.Add(item.Label);
             }
@@ -42,7 +42,7 @@ namespace wallabag.Controls
 
         private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<string>(possibleTags.Where(t => t.Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<string>(possibleTags.Where(t => t.ToLower().Contains(sender.Text.ToLower())));
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
