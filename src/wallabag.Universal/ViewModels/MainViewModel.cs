@@ -121,7 +121,7 @@ namespace wallabag.ViewModels
             });
             FilterCommand = new DelegateCommand(async () =>
             {
-                await LoadItemsFromDatabaseAsync();
+                await LoadItemsFromDatabaseAsync(true);
             });
             ItemClickCommand = new DelegateCommand<ItemClickEventArgs>(args => ItemClick(args));
 
@@ -185,9 +185,8 @@ namespace wallabag.ViewModels
             Messenger.Default.Register<NotificationMessage>(this, async message =>
             {
                 if (message.Notification == "UpdateView")
-                    await LoadItemsFromDatabaseAsync();
+                    await LoadItemsFromDatabaseAsync(true);
             });
-            RaisePropertyChanged(nameof(FilterProperties.ItemType));
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -215,8 +214,7 @@ namespace wallabag.ViewModels
             await _dataService.SyncOfflineTasksWithServerAsync();
             await _dataService.DownloadItemsFromServerAsync();
 
-            bool firstStart = Items.Count == 0;
-            await LoadItemsFromDatabaseAsync(firstStart);
+            await LoadItemsFromDatabaseAsync();
 
             IsSyncing = false;
         }
@@ -231,36 +229,33 @@ namespace wallabag.ViewModels
                 OfflineTasks.Add(viewModel);
             }
         }
-        public async Task LoadItemsFromDatabaseAsync(bool firstStart = false, bool completeReorder = false)
+        public async Task LoadItemsFromDatabaseAsync(bool completeReorder = false)
         {
             bool sortDescending = SortOrder == FilterSortOrder.Descending;
 
-            if (!firstStart)
+            var itemsInDatabase = await _dataService.GetItemsAsync(CurrentFilterProperties);
+            var currentItems = new List<Item>();
+
+            foreach (var item in Items)
+                currentItems.Add(item.Model);
+
+            var newItems = itemsInDatabase.Except(currentItems).ToList();
+            var changedItems = itemsInDatabase.Except(currentItems, new ItemChangedComparer()).ToList();
+            var removedItems = currentItems.Except(itemsInDatabase).ToList();
+
+            foreach (var item in newItems)
+                Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
+
+            foreach (var item in changedItems)
             {
-                var itemsInDatabase = await _dataService.GetItemsAsync(CurrentFilterProperties);
-                var currentItems = new List<Item>();
+                Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
+                Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
 
-                foreach (var item in Items)
-                    currentItems.Add(item.Model);
-
-                var newItems = itemsInDatabase.Except(currentItems).ToList();
-                var changedItems = itemsInDatabase.Except(currentItems, new ItemChangedComparer()).ToList();
-                var removedItems = currentItems.Except(itemsInDatabase).ToList();
-
-                foreach (var item in newItems)
-                    Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
-
-                foreach (var item in changedItems)
-                {
-                    Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
-                    Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
-
-                    await _dataService.UpdateItemAsync(item);
-                }
-
-                foreach (var item in removedItems)
-                    Items.Remove(new ItemViewModel(item));
+                await _dataService.UpdateItemAsync(item);
             }
+
+            foreach (var item in removedItems)
+                Items.Remove(new ItemViewModel(item));
 
             Tags = new ObservableCollection<Tag>(await _dataService.GetTagsAsync());
 
@@ -268,7 +263,7 @@ namespace wallabag.ViewModels
                 if (!DomainNames.Contains(item.Model.DomainName))
                     DomainNames.Add(item.Model.DomainName);
 
-            DomainNames = new ObservableCollection<string>(DomainNames.OrderBy(d => d));
+            DomainNames.Sort(d => d);
 
             if (completeReorder)
                 SortItems();
