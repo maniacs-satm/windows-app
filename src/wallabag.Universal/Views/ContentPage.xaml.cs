@@ -33,6 +33,8 @@ namespace wallabag.Views
             {
                 if (message.Notification == "HideSearch")
                     searchToggleButton_Click(this, new RoutedEventArgs());
+                else if (message.Notification == "HideOverlay")
+                    OverlayGrid.Visibility = Visibility.Collapsed;
             });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e) => Messenger.Default.Unregister(this);

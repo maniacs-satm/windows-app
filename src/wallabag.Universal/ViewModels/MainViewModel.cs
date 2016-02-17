@@ -135,7 +135,7 @@ namespace wallabag.ViewModels
             ItemSortOrderChangedCommand = new DelegateCommand<string>(sortOrder => ItemSortOrderChanged(sortOrder));
             ItemSortTypeChangedCommand = new DelegateCommand<string>(sortType => ItemSortTypeChanged(sortType));
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
-            SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => SearchQuerySubmitted(e));
+            SearchQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(async e => await SearchQuerySubmittedAsync(e));
             DomainQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => DomainQueryChanged(e));
             DomainQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => DomainQuerySubmitted(e));
             TagQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(e => TagQueryChanged(e));
@@ -374,26 +374,35 @@ namespace wallabag.ViewModels
             if (string.IsNullOrWhiteSpace(SearchQuery))
             {
                 CurrentFilterProperties.SearchQuery = string.Empty;
+                CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
                 return;
             }
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 CurrentFilterProperties.SearchQuery = SearchQuery;
+                CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
                 var searchItems = await _dataService.GetItemsAsync(CurrentFilterProperties);
 
                 SearchSuggestions.Clear();
                 foreach (var item in searchItems)
                     SearchSuggestions.Add(new SearchResult(item.Id, item.Title));
+
+                SearchSuggestions.Sort(i => i.Id);
             }
         }
-        public void SearchQuerySubmitted(AutoSuggestBoxQuerySubmittedEventArgs args)
+        public Task SearchQuerySubmittedAsync(AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (args.ChosenSuggestion != null)
+            {
                 NavigationService.Navigate(typeof(Views.SingleItemPage), (args.ChosenSuggestion as SearchResult).Id);
+                return Task.CompletedTask;
+            }
             else
             {
-                CurrentFilterProperties.SearchQuery = args.QueryText;
+                CurrentFilterProperties.SearchQuery = args.QueryText;               
+                Messenger.Default.Send(new NotificationMessage("HideOverlay"));
+                return LoadItemsFromDatabaseAsync();
             }
         }
         public void DomainQueryChanged(AutoSuggestBoxTextChangedEventArgs args)
