@@ -143,9 +143,18 @@ namespace wallabag.ViewModels
                 TextAlignButtonContent = TextAlignJustifyPathIcon;
 
             if (AppSettings.ColorScheme == "light")
+            {
                 ColorSchemeButtonContent = "\uE708";
-            else
+                CurrentBackground = ColorHelper.FromArgb(255, 255, 255, 255).ToSolidColorBrush();
+                CurrentForeground = ColorHelper.FromArgb(255, 68, 68, 68).ToSolidColorBrush();
+                AppBarRequestedTheme = ElementTheme.Light;
+            }
+            else {
                 ColorSchemeButtonContent = "\uE706";
+                CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
+                CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
+                AppBarRequestedTheme = ElementTheme.Dark;
+            }
         }
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
