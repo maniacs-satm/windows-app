@@ -89,11 +89,11 @@ namespace wallabag.Views
 
         private void FontSettingsAppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowOptionsGrid.Begin();
+            ShowFormattingOptionsGridStoryboard.Begin();
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            HideOptionsGrid.Begin();
+            HideFormattingOptionsGridStoryboard.Begin();
         }
     }
 }

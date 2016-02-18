@@ -104,43 +104,45 @@
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Name="ShowOptionsGrid">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+        <Storyboard x:Name="ShowFormattingOptionsGridStoryboard">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimation
-                Duration="0:0:0.5"
-                From="136"
-                Storyboard.TargetName="viewOptionsGrid"
-                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)"
-                To="0" />
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideOptionsGrid">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Collapsed</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimation
-                Duration="0:0:0.5"
-                From="0"
-                Storyboard.TargetName="viewOptionsGrid"
-                Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)"
-                To="136" />
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="viewOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
+        </Storyboard>
+        <Storyboard x:Name="HideFormattingOptionsGridStoryboard">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
 
@@ -150,6 +152,7 @@
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
             ClosedDisplayMode="{x:Bind ViewModel.CommandBarClosedDisplayMode, Mode=OneWay}"
+            RenderTransformOrigin="0.5,0.5"
             RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton
@@ -196,26 +199,6 @@
     </Page.BottomAppBar>
 
     <Grid Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}" RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Stretch" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="viewOptionsGrid.HorizontalAlignment" Value="Right" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <WebView
             x:Name="WebView"
             Opacity="0"
@@ -308,93 +291,36 @@
             </StackPanel>
         </Border>
         <Grid
-            x:Name="viewOptionsGrid"
-            Padding="8"
+            x:Name="FormattingOptionsGrid"
             VerticalAlignment="Bottom"
-            Background="#4C000000"
+            Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
+            x:DeferLoadStrategy="Lazy"
             RenderTransformOrigin="0.5,0.5"
-            RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RenderTransform>
-                <CompositeTransform TranslateY="136" />
-            </Grid.RenderTransform>
+            Visibility="Collapsed">
             <Grid.Resources>
                 <Style BasedOn="{StaticResource RoundButtonStyle}" TargetType="Button">
-                    <Setter Property="Padding" Value="8" />
-                    <Setter Property="Margin" Value="6" />
-                    <Setter Property="Height" Value="48" />
-                    <Setter Property="Width" Value="48" />
-                    <Setter Property="FontSize" Value="20" />
                     <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="MinHeight" Value="48" />
+                    <Setter Property="MinWidth" Value="48" />
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+                <Style TargetType="Rectangle">
+                    <Setter Property="Width" Value="1" />
+                    <Setter Property="Fill" Value="#3fffffff" />
+                    <Setter Property="Margin" Value="12,6" />
                 </Style>
             </Grid.Resources>
-
-            <RelativePanel>
-                <Button
-                    x:Name="lightColorSchemeButton"
-                    FontFamily="Segoe UI Symbol"
-                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
-                    CommandParameter="light"
-                    Content="&#x1f311;" />
-                <Button
-                    x:Name="sepiaColorSchemeButton"
-                    FontFamily="Segoe UI Symbol"
-                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
-                    CommandParameter="sepia"
-                    Content="&#x1f312;"
-                    RelativePanel.RightOf="lightColorSchemeButton" />
-                <Button
-                    x:Name="darkColorSchemeButton"
-                    FontFamily="Segoe UI Symbol"
-                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
-                    CommandParameter="dark"
-                    Content="&#x1f314;"
-                    RelativePanel.Below="lightColorSchemeButton" />
-                <Button
-                    x:Name="blackColorSchemeButton"
-                    FontFamily="Segoe UI Symbol"
-                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
-                    CommandParameter="black"
-                    Content="&#x1f315;"
-                    RelativePanel.Below="sepiaColorSchemeButton"
-                    RelativePanel.RightOf="darkColorSchemeButton" />
-            </RelativePanel>
-
-            <Button
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Background="Transparent"
-                Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                Click="Button_Click"
-                Content="&#xE011;" />
-
-            <RelativePanel Grid.Column="2">
-                <Button
-                    x:Name="DecreaseFontSizeButton"
-                    Command="{x:Bind ViewModel.DecreaseFontSizeCommand}"
-                    Content="&#xE738;" />
-                <Button
-                    x:Name="IncreaseFontSizeButton"
-                    Command="{x:Bind ViewModel.IncreaseFontSizeCommand}"
-                    Content="&#xE710;"
-                    RelativePanel.RightOf="DecreaseFontSizeButton" />
-                <Button
-                    x:Name="ChangeFontFamilyButton"
-                    Command="{x:Bind ViewModel.ChangeFontFamilyCommand}"
-                    Content="&#xE185;"
-                    RelativePanel.Below="IncreaseFontSizeButton" />
-                <Button
-                    x:Name="ChangeTextAlignButton"
-                    Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}"
-                    RelativePanel.Below="DecreaseFontSizeButton"
-                    RelativePanel.RightOf="ChangeFontFamilyButton"
-                    Content="{x:Bind ViewModel.TextAlignButtonContent, Mode=OneWay}"/>
-            </RelativePanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Command="{x:Bind ViewModel.DecreaseFontSizeCommand}" Content="&#xE1C6;" />
+                <Button Command="{x:Bind ViewModel.IncreaseFontSizeCommand}" Content="&#xE1C7;" />
+                <Rectangle />
+                <Button Command="{x:Bind ViewModel.ChangeColorSchemeCommand}" Content="&#xE706;" />
+                <Button Command="{x:Bind ViewModel.ChangeFontFamilyCommand}" Content="&#xE8D2;" />
+                <Button Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}" Content="&#xE1A2;" />
+                <Rectangle />
+                <Button Click="Button_Click" Content="&#xE10A;" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>
