@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Template10.Mvvm;
+using Template10.Utils;
 using wallabag.Common;
 using wallabag.Data.Interfaces;
 using Windows.ApplicationModel.DataTransfer;
@@ -41,6 +42,7 @@ namespace wallabag.ViewModels
         public AppBarClosedDisplayMode CommandBarClosedDisplayMode { get; set; } = AppBarClosedDisplayMode.Minimal;
 
         public object TextAlignButtonContent { get; set; }
+        public object ColorSchemeButtonContent { get; set; }
         private PathIcon TextAlignJustifyPathIcon { get; }
             = new PathIcon() { Data = PathMarkupToGeometry("M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14") };
         private static Geometry PathMarkupToGeometry(string markup)
@@ -58,7 +60,7 @@ namespace wallabag.ViewModels
         public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
         public DelegateCommand ShowShareUICommand { get; private set; }
-        public DelegateCommand<string> ChangeColorSchemeCommand { get; private set; }
+        public DelegateCommand ChangeColorSchemeCommand { get; private set; }
         public DelegateCommand ChangeFontFamilyCommand { get; private set; }
         public DelegateCommand IncreaseFontSizeCommand { get; private set; }
         public DelegateCommand DecreaseFontSizeCommand { get; private set; }
@@ -76,7 +78,7 @@ namespace wallabag.ViewModels
             });
             ShowShareUICommand = new DelegateCommand(() => { DataTransferManager.ShowShareUI(); });
 
-            ChangeColorSchemeCommand = new DelegateCommand<string>(scheme => ChangeColorScheme(scheme));
+            ChangeColorSchemeCommand = new DelegateCommand(() => ChangeColorScheme());
             ChangeFontFamilyCommand = new DelegateCommand(() => ChangeFontFamily());
             IncreaseFontSizeCommand = new DelegateCommand(() =>
             {
@@ -135,10 +137,15 @@ namespace wallabag.ViewModels
             _dataTransferManager = DataTransferManager.GetForCurrentView();
             _dataTransferManager.DataRequested += DataRequested;
 
-            if (AppSettings.TextAlignment == "left")            
-                TextAlignButtonContent = ""; //&#xE1A2;            
-            else            
-                TextAlignButtonContent = TextAlignJustifyPathIcon;            
+            if (AppSettings.TextAlignment == "left")
+                TextAlignButtonContent = "\uE1A2";
+            else
+                TextAlignButtonContent = TextAlignJustifyPathIcon;
+
+            if (AppSettings.ColorScheme == "light")
+                ColorSchemeButtonContent = "\uE708";
+            else
+                ColorSchemeButtonContent = "\uE706";
         }
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -172,32 +179,23 @@ namespace wallabag.ViewModels
             deferral.Complete();
         }
 
-        public void ChangeColorScheme(string scheme)
+        public void ChangeColorScheme()
         {
-            AppSettings.ColorScheme = scheme;
-
-            switch (AppSettings.ColorScheme)
+            if (AppSettings.ColorScheme == "light")
             {
-                case "light":
-                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 255, 255, 255));
-                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 68, 68, 68));
-                    AppBarRequestedTheme = ElementTheme.Light;
-                    break;
-                case "sepia":
-                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 245, 245, 220));
-                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 128, 0, 0));
-                    AppBarRequestedTheme = ElementTheme.Light;
-                    break;
-                case "dark":
-                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
-                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
-                    AppBarRequestedTheme = ElementTheme.Dark;
-                    break;
-                case "black":
-                    CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 0, 0, 0));
-                    CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 178, 178, 178));
-                    AppBarRequestedTheme = ElementTheme.Dark;
-                    break;
+                AppSettings.ColorScheme = "dark";
+                ColorSchemeButtonContent = "\uE706";
+                CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
+                CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
+                AppBarRequestedTheme = ElementTheme.Dark;
+            }
+            else
+            {
+                AppSettings.ColorScheme = "light";
+                ColorSchemeButtonContent = "\uE708";
+                CurrentBackground = ColorHelper.FromArgb(255, 255, 255, 255).ToSolidColorBrush();
+                CurrentForeground = ColorHelper.FromArgb(255, 68, 68, 68).ToSolidColorBrush();
+                AppBarRequestedTheme = ElementTheme.Light;
             }
 
             Messenger.Default.Send(new NotificationMessage("updateHTML"));

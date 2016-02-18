@@ -307,7 +307,7 @@
                 </Style>
                 <Style TargetType="Rectangle">
                     <Setter Property="Width" Value="1" />
-                    <Setter Property="Fill" Value="#3fffffff" />
+                    <Setter Property="Fill" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
                     <Setter Property="Margin" Value="12,6" />
                 </Style>
             </Grid.Resources>
@@ -315,9 +315,9 @@
                 <Button Command="{x:Bind ViewModel.DecreaseFontSizeCommand}" Content="&#xE1C6;" />
                 <Button Command="{x:Bind ViewModel.IncreaseFontSizeCommand}" Content="&#xE1C7;" />
                 <Rectangle />
-                <Button Command="{x:Bind ViewModel.ChangeColorSchemeCommand}" Content="&#xE706;" />
+                <Button Command="{x:Bind ViewModel.ChangeColorSchemeCommand}" Content="{x:Bind ViewModel.ColorSchemeButtonContent, Mode=OneWay}" />
                 <Button Command="{x:Bind ViewModel.ChangeFontFamilyCommand}" Content="&#xE8D2;" />
-                <Button Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}" Content="&#xE1A2;" />
+                <Button Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}" Content="{x:Bind ViewModel.TextAlignButtonContent, Mode=OneWay}" />
                 <Rectangle />
                 <Button Click="Button_Click" Content="&#xE10A;" />
             </StackPanel>
