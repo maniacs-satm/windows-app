@@ -37,14 +37,13 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
-                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
                                     </VisualState.Setters>
                                     <Storyboard>
@@ -54,7 +53,6 @@
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                        <Setter Target="RootGrid.BorderBrush" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
                                     </VisualState.Setters>
                                 </VisualState>
