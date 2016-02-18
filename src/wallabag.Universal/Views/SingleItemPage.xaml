@@ -116,10 +116,10 @@
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(UIElement.Visibility)">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.IsEnabled)" Storyboard.TargetName="commandBar">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
+                        <x:Boolean>False</x:Boolean>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
@@ -136,10 +136,10 @@
                 <SplineDoubleKeyFrame KeyTime="0" Value="1" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(UIElement.Visibility)">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.IsEnabled)" Storyboard.TargetName="commandBar">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
                     <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
+                        <x:Boolean>True</x:Boolean>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
@@ -152,7 +152,6 @@
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             Foreground="{x:Bind ViewModel.CurrentForeground, Mode=OneWay}"
             ClosedDisplayMode="{x:Bind ViewModel.CommandBarClosedDisplayMode, Mode=OneWay}"
-            RenderTransformOrigin="0.5,0.5"
             RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}">
             <CommandBar.PrimaryCommands>
                 <AppBarToggleButton
@@ -295,6 +294,7 @@
             VerticalAlignment="Bottom"
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             x:DeferLoadStrategy="Lazy"
+            Margin="0,0,0,8"
             RenderTransformOrigin="0.5,0.5"
             Visibility="Collapsed">
             <Grid.Resources>
