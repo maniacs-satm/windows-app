@@ -260,7 +260,7 @@ namespace wallabag.Views
         private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
         {
             HideSearch.Begin();
-            if (AppSettings.OpenTheFilterPaneWithTheSearch)
+            if (AppSettings.OpenTheFilterPaneWithTheSearch || !_IsFilterPopupVisible)
             {
                 HideOverlay.Begin();
                 HideFilterPopup.Begin();
