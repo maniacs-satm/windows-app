@@ -8,16 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="EditTagsContentDialog"
     Title="EDIT TAGS"
-    PrimaryButtonClick="UnregisterMessenger"
     PrimaryButtonText="Finish"
     RequestedTheme="Dark"
     TitleTemplate="{StaticResource ContentDialogTitleTemplate}"
     mc:Ignorable="d">
 
     <Grid>
-        <Controls:TagControl
-            Grid.Row="1"
-            Margin="8,16"
-            ItemsSource="{x:Bind Tags, Mode=TwoWay}" />
+        <Controls:TagControl ItemsSource="{x:Bind Tags, Mode=TwoWay}" />
     </Grid>
 </ContentDialog>
