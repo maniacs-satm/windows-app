@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
 namespace wallabag.Services
 {
     class DialogService
     {
-        public static async Task ShowDialogAsync(Dialog dialog)
+        public static IAsyncOperation<ContentDialogResult> ShowDialogAsync(Dialog dialog, object parameter = null)
         {
             ContentDialog c = new ContentDialog();
 
@@ -20,8 +19,10 @@ namespace wallabag.Services
                     break;
             }
 
-            await c.ShowAsync();
-        }
+            if (parameter != null)
+                c.DataContext = parameter;
+            return c.ShowAsync();
+        }       
 
         public enum Dialog
         {
