@@ -23,18 +23,7 @@ namespace wallabag.Views
             ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             WebView.ScriptNotify += WebView_ScriptNotify;
             WebView.NavigationStarting += WebView_NavigationStarting;
-            WebView.NavigationCompleted += (s, e) =>
-            {
-                //if (TextAlignJustifyPathIcon == null)
-                //    TextAlignJustifyPathIcon = ChangeTextAlignButton.Content as PathIcon;
-
-                //if (AppSettings.TextAlignment == "left")
-                //    ChangeTextAlignButton.Content = TextAlignJustifyPathIcon;
-                //else
-                //    ChangeTextAlignButton.Content = "";
-
-                ShowContentStoryboard.Begin();
-            };
+            WebView.NavigationCompleted += (s, e) => { ShowContentStoryboard.Begin(); };
             ShowContentStoryboard.Completed += (s, e) =>
             {
                 if (ViewModel.ErrorHappened == false)
@@ -44,10 +33,10 @@ namespace wallabag.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             Messenger.Default.Register<NotificationMessage>(this, async message =>
-{
-    if (message.Notification == "updateHTML")
-        await ChangeHtmlAttributesAsync();
-});
+            {
+                if (message.Notification == "updateHTML")
+                    await ChangeHtmlAttributesAsync();
+            });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e) { Messenger.Default.Unregister(this); }
 
@@ -76,15 +65,6 @@ namespace wallabag.Views
             parameters.Add(AppSettings.TextAlignment);
 
             await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
-        }
-
-        private void EditTagsAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowEditTagsBorder.Begin();
-        }
-        private void HideTagsAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            HideEditTagsBorder.Begin();
         }
 
         private void FontSettingsAppBarButton_Click(object sender, RoutedEventArgs e)
