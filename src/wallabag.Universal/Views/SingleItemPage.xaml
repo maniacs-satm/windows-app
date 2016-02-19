@@ -116,7 +116,7 @@
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.IsEnabled)" Storyboard.TargetName="commandBar">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(Control.IsEnabled)">
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <x:Boolean>False</x:Boolean>
@@ -136,7 +136,7 @@
                 <SplineDoubleKeyFrame KeyTime="0" Value="1" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.IsEnabled)" Storyboard.TargetName="commandBar">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(Control.IsEnabled)">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
                     <DiscreteObjectKeyFrame.Value>
                         <x:Boolean>True</x:Boolean>
@@ -291,10 +291,10 @@
         </Border>
         <Grid
             x:Name="FormattingOptionsGrid"
+            Margin="0,0,0,8"
             VerticalAlignment="Bottom"
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             x:DeferLoadStrategy="Lazy"
-            Margin="0,0,0,8"
             RenderTransformOrigin="0.5,0.5"
             Visibility="Collapsed">
             <Grid.Resources>
@@ -312,14 +312,32 @@
                 </Style>
             </Grid.Resources>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Command="{x:Bind ViewModel.DecreaseFontSizeCommand}" Content="&#xE1C6;" />
-                <Button Command="{x:Bind ViewModel.IncreaseFontSizeCommand}" Content="&#xE1C7;" />
+                <Button
+                    x:Uid="DecreaseFontSizeButton"
+                    Command="{x:Bind ViewModel.DecreaseFontSizeCommand}"
+                    Content="&#xE1C6;" />
+                <Button
+                    x:Uid="IncreaseFontSizeButton"
+                    Command="{x:Bind ViewModel.IncreaseFontSizeCommand}"
+                    Content="&#xE1C7;" />
                 <Rectangle />
-                <Button Command="{x:Bind ViewModel.ChangeColorSchemeCommand}" Content="{x:Bind ViewModel.ColorSchemeButtonContent, Mode=OneWay}" />
-                <Button Command="{x:Bind ViewModel.ChangeFontFamilyCommand}" Content="&#xE8D2;" />
-                <Button Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}" Content="{x:Bind ViewModel.TextAlignButtonContent, Mode=OneWay}" />
+                <Button
+                    x:Uid="ChangeColorSchemeButton"
+                    Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                    Content="{x:Bind ViewModel.ColorSchemeButtonContent, Mode=OneWay}" />
+                <Button
+                    x:Uid="ChangeFontFamilyButton"
+                    Command="{x:Bind ViewModel.ChangeFontFamilyCommand}"
+                    Content="&#xE8D2;" />
+                <Button
+                    x:Uid="ChangeTextAlignmentButton"
+                    Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}"
+                    Content="{x:Bind ViewModel.TextAlignButtonContent, Mode=OneWay}" />
                 <Rectangle />
-                <Button Click="Button_Click" Content="&#xE10A;" />
+                <Button
+                    x:Uid="CloseButton"
+                    Click="Button_Click"
+                    Content="&#xE10A;" />
             </StackPanel>
         </Grid>
     </Grid>

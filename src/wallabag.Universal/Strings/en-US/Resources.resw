@@ -484,4 +484,22 @@ So, why aren't you adding one? :-)</value>
     <value>EDIT TAGS</value>
     <comment>UPPERCASE</comment>
   </data>
+  <data name="ChangeColorSchemeButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Change color scheme</value>
+  </data>
+  <data name="ChangeFontFamilyButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Change font family</value>
+  </data>
+  <data name="ChangeTextAlignmentButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Change text alignment</value>
+  </data>
+  <data name="CloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="DecreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Decrease font size</value>
+  </data>
+  <data name="IncreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Increase font size</value>
+  </data>
 </root>
