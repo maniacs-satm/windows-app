@@ -375,9 +375,18 @@
                         Text="{Binding}" />
                 </DataTemplate>
             </Pivot.HeaderTemplate>
-            <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="UNREAD" />
-            <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="FAVORITES" />
-            <PivotItem ContentTemplate="{StaticResource PivotContentTemplate}" Header="ARCHIVED" />
+            <PivotItem
+                x:Uid="UnreadPivotItem"
+                ContentTemplate="{StaticResource PivotContentTemplate}"
+                Header="UNREAD" />
+            <PivotItem
+                x:Uid="FavoritesPivotItem"
+                ContentTemplate="{StaticResource PivotContentTemplate}"
+                Header="FAVORITES" />
+            <PivotItem
+                x:Uid="ArchivePivotItem"
+                ContentTemplate="{StaticResource PivotContentTemplate}"
+                Header="ARCHIVED" />
         </Pivot>
         <StackPanel
             HorizontalAlignment="Right"
@@ -428,8 +437,7 @@
                 Width="48"
                 Click="searchToggleButton_Click"
                 Icon="Find"
-                IsCompact="True"
-                Label="Search" />
+                IsCompact="True" />
         </StackPanel>
         <Grid
             x:Name="SearchGrid"
@@ -446,9 +454,13 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Rectangle Grid.ColumnSpan="2" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
-            <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="SEARCH &amp; FILTER" />
+            <TextBlock
+                x:Uid="SearchHeaderTextBlock"
+                Style="{StaticResource PageTitleTextBlockStyle}"
+                Text="SEARCH &amp; FILTER" />
             <AutoSuggestBox
                 x:Name="SearchQueryAutoSuggestBox"
+                x:Uid="SearchBox"
                 MinWidth="300"
                 Margin="0,0,6,0"
                 HorizontalAlignment="Right"
@@ -509,11 +521,13 @@
                         </Style>
                     </StackPanel.Resources>
                     <TextBlock
+                        x:Uid="ItemTypeFilterTextBlock"
                         Margin="0,0,0,4"
                         Style="{StaticResource HeaderTextBlockStyle}"
                         Text="ITEM TYPE" />
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <RadioButton
+                            x:Uid="ItemTypeAll"
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE138;"
                             GroupName="ItemType"
@@ -526,6 +540,7 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                         <RadioButton
+                            x:Uid="ItemTypeUnread"
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE052;"
                             GroupName="ItemType"
@@ -538,6 +553,7 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                         <RadioButton
+                            x:Uid="ItemTypeFavorites"
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE006;"
                             GroupName="ItemType"
@@ -550,6 +566,7 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                         <RadioButton
+                            x:Uid="ItemTypeArchived"
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE1D3;"
                             GroupName="ItemType"
@@ -562,6 +579,7 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                         <RadioButton
+                            x:Uid="ItemTypeDeleted"
                             Style="{StaticResource RoundIconRadioButtonStyle}"
                             Content="&#xE107;"
                             GroupName="ItemType"
@@ -574,7 +592,10 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                     </StackPanel>
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="SORT ORDER" />
+                    <TextBlock
+                        x:Uid="SortOrderFilterTextBlock"
+                        Style="{StaticResource HeaderTextBlockStyle}"
+                        Text="SORT ORDER" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -585,6 +606,7 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <RadioButton
+                            x:Uid="SortOrderAscendingRadioButton"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="ascending"
                             GroupName="SortOrder"
@@ -597,6 +619,7 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                         <RadioButton
+                            x:Uid="SortOrderDescendingRadioButton"
                             Grid.Row="1"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="descending"
@@ -610,6 +633,7 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                         <RadioButton
+                            x:Uid="SortTypeByTitleRadioButton"
                             Grid.Column="1"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="by title"
@@ -623,6 +647,7 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                         <RadioButton
+                            x:Uid="SortTypeByDateRadioButton"
                             Grid.Row="1"
                             Grid.Column="1"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
@@ -638,8 +663,12 @@
                         </RadioButton>
                     </Grid>
 
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="DOMAIN NAME" />
+                    <TextBlock
+                        x:Uid="DomainNameFilterTextBlock"
+                        Style="{StaticResource HeaderTextBlockStyle}"
+                        Text="DOMAIN NAME" />
                     <AutoSuggestBox
+                        x:Uid="DomainNameAutoSuggestBox"
                         ItemsSource="{x:Bind ViewModel.DomainNameSuggestions}"
                         PlaceholderText="Enter a domain name…"
                         Text="{x:Bind ViewModel.DomainQuery, Mode=TwoWay}">
@@ -652,8 +681,12 @@
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     </AutoSuggestBox>
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="TAG" />
+                    <TextBlock
+                        x:Uid="TagFilterTextBlock"
+                        Style="{StaticResource HeaderTextBlockStyle}"
+                        Text="TAG" />
                     <AutoSuggestBox
+                        x:Uid="TagAutoSuggestBox"
                         ItemsSource="{x:Bind ViewModel.TagSuggestions}"
                         PlaceholderText="Enter a tag…"
                         Text="{x:Bind ViewModel.TagQuery, Mode=TwoWay}">
@@ -667,7 +700,10 @@
                         </interactivity:Interaction.Behaviors>
                     </AutoSuggestBox>
 
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="ESTIMATED READING TIME" />
+                    <TextBlock
+                        x:Uid="EstimatedReadingTimeFilterTextBlock"
+                        Style="{StaticResource HeaderTextBlockStyle}"
+                        Text="ESTIMATED READING TIME" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -707,7 +743,10 @@
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
                     </Grid>
-                    <TextBlock Style="{StaticResource HeaderTextBlockStyle}" Text="CREATION DATE" />
+                    <TextBlock
+                        x:Uid="CreationDateFilterTextBlock"
+                        Style="{StaticResource HeaderTextBlockStyle}"
+                        Text="CREATION DATE" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -720,6 +759,7 @@
                             </Style>
                         </Grid.Resources>
                         <CalendarDatePicker
+                            x:Uid="FromCalendarDatePicker"
                             Date="{x:Bind ViewModel.MinDateNullable, Mode=TwoWay}"
                             MaxDate="{x:Bind ViewModel.MaxDate}"
                             PlaceholderText="from">
@@ -730,6 +770,7 @@
                             </interactivity:Interaction.Behaviors>
                         </CalendarDatePicker>
                         <CalendarDatePicker
+                            x:Uid="ToCalendarDatePicker"
                             Grid.Column="1"
                             Date="{x:Bind ViewModel.MaxDateNullable, Mode=TwoWay}"
                             MaxDate="{x:Bind ViewModel.MaxDate}"
@@ -748,8 +789,12 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Command="{x:Bind ViewModel.ResetFilterCommand}" Content="Reset" />
                         <Button
+                            x:Uid="ResetFilterButton"
+                            Command="{x:Bind ViewModel.ResetFilterCommand}"
+                            Content="Reset" />
+                        <Button
+                            x:Uid="FilterButton"
                             Grid.Column="1"
                             Style="{StaticResource ActionButtonStyle}"
                             Command="{x:Bind ViewModel.FilterCommand}"
@@ -783,11 +828,13 @@
                 </AppBarButton.Icon>
             </AppBarButton>
             <AppBarButton
+                x:Uid="FilterAppBarButton"
                 Click="FilterButton_Click"
                 Icon="Filter"
                 Label="Filter" />
             <CommandBar.SecondaryCommands>
                 <AppBarButton
+                    x:Uid="MultipleSelectionAppBarButton"
                     Click="EnableMultipleSelection"
                     Icon="Bullets"
                     Label="Select" />

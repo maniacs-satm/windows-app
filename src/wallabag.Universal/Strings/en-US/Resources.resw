@@ -285,7 +285,7 @@
     <value>Reading</value>
   </data>
   <data name="ResetFilterButton.Content" xml:space="preserve">
-    <value>Reset filter</value>
+    <value>Reset</value>
   </data>
   <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
     <value>SAVE A LINK</value>
@@ -294,8 +294,8 @@
   <data name="SaveAppBarButton.Label" xml:space="preserve">
     <value>Save</value>
   </data>
-  <data name="SearchAndFilterHeaderTextBlock.Text" xml:space="preserve">
-    <value>SEARCH &amp; FILTER</value>
+  <data name="SearchHeaderTextBlock.Text" xml:space="preserve">
+    <value>SEARCH</value>
     <comment>UPPERCASE</comment>
   </data>
   <data name="SearchAppBarButton.Label" xml:space="preserve">
@@ -412,5 +412,62 @@ So, why aren't you adding one? :-)</value>
   </data>
   <data name="WelcomeTextBlock.Text" xml:space="preserve">
     <value>Welcome to wallabag!</value>
+  </data>
+  <data name="CreationDateFilterTextBlock.Text" xml:space="preserve">
+    <value>CREATION DATE</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="DomainNameFilterTextBlock.Text" xml:space="preserve">
+    <value>DOMAIN NAME</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="EstimatedReadingTimeFilterTextBlock.Text" xml:space="preserve">
+    <value>ESTIMATED READING TIME</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="FilterAppBarButton.Label" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="FilterButton.Content" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="ItemTypeAll.ToolTipService.ToolTip" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="ItemTypeArchived.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Archived</value>
+  </data>
+  <data name="ItemTypeDeleted.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="ItemTypeFavorites.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="ItemTypeFilterTextBlock.Text" xml:space="preserve">
+    <value>ITEM TYPE</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="ItemTypeUnread.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Unread</value>
+  </data>
+  <data name="SortOrderAscendingRadioButton.Content" xml:space="preserve">
+    <value>ascending</value>
+  </data>
+  <data name="SortOrderDescendingRadioButton.Content" xml:space="preserve">
+    <value>descending</value>
+  </data>
+  <data name="SortOrderFilterTextBlock.Text" xml:space="preserve">
+    <value>SORT ORDER</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="SortTypeByDateRadioButton.Content" xml:space="preserve">
+    <value>by date</value>
+  </data>
+  <data name="SortTypeByTitleRadioButton.Content" xml:space="preserve">
+    <value>by title</value>
+  </data>
+  <data name="TagFilterTextBlock.Text" xml:space="preserve">
+    <value>TAG</value>
+    <comment>UPPERCASE</comment>
   </data>
 </root>
