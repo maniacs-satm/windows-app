@@ -243,5 +243,12 @@ namespace wallabag.Views
         {
             searchToggleButton_Click(sender, new RoutedEventArgs());
         }
+
+        private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            HideSearch.Begin();
+            HideFilterPopup.Begin();
+            _IsSearchVisible = false;
+        }
     }
 }

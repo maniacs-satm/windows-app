@@ -418,6 +418,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
+
             <AppBarButton
                 x:Name="searchToggleButton"
                 x:Uid="SearchAppBarButton"
@@ -464,10 +465,10 @@
             </AutoSuggestBox>
             <AppBarButton
                 Grid.Column="1"
-                Click="FilterButton_Click"
-                Icon="Filter"
-                IsCompact="True"
-                Label="Filter" />
+                Width="48"
+                Click="CloseSearchButton_Click"
+                Icon="Cancel"
+                IsCompact="True" />
         </Grid>
         <Grid
             x:Name="OverlayGrid"
@@ -778,12 +779,16 @@
                     </SymbolIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarToggleButton
-                Click="EnableMultipleSelection"
-                Icon="Bullets"
-                IsChecked="{x:Bind ViewModel.IsItemClickEnabled, Mode=TwoWay}"
-                Label="Select" />
+            <AppBarButton
+                Click="FilterButton_Click"
+                Icon="Filter"
+                Label="Filter" />
             <CommandBar.SecondaryCommands>
+                <AppBarButton
+                    Click="EnableMultipleSelection"
+                    Icon="Bullets"
+                    Label="Select" />
+                <AppBarSeparator />
                 <AppBarButton
                     x:Uid="OpenSettingsAppBarButton"
                     Command="{Binding NavigateToSettingsPageCommand}"
