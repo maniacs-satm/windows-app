@@ -222,10 +222,6 @@
     <value>MADE WITH LOVE BY</value>
     <comment>UPPERCASE</comment>
   </data>
-  <data name="ManageTagsHeaderTextBlock.Text" xml:space="preserve">
-    <value>Manage tags</value>
-    <comment>UPPERCASE</comment>
-  </data>
   <data name="ManageTagsMenuFlyoutItem.Text" xml:space="preserve">
     <value>Manage tags</value>
   </data>
@@ -391,9 +387,6 @@ So, why aren't you adding one? :-)</value>
     <value>UNREAD</value>
     <comment>UPPERCASE</comment>
   </data>
-  <data name="UseClassicContextMenuForMouseInput.Header" xml:space="preserve">
-    <value>Use "normal" context menu when using a mouse</value>
-  </data>
   <data name="UsernameTextBox.Header" xml:space="preserve">
     <value>Username</value>
   </data>
@@ -474,7 +467,7 @@ So, why aren't you adding one? :-)</value>
     <value>Cancel</value>
   </data>
   <data name="AddItemContentDialog.Title" xml:space="preserve">
-    <value>ADD  ITEM</value>
+    <value>ADD ITEM</value>
     <comment>UPPERCASE</comment>
   </data>
   <data name="EditTagsContentDialog.PrimaryButtonText" xml:space="preserve">

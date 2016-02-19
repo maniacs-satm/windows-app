@@ -222,10 +222,6 @@
     <value>MIT LIEBE ERSTELLT VON</value>
     <comment>UPPERCASE</comment>
   </data>
-  <data name="ManageTagsHeaderTextBlock.Text" xml:space="preserve">
-    <value>TAGS VERWALTEN</value>
-    <comment>UPPERCASE</comment>
-  </data>
   <data name="ManageTagsMenuFlyoutItem.Text" xml:space="preserve">
     <value>Tags verwalten</value>
   </data>
@@ -390,9 +386,6 @@ Warum fügst du nicht ein paar hinzu?</value>
   <data name="UnreadPivotItem.Header" xml:space="preserve">
     <value>UNGELESEN</value>
     <comment>UPPERCASE</comment>
-  </data>
-  <data name="UseClassicContextMenuForMouseInput.Header" xml:space="preserve">
-    <value>Normales Kontextmenü nutzen, falls eine Maus verwendet wird</value>
   </data>
   <data name="UsernameTextBox.Header" xml:space="preserve">
     <value>Benutzername</value>
