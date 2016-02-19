@@ -238,22 +238,11 @@
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="-48" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
@@ -278,7 +267,7 @@
                 EnableDependentAnimation="True"
                 Storyboard.TargetName="FilterPopup"
                 Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
-                <EasingPointKeyFrame KeyTime="0" Value="1,0" />
+                <EasingPointKeyFrame KeyTime="0" Value="1,1" />
                 <EasingPointKeyFrame KeyTime="0:0:0.3" Value="0.5,0.5" />
             </PointAnimationUsingKeyFrames>
         </Storyboard>
@@ -290,22 +279,11 @@
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
                 <SplineDoubleKeyFrame KeyTime="0" Value="0" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="-48" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <SplineDoubleKeyFrame KeyTime="0" Value="1" />
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
@@ -331,8 +309,33 @@
                 Storyboard.TargetName="FilterPopup"
                 Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
                 <SplinePointKeyFrame KeyTime="0" Value="0.5,0.5" />
-                <SplinePointKeyFrame KeyTime="0:0:0.3" Value="1,0" />
+                <SplinePointKeyFrame KeyTime="0:0:0.3" Value="1,1" />
             </PointAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="ShowOverlay">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideOverlay">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Page.Resources>
 
@@ -486,7 +489,7 @@
                 Width="375"
                 Padding="8"
                 HorizontalAlignment="Right"
-                VerticalAlignment="Top"
+                VerticalAlignment="Bottom"
                 Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                 x:DeferLoadStrategy="Lazy"
                 RenderTransformOrigin="0.5,0.5"

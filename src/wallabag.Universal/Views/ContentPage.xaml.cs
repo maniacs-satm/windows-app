@@ -210,6 +210,7 @@ namespace wallabag.Views
             {
                 _IsSearchVisible = true;
                 ShowSearch.Begin();
+                ShowOverlay.Begin();
                 if (AppSettings.OpenTheFilterPaneWithTheSearch)
                     FilterButton_Click(sender, e);
                 SetItemClickEnabledProperty(false);
@@ -230,24 +231,37 @@ namespace wallabag.Views
             if (_IsFilterPopupVisible == false)
             {
                 _IsFilterPopupVisible = true;
+                ShowOverlay.Begin();               
                 ShowFilterPopup.Begin();
             }
             else
             {
                 _IsFilterPopupVisible = false;
+                if (!_IsSearchVisible) HideOverlay.Begin();
                 HideFilterPopup.Begin();
             }
         }
 
         private void OverlayGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            searchToggleButton_Click(sender, new RoutedEventArgs());
+            if (_IsSearchVisible)
+            {
+                HideSearch.Begin();
+                _IsSearchVisible = false;
+            }
+            if (_IsFilterPopupVisible)
+            {
+                HideFilterPopup.Begin();
+                _IsFilterPopupVisible = false;
+            }
+            HideOverlay.Begin();
         }
 
         private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
         {
             HideSearch.Begin();
-            HideFilterPopup.Begin();
+            if (!_IsFilterPopupVisible)
+                HideOverlay.Begin();
             _IsSearchVisible = false;
         }
     }
