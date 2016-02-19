@@ -156,16 +156,16 @@ namespace wallabag.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            if (AppSettings.SyncOnStartup && mode != NavigationMode.Back)
+                await RefreshItemsAsync();
+
             if (state.ContainsKey(nameof(CurrentFilterProperties)))
                 CurrentFilterProperties = JsonConvert.DeserializeObject<FilterProperties>((string)state[nameof(CurrentFilterProperties)]);
             else
                 CurrentFilterProperties = new FilterProperties();
 
             await LoadItemsFromDatabaseAsync();
-
-            if (AppSettings.SyncOnStartup)
-                await RefreshItemsAsync();
-
+            
             List<Item> allItems = await _dataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
             foreach (var item in allItems)
             {
