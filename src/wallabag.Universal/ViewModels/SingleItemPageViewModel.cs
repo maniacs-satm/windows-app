@@ -59,6 +59,7 @@ namespace wallabag.ViewModels
 
         public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
+        public DelegateCommand EditTagsCommand { get; private set; }
         public DelegateCommand ShowShareUICommand { get; private set; }
         public DelegateCommand ChangeColorSchemeCommand { get; private set; }
         public DelegateCommand ChangeFontFamilyCommand { get; private set; }
@@ -79,6 +80,10 @@ namespace wallabag.ViewModels
             ShowShareUICommand = new DelegateCommand(() => { DataTransferManager.ShowShareUI(); });
 
             ChangeColorSchemeCommand = new DelegateCommand(() => ChangeColorScheme());
+            EditTagsCommand = new DelegateCommand(async () =>
+            {
+                await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.EditTags, CurrentItem.Model.Tags);
+            });
             ChangeFontFamilyCommand = new DelegateCommand(() => ChangeFontFamily());
             IncreaseFontSizeCommand = new DelegateCommand(() =>
             {
