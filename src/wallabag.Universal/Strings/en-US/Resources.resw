@@ -391,9 +391,6 @@ So, why aren't you adding one? :-)</value>
     <value>UNREAD</value>
     <comment>UPPERCASE</comment>
   </data>
-  <data name="UrlTextBox.Header" xml:space="preserve">
-    <value>URL</value>
-  </data>
   <data name="UseClassicContextMenuForMouseInput.Header" xml:space="preserve">
     <value>Use "normal" context menu when using a mouse</value>
   </data>
@@ -468,6 +465,23 @@ So, why aren't you adding one? :-)</value>
   </data>
   <data name="TagFilterTextBlock.Text" xml:space="preserve">
     <value>TAG</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="AddItemContentDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddItemContentDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddItemContentDialog.Title" xml:space="preserve">
+    <value>ADD  ITEM</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="EditTagsContentDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="EditTagsContentDialog.Title" xml:space="preserve">
+    <value>EDIT TAGS</value>
     <comment>UPPERCASE</comment>
   </data>
 </root>

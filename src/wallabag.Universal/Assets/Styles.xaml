@@ -139,22 +139,15 @@
         <Setter Property="CharacterSpacing" Value="10" />
         <Setter Property="RequestedTheme" Value="Dark" />
     </Style>
-    <Style TargetType="ContentDialog">
-        <Setter Property="TitleTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Border BorderBrush="{ThemeResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,2">
-                        <TextBlock
-                            Margin="24,16,8,16"
-                            Padding="0"
-                            Style="{ThemeResource CustomFlyoutPickerTitleTextBlockStyle}"
-                            Foreground="{ThemeResource SystemControlBackgroundAccentBrush}"
-                            Text="{Binding}" />
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <DataTemplate x:Key="ContentDialogTitleTemplate">
+        <TextBlock
+            Margin="0,0,0,16"
+            Style="{StaticResource BoldTextBlockStyle}"
+            FontSize="15"
+            CharacterSpacing="0"
+            Text="{Binding}"
+            TextWrapping="Wrap" />
+    </DataTemplate>
     <Style TargetType="CommandBar">
         <Setter Property="RequestedTheme" Value="Dark" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />

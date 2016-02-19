@@ -2,16 +2,22 @@
     x:Class="wallabag.Dialogs.EditTagsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:wallabag.Dialogs"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:Controls="using:wallabag.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:wallabag.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="Edit tags"
-    PrimaryButtonText="Close"
-    PrimaryButtonClick="UnregisterMessenger">
+    x:Uid="EditTagsContentDialog"
+    Title="EDIT TAGS"
+    PrimaryButtonClick="UnregisterMessenger"
+    PrimaryButtonText="Finish"
+    RequestedTheme="Dark"
+    TitleTemplate="{StaticResource ContentDialogTitleTemplate}"
+    mc:Ignorable="d">
 
     <Grid>
-        <Controls:TagControl Grid.Row="1" Margin="8,16" ItemsSource="{x:Bind Tags, Mode=TwoWay}"/>
+        <Controls:TagControl
+            Grid.Row="1"
+            Margin="8,16"
+            ItemsSource="{x:Bind Tags, Mode=TwoWay}" />
     </Grid>
 </ContentDialog>
