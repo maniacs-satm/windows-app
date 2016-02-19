@@ -231,7 +231,7 @@ namespace wallabag.Views
             if (_IsFilterPopupVisible == false)
             {
                 _IsFilterPopupVisible = true;
-                ShowOverlay.Begin();               
+                ShowOverlay.Begin();
                 ShowFilterPopup.Begin();
             }
             else
@@ -260,8 +260,12 @@ namespace wallabag.Views
         private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
         {
             HideSearch.Begin();
-            if (!_IsFilterPopupVisible)
+            if (AppSettings.OpenTheFilterPaneWithTheSearch)
+            {
                 HideOverlay.Begin();
+                HideFilterPopup.Begin();
+                _IsFilterPopupVisible = false;
+            }
             _IsSearchVisible = false;
         }
     }
