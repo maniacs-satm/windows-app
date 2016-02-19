@@ -322,7 +322,7 @@ namespace wallabag.ViewModels
             var newTags = new ObservableCollection<Tag>();
             var dialog = await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.EditTags, newTags);
 
-            if (dialog == ContentDialogResult.Primary)
+            if (dialog == ContentDialogResult.Primary && newTags.Count > 0)
                 foreach (var item in SelectedItems)
                     await item.AddTagsAsync(newTags);
         }
