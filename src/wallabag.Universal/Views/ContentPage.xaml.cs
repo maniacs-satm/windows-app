@@ -25,7 +25,9 @@ namespace wallabag.Views
         {
             InitializeComponent();
             ShowSearch.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
-            HideSearch.Completed += (s, e) => { SearchQueryAutoSuggestBox.Text = string.Empty; };
+            HideSearch.Completed += (s, e) => { _ItemGridView.Focus(FocusState.Programmatic); };
+            ShowOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(false); };
+            HideOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(true); };
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -213,7 +215,6 @@ namespace wallabag.Views
                 ShowOverlay.Begin();
                 if (AppSettings.OpenTheFilterPaneWithTheSearch)
                     FilterButton_Click(sender, e);
-                SetItemClickEnabledProperty(false);
             }
             else
             {
@@ -221,7 +222,6 @@ namespace wallabag.Views
                 HideSearch.Begin();
                 if (_IsFilterPopupVisible)
                     FilterButton_Click(sender, e);
-                SetItemClickEnabledProperty(true);
             }
         }
 
