@@ -175,10 +175,6 @@ namespace wallabag.Views
 
             _ItemGridView.SelectionMode = ListViewSelectionMode.None;
         }
-        private void ManageTagsMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            (Resources["ShowEditTagsBorder"] as Storyboard).Begin();
-        }
         #endregion
 
         #region Drag & Drop

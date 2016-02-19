@@ -42,6 +42,9 @@
                     <core:EventTriggerBehavior EventName="ItemClick">
                         <core:InvokeCommandAction Command="{x:Bind ItemClickCommand}" />
                     </core:EventTriggerBehavior>
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
+                        <core:InvokeCommandAction Command="{x:Bind ItemSelectionChangedCommand}" />
+                    </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </controls:AdaptiveGridView>
         </DataTemplate>
@@ -892,8 +895,7 @@
                             x:Name="ManageTagsMenuFlyoutItem"
                             x:Uid="ManageTagsMenuFlyoutItem"
                             Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                            Click="ManageTagsMenuFlyoutItem_Click"
-                            IsEnabled="False"
+                            Command="{x:Bind ViewModel.EditTagsCommand}"
                             Tag="&#xE1CB;"
                             Text="Manage tags" />
                         <MenuFlyoutItem

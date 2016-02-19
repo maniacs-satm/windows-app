@@ -42,11 +42,13 @@ namespace wallabag.ViewModels
 
         // Multiple selection
         public bool? IsMultipleSelectionEnabled { get; set; } = false;
+        public DelegateCommand<SelectionChangedEventArgs> ItemSelectionChangedCommand { get; private set; }
         public ObservableCollection<ItemViewModel> SelectedItems { get; set; } = new ObservableCollection<ItemViewModel>();
         public DelegateCommand MarkItemsAsReadCommand { get; private set; }
         public DelegateCommand MarkItemsAsFavoriteCommand { get; private set; }
         public DelegateCommand UnmarkItemsAsReadCommand { get; private set; }
         public DelegateCommand UnmarkItemsAsFavoriteCommand { get; private set; }
+        public DelegateCommand EditTagsCommand { get; private set; }
         public DelegateCommand DeleteItemsCommand { get; private set; }
 
         // Search
@@ -125,10 +127,18 @@ namespace wallabag.ViewModels
             });
             ItemClickCommand = new DelegateCommand<ItemClickEventArgs>(args => ItemClick(args));
 
+            ItemSelectionChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(e =>
+            {
+                foreach (ItemViewModel item in e.AddedItems)
+                    SelectedItems.Add(item);
+                foreach (ItemViewModel item in e.RemovedItems)
+                    SelectedItems.Remove(item);
+            });
             MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsReadAsync());
             UnmarkItemsAsReadCommand = new DelegateCommand(async () => await UnmarkItemsAsReadAsync());
             MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsFavoriteAsync());
             UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
+            EditTagsCommand = new DelegateCommand(async () => await EditTagsAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
 
             ItemTypeSelectionChangedCommand = new DelegateCommand<string>(itemType => ItemTypeSelectionChanged(itemType));
@@ -307,6 +317,15 @@ namespace wallabag.ViewModels
             }
             await FinishMultipleSelection();
         }
+        public async Task EditTagsAsync()
+        {
+            var newTags = new ObservableCollection<Tag>();
+            var dialog = await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.EditTags, newTags);
+
+            if (dialog == ContentDialogResult.Primary)
+                foreach (var item in SelectedItems)
+                    await item.AddTagsAsync(newTags);
+        }
         public async Task DeleteItemsAsync()
         {
             foreach (var item in SelectedItems)
@@ -400,7 +419,7 @@ namespace wallabag.ViewModels
             }
             else
             {
-                CurrentFilterProperties.SearchQuery = args.QueryText;               
+                CurrentFilterProperties.SearchQuery = args.QueryText;
                 Messenger.Default.Send(new NotificationMessage("HideOverlay"));
                 return LoadItemsFromDatabaseAsync();
             }
