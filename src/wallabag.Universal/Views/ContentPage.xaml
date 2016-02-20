@@ -23,37 +23,6 @@
     <Page.Resources>
         <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter" />
         <conv:EnumBooleanConverter x:Key="EnumBooleanConverter" />
-        <DataTemplate x:Name="PivotContentTemplate" x:DataType="vm:MainViewModel">
-            <controls:AdaptiveGridView
-                x:Name="ItemGridView"
-                Padding="4"
-                EntranceNavigationTransitionInfo.IsTargetElement="True"
-                IsItemClickEnabled="True"
-                ItemsSource="{x:Bind Items}"
-                Loaded="ItemGridView_Loaded"
-                MinItemHeight="200"
-                MinItemWidth="300">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:ItemViewModel">
-                        <controls:ItemControl />
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-                <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="ItemClick">
-                        <core:InvokeCommandAction Command="{x:Bind ItemClickCommand}" />
-                    </core:EventTriggerBehavior>
-                    <core:EventTriggerBehavior EventName="SelectionChanged">
-                        <core:InvokeCommandAction Command="{x:Bind ItemSelectionChangedCommand}" />
-                    </core:EventTriggerBehavior>
-                </interactivity:Interaction.Behaviors>
-            </controls:AdaptiveGridView>
-        </DataTemplate>
-        <Style TargetType="PivotHeaderItem">
-            <Setter Property="RequestedTheme" Value="Dark" />
-        </Style>
-        <Style TargetType="PivotItem">
-            <Setter Property="Margin" Value="0,0,0,48" />
-        </Style>
         <MenuFlyout x:Key="ItemContextMenu">
             <MenuFlyoutItem
                 x:Name="ContextMenuMarkAsRead"
@@ -365,83 +334,71 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Rectangle
+        <Grid
+            x:Name="HeaderGrid"
             Height="48"
             VerticalAlignment="Top"
-            Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
-        <Pivot>
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock
-                        Margin="0"
-                        Style="{StaticResource PageTitleTextBlockStyle}"
-                        Text="{Binding}" />
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <PivotItem
-                x:Uid="UnreadPivotItem"
-                ContentTemplate="{StaticResource PivotContentTemplate}"
-                Header="UNREAD" />
-            <PivotItem
-                x:Uid="FavoritesPivotItem"
-                ContentTemplate="{StaticResource PivotContentTemplate}"
-                Header="FAVORITES" />
-            <PivotItem
-                x:Uid="ArchivePivotItem"
-                ContentTemplate="{StaticResource PivotContentTemplate}"
-                Header="ARCHIVED" />
-        </Pivot>
-        <StackPanel
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Orientation="Horizontal"
+            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
             RequestedTheme="Dark">
-            <AppBarButton MinWidth="1" IsCompact="True">
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock
-                        Margin="0,0,4,-2"
-                        VerticalAlignment="Bottom"
-                        FontSize="12"
-                        Text="{x:Bind ViewModel.OfflineTasks.Count, Mode=OneWay}" />
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
-                </StackPanel>
-                <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style TargetType="FlyoutPresenter">
-                                <Setter Property="Padding" Value="0" />
-                                <Setter Property="RequestedTheme" Value="Default" />
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <ListView
-                            MaxHeight="250"
-                            Padding="0,0,12,0"
-                            ItemsSource="{x:Bind ViewModel.OfflineTasks}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="data:OfflineTaskViewModel">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock
-                                            Margin="0,0,8,0"
-                                            VerticalAlignment="Center"
-                                            FontFamily="Segoe MDL2 Assets"
-                                            Text="{x:Bind ActionLogo}" />
-                                        <TextBlock Text="{x:Bind ItemTitle}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource PageTitleTextBlockStyle}" Text="ITEMS" />
+                <Button />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <AppBarButton MinWidth="1" IsCompact="True">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,4,-2"
+                            VerticalAlignment="Bottom"
+                            FontSize="12"
+                            Text="{x:Bind ViewModel.OfflineTasks.Count, Mode=OneWay}" />
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
+                    </StackPanel>
+                    <AppBarButton.Flyout>
+                        <Flyout Placement="Bottom">
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="RequestedTheme" Value="Default" />
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <ListView
+                                MaxHeight="250"
+                                Padding="0,0,12,0"
+                                ItemsSource="{x:Bind ViewModel.OfflineTasks}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="data:OfflineTaskViewModel">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock
+                                                Margin="0,0,8,0"
+                                                VerticalAlignment="Center"
+                                                FontFamily="Segoe MDL2 Assets"
+                                                Text="{x:Bind ActionLogo}" />
+                                            <TextBlock Text="{x:Bind ItemTitle}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
 
-            <AppBarButton
-                x:Name="searchToggleButton"
-                x:Uid="SearchAppBarButton"
-                Width="48"
-                Click="searchToggleButton_Click"
-                Icon="Find"
-                IsCompact="True" />
-        </StackPanel>
+                <AppBarButton
+                    x:Name="searchToggleButton"
+                    x:Uid="SearchAppBarButton"
+                    Width="48"
+                    Click="searchToggleButton_Click"
+                    Icon="Find"
+                    IsCompact="True" />
+            </StackPanel>
+        </Grid>
         <Grid
             x:Name="SearchGrid"
             VerticalAlignment="Top"
@@ -489,6 +446,31 @@
                 Icon="Cancel"
                 IsCompact="True" />
         </Grid>
+
+        <controls:AdaptiveGridView
+                x:Name="ItemGridView"
+                Padding="4"
+            Margin="0,48"
+                EntranceNavigationTransitionInfo.IsTargetElement="True"
+                IsItemClickEnabled="True"
+                ItemsSource="{x:Bind ViewModel.Items}"
+                MinItemHeight="200"
+                MinItemWidth="300">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ItemViewModel">
+                    <controls:ItemControl />
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <interactivity:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemClick">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemClickCommand}" />
+                </core:EventTriggerBehavior>
+                <core:EventTriggerBehavior EventName="SelectionChanged">
+                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemSelectionChangedCommand}" />
+                </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+        </controls:AdaptiveGridView>
+
         <Grid
             x:Name="OverlayGrid"
             Margin="0,48"
