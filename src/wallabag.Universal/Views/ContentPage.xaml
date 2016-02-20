@@ -239,7 +239,7 @@
                 EnableDependentAnimation="True"
                 Storyboard.TargetName="FilterPopup"
                 Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
-                <EasingPointKeyFrame KeyTime="0" Value="1,1" />
+                <EasingPointKeyFrame KeyTime="0" Value="0,0" />
                 <EasingPointKeyFrame KeyTime="0:0:0.3" Value="0.5,0.5" />
             </PointAnimationUsingKeyFrames>
         </Storyboard>
@@ -281,7 +281,7 @@
                 Storyboard.TargetName="FilterPopup"
                 Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
                 <SplinePointKeyFrame KeyTime="0" Value="0.5,0.5" />
-                <SplinePointKeyFrame KeyTime="0:0:0.3" Value="1,1" />
+                <SplinePointKeyFrame KeyTime="0:0:0.3" Value="0,0" />
             </PointAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="ShowOverlay">
@@ -344,7 +344,10 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Background="Transparent" Style="{StaticResource BlankButtonStyle}">
+            <Button
+                Style="{StaticResource BlankButtonStyle}"
+                Background="Transparent"
+                Click="FilterButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock
                         Margin="16,0,8,0"
@@ -495,8 +498,8 @@
                 x:Name="FilterPopup"
                 Width="375"
                 Padding="8"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
                 Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                 x:DeferLoadStrategy="Lazy"
                 RenderTransformOrigin="0.5,0.5"
@@ -822,11 +825,6 @@
                     </SymbolIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton
-                x:Uid="FilterAppBarButton"
-                Click="FilterButton_Click"
-                Icon="Filter"
-                Label="Filter" />
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     x:Uid="MultipleSelectionAppBarButton"
