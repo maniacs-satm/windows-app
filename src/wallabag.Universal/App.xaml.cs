@@ -23,6 +23,7 @@ namespace wallabag.Universal
             if (args.Kind == ActivationKind.ShareTarget)
             {
                 NavigationServiceFactory(BackButton.Ignore, ExistingContent.Exclude, CreateRootFrame(args));
+                Window.Current.Content = NavigationService.Frame;
                 var shareOperation = (args as ShareTargetActivatedEventArgs).ShareOperation;
                 var shareOperationSerialized = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(shareOperation));
                 NavigationService.Navigate(typeof(Views.AddItemPage), shareOperationSerialized);
