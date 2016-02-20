@@ -236,12 +236,18 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
             <PointAnimationUsingKeyFrames
-                EnableDependentAnimation="True"
-                Storyboard.TargetName="FilterPopup"
-                Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+        		EnableDependentAnimation="True"
+        		Storyboard.TargetName="FilterPopup"
+        		Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
                 <EasingPointKeyFrame KeyTime="0" Value="0,0" />
                 <EasingPointKeyFrame KeyTime="0:0:0.3" Value="0.5,0.5" />
             </PointAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.3" To="180" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="ArrowTextBlock" d:IsOptimized="True"/>
+            <PointAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="ArrowTextBlock">
+                <EasingPointKeyFrame KeyTime="0:0:0.3" Value="0.514,0.514"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimation Duration="0:0:0.3" To="-0.364" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="ArrowTextBlock" d:IsOptimized="True"/>
+            <DoubleAnimation Duration="0:0:0.3" To="-0.364" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="ArrowTextBlock" d:IsOptimized="True"/>
         </Storyboard>
         <Storyboard x:Name="HideSearch">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
@@ -283,6 +289,10 @@
                 <SplinePointKeyFrame KeyTime="0" Value="0.5,0.5" />
                 <SplinePointKeyFrame KeyTime="0:0:0.3" Value="0,0" />
             </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.Rotation)" Storyboard.TargetName="ArrowTextBlock">
+                <EasingDoubleKeyFrame KeyTime="0" Value="180"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="ShowOverlay">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -359,7 +369,11 @@
                         VerticalAlignment="Center"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="13.333"
-                        Text="&#xE011;" />
+                        Text="&#xE011;" RenderTransformOrigin="0.5,0.45" >
+                        <TextBlock.RenderTransform>
+                            <CompositeTransform/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
                 </StackPanel>
             </Button>
             <StackPanel
