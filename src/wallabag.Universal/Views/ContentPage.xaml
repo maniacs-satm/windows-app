@@ -448,14 +448,14 @@
         </Grid>
 
         <controls:AdaptiveGridView
-                x:Name="ItemGridView"
-                Padding="4"
+            x:Name="ItemGridView"
             Margin="0,48"
-                EntranceNavigationTransitionInfo.IsTargetElement="True"
-                IsItemClickEnabled="True"
-                ItemsSource="{x:Bind ViewModel.Items}"
-                MinItemHeight="200"
-                MinItemWidth="300">
+            Padding="4"
+            EntranceNavigationTransitionInfo.IsTargetElement="True"
+            IsItemClickEnabled="True"
+            ItemsSource="{x:Bind ViewModel.Items}"
+            MinItemHeight="200"
+            MinItemWidth="300">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="vm:ItemViewModel">
                     <controls:ItemControl />
