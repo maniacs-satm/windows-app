@@ -24,9 +24,8 @@ namespace wallabag.Universal
                 var frame = new Frame();
                 Window.Current.Content = frame;
                 frame.Navigate(typeof(Views.AddItemPage), (args as ShareTargetActivatedEventArgs).ShareOperation);
-                return Task.FromResult<object>(null);
             }
-            return base.OnInitializeAsync(args);
+            return Task.CompletedTask;
         }
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
@@ -34,15 +33,15 @@ namespace wallabag.Universal
             if (startKind == StartKind.Launch)
             {
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
-            }
 
-            if (ViewModels.ViewModelLocator.CurrentDataService.CredentialsAreExisting &&
-                await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(Helpers.DATABASE_FILENAME) != null)
-            {
-                NavigationService.Navigate(typeof(Views.ContentPage));
+                if (ViewModels.ViewModelLocator.CurrentDataService.CredentialsAreExisting &&
+                    await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(Helpers.DATABASE_FILENAME) != null)
+                {
+                    NavigationService.Navigate(typeof(Views.ContentPage));
+                }
+                else
+                    NavigationService.Navigate(typeof(Views.FirstStartPage));
             }
-            else
-                NavigationService.Navigate(typeof(Views.FirstStartPage));
         }
     }
 }
