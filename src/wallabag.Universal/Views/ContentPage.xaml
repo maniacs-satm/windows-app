@@ -344,7 +344,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Background="Transparent">
+            <Button Background="Transparent" Style="{StaticResource BlankButtonStyle}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock
                         Margin="16,0,8,0"
