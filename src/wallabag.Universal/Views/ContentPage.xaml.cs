@@ -10,7 +10,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace wallabag.Views
@@ -19,13 +18,12 @@ namespace wallabag.Views
     public sealed partial class ContentPage : Page
     {
         public MainViewModel ViewModel { get { return (MainViewModel)DataContext; } }
-        private GridView _ItemGridView;
 
         public ContentPage()
         {
             InitializeComponent();
             ShowSearch.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
-            HideSearch.Completed += (s, e) => { _ItemGridView.Focus(FocusState.Programmatic); };
+            HideSearch.Completed += (s, e) => { ItemGridView.Focus(FocusState.Programmatic); };
             ShowOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(false); };
             HideOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(true); };
         }
@@ -40,8 +38,6 @@ namespace wallabag.Views
             });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e) => Messenger.Default.Unregister(this);
-
-        private void ItemGridView_Loaded(object sender, RoutedEventArgs e) => _ItemGridView = sender as GridView;
 
         #region Context menu
         private bool _IsShiftPressed = false;
@@ -87,7 +83,7 @@ namespace wallabag.Views
 
                 _IsPointerPressed = false;
 
-                var itemsToCancel = VisualTreeHelper.FindElementsInHostCoordinates(e.GetPosition(null), _ItemGridView);
+                var itemsToCancel = VisualTreeHelper.FindElementsInHostCoordinates(e.GetPosition(null), ItemGridView);
                 foreach (var item in itemsToCancel)
                     item.CancelDirectManipulations();
             }
@@ -166,14 +162,14 @@ namespace wallabag.Views
             SetMultipleSelectionEnabledProperty(true);
             SetItemClickEnabledProperty(false);
 
-            _ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
+            ItemGridView.SelectionMode = ListViewSelectionMode.Multiple;
         }
         private void DisableMultipleSelection(object sender, RoutedEventArgs e)
         {
             SetMultipleSelectionEnabledProperty(false);
             SetItemClickEnabledProperty(true);
 
-            _ItemGridView.SelectionMode = ListViewSelectionMode.None;
+            ItemGridView.SelectionMode = ListViewSelectionMode.None;
         }
         #endregion
 
