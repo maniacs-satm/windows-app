@@ -123,10 +123,6 @@
   <data name="AppereanceSettingsPivotItem.Header" xml:space="preserve">
     <value>Appereance</value>
   </data>
-  <data name="ArchivePivotItem.Header" xml:space="preserve">
-    <value>ARCHIVE</value>
-    <comment>UPPERCASE</comment>
-  </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -160,10 +156,6 @@
   </data>
   <data name="ExtraSpecialThanksTextBlock2.Text" xml:space="preserve">
     <value>Nicolas Lœuillet, Thomas Citharel and Jérémy Benoist for creating such a great software.</value>
-  </data>
-  <data name="FavoritesPivotItem.Header" xml:space="preserve">
-    <value>FAVORITES</value>
-    <comment>UPPERCASE</comment>
   </data>
   <data name="FirstStartCreateDatabaseLabel" xml:space="preserve">
     <value>Create database…</value>
@@ -383,10 +375,6 @@ So, why aren't you adding one? :-)</value>
   <data name="UnmarkAsReadMenuFlyoutItem.Text" xml:space="preserve">
     <value>Unmark as read</value>
   </data>
-  <data name="UnreadPivotItem.Header" xml:space="preserve">
-    <value>UNREAD</value>
-    <comment>UPPERCASE</comment>
-  </data>
   <data name="UsernameTextBox.Header" xml:space="preserve">
     <value>Username</value>
   </data>
@@ -494,5 +482,9 @@ So, why aren't you adding one? :-)</value>
   </data>
   <data name="IncreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Increase font size</value>
+  </data>
+  <data name="ItemsHeaderTextBlock.Text" xml:space="preserve">
+    <value>ITEMS</value>
+    <comment>UPPERCASE</comment>
   </data>
 </root>

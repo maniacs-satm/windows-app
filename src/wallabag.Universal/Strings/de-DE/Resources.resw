@@ -123,10 +123,6 @@
   <data name="AppereanceSettingsPivotItem.Header" xml:space="preserve">
     <value>Aussehen</value>
   </data>
-  <data name="ArchivePivotItem.Header" xml:space="preserve">
-    <value>ARCHIV</value>
-    <comment>UPPERCASE</comment>
-  </data>
   <data name="CancelAppBarButton.Label" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
@@ -160,10 +156,6 @@
   </data>
   <data name="ExtraSpecialThanksTextBlock2.Text" xml:space="preserve">
     <value>Nicolas Lœuillet, Thomas Citharel und Jérémy Benoist für die Arbeit, die in wallabag investiert wurde.</value>
-  </data>
-  <data name="FavoritesPivotItem.Header" xml:space="preserve">
-    <value>FAVORITEN</value>
-    <comment>UPPERCASE</comment>
   </data>
   <data name="FirstStartCreateDatabaseLabel" xml:space="preserve">
     <value>Datenbank wird erstellt…</value>
@@ -383,10 +375,6 @@ Warum fügst du nicht ein paar hinzu?</value>
   <data name="UnmarkAsReadMenuFlyoutItem.Text" xml:space="preserve">
     <value>Als ungelesen markieren</value>
   </data>
-  <data name="UnreadPivotItem.Header" xml:space="preserve">
-    <value>UNGELESEN</value>
-    <comment>UPPERCASE</comment>
-  </data>
   <data name="UsernameTextBox.Header" xml:space="preserve">
     <value>Benutzername</value>
   </data>
@@ -494,5 +482,9 @@ Warum fügst du nicht ein paar hinzu?</value>
   </data>
   <data name="IncreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Schriftgröße erhöhen</value>
+  </data>
+  <data name="ItemsHeaderTextBlock.Text" xml:space="preserve">
+    <value>ARTIKEL</value>
+    <comment>UPPERCASE</comment>
   </data>
 </root>

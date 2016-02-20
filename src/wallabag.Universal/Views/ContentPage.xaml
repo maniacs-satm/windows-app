@@ -350,10 +350,12 @@
                 Click="FilterButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock
+                        x:Uid="ItemsHeaderTextBlock"
                         Margin="16,0,8,0"
                         Style="{StaticResource PageTitleTextBlockStyle}"
                         Text="ITEMS" />
                     <TextBlock
+                        x:Name="ArrowTextBlock"
                         VerticalAlignment="Center"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="13.333"
