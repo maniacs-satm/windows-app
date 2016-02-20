@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Threading.Tasks;
 using Template10.Common;
 using wallabag.Common;
@@ -17,15 +18,15 @@ namespace wallabag.Universal
             InitializeComponent();
         }
 
-        public override Task OnInitializeAsync(IActivatedEventArgs args)
+        public override async Task OnInitializeAsync(IActivatedEventArgs args)
         {
             if (args.Kind == ActivationKind.ShareTarget)
             {
-                var frame = new Frame();
-                Window.Current.Content = frame;
-                frame.Navigate(typeof(Views.AddItemPage), (args as ShareTargetActivatedEventArgs).ShareOperation);
+                NavigationServiceFactory(BackButton.Ignore, ExistingContent.Exclude, CreateRootFrame(args));
+                var shareOperation = (args as ShareTargetActivatedEventArgs).ShareOperation;
+                var shareOperationSerialized = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(shareOperation));
+                NavigationService.Navigate(typeof(Views.AddItemPage), shareOperationSerialized);
             }
-            return Task.CompletedTask;
         }
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
