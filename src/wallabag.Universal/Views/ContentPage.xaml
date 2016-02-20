@@ -341,7 +341,7 @@
             Background="{ThemeResource SystemControlBackgroundAccentBrush}"
             RequestedTheme="Dark">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Button
@@ -825,13 +825,12 @@
                     </SymbolIcon>
                 </AppBarButton.Icon>
             </AppBarButton>
+            <AppBarButton
+            	x:Uid="MultipleSelectionAppBarButton"
+            	Click="EnableMultipleSelection"
+            	Icon="Bullets"
+            	Label="Select"/>
             <CommandBar.SecondaryCommands>
-                <AppBarButton
-                    x:Uid="MultipleSelectionAppBarButton"
-                    Click="EnableMultipleSelection"
-                    Icon="Bullets"
-                    Label="Select" />
-                <AppBarSeparator />
                 <AppBarButton
                     x:Uid="OpenSettingsAppBarButton"
                     Command="{Binding NavigateToSettingsPageCommand}"
