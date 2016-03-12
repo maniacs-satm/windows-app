@@ -1,6 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using System;
-using Windows.ApplicationModel.DataTransfer.ShareTarget;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -23,6 +21,11 @@ namespace wallabag.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             HideHeaderVisualState.StateTriggers.Add(new WindowsStateTriggers.DeviceFamilyStateTrigger() { DeviceFamily = WindowsStateTriggers.DeviceFamily.Desktop });
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "StartAnimation")
+                    StartSavingStoryboard.Begin();
+            });
         }
     }
 }

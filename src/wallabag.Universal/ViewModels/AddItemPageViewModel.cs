@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using GalaSoft.MvvmLight.Messaging;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,7 +22,6 @@ namespace wallabag.ViewModels
 
         public string Url { get; set; } = string.Empty;
         public ICollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
-        public bool IsActive { get; set; } = false;
 
         public DelegateCommand AddItemCommand { get; private set; }
         public DelegateCommand CancelCommand { get; private set; }
@@ -46,11 +46,10 @@ namespace wallabag.ViewModels
 
         private async Task AddItemAsync()
         {
-            IsActive = true;
+            Messenger.Default.Send(new NotificationMessage("StartAnimation"));
             await _dataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
             Url = string.Empty;
             Tags.Clear();
-            IsActive = false;
 
             if (ShareOperation != null)
                 ShareOperation.ReportCompleted();
