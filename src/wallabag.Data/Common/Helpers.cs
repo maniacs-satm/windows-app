@@ -12,16 +12,7 @@ namespace wallabag.Common
 {
     public static class Helpers
     {
-        public static string DATABASE_FILENAME
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(AppSettings.wallabagUrl)) 
-                    return $"{new Uri(AppSettings.wallabagUrl).Host.Replace(":", "")}.db";
-                else
-                    return "wallabag_temp.db";
-            }
-        }
+        public static string DATABASE_FILENAME { get; } = "wallabag.db";
         public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, DATABASE_FILENAME);
 
         /// <summary>
