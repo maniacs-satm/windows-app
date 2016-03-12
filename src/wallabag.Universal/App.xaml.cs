@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Template10.Common;
 using wallabag.Common;
-using wallabag.Services;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace wallabag.Universal
 {
@@ -18,16 +15,17 @@ namespace wallabag.Universal
             InitializeComponent();
         }
 
-        public override async Task OnInitializeAsync(IActivatedEventArgs args)
+        public override Task OnInitializeAsync(IActivatedEventArgs args)
         {
             if (args.Kind == ActivationKind.ShareTarget)
             {
                 NavigationServiceFactory(BackButton.Ignore, ExistingContent.Exclude, CreateRootFrame(args));
                 Window.Current.Content = NavigationService.Frame;
-                var shareOperation = (args as ShareTargetActivatedEventArgs).ShareOperation;
-                var shareOperationSerialized = await Task.Factory.StartNew(() => JsonConvert.SerializeObject(shareOperation));
-                NavigationService.Navigate(typeof(Views.AddItemPage), shareOperationSerialized);
+                var shareOperation = args as ShareTargetActivatedEventArgs;
+                SessionState.Add("ShareOperation", shareOperation.ShareOperation);
+                NavigationService.Navigate(typeof(Views.AddItemPage));
             }
+            return Task.CompletedTask;
         }
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)

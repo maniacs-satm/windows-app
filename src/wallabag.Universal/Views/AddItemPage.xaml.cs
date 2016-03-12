@@ -22,9 +22,6 @@ namespace wallabag.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter != null)
-                Messenger.Default.Send(new NotificationMessage<ShareOperation>(e.Parameter as ShareOperation, string.Empty));
-
             HideHeaderVisualState.StateTriggers.Add(new WindowsStateTriggers.DeviceFamilyStateTrigger() { DeviceFamily = WindowsStateTriggers.DeviceFamily.Desktop });
         }
     }
