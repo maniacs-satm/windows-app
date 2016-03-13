@@ -847,7 +847,7 @@
             <AppBarButton
                 x:Name="syncAppBarButton"
                 x:Uid="SyncAppBarButton"
-                Command="{Binding RefreshCommand}"
+                Command="{x:Bind ViewModel.SyncCommand}"
                 Label="Sync">
                 <AppBarButton.Icon>
                     <SymbolIcon
@@ -868,7 +868,7 @@
             <CommandBar.SecondaryCommands>
                 <AppBarButton
                     x:Uid="OpenSettingsAppBarButton"
-                    Command="{Binding NavigateToSettingsPageCommand}"
+                    Command="{x:Bind ViewModel.NavigateToSettingsPageCommand}"
                     Icon="Setting"
                     Label="Settings" />
             </CommandBar.SecondaryCommands>
