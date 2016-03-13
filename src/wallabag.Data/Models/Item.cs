@@ -86,5 +86,15 @@ namespace wallabag.Models
             this.LastUpdated = DateTime.Now;
             return new SQLiteAsyncConnection(Common.Helpers.DATABASE_PATH).UpdateAsync(this);
         }
+
+        public override bool Equals(object obj)
+        {
+            var comparedItem = obj as Item;
+            return Id.Equals(comparedItem.Id) && CreationDate.Equals(comparedItem.CreationDate);
+        }
+        public override int GetHashCode()
+        {
+            return Id;
+        }
     }
 }
