@@ -119,11 +119,12 @@ namespace wallabag.ViewModels
                 SortType = FilterSortType.ByDate;
                 SortOrder = FilterSortOrder.Descending;
                 EstimatedReadingTime = FilterEstimatedReadingTime.Unfiltered;
-                await LoadItemsFromDatabaseAsync();
+                await GetItemsFromDatabaseAsync();
             });
             FilterCommand = new DelegateCommand(async () =>
             {
-                await LoadItemsFromDatabaseAsync(true);
+                await GetItemsFromDatabaseAsync();
+                SortItems();
             });
             ItemClickCommand = new DelegateCommand<ItemClickEventArgs>(args => ItemClick(args));
 
@@ -156,7 +157,7 @@ namespace wallabag.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            await LoadItemsFromDatabaseAsync();
+            await GetItemsFromDatabaseAsync();
 
             if (AppSettings.SyncOnStartup && mode != NavigationMode.Back)
                 await RefreshItemsAsync();
@@ -195,7 +196,7 @@ namespace wallabag.ViewModels
             Messenger.Default.Register<NotificationMessage>(this, async message =>
             {
                 if (message.Notification == "UpdateView")
-                    await LoadItemsFromDatabaseAsync();
+                    await GetItemsFromDatabaseAsync();
             });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
@@ -221,7 +222,7 @@ namespace wallabag.ViewModels
 
             await _dataService.SyncOfflineTasksWithServerAsync();
             await _dataService.DownloadItemsFromServerAsync();
-            await LoadItemsFromDatabaseAsync();
+            await GetItemsFromDatabaseAsync();
 
             IsSyncing = false;
         }
@@ -236,7 +237,7 @@ namespace wallabag.ViewModels
                 OfflineTasks.Add(viewModel);
             }
         }
-        public async Task LoadItemsFromDatabaseAsync(bool completeReorder = false)
+        public async Task GetItemsFromDatabaseAsync()
         {
             bool sortDescending = SortOrder == FilterSortOrder.Descending;
 
@@ -266,17 +267,14 @@ namespace wallabag.ViewModels
             foreach (var item in removedItems)
                 Items.Remove(new ItemViewModel(item));
 
-            Tags = new ObservableCollection<Tag>(await _dataService.GetTagsAsync());
+            Tags.Replace(await _dataService.GetTagsAsync());
 
             foreach (var item in Items)
                 if (!DomainNames.Contains(item.Model.DomainName))
                     DomainNames.Add(item.Model.DomainName);
 
             DomainNames.Sort(d => d);
-
-            if (completeReorder)
-                SortItems();
-
+            
             await GetOfflineTasksAsync();
         }
 
@@ -339,7 +337,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
                 await _dataService.UpdateItemAsync(item.Model);
 
-            await LoadItemsFromDatabaseAsync();
+            await GetItemsFromDatabaseAsync();
             IsItemClickEnabled = false;
         }
 
@@ -420,7 +418,7 @@ namespace wallabag.ViewModels
             {
                 CurrentFilterProperties.SearchQuery = args.QueryText;
                 Messenger.Default.Send(new NotificationMessage("HideOverlay"));
-                return LoadItemsFromDatabaseAsync();
+                return GetItemsFromDatabaseAsync();
             }
         }
         public void DomainQueryChanged(AutoSuggestBoxTextChangedEventArgs args)
