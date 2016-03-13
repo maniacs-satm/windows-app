@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PropertyChanged;
 using System.ComponentModel;
-using PropertyChanged;
-using Windows.Security.Credentials;
 using Windows.Storage;
 
 namespace wallabag.Common
@@ -49,7 +46,6 @@ namespace wallabag.Common
         }
         #endregion
 
-
         public static string wallabagUrl
         {
             get { return GetProperty(nameof(wallabagUrl), string.Empty, true); }
@@ -64,6 +60,16 @@ namespace wallabag.Common
         {
             get { return GetProperty(nameof(RefreshToken), string.Empty, true); }
             set { SetProperty(nameof(RefreshToken), value, true); }
+        }
+        public static string ClientId
+        {
+            get { return GetProperty(nameof(ClientId), string.Empty); }
+            set { SetProperty(nameof(ClientId), value); }
+        }
+        public static string ClientSecret
+        {
+            get { return GetProperty(nameof(ClientSecret), string.Empty); }
+            set { SetProperty(nameof(ClientSecret), value); }
         }
 
         public static double FontSize

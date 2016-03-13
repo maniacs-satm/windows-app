@@ -9,8 +9,6 @@ namespace wallabag.Data.Services
 {
     public class AuthorizationService
     {
-        private const string _ClientID = "1_60ngzbjmcd0cg80scsw84sooko4okco48occk404c8kkg4040s";
-        private const string _ClientSecret = "2w2zaixkgyioo0wws4wwc0sgsg8cko444wcs84swwoc84cs0o8";
         private static Uri _RequestUri { get { return new Uri($"{AppSettings.wallabagUrl}/oauth/v2/token"); } }
 
         private static DateTime _LastRequestDateTime
@@ -38,8 +36,8 @@ namespace wallabag.Data.Services
             {
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
                 parameters.Add("grant_type", "password");
-                parameters.Add("client_id", _ClientID);
-                parameters.Add("client_secret", _ClientSecret);
+                parameters.Add("client_id", AppSettings.ClientId);
+                parameters.Add("client_secret", AppSettings.ClientSecret);
                 parameters.Add("username", Username);
                 parameters.Add("password", Password);
 
@@ -66,8 +64,8 @@ namespace wallabag.Data.Services
             {
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
                 parameters.Add("grant_type", "refresh_token");
-                parameters.Add("client_id", _ClientID);
-                parameters.Add("client_secret", _ClientSecret);
+                parameters.Add("client_id", AppSettings.ClientId);
+                parameters.Add("client_secret", AppSettings.ClientSecret);
                 parameters.Add("refresh_token", AppSettings.RefreshToken);
 
                 var content = new HttpStringContent(JsonConvert.SerializeObject(parameters), Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
