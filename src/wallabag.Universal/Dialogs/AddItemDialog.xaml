@@ -8,10 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Uid="AddItemContentDialog"
     Title="ADD ITEM"
-    PrimaryButtonCommand="{Binding AddItemCommand}"
+    DataContext="{Binding AddItem, Source={StaticResource Locator}}"
+    PrimaryButtonCommand="{x:Bind ViewModel.AddItemCommand}"
     PrimaryButtonText="Add"
     RequestedTheme="Dark"
-    SecondaryButtonCommand="{Binding CancelCommand}"
+    SecondaryButtonCommand="{x:Bind ViewModel.CancelCommand}"
     SecondaryButtonText="Cancel"
     TitleTemplate="{StaticResource ContentDialogTitleTemplate}"
     mc:Ignorable="d">
@@ -22,7 +23,7 @@
             x:Uid="UrlTextBox"
             InputScope="Url"
             PlaceholderText="https://"
-            Text="{Binding Url, Mode=TwoWay}" />
-        <Controls:TagControl Margin="0,8,0,0" ItemsSource="{Binding Tags, Mode=TwoWay}" />
+            Text="{x:Bind ViewModel.Url, Mode=TwoWay}" />
+        <Controls:TagControl Margin="0,8,0,0" ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}" />
     </StackPanel>
 </ContentDialog>
