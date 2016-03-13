@@ -46,8 +46,14 @@ namespace wallabag.ViewModels
 
         private async Task AddItemAsync()
         {
+            // This message is handled if you share a link over the DataTransferManager.
             Messenger.Default.Send(new NotificationMessage("StartAnimation"));
+
             await _dataService.AddItemAsync(Url, Tags.ToCommaSeparatedString());
+
+            // This message is handled if you add a link over the AddItemDialog.
+            Messenger.Default.Send(new NotificationMessage("UpdateView"));
+
             Url = string.Empty;
             Tags.Clear();
 
