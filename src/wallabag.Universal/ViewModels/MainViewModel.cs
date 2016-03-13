@@ -35,7 +35,7 @@ namespace wallabag.ViewModels
         public FilterProperties CurrentFilterProperties { get; set; } = new FilterProperties();
         public bool IsSyncing { get; set; } = false;
 
-        public DelegateCommand RefreshCommand { get; private set; }
+        public DelegateCommand SyncCommand { get; private set; }
         public DelegateCommand AddItemCommand { get; private set; }
         public DelegateCommand NavigateToSettingsPageCommand { get; private set; }
         public DelegateCommand<ItemClickEventArgs> ItemClickCommand { get; private set; }
@@ -106,7 +106,7 @@ namespace wallabag.ViewModels
         {
             _dataService = dataService;
 
-            RefreshCommand = new DelegateCommand(async () => await RefreshItemsAsync());
+            SyncCommand = new DelegateCommand(async () => await SyncWithServerAsync());
             NavigateToSettingsPageCommand = new DelegateCommand(() =>
             {
                 NavigationService.Navigate(typeof(Views.SettingsPage), null, new DrillInNavigationTransitionInfo());
@@ -160,7 +160,7 @@ namespace wallabag.ViewModels
             await GetItemsFromDatabaseAsync();
 
             if (AppSettings.SyncOnStartup && mode != NavigationMode.Back)
-                await RefreshItemsAsync();
+                await SyncWithServerAsync();
 
             if (state.ContainsKey(nameof(CurrentFilterProperties)))
                 CurrentFilterProperties = JsonConvert.DeserializeObject<FilterProperties>((string)state[nameof(CurrentFilterProperties)]);
@@ -184,7 +184,7 @@ namespace wallabag.ViewModels
             Messenger.Default.Register<NotificationMessage<Uri>>(this, async uri =>
             {
                 await _dataService.AddItemAsync(uri.Content.ToString());
-                await RefreshItemsAsync();
+                await SyncWithServerAsync();
             });
             Messenger.Default.Register<NotificationMessage<bool>>(this, message =>
             {
@@ -216,7 +216,7 @@ namespace wallabag.ViewModels
             }
         }
 
-        public async Task RefreshItemsAsync()
+        public async Task SyncWithServerAsync()
         {
             IsSyncing = true;
 
