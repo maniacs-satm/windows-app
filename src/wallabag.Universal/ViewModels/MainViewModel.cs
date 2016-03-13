@@ -156,6 +156,8 @@ namespace wallabag.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            await LoadItemsFromDatabaseAsync();
+
             if (AppSettings.SyncOnStartup && mode != NavigationMode.Back)
                 await RefreshItemsAsync();
 
@@ -164,8 +166,6 @@ namespace wallabag.ViewModels
             else
                 CurrentFilterProperties = new FilterProperties();
 
-            await LoadItemsFromDatabaseAsync();
-            
             List<Item> allItems = await _dataService.GetItemsAsync(new FilterProperties() { ItemType = FilterProperties.FilterPropertiesItemType.All });
             foreach (var item in allItems)
             {
@@ -195,7 +195,7 @@ namespace wallabag.ViewModels
             Messenger.Default.Register<NotificationMessage>(this, async message =>
             {
                 if (message.Notification == "UpdateView")
-                    await LoadItemsFromDatabaseAsync(true);
+                    await LoadItemsFromDatabaseAsync();
             });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
@@ -219,11 +219,8 @@ namespace wallabag.ViewModels
         {
             IsSyncing = true;
 
-            CurrentFilterProperties.SearchQuery = string.Empty;
-
             await _dataService.SyncOfflineTasksWithServerAsync();
             await _dataService.DownloadItemsFromServerAsync();
-
             await LoadItemsFromDatabaseAsync();
 
             IsSyncing = false;
@@ -249,17 +246,19 @@ namespace wallabag.ViewModels
             foreach (var item in Items)
                 currentItems.Add(item.Model);
 
+            var dateTimeComparer = new ItemByDateTimeComparer();
+
             var newItems = itemsInDatabase.Except(currentItems).ToList();
-            var changedItems = itemsInDatabase.Except(currentItems, new ItemChangedComparer()).ToList();
+            var changedItems = itemsInDatabase.Except(currentItems).Except(newItems).ToList();
             var removedItems = currentItems.Except(itemsInDatabase).ToList();
 
             foreach (var item in newItems)
-                Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
+                Items.AddSorted(new ItemViewModel(item), dateTimeComparer, sortDescending);
 
             foreach (var item in changedItems)
             {
                 Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
-                Items.AddSorted(new ItemViewModel(item), new ItemByDateTimeComparer(), sortDescending);
+                Items.AddSorted(new ItemViewModel(item), dateTimeComparer, sortDescending);
 
                 await _dataService.UpdateItemAsync(item);
             }
@@ -340,7 +339,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
                 await _dataService.UpdateItemAsync(item.Model);
 
-            await RefreshItemsAsync();
+            await LoadItemsFromDatabaseAsync();
             IsItemClickEnabled = false;
         }
 
