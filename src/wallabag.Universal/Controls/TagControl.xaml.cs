@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using wallabag.Common;
 using wallabag.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -42,7 +43,9 @@ namespace wallabag.Controls
 
         private void textBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            var possibleResults = new ObservableCollection<string>(possibleTags.Where(t => t.ToLower().Contains(sender.Text.ToLower())));
+            var possibleResults = new ObservableCollection<string>();
+            if (possibleTags != null)
+                possibleResults.Replace(possibleTags.Where(t => t.ToLower().Contains(sender.Text.ToLower())).ToList());
 
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
