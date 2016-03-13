@@ -179,12 +179,11 @@ pre code {
 }
 code {
   padding: 0.125em 0.375em;
-  margin: 0 2.5em;
+  margin: 0 .2em;
   font-family: Consolas, monospace;
   font-size: 0.8em;
   white-space: pre;
   border: 1px solid lightgray;
-  vertical-align: top;
 }
 audio,
 video {
