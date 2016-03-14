@@ -27,11 +27,6 @@
                 <EasingDoubleKeyFrame KeyTime="0" Value="100" />
                 <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-200" />
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="imageCreditButton" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="GoToStep1">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -156,7 +151,7 @@
         </VisualStateManager.VisualStateGroups>
         <Rectangle x:Name="backgroundImage" Opacity="0.8">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="ms-appx:///Assets/books.jpg" Stretch="UniformToFill" />
+                <ImageBrush ImageSource="ms-appx:///Assets/books.jpeg" Stretch="UniformToFill" />
             </Rectangle.Fill>
         </Rectangle>
         <TextBlock
@@ -252,14 +247,5 @@
                 Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
                 TextAlignment="Center" />
         </StackPanel>
-        <Button
-            x:Name="imageCreditButton"
-            x:Uid="ImageCreditButton"
-            Margin="12"
-            VerticalAlignment="Bottom"
-            Style="{ThemeResource TextBlockButtonStyle}"
-            Foreground="White"
-            Command="{x:Bind ViewModel.OpenImageSourceCommand}"
-            Content="Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0" />
     </Grid>
 </Page>
