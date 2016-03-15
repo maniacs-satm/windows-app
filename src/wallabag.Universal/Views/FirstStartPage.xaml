@@ -151,7 +151,7 @@
         </VisualStateManager.VisualStateGroups>
         <Rectangle x:Name="backgroundImage" Opacity="0.8" d:IsLocked="True" Grid.RowSpan="2">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="ms-appx:///Assets/books.jpeg" Stretch="UniformToFill" />
+                <ImageBrush ImageSource="ms-appx:///Assets/books.jpg" Stretch="UniformToFill" />
             </Rectangle.Fill>
         </Rectangle>
         <TextBlock

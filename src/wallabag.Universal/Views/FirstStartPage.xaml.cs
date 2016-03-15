@@ -19,14 +19,11 @@ namespace wallabag.Views
         public FirstStartPage()
         {
             this.InitializeComponent();
-            GoToStep0.Begin();
-            GoToStep0.Completed += (s, e) =>
-            {
-                if (string.IsNullOrEmpty(Common.AppSettings.AccessToken))
-                    GoToStep1.Begin();
-                else
-                    GoToStep3.Begin();
-            };
+
+            if (!string.IsNullOrEmpty(Common.AppSettings.AccessToken))
+                GoToStep3.Begin();
+            else
+                GoToStep0.Begin();
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
