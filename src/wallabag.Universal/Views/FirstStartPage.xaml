@@ -122,6 +122,10 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -138,7 +142,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="welcomeTextBlock.FontSize" Value="48" />
+                        <Setter Target="welcomeTextBlock.FontSize" Value="46" />
                         <Setter Target="Step1Panel.Width" Value="250" />
                         <Setter Target="Step2Panel.Width" Value="250" />
                     </VisualState.Setters>
@@ -148,7 +152,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Rectangle x:Name="backgroundImage" Opacity="0.8">
+        <Rectangle x:Name="backgroundImage" Opacity="0.8" d:IsLocked="True" Grid.RowSpan="2">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="ms-appx:///Assets/books.jpeg" Stretch="UniformToFill" />
             </Rectangle.Fill>
@@ -157,12 +161,11 @@
             x:Name="welcomeTextBlock"
             x:Uid="WelcomeTextBlock"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
             Style="{StaticResource HeaderTextBlockStyle}"
             Foreground="White"
             RenderTransformOrigin="0.5,0.5"
             Text="Welcome to wallabag!"
-            TextAlignment="Center">
+            TextAlignment="Center" Margin="0,40">
             <TextBlock.RenderTransform>
                 <CompositeTransform />
             </TextBlock.RenderTransform>
@@ -173,7 +176,7 @@
         <StackPanel
             x:Name="Step1Panel"
             VerticalAlignment="Center"
-            Opacity="0">
+            Opacity="0" Grid.Row="1" d:IsHidden="True">
             <StackPanel.Projection>
                 <PlaneProjection />
             </StackPanel.Projection>
@@ -197,7 +200,7 @@
             VerticalAlignment="Center"
             Opacity="0"
             x:DeferLoadStrategy="Lazy"
-            Visibility="Collapsed">
+            Visibility="Collapsed" d:IsHidden="True" Grid.Row="1">
             <TextBox
                 x:Name="wallabagUrlTextBox"
                 x:Uid="WallabagUrlTextBox"
@@ -234,7 +237,7 @@
             VerticalAlignment="Center"
             Opacity="0"
             x:DeferLoadStrategy="Lazy"
-            Visibility="Collapsed">
+            Visibility="Collapsed" d:IsHidden="True" Grid.Row="1">
             <ProgressRing
                 x:Name="ProgressRing"
                 Width="64"
