@@ -23,14 +23,14 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)">
-                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="25" >
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="25">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
+                        <BackEase EasingMode="EaseOut" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0" >
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0">
                     <EasingDoubleKeyFrame.EasingFunction>
-                        <BackEase EasingMode="EaseOut"/>
+                        <BackEase EasingMode="EaseOut" />
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
@@ -127,8 +127,8 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -146,8 +146,8 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="welcomeTextBlock.FontSize" Value="46" />
-                        <Setter Target="Step1Panel.Orientation" Value="Horizontal"/>
-                        <Setter Target="Step1Panel.HorizontalAlignment" Value="Center"/>
+                        <Setter Target="Step1Panel.Orientation" Value="Horizontal" />
+                        <Setter Target="Step1Panel.HorizontalAlignment" Value="Center" />
                         <Setter Target="Step2Panel.Width" Value="250" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -156,7 +156,11 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Rectangle x:Name="backgroundImage" Opacity="0.8" d:IsLocked="True" Grid.RowSpan="2">
+        <Rectangle
+            x:Name="backgroundImage"
+            Grid.RowSpan="2"
+            Opacity="0.8"
+            d:IsLocked="True">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="ms-appx:///Assets/books.jpg" Stretch="UniformToFill" />
             </Rectangle.Fill>
@@ -164,12 +168,13 @@
         <TextBlock
             x:Name="welcomeTextBlock"
             x:Uid="WelcomeTextBlock"
+            Margin="0,40"
             HorizontalAlignment="Center"
             Style="{StaticResource HeaderTextBlockStyle}"
             Foreground="White"
             RenderTransformOrigin="0.5,0.5"
             Text="Welcome to wallabag!"
-            TextAlignment="Center" Margin="0,40">
+            TextAlignment="Center">
             <TextBlock.RenderTransform>
                 <CompositeTransform />
             </TextBlock.RenderTransform>
@@ -179,8 +184,10 @@
         </TextBlock>
         <StackPanel
             x:Name="Step1Panel"
+            Grid.Row="1"
             VerticalAlignment="Center"
-            Opacity="0" Grid.Row="1" d:IsHidden="True">
+            Opacity="0"
+            d:IsHidden="True">
             <StackPanel.Projection>
                 <PlaneProjection />
             </StackPanel.Projection>
@@ -201,11 +208,11 @@
         </StackPanel>
         <StackPanel
             x:Name="Step2Panel"
-            VerticalAlignment="Center"    
-            x:DeferLoadStrategy="Lazy"
-            Visibility="Collapsed"
+            Grid.Row="1"
+            VerticalAlignment="Center"
             Opacity="0"
-             Grid.Row="1">
+            x:DeferLoadStrategy="Lazy"
+            Visibility="Collapsed">
             <TextBox
                 x:Name="clientIdTextBox"
                 Margin="0,0,0,8"
@@ -244,14 +251,16 @@
                 HorizontalAlignment="Right"
                 Click="loginButton_Click"
                 Command="{x:Bind ViewModel.LoginCommand}"
-                Content="Login"/>
+                Content="Login" />
         </StackPanel>
         <StackPanel
             x:Name="Step3Panel"
+            Grid.Row="1"
             VerticalAlignment="Center"
             Opacity="0"
+            d:IsHidden="True"
             x:DeferLoadStrategy="Lazy"
-            Visibility="Collapsed" d:IsHidden="True" Grid.Row="1">
+            Visibility="Collapsed">
             <ProgressRing
                 x:Name="ProgressRing"
                 Width="64"
