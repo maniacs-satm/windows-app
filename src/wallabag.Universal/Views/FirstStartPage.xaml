@@ -194,10 +194,21 @@
         </StackPanel>
         <StackPanel
             x:Name="Step2Panel"
-            VerticalAlignment="Center"            
+            VerticalAlignment="Center"    
+            x:DeferLoadStrategy="Lazy"
+            Visibility="Collapsed"
             Opacity="0"
-            x:DeferLoadStrategy="Lazy" 
-            Visibility="Collapsed" Grid.Row="1">
+             Grid.Row="1">
+            <TextBox
+                x:Name="clientIdTextBox"
+                Margin="0,0,0,8"
+                Header="Client ID"
+                Text="{x:Bind ViewModel.ClientId, Mode=TwoWay}" />
+            <TextBox
+                x:Name="clientSecretTextBox"
+                Margin="0,0,0,48"
+                Header="Client secret"
+                Text="{x:Bind ViewModel.ClientSecret, Mode=TwoWay}" />
             <TextBox
                 x:Name="wallabagUrlTextBox"
                 x:Uid="WallabagUrlTextBox"

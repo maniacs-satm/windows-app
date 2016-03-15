@@ -20,6 +20,8 @@ namespace wallabag.ViewModels
         public string Username { get; set; }
         public string Password { get; set; }
         public string WallabagUrl { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
 
         public string StatusText { get; set; }
         public DelegateCommand LoginCommand { get; private set; }
@@ -40,20 +42,22 @@ namespace wallabag.ViewModels
         public async Task Login()
         {
             StatusText = LocalizedString("FirstStartLoggingInLabel");
+
             if (WallabagUrl.EndsWith("/"))
                 WallabagUrl = WallabagUrl.Remove(WallabagUrl.Length - 1);
 
-            if (IsPhone)
-                AppSettings.FontSize += 28;
-
+            AppSettings.wallabagUrl = WallabagUrl;
+            AppSettings.ClientId = ClientId;
+            AppSettings.ClientSecret = ClientSecret;
+            
             if (await _dataService.LoginAsync(WallabagUrl, Username, Password))
             {
                 StatusText = LocalizedString("FirstStartLoginSuccededLabel");
-                AppSettings.wallabagUrl = WallabagUrl;
                 await SetupWallabagAndNavigateToContentPage();
             }
             else
             {
+                AppSettings.wallabagUrl = string.Empty;
                 StatusText = LocalizedString("FirstStartLoginFailedLabel");
                 Messenger.Default.Send(new NotificationMessage("LoginFailed"));
             }
