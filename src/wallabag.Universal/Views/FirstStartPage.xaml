@@ -14,28 +14,25 @@
 
     <Page.Resources>
         <Storyboard x:Name="GoToStep0">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="backgroundImage" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.8" />
-            </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="welcomeTextBlock" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1" />
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="welcomeTextBlock" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="100" />
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-200" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="GoToStep1">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1" />
             </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)">
-                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="25" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="25" >
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0" >
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="GoToStep2">
@@ -131,7 +128,6 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="welcomeTextBlock.FontSize" Value="32" />
-                        <Setter Target="Step1Panel.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="Step1Panel.Margin" Value="32,0" />
                         <Setter Target="Step2Panel.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="Step2Panel.Margin" Value="32,0" />
@@ -143,7 +139,8 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="welcomeTextBlock.FontSize" Value="46" />
-                        <Setter Target="Step1Panel.Width" Value="250" />
+                        <Setter Target="Step1Panel.Orientation" Value="Horizontal"/>
+                        <Setter Target="Step1Panel.HorizontalAlignment" Value="Center"/>
                         <Setter Target="Step2Panel.Width" Value="250" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -176,7 +173,7 @@
         <StackPanel
             x:Name="Step1Panel"
             VerticalAlignment="Center"
-            Opacity="0" Grid.Row="1" d:IsHidden="True">
+            Opacity="0" Grid.Row="1">
             <StackPanel.Projection>
                 <PlaneProjection />
             </StackPanel.Projection>
