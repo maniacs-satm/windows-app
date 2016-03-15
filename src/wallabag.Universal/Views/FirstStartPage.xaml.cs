@@ -32,7 +32,6 @@ namespace wallabag.Views
                 {
                     e.Handled = true;
                     Step2Panel.Visibility = Visibility.Collapsed;
-                    Step3Panel.Visibility = Visibility.Collapsed;
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     GoToStep0.Begin();
                 }
@@ -63,9 +62,16 @@ namespace wallabag.Views
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
             if (sender == framabagUserButton)
+            {
                 wallabagUrlTextBox.Visibility = Visibility.Collapsed;
-            else
+                clientIdTextBox.Visibility = Visibility.Collapsed;
+                clientSecretTextBox.Visibility = Visibility.Collapsed;
+            }
+            else {
                 wallabagUrlTextBox.Visibility = Visibility.Visible;
+                clientIdTextBox.Visibility = Visibility.Visible;
+                clientSecretTextBox.Visibility = Visibility.Visible;
+            }
 
             GoToStep2.Begin();
 
