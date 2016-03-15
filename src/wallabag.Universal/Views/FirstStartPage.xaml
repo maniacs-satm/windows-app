@@ -131,7 +131,6 @@
                         <Setter Target="Step1Panel.Margin" Value="32,0" />
                         <Setter Target="Step2Panel.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="Step2Panel.Margin" Value="32,0" />
-                        <Setter Target="imageCreditButton.Content" Value="Image by Terry Kearney." />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
