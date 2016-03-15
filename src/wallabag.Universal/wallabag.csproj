@@ -174,7 +174,7 @@
     <Content Include="Assets\Article\style.min.css">
       <DependentUpon>style.css</DependentUpon>
     </Content>
-    <Content Include="Assets\books.jpeg" />
+    <Content Include="Assets\books.jpg" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-150.png" />
