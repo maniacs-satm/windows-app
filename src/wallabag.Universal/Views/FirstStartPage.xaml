@@ -93,20 +93,20 @@
         <Storyboard x:Name="RevertStep3">
             <DoubleAnimation
                 d:IsOptimized="True"
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Duration="0:0:0.3"
                 Storyboard.TargetName="Step2Panel"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="1" />
             <DoubleAnimation
                 d:IsOptimized="True"
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Duration="0:0:0.3"
                 Storyboard.TargetName="Step3Panel"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0" />
             <ObjectAnimationUsingKeyFrames
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Storyboard.TargetName="Step3Panel"
                 Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
@@ -117,7 +117,7 @@
             </ObjectAnimationUsingKeyFrames>
             <DoubleAnimation
                 d:IsOptimized="True"
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Duration="0:0:0.3"
                 Storyboard.TargetName="backgroundImage"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
