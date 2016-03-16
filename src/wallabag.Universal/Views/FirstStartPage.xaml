@@ -254,8 +254,8 @@
             <Button
                 x:Name="loginButton"
                 x:Uid="LoginButton"
-                Margin="0,8,0,0"
-                HorizontalAlignment="Right"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Stretch"
                 Click="loginButton_Click"
                 Command="{x:Bind ViewModel.LoginCommand}"
                 Content="Login" />
