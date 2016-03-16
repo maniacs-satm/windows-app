@@ -48,8 +48,8 @@ namespace wallabag.Common
 
         public static string wallabagUrl
         {
-            get { return GetProperty(nameof(wallabagUrl), string.Empty, true); }
-            set { SetProperty(nameof(wallabagUrl), value, true); }
+            get { return GetProperty(nameof(wallabagUrl), string.Empty); }
+            set { SetProperty(nameof(wallabagUrl), value); }
         }
         public static string AccessToken
         {
