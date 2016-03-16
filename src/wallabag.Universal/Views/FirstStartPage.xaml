@@ -22,6 +22,13 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1" />
             </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)">
                 <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="25">
                     <EasingDoubleKeyFrame.EasingFunction>
