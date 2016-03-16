@@ -76,7 +76,7 @@ namespace wallabag.Views
             GoToStep2.Begin();
 
             if (sender == notFramabagUserButton)
-                wallabagUrlTextBox.Focus(FocusState.Programmatic);
+                clientIdTextBox.Focus(FocusState.Programmatic);
             else
                 userNameTextBox.Focus(FocusState.Programmatic);
         }
