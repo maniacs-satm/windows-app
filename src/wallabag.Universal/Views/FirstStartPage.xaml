@@ -133,10 +133,6 @@
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" RequestedTheme="Dark">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
@@ -177,6 +173,7 @@
             x:Uid="WelcomeTextBlock"
             Margin="0,40"
             HorizontalAlignment="Center"
+            VerticalAlignment="Top"
             Style="{StaticResource HeaderTextBlockStyle}"
             Foreground="White"
             RenderTransformOrigin="0.5,0.5"
@@ -191,10 +188,10 @@
         </TextBlock>
         <StackPanel
             x:Name="Step1Panel"
-            Grid.Row="1"
             VerticalAlignment="Center"
             Opacity="0"
-            d:IsHidden="True">
+            x:DeferLoadStrategy="Lazy"
+            Visibility="Collapsed">
             <StackPanel.Projection>
                 <PlaneProjection />
             </StackPanel.Projection>
@@ -215,7 +212,6 @@
         </StackPanel>
         <StackPanel
             x:Name="Step2Panel"
-            Grid.Row="1"
             VerticalAlignment="Center"
             Opacity="0"
             x:DeferLoadStrategy="Lazy"
@@ -262,7 +258,6 @@
         </StackPanel>
         <StackPanel
             x:Name="Step3Panel"
-            Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
