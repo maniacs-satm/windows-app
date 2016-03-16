@@ -19,14 +19,11 @@ namespace wallabag.Views
         public FirstStartPage()
         {
             this.InitializeComponent();
-            GoToStep0.Begin();
-            GoToStep0.Completed += (s, e) =>
-            {
-                if (string.IsNullOrEmpty(Common.AppSettings.AccessToken))
-                    GoToStep1.Begin();
-                else
-                    GoToStep3.Begin();
-            };
+
+            if (ViewModel.CredentialsAreExisting)
+                GoToStep3.Begin();
+            else
+                GoToStep0.Begin();
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += (s, e) =>
@@ -35,7 +32,6 @@ namespace wallabag.Views
                 {
                     e.Handled = true;
                     Step2Panel.Visibility = Visibility.Collapsed;
-                    Step3Panel.Visibility = Visibility.Collapsed;
                     SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                     GoToStep0.Begin();
                 }
@@ -66,16 +62,24 @@ namespace wallabag.Views
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
             if (sender == framabagUserButton)
+            {
                 wallabagUrlTextBox.Visibility = Visibility.Collapsed;
+                clientIdTextBox.Visibility = Visibility.Collapsed;
+                clientSecretTextBox.Visibility = Visibility.Collapsed;
+            }
             else
+            {
                 wallabagUrlTextBox.Visibility = Visibility.Visible;
+                clientIdTextBox.Visibility = Visibility.Visible;
+                clientSecretTextBox.Visibility = Visibility.Visible;
+            }
 
             GoToStep2.Begin();
 
-            if (sender == notFramabagUserButton)
-                wallabagUrlTextBox.Focus(FocusState.Programmatic);
-            else
+            if (sender == framabagUserButton || ViewModel.CredentialsWereSynced)
                 userNameTextBox.Focus(FocusState.Programmatic);
+            else
+                clientIdTextBox.Focus(FocusState.Programmatic);
         }
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {

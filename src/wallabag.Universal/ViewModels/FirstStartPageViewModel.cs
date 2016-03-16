@@ -17,9 +17,14 @@ namespace wallabag.ViewModels
     {
         private IDataService _dataService;
 
+        public bool CredentialsAreExisting { get { return _dataService.CredentialsAreExisting; } }
+        public bool CredentialsWereSynced { get; set; }
+
         public string Username { get; set; }
         public string Password { get; set; }
         public string WallabagUrl { get; set; }
+        public string ClientId { get; set; }
+        public string ClientSecret { get; set; }
 
         public string StatusText { get; set; }
         public DelegateCommand LoginCommand { get; private set; }
@@ -34,26 +39,37 @@ namespace wallabag.ViewModels
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            if (!string.IsNullOrWhiteSpace(AppSettings.wallabagUrl))
+            {
+                WallabagUrl = AppSettings.wallabagUrl;
+                ClientId = AppSettings.ClientId;
+                ClientSecret = AppSettings.ClientSecret;
+
+                CredentialsWereSynced = true;
+            }
+
             if (_dataService.CredentialsAreExisting)
                 await SetupWallabagAndNavigateToContentPage();
         }
         public async Task Login()
         {
             StatusText = LocalizedString("FirstStartLoggingInLabel");
+
             if (WallabagUrl.EndsWith("/"))
                 WallabagUrl = WallabagUrl.Remove(WallabagUrl.Length - 1);
 
-            if (IsPhone)
-                AppSettings.FontSize += 28;
+            AppSettings.wallabagUrl = WallabagUrl;
+            AppSettings.ClientId = ClientId;
+            AppSettings.ClientSecret = ClientSecret;
 
             if (await _dataService.LoginAsync(WallabagUrl, Username, Password))
             {
                 StatusText = LocalizedString("FirstStartLoginSuccededLabel");
-                AppSettings.wallabagUrl = WallabagUrl;
                 await SetupWallabagAndNavigateToContentPage();
             }
             else
             {
+                AppSettings.wallabagUrl = string.Empty;
                 StatusText = LocalizedString("FirstStartLoginFailedLabel");
                 Messenger.Default.Send(new NotificationMessage("LoginFailed"));
             }

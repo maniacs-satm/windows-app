@@ -14,33 +14,32 @@
 
     <Page.Resources>
         <Storyboard x:Name="GoToStep0">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="backgroundImage" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.8" />
-            </DoubleAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="welcomeTextBlock" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1" />
             </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="welcomeTextBlock" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="100" />
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="-200" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="imageCreditButton" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="GoToStep1">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1" />
             </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetY)">
-                <EasingDoubleKeyFrame KeyTime="0:0:0" Value="25" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0" />
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="25">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut" />
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="GoToStep2">
@@ -60,6 +59,13 @@
                 <DiscreteObjectKeyFrame KeyTime="0">
                     <DiscreteObjectKeyFrame.Value>
                         <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Step1Panel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
@@ -90,24 +96,30 @@
                 Storyboard.TargetName="backgroundImage"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0.5" />
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="welcomeTextBlock"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0" />
         </Storyboard>
         <Storyboard x:Name="RevertStep3">
             <DoubleAnimation
                 d:IsOptimized="True"
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Duration="0:0:0.3"
                 Storyboard.TargetName="Step2Panel"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="1" />
             <DoubleAnimation
                 d:IsOptimized="True"
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Duration="0:0:0.3"
                 Storyboard.TargetName="Step3Panel"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0" />
             <ObjectAnimationUsingKeyFrames
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Storyboard.TargetName="Step3Panel"
                 Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
@@ -118,11 +130,17 @@
             </ObjectAnimationUsingKeyFrames>
             <DoubleAnimation
                 d:IsOptimized="True"
-                BeginTime="0:0:1"
+                BeginTime="0:0:0.5"
                 Duration="0:0:0.3"
                 Storyboard.TargetName="backgroundImage"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0.8" />
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="welcomeTextBlock"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0.01" />
         </Storyboard>
     </Page.Resources>
 
@@ -132,11 +150,9 @@
                 <VisualState>
                     <VisualState.Setters>
                         <Setter Target="welcomeTextBlock.FontSize" Value="32" />
-                        <Setter Target="Step1Panel.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="Step1Panel.Margin" Value="32,0" />
                         <Setter Target="Step2Panel.HorizontalAlignment" Value="Stretch" />
                         <Setter Target="Step2Panel.Margin" Value="32,0" />
-                        <Setter Target="imageCreditButton.Content" Value="Image by Terry Kearney." />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
@@ -144,8 +160,9 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.Setters>
-                        <Setter Target="welcomeTextBlock.FontSize" Value="48" />
-                        <Setter Target="Step1Panel.Width" Value="250" />
+                        <Setter Target="welcomeTextBlock.FontSize" Value="46" />
+                        <Setter Target="Step1Panel.Orientation" Value="Horizontal" />
+                        <Setter Target="Step1Panel.HorizontalAlignment" Value="Center" />
                         <Setter Target="Step2Panel.Width" Value="250" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
@@ -154,7 +171,11 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Rectangle x:Name="backgroundImage" Opacity="0.8">
+        <Rectangle
+            x:Name="backgroundImage"
+            Grid.RowSpan="2"
+            Opacity="0.8"
+            d:IsLocked="True">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="ms-appx:///Assets/books.jpg" Stretch="UniformToFill" />
             </Rectangle.Fill>
@@ -162,8 +183,9 @@
         <TextBlock
             x:Name="welcomeTextBlock"
             x:Uid="WelcomeTextBlock"
+            Margin="0,40"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             Style="{StaticResource HeaderTextBlockStyle}"
             Foreground="White"
             RenderTransformOrigin="0.5,0.5"
@@ -179,7 +201,9 @@
         <StackPanel
             x:Name="Step1Panel"
             VerticalAlignment="Center"
-            Opacity="0">
+            Opacity="0"
+            x:DeferLoadStrategy="Lazy"
+            Visibility="Collapsed">
             <StackPanel.Projection>
                 <PlaneProjection />
             </StackPanel.Projection>
@@ -205,6 +229,16 @@
             x:DeferLoadStrategy="Lazy"
             Visibility="Collapsed">
             <TextBox
+                x:Name="clientIdTextBox"
+                Margin="0,0,0,8"
+                Header="Client ID"
+                Text="{x:Bind ViewModel.ClientId, Mode=TwoWay}" />
+            <TextBox
+                x:Name="clientSecretTextBox"
+                Margin="0,0,0,48"
+                Header="Client secret"
+                Text="{x:Bind ViewModel.ClientSecret, Mode=TwoWay}" />
+            <TextBox
                 x:Name="wallabagUrlTextBox"
                 x:Uid="WallabagUrlTextBox"
                 Margin="0,0,0,8"
@@ -228,38 +262,29 @@
             <Button
                 x:Name="loginButton"
                 x:Uid="LoginButton"
-                Margin="0,8,0,0"
-                Style="{ThemeResource ActionButtonStyle}"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Stretch"
                 Click="loginButton_Click"
-                Command="{x:Bind ViewModel.LoginCommand}">
-                LOGIN
-            </Button>
+                Command="{x:Bind ViewModel.LoginCommand}"
+                Content="Login" />
         </StackPanel>
         <StackPanel
             x:Name="Step3Panel"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
             x:DeferLoadStrategy="Lazy"
+            Orientation="Horizontal"
             Visibility="Collapsed">
             <ProgressRing
                 x:Name="ProgressRing"
-                Width="64"
-                Height="64"
+                Foreground="#CCFFFFFF"
                 IsActive="True" />
             <TextBlock
                 x:Name="ProgressTextBlock"
-                Margin="0,8,0,0"
+                Margin="8,0,0,0"
                 Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
                 TextAlignment="Center" />
         </StackPanel>
-        <Button
-            x:Name="imageCreditButton"
-            x:Uid="ImageCreditButton"
-            Margin="12"
-            VerticalAlignment="Bottom"
-            Style="{ThemeResource TextBlockButtonStyle}"
-            Foreground="White"
-            Command="{x:Bind ViewModel.OpenImageSourceCommand}"
-            Content="Image: 'Books of Knowledge Picton Library Liverpool' by Terry Kearney. CC-BY-NC 2.0" />
     </Grid>
 </Page>
