@@ -263,19 +263,20 @@
         <StackPanel
             x:Name="Step3Panel"
             Grid.Row="1"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
             d:IsHidden="True"
             x:DeferLoadStrategy="Lazy"
+            Orientation="Horizontal"
             Visibility="Collapsed">
             <ProgressRing
                 x:Name="ProgressRing"
-                Width="64"
-                Height="64"
+                Foreground="#CCFFFFFF"
                 IsActive="True" />
             <TextBlock
                 x:Name="ProgressTextBlock"
-                Margin="0,8,0,0"
+                Margin="8,0,0,0"
                 Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
                 TextAlignment="Center" />
         </StackPanel>
