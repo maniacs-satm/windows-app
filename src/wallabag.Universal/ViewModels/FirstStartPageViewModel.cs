@@ -17,6 +17,9 @@ namespace wallabag.ViewModels
     {
         private IDataService _dataService;
 
+        public bool CredentialsAreExisting { get { return _dataService.CredentialsAreExisting; } }
+        public bool CredentialsWereSynced { get; set; }
+
         public string Username { get; set; }
         public string Password { get; set; }
         public string WallabagUrl { get; set; }
@@ -36,6 +39,15 @@ namespace wallabag.ViewModels
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
+            if (!string.IsNullOrWhiteSpace(AppSettings.wallabagUrl))
+            {
+                WallabagUrl = AppSettings.wallabagUrl;
+                ClientId = AppSettings.ClientId;
+                ClientSecret = AppSettings.ClientSecret;
+
+                CredentialsWereSynced = true;
+            }
+
             if (_dataService.CredentialsAreExisting)
                 await SetupWallabagAndNavigateToContentPage();
         }
@@ -49,7 +61,7 @@ namespace wallabag.ViewModels
             AppSettings.wallabagUrl = WallabagUrl;
             AppSettings.ClientId = ClientId;
             AppSettings.ClientSecret = ClientSecret;
-            
+
             if (await _dataService.LoginAsync(WallabagUrl, Username, Password))
             {
                 StatusText = LocalizedString("FirstStartLoginSuccededLabel");

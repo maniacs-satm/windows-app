@@ -20,7 +20,7 @@ namespace wallabag.Views
         {
             this.InitializeComponent();
 
-            if (!string.IsNullOrEmpty(Common.AppSettings.AccessToken))
+            if (ViewModel.CredentialsAreExisting)
                 GoToStep3.Begin();
             else
                 GoToStep0.Begin();
@@ -67,7 +67,8 @@ namespace wallabag.Views
                 clientIdTextBox.Visibility = Visibility.Collapsed;
                 clientSecretTextBox.Visibility = Visibility.Collapsed;
             }
-            else {
+            else
+            {
                 wallabagUrlTextBox.Visibility = Visibility.Visible;
                 clientIdTextBox.Visibility = Visibility.Visible;
                 clientSecretTextBox.Visibility = Visibility.Visible;
@@ -75,10 +76,10 @@ namespace wallabag.Views
 
             GoToStep2.Begin();
 
-            if (sender == notFramabagUserButton)
-                clientIdTextBox.Focus(FocusState.Programmatic);
-            else
+            if (sender == framabagUserButton || ViewModel.CredentialsWereSynced)
                 userNameTextBox.Focus(FocusState.Programmatic);
+            else
+                clientIdTextBox.Focus(FocusState.Programmatic);
         }
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
