@@ -96,6 +96,12 @@
                 Storyboard.TargetName="backgroundImage"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0.5" />
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="welcomeTextBlock"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0" />
         </Storyboard>
         <Storyboard x:Name="RevertStep3">
             <DoubleAnimation
@@ -129,6 +135,12 @@
                 Storyboard.TargetName="backgroundImage"
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0.8" />
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="welcomeTextBlock"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0.01" />
         </Storyboard>
     </Page.Resources>
 
@@ -261,7 +273,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
-            d:IsHidden="True"
             x:DeferLoadStrategy="Lazy"
             Orientation="Horizontal"
             Visibility="Collapsed">
