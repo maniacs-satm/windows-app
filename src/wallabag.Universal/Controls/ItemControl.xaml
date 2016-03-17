@@ -45,21 +45,6 @@
         <Grid.Background>
             <ImageBrush ImageSource="{Binding Model.PreviewPictureUri, Mode=OneTime}" Stretch="UniformToFill" />
         </Grid.Background>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.Setters>
-                        <Setter Target="OverlayGrid.Visibility" Value="Visible" />
-                        <Setter Target="OverlayGrid.Opacity" Value="1" />
-                        <Setter Target="TagsTextBlock.Visibility" Value="Collapsed" />
-                        <Setter Target="PropertyIndicatorStackPanel.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <Grid
             x:Name="OverlayGrid"
             Grid.RowSpan="2"
