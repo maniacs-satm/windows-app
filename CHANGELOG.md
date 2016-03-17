@@ -1,5 +1,9 @@
 Changelog
 =========
+# 2.0.6
+- A lot of code changes under the hood (nothing special to mention here)
+- Some little UI and UX changes (including hearts instead of stars)
+
 # 2.0.5
 - App can now be translated (en-US and de-DE already included) (e3079a61f06520c062780773201c105bc45c1a34)
 - More responsive design in the article view (904ac20143adfc11895f457e6ecdb8d563aa3d3c)
