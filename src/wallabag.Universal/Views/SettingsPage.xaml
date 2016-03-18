@@ -94,28 +94,38 @@
                         IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
-            <!--<PivotItem Header="Background task">
+            <PivotItem x:Uid="BackgroundTaskSettingsPivotItem" Header="Background task">
                 <StackPanel>
-                    <ToggleSwitch Header="Use background task" IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}"/>
-                    <TextBlock Text="Interval in minutes" Margin="0,8,0,-4"/>
+                    <ToggleSwitch x:Uid="UseBackgroundTaskToggleSwitch" Header="Use background task" IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" />
+                    <TextBlock x:Uid="BackgroundIntervalHeaderTextBlock" Margin="0,8,0,-4" Text="Interval in minutes" />
                     <StackPanel Orientation="Horizontal">
                         <StackPanel.Resources>
-                            <Style TargetType="RadioButton" BasedOn="{StaticResource IconRadioButtonStyle}">
-                                <Setter Property="FontFamily" Value="Segoe UI"/>
-                                <Setter Property="Padding" Value="4"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                <Setter Property="Width" Value="48"/>
-                                <Setter Property="Height" Value="48"/>
+                            <Style BasedOn="{StaticResource TextRadioButtonStyle}" TargetType="RadioButton">
+                                <Setter Property="Height" Value="48" />
+                                <Setter Property="Width" Value="48" />
+                                <Setter Property="Padding" Value="-8,0,0,0" />
                             </Style>
                         </StackPanel.Resources>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" IsChecked="True">15</RadioButton>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">30</RadioButton>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">60</RadioButton>
-                        <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">120</RadioButton>
+                        <RadioButton
+                            Checked="IntervalRadioButton_Checked"
+                            Content="15"
+                            IsChecked="True"
+                            IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" />
+                        <RadioButton
+                            Checked="IntervalRadioButton_Checked"
+                            Content="30"
+                            IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" />
+                        <RadioButton
+                            Checked="IntervalRadioButton_Checked"
+                            Content="60"
+                            IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" />
+                        <RadioButton
+                            Checked="IntervalRadioButton_Checked"
+                            Content="120"
+                            IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" />
                     </StackPanel>
                 </StackPanel>
-            </PivotItem>-->
+            </PivotItem>
             <PivotItem x:Uid="InfoSettingsPivotItem" Header="Info">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>

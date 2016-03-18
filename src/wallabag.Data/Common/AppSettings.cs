@@ -1,4 +1,5 @@
 ﻿using PropertyChanged;
+using System;
 using System.ComponentModel;
 using Windows.Storage;
 
@@ -122,6 +123,12 @@ namespace wallabag.Common
         {
             get { return GetProperty(nameof(OpenTheFilterPaneWithTheSearch), true); }
             set { SetProperty(nameof(OpenTheFilterPaneWithTheSearch), value); }
+        }
+
+        public static DateTimeOffset? LastOpeningDateTime
+        {
+            get { return GetProperty(nameof(LastOpeningDateTime), DateTimeOffset.Now, true); }
+            set { SetProperty(nameof(LastOpeningDateTime), value, true); }
         }
     }
 }
