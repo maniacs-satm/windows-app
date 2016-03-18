@@ -487,4 +487,13 @@ Warum fügst du nicht ein paar hinzu?</value>
     <value>ARTIKEL</value>
     <comment>UPPERCASE</comment>
   </data>
+  <data name="BackgroundIntervalHeaderTextBlock.Text" xml:space="preserve">
+    <value>Ausführungsintervall (in Minuten)</value>
+  </data>
+  <data name="BackgroundTaskSettingsPivotItem.Header" xml:space="preserve">
+    <value>Hintergrund-Sync</value>
+  </data>
+  <data name="UseBackgroundTaskToggleSwitch.Header" xml:space="preserve">
+    <value>Synchronisierung im Hintergrund aktivieren</value>
+  </data>
 </root>
