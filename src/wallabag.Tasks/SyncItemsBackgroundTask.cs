@@ -1,5 +1,7 @@
-﻿using System;
-using NotificationsExtensions.Badges;
+﻿using NotificationsExtensions.Badges;
+using System;
+using wallabag.Common;
+using wallabag.Data.Models;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 
@@ -12,17 +14,19 @@ namespace wallabag.Tasks
             var _deferral = taskInstance.GetDeferral();
             taskInstance.Canceled += TaskInstance_Canceled;
 
-            //await DataService.SyncOfflineTasksWithServerAsync();
-            //await DataService.DownloadItemsFromServerAsync();
+            Data.Interfaces.IDataService dataService = new Data.Services.RuntimeDataService();
 
-            //uint newItemsSinceLastOpening = (uint)(await DataService.GetItemsAsync(new FilterProperties
-            //{
-            //    ItemType = FilterProperties.FilterPropertiesItemType.Unread,
-            //    CreationDateFrom = DataService.LastUserSyncDateTime,
-            //    CreationDateTo = DateTime.Now
-            //})).Count;
-            //BadgeNumericNotificationContent badgeContent = new BadgeNumericNotificationContent(newItemsSinceLastOpening);
-            //BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeContent.GetXml()));
+            await dataService.SyncOfflineTasksWithServerAsync();
+            await dataService.DownloadItemsFromServerAsync();
+
+            uint newItemsSinceLastOpening = (uint)(await dataService.GetItemsAsync(new FilterProperties
+            {
+                ItemType = FilterProperties.FilterPropertiesItemType.Unread,
+                CreationDateFrom = AppSettings.LastOpeningDateTime,
+                CreationDateTo = DateTime.Now
+            })).Count;
+            BadgeNumericNotificationContent badgeContent = new BadgeNumericNotificationContent(newItemsSinceLastOpening);
+            BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeContent.GetXml()));
 
             _deferral.Complete();
         }
