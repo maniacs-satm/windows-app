@@ -94,7 +94,7 @@
                         IsOn="{x:Bind ViewModel.SyncReadingProgress, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
-            <!--<PivotItem Header="Background task">
+            <PivotItem Header="Background task">
                 <StackPanel>
                     <ToggleSwitch Header="Use background task" IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}"/>
                     <TextBlock Text="Interval in minutes" Margin="0,8,0,-4"/>
@@ -115,7 +115,7 @@
                         <RadioButton Checked="IntervalRadioButton_Checked" IsEnabled="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}">120</RadioButton>
                     </StackPanel>
                 </StackPanel>
-            </PivotItem>-->
+            </PivotItem>
             <PivotItem x:Uid="InfoSettingsPivotItem" Header="Info">
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <StackPanel>
