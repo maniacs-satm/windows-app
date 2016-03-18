@@ -127,7 +127,7 @@ namespace wallabag.Common
 
         public static DateTimeOffset? LastOpeningDateTime
         {
-            get { return GetProperty(nameof(LastOpeningDateTime), DateTime.Now, true); }
+            get { return GetProperty(nameof(LastOpeningDateTime), DateTimeOffset.Now, true); }
             set { SetProperty(nameof(LastOpeningDateTime), value, true); }
         }
     }
