@@ -497,19 +497,19 @@
             Margin="0,48"
             Background="#4F000000"
             x:DeferLoadStrategy="Lazy"
-            PointerPressed="OverlayGrid_PointerPressed">
+            PointerPressed="OverlayGrid_PointerPressed"
+            Visibility="Collapsed">
             <Grid.RenderTransform>
                 <CompositeTransform />
             </Grid.RenderTransform>
             <ScrollViewer
                 x:Name="FilterPopup"
                 Padding="12"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Top"
                 Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                 x:DeferLoadStrategy="Lazy"
                 RenderTransformOrigin="0.5,0.5"
-                ScrollViewer.VerticalScrollBarVisibility="Auto">
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Visibility="Collapsed">
                 <ScrollViewer.RenderTransform>
                     <CompositeTransform />
                 </ScrollViewer.RenderTransform>
