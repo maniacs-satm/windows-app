@@ -436,7 +436,6 @@
                 <AppBarButton
                     x:Name="searchToggleButton"
                     x:Uid="SearchAppBarButton"
-                    Width="48"
                     Click="searchToggleButton_Click"
                     Icon="Find"
                     IsCompact="True" />
