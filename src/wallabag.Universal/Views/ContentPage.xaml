@@ -14,7 +14,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:t10="using:Template10.Controls"
     xmlns:vm="using:wallabag.ViewModels"
-    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemChromeMediumColor}"   
+    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemChromeMediumColor}"
     common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemChromeMediumColor}"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d">
@@ -363,7 +363,8 @@
         <Grid
             x:Name="HeaderGrid"
             Height="48"
-            VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            VerticalAlignment="Top"
+            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
@@ -395,7 +396,10 @@
                 Grid.Column="1"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
-                <AppBarButton MinWidth="1" IsCompact="True" Visibility="{x:Bind ViewModel.OfflineTasksCountGreaterThanZero, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                <AppBarButton
+                    MinWidth="1"
+                    IsCompact="True"
+                    Visibility="{x:Bind ViewModel.OfflineTasksCountGreaterThanZero, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,4,-2"
@@ -432,7 +436,6 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-
                 <AppBarButton
                     x:Name="searchToggleButton"
                     x:Uid="SearchAppBarButton"
@@ -440,37 +443,19 @@
                     Icon="Find"
                     IsCompact="True" />
             </StackPanel>
-        </Grid>
-        <Grid
-            x:Name="SearchGrid"
-            VerticalAlignment="Top"
-            x:DeferLoadStrategy="Lazy"
-            RenderTransformOrigin="0.5,0.5"
-            RequestedTheme="Dark"
-            Visibility="Collapsed">
-            <Grid.RenderTransform>
-                <CompositeTransform />
-            </Grid.RenderTransform>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <Rectangle Grid.ColumnSpan="2" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
-            <TextBlock
-                x:Uid="SearchHeaderTextBlock"
-                Style="{StaticResource PageTitleTextBlockStyle}"
-                Text="SEARCH &amp; FILTER" />
             <AutoSuggestBox
                 x:Name="SearchQueryAutoSuggestBox"
                 x:Uid="SearchBox"
-                MinWidth="300"
-                Margin="0,0,6,0"
-                HorizontalAlignment="Right"
+                Grid.ColumnSpan="2"
+                Margin="4"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                x:DeferLoadStrategy="Lazy"
                 ItemsSource="{x:Bind ViewModel.SearchSuggestions, Mode=OneWay}"
                 PlaceholderText="Search for items…"
                 QueryIcon="Find"
-                Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay}">
+                Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay}"
+                Visibility="Collapsed">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="TextChanged">
                         <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchQueryChangedCommand}" />
@@ -480,13 +465,6 @@
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </AutoSuggestBox>
-            <AppBarButton
-                x:Uid="CloseButton"
-                Grid.Column="1"
-                Width="48"
-                Click="CloseSearchButton_Click"
-                Icon="Cancel"
-                IsCompact="True" />
         </Grid>
 
         <controls:AdaptiveGridView
