@@ -359,6 +359,30 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup x:Name="AdaptiveStates">
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ItemGridView.MinItemHeight" Value="125" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ItemGridView.MinItemHeight" Value="200" />
+                        <Setter Target="FilterPopup.HorizontalAlignment" Value="Left" />
+                        <Setter Target="FilterPopup.VerticalAlignment" Value="Top" />
+                        <Setter Target="SearchQueryAutoSuggestBox.HorizontalAlignment" Value="Right" />
+                        <Setter Target="SearchQueryAutoSuggestBox.Width" Value="350" />
+                        <Setter Target="SearchQueryAutoSuggestBox.Margin" Value="4,4,68,4" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
         </VisualStateManager.VisualStateGroups>
         <Grid
             x:Name="HeaderGrid"
