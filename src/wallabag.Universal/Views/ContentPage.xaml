@@ -503,11 +503,10 @@
             </Grid.RenderTransform>
             <ScrollViewer
                 x:Name="FilterPopup"
-                Width="375"
-                Padding="8"
-                HorizontalAlignment="Left"
+                Padding="12"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
-                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                 x:DeferLoadStrategy="Lazy"
                 RenderTransformOrigin="0.5,0.5"
                 ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -529,14 +528,22 @@
                         Margin="0,0,0,4"
                         Style="{StaticResource HeaderTextBlockStyle}"
                         Text="ITEM TYPE" />
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <RadioButton
                             x:Uid="ItemTypeAll"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="all"
-                            Tag="&#xE138;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=All, Mode=OneWay}"
+                            Tag="&#xE138;"
                             ToolTipService.ToolTip="All">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -546,11 +553,12 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeUnread"
+                            Grid.Column="1"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="unread"
-                            Tag="&#xE052;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Unread, Mode=OneWay}"
+                            Tag="&#xE052;"
                             ToolTipService.ToolTip="Unread">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -560,11 +568,12 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeFavorites"
+                            Grid.Row="1"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="favorites"
-                            Tag="&#xE006;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Favorites, Mode=OneWay}"
+                            Tag="&#xE006;"
                             ToolTipService.ToolTip="Starred">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -574,11 +583,13 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeArchived"
+                            Grid.Row="1"
+                            Grid.Column="1"
                             Style="{StaticResource IconAndTextRadioButtonStyle}"
                             Content="archive"
-                            Tag="&#xE1D3;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Archived, Mode=OneWay}"
+                            Tag="&#xE1D3;"
                             ToolTipService.ToolTip="Archived">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -586,7 +597,7 @@
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
-                    </StackPanel>
+                    </Grid>
                     <TextBlock
                         x:Uid="SortOrderFilterTextBlock"
                         Style="{StaticResource HeaderTextBlockStyle}"
