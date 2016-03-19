@@ -24,7 +24,7 @@ namespace wallabag.Data.Services
         private SQLiteAsyncConnection conn = new SQLiteAsyncConnection(DATABASE_PATH);
         private int _lastItemId = 0;
 
-        public bool CredentialsAreExisting { get; } = !string.IsNullOrEmpty(AppSettings.AccessToken);
+        public bool CredentialsAreExisting { get; } = !string.IsNullOrEmpty(AppSettings.AccessToken) && !string.IsNullOrEmpty(AppSettings.RefreshToken) && !string.IsNullOrEmpty(AppSettings.wallabagUrl);
 
         public async Task InitializeDatabaseAsync()
         {
