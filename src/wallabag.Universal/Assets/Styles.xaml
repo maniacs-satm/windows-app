@@ -148,10 +148,6 @@
             Text="{Binding}"
             TextWrapping="Wrap" />
     </DataTemplate>
-    <Style TargetType="CommandBar">
-        <Setter Property="RequestedTheme" Value="Dark" />
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
-    </Style>
     <Style x:Key="IconAndTextRadioButtonStyle" TargetType="RadioButton">
         <Setter Property="Margin" Value="2" />
         <Setter Property="Padding" Value="12,8" />
