@@ -395,7 +395,7 @@
                 Grid.Column="1"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
-                <AppBarButton MinWidth="1" IsCompact="True">
+                <AppBarButton MinWidth="1" IsCompact="True" Visibility="{x:Bind ViewModel.OfflineTasksCountGreaterThanZero, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,4,-2"

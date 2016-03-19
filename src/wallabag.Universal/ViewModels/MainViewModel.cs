@@ -28,6 +28,8 @@ namespace wallabag.ViewModels
         public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<OfflineTaskViewModel> OfflineTasks { get; set; } = new ObservableCollection<OfflineTaskViewModel>();
 
+        public bool OfflineTasksCountGreaterThanZero { get; set; } = false;
+
         public ObservableCollection<SearchResult> SearchSuggestions { get; set; } = new ObservableCollection<SearchResult>();
         public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<Tag> TagSuggestions { get; set; } = new ObservableCollection<Tag>();
@@ -153,6 +155,14 @@ namespace wallabag.ViewModels
             TagQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => TagQuerySubmitted(e));
             EstimatedReadingTimeFilterChangedCommand = new DelegateCommand<string>(readingTime => EstimatedReadingTimeFilterChanged(readingTime));
             CreationDateFilterChangedCommand = new DelegateCommand<CalendarDatePickerDateChangedEventArgs>(args => CreationDateFilterChanged(args));
+
+            OfflineTasks.CollectionChanged += (s, e) =>
+            {
+                if (OfflineTasks.Count > 0)
+                    OfflineTasksCountGreaterThanZero = true;
+                else
+                    OfflineTasksCountGreaterThanZero = false;
+            };
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -274,7 +284,7 @@ namespace wallabag.ViewModels
                     DomainNames.Add(item.Model.DomainName);
 
             DomainNames.Sort(d => d);
-            
+
             await GetOfflineTasksAsync();
         }
 
