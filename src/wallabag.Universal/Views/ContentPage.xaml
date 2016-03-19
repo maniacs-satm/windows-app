@@ -427,7 +427,8 @@
                                                 Margin="0,0,8,0"
                                                 VerticalAlignment="Center"
                                                 FontFamily="Segoe MDL2 Assets"
-                                                Text="{x:Bind ActionLogo}" />
+                                                Text="{x:Bind ActionLogo}" 
+                                                TextTrimming="CharacterEllipsis" />
                                             <TextBlock Text="{x:Bind ItemTitle}" />
                                         </StackPanel>
                                     </DataTemplate>
