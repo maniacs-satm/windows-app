@@ -532,8 +532,9 @@
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <RadioButton
                             x:Uid="ItemTypeAll"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE138;"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="all"
+                            Tag="&#xE138;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=All, Mode=OneWay}"
                             ToolTipService.ToolTip="All">
@@ -545,8 +546,9 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeUnread"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE052;"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="unread"
+                            Tag="&#xE052;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Unread, Mode=OneWay}"
                             ToolTipService.ToolTip="Unread">
@@ -558,8 +560,9 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeFavorites"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE006;"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="favorites"
+                            Tag="&#xE006;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Favorites, Mode=OneWay}"
                             ToolTipService.ToolTip="Starred">
@@ -571,8 +574,9 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeArchived"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE1D3;"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="archive"
+                            Tag="&#xE1D3;"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Archived, Mode=OneWay}"
                             ToolTipService.ToolTip="Archived">
