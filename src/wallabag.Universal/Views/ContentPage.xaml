@@ -427,7 +427,7 @@
                                                 Margin="0,0,8,0"
                                                 VerticalAlignment="Center"
                                                 FontFamily="Segoe MDL2 Assets"
-                                                Text="{x:Bind ActionLogo}" 
+                                                Text="{x:Bind ActionLogo}"
                                                 TextTrimming="CharacterEllipsis" />
                                             <TextBlock Text="{x:Bind ItemTitle}" />
                                         </StackPanel>
@@ -496,10 +496,8 @@
             x:Name="OverlayGrid"
             Margin="0,48"
             Background="#4F000000"
-            Opacity="0"
             x:DeferLoadStrategy="Lazy"
-            PointerPressed="OverlayGrid_PointerPressed"
-            Visibility="Collapsed">
+            PointerPressed="OverlayGrid_PointerPressed">
             <Grid.RenderTransform>
                 <CompositeTransform />
             </Grid.RenderTransform>
@@ -512,8 +510,7 @@
                 Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                 x:DeferLoadStrategy="Lazy"
                 RenderTransformOrigin="0.5,0.5"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                Visibility="Collapsed">
+                ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ScrollViewer.RenderTransform>
                     <CompositeTransform />
                 </ScrollViewer.RenderTransform>
@@ -582,19 +579,6 @@
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
                                     <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="archived" />
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
-                        </RadioButton>
-                        <RadioButton
-                            x:Uid="ItemTypeDeleted"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE107;"
-                            GroupName="ItemType"
-                            IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Deleted, Mode=OneWay}"
-                            ToolTipService.ToolTip="Deleted">
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Checked">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="deleted" />
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
