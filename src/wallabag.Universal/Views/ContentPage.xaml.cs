@@ -22,8 +22,8 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
-            ShowSearch.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
-            HideSearch.Completed += (s, e) => { ItemGridView.Focus(FocusState.Programmatic); };
+            ShowSearchStoryboard.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
+            HideSearchStoryboard.Completed += (s, e) => { ItemGridView.Focus(FocusState.Programmatic); };
             ShowOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(false); };
             HideOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(true); };
         }
@@ -203,7 +203,7 @@ namespace wallabag.Views
             if (_IsSearchVisible == false)
             {
                 _IsSearchVisible = true;
-                ShowSearch.Begin();
+                ShowSearchStoryboard.Begin();
                 ShowOverlay.Begin();
                 if (AppSettings.OpenTheFilterPaneWithTheSearch)
                     FilterButton_Click(sender, e);
@@ -211,7 +211,7 @@ namespace wallabag.Views
             else
             {
                 _IsSearchVisible = false;
-                HideSearch.Begin();
+                HideSearchStoryboard.Begin();
                 if (_IsFilterPopupVisible)
                     FilterButton_Click(sender, e);
             }
@@ -238,7 +238,7 @@ namespace wallabag.Views
         {
             if (_IsSearchVisible)
             {
-                HideSearch.Begin();
+                HideSearchStoryboard.Begin();
                 _IsSearchVisible = false;
             }
             if (_IsFilterPopupVisible)
@@ -251,7 +251,7 @@ namespace wallabag.Views
 
         private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
         {
-            HideSearch.Begin();
+            HideSearchStoryboard.Begin();
             if (AppSettings.OpenTheFilterPaneWithTheSearch || !_IsFilterPopupVisible)
             {
                 HideOverlay.Begin();
