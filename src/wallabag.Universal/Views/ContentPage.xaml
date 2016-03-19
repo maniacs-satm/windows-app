@@ -14,10 +14,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:t10="using:Template10.Controls"
     xmlns:vm="using:wallabag.ViewModels"
-    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
-    common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemAccentColor}"
-    common:TitleBarExtensions.ButtonForegroundColor="White"
-    common:TitleBarExtensions.ForegroundColor="White"
+    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemChromeMediumColor}"   
+    common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemChromeMediumColor}"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d">
     <Page.Resources>
@@ -365,9 +363,7 @@
         <Grid
             x:Name="HeaderGrid"
             Height="48"
-            VerticalAlignment="Top"
-            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-            RequestedTheme="Dark">
+            VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
