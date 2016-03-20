@@ -9,7 +9,6 @@
     x:Uid="EditTagsContentDialog"
     Title="EDIT TAGS"
     PrimaryButtonText="Finish"
-    RequestedTheme="Dark"
     TitleTemplate="{StaticResource ContentDialogTitleTemplate}"
     mc:Ignorable="d">
 
