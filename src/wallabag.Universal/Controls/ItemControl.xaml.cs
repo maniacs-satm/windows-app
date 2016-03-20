@@ -1,11 +1,8 @@
-﻿using System.Threading.Tasks;
-using wallabag.Common;
-using wallabag.ViewModels;
+﻿using wallabag.ViewModels;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace wallabag.Controls
 {
@@ -16,7 +13,7 @@ namespace wallabag.Controls
 
         public ItemControl()
         {
-            InitializeComponent();
+            InitializeComponent();          
             PointerEntered += BottomGrid_PointerEntered;
             PointerExited += BottomGrid_PointerExited;
 
@@ -40,10 +37,9 @@ namespace wallabag.Controls
             if (WindowWidth >= 720)
                 HideOverlayStoryboard.Begin();
         }
-        private async void BottomGrid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void BottomGrid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             _PointerExited = false;
-            await Task.Delay(666);
 
             if (!_PointerExited && WindowWidth >= 720)
                 ShowOverlayStoryboard.Begin();
