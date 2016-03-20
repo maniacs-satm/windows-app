@@ -133,7 +133,7 @@
                 <AppBarSeparator />
                 <AppBarButton
                     x:Uid="DeleteAppBarButton"
-                    Command="{x:Bind ViewModel.CurrentItem.DeleteCommand}"
+                    Command="{x:Bind ViewModel.DeleteItemCommand}"
                     Label="Delete" />
             </CommandBar.SecondaryCommands>
         </CommandBar>

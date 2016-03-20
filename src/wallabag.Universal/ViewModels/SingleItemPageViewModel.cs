@@ -66,6 +66,7 @@ namespace wallabag.ViewModels
         public DelegateCommand IncreaseFontSizeCommand { get; private set; }
         public DelegateCommand DecreaseFontSizeCommand { get; private set; }
         public DelegateCommand ChangeTextAlignmentCommand { get; private set; }
+        public DelegateCommand DeleteItemCommand { get; private set; }
 
         public SingleItemPageViewModel(IDataService dataService)
         {
@@ -108,6 +109,12 @@ namespace wallabag.ViewModels
                     TextAlignButtonContent = TextAlignJustifyPathIcon;
                 }
                 Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            });
+            DeleteItemCommand = new DelegateCommand(async () =>
+            {
+                if (NavigationService.CanGoBack)
+                    NavigationService.GoBack();
+                await CurrentItem.DeleteAsync();
             });
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
