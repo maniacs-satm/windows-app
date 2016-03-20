@@ -43,7 +43,7 @@
                 x:Uid="MarkAsFavoriteMenuFlyoutItem"
                 Style="{StaticResource MenuFlyoutItemIconTemplate}"
                 Click="ContextMenuMarkAsFavorite_Click"
-                Tag="&#xE00B;"
+                Tag="&#xE006;"
                 Text="Mark as favorite"
                 Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
             <MenuFlyoutItem
@@ -51,7 +51,7 @@
                 x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
                 Style="{StaticResource MenuFlyoutItemIconTemplate}"
                 Click="ContextMenuMarkAsFavorite_Click"
-                Tag="&#xE006;"
+                Tag="&#xE007;"
                 Text="Unmark as favorite"
                 Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <MenuFlyoutSeparator />
