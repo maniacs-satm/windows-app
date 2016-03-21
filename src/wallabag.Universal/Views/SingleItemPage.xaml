@@ -216,9 +216,18 @@
                 </AppBarButton.Icon>
                 <AppBarButton.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="light" />
-                        <MenuFlyoutItem Text="sepia" />
-                        <MenuFlyoutItem Text="dark" />
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                            CommandParameter="light"
+                            Text="light" />
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                            CommandParameter="sepia"
+                            Text="sepia" />
+                        <MenuFlyoutItem
+                            Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
+                            CommandParameter="dark"
+                            Text="dark" />
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

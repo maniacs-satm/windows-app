@@ -61,7 +61,7 @@ namespace wallabag.ViewModels
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
         public DelegateCommand EditTagsCommand { get; private set; }
         public DelegateCommand ShowShareUICommand { get; private set; }
-        public DelegateCommand ChangeColorSchemeCommand { get; private set; }
+        public DelegateCommand<string> ChangeColorSchemeCommand { get; private set; }
         public DelegateCommand ChangeFontFamilyCommand { get; private set; }
         public DelegateCommand IncreaseFontSizeCommand { get; private set; }
         public DelegateCommand DecreaseFontSizeCommand { get; private set; }
@@ -80,7 +80,7 @@ namespace wallabag.ViewModels
             });
             ShowShareUICommand = new DelegateCommand(() => { DataTransferManager.ShowShareUI(); });
 
-            ChangeColorSchemeCommand = new DelegateCommand(() => ChangeColorScheme());
+            ChangeColorSchemeCommand = new DelegateCommand<string>(color => ChangeColorScheme(color));
             EditTagsCommand = new DelegateCommand(async () =>
             {
                 await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.EditTags, CurrentItem.Model.Tags);
@@ -200,22 +200,28 @@ namespace wallabag.ViewModels
             deferral.Complete();
         }
 
-        public void ChangeColorScheme()
+        public void ChangeColorScheme(string color)
         {
-            if (AppSettings.ColorScheme == "light")
+            AppSettings.ColorScheme = color;
+            if (color == "dark")
             {
-                AppSettings.ColorScheme = "dark";
                 ColorSchemeButtonContent = "\uE706";
-                CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
-                CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
+                CurrentBackground = ColorHelper.FromArgb(255, 51, 51, 51).ToSolidColorBrush();
+                CurrentForeground = ColorHelper.FromArgb(255, 204, 204, 204).ToSolidColorBrush();
                 AppBarRequestedTheme = ElementTheme.Dark;
             }
-            else
+            else if (color == "light")
             {
-                AppSettings.ColorScheme = "light";
                 ColorSchemeButtonContent = "\uE708";
                 CurrentBackground = ColorHelper.FromArgb(255, 255, 255, 255).ToSolidColorBrush();
                 CurrentForeground = ColorHelper.FromArgb(255, 68, 68, 68).ToSolidColorBrush();
+                AppBarRequestedTheme = ElementTheme.Light;
+            }
+            else if (color == "sepia")
+            {
+                ColorSchemeButtonContent = "\uE708";
+                CurrentBackground = Colors.Beige.ToSolidColorBrush();
+                CurrentForeground = Colors.Maroon.ToSolidColorBrush();
                 AppBarRequestedTheme = ElementTheme.Light;
             }
 
