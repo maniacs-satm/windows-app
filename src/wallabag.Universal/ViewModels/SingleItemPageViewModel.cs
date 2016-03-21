@@ -154,19 +154,7 @@ namespace wallabag.ViewModels
             else
                 TextAlignButtonContent = TextAlignJustifyPathIcon;
 
-            if (AppSettings.ColorScheme == "light")
-            {
-                ColorSchemeButtonContent = "\uE708";
-                CurrentBackground = ColorHelper.FromArgb(255, 255, 255, 255).ToSolidColorBrush();
-                CurrentForeground = ColorHelper.FromArgb(255, 68, 68, 68).ToSolidColorBrush();
-                AppBarRequestedTheme = ElementTheme.Light;
-            }
-            else {
-                ColorSchemeButtonContent = "\uE706";
-                CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
-                CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
-                AppBarRequestedTheme = ElementTheme.Dark;
-            }
+            ChangeColorScheme(string.Empty);
         }
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -202,30 +190,33 @@ namespace wallabag.ViewModels
 
         public void ChangeColorScheme(string color)
         {
-            AppSettings.ColorScheme = color;
-            if (color == "dark")
+            var colorScheme = color;
+
+            if (string.IsNullOrEmpty(color))
+                colorScheme = AppSettings.ColorScheme;
+
+
+            if (colorScheme == "dark")
             {
-                ColorSchemeButtonContent = "\uE706";
                 CurrentBackground = ColorHelper.FromArgb(255, 51, 51, 51).ToSolidColorBrush();
                 CurrentForeground = ColorHelper.FromArgb(255, 204, 204, 204).ToSolidColorBrush();
                 AppBarRequestedTheme = ElementTheme.Dark;
             }
-            else if (color == "light")
+            else if (colorScheme == "light")
             {
-                ColorSchemeButtonContent = "\uE708";
                 CurrentBackground = ColorHelper.FromArgb(255, 255, 255, 255).ToSolidColorBrush();
                 CurrentForeground = ColorHelper.FromArgb(255, 68, 68, 68).ToSolidColorBrush();
                 AppBarRequestedTheme = ElementTheme.Light;
             }
-            else if (color == "sepia")
+            else if (colorScheme == "sepia")
             {
-                ColorSchemeButtonContent = "\uE708";
                 CurrentBackground = Colors.Beige.ToSolidColorBrush();
                 CurrentForeground = Colors.Maroon.ToSolidColorBrush();
                 AppBarRequestedTheme = ElementTheme.Light;
             }
 
-            Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            if (!string.IsNullOrEmpty(color))
+                Messenger.Default.Send(new NotificationMessage("updateHTML"));
         }
         public void ChangeFontFamily()
         {
