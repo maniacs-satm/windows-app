@@ -127,11 +127,34 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton
-                    x:Uid="FontSettingsAppBarButton"
-                    Click="FontSettingsAppBarButton_Click"
-                    Icon="Font"
-                    Label="Font settings" />
+                <AppBarButton Label="Font size">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Command="{Binding IncreaseFontSizeCommand}" Text="Increase" />
+                            <MenuFlyoutItem Command="{Binding DecreaseFontSizeCommand}" Text="Decrease" />
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Label="Color scheme">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem
+                                Command="{Binding ChangeColorSchemeCommand}"
+                                CommandParameter="light"
+                                Text="light" />
+                            <MenuFlyoutItem
+                                Command="{Binding ChangeColorSchemeCommand}"
+                                CommandParameter="sepia"
+                                Text="sepia" />
+                            <MenuFlyoutItem
+                                Command="{Binding ChangeColorSchemeCommand}"
+                                CommandParameter="dark"
+                                Text="dark" />
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Command="{Binding ChangeFontFamilyCommand}" Label="Change font family" />
+                <AppBarButton Command="{Binding ChangeTextAlignmentCommand}" Label="Change text alignment" />
                 <AppBarSeparator />
                 <AppBarButton
                     x:Uid="DeleteAppBarButton"
@@ -193,54 +216,5 @@
                     Content="Open in browser" />
             </StackPanel>
         </Border>
-        <CommandBar
-            x:Name="FormattingOptionsGrid"
-            VerticalAlignment="Bottom"
-            Style="{StaticResource BlankCommandBarStyle}"
-            x:DeferLoadStrategy="Lazy"
-            Visibility="Collapsed">
-            <AppBarButton Command="{x:Bind ViewModel.IncreaseFontSizeCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1C7;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Command="{x:Bind ViewModel.DecreaseFontSizeCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1C6;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarSeparator />
-            <AppBarButton>
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE2B1;" />
-                </AppBarButton.Icon>
-                <AppBarButton.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
-                            CommandParameter="light"
-                            Text="light" />
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
-                            CommandParameter="sepia"
-                            Text="sepia" />
-                        <MenuFlyoutItem
-                            Command="{x:Bind ViewModel.ChangeColorSchemeCommand}"
-                            CommandParameter="dark"
-                            Text="dark" />
-                    </MenuFlyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton Command="{x:Bind ViewModel.ChangeFontFamilyCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8D2;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-            <AppBarButton Command="{x:Bind ViewModel.ChangeTextAlignmentCommand}">
-                <AppBarButton.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1A2;" />
-                </AppBarButton.Icon>
-            </AppBarButton>
-        </CommandBar>
     </Grid>
 </Page>
