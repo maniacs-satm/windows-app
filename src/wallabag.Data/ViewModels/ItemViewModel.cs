@@ -95,7 +95,8 @@ namespace wallabag.ViewModels
                 font = AppSettings.FontFamily,
                 progress = Model.ReadingProgress,
                 publishDate = string.Format("{0:d}", Model.CreationDate),
-                stylesheet = styleSheetBuilder.ToString()
+                stylesheet = styleSheetBuilder.ToString(),
+                tags = GenerateHtmlFormattedTagsList()
             });
         }
         public void GetIntroSentence()
@@ -111,6 +112,20 @@ namespace wallabag.ViewModels
                 if (!string.IsNullOrWhiteSpace(node.InnerText))
                     IntroSentence += node.InnerText;
             }
+        }
+        public string GenerateHtmlFormattedTagsList()
+        {
+            string result = string.Empty;
+
+            if (Model.Tags.Count > 0)
+            {
+                result = "<ul class=\"tags\">";
+                foreach (var item in Model.Tags)
+                    result += $"<li>{item.Label}</li>";
+                result += "</ul>";
+            }
+
+            return result;
         }
         private async void Tags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
