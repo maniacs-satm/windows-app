@@ -271,6 +271,22 @@ article {
         color: #808080 !important;
         text-decoration: none;
     }
+
+.wallabag-header ul {
+    list-style: none;
+    margin: 0 auto;
+    margin-top: -1em;
+    margin-bottom: 1.5em;
+    text-align: center;
+    padding: 0;
+}
+
+    .wallabag-header ul li {
+        display: inline-block;
+        margin: 0 0.2em;
+        font-style: italic;
+        font-size: 0.8em;
+    }
 /*-----------------------------------------------------------------*/
 /*----------------------- Customization ---------------------------*/
 /*-----------------------------------------------------------------*/
