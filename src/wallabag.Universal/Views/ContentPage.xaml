@@ -466,7 +466,6 @@
                             </Flyout.FlyoutPresenterStyle>
                             <ListView
                                 MaxHeight="250"
-                                Padding="0,0,12,0"
                                 ItemsSource="{x:Bind ViewModel.OfflineTasks}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="data:OfflineTaskViewModel">
