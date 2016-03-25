@@ -208,6 +208,13 @@ namespace wallabag.ViewModels
             {
                 if (message.Notification == "UpdateView")
                     await GetItemsFromDatabaseAsync();
+                else if (message.Notification == "ResetSearch")
+                {
+                    CurrentFilterProperties.SearchQuery = string.Empty;
+                    SearchQuery = string.Empty;
+                    HeaderText = Helpers.LocalizedString("ItemsHeaderTextBlock.Text");
+                    await GetItemsFromDatabaseAsync();
+                }
             });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
