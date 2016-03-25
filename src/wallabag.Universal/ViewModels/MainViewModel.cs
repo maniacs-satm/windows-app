@@ -54,7 +54,7 @@ namespace wallabag.ViewModels
         public DelegateCommand DeleteItemsCommand { get; private set; }
 
         // Search
-        public string HeaderText { get; set; } = Helpers.LocalizedString("ItemsHeaderTextBlock.Text");
+        public string HeaderText { get; set; } = Helpers.LocalizedString("ItemsHeaderTextBlock/Text");
         public bool? IsItemClickEnabled { get; set; } = true;
         public bool IsSearchVisible { get; set; } = false;
         public string SearchQuery { get; set; }
@@ -212,7 +212,7 @@ namespace wallabag.ViewModels
                 {
                     CurrentFilterProperties.SearchQuery = string.Empty;
                     SearchQuery = string.Empty;
-                    HeaderText = Helpers.LocalizedString("ItemsHeaderTextBlock.Text");
+                    HeaderText = Helpers.LocalizedString("ItemsHeaderTextBlock/Text");
                     await GetItemsFromDatabaseAsync();
                 }
             });
