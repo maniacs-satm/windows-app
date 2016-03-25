@@ -140,7 +140,7 @@ namespace wallabag.ViewModels
             });
             MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsReadAsync());
             UnmarkItemsAsReadCommand = new DelegateCommand(async () => await UnmarkItemsAsReadAsync());
-            MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsFavoriteAsync());
+            MarkItemsAsFavoriteCommand = new DelegateCommand(async () => await MarkItemsAsFavoriteAsync());
             UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
             EditTagsCommand = new DelegateCommand(async () => await EditTagsAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
@@ -301,7 +301,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = true;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemReadAPIString, item.Model.IsRead);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsRead);
             }
             await FinishMultipleSelection();
         }
@@ -310,7 +310,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = false;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemReadAPIString, item.Model.IsRead);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsRead);
             }
             await FinishMultipleSelection();
         }
@@ -319,7 +319,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = true;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemStarredAPIString, item.Model.IsStarred);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsFavorite);
             }
             await FinishMultipleSelection();
         }
@@ -328,7 +328,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = false;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemStarredAPIString, item.Model.IsStarred);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsFavorite);
             }
             await FinishMultipleSelection();
         }
@@ -339,14 +339,14 @@ namespace wallabag.ViewModels
 
             if (dialog == ContentDialogResult.Primary && newTags.Count > 0)
                 foreach (var item in SelectedItems)
-                    await item.AddTagsAsync(newTags);
+                    await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.AddTags, newTags.ToCommaSeparatedString());
         }
         public async Task DeleteItemsAsync()
         {
             foreach (var item in SelectedItems)
             {
                 item.Model.IsDeleted = true;
-                await item.DeleteAsync();
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.Delete);
             }
             await FinishMultipleSelection();
         }
@@ -356,6 +356,7 @@ namespace wallabag.ViewModels
                 await _dataService.UpdateItemAsync(item.Model);
 
             await GetItemsFromDatabaseAsync();
+            await _dataService.SyncOfflineTasksWithServerAsync();
             IsItemClickEnabled = false;
         }
 
