@@ -432,7 +432,7 @@
                         x:Uid="ItemsHeaderTextBlock"
                         Margin="8,0"
                         Style="{StaticResource PageTitleTextBlockStyle}"
-                        Text="ITEMS" />
+                        Text="{x:Bind ViewModel.HeaderText, Mode=OneWay}" />
                     <TextBlock
                         x:Name="ArrowTextBlock"
                         VerticalAlignment="Center"

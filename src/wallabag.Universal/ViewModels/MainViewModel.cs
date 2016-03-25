@@ -54,6 +54,7 @@ namespace wallabag.ViewModels
         public DelegateCommand DeleteItemsCommand { get; private set; }
 
         // Search
+        public string HeaderText { get; set; } = Helpers.LocalizedString("ItemsHeaderTextBlock.Text");
         public bool? IsItemClickEnabled { get; set; } = true;
         public bool IsSearchVisible { get; set; } = false;
         public string SearchQuery { get; set; }
@@ -427,6 +428,7 @@ namespace wallabag.ViewModels
             else
             {
                 CurrentFilterProperties.SearchQuery = args.QueryText;
+                HeaderText = $"\"{args.QueryText}\"".ToUpper();
                 Messenger.Default.Send(new NotificationMessage("HideOverlay"));
                 return GetItemsFromDatabaseAsync();
             }
