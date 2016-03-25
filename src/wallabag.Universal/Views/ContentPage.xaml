@@ -337,6 +337,13 @@
                     </EasingDoubleKeyFrame.EasingFunction>
                 </EasingDoubleKeyFrame>
             </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="stackPanel">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="HideSearchStoryboard">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
@@ -402,7 +409,6 @@
                         <Setter Target="FilterPopup.VerticalAlignment" Value="Top" />
                         <Setter Target="SearchQueryAutoSuggestBox.HorizontalAlignment" Value="Right" />
                         <Setter Target="SearchQueryAutoSuggestBox.Width" Value="350" />
-                        <Setter Target="SearchQueryAutoSuggestBox.Margin" Value="4,4,68,4" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -440,7 +446,7 @@
                     </TextBlock>
                 </StackPanel>
             </Button>
-            <StackPanel
+            <StackPanel x:Name="stackPanel"
                 Grid.Column="1"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
