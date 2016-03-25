@@ -178,7 +178,7 @@ namespace wallabag.Data.Services
             }
             if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
             {
-                sqlQuery += "AND Title LIKE = ?";
+                sqlQuery += "AND Title LIKE ?";
                 sqlParams.Add($"%{filterProperties.SearchQuery}%");
             }
 
