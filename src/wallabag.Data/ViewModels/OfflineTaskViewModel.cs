@@ -41,7 +41,8 @@ namespace wallabag.Data.ViewModels
                 case OfflineTask.OfflineTaskAction.UnmarkAsFavorite:
                     ActionLogo = "\uE007";
                     break;
-                case OfflineTask.OfflineTaskAction.ModifyTags:
+                case OfflineTask.OfflineTaskAction.AddTags:
+                case OfflineTask.OfflineTaskAction.DeleteTags:
                     ActionLogo = "\uE1CB";
                     break;
                 case OfflineTask.OfflineTaskAction.Delete:
