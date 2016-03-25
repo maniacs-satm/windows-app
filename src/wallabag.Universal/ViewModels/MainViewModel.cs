@@ -355,9 +355,13 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
                 await _dataService.UpdateItemAsync(item.Model);
 
+            IsItemClickEnabled = true;
+            IsMultipleSelectionEnabled = false;
+
+            Messenger.Default.Send(new NotificationMessage("FinishMultipleSelection"));
+
             await GetItemsFromDatabaseAsync();
             await _dataService.SyncOfflineTasksWithServerAsync();
-            IsItemClickEnabled = false;
         }
 
         public void ItemTypeSelectionChanged(string itemType)

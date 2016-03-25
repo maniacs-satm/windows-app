@@ -35,6 +35,8 @@ namespace wallabag.Views
                     searchToggleButton_Click(this, new RoutedEventArgs());
                 else if (message.Notification == "HideOverlay")
                     OverlayGrid.Visibility = Visibility.Collapsed;
+                else if (message.Notification == "FinishMultipleSelection")
+                    ItemGridView.SelectionMode = ListViewSelectionMode.None;
             });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e) => Messenger.Default.Unregister(this);
