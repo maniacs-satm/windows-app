@@ -37,7 +37,7 @@ namespace wallabag.Data.Models
             MarkAsFavorite = 2,
             UnmarkAsFavorite = 3,
             AddTags = 4,
-            DeleteTags = 5,
+            DeleteTag = 5,
             Delete = 6,
             AddItem = 7
         }
@@ -72,7 +72,7 @@ namespace wallabag.Data.Models
                     parameters.Add("tags", parameter);
                     method = HttpRequestMethod.Post;
                     break;
-                case OfflineTaskAction.DeleteTags:
+                case OfflineTaskAction.DeleteTag:
                     if (parameter.GetType() != typeof(Tag))
                         throw new InvalidOperationException("To delete a tag the parameter must be of type 'Tag'.");
 

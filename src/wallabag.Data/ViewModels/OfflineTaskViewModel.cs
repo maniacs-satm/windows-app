@@ -42,7 +42,7 @@ namespace wallabag.Data.ViewModels
                     ActionLogo = "\uE007";
                     break;
                 case OfflineTask.OfflineTaskAction.AddTags:
-                case OfflineTask.OfflineTaskAction.DeleteTags:
+                case OfflineTask.OfflineTaskAction.DeleteTag:
                     ActionLogo = "\uE1CB";
                     break;
                 case OfflineTask.OfflineTaskAction.Delete:

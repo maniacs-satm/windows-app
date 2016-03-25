@@ -185,7 +185,7 @@ namespace wallabag.ViewModels
             }
             else
             {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.ModifyTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.AddTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
                 return false;
             }
         }
@@ -206,7 +206,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.ModifyTags, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
+                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.DeleteTag, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
                 return false;
             }
         }
@@ -234,7 +234,7 @@ namespace wallabag.ViewModels
                 else if (propertyName == ItemStarredAPIString && (bool)propertyValue == false)
                     action = OfflineTask.OfflineTaskAction.UnmarkAsFavorite;
                 else if (propertyName == "tags")
-                    action = OfflineTask.OfflineTaskAction.ModifyTags;
+                    action = OfflineTask.OfflineTaskAction.AddTags;
                 else
                     throw new NotSupportedException($"Property '{propertyName}' cannot be changed as it is not supported by the wallabag API.");
 
