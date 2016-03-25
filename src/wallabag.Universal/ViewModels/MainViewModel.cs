@@ -429,7 +429,7 @@ namespace wallabag.ViewModels
             {
                 CurrentFilterProperties.SearchQuery = args.QueryText;
                 HeaderText = $"\"{args.QueryText}\"".ToUpper();
-                Messenger.Default.Send(new NotificationMessage("HideOverlay"));
+                Messenger.Default.Send(new NotificationMessage("HideSearch"));
                 return GetItemsFromDatabaseAsync();
             }
         }
