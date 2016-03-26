@@ -136,7 +136,7 @@ namespace wallabag.ViewModels
                 Model.IsRead = true;
 
             await Model.UpdateAsync();
-            return await UpdateSpecificPropertyAsync(Model.Id, ItemReadAPIString, Model.IsRead);
+            return await UpdateSpecificPropertyAsync(Model.Id, OfflineTask.ItemReadAPIString, Model.IsRead);
         }
         public async Task<bool> SwitchFavoriteValueAsync()
         {
@@ -146,7 +146,7 @@ namespace wallabag.ViewModels
                 Model.IsStarred = true;
 
             await Model.UpdateAsync();
-            return await UpdateSpecificPropertyAsync(Model.Id, ItemStarredAPIString, Model.IsStarred);
+            return await UpdateSpecificPropertyAsync(Model.Id, OfflineTask.ItemStarredAPIString, Model.IsStarred);
         }
         public async Task<bool> DeleteAsync()
         {
@@ -211,8 +211,6 @@ namespace wallabag.ViewModels
             }
         }
 
-        public static string ItemReadAPIString { get; } = "is_starred";
-        public static string ItemStarredAPIString { get; } = "is_starred";
         public static async Task<bool> UpdateSpecificPropertyAsync(int itemId, string propertyName, object propertyValue)
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>();
@@ -225,13 +223,13 @@ namespace wallabag.ViewModels
             {
                 OfflineTask.OfflineTaskAction action = OfflineTask.OfflineTaskAction.MarkAsRead;
 
-                if (propertyName == ItemReadAPIString && (bool)propertyValue == true)
+                if (propertyName == OfflineTask.ItemReadAPIString && (bool)propertyValue == true)
                     action = OfflineTask.OfflineTaskAction.MarkAsRead;
-                else if (propertyName == ItemReadAPIString && (bool)propertyValue == false)
+                else if (propertyName == OfflineTask.ItemReadAPIString && (bool)propertyValue == false)
                     action = OfflineTask.OfflineTaskAction.UnmarkAsRead;
-                else if (propertyName == ItemStarredAPIString && (bool)propertyValue == true)
+                else if (propertyName == OfflineTask.ItemStarredAPIString && (bool)propertyValue == true)
                     action = OfflineTask.OfflineTaskAction.MarkAsFavorite;
-                else if (propertyName == ItemStarredAPIString && (bool)propertyValue == false)
+                else if (propertyName == OfflineTask.ItemStarredAPIString && (bool)propertyValue == false)
                     action = OfflineTask.OfflineTaskAction.UnmarkAsFavorite;
                 else if (propertyName == "tags")
                     action = OfflineTask.OfflineTaskAction.AddTags;

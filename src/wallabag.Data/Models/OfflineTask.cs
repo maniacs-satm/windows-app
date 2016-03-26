@@ -42,8 +42,8 @@ namespace wallabag.Data.Models
             AddItem = 7
         }
 
-        public static string ItemReadAPIString { get; } = "is_read";
-        public static string ItemStarredAPIString { get; } = "is_starred";
+        public static string ItemReadAPIString { get; } = "archive";
+        public static string ItemStarredAPIString { get; } = "star";
         public static Task AddTaskAsync(Item Item, OfflineTaskAction action, object parameter = null)
         {
             var requestUri = $"/entries/{Item.Id}";
