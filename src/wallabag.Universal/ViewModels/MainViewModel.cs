@@ -68,8 +68,6 @@ namespace wallabag.ViewModels
         public FilterSortType SortType { get; set; } = FilterSortType.ByDate;
         public FilterSortOrder SortOrder { get; set; } = FilterSortOrder.Descending;
         public FilterEstimatedReadingTime EstimatedReadingTime { get; set; } = FilterEstimatedReadingTime.Unfiltered;
-        private DateTimeOffset _MinDate = DateTimeOffset.Now;
-        private DateTimeOffset _MaxDate = DateTimeOffset.Now;
         public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortOrderChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortTypeChangedCommand { get; set; }
@@ -80,26 +78,11 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> TagQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> TagQuerySubmittedCommand { get; private set; }
         public DelegateCommand<string> EstimatedReadingTimeFilterChangedCommand { get; private set; }
-        public DateTimeOffset? MinDateNullable
-        {
-            get { return _MinDate; }
-            set
-            {
-                _MinDate = (DateTimeOffset)value;
-                RaisePropertyChanged(nameof(MinDateNullable));
-                RaisePropertyChanged(nameof(MinDate));
-            }
-        }
-        public DateTimeOffset MinDate { get { return _MinDate; } }
-        public DateTimeOffset? MaxDateNullable
-        {
-            get { return _MaxDate; }
-            set
-            {
-                _MaxDate = value ?? DateTimeOffset.Now;
-                RaisePropertyChanged(nameof(MaxDateNullable));
-            }
-        }
+
+        [AlsoNotifyFor("MinDate")]
+        public DateTimeOffset? MinDateNullable { get; set; }
+        public DateTimeOffset MinDate { get { return MinDateNullable ?? DateTimeOffset.Now; } }
+        public DateTimeOffset? MaxDateNullable { get; set; }
         public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
         public DelegateCommand<CalendarDatePickerDateChangedEventArgs> CreationDateFilterChangedCommand { get; private set; }
         public DelegateCommand ResetFilterCommand { get; private set; }
@@ -122,6 +105,8 @@ namespace wallabag.ViewModels
                 SortType = FilterSortType.ByDate;
                 SortOrder = FilterSortOrder.Descending;
                 EstimatedReadingTime = FilterEstimatedReadingTime.Unfiltered;
+                MinDateNullable = null;
+                MaxDateNullable = null;
                 await GetItemsFromDatabaseAsync();
             });
             FilterCommand = new DelegateCommand(async () =>
