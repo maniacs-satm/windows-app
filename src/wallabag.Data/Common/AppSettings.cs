@@ -54,13 +54,13 @@ namespace wallabag.Common
         }
         public static string AccessToken
         {
-            get { return GetProperty(nameof(AccessToken), string.Empty, true); }
-            set { SetProperty(nameof(AccessToken), value, true); }
+            get { return GetProperty(nameof(AccessToken), string.Empty); }
+            set { SetProperty(nameof(AccessToken), value); }
         }
         public static string RefreshToken
         {
-            get { return GetProperty(nameof(RefreshToken), string.Empty, true); }
-            set { SetProperty(nameof(RefreshToken), value, true); }
+            get { return GetProperty(nameof(RefreshToken), string.Empty); }
+            set { SetProperty(nameof(RefreshToken), value); }
         }
         public static string ClientId
         {
