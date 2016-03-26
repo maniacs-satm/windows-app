@@ -450,7 +450,7 @@
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="ItemGridView.MinItemHeight" Value="125" />
+                        <Setter Target="ItemGridView.MinItemHeight" Value="100" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
