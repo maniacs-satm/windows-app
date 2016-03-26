@@ -61,11 +61,12 @@ namespace wallabag.ViewModels
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
         public DelegateCommand EditTagsCommand { get; private set; }
         public DelegateCommand ShowShareUICommand { get; private set; }
-        public DelegateCommand ChangeColorSchemeCommand { get; private set; }
+        public DelegateCommand<string> ChangeColorSchemeCommand { get; private set; }
         public DelegateCommand ChangeFontFamilyCommand { get; private set; }
         public DelegateCommand IncreaseFontSizeCommand { get; private set; }
         public DelegateCommand DecreaseFontSizeCommand { get; private set; }
         public DelegateCommand ChangeTextAlignmentCommand { get; private set; }
+        public DelegateCommand DeleteItemCommand { get; private set; }
 
         public SingleItemPageViewModel(IDataService dataService)
         {
@@ -79,7 +80,7 @@ namespace wallabag.ViewModels
             });
             ShowShareUICommand = new DelegateCommand(() => { DataTransferManager.ShowShareUI(); });
 
-            ChangeColorSchemeCommand = new DelegateCommand(() => ChangeColorScheme());
+            ChangeColorSchemeCommand = new DelegateCommand<string>(color => ChangeColorScheme(color));
             EditTagsCommand = new DelegateCommand(async () =>
             {
                 await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.EditTags, CurrentItem.Model.Tags);
@@ -108,6 +109,12 @@ namespace wallabag.ViewModels
                     TextAlignButtonContent = TextAlignJustifyPathIcon;
                 }
                 Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            });
+            DeleteItemCommand = new DelegateCommand(async () =>
+            {
+                if (NavigationService.CanGoBack)
+                    NavigationService.GoBack();
+                await CurrentItem.DeleteAsync();
             });
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -147,19 +154,7 @@ namespace wallabag.ViewModels
             else
                 TextAlignButtonContent = TextAlignJustifyPathIcon;
 
-            if (AppSettings.ColorScheme == "light")
-            {
-                ColorSchemeButtonContent = "\uE708";
-                CurrentBackground = ColorHelper.FromArgb(255, 255, 255, 255).ToSolidColorBrush();
-                CurrentForeground = ColorHelper.FromArgb(255, 68, 68, 68).ToSolidColorBrush();
-                AppBarRequestedTheme = ElementTheme.Light;
-            }
-            else {
-                ColorSchemeButtonContent = "\uE706";
-                CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
-                CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
-                AppBarRequestedTheme = ElementTheme.Dark;
-            }
+            ChangeColorScheme(string.Empty);
         }
         public override async Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
         {
@@ -193,26 +188,35 @@ namespace wallabag.ViewModels
             deferral.Complete();
         }
 
-        public void ChangeColorScheme()
+        public void ChangeColorScheme(string color)
         {
-            if (AppSettings.ColorScheme == "light")
+            var colorScheme = color;
+
+            if (string.IsNullOrEmpty(color))
+                colorScheme = AppSettings.ColorScheme;
+
+
+            if (colorScheme == "dark")
             {
-                AppSettings.ColorScheme = "dark";
-                ColorSchemeButtonContent = "\uE706";
-                CurrentBackground = new SolidColorBrush(ColorHelper.FromArgb(255, 51, 51, 51));
-                CurrentForeground = new SolidColorBrush(ColorHelper.FromArgb(255, 204, 204, 204));
+                CurrentBackground = ColorHelper.FromArgb(255, 51, 51, 51).ToSolidColorBrush();
+                CurrentForeground = ColorHelper.FromArgb(255, 204, 204, 204).ToSolidColorBrush();
                 AppBarRequestedTheme = ElementTheme.Dark;
             }
-            else
+            else if (colorScheme == "light")
             {
-                AppSettings.ColorScheme = "light";
-                ColorSchemeButtonContent = "\uE708";
                 CurrentBackground = ColorHelper.FromArgb(255, 255, 255, 255).ToSolidColorBrush();
                 CurrentForeground = ColorHelper.FromArgb(255, 68, 68, 68).ToSolidColorBrush();
                 AppBarRequestedTheme = ElementTheme.Light;
             }
+            else if (colorScheme == "sepia")
+            {
+                CurrentBackground = Colors.Beige.ToSolidColorBrush();
+                CurrentForeground = Colors.Maroon.ToSolidColorBrush();
+                AppBarRequestedTheme = ElementTheme.Light;
+            }
 
-            Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            if (!string.IsNullOrEmpty(color))
+                Messenger.Default.Send(new NotificationMessage("updateHTML"));
         }
         public void ChangeFontFamily()
         {

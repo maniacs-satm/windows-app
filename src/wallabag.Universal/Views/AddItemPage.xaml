@@ -95,7 +95,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
             <TextBlock
                 x:Uid="SaveALinkHeaderTextBlock"
                 Style="{ThemeResource PageTitleTextBlockStyle}"

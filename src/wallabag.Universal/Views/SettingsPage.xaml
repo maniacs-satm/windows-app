@@ -12,9 +12,6 @@
         <vm:SettingsPageViewModel />
     </Page.DataContext>
     <Page.Resources>
-        <Style TargetType="PivotHeaderItem">
-            <Setter Property="RequestedTheme" Value="Dark" />
-        </Style>
         <Style TargetType="Pivot">
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
@@ -37,7 +34,7 @@
             <RowDefinition Height="48" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" RequestedTheme="Dark">
+        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
             <TextBlock
                 x:Uid="SettingsHeaderTextBlock"
                 Style="{ThemeResource PageTitleTextBlockStyle}"
@@ -47,8 +44,7 @@
             Grid.Row="1"
             Height="48"
             VerticalAlignment="Top"
-            Fill="{ThemeResource SystemControlBackgroundAccentBrush}"
-            Opacity="{ThemeResource SettingsPivotHeaderBackgroundOpacity}" />
+            Fill="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Pivot Grid.Row="1">
             <Pivot.Resources>
                 <Style TargetType="ToggleSwitch">

@@ -23,7 +23,7 @@ namespace wallabag.Views
             ViewModel.CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             WebView.ScriptNotify += WebView_ScriptNotify;
             WebView.NavigationStarting += WebView_NavigationStarting;
-            WebView.NavigationCompleted += (s, e) => { ShowContentStoryboard.Begin(); };
+            WebView.DOMContentLoaded += (s, e) => { ShowContentStoryboard.Begin(); };
             ShowContentStoryboard.Completed += (s, e) =>
             {
                 if (ViewModel.ErrorHappened == false)

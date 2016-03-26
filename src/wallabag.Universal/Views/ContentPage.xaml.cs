@@ -22,8 +22,8 @@ namespace wallabag.Views
         public ContentPage()
         {
             InitializeComponent();
-            ShowSearch.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
-            HideSearch.Completed += (s, e) => { ItemGridView.Focus(FocusState.Programmatic); };
+            ShowSearchStoryboard.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
+            HideSearchStoryboard.Completed += (s, e) => { ItemGridView.Focus(FocusState.Programmatic); };
             ShowOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(false); };
             HideOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(true); };
         }
@@ -35,6 +35,8 @@ namespace wallabag.Views
                     searchToggleButton_Click(this, new RoutedEventArgs());
                 else if (message.Notification == "HideOverlay")
                     OverlayGrid.Visibility = Visibility.Collapsed;
+                else if (message.Notification == "FinishMultipleSelection")
+                    ItemGridView.SelectionMode = ListViewSelectionMode.None;
             });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e) => Messenger.Default.Unregister(this);
@@ -200,18 +202,25 @@ namespace wallabag.Views
         private bool _IsSearchVisible = false;
         private void searchToggleButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_IsSearchVisible == false)
+            if (_IsSearchVisible == false && (searchToggleButton.Icon as SymbolIcon).Symbol == Symbol.Cancel) //CloseSearchStoryboard
+            {
+                _IsSearchVisible = false;
+                CloseSearchStoryboard.Begin();
+                Messenger.Default.Send(new NotificationMessage("ResetSearch"));
+            }
+            else if (_IsSearchVisible == false) //ShowSearchStoryboard
             {
                 _IsSearchVisible = true;
-                ShowSearch.Begin();
+                ShowSearchStoryboard.Begin();
                 ShowOverlay.Begin();
                 if (AppSettings.OpenTheFilterPaneWithTheSearch)
                     FilterButton_Click(sender, e);
             }
-            else
+            else //HideSearchStoryboard
             {
                 _IsSearchVisible = false;
-                HideSearch.Begin();
+                HideSearchStoryboard.Begin();
+                HideOverlay.Begin();
                 if (_IsFilterPopupVisible)
                     FilterButton_Click(sender, e);
             }
@@ -238,7 +247,9 @@ namespace wallabag.Views
         {
             if (_IsSearchVisible)
             {
-                HideSearch.Begin();
+                HideSearchStoryboard.Begin();
+                if (string.IsNullOrWhiteSpace(SearchQueryAutoSuggestBox.Text))
+                    CloseSearchStoryboard.Begin();
                 _IsSearchVisible = false;
             }
             if (_IsFilterPopupVisible)
@@ -251,7 +262,7 @@ namespace wallabag.Views
 
         private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
         {
-            HideSearch.Begin();
+            HideSearchStoryboard.Begin();
             if (AppSettings.OpenTheFilterPaneWithTheSearch || !_IsFilterPopupVisible)
             {
                 HideOverlay.Begin();

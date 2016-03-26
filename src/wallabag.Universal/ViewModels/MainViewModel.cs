@@ -28,6 +28,8 @@ namespace wallabag.ViewModels
         public ObservableCollection<string> DomainNames { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<OfflineTaskViewModel> OfflineTasks { get; set; } = new ObservableCollection<OfflineTaskViewModel>();
 
+        public bool OfflineTasksCountGreaterThanZero { get; set; } = false;
+
         public ObservableCollection<SearchResult> SearchSuggestions { get; set; } = new ObservableCollection<SearchResult>();
         public ObservableCollection<string> DomainNameSuggestions { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<Tag> TagSuggestions { get; set; } = new ObservableCollection<Tag>();
@@ -52,6 +54,7 @@ namespace wallabag.ViewModels
         public DelegateCommand DeleteItemsCommand { get; private set; }
 
         // Search
+        public string HeaderText { get; set; } = Helpers.LocalizedString("ItemsHeaderTextBlock/Text");
         public bool? IsItemClickEnabled { get; set; } = true;
         public bool IsSearchVisible { get; set; } = false;
         public string SearchQuery { get; set; }
@@ -65,8 +68,6 @@ namespace wallabag.ViewModels
         public FilterSortType SortType { get; set; } = FilterSortType.ByDate;
         public FilterSortOrder SortOrder { get; set; } = FilterSortOrder.Descending;
         public FilterEstimatedReadingTime EstimatedReadingTime { get; set; } = FilterEstimatedReadingTime.Unfiltered;
-        private DateTimeOffset _MinDate = DateTimeOffset.Now;
-        private DateTimeOffset _MaxDate = DateTimeOffset.Now;
         public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortOrderChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortTypeChangedCommand { get; set; }
@@ -77,26 +78,11 @@ namespace wallabag.ViewModels
         public DelegateCommand<AutoSuggestBoxTextChangedEventArgs> TagQueryChangedCommand { get; private set; }
         public DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs> TagQuerySubmittedCommand { get; private set; }
         public DelegateCommand<string> EstimatedReadingTimeFilterChangedCommand { get; private set; }
-        public DateTimeOffset? MinDateNullable
-        {
-            get { return _MinDate; }
-            set
-            {
-                _MinDate = (DateTimeOffset)value;
-                RaisePropertyChanged(nameof(MinDateNullable));
-                RaisePropertyChanged(nameof(MinDate));
-            }
-        }
-        public DateTimeOffset MinDate { get { return _MinDate; } }
-        public DateTimeOffset? MaxDateNullable
-        {
-            get { return _MaxDate; }
-            set
-            {
-                _MaxDate = value ?? DateTimeOffset.Now;
-                RaisePropertyChanged(nameof(MaxDateNullable));
-            }
-        }
+
+        [AlsoNotifyFor("MinDate")]
+        public DateTimeOffset? MinDateNullable { get; set; }
+        public DateTimeOffset MinDate { get { return MinDateNullable ?? DateTimeOffset.Now; } }
+        public DateTimeOffset? MaxDateNullable { get; set; }
         public DateTimeOffset MaxDate { get; } = DateTimeOffset.Now;
         public DelegateCommand<CalendarDatePickerDateChangedEventArgs> CreationDateFilterChangedCommand { get; private set; }
         public DelegateCommand ResetFilterCommand { get; private set; }
@@ -119,6 +105,8 @@ namespace wallabag.ViewModels
                 SortType = FilterSortType.ByDate;
                 SortOrder = FilterSortOrder.Descending;
                 EstimatedReadingTime = FilterEstimatedReadingTime.Unfiltered;
+                MinDateNullable = null;
+                MaxDateNullable = null;
                 await GetItemsFromDatabaseAsync();
             });
             FilterCommand = new DelegateCommand(async () =>
@@ -137,7 +125,7 @@ namespace wallabag.ViewModels
             });
             MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsReadAsync());
             UnmarkItemsAsReadCommand = new DelegateCommand(async () => await UnmarkItemsAsReadAsync());
-            MarkItemsAsReadCommand = new DelegateCommand(async () => await MarkItemsAsFavoriteAsync());
+            MarkItemsAsFavoriteCommand = new DelegateCommand(async () => await MarkItemsAsFavoriteAsync());
             UnmarkItemsAsFavoriteCommand = new DelegateCommand(async () => await UnmarkItemsAsFavoriteAsync());
             EditTagsCommand = new DelegateCommand(async () => await EditTagsAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
@@ -153,6 +141,14 @@ namespace wallabag.ViewModels
             TagQuerySubmittedCommand = new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(e => TagQuerySubmitted(e));
             EstimatedReadingTimeFilterChangedCommand = new DelegateCommand<string>(readingTime => EstimatedReadingTimeFilterChanged(readingTime));
             CreationDateFilterChangedCommand = new DelegateCommand<CalendarDatePickerDateChangedEventArgs>(args => CreationDateFilterChanged(args));
+
+            OfflineTasks.CollectionChanged += (s, e) =>
+            {
+                if (OfflineTasks.Count > 0)
+                    OfflineTasksCountGreaterThanZero = true;
+                else
+                    OfflineTasksCountGreaterThanZero = false;
+            };
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
@@ -197,6 +193,13 @@ namespace wallabag.ViewModels
             {
                 if (message.Notification == "UpdateView")
                     await GetItemsFromDatabaseAsync();
+                else if (message.Notification == "ResetSearch")
+                {
+                    CurrentFilterProperties.SearchQuery = string.Empty;
+                    SearchQuery = string.Empty;
+                    HeaderText = Helpers.LocalizedString("ItemsHeaderTextBlock/Text");
+                    await GetItemsFromDatabaseAsync();
+                }
             });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
@@ -274,7 +277,7 @@ namespace wallabag.ViewModels
                     DomainNames.Add(item.Model.DomainName);
 
             DomainNames.Sort(d => d);
-            
+
             await GetOfflineTasksAsync();
         }
 
@@ -283,7 +286,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = true;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemReadAPIString, item.Model.IsRead);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsRead);
             }
             await FinishMultipleSelection();
         }
@@ -292,7 +295,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = false;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemReadAPIString, item.Model.IsRead);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsRead);
             }
             await FinishMultipleSelection();
         }
@@ -301,7 +304,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = true;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemStarredAPIString, item.Model.IsStarred);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsFavorite);
             }
             await FinishMultipleSelection();
         }
@@ -310,7 +313,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = false;
-                await ItemViewModel.UpdateSpecificPropertyAsync(item.Model.Id, ItemViewModel.ItemStarredAPIString, item.Model.IsStarred);
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsFavorite);
             }
             await FinishMultipleSelection();
         }
@@ -321,14 +324,14 @@ namespace wallabag.ViewModels
 
             if (dialog == ContentDialogResult.Primary && newTags.Count > 0)
                 foreach (var item in SelectedItems)
-                    await item.AddTagsAsync(newTags);
+                    await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.AddTags, newTags.ToCommaSeparatedString());
         }
         public async Task DeleteItemsAsync()
         {
             foreach (var item in SelectedItems)
             {
                 item.Model.IsDeleted = true;
-                await item.DeleteAsync();
+                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.Delete);
             }
             await FinishMultipleSelection();
         }
@@ -337,8 +340,13 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
                 await _dataService.UpdateItemAsync(item.Model);
 
+            IsItemClickEnabled = true;
+            IsMultipleSelectionEnabled = false;
+
+            Messenger.Default.Send(new NotificationMessage("FinishMultipleSelection"));
+
             await GetItemsFromDatabaseAsync();
-            IsItemClickEnabled = false;
+            await _dataService.SyncOfflineTasksWithServerAsync();
         }
 
         public void ItemTypeSelectionChanged(string itemType)
@@ -417,7 +425,8 @@ namespace wallabag.ViewModels
             else
             {
                 CurrentFilterProperties.SearchQuery = args.QueryText;
-                Messenger.Default.Send(new NotificationMessage("HideOverlay"));
+                HeaderText = $"\"{args.QueryText}\"".ToUpper();
+                Messenger.Default.Send(new NotificationMessage("HideSearch"));
                 return GetItemsFromDatabaseAsync();
             }
         }

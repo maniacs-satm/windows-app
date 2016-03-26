@@ -101,9 +101,9 @@ namespace wallabag.Data.Services
                     if (item.Title.StartsWith(" "))
                         item.Title = item.Title.Remove(0, 1);
 
-                    if (item.PreviewPictureUri.StartsWith("/"))
-                        item.PreviewPictureUri = $"{new Uri(item.Url).Scheme}://{item.DomainName}{item.PreviewPictureUri}";
-
+                    if (item.PreviewPictureUri.StartsWith("//"))
+                        item.PreviewPictureUri = $"https:{item.PreviewPictureUri}";
+                    
                     if (existingItem == null)
                     {
                         await conn.InsertAsync(item);
@@ -178,7 +178,7 @@ namespace wallabag.Data.Services
             }
             if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
             {
-                sqlQuery += "AND Title LIKE = ?";
+                sqlQuery += "AND Title LIKE ?";
                 sqlParams.Add($"%{filterProperties.SearchQuery}%");
             }
 

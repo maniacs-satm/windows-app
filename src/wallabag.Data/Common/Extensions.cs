@@ -104,6 +104,12 @@ namespace wallabag.Common
             var color = (Color)e.NewValue;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ForegroundColor = color;
+
+            if (Helpers.IsPhone)
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                statusBar.ForegroundColor = color;
+            }
         }
 
         public static readonly DependencyProperty BackgroundColorProperty =
@@ -127,6 +133,13 @@ namespace wallabag.Common
             var color = (Color)e.NewValue;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.BackgroundColor = color;
+
+            if (Helpers.IsPhone)
+            {
+                StatusBar statusBar = StatusBar.GetForCurrentView();
+                statusBar.BackgroundOpacity = 1;
+                statusBar.BackgroundColor = color;
+            }
         }
 
         public static readonly DependencyProperty ButtonForegroundColorProperty =

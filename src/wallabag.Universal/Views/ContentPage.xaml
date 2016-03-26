@@ -14,72 +14,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:t10="using:Template10.Controls"
     xmlns:vm="using:wallabag.ViewModels"
-    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemAccentColor}"
-    common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemAccentColor}"
-    common:TitleBarExtensions.ButtonForegroundColor="White"
-    common:TitleBarExtensions.ForegroundColor="White"
+    common:TitleBarExtensions.BackgroundColor="{ThemeResource SystemChromeMediumColor}"
+    common:TitleBarExtensions.ButtonBackgroundColor="{ThemeResource SystemChromeMediumColor}"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d">
     <Page.Resources>
         <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter" />
         <conv:EnumBooleanConverter x:Key="EnumBooleanConverter" />
-        <MenuFlyout x:Key="ItemContextMenu">
-            <MenuFlyoutItem
-                x:Name="ContextMenuMarkAsRead"
-                x:Uid="MarkAsReadMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsRead_Click"
-                Tag="&#xE001;"
-                Text="Mark as read"
-                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuUnmarkAsRead"
-                x:Uid="UnmarkAsReadMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsRead_Click"
-                Tag="&#xE109;"
-                Text="Unmark as read"
-                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuMarkAsFavorite"
-                x:Uid="MarkAsFavoriteMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsFavorite_Click"
-                Tag="&#xE00B;"
-                Text="Mark as favorite"
-                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuUnmarkAsFavorite"
-                x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsFavorite_Click"
-                Tag="&#xE006;"
-                Text="Unmark as favorite"
-                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <MenuFlyoutSeparator />
-            <MenuFlyoutItem
-                x:Name="ContextMenuShareItem"
-                x:Uid="ShareMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuShareItem_Click"
-                Tag="&#xE72D;"
-                Text="Share" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuOpenInBrowser"
-                x:Uid="OpenInBrowserMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuOpenInBrowser_Click"
-                Tag="&#xE12B;"
-                Text="Open in browser" />
-            <MenuFlyoutSeparator />
-            <MenuFlyoutItem
-                x:Name="ContextMenuDeleteItem"
-                x:Uid="DeleteMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuDeleteItem_Click"
-                Tag="&#xE107;"
-                Text="Delete" />
-        </MenuFlyout>
         <Style x:Key="MenuFlyoutItemIconTemplate" TargetType="MenuFlyoutItem">
             <Setter Property="Template">
                 <Setter.Value>
@@ -176,6 +117,63 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <MenuFlyout x:Key="ItemContextMenu">
+            <MenuFlyoutItem
+                x:Name="ContextMenuMarkAsRead"
+                x:Uid="MarkAsReadMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsRead_Click"
+                Tag="&#xE001;"
+                Text="Mark as read"
+                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuUnmarkAsRead"
+                x:Uid="UnmarkAsReadMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsRead_Click"
+                Tag="&#xE109;"
+                Text="Unmark as read"
+                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuMarkAsFavorite"
+                x:Uid="MarkAsFavoriteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsFavorite_Click"
+                Tag="&#xE006;"
+                Text="Mark as favorite"
+                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuUnmarkAsFavorite"
+                x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsFavorite_Click"
+                Tag="&#xE007;"
+                Text="Unmark as favorite"
+                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="ContextMenuShareItem"
+                x:Uid="ShareMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuShareItem_Click"
+                Tag="&#xE72D;"
+                Text="Share" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuOpenInBrowser"
+                x:Uid="OpenInBrowserMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuOpenInBrowser_Click"
+                Tag="&#xE12B;"
+                Text="Open in browser" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="ContextMenuDeleteItem"
+                x:Uid="DeleteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuDeleteItem_Click"
+                Tag="&#xE107;"
+                Text="Delete" />
+        </MenuFlyout>
         <Storyboard x:Name="ShowDragDropGridStoryboard">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="dragDropGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0">
@@ -200,23 +198,6 @@
             <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dragDropGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
                 <EasingDoubleKeyFrame KeyTime="0" Value="1" />
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="ShowSearch">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="-48" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="ShowFilterPopup">
@@ -266,23 +247,6 @@
                 Storyboard.TargetName="ArrowTextBlock"
                 Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)"
                 To="-0.364" />
-        </Storyboard>
-        <Storyboard x:Name="HideSearch">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
-                <SplineDoubleKeyFrame KeyTime="0" Value="0" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="-48" />
-            </DoubleAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SearchGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Name="HideFilterPopup">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FilterPopup" Storyboard.TargetProperty="(UIElement.Visibility)">
@@ -337,6 +301,125 @@
                 <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
+        <Storyboard x:Name="ShowSearchStoryboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0.8">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <BackEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="appBarButton">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchToggleButton">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="HideSearchStoryboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="SearchQueryAutoSuggestBox">
+                <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0.8"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchToggleButton">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(AppBarButton.Icon).(SymbolIcon.Symbol)" Storyboard.TargetName="searchToggleButton">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Symbol>Find</Symbol>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Symbol>Cancel</Symbol>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="CloseSearchStoryboard">           
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="searchToggleButton">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(AppBarButton.Icon).(SymbolIcon.Symbol)" Storyboard.TargetName="searchToggleButton">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Symbol>Find</Symbol>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="appBarButton">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
     </Page.Resources>
 
     <Grid
@@ -361,13 +444,35 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup x:Name="AdaptiveStates">
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ItemGridView.MinItemHeight" Value="100" />
+                        <Setter Target="FilterPopup.HorizontalAlignment" Value="Stretch" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ItemGridView.MinItemHeight" Value="200" />
+                        <Setter Target="FilterPopup.HorizontalAlignment" Value="Left" />
+                        <Setter Target="SearchQueryAutoSuggestBox.HorizontalAlignment" Value="Right" />
+                        <Setter Target="SearchQueryAutoSuggestBox.Width" Value="350" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
         </VisualStateManager.VisualStateGroups>
         <Grid
             x:Name="HeaderGrid"
             Height="48"
             VerticalAlignment="Top"
-            Background="{ThemeResource SystemControlBackgroundAccentBrush}"
-            RequestedTheme="Dark">
+            Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition />
@@ -381,7 +486,7 @@
                         x:Uid="ItemsHeaderTextBlock"
                         Margin="8,0"
                         Style="{StaticResource PageTitleTextBlockStyle}"
-                        Text="ITEMS" />
+                        Text="{x:Bind ViewModel.HeaderText, Mode=OneWay}" />
                     <TextBlock
                         x:Name="ArrowTextBlock"
                         VerticalAlignment="Center"
@@ -395,11 +500,14 @@
                     </TextBlock>
                 </StackPanel>
             </Button>
-            <StackPanel
+            <StackPanel x:Name="stackPanel"
                 Grid.Column="1"
                 HorizontalAlignment="Right"
                 Orientation="Horizontal">
-                <AppBarButton MinWidth="1" IsCompact="True">
+                <AppBarButton x:Name="appBarButton"
+                    MinWidth="1"
+                    IsCompact="True"
+                    Visibility="{x:Bind ViewModel.OfflineTasksCountGreaterThanZero, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <TextBlock
                             Margin="0,0,4,-2"
@@ -418,7 +526,6 @@
                             </Flyout.FlyoutPresenterStyle>
                             <ListView
                                 MaxHeight="250"
-                                Padding="0,0,12,0"
                                 ItemsSource="{x:Bind ViewModel.OfflineTasks}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate x:DataType="data:OfflineTaskViewModel">
@@ -427,7 +534,8 @@
                                                 Margin="0,0,8,0"
                                                 VerticalAlignment="Center"
                                                 FontFamily="Segoe MDL2 Assets"
-                                                Text="{x:Bind ActionLogo}" />
+                                                Text="{x:Bind ActionLogo}"
+                                                TextTrimming="CharacterEllipsis" />
                                             <TextBlock Text="{x:Bind ItemTitle}" />
                                         </StackPanel>
                                     </DataTemplate>
@@ -436,46 +544,29 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-
                 <AppBarButton
                     x:Name="searchToggleButton"
                     x:Uid="SearchAppBarButton"
-                    Width="48"
                     Click="searchToggleButton_Click"
                     Icon="Find"
                     IsCompact="True" />
             </StackPanel>
-        </Grid>
-        <Grid
-            x:Name="SearchGrid"
-            VerticalAlignment="Top"
-            x:DeferLoadStrategy="Lazy"
-            RenderTransformOrigin="0.5,0.5"
-            RequestedTheme="Dark"
-            Visibility="Collapsed">
-            <Grid.RenderTransform>
-                <CompositeTransform />
-            </Grid.RenderTransform>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <Rectangle Grid.ColumnSpan="2" Fill="{ThemeResource SystemControlBackgroundAccentBrush}" />
-            <TextBlock
-                x:Uid="SearchHeaderTextBlock"
-                Style="{StaticResource PageTitleTextBlockStyle}"
-                Text="SEARCH &amp; FILTER" />
             <AutoSuggestBox
                 x:Name="SearchQueryAutoSuggestBox"
                 x:Uid="SearchBox"
-                MinWidth="300"
-                Margin="0,0,6,0"
-                HorizontalAlignment="Right"
+                Grid.ColumnSpan="2"
+                Margin="4"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                x:DeferLoadStrategy="Lazy"
                 ItemsSource="{x:Bind ViewModel.SearchSuggestions, Mode=OneWay}"
                 PlaceholderText="Search for items…"
                 QueryIcon="Find"
-                Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay}">
+                Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay}"
+                Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+                <AutoSuggestBox.RenderTransform>
+                    <CompositeTransform/>
+                </AutoSuggestBox.RenderTransform>
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="TextChanged">
                         <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchQueryChangedCommand}" />
@@ -485,13 +576,6 @@
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
             </AutoSuggestBox>
-            <AppBarButton
-                x:Uid="CloseButton"
-                Grid.Column="1"
-                Width="48"
-                Click="CloseSearchButton_Click"
-                Icon="Cancel"
-                IsCompact="True" />
         </Grid>
 
         <controls:AdaptiveGridView
@@ -522,7 +606,6 @@
             x:Name="OverlayGrid"
             Margin="0,48"
             Background="#4F000000"
-            Opacity="0"
             x:DeferLoadStrategy="Lazy"
             PointerPressed="OverlayGrid_PointerPressed"
             Visibility="Collapsed">
@@ -531,11 +614,10 @@
             </Grid.RenderTransform>
             <ScrollViewer
                 x:Name="FilterPopup"
-                Width="375"
-                Padding="8"
-                HorizontalAlignment="Left"
+                Padding="12"
+                HorizontalAlignment="Stretch"
                 VerticalAlignment="Top"
-                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
                 x:DeferLoadStrategy="Lazy"
                 RenderTransformOrigin="0.5,0.5"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -558,13 +640,22 @@
                         Margin="0,0,0,4"
                         Style="{StaticResource HeaderTextBlockStyle}"
                         Text="ITEM TYPE" />
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <RadioButton
                             x:Uid="ItemTypeAll"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE138;"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="all"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=All, Mode=OneWay}"
+                            Tag="&#xE138;"
                             ToolTipService.ToolTip="All">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -574,10 +665,12 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeUnread"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE052;"
+                            Grid.Column="1"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="unread"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Unread, Mode=OneWay}"
+                            Tag="&#xE052;"
                             ToolTipService.ToolTip="Unread">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -587,10 +680,12 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeFavorites"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE006;"
+                            Grid.Row="1"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="favorites"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Favorites, Mode=OneWay}"
+                            Tag="&#xE006;"
                             ToolTipService.ToolTip="Starred">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -600,10 +695,13 @@
                         </RadioButton>
                         <RadioButton
                             x:Uid="ItemTypeArchived"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE1D3;"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Style="{StaticResource IconAndTextRadioButtonStyle}"
+                            Content="archive"
                             GroupName="ItemType"
                             IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Archived, Mode=OneWay}"
+                            Tag="&#xE1D3;"
                             ToolTipService.ToolTip="Archived">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Checked">
@@ -611,20 +709,7 @@
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                         </RadioButton>
-                        <RadioButton
-                            x:Uid="ItemTypeDeleted"
-                            Style="{StaticResource RoundIconRadioButtonStyle}"
-                            Content="&#xE107;"
-                            GroupName="ItemType"
-                            IsChecked="{x:Bind ViewModel.CurrentFilterProperties.ItemType, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=Deleted, Mode=OneWay}"
-                            ToolTipService.ToolTip="Deleted">
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Checked">
-                                    <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" CommandParameter="deleted" />
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
-                        </RadioButton>
-                    </StackPanel>
+                    </Grid>
                     <TextBlock
                         x:Uid="SortOrderFilterTextBlock"
                         Style="{StaticResource HeaderTextBlockStyle}"
