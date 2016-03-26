@@ -248,6 +248,8 @@ namespace wallabag.Views
             if (_IsSearchVisible)
             {
                 HideSearchStoryboard.Begin();
+                if (string.IsNullOrWhiteSpace(SearchQueryAutoSuggestBox.Text))
+                    CloseSearchStoryboard.Begin();
                 _IsSearchVisible = false;
             }
             if (_IsFilterPopupVisible)
