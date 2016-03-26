@@ -21,63 +21,6 @@
     <Page.Resources>
         <conv:BooleanToVisibilityNegatedConverter x:Key="BooleanToVisibilityNegatedConverter" />
         <conv:EnumBooleanConverter x:Key="EnumBooleanConverter" />
-        <MenuFlyout x:Key="ItemContextMenu">
-            <MenuFlyoutItem
-                x:Name="ContextMenuMarkAsRead"
-                x:Uid="MarkAsReadMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsRead_Click"
-                Tag="&#xE001;"
-                Text="Mark as read"
-                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuUnmarkAsRead"
-                x:Uid="UnmarkAsReadMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsRead_Click"
-                Tag="&#xE109;"
-                Text="Unmark as read"
-                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuMarkAsFavorite"
-                x:Uid="MarkAsFavoriteMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsFavorite_Click"
-                Tag="&#xE006;"
-                Text="Mark as favorite"
-                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuUnmarkAsFavorite"
-                x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuMarkAsFavorite_Click"
-                Tag="&#xE007;"
-                Text="Unmark as favorite"
-                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <MenuFlyoutSeparator />
-            <MenuFlyoutItem
-                x:Name="ContextMenuShareItem"
-                x:Uid="ShareMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuShareItem_Click"
-                Tag="&#xE72D;"
-                Text="Share" />
-            <MenuFlyoutItem
-                x:Name="ContextMenuOpenInBrowser"
-                x:Uid="OpenInBrowserMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuOpenInBrowser_Click"
-                Tag="&#xE12B;"
-                Text="Open in browser" />
-            <MenuFlyoutSeparator />
-            <MenuFlyoutItem
-                x:Name="ContextMenuDeleteItem"
-                x:Uid="DeleteMenuFlyoutItem"
-                Style="{StaticResource MenuFlyoutItemIconTemplate}"
-                Click="ContextMenuDeleteItem_Click"
-                Tag="&#xE107;"
-                Text="Delete" />
-        </MenuFlyout>
         <Style x:Key="MenuFlyoutItemIconTemplate" TargetType="MenuFlyoutItem">
             <Setter Property="Template">
                 <Setter.Value>
@@ -174,6 +117,63 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <MenuFlyout x:Key="ItemContextMenu">
+            <MenuFlyoutItem
+                x:Name="ContextMenuMarkAsRead"
+                x:Uid="MarkAsReadMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsRead_Click"
+                Tag="&#xE001;"
+                Text="Mark as read"
+                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuUnmarkAsRead"
+                x:Uid="UnmarkAsReadMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsRead_Click"
+                Tag="&#xE109;"
+                Text="Unmark as read"
+                Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuMarkAsFavorite"
+                x:Uid="MarkAsFavoriteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsFavorite_Click"
+                Tag="&#xE006;"
+                Text="Mark as favorite"
+                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityNegatedConverter}}" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuUnmarkAsFavorite"
+                x:Uid="UnmarkAsFavoriteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuMarkAsFavorite_Click"
+                Tag="&#xE007;"
+                Text="Unmark as favorite"
+                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="ContextMenuShareItem"
+                x:Uid="ShareMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuShareItem_Click"
+                Tag="&#xE72D;"
+                Text="Share" />
+            <MenuFlyoutItem
+                x:Name="ContextMenuOpenInBrowser"
+                x:Uid="OpenInBrowserMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuOpenInBrowser_Click"
+                Tag="&#xE12B;"
+                Text="Open in browser" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="ContextMenuDeleteItem"
+                x:Uid="DeleteMenuFlyoutItem"
+                Style="{StaticResource MenuFlyoutItemIconTemplate}"
+                Click="ContextMenuDeleteItem_Click"
+                Tag="&#xE107;"
+                Text="Delete" />
+        </MenuFlyout>
         <Storyboard x:Name="ShowDragDropGridStoryboard">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="dragDropGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
                 <DiscreteObjectKeyFrame KeyTime="0">
