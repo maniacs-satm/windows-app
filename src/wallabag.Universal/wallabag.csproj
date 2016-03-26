@@ -95,7 +95,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="Assets\Article\style.less" />
     <None Include="compilerconfig.json" />
     <None Include="project.json" />
     <None Include="wallabag_StoreKey.pfx" />
@@ -168,12 +167,7 @@
     <Content Include="Assets\Article\js\jquery.unveil.js" />
     <Content Include="Assets\Article\js\scripts.js" />
     <Content Include="Assets\Article\reset.css" />
-    <Content Include="Assets\Article\style.css">
-      <DependentUpon>style.less</DependentUpon>
-    </Content>
-    <Content Include="Assets\Article\style.min.css">
-      <DependentUpon>style.css</DependentUpon>
-    </Content>
+    <Content Include="Assets\Article\style.css" />
     <Content Include="Assets\books.jpg" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen\SplashScreen.scale-125.png" />
