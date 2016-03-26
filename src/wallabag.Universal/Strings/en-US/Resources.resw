@@ -465,23 +465,23 @@ So, why aren't you adding one? :-)</value>
     <value>EDIT TAGS</value>
     <comment>UPPERCASE</comment>
   </data>
-  <data name="ChangeColorSchemeButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ChangeColorSchemeAppBarButton.Label" xml:space="preserve">
     <value>Change color scheme</value>
   </data>
-  <data name="ChangeFontFamilyButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Change font family</value>
+  <data name="ChangeFontFamilyAppBarButton.Label" xml:space="preserve">
+    <value>Switch font family</value>
   </data>
-  <data name="ChangeTextAlignmentButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Change text alignment</value>
+  <data name="ChangeTextAlignmentAppBarButton.Label" xml:space="preserve">
+    <value>Switch text alignment</value>
   </data>
   <data name="CloseButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="DecreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Decrease font size</value>
+  <data name="DecreaseFontSizeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Decrease</value>
   </data>
-  <data name="IncreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Increase font size</value>
+  <data name="IncreaseFontSizeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>Increase</value>
   </data>
   <data name="ItemsHeaderTextBlock.Text" xml:space="preserve">
     <value>ITEMS</value>
@@ -495,5 +495,17 @@ So, why aren't you adding one? :-)</value>
   </data>
   <data name="UseBackgroundTaskToggleSwitch.Header" xml:space="preserve">
     <value>Enable background task</value>
+  </data>
+  <data name="ChangeFontSizeAppBarButton.Label" xml:space="preserve">
+    <value>Change font size</value>
+  </data>
+  <data name="DarkColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>dark</value>
+  </data>
+  <data name="LightColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>light</value>
+  </data>
+  <data name="SepiaColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>sepia</value>
   </data>
 </root>

@@ -465,23 +465,21 @@ Warum fügst du nicht ein paar hinzu?</value>
     <value>TAGS BEARBEITEN</value>
     <comment>UPPERCASE</comment>
   </data>
-  <data name="ChangeColorSchemeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Farbschema ändern</value>
+  <data name="ChangeColorSchemeAppBarButton.Label" xml:space="preserve">
+    <value>Farbschema anpassen</value>
+    <comment> </comment>
   </data>
-  <data name="ChangeFontFamilyButton.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="ChangeFontFamilyAppBarButton.Label" xml:space="preserve">
     <value>Schriftart ändern</value>
   </data>
-  <data name="ChangeTextAlignmentButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ausrichtung ändern</value>
+  <data name="ChangeTextAlignmentAppBarButton.Label" xml:space="preserve">
+    <value>Textausrichtung ändern</value>
   </data>
-  <data name="CloseButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Schließen</value>
+  <data name="DecreaseFontSizeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>verringern</value>
   </data>
-  <data name="DecreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Schriftgröße verringern</value>
-  </data>
-  <data name="IncreaseFontSizeButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Schriftgröße erhöhen</value>
+  <data name="IncreaseFontSizeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>erhöhen</value>
   </data>
   <data name="ItemsHeaderTextBlock.Text" xml:space="preserve">
     <value>ARTIKEL</value>
@@ -495,5 +493,20 @@ Warum fügst du nicht ein paar hinzu?</value>
   </data>
   <data name="UseBackgroundTaskToggleSwitch.Header" xml:space="preserve">
     <value>Synchronisierung im Hintergrund aktivieren</value>
+  </data>
+  <data name="ChangeFontSizeAppBarButton.Label" xml:space="preserve">
+    <value>Schriftgröße anpassen</value>
+  </data>
+  <data name="CloseButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
+  <data name="DarkColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>dunkel</value>
+  </data>
+  <data name="LightColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>hell</value>
+  </data>
+  <data name="SepiaColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
+    <value>sepia</value>
   </data>
 </root>

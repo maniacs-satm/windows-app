@@ -127,34 +127,37 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Font size">
+                <AppBarButton Label="Font size" x:Uid="ChangeFontSizeAppBarButton">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Command="{Binding IncreaseFontSizeCommand}" Text="Increase" />
-                            <MenuFlyoutItem Command="{Binding DecreaseFontSizeCommand}" Text="Decrease" />
+                            <MenuFlyoutItem Command="{Binding IncreaseFontSizeCommand}" Text="Increase" x:Uid="IncreaseFontSizeMenuFlyoutItem"/>
+                            <MenuFlyoutItem Command="{Binding DecreaseFontSizeCommand}" Text="Decrease" x:Uid="DecreaseFontSizeMenuFlyoutItem"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Label="Color scheme">
+                <AppBarButton x:Uid="ChangeColorSchemeAppBarButton" Label="Color scheme">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem
+                                x:Uid="LightColorSchemeMenuFlyoutItem"
                                 Command="{Binding ChangeColorSchemeCommand}"
                                 CommandParameter="light"
                                 Text="light" />
                             <MenuFlyoutItem
+                                x:Uid="SepiaColorSchemeMenuFlyoutItem"
                                 Command="{Binding ChangeColorSchemeCommand}"
                                 CommandParameter="sepia"
                                 Text="sepia" />
                             <MenuFlyoutItem
+                                x:Uid="DarkColorSchemeMenuFlyoutItem"
                                 Command="{Binding ChangeColorSchemeCommand}"
                                 CommandParameter="dark"
                                 Text="dark" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Command="{Binding ChangeFontFamilyCommand}" Label="Change font family" />
-                <AppBarButton Command="{Binding ChangeTextAlignmentCommand}" Label="Change text alignment" />
+                <AppBarButton Command="{Binding ChangeFontFamilyCommand}" Label="Change font family" x:Uid="ChangeFontFamilyAppBarButton"/>
+                <AppBarButton Command="{Binding ChangeTextAlignmentCommand}" Label="Change text alignment" x:Uid="ChangeTextAlignmentAppBarButton"/>
                 <AppBarSeparator />
                 <AppBarButton
                     x:Uid="DeleteAppBarButton"
