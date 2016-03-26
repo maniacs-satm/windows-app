@@ -119,7 +119,7 @@ namespace wallabag.ViewModels
 
             if (Model.Tags.Count > 0)
             {
-                result = "<ul class=\"tags\">";
+                result = "<ul class=\"tags\" id=\"wallabag-tag-list\">";
                 foreach (var item in Model.Tags)
                     result += $"<li>{item.Label}</li>";
                 result += "</ul>";

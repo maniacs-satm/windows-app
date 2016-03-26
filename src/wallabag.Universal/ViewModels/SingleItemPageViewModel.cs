@@ -82,7 +82,9 @@ namespace wallabag.ViewModels
             ChangeColorSchemeCommand = new DelegateCommand(() => ChangeColorScheme());
             EditTagsCommand = new DelegateCommand(async () =>
             {
-                await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.EditTags, CurrentItem.Model.Tags);
+                var result = await Services.DialogService.ShowDialogAsync(Services.DialogService.Dialog.EditTags, CurrentItem.Model.Tags);
+                if (result == ContentDialogResult.Primary)
+                    Messenger.Default.Send(new NotificationMessage("updateTagsHtml"));
             });
             ChangeFontFamilyCommand = new DelegateCommand(() => ChangeFontFamily());
             IncreaseFontSizeCommand = new DelegateCommand(() =>

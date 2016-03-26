@@ -36,6 +36,8 @@ namespace wallabag.Views
             {
                 if (message.Notification == "updateHTML")
                     await ChangeHtmlAttributesAsync();
+                else if (message.Notification == "updateTagsHtml")
+                    await WebView.InvokeScriptAsync("updateTagsElement", new List<string>() { ViewModel.CurrentItem.GenerateHtmlFormattedTagsList() });
             });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e) { Messenger.Default.Unregister(this); }

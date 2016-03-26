@@ -30,6 +30,12 @@ function Initialize() {
     });
 }
 
+// Copied and modified from: https://stackoverflow.com/a/13433551
+function updateTagsElement(newTags) {
+    var Obj = document.getElementById("wallabag-tag-list");
+    Obj.outerHTML = newTags;
+}
+
 function getSelectionText() {
     var text = "";
     if (window.getSelection) {
