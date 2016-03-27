@@ -451,7 +451,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.MinItemHeight" Value="100" />
-                        <Setter Target="FilterPopup.HorizontalAlignment" Value="Stretch" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
@@ -460,7 +459,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.MinItemHeight" Value="200" />
-                        <Setter Target="FilterPopup.HorizontalAlignment" Value="Left" />
                         <Setter Target="SearchQueryAutoSuggestBox.HorizontalAlignment" Value="Right" />
                         <Setter Target="SearchQueryAutoSuggestBox.Width" Value="350" />
                     </VisualState.Setters>

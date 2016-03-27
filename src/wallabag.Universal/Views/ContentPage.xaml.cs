@@ -34,7 +34,7 @@ namespace wallabag.Views
                 if (message.Notification == "HideSearch")
                     searchToggleButton_Click(this, new RoutedEventArgs());
                 else if (message.Notification == "HideOverlay")
-                    OverlayGrid.Visibility = Visibility.Collapsed;
+                    ContentSplitView.IsPaneOpen = false;
                 else if (message.Notification == "FinishMultipleSelection")
                     ItemGridView.SelectionMode = ListViewSelectionMode.None;
             });
