@@ -546,7 +546,12 @@
                 </controls:AdaptiveGridView>
             </SplitView.Content>
             <SplitView.Pane>
-                <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <StackPanel.Resources>
                             <Style
@@ -775,24 +780,28 @@
                             </CalendarDatePicker>
                         </Grid>
 
-                        <Grid Margin="0,16,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Button
+                    </StackPanel>
+                </ScrollViewer>
+                    <Grid Grid.Row="1" Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button
         					x:Uid="ResetFilterButton"
         					Command="{x:Bind ViewModel.ResetFilterCommand}"
-        					Content="Reset" />
-                            <Button
+                            HorizontalAlignment="Stretch"
+        					Content="Reset" Style="{StaticResource TextBlockButtonStyle}" />
+                    <Button
         					x:Uid="FilterButton"
+                            BorderThickness="0"
+                            Margin="0"
         					Grid.Column="1"
         					Style="{StaticResource ActionButtonStyle}"
         					Command="{x:Bind ViewModel.FilterCommand}"
         					Content="Filter" />
-                        </Grid>
-                    </StackPanel>
-                </ScrollViewer>
+                </Grid>
+                </Grid>
             </SplitView.Pane>
         </SplitView>
 
