@@ -24,8 +24,6 @@ namespace wallabag.Views
             InitializeComponent();
             ShowSearchStoryboard.Completed += (s, e) => { SearchQueryAutoSuggestBox.Focus(FocusState.Programmatic); };
             HideSearchStoryboard.Completed += (s, e) => { ItemGridView.Focus(FocusState.Programmatic); };
-            ShowOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(false); };
-            HideOverlay.Completed += (s, e) => { SetItemClickEnabledProperty(true); };
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
