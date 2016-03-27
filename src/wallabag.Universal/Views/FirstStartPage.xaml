@@ -230,11 +230,13 @@
             Visibility="Collapsed">
             <TextBox
                 x:Name="clientIdTextBox"
+                x:Uid="ClientIdTextBox"
                 Margin="0,0,0,8"
                 Header="Client ID"
                 Text="{x:Bind ViewModel.ClientId, Mode=TwoWay}" />
             <TextBox
                 x:Name="clientSecretTextBox"
+                x:Uid="ClientSecretTextBox"
                 Margin="0,0,0,48"
                 Header="Client secret"
                 Text="{x:Bind ViewModel.ClientSecret, Mode=TwoWay}" />

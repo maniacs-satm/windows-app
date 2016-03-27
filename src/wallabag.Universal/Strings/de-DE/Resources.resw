@@ -533,4 +533,10 @@ Warum fügst du nicht ein paar hinzu?</value>
   <data name="WarningLogoutTextBlock.Text" xml:space="preserve">
     <value>Beide Aktionen erfordern einen manuellen Neustart der App und sind IRREVERSIBEL!</value>
   </data>
+  <data name="ClientIdTextBox.Header" xml:space="preserve">
+    <value>Client-ID</value>
+  </data>
+  <data name="ClientSecretTextBox.Header" xml:space="preserve">
+    <value>Client-Secret</value>
+  </data>
 </root>
