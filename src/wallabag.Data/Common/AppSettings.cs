@@ -130,5 +130,10 @@ namespace wallabag.Common
             get { return GetProperty(nameof(LastOpeningDateTime), DateTimeOffset.Now, true); }
             set { SetProperty(nameof(LastOpeningDateTime), value, true); }
         }
+        public static bool DeleteDatabaseOnNextStartup
+        {
+            get { return GetProperty(nameof(DeleteDatabaseOnNextStartup), false, true); }
+            set { SetProperty(nameof(DeleteDatabaseOnNextStartup), value, true); }
+        }
     }
 }

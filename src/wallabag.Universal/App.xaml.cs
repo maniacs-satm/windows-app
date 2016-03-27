@@ -30,6 +30,13 @@ namespace wallabag.Universal
 
         public override async Task OnStartAsync(StartKind startKind, IActivatedEventArgs args)
         {
+            if (AppSettings.DeleteDatabaseOnNextStartup)
+            {
+                var databaseFile = await Windows.Storage.StorageFile.GetFileFromPathAsync(Helpers.DATABASE_PATH);
+                await databaseFile.DeleteAsync();
+                AppSettings.DeleteDatabaseOnNextStartup = false;
+            }
+
             if (startKind == StartKind.Launch)
             {
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();

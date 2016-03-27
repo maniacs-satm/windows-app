@@ -1,4 +1,5 @@
-﻿using Template10.Mvvm;
+﻿using System;
+using Template10.Mvvm;
 using wallabag.Common;
 
 namespace wallabag.ViewModels
@@ -59,7 +60,7 @@ namespace wallabag.ViewModels
                 else
                     Services.BackgroundTaskService.UnregisterSyncItemsBackgroundTask();
             }
-        }     
+        }
         public uint BackgroundTaskInterval
         {
             get { return AppSettings.BackgroundTaskInterval; }
@@ -75,6 +76,28 @@ namespace wallabag.ViewModels
         {
             get { return AppSettings.OpenTheFilterPaneWithTheSearch; }
             set { AppSettings.OpenTheFilterPaneWithTheSearch = value; }
+        }
+
+        public DelegateCommand LogoutCommand { get; private set; }
+        public DelegateCommand DeleteDatabaseCommand { get; private set; }
+
+        public SettingsPageViewModel()
+        {
+            LogoutCommand = new DelegateCommand(() =>
+            {
+                AppSettings.AccessToken = string.Empty;
+                AppSettings.RefreshToken = string.Empty;
+                AppSettings.wallabagUrl = string.Empty;
+                AppSettings.ClientId = string.Empty;
+                AppSettings.ClientSecret = string.Empty;
+
+                DeleteDatabaseCommand.Execute();
+            });
+            DeleteDatabaseCommand = new DelegateCommand(async () =>
+            {
+                AppSettings.DeleteDatabaseOnNextStartup = true;
+                Windows.UI.Xaml.Application.Current.Exit();
+            });
         }
     }
 }

@@ -68,10 +68,16 @@
                         x:Uid="SyncWithServerOnStartUpToggleSwitch"
                         Header="Sync with the server on start"
                         IsOn="{x:Bind ViewModel.SyncOnStartup, Mode=TwoWay}" />
-                    <TextBlock Text="OTHER" Style="{StaticResource SmallBoldTextBlockStyle}"/>
-                    <TextBlock Text="Both actions will require a manual restart of this app and are IRREVERSIBLE!" Style="{StaticResource InfoTextBlockStyle}"/>
-                    <Button Content="Logout" Style="{StaticResource TextBlockButtonStyle}"/>
-                    <Button Content="Delete database" Style="{StaticResource TextBlockButtonStyle}"/>
+                    <TextBlock Style="{StaticResource SmallBoldTextBlockStyle}" Text="OTHER" />
+                    <TextBlock Style="{StaticResource InfoTextBlockStyle}" Text="Both actions will require a manual restart of this app and are IRREVERSIBLE!" />
+                    <Button
+                        Style="{StaticResource TextBlockButtonStyle}"
+                        Command="{x:Bind ViewModel.LogoutCommand}"
+                        Content="Logout" />
+                    <Button
+                        Style="{StaticResource TextBlockButtonStyle}"
+                        Command="{x:Bind ViewModel.DeleteDatabaseCommand}"
+                        Content="Delete database" />
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="AppereanceSettingsPivotItem" Header="Appereance">
@@ -96,8 +102,14 @@
             </PivotItem>
             <PivotItem x:Uid="BackgroundTaskSettingsPivotItem" Header="Background task">
                 <StackPanel>
-                    <ToggleSwitch x:Uid="UseBackgroundTaskToggleSwitch" Header="Use background task" IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" />
-                    <TextBlock x:Uid="BackgroundIntervalHeaderTextBlock" Margin="0,8,0,-4" Text="Interval in minutes" />
+                    <ToggleSwitch
+                        x:Uid="UseBackgroundTaskToggleSwitch"
+                        Header="Use background task"
+                        IsOn="{x:Bind ViewModel.UseBackgroundTask, Mode=TwoWay}" />
+                    <TextBlock
+                        x:Uid="BackgroundIntervalHeaderTextBlock"
+                        Margin="0,8,0,-4"
+                        Text="Interval in minutes" />
                     <StackPanel Orientation="Horizontal">
                         <StackPanel.Resources>
                             <Style BasedOn="{StaticResource TextRadioButtonStyle}" TargetType="RadioButton">
