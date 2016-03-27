@@ -30,6 +30,12 @@ namespace wallabag.Views
                 HideFilterStoryboard.Begin();
                 _IsFilterVisible = false;
             };
+            SearchQueryAutoSuggestBox.LostFocus += (s, e) =>
+            {
+                HideSearchStoryboard.Begin();
+                CloseSearchStoryboard.Begin();
+                _IsSearchVisible = false;
+            };
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
