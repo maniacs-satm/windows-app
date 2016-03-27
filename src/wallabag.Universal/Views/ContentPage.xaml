@@ -554,7 +554,11 @@
         					BasedOn="{StaticResource BoldTextBlockStyle}"
         					TargetType="TextBlock">
                                 <Setter Property="FontSize" Value="12" />
-                                <Setter Property="Margin" Value="0,16,0,4" />
+                                <Setter Property="Margin" Value="0,20,0,4" />
+                            </Style>
+                            <Style TargetType="CalendarDatePicker">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="Margin" Value="0,2"/>
                             </Style>
                         </StackPanel.Resources>
                         <TextBlock
@@ -562,15 +566,6 @@
         				Margin="0,0,0,4"
         				Style="{StaticResource HeaderTextBlockStyle}"
         				Text="ITEM TYPE" />
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
                             <RadioButton
         					x:Uid="ItemTypeAll"
         					Style="{StaticResource IconAndTextRadioButtonStyle}"
@@ -587,7 +582,6 @@
                             </RadioButton>
                             <RadioButton
         					x:Uid="ItemTypeUnread"
-        					Grid.Column="1"
         					Style="{StaticResource IconAndTextRadioButtonStyle}"
         					Content="unread"
         					GroupName="ItemType"
@@ -602,7 +596,6 @@
                             </RadioButton>
                             <RadioButton
         					x:Uid="ItemTypeFavorites"
-        					Grid.Row="1"
         					Style="{StaticResource IconAndTextRadioButtonStyle}"
         					Content="favorites"
         					GroupName="ItemType"
@@ -617,8 +610,6 @@
                             </RadioButton>
                             <RadioButton
         					x:Uid="ItemTypeArchived"
-        					Grid.Row="1"
-        					Grid.Column="1"
         					Style="{StaticResource IconAndTextRadioButtonStyle}"
         					Content="archive"
         					GroupName="ItemType"
@@ -631,7 +622,6 @@
                                     </core:EventTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
                             </RadioButton>
-                        </Grid>
                         <TextBlock
         				x:Uid="SortOrderFilterTextBlock"
         				Style="{StaticResource HeaderTextBlockStyle}"
@@ -761,7 +751,7 @@
                                 </interactivity:Interaction.Behaviors>
                             </RadioButton>
                             <RadioButton
-        					Grid.Column="1"
+                            Grid.Column="1"
         					Style="{StaticResource TextRadioButtonStyle}"
         					Content="5-15 min"
         					IsChecked="{x:Bind ViewModel.EstimatedReadingTime, ConverterParameter=Medium, Converter={StaticResource EnumBooleanConverter}, Mode=OneWay}">
@@ -772,7 +762,7 @@
                                 </interactivity:Interaction.Behaviors>
                             </RadioButton>
                             <RadioButton
-        					Grid.Column="2"
+                            Grid.Column="2"
         					Style="{StaticResource TextRadioButtonStyle}"
         					Content="&gt; 15 min"
         					IsChecked="{x:Bind ViewModel.EstimatedReadingTime, ConverterParameter=Long, Converter={StaticResource EnumBooleanConverter}, Mode=OneWay}">
@@ -787,17 +777,6 @@
         				x:Uid="CreationDateFilterTextBlock"
         				Style="{StaticResource HeaderTextBlockStyle}"
         				Text="CREATION DATE" />
-                        <Grid>
-                            <Grid.Resources>
-                                <Style TargetType="CalendarDatePicker">
-                                    <Setter Property="HorizontalAlignment" Value="Stretch" />
-                                    <Setter Property="Margin" Value="4" />
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
                             <CalendarDatePicker
         					x:Uid="FromCalendarDatePicker"
         					Date="{x:Bind ViewModel.MinDateNullable, Mode=TwoWay}"
@@ -811,7 +790,6 @@
                             </CalendarDatePicker>
                             <CalendarDatePicker
         					x:Uid="ToCalendarDatePicker"
-        					Grid.Column="1"
         					Date="{x:Bind ViewModel.MaxDateNullable, Mode=TwoWay}"
         					MaxDate="{x:Bind ViewModel.MaxDate}"
         					MinDate="{x:Bind ViewModel.MinDate, Mode=OneWay}"
@@ -822,7 +800,6 @@
                                     </core:EventTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
                             </CalendarDatePicker>
-                        </Grid>
 
                         <Grid Margin="0,16,0,0">
                             <Grid.ColumnDefinitions>
