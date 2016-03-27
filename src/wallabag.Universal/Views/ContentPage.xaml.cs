@@ -212,7 +212,6 @@ namespace wallabag.Views
             {
                 _IsSearchVisible = true;
                 ShowSearchStoryboard.Begin();
-                ShowOverlay.Begin();
                 if (AppSettings.OpenTheFilterPaneWithTheSearch)
                     FilterButton_Click(sender, e);
             }
@@ -220,26 +219,23 @@ namespace wallabag.Views
             {
                 _IsSearchVisible = false;
                 HideSearchStoryboard.Begin();
-                HideOverlay.Begin();
-                if (_IsFilterPopupVisible)
+                if (_IsFilterVisible)
                     FilterButton_Click(sender, e);
             }
         }
 
-        private bool _IsFilterPopupVisible = false;
+        private bool _IsFilterVisible = false;
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_IsFilterPopupVisible == false)
+            if (_IsFilterVisible == false)
             {
-                _IsFilterPopupVisible = true;
-                ShowOverlay.Begin();
-                ShowFilterPopup.Begin();
+                _IsFilterVisible = true;
+                ShowFilterStoryboard.Begin();
             }
             else
             {
-                _IsFilterPopupVisible = false;
-                if (!_IsSearchVisible) HideOverlay.Begin();
-                HideFilterPopup.Begin();
+                _IsFilterVisible = false;
+                HideFilterStoryboard.Begin();
             }
         }
 
@@ -252,22 +248,20 @@ namespace wallabag.Views
                     CloseSearchStoryboard.Begin();
                 _IsSearchVisible = false;
             }
-            if (_IsFilterPopupVisible)
+            if (_IsFilterVisible)
             {
-                HideFilterPopup.Begin();
-                _IsFilterPopupVisible = false;
+                HideFilterStoryboard.Begin();
+                _IsFilterVisible = false;
             }
-            HideOverlay.Begin();
         }
 
         private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
         {
             HideSearchStoryboard.Begin();
-            if (AppSettings.OpenTheFilterPaneWithTheSearch || !_IsFilterPopupVisible)
+            if (AppSettings.OpenTheFilterPaneWithTheSearch || !_IsFilterVisible)
             {
-                HideOverlay.Begin();
-                HideFilterPopup.Begin();
-                _IsFilterPopupVisible = false;
+                HideFilterStoryboard.Begin();
+                _IsFilterVisible = false;
             }
             _IsSearchVisible = false;
         }
