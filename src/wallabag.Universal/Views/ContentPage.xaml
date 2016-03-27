@@ -588,7 +588,7 @@
                             Text="ITEM TYPE"
                             Style="{ThemeResource HeaderTextBlockStyle}"
                             Margin="8,8,8,4"/>
-                        <ComboBox>
+                        <ComboBox SelectedIndex="{x:Bind ViewModel.ItemTypeSelectedIndex, Mode=TwoWay}">
                             <ComboBoxItem Content="All" x:Uid="AllItemTypeComboBoxItem"/>
                             <ComboBoxItem Content="Unread" x:Uid="UnreadItemTypeComboBoxItem"/>
                             <ComboBoxItem Content="Favorites" x:Uid="FavoritesItemTypeComboBoxItem"/>

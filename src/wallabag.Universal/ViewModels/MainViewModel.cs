@@ -69,6 +69,7 @@ namespace wallabag.ViewModels
         public FilterSortOrder SortOrder { get; set; } = FilterSortOrder.Descending;
         public FilterEstimatedReadingTime EstimatedReadingTime { get; set; } = FilterEstimatedReadingTime.Unfiltered;
         public DelegateCommand<SelectionChangedEventArgs> ItemTypeSelectionChangedCommand { get; set; }
+        public int ItemTypeSelectedIndex { get; set; } = 1;
         public DelegateCommand<string> ItemSortOrderChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortTypeChangedCommand { get; set; }
         public string DomainQuery { get; set; }
@@ -102,6 +103,7 @@ namespace wallabag.ViewModels
             ResetFilterCommand = new DelegateCommand(async () =>
             {
                 CurrentFilterProperties = new FilterProperties();
+                ItemTypeSelectedIndex = 1;
                 SortType = FilterSortType.ByDate;
                 SortOrder = FilterSortOrder.Descending;
                 EstimatedReadingTime = FilterEstimatedReadingTime.Unfiltered;
