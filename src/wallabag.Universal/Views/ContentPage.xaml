@@ -584,10 +584,10 @@
                             Style="{ThemeResource HeaderTextBlockStyle}"
                             Margin="8,8,8,4"/>
                         <ComboBox>
-                            <ComboBoxItem Content="All"/>
-                            <ComboBoxItem Content="Unread"/>
-                            <ComboBoxItem Content="Favorites"/>
-                            <ComboBoxItem Content="Archived"/>
+                            <ComboBoxItem Content="All" x:Uid="AllItemTypeComboBoxItem"/>
+                            <ComboBoxItem Content="Unread" x:Uid="UnreadItemTypeComboBoxItem"/>
+                            <ComboBoxItem Content="Favorites" x:Uid="FavoritesItemTypeComboBoxItem"/>
+                            <ComboBoxItem Content="Archived" x:Uid="ArchivedItemTypeComboBoxItem"/>
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="SelectionChanged">
                                     <core:InvokeCommandAction Command="{x:Bind ViewModel.ItemTypeSelectionChangedCommand}" />

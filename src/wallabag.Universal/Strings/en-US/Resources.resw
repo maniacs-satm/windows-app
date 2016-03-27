@@ -508,4 +508,16 @@ So, why aren't you adding one? :-)</value>
   <data name="SepiaColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
     <value>sepia</value>
   </data>
+  <data name="AllItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="ArchivedItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>Archived</value>
+  </data>
+  <data name="FavoritesItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="UnreadItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>Unread</value>
+  </data>
 </root>
