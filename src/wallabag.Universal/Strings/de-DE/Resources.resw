@@ -273,7 +273,7 @@
     <value>Lese-Ansicht</value>
   </data>
   <data name="ResetFilterButton.Content" xml:space="preserve">
-    <value>zurücksetzen</value>
+    <value>Filter zurücksetzen</value>
   </data>
   <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
     <value>LINK SPEICHERN</value>
@@ -467,7 +467,6 @@ Warum fügst du nicht ein paar hinzu?</value>
   </data>
   <data name="ChangeColorSchemeAppBarButton.Label" xml:space="preserve">
     <value>Farbschema anpassen</value>
-    <comment> </comment>
   </data>
   <data name="ChangeFontFamilyAppBarButton.Label" xml:space="preserve">
     <value>Schriftart ändern</value>
@@ -508,5 +507,17 @@ Warum fügst du nicht ein paar hinzu?</value>
   </data>
   <data name="SepiaColorSchemeMenuFlyoutItem.Text" xml:space="preserve">
     <value>sepia</value>
+  </data>
+  <data name="AllItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="ArchivedItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>Archiviert</value>
+  </data>
+  <data name="FavoritesItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="UnreadItemTypeComboBoxItem.Content" xml:space="preserve">
+    <value>Ungelesen</value>
   </data>
 </root>

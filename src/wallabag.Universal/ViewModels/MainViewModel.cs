@@ -68,7 +68,8 @@ namespace wallabag.ViewModels
         public FilterSortType SortType { get; set; } = FilterSortType.ByDate;
         public FilterSortOrder SortOrder { get; set; } = FilterSortOrder.Descending;
         public FilterEstimatedReadingTime EstimatedReadingTime { get; set; } = FilterEstimatedReadingTime.Unfiltered;
-        public DelegateCommand<string> ItemTypeSelectionChangedCommand { get; set; }
+        public DelegateCommand<SelectionChangedEventArgs> ItemTypeSelectionChangedCommand { get; set; }
+        public int ItemTypeSelectedIndex { get; set; } = 1;
         public DelegateCommand<string> ItemSortOrderChangedCommand { get; set; }
         public DelegateCommand<string> ItemSortTypeChangedCommand { get; set; }
         public string DomainQuery { get; set; }
@@ -102,6 +103,7 @@ namespace wallabag.ViewModels
             ResetFilterCommand = new DelegateCommand(async () =>
             {
                 CurrentFilterProperties = new FilterProperties();
+                ItemTypeSelectedIndex = 1;
                 SortType = FilterSortType.ByDate;
                 SortOrder = FilterSortOrder.Descending;
                 EstimatedReadingTime = FilterEstimatedReadingTime.Unfiltered;
@@ -130,7 +132,7 @@ namespace wallabag.ViewModels
             EditTagsCommand = new DelegateCommand(async () => await EditTagsAsync());
             DeleteItemsCommand = new DelegateCommand(async () => await DeleteItemsAsync());
 
-            ItemTypeSelectionChangedCommand = new DelegateCommand<string>(itemType => ItemTypeSelectionChanged(itemType));
+            ItemTypeSelectionChangedCommand = new DelegateCommand<SelectionChangedEventArgs>(itemType => ItemTypeSelectionChanged(itemType));
             ItemSortOrderChangedCommand = new DelegateCommand<string>(sortOrder => ItemSortOrderChanged(sortOrder));
             ItemSortTypeChangedCommand = new DelegateCommand<string>(sortType => ItemSortTypeChanged(sortType));
             SearchQueryChangedCommand = new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(async e => await SearchQueryChangedAsync(e));
@@ -200,6 +202,8 @@ namespace wallabag.ViewModels
                     HeaderText = Helpers.LocalizedString("ItemsHeaderTextBlock/Text");
                     await GetItemsFromDatabaseAsync();
                 }
+                else if (message.Notification == "FilterView")
+                    FilterCommand.Execute();
             });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)
@@ -349,26 +353,22 @@ namespace wallabag.ViewModels
             await _dataService.SyncOfflineTasksWithServerAsync();
         }
 
-        public void ItemTypeSelectionChanged(string itemType)
+        public void ItemTypeSelectionChanged(SelectionChangedEventArgs e)
         {
-            switch (itemType)
-            {
-                case "all":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
-                    break;
-                case "unread":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
-                    break;
-                case "starred":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
-                    break;
-                case "archived":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
-                    break;
-                case "deleted":
-                    CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Deleted;
-                    break;
-            }
+            var allTranslated = Helpers.LocalizedString("AllItemTypeComboBoxItem/Content");
+            var unreadTranslated = Helpers.LocalizedString("UnreadItemTypeComboBoxItem/Content");
+            var favoritesTranslated = Helpers.LocalizedString("FavoritesItemTypeComboBoxItem/Content");
+            var archivedTranslated = Helpers.LocalizedString("ArchivedItemTypeComboBoxItem/Content");
+
+            var newItemType = (e.AddedItems.First() as ComboBoxItem).Content.ToString();
+            if (newItemType.Equals(allTranslated))
+                CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.All;
+            else if (newItemType.Equals(unreadTranslated))
+                CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Unread;
+            else if (newItemType.Equals(favoritesTranslated))
+                CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Favorites;
+            else if (newItemType.Equals(archivedTranslated))
+                CurrentFilterProperties.ItemType = FilterProperties.FilterPropertiesItemType.Archived;
         }
         public void ItemSortOrderChanged(string sortOrder)
         {

@@ -208,8 +208,9 @@
                         <Rectangle
                             x:Name="CheckedBackground"
                             Fill="{ThemeResource SystemControlBackgroundAccentBrush}"
-                            Opacity="0.3"
-                            Visibility="Collapsed" />
+                            Opacity="0.2"
+                            Visibility="Collapsed"
+                            x:DeferLoadStrategy="Lazy"/>
                         <Grid Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
