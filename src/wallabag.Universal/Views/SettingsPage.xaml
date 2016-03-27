@@ -68,6 +68,10 @@
                         x:Uid="SyncWithServerOnStartUpToggleSwitch"
                         Header="Sync with the server on start"
                         IsOn="{x:Bind ViewModel.SyncOnStartup, Mode=TwoWay}" />
+                    <TextBlock Text="OTHER" Style="{StaticResource SmallBoldTextBlockStyle}"/>
+                    <TextBlock Text="Both actions will require a manual restart of this app and are IRREVERSIBLE!" Style="{StaticResource InfoTextBlockStyle}"/>
+                    <Button Content="Logout" Style="{StaticResource TextBlockButtonStyle}"/>
+                    <Button Content="Delete database" Style="{StaticResource TextBlockButtonStyle}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="AppereanceSettingsPivotItem" Header="Appereance">
