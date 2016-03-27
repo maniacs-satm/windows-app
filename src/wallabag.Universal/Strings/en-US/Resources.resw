@@ -273,7 +273,7 @@
     <value>Reading</value>
   </data>
   <data name="ResetFilterButton.Content" xml:space="preserve">
-    <value>Reset</value>
+    <value>Reset filter</value>
   </data>
   <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
     <value>SAVE A LINK</value>

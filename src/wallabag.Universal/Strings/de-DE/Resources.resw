@@ -273,7 +273,7 @@
     <value>Lese-Ansicht</value>
   </data>
   <data name="ResetFilterButton.Content" xml:space="preserve">
-    <value>zurücksetzen</value>
+    <value>Filter zurücksetzen</value>
   </data>
   <data name="SaveALinkHeaderTextBlock.Text" xml:space="preserve">
     <value>LINK SPEICHERN</value>
