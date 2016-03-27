@@ -103,7 +103,7 @@ namespace wallabag.Data.Services
 
                     if (item.PreviewPictureUri.StartsWith("//"))
                         item.PreviewPictureUri = $"https:{item.PreviewPictureUri}";
-                    
+
                     if (existingItem == null)
                     {
                         await conn.InsertAsync(item);
@@ -138,13 +138,16 @@ namespace wallabag.Data.Services
             List<Item> result = new List<Item>();
 
             var allItems = await conn.Table<Item>().ToListAsync();
+            string queryConnector = "AND";
 
             if (allItems.Count > 0)
                 _lastItemId = allItems.Last().Id;
 
             switch (filterProperties.ItemType)
             {
-                case FilterProperties.FilterPropertiesItemType.All: break;
+                case FilterProperties.FilterPropertiesItemType.All:
+                    queryConnector = "WHERE";
+                    break;
                 case FilterProperties.FilterPropertiesItemType.Unread:
                     sqlQuery += "WHERE IsRead = ? AND IsDeleted = ? ";
                     sqlParams.Add(0); // 0 == false, 1 == true
@@ -168,18 +171,21 @@ namespace wallabag.Data.Services
 
             if (filterProperties.FilterTag != null)
             {
-                sqlQuery += "AND Tags LIKE ?";
+                sqlQuery += $"{queryConnector} Tags LIKE ?";
                 sqlParams.Add(filterProperties.FilterTag.Label);
+                queryConnector = "AND";
             }
             if (!string.IsNullOrEmpty(filterProperties.DomainName))
             {
-                sqlQuery += "AND DomainName = ?";
+                sqlQuery += $"{queryConnector} DomainName = ?";
                 sqlParams.Add(filterProperties.DomainName);
+                queryConnector = "AND";
             }
             if (!string.IsNullOrWhiteSpace(filterProperties.SearchQuery))
             {
-                sqlQuery += "AND Title LIKE ?";
+                sqlQuery += $"{queryConnector} Title LIKE ?";
                 sqlParams.Add($"%{filterProperties.SearchQuery}%");
+                queryConnector = "AND";
             }
 
             result = await conn.QueryAsync<Item>(sqlQuery, sqlParams.ToArray());
