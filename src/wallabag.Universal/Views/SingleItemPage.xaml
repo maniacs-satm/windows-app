@@ -16,6 +16,7 @@
     common:TitleBarExtensions.ButtonForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
     common:TitleBarExtensions.ForegroundColor="{x:Bind ViewModel.CurrentForeground.Color, Mode=OneWay}"
     DataContext="{Binding SingleItem, Source={StaticResource Locator}}"
+    NavigationCacheMode="Disabled"
     mc:Ignorable="d">
 
     <Page.Resources>
