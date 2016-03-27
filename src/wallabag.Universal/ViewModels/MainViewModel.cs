@@ -202,6 +202,8 @@ namespace wallabag.ViewModels
                     HeaderText = Helpers.LocalizedString("ItemsHeaderTextBlock/Text");
                     await GetItemsFromDatabaseAsync();
                 }
+                else if (message.Notification == "FilterView")
+                    FilterCommand.Execute();
             });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)

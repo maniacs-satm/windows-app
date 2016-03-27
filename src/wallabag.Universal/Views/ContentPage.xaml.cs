@@ -26,6 +26,7 @@ namespace wallabag.Views
             HideSearchStoryboard.Completed += (s, e) => { ItemGridView.Focus(FocusState.Programmatic); };
             ContentSplitView.PaneClosing += (s, e) =>
             {
+                Messenger.Default.Send(new NotificationMessage("FilterView"));
                 HideFilterStoryboard.Begin();
                 _IsFilterVisible = false;
             };
@@ -268,5 +269,7 @@ namespace wallabag.Views
             }
             _IsSearchVisible = false;
         }
+
+        private void ResetFilterButton_Click(object sender, RoutedEventArgs e) { ContentSplitView.IsPaneOpen = false; }
     }
 }

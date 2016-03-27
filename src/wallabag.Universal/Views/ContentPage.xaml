@@ -782,25 +782,13 @@
 
                     </StackPanel>
                 </ScrollViewer>
-                    <Grid Grid.Row="1" Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
                     <Button
         					x:Uid="ResetFilterButton"
         					Command="{x:Bind ViewModel.ResetFilterCommand}"
+                            Grid.Row="1"
+                            Click="ResetFilterButton_Click"
                             HorizontalAlignment="Stretch"
         					Content="Reset" Style="{StaticResource TextBlockButtonStyle}" />
-                    <Button
-        					x:Uid="FilterButton"
-                            BorderThickness="0"
-                            Margin="0"
-        					Grid.Column="1"
-        					Style="{StaticResource ActionButtonStyle}"
-        					Command="{x:Bind ViewModel.FilterCommand}"
-        					Content="Filter" />
-                </Grid>
                 </Grid>
             </SplitView.Pane>
         </SplitView>
