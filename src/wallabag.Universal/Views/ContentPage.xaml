@@ -547,25 +547,43 @@
             </SplitView.Content>
             <SplitView.Pane>
                 <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <StackPanel Padding="12">
+                    <StackPanel>
                         <StackPanel.Resources>
                             <Style
         					x:Name="HeaderTextBlockStyle"
-        					BasedOn="{StaticResource BoldTextBlockStyle}"
         					TargetType="TextBlock">
-                                <Setter Property="FontSize" Value="12" />
-                                <Setter Property="Margin" Value="0,20,0,4" />
+                                <Setter Property="Margin" Value="8,20,8,4" />
+                                <Setter Property="TextAlignment" Value="Center"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="FontSize" Value="13.333"/>
                             </Style>
                             <Style TargetType="CalendarDatePicker">
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                                <Setter Property="Margin" Value="0,2"/>
+                                <Setter Property="Margin" Value="0,1"/>
+                                <Setter Property="BorderThickness" Value="0"/>
                             </Style>
                             <Style TargetType="ComboBox">
-                                <Setter Property="BorderThickness" Value="1"/>
                                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                            <Style TargetType="RadioButton" BasedOn="{StaticResource IconAndTextRadioButtonStyle}">
+                                <Setter Property="Margin" Value="0,1"/>
+                                <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltMediumLowBrush}"/>
+                            </Style>
+                            <Style TargetType="TextBox" x:Name="CleanAutoSuggestBoxTextBoxStyle" BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}">
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>                                   
+                            <Style TargetType="AutoSuggestBox">
+                                <Setter Property="TextBoxStyle" Value="{StaticResource CleanAutoSuggestBoxTextBoxStyle}" />
                             </Style>
                         </StackPanel.Resources>
-                        <ComboBox Header="Item type">
+
+                        <TextBlock 
+                            x:Uid="ItemTypeFilterTextBlock"
+                            Text="ITEM TYPE"
+                            Style="{ThemeResource HeaderTextBlockStyle}"
+                            Margin="8,8,8,4"/>
+                        <ComboBox>
                             <ComboBoxItem Content="All"/>
                             <ComboBoxItem Content="Unread"/>
                             <ComboBoxItem Content="Favorites"/>
@@ -576,11 +594,10 @@
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
                         </ComboBox>
-                        
-                        <TextBlock
-        				x:Uid="SortOrderFilterTextBlock"
-        				Style="{StaticResource HeaderTextBlockStyle}"
-        				Text="SORT ORDER" />
+                        <TextBlock 
+                            x:Uid="SortOrderFilterTextBlock" 
+                            Style="{StaticResource HeaderTextBlockStyle}"
+                            Text="SORT ORDER" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -592,7 +609,6 @@
                             </Grid.RowDefinitions>
                             <RadioButton
         					x:Uid="SortOrderAscendingRadioButton"
-        					Style="{StaticResource IconAndTextRadioButtonStyle}"
         					Content="ascending"
         					GroupName="SortOrder"
         					IsChecked="{x:Bind ViewModel.SortOrder, ConverterParameter=Ascending, Converter={StaticResource EnumBooleanConverter}, Mode=OneWay}"
@@ -605,8 +621,7 @@
                             </RadioButton>
                             <RadioButton
         					x:Uid="SortOrderDescendingRadioButton"
-        					Grid.Row="1"
-        					Style="{StaticResource IconAndTextRadioButtonStyle}"
+        					Grid.Column="1"
         					Content="descending"
         					GroupName="SortOrder"
         					IsChecked="{x:Bind ViewModel.SortOrder, ConverterParameter=Descending, Converter={StaticResource EnumBooleanConverter}, Mode=OneWay}"
@@ -619,8 +634,7 @@
                             </RadioButton>
                             <RadioButton
         					x:Uid="SortTypeByTitleRadioButton"
-        					Grid.Column="1"
-        					Style="{StaticResource IconAndTextRadioButtonStyle}"
+        					Grid.Row="1"
         					Content="by title"
         					GroupName="SortType"
         					IsChecked="{x:Bind ViewModel.SortType, ConverterParameter=ByTitle, Converter={StaticResource EnumBooleanConverter}, Mode=OneWay}"
@@ -635,7 +649,6 @@
         					x:Uid="SortTypeByDateRadioButton"
         					Grid.Row="1"
         					Grid.Column="1"
-        					Style="{StaticResource IconAndTextRadioButtonStyle}"
         					Content="by date"
         					GroupName="SortType"
         					IsChecked="{x:Bind ViewModel.SortType, ConverterParameter=ByDate, Converter={StaticResource EnumBooleanConverter}, Mode=OneWay}"
@@ -647,7 +660,6 @@
                                 </interactivity:Interaction.Behaviors>
                             </RadioButton>
                         </Grid>
-
                         <TextBlock
         				x:Uid="DomainNameFilterTextBlock"
         				Style="{StaticResource HeaderTextBlockStyle}"
@@ -689,7 +701,7 @@
         				x:Uid="EstimatedReadingTimeFilterTextBlock"
         				Style="{StaticResource HeaderTextBlockStyle}"
         				Text="ESTIMATED READING TIME" />
-                        <Grid>
+                        <Grid Background="{ThemeResource SystemControlBackgroundAltMediumLowBrush}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
