@@ -555,11 +555,9 @@
                     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <StackPanel>
                             <StackPanel.Resources>
-                                <Style x:Name="HeaderTextBlockStyle" TargetType="TextBlock">
+                                <Style x:Name="HeaderTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource SmallBoldTextBlockStyle}">
                                     <Setter Property="Margin" Value="8,20,8,4" />
                                     <Setter Property="TextAlignment" Value="Center" />
-                                    <Setter Property="FontWeight" Value="SemiBold" />
-                                    <Setter Property="FontSize" Value="13.333" />
                                 </Style>
                                 <Style TargetType="CalendarDatePicker">
                                     <Setter Property="HorizontalAlignment" Value="Stretch" />
