@@ -744,7 +744,12 @@
         				x:Uid="CreationDateFilterTextBlock"
         				Style="{StaticResource HeaderTextBlockStyle}"
         				Text="CREATION DATE" />
-                            <CalendarDatePicker
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                        <CalendarDatePicker
         					x:Uid="FromCalendarDatePicker"
         					Date="{x:Bind ViewModel.MinDateNullable, Mode=TwoWay}"
         					MaxDate="{x:Bind ViewModel.MaxDate}"
@@ -757,6 +762,7 @@
                             </CalendarDatePicker>
                             <CalendarDatePicker
         					x:Uid="ToCalendarDatePicker"
+                                Grid.Column="1"
         					Date="{x:Bind ViewModel.MaxDateNullable, Mode=TwoWay}"
         					MaxDate="{x:Bind ViewModel.MaxDate}"
         					MinDate="{x:Bind ViewModel.MinDate, Mode=OneWay}"
@@ -767,6 +773,7 @@
                                     </core:EventTriggerBehavior>
                                 </interactivity:Interaction.Behaviors>
                             </CalendarDatePicker>
+                        </Grid>
 
                         <Grid Margin="0,16,0,0">
                             <Grid.ColumnDefinitions>
