@@ -575,7 +575,7 @@
                 </interactivity:Interaction.Behaviors>
             </AutoSuggestBox>
         </Grid>
-        <SplitView x:Name="ContentSplitView" Margin="0,48" IsPaneOpen="True">
+        <SplitView x:Name="ContentSplitView" Margin="0,48">
             <SplitView.Content>
                 <controls:AdaptiveGridView
         			x:Name="ItemGridView"
@@ -601,10 +601,8 @@
                 </controls:AdaptiveGridView>
             </SplitView.Content>
             <SplitView.Pane>
-                <ScrollViewer
-                Padding="12"
-                ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
+                <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <StackPanel Padding="12">
                         <StackPanel.Resources>
                             <Style
         					x:Name="HeaderTextBlockStyle"
