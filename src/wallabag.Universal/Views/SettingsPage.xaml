@@ -128,7 +128,7 @@
                         <TextBlock
                             x:Uid="VersionTextBlock"
                             Margin="0,0,0,2"
-                            Style="{StaticResource BoldTextBlockStyle}"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
                             Text="VERSION" />
                         <StackPanel Margin="0" Orientation="Horizontal">
                             <TextBlock
@@ -145,12 +145,12 @@
                         </StackPanel>
                         <TextBlock
                             x:Uid="MadeWithLoveByTextBlock"
-                            Style="{StaticResource BoldTextBlockStyle}"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
                             Text="MADE WITH LOVE BY" />
                         <TextBlock Style="{ThemeResource InfoTextBlockStyle}" Text="Julian Oster" />
                         <TextBlock
                             x:Uid="ThanksTextBlock"
-                            Style="{StaticResource BoldTextBlockStyle}"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
                             Text="THANKS TO" />
                         <TextBlock Style="{ThemeResource InfoTextBlockStyle}">
                             <Hyperlink NavigateUri="http://www.newtonsoft.com/json" UnderlineStyle="None">• Newtonsoft.Json</Hyperlink>
@@ -169,7 +169,7 @@
                         </TextBlock>
                         <TextBlock
                             x:Uid="SpecialThanksTextBlock"
-                            Style="{StaticResource BoldTextBlockStyle}"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
                             Text="SPECIAL THANKS" />
                         <TextBlock
                             x:Uid="SpecialThanksTextBlock2"
@@ -177,7 +177,7 @@
                             Text="The whole Windows developer community for their help." />
                         <TextBlock
                             x:Uid="ExtraSpecialThanksTextBlock"
-                            Style="{StaticResource BoldTextBlockStyle}"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
                             Text="EXTRA SPECIAL THANKS" />
                         <TextBlock
                             x:Uid="ExtraSpecialThanksTextBlock2"
@@ -185,7 +185,7 @@
                             Text="Nicolas Lœuillet, Thomas Citharel and Jérémy Benoist for creating such a great software." />
                         <TextBlock
                             x:Uid="NeedHelpTextBlock"
-                            Style="{StaticResource BoldTextBlockStyle}"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
                             Text="NEED HELP?" />
                         <Button
                             x:Name="OpenWallabagDocumentationButton"
@@ -236,7 +236,7 @@
                         </Button>
                         <TextBlock
                             x:Uid="LikeMyWorkTextBlock"
-                            Style="{StaticResource BoldTextBlockStyle}"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
                             Text="YOU LIKE MY WORK?" />
                         <Button
                             x:Name="RateAndReviewButton"
