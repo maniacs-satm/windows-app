@@ -68,24 +68,6 @@
                         x:Uid="SyncWithServerOnStartUpToggleSwitch"
                         Header="Sync with the server on start"
                         IsOn="{x:Bind ViewModel.SyncOnStartup, Mode=TwoWay}" />
-                    <TextBlock
-                        x:Uid="OtherTextBlock"
-                        Style="{StaticResource SmallBoldTextBlockStyle}"
-                        Text="OTHER" />
-                    <TextBlock
-                        x:Uid="WarningLogoutTextBlock"
-                        Style="{StaticResource InfoTextBlockStyle}"
-                        Text="Both actions will require a manual restart of this app and are IRREVERSIBLE!" />
-                    <Button
-                        x:Uid="LogoutButton"
-                        Style="{StaticResource TextBlockButtonStyle}"
-                        Command="{x:Bind ViewModel.LogoutCommand}"
-                        Content="Logout" />
-                    <Button
-                        x:Uid="DeleteDatabaseButton"
-                        Style="{StaticResource TextBlockButtonStyle}"
-                        Command="{x:Bind ViewModel.DeleteDatabaseCommand}"
-                        Content="Delete database" />
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="AppereanceSettingsPivotItem" Header="Appereance">
@@ -282,6 +264,25 @@
                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
                             </Button.Tag>
                         </Button>
+                        <TextBlock
+                            x:Uid="OtherTextBlock"
+                            Style="{StaticResource SmallBoldTextBlockStyle}"
+                            Text="OTHER" />
+                        <TextBlock
+                            x:Uid="WarningLogoutTextBlock"
+                            Style="{StaticResource InfoTextBlockStyle}"
+                            Text="Both actions will require a manual restart of this app and are IRREVERSIBLE!" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                x:Uid="LogoutButton"
+                                Margin="4,0"
+                                Command="{x:Bind ViewModel.LogoutCommand}"
+                                Content="Logout" />
+                            <Button
+                                x:Uid="DeleteDatabaseButton"
+                                Command="{x:Bind ViewModel.DeleteDatabaseCommand}"
+                                Content="Delete database" />
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
