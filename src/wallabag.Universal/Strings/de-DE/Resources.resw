@@ -520,4 +520,17 @@ Warum fügst du nicht ein paar hinzu?</value>
   <data name="UnreadItemTypeComboBoxItem.Content" xml:space="preserve">
     <value>Ungelesen</value>
   </data>
+  <data name="DeleteDatabaseButton.Content" xml:space="preserve">
+    <value>Lokale Datenbank löschen</value>
+  </data>
+  <data name="LogoutButton.Content" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="OtherTextBlock.Text" xml:space="preserve">
+    <value>SONSTIGES</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="WarningLogoutTextBlock.Text" xml:space="preserve">
+    <value>Beide Aktionen erfordern einen manuellen Neustart der App und sind IRREVERSIBEL!</value>
+  </data>
 </root>

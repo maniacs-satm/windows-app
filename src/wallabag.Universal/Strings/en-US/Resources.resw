@@ -520,4 +520,17 @@ So, why aren't you adding one? :-)</value>
   <data name="UnreadItemTypeComboBoxItem.Content" xml:space="preserve">
     <value>Unread</value>
   </data>
+  <data name="DeleteDatabaseButton.Content" xml:space="preserve">
+    <value>Delete local database</value>
+  </data>
+  <data name="LogoutButton.Content" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="OtherTextBlock.Text" xml:space="preserve">
+    <value>OTHER</value>
+    <comment>UPPERCASE</comment>
+  </data>
+  <data name="WarningLogoutTextBlock.Text" xml:space="preserve">
+    <value>Both actions will require a manual restart of this app and are IRREVERSIBLE!</value>
+  </data>
 </root>

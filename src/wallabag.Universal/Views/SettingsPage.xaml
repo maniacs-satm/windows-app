@@ -68,13 +68,21 @@
                         x:Uid="SyncWithServerOnStartUpToggleSwitch"
                         Header="Sync with the server on start"
                         IsOn="{x:Bind ViewModel.SyncOnStartup, Mode=TwoWay}" />
-                    <TextBlock Style="{StaticResource SmallBoldTextBlockStyle}" Text="OTHER" />
-                    <TextBlock Style="{StaticResource InfoTextBlockStyle}" Text="Both actions will require a manual restart of this app and are IRREVERSIBLE!" />
+                    <TextBlock
+                        x:Uid="OtherTextBlock"
+                        Style="{StaticResource SmallBoldTextBlockStyle}"
+                        Text="OTHER" />
+                    <TextBlock
+                        x:Uid="WarningLogoutTextBlock"
+                        Style="{StaticResource InfoTextBlockStyle}"
+                        Text="Both actions will require a manual restart of this app and are IRREVERSIBLE!" />
                     <Button
+                        x:Uid="LogoutButton"
                         Style="{StaticResource TextBlockButtonStyle}"
                         Command="{x:Bind ViewModel.LogoutCommand}"
                         Content="Logout" />
                     <Button
+                        x:Uid="DeleteDatabaseButton"
                         Style="{StaticResource TextBlockButtonStyle}"
                         Command="{x:Bind ViewModel.DeleteDatabaseCommand}"
                         Content="Delete database" />
