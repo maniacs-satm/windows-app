@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using wallabag.Data.Models;
 using wallabag.Models;
+using wallabag.ViewModels;
 using Windows.Foundation;
 
 namespace wallabag.Data.Interfaces
@@ -25,5 +26,6 @@ namespace wallabag.Data.Interfaces
         Task UpdateItemAsync(Item item);
 
         Task<List<OfflineTask>> GetOfflineTasksAsync();
+        Task DeleteItemAsync(Item item);
     }
 }

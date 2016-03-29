@@ -172,5 +172,11 @@ namespace wallabag.Data.Services
         {
             return Task.FromResult(true);
         }
+
+        public Task DeleteItemAsync(Item item)
+        {
+            _Items.Remove(item);
+            return Task.CompletedTask;
+        }
     }
 }

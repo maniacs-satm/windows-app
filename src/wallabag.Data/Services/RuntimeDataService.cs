@@ -273,10 +273,7 @@ namespace wallabag.Data.Services
 
         public Task UpdateItemAsync(Item item) => conn.UpdateAsync(item);
         public Task<List<OfflineTask>> GetOfflineTasksAsync() => conn.Table<OfflineTask>().ToListAsync();
-
-        public Task<bool> LoginAsync(string url, string username, string password)
-        {
-            return AuthorizationService.RequestTokenAsync(username, password, url);
-        }
+        public Task<bool> LoginAsync(string url, string username, string password) => AuthorizationService.RequestTokenAsync(username, password, url);
+        public Task DeleteItemAsync(Item item) => conn.DeleteAsync(item);
     }
 }
