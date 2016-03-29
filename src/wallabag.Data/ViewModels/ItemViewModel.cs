@@ -78,13 +78,6 @@ namespace wallabag.ViewModels
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(Model.Content);
 
-            foreach (HtmlNode node in document.DocumentNode.Descendants("img"))
-            {
-                var imageSource = node.Attributes["src"].Value;
-                node.Attributes.Add("data-src", imageSource);
-                node.Attributes["src"].Value = string.Empty;
-            }
-
             ContentWithHeader = _template.FormatWith(new
             {
                 title = Model.Title,
