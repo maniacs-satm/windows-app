@@ -256,6 +256,8 @@ namespace wallabag.ViewModels
             else return false;
         }
 
+        public override int GetHashCode() => Model.Id;
+
         public int CompareTo(object obj)
         {
             if (this.Model.Id == (obj as ItemViewModel).Model.Id) return 0;

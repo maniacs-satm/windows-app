@@ -236,7 +236,7 @@ namespace wallabag.Data.Services
                 var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
                 if (existingItem == null)
-                    conn.InsertAsync(item);
+                    await conn.InsertAsync(item);
                 else
                 {
                     existingItem = item;
