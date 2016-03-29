@@ -123,6 +123,12 @@ namespace wallabag.ViewModels
         {
             CurrentItem = new ItemViewModel(await _dataService.GetItemAsync((int)parameter));
 
+            Messenger.Default.Register<NotificationMessage<string>>(this, message =>
+            {
+                if (message.Notification == "readingProgress")
+                    CurrentItem.Model.ReadingProgress = message.Content;
+            });
+
             if (AppSettings.SyncReadingProgress)
                 if (ApplicationData.Current.RoamingSettings.Containers.ContainsKey(ContainerKey))
                     CurrentItem.Model.ReadingProgress = (string)ApplicationData.Current.RoamingSettings.
@@ -170,9 +176,8 @@ namespace wallabag.ViewModels
             if (IsPhone)
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().ShowAsync();
 
+            Messenger.Default.Unregister(this);
             _dataTransferManager.DataRequested -= DataRequested;
-
-            GC.Collect();
         }
 
         private void DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
