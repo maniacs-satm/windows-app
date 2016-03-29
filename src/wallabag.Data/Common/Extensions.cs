@@ -198,8 +198,6 @@ namespace wallabag.Common
             Regex r = new Regex(@"(?<start>\{)+(?<property>[\w\.\[\]]+)(?<format>:[^}]+)?(?<end>\})+",
                     RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
 
-            List<object> values = new List<object>();
-
             string rewrittenFormat = r.Replace(format, delegate (Match m)
             {
                 Group startGroup = m.Groups["start"];
@@ -207,14 +205,13 @@ namespace wallabag.Common
                 Group formatGroup = m.Groups["format"];
                 Group endGroup = m.Groups["end"];
 
-                values.Add((propertyGroup.Value == "0")
-                         ? source
-                         : source.GetType().GetRuntimeProperty(propertyGroup.Value).GetValue(source));
+                var value = (propertyGroup.Value == "0")
+                           ? source
+                           : source.GetType().GetRuntimeProperty(propertyGroup.Value).GetValue(source);
 
-                return new string('{', startGroup.Captures.Count) + (values.Count - 1) + formatGroup.Value
-                                  + new string('}', endGroup.Captures.Count);
+                return value.ToString();
             });
-            return string.Format(rewrittenFormat, values.ToArray());
+            return rewrittenFormat;
         }
     }
     public static class ListExtensions
