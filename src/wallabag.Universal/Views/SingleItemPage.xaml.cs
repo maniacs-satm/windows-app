@@ -54,7 +54,7 @@ namespace wallabag.Views
         {
             Messenger.Default.Send(new NotificationMessage<string>(e.Value, "readingProgress"));
 
-            if (float.Parse(e.Value) == 100)
+            if (e.Value == "finishedReading")
                 BottomAppBar.IsOpen = true;
         }
 

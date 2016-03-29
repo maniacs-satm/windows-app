@@ -2,6 +2,9 @@
     var root = document.getElementsByTagName("html")[0];
     var top = document.body.scrollTop;
     var scrollPercentage = 100 * top / (root.scrollHeight - root.clientHeight);
+
+    if (root.scrollHeight - top === root.clientHeight)
+        window.external.notify("finishedReading");
     window.external.notify(scrollPercentage.toString());
 }
 
