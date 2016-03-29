@@ -16,6 +16,6 @@ namespace wallabag.Data.Models
         public DateTimeOffset? CreationDateFrom { get; set; }
         public DateTimeOffset? CreationDateTo { get; set; }
         
-        public enum FilterPropertiesItemType { All, Unread, Favorites, Archived, Deleted }
+        public enum FilterPropertiesItemType { All, Unread, Favorites, Archived }
     }
 }

@@ -98,9 +98,6 @@ namespace wallabag.Data.Services
                 case FilterProperties.FilterPropertiesItemType.Archived:
                     result.Replace(result.Where(i => i.IsRead == true).ToList());
                     break;
-                case FilterProperties.FilterPropertiesItemType.Deleted:
-                    result.Replace(result.Where(i => i.IsDeleted == true).ToList());
-                    break;
                 default:
                     break;
             }

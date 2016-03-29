@@ -163,10 +163,6 @@ namespace wallabag.Data.Services
                     sqlParams.Add(1);
                     sqlParams.Add(0);
                     break;
-                case FilterProperties.FilterPropertiesItemType.Deleted:
-                    sqlQuery += "WHERE IsDeleted = ? ";
-                    sqlParams.Add(1);
-                    break;
             }
 
             if (filterProperties.FilterTag != null)

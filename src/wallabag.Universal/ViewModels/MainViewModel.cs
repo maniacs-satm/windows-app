@@ -334,7 +334,7 @@ namespace wallabag.ViewModels
         {
             foreach (var item in SelectedItems)
             {
-                item.Model.IsDeleted = true;
+                await _dataService.DeleteItemAsync(item);
                 await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.Delete);
             }
             await FinishMultipleSelection();
