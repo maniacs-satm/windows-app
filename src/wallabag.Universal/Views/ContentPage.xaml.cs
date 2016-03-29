@@ -30,12 +30,6 @@ namespace wallabag.Views
                 HideFilterStoryboard.Begin();
                 _IsFilterVisible = false;
             };
-            SearchQueryAutoSuggestBox.LostFocus += (s, e) =>
-            {
-                HideSearchStoryboard.Begin();
-                CloseSearchStoryboard.Begin();
-                _IsSearchVisible = false;
-            };
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -277,5 +271,12 @@ namespace wallabag.Views
         }
 
         private void ResetFilterButton_Click(object sender, RoutedEventArgs e) { ContentSplitView.IsPaneOpen = false; }
+
+        private void SearchQueryAutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            HideSearchStoryboard.Begin();
+            CloseSearchStoryboard.Begin();
+            _IsSearchVisible = false;
+        }
     }
 }

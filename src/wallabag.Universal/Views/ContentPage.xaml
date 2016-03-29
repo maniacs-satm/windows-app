@@ -503,6 +503,7 @@
                 VerticalAlignment="Center"
                 x:DeferLoadStrategy="Lazy"
                 ItemsSource="{x:Bind ViewModel.SearchSuggestions, Mode=OneWay}"
+                LostFocus="SearchQueryAutoSuggestBox_LostFocus"
                 PlaceholderText="Search for items…"
                 QueryIcon="Find"
                 RenderTransformOrigin="0.5,0.5"
@@ -555,7 +556,10 @@
                     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <StackPanel>
                             <StackPanel.Resources>
-                                <Style x:Name="HeaderTextBlockStyle" TargetType="TextBlock" BasedOn="{StaticResource SmallBoldTextBlockStyle}">
+                                <Style
+                                    x:Name="HeaderTextBlockStyle"
+                                    BasedOn="{StaticResource SmallBoldTextBlockStyle}"
+                                    TargetType="TextBlock">
                                     <Setter Property="Margin" Value="8,20,8,4" />
                                     <Setter Property="TextAlignment" Value="Center" />
                                 </Style>
