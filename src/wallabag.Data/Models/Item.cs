@@ -52,10 +52,7 @@ namespace wallabag.Models
 
         [JsonProperty("is_starred")]
         public bool IsStarred { get; set; } = false;
-
-        [JsonProperty("is_deleted")]
-        public bool IsDeleted { get; set; } = false;
-
+        
         [JsonProperty("content")]
         public string Content { get; set; } = string.Empty;
 
@@ -70,6 +67,12 @@ namespace wallabag.Models
 
         [JsonProperty("domain_name")]
         public string DomainName { get; set; } = string.Empty;
+
+        [JsonProperty("mimetype")]
+        public string Mimetype { get; set; } = "text/html";
+
+        [JsonProperty("lang")]
+        public string Language { get; set; } = "en_US";
 
         [JsonProperty("tags")]
         public ICollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
@@ -92,9 +95,6 @@ namespace wallabag.Models
             var comparedItem = obj as Item;
             return Id.Equals(comparedItem.Id) && CreationDate.Equals(comparedItem.CreationDate);
         }
-        public override int GetHashCode()
-        {
-            return Id;
-        }
+        public override int GetHashCode() => Id;
     }
 }
