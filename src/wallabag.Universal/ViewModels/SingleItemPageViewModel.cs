@@ -153,6 +153,11 @@ namespace wallabag.ViewModels
                 ErrorMessage = LocalizedString("SingleItemNoReadableContentFound");
                 CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Hidden;
             }
+            else
+            {
+                ErrorHappened = false;
+                CommandBarClosedDisplayMode = AppBarClosedDisplayMode.Minimal;
+            }
 
             _dataTransferManager = DataTransferManager.GetForCurrentView();
             _dataTransferManager.DataRequested += DataRequested;
