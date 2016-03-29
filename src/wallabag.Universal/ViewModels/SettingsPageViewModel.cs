@@ -1,6 +1,6 @@
-﻿using System;
-using Template10.Mvvm;
+﻿using Template10.Mvvm;
 using wallabag.Common;
+using Windows.Storage;
 
 namespace wallabag.ViewModels
 {
@@ -91,9 +91,11 @@ namespace wallabag.ViewModels
                 AppSettings.ClientId = string.Empty;
                 AppSettings.ClientSecret = string.Empty;
 
+                ApplicationData.Current.RoamingSettings.DeleteContainer(SingleItemPageViewModel.ContainerKey);
+
                 DeleteDatabaseCommand.Execute();
             });
-            DeleteDatabaseCommand = new DelegateCommand(async () =>
+            DeleteDatabaseCommand = new DelegateCommand(() =>
             {
                 AppSettings.DeleteDatabaseOnNextStartup = true;
                 Windows.UI.Xaml.Application.Current.Exit();

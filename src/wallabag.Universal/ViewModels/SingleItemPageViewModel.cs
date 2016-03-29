@@ -25,7 +25,7 @@ namespace wallabag.ViewModels
     {
         private IDataService _dataService;
         private DataTransferManager _dataTransferManager;
-        private string ContainerKey { get { return $"ReadingProgressContainer"; } }
+        public static string ContainerKey { get { return "ReadingProgressContainer"; } }
 
         public ItemViewModel CurrentItem { get; set; }
         public SolidColorBrush CurrentBackground { get; set; }
@@ -266,7 +266,7 @@ namespace wallabag.ViewModels
                         // TODO: Currently just downloading the login page :/
                         Uri downloadUrl = new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
 
-                        AddHttpHeadersAsync(http);
+                        await AddHttpHeadersAsync(http);
 
                         var response = await http.GetAsync(downloadUrl);
                         if (response.IsSuccessStatusCode)
