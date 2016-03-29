@@ -202,7 +202,6 @@ namespace wallabag.ViewModels
             if (string.IsNullOrEmpty(color))
                 colorScheme = AppSettings.ColorScheme;
 
-
             if (colorScheme == "dark")
             {
                 CurrentBackground = ColorHelper.FromArgb(255, 51, 51, 51).ToSolidColorBrush();
@@ -223,7 +222,10 @@ namespace wallabag.ViewModels
             }
 
             if (!string.IsNullOrEmpty(color))
+            {
+                AppSettings.ColorScheme = color;
                 Messenger.Default.Send(new NotificationMessage("updateHTML"));
+            }
         }
         public void ChangeFontFamily()
         {
