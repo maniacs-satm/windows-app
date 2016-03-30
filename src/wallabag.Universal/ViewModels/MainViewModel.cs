@@ -261,18 +261,18 @@ namespace wallabag.ViewModels
             var removedItems = currentItems.Except(itemsInDatabase).ToList();
 
             foreach (var item in newItems)
-                Items.AddSorted(new ItemViewModel(item), dateTimeComparer, sortDescending);
+                Items.AddSorted(new ItemViewModel(item, _dataService), dateTimeComparer, sortDescending);
 
             foreach (var item in changedItems)
             {
                 Items.Remove(Items.Where(i => i.Model.Id == item.Id).First());
-                Items.AddSorted(new ItemViewModel(item), dateTimeComparer, sortDescending);
+                Items.AddSorted(new ItemViewModel(item, _dataService), dateTimeComparer, sortDescending);
 
                 await _dataService.UpdateItemAsync(item);
             }
 
             foreach (var item in removedItems)
-                Items.Remove(new ItemViewModel(item));
+                Items.Remove(new ItemViewModel(item, _dataService));
 
             Tags.Replace(await _dataService.GetTagsAsync());
 
@@ -333,10 +333,8 @@ namespace wallabag.ViewModels
         public async Task DeleteItemsAsync()
         {
             foreach (var item in SelectedItems)
-            {
-                await _dataService.DeleteItemAsync(item);
-                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.Delete);
-            }
+                await item.DeleteAsync();
+
             await FinishMultipleSelection();
         }
         private async Task FinishMultipleSelection()

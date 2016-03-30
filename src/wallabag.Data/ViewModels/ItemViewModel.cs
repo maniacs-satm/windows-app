@@ -23,11 +23,11 @@ namespace wallabag.ViewModels
     [ImplementPropertyChanged]
     public class ItemViewModel : ViewModelBase, IComparable
     {
-        private static SQLite.SQLiteAsyncConnection conn = new SQLite.SQLiteAsyncConnection(DATABASE_PATH);
-
-        public ItemViewModel(Item Model)
+        private IDataService _dataService;
+        public ItemViewModel(Item Model, IDataService dataService)
         {
             this.Model = Model;
+            this._dataService = dataService;
             DeleteCommand = new DelegateCommand(async () => await DeleteAsync());
             SwitchReadStatusCommand = new DelegateCommand(async () => await SwitchReadValueAsync());
             SwitchFavoriteStatusCommand = new DelegateCommand(async () => await SwitchFavoriteValueAsync());
@@ -156,20 +156,11 @@ namespace wallabag.ViewModels
             await Model.UpdateAsync();
             return await UpdateSpecificPropertyAsync(Model.Id, OfflineTask.ItemStarredAPIString, Model.IsStarred);
         }
-        public async Task<bool> DeleteAsync()
+        public async Task DeleteAsync()
         {
             NavigationService?.GoBack();
-            Model.IsDeleted = true;
-            await Model.UpdateAsync();
-
-            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Delete, $"/entries/{Model.Id}");
-            if (response.StatusCode == HttpStatusCode.Ok)
-                return true;
-            else
-            {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.Delete, $"/entries/{Model.Id}", null, HttpRequestMethod.Delete);
-                return false;
-            }
+            //await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.Delete); //TODO: Add this method as well, currently not working :/
+            await _dataService.DeleteItemAsync(Model);
         }
 
         public async Task<bool> AddTagsAsync(IList<Tag> Tags)
@@ -201,9 +192,9 @@ namespace wallabag.ViewModels
         {
             if (Tag.Id == -1)
             {
-                OfflineTask task = (await conn.Table<OfflineTask>().ToListAsync()).Where(t => t.RequestParameters.ContainsValue(Tag.Label)).FirstOrDefault();
+                OfflineTask task = (await _dataService.GetOfflineTasksAsync()).Where(t => t.RequestParameters.ContainsValue(Tag.Label)).FirstOrDefault();
                 if (task != null)
-                    await conn.DeleteAsync(task);
+                    await task.DeleteTaskAsync();
 
                 return true;
             }

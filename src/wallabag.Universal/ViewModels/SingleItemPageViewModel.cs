@@ -121,7 +121,7 @@ namespace wallabag.ViewModels
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            CurrentItem = new ItemViewModel(await _dataService.GetItemAsync((int)parameter));
+            CurrentItem = new ItemViewModel(await _dataService.GetItemAsync((int)parameter), _dataService);
 
             Messenger.Default.Register<NotificationMessage<string>>(this, message =>
             {
