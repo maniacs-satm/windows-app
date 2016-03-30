@@ -41,7 +41,6 @@ namespace wallabag.ViewModels
         public bool ErrorHappened { get; set; } = false;
         public AppBarClosedDisplayMode CommandBarClosedDisplayMode { get; set; } = AppBarClosedDisplayMode.Minimal;
 
-        public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
         public DelegateCommand EditTagsCommand { get; private set; }
         public DelegateCommand ShowShareUICommand { get; private set; }
@@ -55,7 +54,6 @@ namespace wallabag.ViewModels
         public SingleItemPageViewModel(IDataService dataService)
         {
             _dataService = dataService;
-            DownloadItemCommand = new DelegateCommand(async () => { await DownloadItemAsFileAsync(); });
             MarkItemAsReadCommand = new DelegateCommand(async () =>
             {
                 await CurrentItem.SwitchReadValueAsync();
@@ -85,15 +83,10 @@ namespace wallabag.ViewModels
             ChangeTextAlignmentCommand = new DelegateCommand(() =>
             {
                 if (AppSettings.TextAlignment == "left")
-                {
                     AppSettings.TextAlignment = "justify";
-                    TextAlignButtonContent = "\uE1A2";
-                }
                 else
-                {
                     AppSettings.TextAlignment = "left";
-                    TextAlignButtonContent = TextAlignJustifyPathIcon;
-                }
+
                 Messenger.Default.Send(new NotificationMessage("updateHTML"));
             });
             DeleteItemCommand = new DelegateCommand(async () =>
