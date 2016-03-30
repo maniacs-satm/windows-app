@@ -236,7 +236,7 @@
     <value>Auswählen</value>
   </data>
   <data name="NavigateBackAfterReadingAnArticleToggleSwitch.Header" xml:space="preserve">
-    <value>Nach dem Lesen auf die Startseite navigieren</value>
+    <value>Nach dem Lesen automatisch zurück auf die Startseite navigieren</value>
   </data>
   <data name="NeedHelpTextBlock.Text" xml:space="preserve">
     <value>HILFE BENÖTIGT?</value>
