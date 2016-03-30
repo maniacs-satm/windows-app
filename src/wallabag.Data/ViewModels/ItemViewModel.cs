@@ -1,14 +1,16 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HtmlAgilityPack;
-using Newtonsoft.Json;
-using PropertyChanged;
 using Template10.Mvvm;
 using wallabag.Common;
+using wallabag.Data.Interfaces;
+using wallabag.Data.Models;
 using wallabag.Models;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -16,7 +18,6 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.Web.Http;
 using static wallabag.Common.Helpers;
-using wallabag.Data.Models;
 
 namespace wallabag.ViewModels
 {
