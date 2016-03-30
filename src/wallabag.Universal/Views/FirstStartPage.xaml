@@ -211,6 +211,7 @@
                 x:Name="framabagUserButton"
                 x:Uid="FramabagUserButton"
                 Margin="4"
+                IsEnabled="False"
                 HorizontalAlignment="Stretch"
                 Click="framabagUserButton_Click"
                 Content="I'm a framabag user!" />
