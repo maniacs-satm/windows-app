@@ -137,25 +137,33 @@ namespace wallabag.ViewModels
             }
         }
 
-        public async Task<bool> SwitchReadValueAsync()
+        public async Task SwitchReadValueAsync()
         {
             if (Model.IsRead)
+            {
                 Model.IsRead = false;
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.UnmarkAsRead);
+            }
             else
+            {
                 Model.IsRead = true;
-
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.MarkAsRead);
+            }
             await Model.UpdateAsync();
-            return await UpdateSpecificPropertyAsync(Model.Id, OfflineTask.ItemReadAPIString, Model.IsRead);
         }
-        public async Task<bool> SwitchFavoriteValueAsync()
+        public async Task SwitchFavoriteValueAsync()
         {
             if (Model.IsStarred)
+            {
                 Model.IsStarred = false;
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.UnmarkAsFavorite);
+            }
             else
+            {
                 Model.IsStarred = true;
-
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.MarkAsFavorite);
+            }
             await Model.UpdateAsync();
-            return await UpdateSpecificPropertyAsync(Model.Id, OfflineTask.ItemStarredAPIString, Model.IsStarred);
         }
         public async Task DeleteAsync()
         {
@@ -185,7 +193,7 @@ namespace wallabag.ViewModels
             }
             else
             {
-                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.AddTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.AddTags, Tags.ToCommaSeparatedString());
                 return false;
             }
         }
@@ -206,37 +214,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.DeleteTag, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
-                return false;
-            }
-        }
-
-        public static async Task<bool> UpdateSpecificPropertyAsync(int itemId, string propertyName, object propertyValue)
-        {
-            Dictionary<string, object> parameters = new Dictionary<string, object>();
-            parameters.Add(propertyName, propertyValue);
-
-            var response = await ExecuteHttpRequestAsync(HttpRequestMethod.Patch, $"/entries/{itemId}", parameters);
-            if (response.StatusCode == HttpStatusCode.Ok)
-                return true;
-            else
-            {
-                OfflineTask.OfflineTaskAction action = OfflineTask.OfflineTaskAction.MarkAsRead;
-
-                if (propertyName == OfflineTask.ItemReadAPIString && (bool)propertyValue == true)
-                    action = OfflineTask.OfflineTaskAction.MarkAsRead;
-                else if (propertyName == OfflineTask.ItemReadAPIString && (bool)propertyValue == false)
-                    action = OfflineTask.OfflineTaskAction.UnmarkAsRead;
-                else if (propertyName == OfflineTask.ItemStarredAPIString && (bool)propertyValue == true)
-                    action = OfflineTask.OfflineTaskAction.MarkAsFavorite;
-                else if (propertyName == OfflineTask.ItemStarredAPIString && (bool)propertyValue == false)
-                    action = OfflineTask.OfflineTaskAction.UnmarkAsFavorite;
-                else if (propertyName == "tags")
-                    action = OfflineTask.OfflineTaskAction.AddTags;
-                else
-                    throw new NotSupportedException($"Property '{propertyName}' cannot be changed as it is not supported by the wallabag API.");
-
-                await OfflineTask.AddToQueueAsync(new Item() { Id = itemId }, action, $"/entries/{itemId}", parameters);
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.DeleteTag, Tag);
                 return false;
             }
         }
