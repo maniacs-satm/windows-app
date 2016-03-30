@@ -149,19 +149,16 @@ namespace wallabag.Data.Services
                     queryConnector = "WHERE";
                     break;
                 case FilterProperties.FilterPropertiesItemType.Unread:
-                    sqlQuery += "WHERE IsRead = ? AND IsDeleted = ? ";
+                    sqlQuery += "WHERE IsRead = ? ";
                     sqlParams.Add(0); // 0 == false, 1 == true
-                    sqlParams.Add(0);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Favorites:
-                    sqlQuery += "WHERE IsDeleted = ? AND IsStarred = ? ";
-                    sqlParams.Add(0);
+                    sqlQuery += "WHERE IsStarred = ? ";
                     sqlParams.Add(1);
                     break;
                 case FilterProperties.FilterPropertiesItemType.Archived:
-                    sqlQuery += "WHERE IsRead = ? AND IsDeleted = ? ";
+                    sqlQuery += "WHERE IsRead = ? ";
                     sqlParams.Add(1);
-                    sqlParams.Add(0);
                     break;
             }
 
