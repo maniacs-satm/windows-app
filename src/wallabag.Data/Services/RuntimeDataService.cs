@@ -258,7 +258,7 @@ namespace wallabag.Data.Services
 
                     _lastItemId += 1;
                     await conn.InsertAsync(newItem);
-                    await OfflineTask.AddToQueueAsync(newItem, OfflineTask.OfflineTaskAction.AddItem, "/entries", parameters, HttpRequestMethod.Post);
+                    await OfflineTask.AddToQueueAsync(newItem, OfflineTask.OfflineTaskAction.AddItem);
                 }
                 return false;
             }

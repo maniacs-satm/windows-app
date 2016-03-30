@@ -69,7 +69,7 @@ namespace wallabag.Data.Models
                     break;
                 case OfflineTaskAction.AddTags:
                     if (parameter.GetType() != typeof(string))
-                        throw new InvalidOperationException("To add some tags, these must be submitted as comma-separated list..");
+                        throw new InvalidOperationException("To add some tags, these must be submitted as comma-separated list.");
 
                     requestUri = $"/entries/{Item.Id}/tags";
                     parameterDictionary.Add("tags", parameter);
@@ -103,7 +103,7 @@ namespace wallabag.Data.Models
 
             return AddToQueueAsync(Item, action, requestUri, parameterToSubmit, method);
         }
-        public static async Task AddToQueueAsync(Item Item, OfflineTaskAction action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
+        private static async Task AddToQueueAsync(Item Item, OfflineTaskAction action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
         {
             var newTask = new OfflineTask();
 
