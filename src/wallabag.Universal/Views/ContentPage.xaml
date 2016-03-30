@@ -479,7 +479,7 @@
                                                 FontFamily="Segoe MDL2 Assets"
                                                 Text="{x:Bind ActionLogo}"
                                                 TextTrimming="CharacterEllipsis" />
-                                            <TextBlock Text="{x:Bind ItemTitle}" />
+                                            <TextBlock Text="{x:Bind Model.ItemTitle}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>

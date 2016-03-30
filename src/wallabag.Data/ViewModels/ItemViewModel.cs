@@ -160,7 +160,7 @@ namespace wallabag.ViewModels
         public async Task DeleteAsync()
         {
             NavigationService?.GoBack();
-            //await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.Delete); //TODO: Add this method as well, currently not working :/
+            await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.Delete);
             await _dataService.DeleteItemAsync(Model);
         }
 

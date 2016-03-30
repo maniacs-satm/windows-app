@@ -16,6 +16,7 @@ namespace wallabag.Data.Models
 
         public OfflineTaskAction Action { get; set; }
         public int ItemId { get; set; }
+        public string ItemTitle { get; set; }
 
         public string RequestUri { get; set; }
         public Dictionary<string, object> RequestParameters { get; set; }
@@ -28,6 +29,7 @@ namespace wallabag.Data.Models
             RequestMethod = HttpRequestMethod.Patch;
             Action = OfflineTaskAction.MarkAsRead;
             ItemId = -1;
+            ItemTitle = string.Empty;
         }
 
         public enum OfflineTaskAction
@@ -44,6 +46,7 @@ namespace wallabag.Data.Models
 
         public static string ItemReadAPIString { get; } = "archive";
         public static string ItemStarredAPIString { get; } = "star";
+
         public static Task AddTaskAsync(Item Item, OfflineTaskAction action, object parameter = null)
         {
             var requestUri = $"/entries/{Item.Id}";
@@ -100,7 +103,6 @@ namespace wallabag.Data.Models
 
             return AddTaskAsync(Item, action, requestUri, parameterToSubmit, method);
         }
-
         public static async Task AddTaskAsync(Item Item, OfflineTaskAction action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
         {
             var newTask = new OfflineTask();
@@ -110,9 +112,11 @@ namespace wallabag.Data.Models
             newTask.RequestMethod = method;
             newTask.Action = action;
             newTask.ItemId = Item.Id;
+            newTask.ItemTitle = Item.Title;
 
             await new SQLiteAsyncConnection(DATABASE_PATH).InsertAsync(newTask);
         }
+
         public async Task<bool> ExecuteAsync()
         {
             var response = await ExecuteHttpRequestAsync(RequestMethod, RequestUri, RequestParameters);

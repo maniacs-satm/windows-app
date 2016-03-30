@@ -12,7 +12,6 @@ namespace wallabag.Data.ViewModels
         private IDataService _dataService;
         public OfflineTask Model { get; set; }
 
-        public string ItemTitle { get; set; }
         public string ActionLogo { get; set; }
 
         public OfflineTaskViewModel(IDataService dataService) { _dataService = dataService; }
@@ -20,12 +19,6 @@ namespace wallabag.Data.ViewModels
         public async Task InitializeAsync(OfflineTask Model)
         {
             this.Model = Model;
-            var item = await _dataService.GetItemAsync(Model.ItemId);
-
-            if (item != null)
-                ItemTitle = item.Title;
-            else
-                ItemTitle = "<no title>";
 
             switch (Model.Action)
             {
