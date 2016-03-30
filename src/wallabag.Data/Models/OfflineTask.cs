@@ -47,7 +47,7 @@ namespace wallabag.Data.Models
         public static string ItemReadAPIString { get; } = "archive";
         public static string ItemStarredAPIString { get; } = "star";
 
-        public static Task AddTaskAsync(Item Item, OfflineTaskAction action, object parameter = null)
+        public static Task AddToQueueAsync(Item Item, OfflineTaskAction action, object parameter = null)
         {
             var requestUri = $"/entries/{Item.Id}";
             var parameterDictionary = new Dictionary<string, object>();
@@ -101,9 +101,9 @@ namespace wallabag.Data.Models
             if (parameterDictionary.Count > 0)
                 parameterToSubmit = parameterDictionary;
 
-            return AddTaskAsync(Item, action, requestUri, parameterToSubmit, method);
+            return AddToQueueAsync(Item, action, requestUri, parameterToSubmit, method);
         }
-        public static async Task AddTaskAsync(Item Item, OfflineTaskAction action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
+        public static async Task AddToQueueAsync(Item Item, OfflineTaskAction action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
         {
             var newTask = new OfflineTask();
 
@@ -130,7 +130,7 @@ namespace wallabag.Data.Models
                 return false;
         }
 
-        internal Task DeleteTaskAsync() => new SQLiteAsyncConnection(DATABASE_PATH).DeleteAsync(this);
+        internal Task DeleteFromQueueAsync() => new SQLiteAsyncConnection(DATABASE_PATH).DeleteAsync(this);
 
     }
 }

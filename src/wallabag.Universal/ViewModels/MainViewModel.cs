@@ -290,7 +290,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = true;
-                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsRead);
+                await OfflineTask.AddToQueueAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsRead);
             }
             await FinishMultipleSelection();
         }
@@ -299,7 +299,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsRead = false;
-                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsRead);
+                await OfflineTask.AddToQueueAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsRead);
             }
             await FinishMultipleSelection();
         }
@@ -308,7 +308,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = true;
-                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsFavorite);
+                await OfflineTask.AddToQueueAsync(item.Model, OfflineTask.OfflineTaskAction.MarkAsFavorite);
             }
             await FinishMultipleSelection();
         }
@@ -317,7 +317,7 @@ namespace wallabag.ViewModels
             foreach (var item in SelectedItems)
             {
                 item.Model.IsStarred = false;
-                await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsFavorite);
+                await OfflineTask.AddToQueueAsync(item.Model, OfflineTask.OfflineTaskAction.UnmarkAsFavorite);
             }
             await FinishMultipleSelection();
         }
@@ -328,7 +328,7 @@ namespace wallabag.ViewModels
 
             if (dialog == ContentDialogResult.Primary && newTags.Count > 0)
                 foreach (var item in SelectedItems)
-                    await OfflineTask.AddTaskAsync(item.Model, OfflineTask.OfflineTaskAction.AddTags, newTags.ToCommaSeparatedString());
+                    await OfflineTask.AddToQueueAsync(item.Model, OfflineTask.OfflineTaskAction.AddTags, newTags.ToCommaSeparatedString());
         }
         public async Task DeleteItemsAsync()
         {

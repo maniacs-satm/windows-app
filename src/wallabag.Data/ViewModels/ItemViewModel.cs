@@ -160,7 +160,7 @@ namespace wallabag.ViewModels
         public async Task DeleteAsync()
         {
             NavigationService?.GoBack();
-            await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.Delete);
+            await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.Delete);
             await _dataService.DeleteItemAsync(Model);
         }
 
@@ -185,7 +185,7 @@ namespace wallabag.ViewModels
             }
             else
             {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.AddTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.AddTags, $"/entries/{Model.Id}/tags", parameters, HttpRequestMethod.Post);
                 return false;
             }
         }
@@ -195,7 +195,7 @@ namespace wallabag.ViewModels
             {
                 OfflineTask task = (await _dataService.GetOfflineTasksAsync()).Where(t => t.RequestParameters.ContainsValue(Tag.Label)).FirstOrDefault();
                 if (task != null)
-                    await task.DeleteTaskAsync();
+                    await task.DeleteFromQueueAsync();
 
                 return true;
             }
@@ -206,7 +206,7 @@ namespace wallabag.ViewModels
                 return true;
             else
             {
-                await OfflineTask.AddTaskAsync(Model, OfflineTask.OfflineTaskAction.DeleteTag, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
+                await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.DeleteTag, $"/entries/{Model.Id}/tags/{Tag.Id}", null, HttpRequestMethod.Delete);
                 return false;
             }
         }
@@ -236,7 +236,7 @@ namespace wallabag.ViewModels
                 else
                     throw new NotSupportedException($"Property '{propertyName}' cannot be changed as it is not supported by the wallabag API.");
 
-                await OfflineTask.AddTaskAsync(new Item() { Id = itemId }, action, $"/entries/{itemId}", parameters);
+                await OfflineTask.AddToQueueAsync(new Item() { Id = itemId }, action, $"/entries/{itemId}", parameters);
                 return false;
             }
         }
