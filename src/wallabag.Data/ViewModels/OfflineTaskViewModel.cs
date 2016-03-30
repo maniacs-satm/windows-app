@@ -16,7 +16,7 @@ namespace wallabag.Data.ViewModels
 
         public OfflineTaskViewModel(IDataService dataService) { _dataService = dataService; }
 
-        public async Task InitializeAsync(OfflineTask Model)
+        public Task InitializeAsync(OfflineTask Model)
         {
             this.Model = Model;
 
@@ -47,6 +47,8 @@ namespace wallabag.Data.ViewModels
                 default:
                     break;
             }
+
+            return Task.CompletedTask;
         }
     }
 }
