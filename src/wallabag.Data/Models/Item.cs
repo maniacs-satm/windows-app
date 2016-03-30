@@ -72,7 +72,7 @@ namespace wallabag.Models
         public string Mimetype { get; set; } = "text/html";
 
         [JsonProperty("lang")]
-        public string Language { get; set; } = "en_US";
+        public string Language { get; set; } = string.Empty;
 
         [JsonProperty("tags")]
         public ICollection<Tag> Tags { get; set; } = new ObservableCollection<Tag>();
