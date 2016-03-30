@@ -461,31 +461,6 @@
                             Text="{x:Bind ViewModel.OfflineTasks.Count, Mode=OneWay}" />
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE753;" />
                     </StackPanel>
-                    <AppBarButton.Flyout>
-                        <Flyout Placement="Bottom">
-                            <Flyout.FlyoutPresenterStyle>
-                                <Style TargetType="FlyoutPresenter">
-                                    <Setter Property="Padding" Value="0" />
-                                    <Setter Property="RequestedTheme" Value="Default" />
-                                </Style>
-                            </Flyout.FlyoutPresenterStyle>
-                            <ListView MaxHeight="250" ItemsSource="{x:Bind ViewModel.OfflineTasks}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="data:OfflineTaskViewModel">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock
-                                                Margin="0,0,8,0"
-                                                VerticalAlignment="Center"
-                                                FontFamily="Segoe MDL2 Assets"
-                                                Text="{x:Bind ActionLogo}"
-                                                TextTrimming="CharacterEllipsis" />
-                                            <TextBlock Text="{x:Bind Model.ItemTitle}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Flyout>
-                    </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
                     x:Name="searchToggleButton"
