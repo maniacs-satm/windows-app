@@ -47,29 +47,29 @@ namespace wallabag.Data.Models
         public static Task AddTaskAsync(Item Item, OfflineTaskAction action, object parameter = null)
         {
             var requestUri = $"/entries/{Item.Id}";
-            var parameters = new Dictionary<string, object>();
+            var parameterDictionary = new Dictionary<string, object>();
             var method = HttpRequestMethod.Patch;
 
             switch (action)
             {
                 case OfflineTaskAction.MarkAsRead:
-                    parameters.Add(ItemReadAPIString, true);
+                    parameterDictionary.Add(ItemReadAPIString, true);
                     break;
                 case OfflineTaskAction.UnmarkAsRead:
-                    parameters.Add(ItemReadAPIString, false);
+                    parameterDictionary.Add(ItemReadAPIString, false);
                     break;
                 case OfflineTaskAction.MarkAsFavorite:
-                    parameters.Add(ItemStarredAPIString, true);
+                    parameterDictionary.Add(ItemStarredAPIString, true);
                     break;
                 case OfflineTaskAction.UnmarkAsFavorite:
-                    parameters.Add(ItemStarredAPIString, false);
+                    parameterDictionary.Add(ItemStarredAPIString, false);
                     break;
                 case OfflineTaskAction.AddTags:
                     if (parameter.GetType() != typeof(string))
                         throw new InvalidOperationException("To add some tags, these must be submitted as comma-separated list..");
 
                     requestUri = $"/entries/{Item.Id}/tags";
-                    parameters.Add("tags", parameter);
+                    parameterDictionary.Add("tags", parameter);
                     method = HttpRequestMethod.Post;
                     break;
                 case OfflineTaskAction.DeleteTag:
@@ -87,14 +87,18 @@ namespace wallabag.Data.Models
                         throw new InvalidOperationException("To add an item, submit a Dictionary<string, object> with values for 'url','tags' and 'title'.");
 
                     requestUri = "/entries";
-                    parameters = parameter as Dictionary<string, object>;
+                    parameterDictionary = parameter as Dictionary<string, object>;
                     method = HttpRequestMethod.Post;
                     break;
                 default:
                     break;
             }
 
-            return AddTaskAsync(Item, action, requestUri, parameters, method);
+            Dictionary<string, object> parameterToSubmit = null;
+            if (parameterDictionary.Count > 0)
+                parameterToSubmit = parameterDictionary;
+
+            return AddTaskAsync(Item, action, requestUri, parameterToSubmit, method);
         }
 
         public static async Task AddTaskAsync(Item Item, OfflineTaskAction action, string requestUri, Dictionary<string, object> parameters, HttpRequestMethod method = HttpRequestMethod.Patch)
@@ -121,5 +125,8 @@ namespace wallabag.Data.Models
             else
                 return false;
         }
+
+        internal Task DeleteTaskAsync() => new SQLiteAsyncConnection(DATABASE_PATH).DeleteAsync(this);
+
     }
 }
