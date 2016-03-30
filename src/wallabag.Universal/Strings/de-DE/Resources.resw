@@ -539,4 +539,7 @@ Warum fügst du nicht ein paar hinzu?</value>
   <data name="ClientSecretTextBox.Header" xml:space="preserve">
     <value>Client-Secret</value>
   </data>
+  <data name="ImUsingWallabagAndYou" xml:space="preserve">
+    <value>Ich nutze wallabag, und du?</value>
+  </data>
 </root>

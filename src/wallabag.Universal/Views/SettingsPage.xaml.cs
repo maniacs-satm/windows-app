@@ -56,7 +56,7 @@ namespace wallabag.Views
                     var data = args.Request.Data;
 
                     data.SetWebLink(new Uri("https://www.microsoft.com/store/apps/9nblggh11646"));
-                    data.Properties.Title = "I'm using wallabag, and you?";
+                    data.Properties.Title = Helpers.LocalizedString("ImUsingWallabagAndYou");
                 };
                 DataTransferManager.ShowShareUI();
                 return;
