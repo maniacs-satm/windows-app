@@ -41,22 +41,6 @@ namespace wallabag.ViewModels
         public bool ErrorHappened { get; set; } = false;
         public AppBarClosedDisplayMode CommandBarClosedDisplayMode { get; set; } = AppBarClosedDisplayMode.Minimal;
 
-        public object TextAlignButtonContent { get; set; }
-        public object ColorSchemeButtonContent { get; set; }
-        private PathIcon TextAlignJustifyPathIcon { get; }
-            = new PathIcon() { Data = PathMarkupToGeometry("M0,1L15,1L15,2L0,2z M0,4L15,4L15,5L0,5z M0,7L15,7L15,8L0,8z M0,10L15,10L15,11L0,11z M0,13L15,13L15,14L0,14") };
-        private static Geometry PathMarkupToGeometry(string markup)
-        {
-            string xaml = $"<Path xmlns='http://schemas.microsoft.com/winfx/2006/xaml/presentation'><Path.Data>{markup}</Path.Data></Path>";
-            var path = Windows.UI.Xaml.Markup.XamlReader.Load(xaml) as Windows.UI.Xaml.Shapes.Path;
-
-            // Detach the PathGeometry from the Path
-            Geometry geometry = path.Data;
-            path.Data = null;
-
-            return geometry;
-        }
-
         public DelegateCommand DownloadItemCommand { get; private set; }
         public DelegateCommand MarkItemAsReadCommand { get; private set; }
         public DelegateCommand EditTagsCommand { get; private set; }
@@ -138,7 +122,7 @@ namespace wallabag.ViewModels
             await CurrentItem.CreateContentFromTemplateAsync();
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().Title = CurrentItem.Model.Title;
 
-            if (Helpers.IsPhone)
+            if (IsPhone)
                 await Windows.UI.ViewManagement.StatusBar.GetForCurrentView().HideAsync();
 
             if (string.IsNullOrWhiteSpace(CurrentItem.Model.Content))
@@ -161,11 +145,6 @@ namespace wallabag.ViewModels
 
             _dataTransferManager = DataTransferManager.GetForCurrentView();
             _dataTransferManager.DataRequested += DataRequested;
-
-            if (AppSettings.TextAlignment == "left")
-                TextAlignButtonContent = "\uE1A2";
-            else
-                TextAlignButtonContent = TextAlignJustifyPathIcon;
 
             ChangeColorScheme(string.Empty);
         }
@@ -240,40 +219,6 @@ namespace wallabag.ViewModels
                 AppSettings.FontFamily = "serif";
 
             Messenger.Default.Send(new NotificationMessage("updateHTML"));
-        }
-
-        // TODO: Add translations.
-        public async Task DownloadItemAsFileAsync()
-        {
-            // Let the user select the download path
-            var picker = new FileSavePicker()
-            {
-                SuggestedFileName = CurrentItem.Model.Title,
-                SuggestedStartLocation = PickerLocationId.DocumentsLibrary,
-                DefaultFileExtension = ".pdf"
-            };
-            picker.FileTypeChoices.Add("PDF document", new List<string>() { ".pdf" });
-            picker.FileTypeChoices.Add("Epub file", new List<string>() { ".epub" });
-            picker.FileTypeChoices.Add("Mobi file", new List<string>() { ".mobi" });
-            StorageFile file = await picker.PickSaveFileAsync();
-
-            // Download the file
-            if (file != null)
-                try
-                {
-                    using (HttpClient http = new HttpClient())
-                    {
-                        // TODO: Currently just downloading the login page :/
-                        Uri downloadUrl = new Uri($"{AppSettings.wallabagUrl}/view/{CurrentItem.Model.Id}?{file.FileType}&method=id&value={CurrentItem.Model.Id}");
-
-                        await AddHttpHeadersAsync(http);
-
-                        var response = await http.GetAsync(downloadUrl);
-                        if (response.IsSuccessStatusCode)
-                            await FileIO.WriteBufferAsync(file, await response.Content.ReadAsBufferAsync());
-                    }
-                }
-                catch { }
         }
     }
 }
