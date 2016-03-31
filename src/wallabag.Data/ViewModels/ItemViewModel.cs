@@ -143,6 +143,8 @@ namespace wallabag.ViewModels
             {
                 Model.IsRead = false;
                 await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.UnmarkAsRead);
+
+                ApplicationData.Current.RoamingSettings.Containers["ReadingProgressContainer"].Values.Remove(Model.Id.ToString());
             }
             else
             {
