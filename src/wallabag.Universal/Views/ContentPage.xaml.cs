@@ -242,23 +242,7 @@ namespace wallabag.Views
                 HideFilterStoryboard.Begin();
             }
         }
-
-        private void OverlayGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (_IsSearchVisible)
-            {
-                HideSearchStoryboard.Begin();
-                if (string.IsNullOrWhiteSpace(SearchQueryAutoSuggestBox.Text))
-                    CloseSearchStoryboard.Begin();
-                _IsSearchVisible = false;
-            }
-            if (_IsFilterVisible)
-            {
-                HideFilterStoryboard.Begin();
-                _IsFilterVisible = false;
-            }
-        }
-
+              
         private void CloseSearchButton_Click(object sender, RoutedEventArgs e)
         {
             HideSearchStoryboard.Begin();
