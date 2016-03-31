@@ -1,5 +1,7 @@
-﻿using Template10.Mvvm;
+﻿using System.Linq;
+using Template10.Mvvm;
 using wallabag.Common;
+using Windows.Security.Credentials;
 using Windows.Storage;
 
 namespace wallabag.ViewModels
@@ -85,9 +87,9 @@ namespace wallabag.ViewModels
         {
             LogoutCommand = new DelegateCommand(() =>
             {
-                AppSettings.AccessToken = string.Empty;
-                AppSettings.RefreshToken = string.Empty;
-                AppSettings.wallabagUrl = string.Empty;
+                var vault = new PasswordVault();
+                vault.Remove(vault.RetrieveAll().First());
+
                 AppSettings.ClientId = string.Empty;
                 AppSettings.ClientSecret = string.Empty;
 
