@@ -143,13 +143,13 @@ namespace wallabag.ViewModels
             {
                 Model.IsRead = false;
                 await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.UnmarkAsRead);
-
-                ApplicationData.Current.RoamingSettings.Containers["ReadingProgressContainer"].Values.Remove(Model.Id.ToString());
             }
             else
             {
                 Model.IsRead = true;
                 await OfflineTask.AddToQueueAsync(Model, OfflineTask.OfflineTaskAction.MarkAsRead);
+
+                ApplicationData.Current.RoamingSettings.Containers["ReadingProgressContainer"].Values.Remove(Model.Id.ToString());
             }
             await Model.UpdateAsync();
         }
