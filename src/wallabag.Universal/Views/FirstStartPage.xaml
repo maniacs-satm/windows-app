@@ -211,10 +211,10 @@
                 x:Name="framabagUserButton"
                 x:Uid="FramabagUserButton"
                 Margin="4"
-                IsEnabled="False"
                 HorizontalAlignment="Stretch"
                 Click="framabagUserButton_Click"
-                Content="I'm a framabag user!" />
+                Content="I'm a framabag user!"
+                IsEnabled="False" />
             <Button
                 x:Name="notFramabagUserButton"
                 x:Uid="NotAFramabagUserButton"
@@ -288,6 +288,23 @@
                 Margin="8,0,0,0"
                 Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
                 TextAlignment="Center" />
+        </StackPanel>
+        <StackPanel
+            x:Name="Step4Panel"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Opacity="0"
+            x:DeferLoadStrategy="Lazy"
+            Visibility="Collapsed">
+            <TextBlock
+                x:Name="TelemetryDataInfoTextBlock"
+                Margin="8"
+                Text="To improve the general stability of this app, it's recommended to turn on the automatic submission of anonymous telemetry data. However, if you want to turn it off, because you care of your privacy, you can do it too."
+                TextWrapping="Wrap" />
+            <ToggleSwitch
+                Margin="8"
+                Header="Allow telemetry data"
+                IsOn="{x:Bind ViewModel.AllowTelemetryData, Mode=TwoWay}" />
         </StackPanel>
     </Grid>
 </Page>

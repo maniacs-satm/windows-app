@@ -19,6 +19,7 @@ namespace wallabag.ViewModels
 
         public bool CredentialsAreExisting { get { return _dataService.CredentialsAreExisting; } }
         public bool CredentialsWereSynced { get; set; }
+        public bool AllowTelemetryData { get; set; } = true;
 
         public string Username { get; set; }
         public string Password { get; set; }
