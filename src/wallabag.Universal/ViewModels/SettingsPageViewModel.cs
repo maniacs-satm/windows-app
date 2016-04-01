@@ -79,6 +79,11 @@ namespace wallabag.ViewModels
             get { return AppSettings.OpenTheFilterPaneWithTheSearch; }
             set { AppSettings.OpenTheFilterPaneWithTheSearch = value; }
         }
+        public bool AllowTelemetryData
+        {
+            get { return AppSettings.AllowTelemetryData; }
+            set { AppSettings.AllowTelemetryData = value; }
+        }
 
         public DelegateCommand LogoutCommand { get; private set; }
         public DelegateCommand DeleteDatabaseCommand { get; private set; }

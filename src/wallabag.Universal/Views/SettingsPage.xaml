@@ -68,6 +68,16 @@
                         x:Uid="SyncWithServerOnStartUpToggleSwitch"
                         Header="Sync with the server on start"
                         IsOn="{x:Bind ViewModel.SyncOnStartup, Mode=TwoWay}" />
+                    <TextBlock
+                        x:Uid="TelemetryDataInfoTextBlock"
+                        MaxWidth="400"
+                        HorizontalAlignment="Left"
+                        Text="To improve the general stability of this app, it's recommended to turn on the automatic submission of anonymous telemetry data. However, if you want to turn it off, because you care of your privacy, you can do it too. Changes will be applied after the next restart."
+                        TextWrapping="Wrap" Style="{StaticResource InfoTextBlockStyle}" Margin="2,16,2,8" />
+                    <ToggleSwitch
+                        x:Uid="TelemetryDataToggleSwitch"
+                        Header="Allow telemetry data"
+                        IsOn="{x:Bind ViewModel.AllowTelemetryData, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="AppereanceSettingsPivotItem" Header="Appereance">
