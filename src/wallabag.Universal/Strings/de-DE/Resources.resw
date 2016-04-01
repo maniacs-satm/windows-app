@@ -542,4 +542,13 @@ Warum fügst du nicht ein paar hinzu?</value>
   <data name="ImUsingWallabagAndYou" xml:space="preserve">
     <value>Ich nutze wallabag, und du?</value>
   </data>
+  <data name="ContinueButton.Content" xml:space="preserve">
+    <value>Fortfahren</value>
+  </data>
+  <data name="TelemetryDataInfoTextBlock.Text" xml:space="preserve">
+    <value>Um die allgemeine Stabilität dieser App zu gewährleisten, ist es empfohlen, die anonymisierte Übermittlung von Telemetriedaten zu erlauben. Sofern allerdings Bedenken über die Privatsphäre bestehen, ist es auch möglich, diesen Vorgang abzuschalten. Änderungen werden erst nach einem App-Neustart übernommen.</value>
+  </data>
+  <data name="TelemetryDataToggleSwitch.Header" xml:space="preserve">
+    <value>Telemetriedaten sammeln</value>
+  </data>
 </root>

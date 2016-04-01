@@ -542,4 +542,13 @@ So, why aren't you adding one? :-)</value>
   <data name="ImUsingWallabagAndYou" xml:space="preserve">
     <value>I'm using wallabag, and you?</value>
   </data>
+  <data name="ContinueButton.Content" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="TelemetryDataInfoTextBlock.Text" xml:space="preserve">
+    <value>To improve the general stability of this app, it's recommended to turn on the automatic submission of anonymous telemetry data. However, if you want to turn it off, because you care of your privacy, you can do it too. Changes will be applied after the next restart.</value>
+  </data>
+  <data name="TelemetryDataToggleSwitch.Header" xml:space="preserve">
+    <value>Collect telemetry data</value>
+  </data>
 </root>
