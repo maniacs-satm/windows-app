@@ -48,6 +48,8 @@ namespace wallabag.Views
                     RevertStep3.Begin();
                 }
                 else if (message.Notification == "LoginSucceded")
+                    GoToStep3.Begin();
+                else if (message.Notification == "ShowTelemetryPermission")
                     GoToStep4.Begin();
             });
         }

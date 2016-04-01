@@ -38,7 +38,13 @@ namespace wallabag.ViewModels
 
             LoginCommand = new DelegateCommand(async () => await Login());
             OpenImageSourceCommand = new DelegateCommand(async () => await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/")));
-            SetupWallabagCommand = new DelegateCommand(async () => await SetupWallabagAndNavigateToContentPage());
+            SetupWallabagCommand = new DelegateCommand(() =>
+            {
+                NavigationService.Navigate(typeof(Views.ContentPage));
+                NavigationService.ClearHistory();
+
+                Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+            });
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
@@ -94,10 +100,7 @@ namespace wallabag.ViewModels
                 if (i.ErrorCode == null)
                 {
                     StatusText = LocalizedString("FirstStartFinishedDownloadingLabel");
-                    NavigationService.Navigate(typeof(Views.ContentPage));
-                    NavigationService.ClearHistory();
-
-                    Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+                    Messenger.Default.Send(new NotificationMessage("ShowTelemetryPermission"));
                 }
                 else
                     StatusText = i.ErrorCode.Message;
