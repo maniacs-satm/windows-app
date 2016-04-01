@@ -43,6 +43,8 @@ namespace wallabag.ViewModels
                 NavigationService.Navigate(typeof(Views.ContentPage));
                 NavigationService.ClearHistory();
 
+                AppSettings.AllowTelemetryData = AllowTelemetryData;
+
                 Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             });
         }
