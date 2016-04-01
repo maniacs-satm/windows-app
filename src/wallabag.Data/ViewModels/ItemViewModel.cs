@@ -87,7 +87,7 @@ namespace wallabag.ViewModels
                 hostname = Model.DomainName,
                 color = AppSettings.ColorScheme,
                 font = AppSettings.FontFamily,
-                progress = Model.ReadingProgress,
+                progress = Model.ReadingProgress ?? "0",
                 publishDate = string.Format("{0:d}", Model.CreationDate),
                 stylesheet = styleSheetBuilder.ToString(),
                 tags = GenerateHtmlFormattedTagsList()

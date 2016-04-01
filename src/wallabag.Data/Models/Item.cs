@@ -80,7 +80,7 @@ namespace wallabag.Models
         [JsonProperty("preview_picture")]
         public string PreviewPictureUri { get; set; } = string.Empty;
 
-        public string ReadingProgress { get; set; } = "0";
+        public string ReadingProgress { get; set; } = string.Empty;
 
         public override string ToString() { return Title; }
 

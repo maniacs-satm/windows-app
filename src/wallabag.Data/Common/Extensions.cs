@@ -205,7 +205,7 @@ namespace wallabag.Common
                 Group formatGroup = m.Groups["format"];
                 Group endGroup = m.Groups["end"];
 
-                var value = (propertyGroup.Value == "0")
+                var value = (propertyGroup.Value == null)
                            ? source
                            : source.GetType().GetRuntimeProperty(propertyGroup.Value).GetValue(source);
 
