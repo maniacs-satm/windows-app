@@ -47,6 +47,8 @@ namespace wallabag.Views
                     GoToStep2.Begin();
                     RevertStep3.Begin();
                 }
+                else if (message.Notification == "LoginSucceded")
+                    GoToStep4.Begin();
             });
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)

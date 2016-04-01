@@ -103,6 +103,33 @@
                 Storyboard.TargetProperty="(UIElement.Opacity)"
                 To="0" />
         </Storyboard>
+        <Storyboard x:Name="GoToStep4">
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="Step3Panel"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0" />
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="Step4Panel"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="1" />
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Step4Panel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation
+                d:IsOptimized="True"
+                Duration="0:0:0.3"
+                Storyboard.TargetName="welcomeTextBlock"
+                Storyboard.TargetProperty="(UIElement.Opacity)"
+                To="0" />
+        </Storyboard>
         <Storyboard x:Name="RevertStep3">
             <DoubleAnimation
                 d:IsOptimized="True"
@@ -299,12 +326,13 @@
             <TextBlock
                 x:Name="TelemetryDataInfoTextBlock"
                 Margin="8"
-                Text="To improve the general stability of this app, it's recommended to turn on the automatic submission of anonymous telemetry data. However, if you want to turn it off, because you care of your privacy, you can do it too."
+                Text="To improve the general stability of this app, it's recommended to turn on the automatic submission of anonymous telemetry data. However, if you want to turn it off, because you care of your privacy, you can do it too. Changes will be applied after the next restart."
                 TextWrapping="Wrap" />
             <ToggleSwitch
                 Margin="8"
                 Header="Allow telemetry data"
                 IsOn="{x:Bind ViewModel.AllowTelemetryData, Mode=TwoWay}" />
+            <Button HorizontalAlignment="Right" Content="Continue with setup" Command="{x:Bind ViewModel.SetupWallabagCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

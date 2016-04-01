@@ -30,6 +30,7 @@ namespace wallabag.ViewModels
         public string StatusText { get; set; }
         public DelegateCommand LoginCommand { get; private set; }
         public DelegateCommand OpenImageSourceCommand { get; private set; }
+        public DelegateCommand SetupWallabagCommand { get; private set; }
 
         public FirstStartPageViewModel(IDataService dataService)
         {
@@ -37,6 +38,7 @@ namespace wallabag.ViewModels
 
             LoginCommand = new DelegateCommand(async () => await Login());
             OpenImageSourceCommand = new DelegateCommand(async () => await Launcher.LaunchUriAsync(new Uri("https://www.flickr.com/photos/oneterry/16711663295/")));
+            SetupWallabagCommand = new DelegateCommand(async () => await SetupWallabagAndNavigateToContentPage());
         }
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
@@ -66,7 +68,7 @@ namespace wallabag.ViewModels
             if (await _dataService.LoginAsync(WallabagUrl, Username, Password))
             {
                 StatusText = LocalizedString("FirstStartLoginSuccededLabel");
-                await SetupWallabagAndNavigateToContentPage();
+                Messenger.Default.Send(new NotificationMessage("LoginSucceded"));
             }
             else
             {
