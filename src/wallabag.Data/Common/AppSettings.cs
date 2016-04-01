@@ -207,5 +207,10 @@ namespace wallabag.Common
             get { return GetProperty(nameof(DeleteDatabaseOnNextStartup), false, true); }
             set { SetProperty(nameof(DeleteDatabaseOnNextStartup), value, true); }
         }
+        public static bool AllowTelemetryData
+        {
+            get { return GetProperty(nameof(AllowTelemetryData), false); }
+            set { SetProperty(nameof(AllowTelemetryData), value); }
+        }
     }
 }

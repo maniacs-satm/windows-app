@@ -17,7 +17,8 @@ namespace wallabag.Universal
 
         public override Task OnInitializeAsync(IActivatedEventArgs args)
         {
-            Microsoft.HockeyApp.HockeyClient.Current.Configure("842955f8fd3b4191972db776265d81c4");
+            if (AppSettings.AllowTelemetryData)
+                Microsoft.HockeyApp.HockeyClient.Current.Configure("842955f8fd3b4191972db776265d81c4");
 
             if (args.Kind == ActivationKind.ShareTarget)
             {
