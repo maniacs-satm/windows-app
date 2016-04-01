@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using wallabag.Data.Services;
 using Windows.ApplicationModel.Resources;
 using Windows.Networking.Connectivity;
+using Windows.Storage;
 using Windows.Web.Http;
 using Windows.Web.Http.Headers;
 
@@ -13,7 +15,16 @@ namespace wallabag.Common
     public static class Helpers
     {
         public static string DATABASE_FILENAME { get; } = "wallabag.db";
-        public static string DATABASE_PATH { get; } = System.IO.Path.Combine(Windows.Storage.ApplicationData.Current.LocalCacheFolder.Path, DATABASE_FILENAME);
+        public static string DATABASE_PATH { get; } = Path.Combine(Windows.Storage.ApplicationData.Current.LocalCacheFolder.Path, DATABASE_FILENAME);
+        public static async Task<StorageFile> GetDatabaseFileAsync()
+        {
+            StorageFile databaseFile;
+
+            try { databaseFile = await StorageFile.GetFileFromPathAsync(DATABASE_PATH); }
+            catch (FileNotFoundException) { databaseFile = null; }
+
+            return databaseFile;
+        }
 
         /// <summary>
         /// There are several languages. To access them from code-behind this way is required.

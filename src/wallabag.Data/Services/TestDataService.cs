@@ -150,7 +150,7 @@ namespace wallabag.Data.Services
         public async Task InitializeDatabaseAsync()
         {
             _Items = new ObservableCollection<Item>();
-            await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            await Windows.Storage.ApplicationData.Current.LocalCacheFolder.CreateFileAsync(Helpers.DATABASE_FILENAME, Windows.Storage.CreationCollisionOption.ReplaceExisting);
         }
 
         public Task<bool> SyncOfflineTasksWithServerAsync()

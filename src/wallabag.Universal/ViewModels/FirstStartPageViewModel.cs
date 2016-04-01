@@ -46,7 +46,7 @@ namespace wallabag.ViewModels
                 Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             });
         }
-        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             if (!string.IsNullOrWhiteSpace(AppSettings.wallabagUrl))
             {
@@ -57,10 +57,10 @@ namespace wallabag.ViewModels
                 CredentialsWereSynced = true;
             }
 
-            if (_dataService.CredentialsAreExisting)
+            if (await GetDatabaseFileAsync() != null)
                 SetupWallabagCommand.Execute();
-
-            return Task.CompletedTask;
+            else if (_dataService.CredentialsAreExisting)
+                await SetupWallabagAsync();
         }
         public async Task Login()
         {
@@ -69,9 +69,9 @@ namespace wallabag.ViewModels
             if (WallabagUrl.EndsWith("/"))
                 WallabagUrl = WallabagUrl.Remove(WallabagUrl.Length - 1);
 
-                AppSettings.wallabagUrl = WallabagUrl;
-                AppSettings.ClientId = ClientId;
-                AppSettings.ClientSecret = ClientSecret;
+            AppSettings.wallabagUrl = WallabagUrl;
+            AppSettings.ClientId = ClientId;
+            AppSettings.ClientSecret = ClientSecret;
 
             if (await _dataService.LoginAsync(WallabagUrl, Username, Password))
             {

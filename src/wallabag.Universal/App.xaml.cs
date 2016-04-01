@@ -45,11 +45,8 @@ namespace wallabag.Universal
                 BadgeUpdateManager.CreateBadgeUpdaterForApplication().Clear();
                 AppSettings.LastOpeningDateTime = DateTime.Now;
 
-                if (ViewModels.ViewModelLocator.CurrentDataService.CredentialsAreExisting &&
-                    await Windows.Storage.ApplicationData.Current.LocalFolder.TryGetItemAsync(Helpers.DATABASE_FILENAME) != null)
-                {
+                if (ViewModels.ViewModelLocator.CurrentDataService.CredentialsAreExisting && await Helpers.GetDatabaseFileAsync() != null)
                     NavigationService.Navigate(typeof(Views.ContentPage));
-                }
                 else
                     NavigationService.Navigate(typeof(Views.FirstStartPage));
             }
