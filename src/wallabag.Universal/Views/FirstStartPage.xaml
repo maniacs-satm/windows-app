@@ -318,6 +318,7 @@
         </StackPanel>
         <StackPanel
             x:Name="Step4Panel"
+            MaxWidth="400"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Opacity="0"
