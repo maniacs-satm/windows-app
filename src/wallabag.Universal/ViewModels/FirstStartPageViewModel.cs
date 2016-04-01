@@ -43,12 +43,10 @@ namespace wallabag.ViewModels
                 NavigationService.Navigate(typeof(Views.ContentPage));
                 NavigationService.ClearHistory();
 
-                AppSettings.AllowTelemetryData = AllowTelemetryData;
-
                 Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
             });
         }
-        public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
+        public override Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
             if (!string.IsNullOrWhiteSpace(AppSettings.wallabagUrl))
             {
@@ -60,7 +58,9 @@ namespace wallabag.ViewModels
             }
 
             if (_dataService.CredentialsAreExisting)
-                await SetupWallabagAndNavigateToContentPage();
+                SetupWallabagCommand.Execute();
+
+            return Task.CompletedTask;
         }
         public async Task Login()
         {
@@ -69,14 +69,15 @@ namespace wallabag.ViewModels
             if (WallabagUrl.EndsWith("/"))
                 WallabagUrl = WallabagUrl.Remove(WallabagUrl.Length - 1);
 
-            AppSettings.wallabagUrl = WallabagUrl;
-            AppSettings.ClientId = ClientId;
-            AppSettings.ClientSecret = ClientSecret;
+                AppSettings.wallabagUrl = WallabagUrl;
+                AppSettings.ClientId = ClientId;
+                AppSettings.ClientSecret = ClientSecret;
 
             if (await _dataService.LoginAsync(WallabagUrl, Username, Password))
             {
                 StatusText = LocalizedString("FirstStartLoginSuccededLabel");
                 Messenger.Default.Send(new NotificationMessage("LoginSucceded"));
+                await SetupWallabagAsync();
             }
             else
             {
@@ -86,7 +87,7 @@ namespace wallabag.ViewModels
             }
 
         }
-        public async Task SetupWallabagAndNavigateToContentPage()
+        public async Task SetupWallabagAsync()
         {
             StatusText = LocalizedString("FirstStartCreateDatabaseLabel");
             await _dataService.InitializeDatabaseAsync();
