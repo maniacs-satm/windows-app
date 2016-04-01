@@ -204,6 +204,11 @@ namespace wallabag.ViewModels
                 }
                 else if (message.Notification == "FilterView")
                     FilterCommand.Execute();
+                else if (message.Notification == "UpdateQueue")
+                {
+                    await _dataService.SyncOfflineTasksWithServerAsync();
+                    await GetOfflineTasksAsync();
+                }
             });
         }
         public override Task OnNavigatedFromAsync(IDictionary<string, object> state, bool suspending)

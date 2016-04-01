@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using GalaSoft.MvvmLight.Messaging;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -115,6 +116,7 @@ namespace wallabag.Data.Models
             newTask.ItemTitle = Item.Title;
 
             await new SQLiteAsyncConnection(DATABASE_PATH).InsertAsync(newTask);
+            Messenger.Default.Send(new NotificationMessage("UpdateQueue"));
         }
 
         public async Task<bool> ExecuteAsync()
