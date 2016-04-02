@@ -49,46 +49,6 @@
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Name="ShowFormattingOptionsGridStoryboard">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(Control.IsEnabled)">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <x:Boolean>False</x:Boolean>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideFormattingOptionsGridStoryboard">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="FormattingOptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="commandBar" Storyboard.TargetProperty="(Control.IsEnabled)">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <x:Boolean>True</x:Boolean>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-        </Storyboard>
     </Page.Resources>
 
     <Page.BottomAppBar>
@@ -128,11 +88,17 @@
                 </AppBarButton>
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Font size" x:Uid="ChangeFontSizeAppBarButton">
+                <AppBarButton x:Uid="ChangeFontSizeAppBarButton" Label="Font size">
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Command="{Binding IncreaseFontSizeCommand}" Text="Increase" x:Uid="IncreaseFontSizeMenuFlyoutItem"/>
-                            <MenuFlyoutItem Command="{Binding DecreaseFontSizeCommand}" Text="Decrease" x:Uid="DecreaseFontSizeMenuFlyoutItem"/>
+                            <MenuFlyoutItem
+                                x:Uid="IncreaseFontSizeMenuFlyoutItem"
+                                Command="{Binding IncreaseFontSizeCommand}"
+                                Text="Increase" />
+                            <MenuFlyoutItem
+                                x:Uid="DecreaseFontSizeMenuFlyoutItem"
+                                Command="{Binding DecreaseFontSizeCommand}"
+                                Text="Decrease" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -157,8 +123,14 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarButton Command="{Binding ChangeFontFamilyCommand}" Label="Change font family" x:Uid="ChangeFontFamilyAppBarButton"/>
-                <AppBarButton Command="{Binding ChangeTextAlignmentCommand}" Label="Change text alignment" x:Uid="ChangeTextAlignmentAppBarButton"/>
+                <AppBarButton
+                    x:Uid="ChangeFontFamilyAppBarButton"
+                    Command="{Binding ChangeFontFamilyCommand}"
+                    Label="Change font family" />
+                <AppBarButton
+                    x:Uid="ChangeTextAlignmentAppBarButton"
+                    Command="{Binding ChangeTextAlignmentCommand}"
+                    Label="Change text alignment" />
                 <AppBarSeparator />
                 <AppBarButton
                     x:Uid="DeleteAppBarButton"
@@ -173,12 +145,9 @@
             x:Name="WebView"
             Opacity="0"
             common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}"
+            x:DeferLoadStrategy="Lazy"
             RenderTransformOrigin="0.5,0.5"
-            Visibility="Collapsed">
-            <WebView.RenderTransform>
-                <CompositeTransform />
-            </WebView.RenderTransform>
-        </WebView>
+            Visibility="Collapsed" />
         <ProgressRing
             x:Name="LoadingProgressRing"
             Width="64"
@@ -191,6 +160,7 @@
         <Border
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             d:IsHidden="True"
+            x:DeferLoadStrategy="Lazy"
             RequestedTheme="{x:Bind ViewModel.AppBarRequestedTheme, Mode=OneWay}"
             Visibility="{x:Bind ViewModel.ErrorHappened, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -68,14 +68,5 @@ namespace wallabag.Views
 
             await WebView.InvokeScriptAsync("changeHtmlAttributes", parameters);
         }
-
-        private void FontSettingsAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowFormattingOptionsGridStoryboard.Begin();
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            HideFormattingOptionsGridStoryboard.Begin();
-        }
     }
 }
