@@ -145,7 +145,6 @@
             x:Name="WebView"
             Opacity="0"
             common:WebViewExtensions.HTML="{x:Bind ViewModel.CurrentItem.ContentWithHeader, Mode=OneWay}"
-            x:DeferLoadStrategy="Lazy"
             RenderTransformOrigin="0.5,0.5"
             Visibility="Collapsed" />
         <ProgressRing
@@ -158,6 +157,7 @@
             d:IsHidden="True"
             IsActive="True" />
         <Border
+            x:Name="ErrorBorder"
             Background="{x:Bind ViewModel.CurrentBackground, Mode=OneWay}"
             d:IsHidden="True"
             x:DeferLoadStrategy="Lazy"
