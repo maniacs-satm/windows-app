@@ -20,7 +20,7 @@
             Stretch="UniformToFill" />
         <Rectangle
             x:Name="OverlayGrid"
-            Fill="#3F000000"
+            Fill="#54000000"
             Visibility="Collapsed" />
         <StackPanel
             x:Name="StackPanel"
@@ -75,7 +75,7 @@
                 </VisualState>
                 <VisualState x:Name="Wide">
                     <VisualState.Setters>
-                        <Setter Target="StackPanel.RequestedTheme" Value="Dark" />
+                        <Setter Target="RootPanel.RequestedTheme" Value="Dark" />
                         <Setter Target="OverlayGrid.Visibility" Value="Visible" />
                         <Setter Target="Title.TextAlignment" Value="Center" />
                         <Setter Target="Hostname.TextAlignment" Value="Center" />
