@@ -21,7 +21,10 @@
         <Rectangle
             x:Name="OverlayGrid"
             Fill="#54000000"
-            Visibility="Collapsed" />
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True" />
         <StackPanel
             x:Name="StackPanel"
             Margin="8,0"
@@ -62,12 +65,10 @@
                 FontFamily="Segoe MDL2 Assets"
                 Text="&#xE0A5;"
                 Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Rectangle
-                Width="0.5"
-                Margin="8,0"
-                Fill="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                Opacity="0.7" />
-            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE121;" />
+            <TextBlock
+                Margin="16,0,0,0"
+                FontFamily="Segoe MDL2 Assets"
+                Text="&#xE121;" />
             <TextBlock Margin="4,0,0,0" Text="{Binding Model.EstimatedReadingTime, Mode=OneWay}" />
         </StackPanel>
         <StackPanel
