@@ -13,23 +13,24 @@
     <RelativePanel x:Name="RootPanel">
         <Image
             x:Name="image"
-            Width="100"
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignLeftWithPanel="True"
             RelativePanel.AlignTopWithPanel="True"
             Source="{Binding Model.PreviewPictureUri, Mode=OneTime}"
-            Stretch="UniformToFill"/>
+            Stretch="UniformToFill" />
+        <Rectangle
+            x:Name="OverlayGrid"
+            Fill="#3F000000"
+            Visibility="Collapsed" />
         <StackPanel
+            x:Name="StackPanel"
             Margin="8,0"
-            RelativePanel.AlignVerticalCenterWithPanel="True"
-            RelativePanel.RightOf="image">
+            RelativePanel.AlignVerticalCenterWithPanel="True">
             <TextBlock
                 x:Name="Title"
                 Margin="4,2"
                 FontSize="16"
                 MaxLines="2"
-                RelativePanel.AlignVerticalCenterWithPanel="True"
-                RelativePanel.RightOf="image"
                 Text="{Binding Model.Title, Mode=OneTime}"
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="Wrap" />
@@ -38,10 +39,36 @@
                 Margin="4,2"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Opacity="0.7"
-                RelativePanel.AlignVerticalCenterWithPanel="True"
-                RelativePanel.Below="Title"
-                RelativePanel.RightOf="image"
                 Text="{Binding Model.DomainName, Mode=OneTime}" />
         </StackPanel>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveStates">
+                <VisualState x:Name="Narrow">
+                    <VisualState.Setters>
+                        <Setter Target="image.Width" Value="100" />
+                        <Setter Target="StackPanel.(RelativePanel.RightOf)" Value="image" />
+                        <Setter Target="OverlayGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="Title.TextAlignment" Value="Left" />
+                        <Setter Target="Hostname.TextAlignment" Value="Left" />
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.Setters>
+                        <Setter Target="StackPanel.RequestedTheme" Value="Dark" />
+                        <Setter Target="OverlayGrid.Visibility" Value="Visible" />
+                        <Setter Target="Title.TextAlignment" Value="Center" />
+                        <Setter Target="Hostname.TextAlignment" Value="Center" />
+                        <Setter Target="StackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)" Value="True" />
+                        <Setter Target="StackPanel.(RelativePanel.RightOf)" Value="{x:Null}" />
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </RelativePanel>
 </UserControl>
