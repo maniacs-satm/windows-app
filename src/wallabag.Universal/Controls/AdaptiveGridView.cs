@@ -60,6 +60,26 @@ namespace wallabag.Controls
                     }
                 }));
 
+        public bool IsItemHeightLocked
+        {
+            get { return (bool)GetValue(IsHeightLockedProperty); }
+            set { SetValue(IsHeightLockedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsHeightLocked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsHeightLockedProperty =
+            DependencyProperty.Register("IsItemHeightLocked", typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false));
+
+        public bool IsItemWidthLocked
+        {
+            get { return (bool)GetValue(IsWidthLockedProperty); }
+            set { SetValue(IsWidthLockedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsWidthLocked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsWidthLockedProperty =
+            DependencyProperty.Register("IsItemWidthLocked", typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false));
+
         #endregion
 
         public AdaptiveGridView()
@@ -95,9 +115,14 @@ namespace wallabag.Controls
                 numColumns = numColumns == 0 ? 1 : numColumns;
                 var numRows = Math.Ceiling(this.Items.Count / numColumns);
 
-                var itemWidth = availableWidth / numColumns;
-                var aspectRatio = MinItemHeight / MinItemWidth;
+                               var itemWidth = availableWidth / numColumns;
+                    var aspectRatio = MinItemHeight / MinItemWidth;
                 var itemHeight = itemWidth * aspectRatio;
+
+                if (IsItemWidthLocked)
+                    itemWidth = MinItemWidth;
+                if (IsItemHeightLocked)
+                    itemHeight = MinItemHeight;
 
                 panel.ItemWidth = itemWidth;
                 panel.ItemHeight = itemHeight;
