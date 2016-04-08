@@ -41,6 +41,24 @@
                 Opacity="0.7"
                 Text="{Binding Model.DomainName, Mode=OneTime}" />
         </StackPanel>
+        <StackPanel
+            Margin="8"
+            Orientation="Horizontal"
+            RelativePanel.AlignRightWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+                    <Setter Property="Opacity" Value="0.7" />
+                    <Setter Property="FontSize" Value="12" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="&#xE8FB;" Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <TextBlock
+                Margin="8,0,0,0"
+                Text="&#xE0A5;"
+                Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </StackPanel>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates">
                 <VisualState x:Name="Narrow">
