@@ -6,133 +6,42 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:wallabag.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="300"
-    d:DesignWidth="350"
+    d:DesignHeight="100"
+    d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-
-        <Storyboard x:Name="ShowOverlayStoryboard">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Visible</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-        <Storyboard x:Name="HideOverlayStoryboard">
-            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
-                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                    <DiscreteObjectKeyFrame.Value>
-                        <Visibility>Collapsed</Visibility>
-                    </DiscreteObjectKeyFrame.Value>
-                </DiscreteObjectKeyFrame>
-            </ObjectAnimationUsingKeyFrames>
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="OverlayGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
-                <SplineDoubleKeyFrame KeyTime="0" Value="1" />
-                <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-
-    </UserControl.Resources>
-
-    <Grid x:Name="RootGrid">
-        <Grid.Background>
-            <ImageBrush ImageSource="{Binding Model.PreviewPictureUri, Mode=OneTime}" Stretch="UniformToFill" />
-        </Grid.Background>
-        <Grid
-            x:Name="OverlayGrid"
-            Grid.RowSpan="2"
-            Opacity="0"
-            RequestedTheme="Dark"
-            Visibility="Collapsed">
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Offset="0" Color="#4C000000" />
-                    <GradientStop Offset="1" Color="#4C000000" />
-                    <GradientStop Offset="0.5" Color="#00000000" />
-                </LinearGradientBrush>
-            </Grid.Background>
+    <RelativePanel x:Name="RootPanel">
+        <Image
+            x:Name="image"
+            Width="100"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignLeftWithPanel="True"
+            RelativePanel.AlignTopWithPanel="True"
+            Source="{Binding Model.PreviewPictureUri, Mode=OneTime}"
+            Stretch="UniformToFill"/>
+        <StackPanel
+            Margin="8,0"
+            RelativePanel.AlignVerticalCenterWithPanel="True"
+            RelativePanel.RightOf="image">
             <TextBlock
-                x:Name="TagsTextBlock"
-                Margin="12,12,64,12"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Opacity="0.8"
-                FontSize="13.333"
-                Text="{Binding TagsString, Mode=OneWay}" />
-            <StackPanel
-                x:Name="PropertyIndicatorStackPanel"
-                Margin="12"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Opacity="0.8"
-                Orientation="Horizontal">
-                <TextBlock
-                    FontFamily="Segoe MDL2 Assets"
-                    Text="&#xE00B;"
-                    Visibility="{Binding Model.IsStarred, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <TextBlock
-                    Margin="8,0,0,0"
-                    FontFamily="Segoe MDL2 Assets"
-                    Text="&#xE001;"
-                    Visibility="{Binding Model.IsRead, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            </StackPanel>
+                x:Name="Title"
+                Margin="4,2"
+                FontSize="16"
+                MaxLines="2"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                RelativePanel.RightOf="image"
+                Text="{Binding Model.Title, Mode=OneTime}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="Wrap" />
             <TextBlock
-                Margin="12"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Bottom"
-                Opacity="0.8"
-                FontSize="13.333"
-                Text="{Binding PublishedDateFormatted, Mode=OneTime}" />
-            <StackPanel
-                Margin="12"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Orientation="Horizontal">
-                <TextBlock
-                    VerticalAlignment="Center"
-                    Opacity="0.8"
-                    FontFamily="Segoe MDL2 Assets"
-                    Text="&#xE121;" />
-                <TextBlock
-                    Margin="4,0"
-                    VerticalAlignment="Center"
-                    Opacity="0.8"
-                    FontSize="13.333"
-                    Text="{Binding Model.EstimatedReadingTime, Mode=OneTime}" />
-            </StackPanel>
-        </Grid>
-        <Grid
-            x:Name="BottomGrid"
-            Grid.Row="1"
-            RequestedTheme="Dark">
-            <Grid.Background>
-                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                    <GradientStop Offset="0" Color="#33000000" />
-                    <GradientStop Offset="1" Color="#33000000" />
-                    <GradientStop Offset="0.5" Color="#66000000" />
-                </LinearGradientBrush>
-            </Grid.Background>
-            <StackPanel VerticalAlignment="Center">
-                <TextBlock
-                    Margin="8"
-                    FontSize="16"
-                    MaxLines="2"
-                    Text="{Binding Model.Title, Mode=OneTime}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
-                <TextBlock
-                    Opacity="0.8"
-                    FontSize="13.333"
-                    Text="{Binding Model.DomainName, Mode=OneTime}"
-                    TextAlignment="Center" />
-            </StackPanel>
-        </Grid>
-    </Grid>
+                x:Name="Hostname"
+                Margin="4,2"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Opacity="0.7"
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                RelativePanel.Below="Title"
+                RelativePanel.RightOf="image"
+                Text="{Binding Model.DomainName, Mode=OneTime}" />
+        </StackPanel>
+    </RelativePanel>
 </UserControl>
