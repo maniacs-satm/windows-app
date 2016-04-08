@@ -54,6 +54,7 @@ namespace wallabag.ViewModels
         public string IntroSentence { get; set; }
         public string PublishedDateFormatted { get { return Model.CreationDate.ToString("m"); } }
         public string TagsString { get { return Model.Tags.ToCommaSeparatedString().Replace(",", ", "); } }
+        public bool TagsAreExisting { get; set; }
 
         public DelegateCommand DeleteCommand { get; private set; }
         public DelegateCommand SwitchReadStatusCommand { get; private set; }
@@ -135,6 +136,8 @@ namespace wallabag.ViewModels
 
                 await AddTagsAsync(newItems);
             }
+
+            TagsAreExisting = (Model.Tags.Count > 0) ? true : false;
         }
 
         public async Task SwitchReadValueAsync()

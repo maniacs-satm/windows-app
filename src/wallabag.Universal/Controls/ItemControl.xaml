@@ -70,6 +70,22 @@
             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE121;" />
             <TextBlock Margin="4,0,0,0" Text="{Binding Model.EstimatedReadingTime, Mode=OneWay}" />
         </StackPanel>
+        <StackPanel
+            Margin="8"
+            Orientation="Horizontal"
+            RelativePanel.AlignBottomWithPanel="True"
+            RelativePanel.AlignRightWithPanel="True"
+            Visibility="{Binding TagsAreExisting, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Opacity" Value="0.7" />
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE1CB;" />
+            <TextBlock Margin="8,0,0,0" Text="{Binding TagsString, Mode=OneWay}" />
+        </StackPanel>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates">
                 <VisualState x:Name="Narrow">
