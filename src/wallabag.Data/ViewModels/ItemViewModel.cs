@@ -47,6 +47,7 @@ namespace wallabag.ViewModels
 
             GetIntroSentence();
             (Model.Tags as ObservableCollection<Tag>).CollectionChanged += Tags_CollectionChanged;
+            TagsAreExisting = (Model.Tags.Count > 0) ? true : false;
         }
 
         public Item Model { get; set; }
