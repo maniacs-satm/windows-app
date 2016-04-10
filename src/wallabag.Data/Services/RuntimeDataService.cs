@@ -61,24 +61,30 @@ namespace wallabag.Data.Services
             if (itemResponse.StatusCode == HttpStatusCode.Ok &&
                 tagResponse.StatusCode == HttpStatusCode.Ok)
             {
-                #region itemResponse handling
                 var itemJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(itemResponse.Content.ToString()));
                 List<Item> downloadedItems = itemJson.Embedded.Items.ToList();
 
                 dProgress.TotalNumberOfItems = itemJson.TotalNumberOfItems;
                 progress.Report(dProgress);
 
+                int index = 0;
                 if (itemJson.Pages > 1 && DownloadAllItems)
                 {
                     for (int i = 2; i <= itemJson.Pages; i++)
                     {
-                        Dictionary<string, object> parameters = new Dictionary<string, object>() { ["page"] = i };
-                        var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries", parameters);
+                        var additionalHttpResponse = await ExecuteHttpRequestAsync(HttpRequestMethod.Get, "/entries?page=" + i);
 
-                        var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(itemResponse.Content.ToString()));
+                        var additionalJson = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<RootObject>(additionalHttpResponse.Content.ToString()));
                         foreach (var item in additionalJson.Embedded.Items)
-                            if (!downloadedItems.Contains(item, new ItemComparer()))
+                            if (!downloadedItems.Contains(item))
+                            {
                                 downloadedItems.Add(item);
+
+                                dProgress.CurrentItemIndex = index;
+                                progress.Report(dProgress);
+
+                                index++;
+                            }
                     }
 
                 }
@@ -86,13 +92,8 @@ namespace wallabag.Data.Services
                 // Regular expression to remove multiple whitespaces (including newline etc.)
                 Regex Regex = new Regex("\\s+");
 
-                int index = 0;
                 foreach (var item in downloadedItems)
                 {
-                    dProgress.CurrentItem = item;
-                    dProgress.CurrentItemIndex = index;
-                    progress.Report(dProgress);
-
                     var existingItem = await (conn.Table<Item>().Where(i => i.Id == item.Id)).FirstOrDefaultAsync();
 
                     item.Title = Regex.Replace(item.Title, " ");
@@ -113,9 +114,7 @@ namespace wallabag.Data.Services
                         existingItem = item;
                         await existingItem.UpdateAsync();
                     }
-                    index += 1;
                 }
-                #endregion
 
                 var tagList = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<Tag>>(tagResponse.Content.ToString()));
                 foreach (var item in tagList)
