@@ -131,5 +131,25 @@ namespace wallabag.Controls
 
             return base.MeasureOverride(availableSize);
         }
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            dynamic model = item;
+            try
+            {
+                element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, model.ColumnSpan);
+                element.SetValue(VariableSizedWrapGrid.RowSpanProperty, model.RowSpan);
+            }
+            catch
+            {
+                element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, 1);
+                element.SetValue(VariableSizedWrapGrid.RowSpanProperty, 1);
+            }
+            finally
+            {
+                element.SetValue(VerticalContentAlignmentProperty, VerticalAlignment.Stretch);
+                element.SetValue(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch);
+                base.PrepareContainerForItemOverride(element, item);
+            }
+        }
     }
 }
