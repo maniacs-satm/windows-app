@@ -54,8 +54,7 @@
                 Visibility="Collapsed"
                 Text="{Binding IntroSentence, Mode=OneTime}" />
         </StackPanel>
-        <StackPanel
-            RequestedTheme="Dark"
+        <StackPanel x:Name="MetadataStackPanel"
             Margin="8"
             Orientation="Horizontal"
             RelativePanel.AlignRightWithPanel="True"
@@ -105,6 +104,8 @@
                         <Setter Target="image.Width" Value="100" />
                         <Setter Target="ContentStackPanel.(RelativePanel.RightOf)" Value="image" />
                         <Setter Target="OverlayGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="TagsStackPanel.(RelativePanel.AlignLeftWithPanel)" Value="False"/>
+                        <Setter Target="TagsStackPanel.(RelativePanel.AlignRightWithPanel)" Value="True"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
@@ -118,6 +119,7 @@
                         <Setter Target="OverlayGrid.(RelativePanel.AlignBottomWithPanel)" Value="False"/>
                         <Setter Target="ContentStackPanel.(RelativePanel.Below)" Value="image" />
                         <Setter Target="ContentStackPanel.Margin" Value="8" />
+                        <Setter Target="MetadataStackPanel.RequestedTheme" Value="Dark"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
