@@ -509,6 +509,11 @@
                     ItemsSource="{x:Bind ViewModel.Items}"
                     MinItemHeight="200"
                     MinItemWidth="300">
+                    <controls:AdaptiveGridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VariableSizedWrapGrid Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </controls:AdaptiveGridView.ItemsPanel>
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
                             <controls:ItemControl />
