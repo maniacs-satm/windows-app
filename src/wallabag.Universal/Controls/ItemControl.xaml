@@ -44,6 +44,15 @@
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Opacity="0.7"
                 Text="{Binding Model.DomainName, Mode=OneTime}" />
+            <TextBlock
+                x:Name="PreviewText"
+                Margin="0,12,0,0"
+                Opacity="0.7"
+                TextWrapping="Wrap"
+                MaxLines="5"
+                TextTrimming="CharacterEllipsis"
+                Visibility="Collapsed"
+                Text="{Binding IntroSentence, Mode=OneTime}" />
         </StackPanel>
         <StackPanel
             RequestedTheme="Dark"
