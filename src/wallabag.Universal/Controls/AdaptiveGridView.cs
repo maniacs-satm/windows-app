@@ -103,7 +103,7 @@ namespace wallabag.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var panel = this.ItemsPanelRoot as ItemsWrapGrid;
+            var panel = this.ItemsPanelRoot as VariableSizedWrapGrid;
             if (panel != null)
             {
                 if (MinItemWidth == 0)
@@ -115,8 +115,8 @@ namespace wallabag.Controls
                 numColumns = numColumns == 0 ? 1 : numColumns;
                 var numRows = Math.Ceiling(this.Items.Count / numColumns);
 
-                               var itemWidth = availableWidth / numColumns;
-                    var aspectRatio = MinItemHeight / MinItemWidth;
+                var itemWidth = availableWidth / numColumns;
+                var aspectRatio = MinItemHeight / MinItemWidth;
                 var itemHeight = itemWidth * aspectRatio;
 
                 if (IsItemWidthLocked)
@@ -126,6 +126,7 @@ namespace wallabag.Controls
 
                 panel.ItemWidth = itemWidth;
                 panel.ItemHeight = itemHeight;
+                panel.MaximumRowsOrColumns = (int)numColumns;
             }
 
             return base.MeasureOverride(availableSize);
