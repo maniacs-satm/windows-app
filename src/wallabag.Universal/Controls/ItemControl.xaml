@@ -124,6 +124,20 @@
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <Setter Target="image.MaxHeight" Value="100"/>
+                        <Setter Target="PreviewText.Visibility" Value="Collapsed"/>                       
+                    </VisualState.Setters>                    
+                </VisualState>
+                <VisualState x:Name="TwoRows">
+                    <VisualState.Setters>
+                        <Setter Target="image.MaxHeight" Value="200"/>
+                        <Setter Target="PreviewText.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
     </RelativePanel>
 </UserControl>
