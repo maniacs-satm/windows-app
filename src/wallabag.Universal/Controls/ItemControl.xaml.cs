@@ -14,6 +14,15 @@ namespace wallabag.Controls
         {
             InitializeComponent();
             SizeChanged += ItemControl_SizeChanged;
+            
+            if (WindowWidth >= 720)
+                MetadataStackPanel.RequestedTheme = ElementTheme.Light;
+                       
+            RootImageSource.ImageOpened += (s, e) =>
+            {
+                if (WindowWidth >= 720)
+                    MetadataStackPanel.RequestedTheme = ElementTheme.Dark;
+            };
         }
 
         private void ItemControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -23,6 +32,13 @@ namespace wallabag.Controls
                 VisualStateManager.GoToState(this, nameof(TwoRows), false);
             else
                 VisualStateManager.GoToState(this, nameof(Normal), false);
+
+
+            if (WindowWidth >= 720)
+            {
+                if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri))
+                    MetadataStackPanel.RequestedTheme = ElementTheme.Light;
+            }
         }
     }
 }

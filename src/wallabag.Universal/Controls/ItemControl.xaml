@@ -16,8 +16,11 @@
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignLeftWithPanel="True"
             RelativePanel.AlignTopWithPanel="True"
-            Source="{Binding Model.PreviewPictureUri, Mode=OneTime}"
-            Stretch="UniformToFill" />
+            Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage x:Name="RootImageSource" UriSource="{Binding Model.PreviewPictureUri}" />
+            </Image.Source>
+        </Image>
         <Rectangle
             x:Name="OverlayGrid"
             Fill="#54000000"
@@ -32,8 +35,8 @@
             <TextBlock
                 x:Name="Title"
                 Margin="4,2"
-                FontSize="18,667"
                 FontFamily="Georgia"
+                FontSize="18,667"
                 MaxLines="2"
                 Text="{Binding Model.Title, Mode=OneTime}"
                 TextTrimming="CharacterEllipsis"
@@ -48,13 +51,14 @@
                 x:Name="PreviewText"
                 Margin="0,12,0,0"
                 Opacity="0.7"
-                TextWrapping="Wrap"
                 MaxLines="5"
+                Text="{Binding IntroSentence, Mode=OneTime}"
                 TextTrimming="CharacterEllipsis"
-                Visibility="Collapsed"
-                Text="{Binding IntroSentence, Mode=OneTime}" />
+                TextWrapping="Wrap"
+                Visibility="Collapsed" />
         </StackPanel>
-        <StackPanel x:Name="MetadataStackPanel"
+        <StackPanel
+            x:Name="MetadataStackPanel"
             Margin="8"
             Orientation="Horizontal"
             RelativePanel.AlignRightWithPanel="True"
@@ -81,7 +85,8 @@
                 Text="&#xE121;" />
             <TextBlock Margin="4,0,0,0" Text="{Binding Model.EstimatedReadingTime, Mode=OneWay}" />
         </StackPanel>
-        <StackPanel x:Name="TagsStackPanel"
+        <StackPanel
+            x:Name="TagsStackPanel"
             Margin="8"
             Orientation="Horizontal"
             RelativePanel.AlignBottomWithPanel="True"
@@ -104,8 +109,8 @@
                         <Setter Target="image.Width" Value="100" />
                         <Setter Target="ContentStackPanel.(RelativePanel.RightOf)" Value="image" />
                         <Setter Target="OverlayGrid.Visibility" Value="Collapsed" />
-                        <Setter Target="TagsStackPanel.(RelativePanel.AlignLeftWithPanel)" Value="False"/>
-                        <Setter Target="TagsStackPanel.(RelativePanel.AlignRightWithPanel)" Value="True"/>
+                        <Setter Target="TagsStackPanel.(RelativePanel.AlignLeftWithPanel)" Value="False" />
+                        <Setter Target="TagsStackPanel.(RelativePanel.AlignRightWithPanel)" Value="True" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
@@ -115,28 +120,28 @@
                     <VisualState.Setters>
                         <Setter Target="image.MaxHeight" Value="100" />
                         <Setter Target="OverlayGrid.MaxHeight" Value="100" />
-                        <Setter Target="image.(RelativePanel.AlignBottomWithPanel)" Value="False"/>
-                        <Setter Target="OverlayGrid.(RelativePanel.AlignBottomWithPanel)" Value="False"/>
+                        <Setter Target="image.(RelativePanel.AlignBottomWithPanel)" Value="False" />
+                        <Setter Target="OverlayGrid.(RelativePanel.AlignBottomWithPanel)" Value="False" />
                         <Setter Target="ContentStackPanel.(RelativePanel.Below)" Value="image" />
                         <Setter Target="ContentStackPanel.Margin" Value="8" />
-                        <Setter Target="MetadataStackPanel.RequestedTheme" Value="Dark"/>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
-            <VisualStateGroup>
+            <VisualStateGroup x:Name="RowStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <Setter Target="image.MaxHeight" Value="100"/>
-                        <Setter Target="PreviewText.Visibility" Value="Collapsed"/>                       
-                    </VisualState.Setters>                    
+                        <Setter Target="image.MaxHeight" Value="100" />
+                        <Setter Target="PreviewText.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TwoRows">
                     <VisualState.Setters>
-                        <Setter Target="image.MaxHeight" Value="200"/>
-                        <Setter Target="PreviewText.Visibility" Value="Visible"/>
+                        <Setter Target="image.MaxHeight" Value="200" />
+                        <Setter Target="RootImageSource.DecodePixelHeight" Value="200" />
+                        <Setter Target="PreviewText.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
