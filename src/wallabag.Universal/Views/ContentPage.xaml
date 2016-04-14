@@ -502,6 +502,7 @@
         <SplitView x:Name="ContentSplitView" Margin="0,48">
             <SplitView.Content>
                 <controls:AdaptiveGridView
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                     x:Name="ItemGridView"
                     Padding="4"
                     EntranceNavigationTransitionInfo.IsTargetElement="True"
