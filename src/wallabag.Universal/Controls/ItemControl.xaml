@@ -48,7 +48,7 @@
         </StackPanel>
         <TextBlock
             x:Name="PreviewText"
-            Margin="0,12,0,0"
+            Margin="12,8"
             Opacity="0.7"
             x:DeferLoadStrategy="Lazy"
             MaxLines="4"
@@ -110,6 +110,7 @@
                         <Setter Target="OverlayGrid.Visibility" Value="Collapsed" />
                         <Setter Target="TagsStackPanel.(RelativePanel.AlignLeftWithPanel)" Value="False" />
                         <Setter Target="TagsStackPanel.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="PreviewText.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
@@ -161,16 +162,12 @@
                 <VisualState x:Name="NormalComplex">
                     <VisualState.Setters>
                         <Setter Target="image.MaxHeight" Value="100" />
-                        <Setter Target="Title.FontFamily" Value="Georgia" />
-                        <Setter Target="Title.FontSize" Value="18.667" />
                         <Setter Target="PreviewText.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TwoRows">
                     <VisualState.Setters>
                         <Setter Target="image.MaxHeight" Value="200" />
-                        <Setter Target="Title.FontFamily" Value="Georgia" />
-                        <Setter Target="Title.FontSize" Value="18.667" />
                         <Setter Target="RootImageSource.DecodePixelHeight" Value="200" />
                         <Setter Target="PreviewText.Visibility" Value="Visible" />
                     </VisualState.Setters>
