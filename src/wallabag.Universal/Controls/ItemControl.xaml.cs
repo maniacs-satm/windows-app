@@ -41,6 +41,17 @@ namespace wallabag.Controls
                 if (AspectRatio == 1.5)
                     PreviewText.Visibility = Visibility.Collapsed;
             };
+
+            PointerEntered += (s, e) =>
+            {
+                if (AppSettings.ItemStyle == AppSettings.ItemControlStyle.Simple && WindowWidth >= 720)
+                    ShowPreviewTextStoryboard.Begin();
+            };
+            PointerExited += (s, e) =>
+             {
+                 if (AppSettings.ItemStyle == AppSettings.ItemControlStyle.Simple && WindowWidth >= 720)
+                     HidePreviewTextStoryboard.Begin();
+             };
         }
 
         private void ItemControl_SizeChanged(object sender, SizeChangedEventArgs e)
