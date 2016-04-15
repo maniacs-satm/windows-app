@@ -71,6 +71,8 @@ namespace wallabag.Controls
                     MetadataStackPanel.RequestedTheme = ElementTheme.Light;
                     PreviewText.Visibility = Visibility.Visible;
                 }
+                if (AppSettings.UseComplexItemStyle)                
+                    image.MaxHeight = e.NewSize.Height / 2;                
             }
         }
     }

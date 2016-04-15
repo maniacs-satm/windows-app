@@ -192,7 +192,6 @@
                 </VisualState>
                 <VisualState x:Name="WideComplex">
                     <VisualState.Setters>
-                        <Setter Target="image.MaxHeight" Value="100" />
                         <Setter Target="OverlayGrid.MaxHeight" Value="100" />
                         <Setter Target="image.(RelativePanel.AlignBottomWithPanel)" Value="False" />
                         <Setter Target="OverlayGrid.(RelativePanel.AlignBottomWithPanel)" Value="False" />
@@ -219,13 +218,11 @@
                 </VisualState>
                 <VisualState x:Name="NormalComplex">
                     <VisualState.Setters>
-                        <Setter Target="image.MaxHeight" Value="100" />
                         <Setter Target="PreviewText.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TwoRows">
                     <VisualState.Setters>
-                        <Setter Target="image.MaxHeight" Value="200" />
                         <Setter Target="RootImageSource.DecodePixelHeight" Value="200" />
                         <Setter Target="PreviewText.Visibility" Value="Visible" />
                     </VisualState.Setters>
