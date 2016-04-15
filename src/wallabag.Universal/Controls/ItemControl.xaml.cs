@@ -21,15 +21,15 @@ namespace wallabag.Controls
 
             Loading += (s, e) =>
             {
-                if (AppSettings.ItemStyle == AppSettings.ItemControlStyle.Simple)
-                {
-                    WideComplex.StateTriggers.Clear();
-                    VisualStateManager.GoToState(this, nameof(Normal), false);
-                }
-                else
+                if (AppSettings.UseComplexItemStyle)
                 {
                     Wide.StateTriggers.Clear();
                     VisualStateManager.GoToState(this, nameof(NormalComplex), false);
+                }
+                else
+                {
+                    WideComplex.StateTriggers.Clear();
+                    VisualStateManager.GoToState(this, nameof(Normal), false);
                 }
             };
 
@@ -44,12 +44,12 @@ namespace wallabag.Controls
 
             PointerEntered += (s, e) =>
             {
-                if (AppSettings.ItemStyle == AppSettings.ItemControlStyle.Simple && WindowWidth >= 720)
+                if (!AppSettings.UseComplexItemStyle && WindowWidth >= 720)
                     ShowPreviewTextStoryboard.Begin();
             };
             PointerExited += (s, e) =>
              {
-                 if (AppSettings.ItemStyle == AppSettings.ItemControlStyle.Simple && WindowWidth >= 720)
+                 if (!AppSettings.UseComplexItemStyle && WindowWidth >= 720)
                      HidePreviewTextStoryboard.Begin();
              };
         }
@@ -59,15 +59,14 @@ namespace wallabag.Controls
             AspectRatio = Math.Round(e.NewSize.Width / e.NewSize.Height, 1);
             if (AspectRatio < 1.5 && WindowWidth >= 720)
                 VisualStateManager.GoToState(this, nameof(TwoRows), false);
-            else if (_IsImageLoaded && AppSettings.ItemStyle == AppSettings.ItemControlStyle.Simple)
+            else if (_IsImageLoaded && !AppSettings.UseComplexItemStyle)
                 VisualStateManager.GoToState(this, nameof(Normal), false);
-            else if (_IsImageLoaded && AppSettings.ItemStyle == AppSettings.ItemControlStyle.Complex)
+            else if (_IsImageLoaded && AppSettings.UseComplexItemStyle)
                 VisualStateManager.GoToState(this, nameof(NormalComplex), false);
 
             if (WindowWidth >= 720)
             {
-                if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) &&
-                    AppSettings.ItemStyle == AppSettings.ItemControlStyle.Complex)
+                if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseComplexItemStyle)
                 {
                     MetadataStackPanel.RequestedTheme = ElementTheme.Light;
                     PreviewText.Visibility = Visibility.Visible;
