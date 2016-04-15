@@ -212,5 +212,12 @@ namespace wallabag.Common
             get { return GetProperty(nameof(AllowTelemetryData), false); }
             set { SetProperty(nameof(AllowTelemetryData), value); }
         }
+        public static ItemControlStyle ItemStyle
+        {
+            get { return GetProperty(nameof(ItemStyle), ItemControlStyle.Simple); }
+            set { SetProperty(nameof(ItemStyle), value); }
+        }
+
+        public enum ItemControlStyle { Simple = 0, Complex = 1 }
     }
 }
