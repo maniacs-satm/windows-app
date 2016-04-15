@@ -47,16 +47,17 @@
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Opacity="0.7"
                 Text="{Binding Model.DomainName, Mode=OneTime}" />
-            <TextBlock
-                x:Name="PreviewText"
-                Margin="0,12,0,0"
-                Opacity="0.7"
-                MaxLines="5"
-                Text="{Binding IntroSentence, Mode=OneTime}"
-                TextTrimming="CharacterEllipsis"
-                TextWrapping="Wrap"
-                Visibility="Collapsed" />
         </StackPanel>
+        <TextBlock
+            x:Name="PreviewText"
+            Margin="0,12,0,0"
+            Opacity="0.7"
+            x:DeferLoadStrategy="Lazy"
+            MaxLines="4"
+            Text="{Binding IntroSentence, Mode=OneTime}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="Wrap"
+            Visibility="Collapsed" />
         <StackPanel
             x:Name="MetadataStackPanel"
             Margin="8"
