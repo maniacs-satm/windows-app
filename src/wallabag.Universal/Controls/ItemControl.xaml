@@ -104,7 +104,7 @@
         </StackPanel>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates">
-                <VisualState x:Name="Narrow">
+                <VisualState x:Name="NarrowComplex">
                     <VisualState.Setters>
                         <Setter Target="image.Width" Value="100" />
                         <Setter Target="ContentStackPanel.(RelativePanel.RightOf)" Value="image" />
@@ -112,11 +112,8 @@
                         <Setter Target="TagsStackPanel.(RelativePanel.AlignLeftWithPanel)" Value="False" />
                         <Setter Target="TagsStackPanel.(RelativePanel.AlignRightWithPanel)" Value="True" />
                     </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
                 </VisualState>
-                <VisualState x:Name="Wide">
+                <VisualState x:Name="WideComplex">
                     <VisualState.Setters>
                         <Setter Target="image.MaxHeight" Value="100" />
                         <Setter Target="OverlayGrid.MaxHeight" Value="100" />
@@ -125,13 +122,16 @@
                         <Setter Target="ContentStackPanel.(RelativePanel.Below)" Value="image" />
                         <Setter Target="ContentStackPanel.Margin" Value="8" />
                     </VisualState.Setters>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="RowStates">
                 <VisualState x:Name="Normal">
+                    <VisualState.Setters>
+                        <!-- TODO: Update if necessary -->
+                        <Setter Target="PreviewText.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NormalComplex">
                     <VisualState.Setters>
                         <Setter Target="image.MaxHeight" Value="100" />
                         <Setter Target="PreviewText.Visibility" Value="Collapsed" />
