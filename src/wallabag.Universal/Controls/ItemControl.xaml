@@ -35,8 +35,6 @@
             <TextBlock
                 x:Name="Title"
                 Margin="4,2"
-                FontFamily="Georgia"
-                FontSize="18,667"
                 MaxLines="2"
                 Text="{Binding Model.Title, Mode=OneTime}"
                 TextTrimming="CharacterEllipsis"
@@ -105,7 +103,7 @@
         </StackPanel>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="AdaptiveStates">
-                <VisualState x:Name="NarrowComplex">
+                <VisualState x:Name="Narrow">
                     <VisualState.Setters>
                         <Setter Target="image.Width" Value="100" />
                         <Setter Target="ContentStackPanel.(RelativePanel.RightOf)" Value="image" />
@@ -113,6 +111,25 @@
                         <Setter Target="TagsStackPanel.(RelativePanel.AlignLeftWithPanel)" Value="False" />
                         <Setter Target="TagsStackPanel.(RelativePanel.AlignRightWithPanel)" Value="True" />
                     </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.RequestedTheme" Value="Dark" />
+                        <Setter Target="OverlayGrid.Visibility" Value="Visible" />
+                        <Setter Target="Title.TextAlignment" Value="Center" />
+                        <Setter Target="Hostname.TextAlignment" Value="Center" />
+                        <Setter Target="ContentStackPanel.(RelativePanel.AlignHorizontalCenterWithPanel)" Value="True" />
+                        <Setter Target="ContentStackPanel.(RelativePanel.RightOf)" Value="{x:Null}" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignBottomWithPanel)" Value="True" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                    </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
                 </VisualState>
                 <VisualState x:Name="WideComplex">
                     <VisualState.Setters>
@@ -122,25 +139,38 @@
                         <Setter Target="OverlayGrid.(RelativePanel.AlignBottomWithPanel)" Value="False" />
                         <Setter Target="ContentStackPanel.(RelativePanel.Below)" Value="image" />
                         <Setter Target="ContentStackPanel.Margin" Value="8" />
+                        <Setter Target="PreviewText.(RelativePanel.Below)" Value="ContentStackPanel" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignRightWithPanel)" Value="True" />
                     </VisualState.Setters>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="RowStates">
                 <VisualState x:Name="Normal">
                     <VisualState.Setters>
-                        <!-- TODO: Update if necessary -->
-                        <Setter Target="PreviewText.Visibility" Value="Collapsed" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignBottomWithPanel)" Value="True" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignLeftWithPanel)" Value="True" />
+                        <Setter Target="PreviewText.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="PreviewText.FontSize" Value="13.333" />
+                        <Setter Target="PreviewText.MaxLines" Value="3" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="NormalComplex">
                     <VisualState.Setters>
                         <Setter Target="image.MaxHeight" Value="100" />
+                        <Setter Target="Title.FontFamily" Value="Georgia" />
+                        <Setter Target="Title.FontSize" Value="18.667" />
                         <Setter Target="PreviewText.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="TwoRows">
                     <VisualState.Setters>
                         <Setter Target="image.MaxHeight" Value="200" />
+                        <Setter Target="Title.FontFamily" Value="Georgia" />
+                        <Setter Target="Title.FontSize" Value="18.667" />
                         <Setter Target="RootImageSource.DecodePixelHeight" Value="200" />
                         <Setter Target="PreviewText.Visibility" Value="Visible" />
                     </VisualState.Setters>
