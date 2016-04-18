@@ -23,11 +23,13 @@ namespace wallabag.Controls
             {
                 if (AppSettings.UseComplexItemStyle)
                 {
+                    ComplexTrigger.MinWindowWidth = 720;
                     Wide.StateTriggers.Clear();
                     VisualStateManager.GoToState(this, nameof(NormalComplex), false);
                 }
                 else
                 {
+                    NormalTrigger.MinWindowWidth = 720;
                     WideComplex.StateTriggers.Clear();
                     VisualStateManager.GoToState(this, nameof(Normal), false);
                 }
