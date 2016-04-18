@@ -6,6 +6,7 @@
     xmlns:local="using:wallabag.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:wallabag.ViewModels"
+    xmlns:controls="using:wallabag.Controls"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -86,6 +87,10 @@
                         x:Uid="OpenTheFilterPaneWithTheSearchToggleSwitch"
                         Header="Open the filter at the same time with the search"
                         IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        Header="Use the extended item template"
+                        IsOn="{x:Bind ViewModel.UseExtendedItemTemplate, Mode=TwoWay}" />
+                    <controls:ItemControl MaxWidth="300" DataContext="{x:Bind ViewModel.ItemTemplateSampleViewModel}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="ReadingSettingsPivotItem" Header="Reading">

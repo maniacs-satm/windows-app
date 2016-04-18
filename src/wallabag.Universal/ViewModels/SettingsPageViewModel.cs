@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Template10.Mvvm;
 using wallabag.Common;
+using wallabag.Models;
 using Windows.Security.Credentials;
 using Windows.Storage;
 
@@ -83,6 +85,30 @@ namespace wallabag.ViewModels
         {
             get { return AppSettings.AllowTelemetryData; }
             set { AppSettings.AllowTelemetryData = value; }
+        }
+        public bool UseExtendedItemTemplate
+        {
+            get { return AppSettings.UseComplexItemStyle; }
+            set { AppSettings.UseComplexItemStyle = value; }
+        }
+        public ItemViewModel ItemTemplateSampleViewModel
+        {
+            get
+            {
+                var model = new Item();
+                model.CreationDate = DateTime.Now;
+                model.DomainName = "wallabag.org";
+                model.EstimatedReadingTime = 99;
+                model.Id = 1;
+                model.IsRead = true;
+                model.IsStarred = true;
+                model.Tags.Add(new Tag() { Label = "test1" });
+                model.Tags.Add(new Tag() { Label = "test2" });
+                model.Tags.Add(new Tag() { Label = "test3" });
+                model.Title = "wallabag for Windows";
+                model.Url = "https://wallabag.org";
+                return new ItemViewModel(model, ViewModelLocator.CurrentDataService);
+            }
         }
 
         public DelegateCommand LogoutCommand { get; private set; }
