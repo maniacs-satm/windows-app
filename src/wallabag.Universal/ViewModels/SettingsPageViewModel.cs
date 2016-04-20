@@ -84,6 +84,11 @@ namespace wallabag.ViewModels
             get { return AppSettings.AllowTelemetryData; }
             set { AppSettings.AllowTelemetryData = value; }
         }
+        public bool UseComplexItemStyle
+        {
+            get { return AppSettings.UseComplexItemStyle; }
+            set { AppSettings.UseComplexItemStyle = value; }
+        }
 
         public DelegateCommand LogoutCommand { get; private set; }
         public DelegateCommand DeleteDatabaseCommand { get; private set; }

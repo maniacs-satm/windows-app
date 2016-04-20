@@ -86,6 +86,12 @@
                         x:Uid="OpenTheFilterPaneWithTheSearchToggleSwitch"
                         Header="Open the filter at the same time with the search"
                         IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        x:Uid="UseComplexItemStyleToggleSwitch"
+                        Header="Item style"
+                        OnContent="Complex"
+                        OffContent="Simple"
+                        IsOn="{x:Bind ViewModel.UseComplexItemStyle, Mode=TwoWay}" />
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="ReadingSettingsPivotItem" Header="Reading">
