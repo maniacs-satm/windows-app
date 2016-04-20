@@ -44,16 +44,19 @@ namespace wallabag.Controls
                     PreviewText.Visibility = Visibility.Collapsed;
             };
 
-            PointerEntered += (s, e) =>
+            if (!AppSettings.UseComplexItemStyle)
             {
-                if (!AppSettings.UseComplexItemStyle && WindowWidth >= 720)
-                    ShowPreviewTextStoryboard.Begin();
-            };
-            PointerExited += (s, e) =>
-             {
-                 if (!AppSettings.UseComplexItemStyle && WindowWidth >= 720)
-                     HidePreviewTextStoryboard.Begin();
-             };
+                PointerEntered += (s, e) =>
+                {
+                    if (WindowWidth >= 720)
+                        ShowPreviewTextStoryboard.Begin();
+                };
+                PointerExited += (s, e) =>
+                 {
+                     if (WindowWidth >= 720)
+                         HidePreviewTextStoryboard.Begin();
+                 };
+            }
         }
 
         private void ItemControl_SizeChanged(object sender, SizeChangedEventArgs e)
