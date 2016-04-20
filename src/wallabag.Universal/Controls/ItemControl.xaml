@@ -87,8 +87,8 @@
             RelativePanel.AlignTopWithPanel="True" >
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#3F000000" Offset="0"/>
-                    <GradientStop Color="Transparent" Offset="0.5"/>
+                    <GradientStop Color="#54000000" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="1"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -191,6 +191,11 @@
                         <Setter Target="PreviewText.(RelativePanel.AlignBottomWithPanel)" Value="True" />
                         <Setter Target="PreviewText.(RelativePanel.AlignLeftWithPanel)" Value="True" />
                         <Setter Target="PreviewText.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="OverlayGrid.(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)">
+                            <Setter.Value>
+                                <Color>#3F000000</Color>
+                            </Setter.Value>
+                        </Setter>
                         <Setter Target="OverlayGrid.(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
                             <Setter.Value>
                                 <Color>#3F000000</Color>
