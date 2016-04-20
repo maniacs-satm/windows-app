@@ -38,7 +38,7 @@ namespace wallabag.Controls
             RootImageSource.ImageOpened += (s, e) =>
             {
                 _IsImageLoaded = true;
-                UpdateMetadataStackPanelStyle();
+                UpdateLayoutSpecificProperties();
 
                 if (AspectRatio == 1.5)
                     PreviewText.Visibility = Visibility.Collapsed;
@@ -70,23 +70,33 @@ namespace wallabag.Controls
             {
                 if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseComplexItemStyle)
                     MetadataStackPanel.RequestedTheme = ElementTheme.Light;
-
-                if (AppSettings.UseComplexItemStyle)
-                    image.MaxHeight = e.NewSize.Height / 2;
             }
 
-            UpdateMetadataStackPanelStyle();
+            UpdateLayoutSpecificProperties();
         }
 
-        private void UpdateMetadataStackPanelStyle()
+        private void UpdateLayoutSpecificProperties()
         {
             if (WindowWidth >= 720)
+            {
                 MetadataStackPanel.RequestedTheme = ElementTheme.Dark;
+
+                if (AppSettings.UseComplexItemStyle && _IsImageLoaded)
+                {
+                    var height = this.ActualHeight / 2;
+
+                    image.MaxHeight = height;
+                    OverlayGrid.Height = height;
+                }
+            }
             else
                 MetadataStackPanel.RequestedTheme = ElementTheme.Default;
 
             if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseComplexItemStyle)
+            {
                 MetadataStackPanel.RequestedTheme = ElementTheme.Default;
+                PreviewText.Visibility = Visibility.Visible;
+            }
         }
     }
 }

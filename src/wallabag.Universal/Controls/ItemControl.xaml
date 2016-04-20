@@ -81,11 +81,17 @@
         </Image>
         <Rectangle
             x:Name="OverlayGrid"
-            Fill="#54000000"
             RelativePanel.AlignBottomWithPanel="True"
             RelativePanel.AlignLeftWithPanel="True"
             RelativePanel.AlignRightWithPanel="True"
-            RelativePanel.AlignTopWithPanel="True" />
+            RelativePanel.AlignTopWithPanel="True" >
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#3F000000" Offset="0"/>
+                    <GradientStop Color="Transparent" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <StackPanel
             x:Name="ContentStackPanel"
             Margin="8,0"
@@ -185,6 +191,11 @@
                         <Setter Target="PreviewText.(RelativePanel.AlignBottomWithPanel)" Value="True" />
                         <Setter Target="PreviewText.(RelativePanel.AlignLeftWithPanel)" Value="True" />
                         <Setter Target="PreviewText.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="OverlayGrid.(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)">
+                            <Setter.Value>
+                                <Color>#3F000000</Color>
+                            </Setter.Value>
+                        </Setter>
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger x:Name="NormalTrigger" MinWindowWidth="9999" />
@@ -192,7 +203,6 @@
                 </VisualState>
                 <VisualState x:Name="WideComplex">
                     <VisualState.Setters>
-                        <Setter Target="OverlayGrid.MaxHeight" Value="100" />
                         <Setter Target="image.(RelativePanel.AlignBottomWithPanel)" Value="False" />
                         <Setter Target="OverlayGrid.(RelativePanel.AlignBottomWithPanel)" Value="False" />
                         <Setter Target="ContentStackPanel.(RelativePanel.Below)" Value="image" />
@@ -200,6 +210,7 @@
                         <Setter Target="PreviewText.(RelativePanel.Below)" Value="ContentStackPanel" />
                         <Setter Target="PreviewText.(RelativePanel.AlignLeftWithPanel)" Value="True" />
                         <Setter Target="PreviewText.(RelativePanel.AlignRightWithPanel)" Value="True" />
+                        <Setter Target="OverlayGrid.Visibility" Value="Visible" />
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger x:Name="ComplexTrigger" MinWindowWidth="9999" />
