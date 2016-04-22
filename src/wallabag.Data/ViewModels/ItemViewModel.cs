@@ -56,8 +56,10 @@ namespace wallabag.ViewModels
         public string PublishedDateFormatted { get { return Model.CreationDate.ToString("m"); } }
         public string TagsString { get { return Model.Tags.ToCommaSeparatedString().Replace(",", ", "); } }
         public bool TagsAreExisting { get; set; }
+
         public int ColumnSpan { get; set; } = 1;
         public int RowSpan { get; set; } = 1;
+        public bool IgnoreIndexProperty { get; set; } = false;
 
         public DelegateCommand DeleteCommand { get; private set; }
         public DelegateCommand SwitchReadStatusCommand { get; private set; }
