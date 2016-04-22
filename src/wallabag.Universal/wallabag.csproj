@@ -97,6 +97,7 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="compilerconfig.json" />
     <None Include="project.json" />
+    <PRIResource Include="Strings\es-ES\Resources.resw" />
     <None Include="wallabag_StoreKey.pfx" />
     <None Include="wallabag_TemporaryKey.pfx" />
   </ItemGroup>
