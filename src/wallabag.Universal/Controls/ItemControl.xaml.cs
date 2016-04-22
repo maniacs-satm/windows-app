@@ -21,7 +21,7 @@ namespace wallabag.Controls
 
             Loading += (s, e) =>
             {
-                if (AppSettings.UseComplexItemStyle)
+                if (AppSettings.UseExtendedItemStyle)
                 {
                     ComplexTrigger.MinWindowWidth = 720;
                     Wide.StateTriggers.Clear();
@@ -44,7 +44,7 @@ namespace wallabag.Controls
                     PreviewText.Visibility = Visibility.Collapsed;
             };
 
-            if (!AppSettings.UseComplexItemStyle)
+            if (!AppSettings.UseExtendedItemStyle)
             {
                 PointerEntered += (s, e) =>
                 {
@@ -64,14 +64,14 @@ namespace wallabag.Controls
             AspectRatio = Math.Round(e.NewSize.Width / e.NewSize.Height, 1);
             if (AspectRatio < 1.5 && WindowWidth >= 720)
                 VisualStateManager.GoToState(this, nameof(TwoRows), false);
-            else if (_IsImageLoaded && !AppSettings.UseComplexItemStyle)
+            else if (_IsImageLoaded && !AppSettings.UseExtendedItemStyle)
                 VisualStateManager.GoToState(this, nameof(Normal), false);
-            else if (_IsImageLoaded && AppSettings.UseComplexItemStyle)
+            else if (_IsImageLoaded && AppSettings.UseExtendedItemStyle)
                 VisualStateManager.GoToState(this, nameof(NormalComplex), false);
 
             if (WindowWidth >= 720)
             {
-                if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseComplexItemStyle)
+                if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseExtendedItemStyle)
                     MetadataStackPanel.RequestedTheme = ElementTheme.Light;
             }
 
@@ -84,7 +84,7 @@ namespace wallabag.Controls
             {
                 MetadataStackPanel.RequestedTheme = ElementTheme.Dark;
 
-                if (AppSettings.UseComplexItemStyle && _IsImageLoaded)
+                if (AppSettings.UseExtendedItemStyle && _IsImageLoaded)
                 {
                     var height = this.ActualHeight / 2;
 
@@ -95,7 +95,7 @@ namespace wallabag.Controls
             else
                 MetadataStackPanel.RequestedTheme = ElementTheme.Default;
 
-            if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseComplexItemStyle)
+            if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseExtendedItemStyle)
             {
                 MetadataStackPanel.RequestedTheme = ElementTheme.Default;
                 PreviewText.Visibility = Visibility.Visible;

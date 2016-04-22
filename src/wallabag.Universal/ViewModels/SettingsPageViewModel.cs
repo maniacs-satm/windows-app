@@ -84,10 +84,10 @@ namespace wallabag.ViewModels
             get { return AppSettings.AllowTelemetryData; }
             set { AppSettings.AllowTelemetryData = value; }
         }
-        public bool UseComplexItemStyle
+        public bool UseExtendedItemStyle
         {
-            get { return AppSettings.UseComplexItemStyle; }
-            set { AppSettings.UseComplexItemStyle = value; }
+            get { return AppSettings.UseExtendedItemStyle; }
+            set { AppSettings.UseExtendedItemStyle = value; }
         }
         public bool UseRowSpan
         {
