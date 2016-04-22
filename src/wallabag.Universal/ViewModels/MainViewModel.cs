@@ -157,10 +157,18 @@ namespace wallabag.ViewModels
                 var numberOfColumns = Math.Floor(Window.Current.Bounds.Width / 300);
                 numberOfColumns = numberOfColumns == 0 ? 1 : numberOfColumns;
 
+                var updateProcess = new Delayer(TimeSpan.FromMilliseconds(300));
+                updateProcess.Action += (sender, args) =>
+                {
+                    Messenger.Default.Send(new NotificationMessage("UpdateItemContainerRowSpan"));
+                };
+
                 if (Items.Count > (2 * numberOfColumns))
                 {
                     foreach (ItemViewModel item in Items)
                     {
+                        updateProcess.ResetAndTick();
+
                         var index = Items.IndexOf(item);
                         var modulo = index % (2 * numberOfColumns);
 

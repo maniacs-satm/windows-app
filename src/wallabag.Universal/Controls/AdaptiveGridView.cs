@@ -2,6 +2,7 @@
     Adapted from https://github.com/LanceMcCarthy/UwpProjects.
 */
 
+using GalaSoft.MvvmLight.Messaging;
 using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -104,12 +105,25 @@ namespace wallabag.Controls
             {
                 if (e.PreviousSize.Width < 720 && e.NewSize.Width >= 720
                  || e.PreviousSize.Width >= 720 && e.NewSize.Width < 720)
-                    foreach (var item in this.ItemsPanelRoot.Children)
-                    {
-                        var i = this.ItemsPanelRoot.Children.IndexOf(item);
-                        PrepareContainerForItemOverride(item, this.Items[i]);
-                    }
+                    UpdateItemContainerRowSpanForAllItems();
             };
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "UpdateItemContainerRowSpan")
+                {
+                    System.Diagnostics.Debug.WriteLine("UpdateItemContainerRowSpan message sent.");
+                    UpdateItemContainerRowSpanForAllItems();                    
+                }
+            });
+        }
+
+        private void UpdateItemContainerRowSpanForAllItems()
+        {
+            foreach (var item in this.ItemsPanelRoot.Children)
+            {
+                var i = this.ItemsPanelRoot.Children.IndexOf(item);
+                PrepareContainerForItemOverride(item, this.Items[i]);
+            }
         }
 
         protected override Size MeasureOverride(Size availableSize)
