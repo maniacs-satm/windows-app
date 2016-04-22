@@ -88,9 +88,7 @@
                         IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}" />
                     <ToggleSwitch
                         x:Uid="UseExtendedItemStyleToggleSwitch"
-                        Header="Item style"
-                        OnContent="Complex"
-                        OffContent="Simple"
+                        Header="Use extended item style"
                         IsOn="{x:Bind ViewModel.UseExtendedItemStyle, Mode=TwoWay}" />
                     <ToggleSwitch
                         x:Uid="UseMultipleRowsToggleSwitch"
