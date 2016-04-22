@@ -99,6 +99,17 @@ namespace wallabag.Controls
                     this.InvalidateMeasure();
                 }
             };
+
+            this.SizeChanged += (s, e) =>
+            {
+                if (e.PreviousSize.Width < 720 && e.NewSize.Width >= 720
+                 || e.PreviousSize.Width >= 720 && e.NewSize.Width < 720)
+                    foreach (var item in this.ItemsPanelRoot.Children)
+                    {
+                        var i = this.ItemsPanelRoot.Children.IndexOf(item);
+                        PrepareContainerForItemOverride(item, this.Items[i]);
+                    }
+            };
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -136,8 +147,16 @@ namespace wallabag.Controls
             dynamic model = item;
             try
             {
-                element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, model.ColumnSpan);
-                element.SetValue(VariableSizedWrapGrid.RowSpanProperty, model.RowSpan);
+                if (this.ActualWidth >= 720)
+                {
+                    element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, model.ColumnSpan);
+                    element.SetValue(VariableSizedWrapGrid.RowSpanProperty, model.RowSpan);
+                }
+                else
+                {
+                    element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, 1);
+                    element.SetValue(VariableSizedWrapGrid.RowSpanProperty, 1);
+                }
             }
             catch
             {
