@@ -4,6 +4,7 @@
 
 using GalaSoft.MvvmLight.Messaging;
 using System;
+using wallabag.Common;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -112,7 +113,7 @@ namespace wallabag.Controls
                 if (message.Notification == "UpdateItemContainerRowSpan")
                 {
                     System.Diagnostics.Debug.WriteLine("UpdateItemContainerRowSpan message sent.");
-                    UpdateItemContainerRowSpanForAllItems();                    
+                    UpdateItemContainerRowSpanForAllItems();
                 }
             });
         }
@@ -161,7 +162,7 @@ namespace wallabag.Controls
             dynamic model = item;
             try
             {
-                if (this.ActualWidth >= 720)
+                if (this.ActualWidth >= 720 && AppSettings.UseRowSpan)
                 {
                     element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, model.ColumnSpan);
                     element.SetValue(VariableSizedWrapGrid.RowSpanProperty, model.RowSpan);

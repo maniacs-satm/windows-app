@@ -89,6 +89,11 @@ namespace wallabag.ViewModels
             get { return AppSettings.UseComplexItemStyle; }
             set { AppSettings.UseComplexItemStyle = value; }
         }
+        public bool UseRowSpan
+        {
+            get { return AppSettings.UseRowSpan; }
+            set { AppSettings.UseRowSpan = value; }
+        }
 
         public DelegateCommand LogoutCommand { get; private set; }
         public DelegateCommand DeleteDatabaseCommand { get; private set; }

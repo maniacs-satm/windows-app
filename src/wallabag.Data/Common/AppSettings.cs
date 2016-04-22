@@ -217,5 +217,10 @@ namespace wallabag.Common
             get { return GetProperty(nameof(UseComplexItemStyle), false); }
             set { SetProperty(nameof(UseComplexItemStyle), value); }
         }
+        public static bool UseRowSpan
+        {
+            get { return GetProperty(nameof(UseRowSpan), false); }
+            set { SetProperty(nameof(UseRowSpan), value); }
+        }
     }
 }

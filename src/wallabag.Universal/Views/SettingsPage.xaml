@@ -92,6 +92,11 @@
                         OnContent="Complex"
                         OffContent="Simple"
                         IsOn="{x:Bind ViewModel.UseComplexItemStyle, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        x:Uid="UseMultipleRowsToggleSwitch"
+                        Header="Use multiple rows"
+                        IsOn="{x:Bind ViewModel.UseRowSpan, Mode=TwoWay}" 
+                        Visibility="{x:Bind ViewModel.UseComplexItemStyle, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="ReadingSettingsPivotItem" Header="Reading">
