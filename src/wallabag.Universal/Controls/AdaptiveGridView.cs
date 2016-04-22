@@ -1,5 +1,5 @@
 ﻿/* 
-    Taken from https://github.com/LanceMcCarthy/UwpProjects. Remove it as soon as the NuGet package releases.
+    Adapted from https://github.com/LanceMcCarthy/UwpProjects.
 */
 
 using System;
