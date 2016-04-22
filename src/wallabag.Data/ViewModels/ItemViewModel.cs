@@ -142,7 +142,7 @@ namespace wallabag.ViewModels
                 await AddTagsAsync(newItems);
             }
 
-            TagsAreExisting = (Model.Tags.Count > 0) ? true : false;
+            TagsAreExisting = Model.Tags.Count > 0;
         }
 
         public async Task SwitchReadValueAsync()
