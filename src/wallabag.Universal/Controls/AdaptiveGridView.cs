@@ -162,7 +162,7 @@ namespace wallabag.Controls
             dynamic model = item;
             try
             {
-                if (this.ActualWidth >= 720 && AppSettings.UseRowSpan)
+                if (this.ActualWidth >= 720 && AppSettings.UseExtendedItemStyle && AppSettings.UseRowSpan)
                 {
                     element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, model.ColumnSpan);
                     element.SetValue(VariableSizedWrapGrid.RowSpanProperty, model.RowSpan);
