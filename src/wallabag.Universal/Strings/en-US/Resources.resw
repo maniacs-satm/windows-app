@@ -551,4 +551,10 @@ So, why aren't you adding one? :-)</value>
   <data name="TelemetryDataToggleSwitch.Header" xml:space="preserve">
     <value>Collect telemetry data</value>
   </data>
+  <data name="UseExtendedItemStyleToggleSwitch.Header" xml:space="preserve">
+    <value>Use extended item style</value>
+  </data>
+  <data name="UseMultipleRowsToggleSwitch.Header" xml:space="preserve">
+    <value>Use multiple rows</value>
+  </data>
 </root>

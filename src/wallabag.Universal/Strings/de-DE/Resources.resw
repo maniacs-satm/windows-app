@@ -551,4 +551,10 @@ Warum fügst du nicht ein paar hinzu?</value>
   <data name="TelemetryDataToggleSwitch.Header" xml:space="preserve">
     <value>Telemetriedaten sammeln</value>
   </data>
+  <data name="UseExtendedItemStyleToggleSwitch.Header" xml:space="preserve">
+    <value>Erweiterte Item-Anzeige verwenden</value>
+  </data>
+  <data name="UseMultipleRowsToggleSwitch.Header" xml:space="preserve">
+    <value>Mehrere Reihen verwenden</value>
+  </data>
 </root>

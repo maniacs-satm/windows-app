@@ -48,7 +48,7 @@ namespace wallabag.Views
             else if (sender == CreateIssueOnGithubButton)
                 uriString = "https://github.com/wallabag/windows-app/issues/new";
             else if (sender == RateAndReviewButton)
-                uriString = "ms-windows-store:REVIEW?PFN=" + Windows.ApplicationModel.Package.Current.Id.FamilyName;
+                uriString = "ms-windows-store://review/?ProductId=" + Package.Current.Id.FamilyName;
             else if (sender == ShareAppButton)
             {
                 DataTransferManager.GetForCurrentView().DataRequested += (s, args) =>

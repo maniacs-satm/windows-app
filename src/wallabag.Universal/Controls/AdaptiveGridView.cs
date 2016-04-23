@@ -1,8 +1,10 @@
 ﻿/* 
-    Taken from https://github.com/LanceMcCarthy/UwpProjects. Remove it as soon as the NuGet package releases.
+    Adapted from https://github.com/LanceMcCarthy/UwpProjects.
 */
 
+using GalaSoft.MvvmLight.Messaging;
 using System;
+using wallabag.Common;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -60,6 +62,26 @@ namespace wallabag.Controls
                     }
                 }));
 
+        public bool IsItemHeightLocked
+        {
+            get { return (bool)GetValue(IsHeightLockedProperty); }
+            set { SetValue(IsHeightLockedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsHeightLocked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsHeightLockedProperty =
+            DependencyProperty.Register("IsItemHeightLocked", typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false));
+
+        public bool IsItemWidthLocked
+        {
+            get { return (bool)GetValue(IsWidthLockedProperty); }
+            set { SetValue(IsWidthLockedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsWidthLocked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsWidthLockedProperty =
+            DependencyProperty.Register("IsItemWidthLocked", typeof(bool), typeof(AdaptiveGridView), new PropertyMetadata(false));
+
         #endregion
 
         public AdaptiveGridView()
@@ -79,11 +101,35 @@ namespace wallabag.Controls
                     this.InvalidateMeasure();
                 }
             };
+
+            this.SizeChanged += (s, e) =>
+            {
+                if (e.PreviousSize.Width < 720 && e.NewSize.Width >= 720
+                 || e.PreviousSize.Width >= 720 && e.NewSize.Width < 720)
+                    UpdateItemContainerRowSpanForAllItems();
+            };
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                if (message.Notification == "UpdateItemContainerRowSpan")
+                {
+                    System.Diagnostics.Debug.WriteLine("UpdateItemContainerRowSpan message sent.");
+                    UpdateItemContainerRowSpanForAllItems();
+                }
+            });
+        }
+
+        private void UpdateItemContainerRowSpanForAllItems()
+        {
+            foreach (var item in this.ItemsPanelRoot.Children)
+            {
+                var i = this.ItemsPanelRoot.Children.IndexOf(item);
+                PrepareContainerForItemOverride(item, this.Items[i]);
+            }
         }
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var panel = this.ItemsPanelRoot as ItemsWrapGrid;
+            var panel = this.ItemsPanelRoot as VariableSizedWrapGrid;
             if (panel != null)
             {
                 if (MinItemWidth == 0)
@@ -99,11 +145,45 @@ namespace wallabag.Controls
                 var aspectRatio = MinItemHeight / MinItemWidth;
                 var itemHeight = itemWidth * aspectRatio;
 
+                if (IsItemWidthLocked)
+                    itemWidth = MinItemWidth;
+                if (IsItemHeightLocked)
+                    itemHeight = MinItemHeight;
+
                 panel.ItemWidth = itemWidth;
                 panel.ItemHeight = itemHeight;
+                panel.MaximumRowsOrColumns = (int)numColumns;
             }
 
             return base.MeasureOverride(availableSize);
+        }
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            dynamic model = item;
+            try
+            {
+                if (this.ActualWidth >= 720 && AppSettings.UseExtendedItemStyle && AppSettings.UseRowSpan)
+                {
+                    element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, model.ColumnSpan);
+                    element.SetValue(VariableSizedWrapGrid.RowSpanProperty, model.RowSpan);
+                }
+                else
+                {
+                    element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, 1);
+                    element.SetValue(VariableSizedWrapGrid.RowSpanProperty, 1);
+                }
+            }
+            catch
+            {
+                element.SetValue(VariableSizedWrapGrid.ColumnSpanProperty, 1);
+                element.SetValue(VariableSizedWrapGrid.RowSpanProperty, 1);
+            }
+            finally
+            {
+                element.SetValue(VerticalContentAlignmentProperty, VerticalAlignment.Stretch);
+                element.SetValue(HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch);
+                base.PrepareContainerForItemOverride(element, item);
+            }
         }
     }
 }

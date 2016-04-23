@@ -84,6 +84,16 @@ namespace wallabag.ViewModels
             get { return AppSettings.AllowTelemetryData; }
             set { AppSettings.AllowTelemetryData = value; }
         }
+        public bool UseExtendedItemStyle
+        {
+            get { return AppSettings.UseExtendedItemStyle; }
+            set { AppSettings.UseExtendedItemStyle = value; }
+        }
+        public bool UseRowSpan
+        {
+            get { return AppSettings.UseRowSpan; }
+            set { AppSettings.UseRowSpan = value; }
+        }
 
         public DelegateCommand LogoutCommand { get; private set; }
         public DelegateCommand DeleteDatabaseCommand { get; private set; }

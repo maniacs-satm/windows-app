@@ -212,5 +212,15 @@ namespace wallabag.Common
             get { return GetProperty(nameof(AllowTelemetryData), false); }
             set { SetProperty(nameof(AllowTelemetryData), value); }
         }
+        public static bool UseExtendedItemStyle
+        {
+            get { return GetProperty(nameof(UseExtendedItemStyle), false); }
+            set { SetProperty(nameof(UseExtendedItemStyle), value); }
+        }
+        public static bool UseRowSpan
+        {
+            get { return GetProperty(nameof(UseRowSpan), false); }
+            set { SetProperty(nameof(UseRowSpan), value); }
+        }
     }
 }

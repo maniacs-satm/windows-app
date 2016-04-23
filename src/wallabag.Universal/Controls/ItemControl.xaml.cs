@@ -1,48 +1,105 @@
-﻿using wallabag.ViewModels;
-using Windows.UI;
+﻿using System;
+using wallabag.Common;
+using wallabag.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace wallabag.Controls
 {
     public sealed partial class ItemControl : UserControl
     {
-        private double WindowWidth { get { return Window.Current.CoreWindow.Bounds.Width; } }
         public ItemViewModel ViewModel { get { return DataContext as ItemViewModel; } }
+
+        private double WindowWidth { get { return Window.Current.CoreWindow.Bounds.Width; } }
+        private double AspectRatio { get; set; } = 1.5;
+        private bool _IsImageLoaded = false;
 
         public ItemControl()
         {
-            InitializeComponent();          
-            PointerEntered += BottomGrid_PointerEntered;
-            PointerExited += BottomGrid_PointerExited;
+            InitializeComponent();
+            SizeChanged += ItemControl_SizeChanged;
 
-            DataContextChanged += ItemControl_DataContextChanged;
-        }
-
-        private void ItemControl_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            if (args.NewValue is ItemViewModel && string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri))
+            Loading += (s, e) =>
             {
-                var newBackground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
-                newBackground.Opacity = 0.5;
-                RootGrid.Background = newBackground;
+                if (AppSettings.UseExtendedItemStyle)
+                {
+                    ComplexTrigger.MinWindowWidth = 720;
+                    Wide.StateTriggers.Clear();
+                    VisualStateManager.GoToState(this, nameof(NormalComplex), false);
+                }
+                else
+                {
+                    NormalTrigger.MinWindowWidth = 720;
+                    WideComplex.StateTriggers.Clear();
+                    VisualStateManager.GoToState(this, nameof(Normal), false);
+                }
+            };
+
+            RootImageSource.ImageOpened += (s, e) =>
+            {
+                _IsImageLoaded = true;
+                UpdateLayoutSpecificProperties();
+
+                if (AspectRatio == 1.5)
+                    PreviewText.Visibility = Visibility.Collapsed;
+            };
+
+            if (!AppSettings.UseExtendedItemStyle)
+            {
+                PointerEntered += (s, e) =>
+                {
+                    if (WindowWidth >= 720)
+                        ShowPreviewTextStoryboard.Begin();
+                };
+                PointerExited += (s, e) =>
+                 {
+                     if (WindowWidth >= 720)
+                         HidePreviewTextStoryboard.Begin();
+                 };
             }
         }
 
-        private bool _PointerExited;
-        private void BottomGrid_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void ItemControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _PointerExited = true;
-            if (WindowWidth >= 720)
-                HideOverlayStoryboard.Begin();
-        }
-        private void BottomGrid_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
-        {
-            _PointerExited = false;
+            AspectRatio = Math.Round(e.NewSize.Width / e.NewSize.Height, 1);
+            if (AspectRatio < 1.5 && WindowWidth >= 720)
+                VisualStateManager.GoToState(this, nameof(TwoRows), false);
+            else if (_IsImageLoaded && !AppSettings.UseExtendedItemStyle)
+                VisualStateManager.GoToState(this, nameof(Normal), false);
+            else if (_IsImageLoaded && AppSettings.UseExtendedItemStyle)
+                VisualStateManager.GoToState(this, nameof(NormalComplex), false);
 
-            if (!_PointerExited && WindowWidth >= 720)
-                ShowOverlayStoryboard.Begin();
+            if (WindowWidth >= 720)
+            {
+                if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseExtendedItemStyle)
+                    MetadataStackPanel.RequestedTheme = ElementTheme.Light;
+            }
+
+            UpdateLayoutSpecificProperties();
+        }
+
+        private void UpdateLayoutSpecificProperties()
+        {
+            if (WindowWidth >= 720)
+            {
+                MetadataStackPanel.RequestedTheme = ElementTheme.Dark;
+
+                if (AppSettings.UseExtendedItemStyle && _IsImageLoaded)
+                {
+                    var height = this.ActualHeight / 2;
+
+                    image.MaxHeight = height;
+                    OverlayGrid.Height = height;
+                }
+            }
+            else
+                MetadataStackPanel.RequestedTheme = ElementTheme.Default;
+
+            if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseExtendedItemStyle)
+            {
+                MetadataStackPanel.RequestedTheme = ElementTheme.Default;
+                PreviewText.Visibility = Visibility.Visible;
+            }
         }
     }
 }

@@ -47,6 +47,7 @@ namespace wallabag.ViewModels
 
             GetIntroSentence();
             (Model.Tags as ObservableCollection<Tag>).CollectionChanged += Tags_CollectionChanged;
+            TagsAreExisting = Model.Tags.Count > 0;
         }
 
         public Item Model { get; set; }
@@ -54,6 +55,11 @@ namespace wallabag.ViewModels
         public string IntroSentence { get; set; }
         public string PublishedDateFormatted { get { return Model.CreationDate.ToString("m"); } }
         public string TagsString { get { return Model.Tags.ToCommaSeparatedString().Replace(",", ", "); } }
+        public bool TagsAreExisting { get; set; }
+
+        public int ColumnSpan { get; set; } = 1;
+        public int RowSpan { get; set; } = 1;
+        public bool IgnoreIndexProperty { get; set; } = false;
 
         public DelegateCommand DeleteCommand { get; private set; }
         public DelegateCommand SwitchReadStatusCommand { get; private set; }
@@ -99,7 +105,7 @@ namespace wallabag.ViewModels
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(Model.Content);
 
-            foreach (HtmlNode node in document.DocumentNode.Descendants("p"))
+            foreach (HtmlNode node in document.DocumentNode.Descendants())
             {
                 if (IntroSentence.Length >= 140)
                     return;
@@ -135,6 +141,8 @@ namespace wallabag.ViewModels
 
                 await AddTagsAsync(newItems);
             }
+
+            TagsAreExisting = Model.Tags.Count > 0;
         }
 
         public async Task SwitchReadValueAsync()

@@ -396,6 +396,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.MinItemHeight" Value="100" />
+                        <Setter Target="ItemGridView.IsItemHeightLocked" Value="True"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
@@ -404,6 +405,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="ItemGridView.MinItemHeight" Value="200" />
+                        <Setter Target="ItemGridView.IsItemHeightLocked" Value="False"/>
                         <Setter Target="SearchQueryAutoSuggestBox.HorizontalAlignment" Value="Right" />
                         <Setter Target="SearchQueryAutoSuggestBox.Width" Value="350" />
                     </VisualState.Setters>
@@ -500,6 +502,7 @@
         <SplitView x:Name="ContentSplitView" Margin="0,48">
             <SplitView.Content>
                 <controls:AdaptiveGridView
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
                     x:Name="ItemGridView"
                     Padding="4"
                     EntranceNavigationTransitionInfo.IsTargetElement="True"
@@ -507,6 +510,11 @@
                     ItemsSource="{x:Bind ViewModel.Items}"
                     MinItemHeight="200"
                     MinItemWidth="300">
+                    <controls:AdaptiveGridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VariableSizedWrapGrid Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </controls:AdaptiveGridView.ItemsPanel>
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
                             <controls:ItemControl />

@@ -86,6 +86,15 @@
                         x:Uid="OpenTheFilterPaneWithTheSearchToggleSwitch"
                         Header="Open the filter at the same time with the search"
                         IsOn="{x:Bind ViewModel.OpenTheFilterPaneWithTheSearch, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        x:Uid="UseExtendedItemStyleToggleSwitch"
+                        Header="Use extended item style"
+                        IsOn="{x:Bind ViewModel.UseExtendedItemStyle, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        x:Uid="UseMultipleRowsToggleSwitch"
+                        Header="Use multiple rows"
+                        IsOn="{x:Bind ViewModel.UseRowSpan, Mode=TwoWay}" 
+                        Visibility="{x:Bind ViewModel.UseExtendedItemStyle, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem x:Uid="ReadingSettingsPivotItem" Header="Reading">

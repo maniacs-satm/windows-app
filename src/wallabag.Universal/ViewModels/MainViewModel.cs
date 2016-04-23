@@ -12,6 +12,7 @@ using wallabag.Data.Interfaces;
 using wallabag.Data.Models;
 using wallabag.Data.ViewModels;
 using wallabag.Models;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -150,6 +151,41 @@ namespace wallabag.ViewModels
                     OfflineTasksCountGreaterThanZero = true;
                 else
                     OfflineTasksCountGreaterThanZero = false;
+            };
+            Items.CollectionChanged += (s, e) =>
+            {
+                var numberOfColumns = Math.Floor(Window.Current.Bounds.Width / 300);
+                numberOfColumns = numberOfColumns == 0 ? 1 : numberOfColumns;
+
+                var updateProcess = new Delayer(TimeSpan.FromMilliseconds(300));
+                updateProcess.Action += (sender, args) =>
+                {
+                    Messenger.Default.Send(new NotificationMessage("UpdateItemContainerRowSpan"));
+                };
+
+                if (Items.Count > (2 * numberOfColumns))
+                {
+                    foreach (ItemViewModel item in Items)
+                    {
+                        updateProcess.ResetAndTick();
+
+                        var index = Items.IndexOf(item);
+                        var modulo = index % (2 * numberOfColumns);
+
+                        if (!item.IgnoreIndexProperty)
+                            if (modulo == 0 && !string.IsNullOrEmpty(item.Model.PreviewPictureUri))
+                                item.RowSpan = 2;
+                            else
+                                item.RowSpan = 1;
+
+                        if (string.IsNullOrEmpty(item.Model.PreviewPictureUri))
+                        {
+                            var nextItem = Items[index + 1];
+                            nextItem.RowSpan = 2;
+                            nextItem.IgnoreIndexProperty = true;
+                        }
+                    }
+                }
             };
         }
 
