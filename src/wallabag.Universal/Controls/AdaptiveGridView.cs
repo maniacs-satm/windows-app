@@ -102,12 +102,13 @@ namespace wallabag.Controls
                 }
             };
 
-            this.SizeChanged += (s, e) =>
-            {
-                if (e.PreviousSize.Width < 720 && e.NewSize.Width >= 720
-                 || e.PreviousSize.Width >= 720 && e.NewSize.Width < 720)
-                    UpdateItemContainerRowSpanForAllItems();
-            };
+            if (AppSettings.UseExtendedItemStyle && AppSettings.UseRowSpan)
+                this.SizeChanged += (s, e) =>
+                {
+                    if (e.PreviousSize.Width < 720 && e.NewSize.Width >= 720
+                     || e.PreviousSize.Width >= 720 && e.NewSize.Width < 720)
+                        UpdateItemContainerRowSpanForAllItems();
+                };
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 if (message.Notification == "UpdateItemContainerRowSpan")

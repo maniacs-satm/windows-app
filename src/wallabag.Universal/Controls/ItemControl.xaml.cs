@@ -95,7 +95,7 @@ namespace wallabag.Controls
             else
                 MetadataStackPanel.RequestedTheme = ElementTheme.Default;
 
-            if (string.IsNullOrEmpty(ViewModel.Model.PreviewPictureUri) && AppSettings.UseExtendedItemStyle)
+            if (string.IsNullOrEmpty(ViewModel?.Model.PreviewPictureUri) && AppSettings.UseExtendedItemStyle)
             {
                 MetadataStackPanel.RequestedTheme = ElementTheme.Default;
                 PreviewText.Visibility = Visibility.Visible;

@@ -152,41 +152,43 @@ namespace wallabag.ViewModels
                 else
                     OfflineTasksCountGreaterThanZero = false;
             };
-            Items.CollectionChanged += (s, e) =>
-            {
-                var numberOfColumns = Math.Floor(Window.Current.Bounds.Width / 300);
-                numberOfColumns = numberOfColumns == 0 ? 1 : numberOfColumns;
 
-                var updateProcess = new Delayer(TimeSpan.FromMilliseconds(300));
-                updateProcess.Action += (sender, args) =>
+            if (AppSettings.UseExtendedItemStyle && AppSettings.UseRowSpan)
+                Items.CollectionChanged += (s, e) =>
                 {
-                    Messenger.Default.Send(new NotificationMessage("UpdateItemContainerRowSpan"));
-                };
+                    var numberOfColumns = Math.Floor(Window.Current.Bounds.Width / 300);
+                    numberOfColumns = numberOfColumns == 0 ? 1 : numberOfColumns;
 
-                if (Items.Count > (2 * numberOfColumns))
-                {
-                    foreach (ItemViewModel item in Items)
+                    var updateProcess = new Delayer(TimeSpan.FromMilliseconds(300));
+                    updateProcess.Action += (sender, args) =>
                     {
-                        updateProcess.ResetAndTick();
+                        Messenger.Default.Send(new NotificationMessage("UpdateItemContainerRowSpan"));
+                    };
 
-                        var index = Items.IndexOf(item);
-                        var modulo = index % (2 * numberOfColumns);
-
-                        if (!item.IgnoreIndexProperty)
-                            if (modulo == 0 && !string.IsNullOrEmpty(item.Model.PreviewPictureUri))
-                                item.RowSpan = 2;
-                            else
-                                item.RowSpan = 1;
-
-                        if (string.IsNullOrEmpty(item.Model.PreviewPictureUri))
+                    if (Items.Count > (2 * numberOfColumns))
+                    {
+                        foreach (ItemViewModel item in Items)
                         {
-                            var nextItem = Items[index + 1];
-                            nextItem.RowSpan = 2;
-                            nextItem.IgnoreIndexProperty = true;
+                            updateProcess.ResetAndTick();
+
+                            var index = Items.IndexOf(item);
+                            var modulo = index % (2 * numberOfColumns);
+
+                            if (!item.IgnoreIndexProperty)
+                                if (modulo == 0 && !string.IsNullOrEmpty(item.Model.PreviewPictureUri))
+                                    item.RowSpan = 2;
+                                else
+                                    item.RowSpan = 1;
+
+                            if (string.IsNullOrEmpty(item.Model.PreviewPictureUri))
+                            {
+                                var nextItem = Items[index + 1];
+                                nextItem.RowSpan = 2;
+                                nextItem.IgnoreIndexProperty = true;
+                            }
                         }
                     }
-                }
-            };
+                };
         }
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
