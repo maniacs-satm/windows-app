@@ -105,7 +105,7 @@ namespace wallabag.ViewModels
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(Model.Content);
 
-            foreach (HtmlNode node in document.DocumentNode.Descendants())
+            foreach (HtmlNode node in document.DocumentNode.Descendants("p"))
             {
                 if (IntroSentence.Length >= 140)
                     return;
