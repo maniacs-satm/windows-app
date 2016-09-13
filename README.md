@@ -1,6 +1,6 @@
 wallabag for Windows 10
 ================
-**The app is not longer maintained. In my opinion the codebase is horrible at the moment, so I started again from the beginning. This time I'll use the [wallabag-api](https://github.com/jlnostr/wallabag-api). The beta version below is still working fine.**
+**The app is not longer maintained. In my opinion the codebase is horrible at the moment, so I started again from the beginning. You can find the new repository [here](https://github.com/wallabag/windows-app).**
 
 [Download the beta version from the Microsoft Store right now!](https://www.microsoft.com/store/apps/9nblggh5x3p6)
 
